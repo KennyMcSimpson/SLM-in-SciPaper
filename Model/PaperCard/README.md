@@ -1,0 +1,85 @@
+﻿# Scientific Paper Card System Final
+
+这是当前 NLP 项目整理后的最终工程文件夹。主线不是单纯关键词抽取，而是：用 SciBERT 关键词模型抽概念候选，再用结构模型判断论文句子的角色、证据性和重要性，最后由第三阶段生成 Evidence-grounded Concept Units JSON，交给后续本地开源模型写 overview。
+
+## 核心流程
+
+```text
+TXT Paper
+  -> section recovery
+  -> SciBERT keyword extractor
+  -> structure-aware role/evidence/importance heads
+  -> section-aware BoW / corpus feature enrichment
+  -> evidence-grounded concept units JSON
+  -> downstream local overview model
+```
+
+这套整理保留的是能复现和能展示的主线资产；旧的 debug、smoke、probe、fixed1-fixed10 之类试验残留没有放进来。
+
+## 文件夹结构
+
+- `code/01_keyword_extractor`: 关键词模型训练、关键词推理、关键词数据下载入口。
+- `code/02_structure_card`: 结构化论文卡片模型训练、结构数据下载、结构 smoke test 入口。
+- `code/03_inference_summary`: Evidence-grounded Concept Units JSON 推理入口；旧论文卡片 Markdown 和一段式概述后处理保留为展示备份。
+- `src/ske`: 共享源码包。不要硬拆；关键词模型和结构模型都依赖这里的统一 schema、encoder 和数据处理逻辑。
+- `datasets/01_keyword_keyphrase`: KP20k、LDKP10k、SemEval2010 的 processed JSONL。
+- `datasets/02_structure_card`: PubMed RCT、QASPER、ACLSum 的 processed JSONL，以及 PubMed RCT 原始小文件。
+- `datasets/03_demo_txt`: 本地 txt 论文库，用于最终推理展示。
+- `datasets/lexicon`: 第三阶段使用的 enriched section BoW、document-term frequency/TF-IDF matrix、evidence cue lexicon、外部 evidence candidates。
+- `models/base_scibert`: 本地 SciBERT base encoder。
+- `models/checkpoints`: 最终关键词 checkpoint 和最终结构 checkpoint。
+- `models/training_history`: KP20k warm-up 和 LDKP10k fine-tune 阶段记录。
+- `outputs/final_paper_cards_fixed11`: 当前最好的批量论文卡片结果。
+- `outputs/showcase`: 建议展示的少量结果。
+- `outputs/training_metrics`: 三阶段关键词训练、结构训练和最终评估记录。
+
+## 最快看效果
+
+从 `E:\class\2026.4\NLP` 进入最终文件夹：
+
+```powershell
+cd E:\class\2026.4\NLP\scientific_paper_card_final
+```
+
+跑 Attention 的 Evidence Units JSON：
+
+```powershell
+..\.venv_keyword\Scripts\python.exe .\code\03_inference_summary\infer_paper_card.py `
+  --input_txt .\datasets\03_demo_txt\full_library\2017_transformer_and_large_language_models_attention_is_all_you_need.txt `
+  --keyword_checkpoint .\models\checkpoints\keyword_scibert_semeval2010_finetune_nobow `
+  --structured_checkpoint .\models\checkpoints\structure_v2_scibert_evidencefix `
+  --output_json .\outputs\evidence_units_attention.json `
+  --device cuda
+```
+
+默认会自动读取 `datasets/lexicon` 下的 enriched BoW、TF-IDF 矩阵和 evidence cue 词典；不需要手动指定这些 CSV。
+
+如果需要旧版 Markdown 展示，可以额外加 `--output_md .\outputs\demo_attention.md`。给已有 Markdown 加一段式论文概述的旧后处理仍然保留：
+
+```powershell
+..\.venv_keyword\Scripts\python.exe .\code\03_inference_summary\add_one_paragraph_overview.py `
+  .\outputs\demo_attention.md `
+  --output_md .\outputs\demo_attention_with_overview.md
+```
+
+## 重新训练关键词模型
+
+```powershell
+..\.venv_keyword\Scripts\python.exe .\code\01_keyword_extractor\train_keyword.py `
+  --train_jsonl .\datasets\01_keyword_keyphrase\processed\kp20k\train.jsonl `
+  --dev_jsonl .\datasets\01_keyword_keyphrase\processed\kp20k\validation.jsonl `
+  --output_dir .\runs\keyword_1_kp20k_warmup `
+  --model_name .\models\base_scibert\allenai_scibert_scivocab_uncased `
+  --epochs 3 `
+  --batch_size 4 `
+  --device cuda `
+  --amp
+```
+
+LDKP10k 和 SemEval2010 后续阶段见 `docs/RUN_COMMANDS.md`。
+
+## 当前保留的结果判断
+
+关键词模型最终 checkpoint 是 `models/checkpoints/keyword_scibert_semeval2010_finetune_nobow`。训练窗口 BIO boundary F1 到约 0.7615；部署式 top-10 exact-match F1 约 0.1979，所以它应被描述为可工作的 present-keyphrase extractor，不是完整 absent-keyphrase generator。
+
+结构模型最终 checkpoint 是 `models/checkpoints/structure_v2_scibert_evidencefix`。role F1 约 0.84，evidence 默认阈值 F1 约 0.28，best-threshold F1 约 0.318。它的价值是给论文卡片提供角色、证据和重要性 bottleneck，而不是替代生成式摘要模型。
