@@ -1,0 +1,109 @@
+<TASK=EXPLAIN_PAPER>
+<DOCUMENT>
+<DOC_ID>2017_transformer_and_large_language_models_attention_is_all_you_need</DOC_ID>
+<TITLE>2017_transformer_and_large_language_models_attention_is_all_you_need</TITLE>
+</DOCUMENT>
+<INSTRUCTION>
+Explain the paper only from the evidence below. Attach the relevant evidence ID after every factual claim. If the evidence is insufficient, state that explicitly.
+</INSTRUCTION>
+<EVIDENCE_SET>
+<EVIDENCE>
+<ID=ecu_002>
+<SECTION=INTRO>
+<ROLE=METHOD>
+<CONCEPT>machine translation</CONCEPT>
+<TEXT>recurrent neural networks long short-term memory and gated recurrent neural networks in particular have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures recurrent models typically factor computation along the symbol positions of the input and output sequences aligning the positions to steps in computation time they generate a sequence of</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_014>
+<SECTION=INTRO>
+<ROLE=BACKGROUND>
+<CONCEPT>sequential computation</CONCEPT>
+<TEXT>hidden states h t as a function of the previous hidden state h t-1 and the input for position t this inherently sequential nature precludes parallelization within training examples which becomes critical at longer sequence lengths as memory constraints limit batching across examples recent work has achieved significant improvements in computational efficiency through factorization tricks and conditional computation while also improving model performance in case of the latter the fundamental constraint of sequential computation however remains attention mechanisms have become</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_005>
+<SECTION=RELATED_WORK>
+<ROLE=COMPONENT>
+<CONCEPT>attention</CONCEPT>
+<TEXT>distant positions in the transformer this is reduced to a constant number of operations albeit at the cost of reduced effective resolution due to averaging attention-weighted positions an effect we counteract with multi-head attention as described in section 3 2 self-attention sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence self-attention has been used successfully in a variety of tasks including reading comprehension abstractive summarization textual</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_013>
+<SECTION=METHOD>
+<ROLE=COMPONENT>
+<CONCEPT>encoder</CONCEPT>
+<TEXT>is the output of each sub-layer is layernorm x sublayer x where sublayer x is the function implemented by the sub-layer itself to facilitate these residual connections all sub-layers in the model as well as the embedding layers produce outputs of dimension d model 512 decoder the decoder is also composed of a stack of n 6 identical layers in addition to the two sub-layers in each encoder layer the decoder inserts a third sub-layer which performs multi-head attention over</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_012>
+<SECTION=METHOD>
+<ROLE=COMPONENT>
+<CONCEPT>compatibility</CONCEPT>
+<TEXT>described as mapping a query and a set of key-value pairs to an output where the query keys values and output are all vectors the output is computed as a weighted sum of the values where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key scaled dot-product attention we call our particular attention scaled dot-product attention figure the input consists of queries and keys of dimension d k and values</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_003>
+<SECTION=METHOD>
+<ROLE=COMPONENT>
+<CONCEPT>attention</CONCEPT>
+<TEXT>of dimension d v we compute the dot products of the query with all keys divide each by d k and apply a softmax function to obtain the weights on the values in practice we compute the attention function on a set of queries simultaneously packed together into a matrix q the keys and values are also packed together into matrices k and v we compute the matrix of outputs as attention q k v softmax qk t d k</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_009>
+<SECTION=METHOD>
+<ROLE=COMPONENT>
+<CONCEPT>softmax</CONCEPT>
+<TEXT>d k the two mechanisms perform similarly additive attention outperforms dot product attention without scaling for larger values of d k we suspect that for large values of d k the dot products grow large in magnitude pushing the softmax function into regions where it has extremely small gradients to counteract this effect we scale the dot products by 1 d k multi-head attention instead of performing a single attention function with d model -dimensional keys values and queries we</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_008>
+<SECTION=METHOD>
+<ROLE=METHOD>
+<CONCEPT>linear transformation</CONCEPT>
+<TEXT>is d model 512 and the inner-layer has dimensionality d f f 2048 embeddings and softmax similarly to other sequence transduction models we use learned embeddings to convert the input tokens and output tokens to vectors of dimension d model we also use the usual learned linear transformation and softmax function to convert the decoder output to predicted next-token probabilities in our model we share the same weight matrix between the two embedding layers and the pre-softmax linear transformation similar</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_006>
+<SECTION=METHOD>
+<ROLE=METHOD>
+<CONCEPT>positional encoding</CONCEPT>
+<TEXT>n convolutional o k n d 2 o o log k n self-attention restricted o r n d o o n r positional encoding since our model contains no recurrence and no convolution in order for the model to make use of the order of the sequence we must inject some information about the relative or absolute position of the tokens in the sequence to this end we add positional encodings to the input embeddings at the bottoms of the</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_007>
+<SECTION=METHOD>
+<ROLE=COMPONENT>
+<CONCEPT>computational complexity</CONCEPT>
+<TEXT>transduction encoder or decoder motivating our use of self-attention we consider three desiderata one is the total computational complexity per layer another is the amount of computation that can be parallelized as measured by the minimum number of sequential operations required the third is the path length between long-range dependencies in the network learning long-range dependencies is a key challenge in many sequence transduction tasks one key factor affecting the ability to learn such dependencies is the length of the</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_011>
+<SECTION=METHOD>
+<ROLE=COMPONENT>
+<CONCEPT>path length</CONCEPT>
+<TEXT>output position this would increase the maximum path length to o n r we plan to investigate this approach further in future work a single convolutional layer with kernel width k n does not connect all pairs of input and output positions doing so requires a stack of o n k convolutional layers in the case of contiguous kernels or o log k n in the case of dilated convolutions increasing the length of the longest paths between any two</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_001>
+<SECTION=METHOD>
+<ROLE=METHOD>
+<CONCEPT>self-attention</CONCEPT>
+<TEXT>positions in the network convolutional layers are generally more expensive than recurrent layers by a factor of k separable convolutions however decrease the complexity considerably to o k n d n d 2 even with k n however the complexity of a separable convolution is equal to the combination of a self-attention layer and a point-wise feed-forward layer the approach we take in our model as side benefit self-attention could yield more interpretable models we inspect attention distributions from our</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_004>
+<SECTION=EXPERIMENT>
+<ROLE=RESULT>
+<CONCEPT>bleu score</CONCEPT>
+<TEXT>smoothing during training we employed label smoothing of value ls 0 1 this hurts perplexity as the model learns to be more unsure but improves accuracy and bleu score results machine translation on the wmt 2014 english-to-german translation task the big transformer model transformer big in table outperforms the best previously reported models including ensembles by more than 2 0 bleu establishing a new state-of-the-art bleu score of 28 4 the configuration of this model is listed in the bottom</TEXT>
+</EVIDENCE>
+<EVIDENCE>
+<ID=ecu_010>
+<SECTION=EXPERIMENT>
+<ROLE=COMPONENT>
+<CONCEPT>attention key</CONCEPT>
+<TEXT>heads in table rows b we observe that reducing the attention key size d k hurts model quality this suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial we further observe in rows c and d that as expected bigger models are better and dropout is very helpful in avoiding over-fitting in row e we replace our sinusoidal positional encoding with learned positional embeddings and observe nearly identical results</TEXT>
+</EVIDENCE>
+</EVIDENCE_SET>
+<ANSWER>
