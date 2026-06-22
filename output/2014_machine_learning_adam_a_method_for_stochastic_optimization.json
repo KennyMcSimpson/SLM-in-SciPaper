@@ -1,0 +1,2952 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2014_machine_learning_adam_a_method_for_stochastic_optimization",
+    "title": "2014_machine_learning_adam_a_method_for_stochastic_optimization",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2014_machine_learning_adam_a_method_for_stochastic_optimization.txt",
+    "sentence_count": 45,
+    "section_counts": {
+      "intro": 6,
+      "related_work": 1,
+      "method": 7,
+      "experiment": 31
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 3365,
+    "type_count": 782,
+    "type_token_ratio": 0.2324,
+    "section_token_counts": {
+      "intro": 304,
+      "related_work": 80,
+      "method": 519,
+      "experiment": 2462,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "adam",
+        "count": 41
+      },
+      {
+        "term": "moment",
+        "count": 23
+      },
+      {
+        "term": "stochastic",
+        "count": 22
+      },
+      {
+        "term": "optimization",
+        "count": 20
+      },
+      {
+        "term": "gradients",
+        "count": 19
+      },
+      {
+        "term": "algorithm",
+        "count": 18
+      },
+      {
+        "term": "parameters",
+        "count": 16
+      },
+      {
+        "term": "adagrad",
+        "count": 16
+      },
+      {
+        "term": "can",
+        "count": 15
+      },
+      {
+        "term": "t-1",
+        "count": 15
+      },
+      {
+        "term": "function",
+        "count": 14
+      },
+      {
+        "term": "first",
+        "count": 14
+      },
+      {
+        "term": "bias",
+        "count": 14
+      },
+      {
+        "term": "method",
+        "count": 13
+      },
+      {
+        "term": "objective",
+        "count": 13
+      },
+      {
+        "term": "update",
+        "count": 13
+      },
+      {
+        "term": "dropout",
+        "count": 12
+      },
+      {
+        "term": "section",
+        "count": 12
+      },
+      {
+        "term": "10",
+        "count": 12
+      },
+      {
+        "term": "convergence",
+        "count": 11
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "moment estimate",
+        "count": 9
+      },
+      {
+        "term": "bias correction",
+        "count": 9
+      },
+      {
+        "term": "initialization bias",
+        "count": 7
+      },
+      {
+        "term": "exponential moving",
+        "count": 7
+      },
+      {
+        "term": "stochastic optimization",
+        "count": 6
+      },
+      {
+        "term": "stochastic objective",
+        "count": 6
+      },
+      {
+        "term": "sparse gradients",
+        "count": 6
+      },
+      {
+        "term": "t-1 update",
+        "count": 6
+      },
+      {
+        "term": "first moment",
+        "count": 6
+      },
+      {
+        "term": "update rule",
+        "count": 6
+      },
+      {
+        "term": "second moment",
+        "count": 6
+      },
+      {
+        "term": "moving average",
+        "count": 6
+      },
+      {
+        "term": "objective function",
+        "count": 5
+      },
+      {
+        "term": "machine learning",
+        "count": 5
+      },
+      {
+        "term": "vector initialize",
+        "count": 5
+      },
+      {
+        "term": "training cost",
+        "count": 5
+      },
+      {
+        "term": "objective functions",
+        "count": 4
+      },
+      {
+        "term": "infinity norm",
+        "count": 4
+      },
+      {
+        "term": "exponential decay",
+        "count": 4
+      },
+      {
+        "term": "decay rates",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "exponential moving average",
+        "count": 6
+      },
+      {
+        "term": "first moment estimate",
+        "count": 4
+      },
+      {
+        "term": "machine learning problems",
+        "count": 3
+      },
+      {
+        "term": "exponential decay rates",
+        "count": 3
+      },
+      {
+        "term": "moment vector initialize",
+        "count": 3
+      },
+      {
+        "term": "t-1 update biased",
+        "count": 3
+      },
+      {
+        "term": "second raw moment",
+        "count": 3
+      },
+      {
+        "term": "initialization bias correction",
+        "count": 3
+      },
+      {
+        "term": "adam update rule",
+        "count": 3
+      },
+      {
+        "term": "bias correction terms",
+        "count": 3
+      },
+      {
+        "term": "second moment estimate",
+        "count": 3
+      },
+      {
+        "term": "multi-layer neural networks",
+        "count": 3
+      },
+      {
+        "term": "method straightforward implement",
+        "count": 2
+      },
+      {
+        "term": "other stochastic optimization",
+        "count": 2
+      },
+      {
+        "term": "stochastic optimization methods",
+        "count": 2
+      },
+      {
+        "term": "adamax variant adam",
+        "count": 2
+      },
+      {
+        "term": "variant adam based",
+        "count": 2
+      },
+      {
+        "term": "adam based infinity",
+        "count": 2
+      },
+      {
+        "term": "based infinity norm",
+        "count": 2
+      },
+      {
+        "term": "function differentiable parameters",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 19,
+    "nonzero_tfidf_features": 19,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__optimization methods",
+        "section": "intro",
+        "term": "optimization methods",
+        "frequency": 5.0,
+        "tfidf": 1.1849
+      },
+      {
+        "feature_name": "abstract__optimization methods",
+        "section": "intro",
+        "term": "optimization methods",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "methods__bias",
+        "section": "method",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "experiments__sgd",
+        "section": "experiment",
+        "term": "sgd",
+        "frequency": 8.0,
+        "tfidf": 0.6624
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 9.0,
+        "tfidf": 0.576
+      },
+      {
+        "feature_name": "introduction__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 3.0,
+        "tfidf": 0.5334
+      },
+      {
+        "feature_name": "experiments__bag-of-words",
+        "section": "experiment",
+        "term": "bag-of-words",
+        "frequency": 4.0,
+        "tfidf": 0.3928
+      },
+      {
+        "feature_name": "introduction__machine learning",
+        "section": "intro",
+        "term": "machine learning",
+        "frequency": 3.0,
+        "tfidf": 0.379
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.288
+      },
+      {
+        "feature_name": "introduction__adaptive learning",
+        "section": "intro",
+        "term": "adaptive learning",
+        "frequency": 1.0,
+        "tfidf": 0.2469
+      },
+      {
+        "feature_name": "experiments__online learning",
+        "section": "experiment",
+        "term": "online learning",
+        "frequency": 2.0,
+        "tfidf": 0.2098
+      },
+      {
+        "feature_name": "experiments__convolutional neural networks",
+        "section": "experiment",
+        "term": "convolutional neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.2001
+      },
+      {
+        "feature_name": "introduction__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.1657
+      },
+      {
+        "feature_name": "introduction__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.1421
+      },
+      {
+        "feature_name": "experiments__machine learning models",
+        "section": "experiment",
+        "term": "machine learning models",
+        "frequency": 1.0,
+        "tfidf": 0.1049
+      },
+      {
+        "feature_name": "experiments__autoencoder",
+        "section": "experiment",
+        "term": "autoencoder",
+        "frequency": 1.0,
+        "tfidf": 0.1049
+      },
+      {
+        "feature_name": "experiments__deep learning",
+        "section": "experiment",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.0927
+      },
+      {
+        "feature_name": "experiments__gradient descent",
+        "section": "experiment",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.0898
+      },
+      {
+        "feature_name": "experiments__machine learning",
+        "section": "experiment",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.0898
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__optimization methods",
+          "section": "intro",
+          "term": "optimization methods",
+          "frequency": 5.0,
+          "tfidf": 1.1849
+        },
+        {
+          "feature_name": "abstract__optimization methods",
+          "section": "intro",
+          "term": "optimization methods",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 3.0,
+          "tfidf": 0.5334
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 3.0,
+          "tfidf": 0.379
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.288
+        },
+        {
+          "feature_name": "introduction__adaptive learning",
+          "section": "intro",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.2469
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.1657
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1421
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 8.0,
+          "tfidf": 0.6624
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 9.0,
+          "tfidf": 0.576
+        },
+        {
+          "feature_name": "experiments__bag-of-words",
+          "section": "experiment",
+          "term": "bag-of-words",
+          "frequency": 4.0,
+          "tfidf": 0.3928
+        },
+        {
+          "feature_name": "experiments__online learning",
+          "section": "experiment",
+          "term": "online learning",
+          "frequency": 2.0,
+          "tfidf": 0.2098
+        },
+        {
+          "feature_name": "experiments__convolutional neural networks",
+          "section": "experiment",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.2001
+        },
+        {
+          "feature_name": "experiments__machine learning models",
+          "section": "experiment",
+          "term": "machine learning models",
+          "frequency": 1.0,
+          "tfidf": 0.1049
+        },
+        {
+          "feature_name": "experiments__autoencoder",
+          "section": "experiment",
+          "term": "autoencoder",
+          "frequency": 1.0,
+          "tfidf": 0.1049
+        },
+        {
+          "feature_name": "experiments__deep learning",
+          "section": "experiment",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.0927
+        },
+        {
+          "feature_name": "experiments__gradient descent",
+          "section": "experiment",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.0898
+        },
+        {
+          "feature_name": "experiments__machine learning",
+          "section": "experiment",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.0898
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 6,
+      "token_count": 304,
+      "bow_hit_count": 11,
+      "top_bow_terms": [
+        {
+          "canonical_term": "optimization method",
+          "count": 6,
+          "section_prior": 0.625,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 5,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__optimization methods",
+          "section": "intro",
+          "term": "optimization methods",
+          "frequency": 5.0,
+          "tfidf": 1.1849
+        },
+        {
+          "feature_name": "abstract__optimization methods",
+          "section": "intro",
+          "term": "optimization methods",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 3.0,
+          "tfidf": 0.5334
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 3.0,
+          "tfidf": 0.379
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.288
+        },
+        {
+          "feature_name": "introduction__adaptive learning",
+          "section": "intro",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.2469
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.1657
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1421
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 80,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 3,
+          "section_prior": 0.036,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 2,
+          "section_prior": 0.1475,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 2,
+          "section_prior": 0.0619,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 1,
+          "section_prior": 0.0847,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 7,
+      "token_count": 519,
+      "bow_hit_count": 19,
+      "top_bow_terms": [
+        {
+          "canonical_term": "machine learning",
+          "count": 10,
+          "section_prior": 0.1102,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "online machine learning",
+          "count": 2,
+          "section_prior": 0.2778,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "optimization method",
+          "count": 2,
+          "section_prior": 0.0417,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 31,
+      "token_count": 2462,
+      "bow_hit_count": 107,
+      "top_bow_terms": [
+        {
+          "canonical_term": "prediction bias",
+          "count": 49,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 26,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 10,
+          "section_prior": 0.1441,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "bag-of-words model",
+          "count": 6,
+          "section_prior": 0.3529,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "autoencoder",
+          "count": 4,
+          "section_prior": 0.1277,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "neural network model",
+          "count": 3,
+          "section_prior": 0.0455,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "online machine learning",
+          "count": 2,
+          "section_prior": 0.3333,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "optimization method",
+          "count": 2,
+          "section_prior": 0.0417,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 8.0,
+          "tfidf": 0.6624
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 9.0,
+          "tfidf": 0.576
+        },
+        {
+          "feature_name": "experiments__bag-of-words",
+          "section": "experiment",
+          "term": "bag-of-words",
+          "frequency": 4.0,
+          "tfidf": 0.3928
+        },
+        {
+          "feature_name": "experiments__online learning",
+          "section": "experiment",
+          "term": "online learning",
+          "frequency": 2.0,
+          "tfidf": 0.2098
+        },
+        {
+          "feature_name": "experiments__convolutional neural networks",
+          "section": "experiment",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.2001
+        },
+        {
+          "feature_name": "experiments__machine learning models",
+          "section": "experiment",
+          "term": "machine learning models",
+          "frequency": 1.0,
+          "tfidf": 0.1049
+        },
+        {
+          "feature_name": "experiments__autoencoder",
+          "section": "experiment",
+          "term": "autoencoder",
+          "frequency": 1.0,
+          "tfidf": 0.1049
+        },
+        {
+          "feature_name": "experiments__deep learning",
+          "section": "experiment",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.0927
+        },
+        {
+          "feature_name": "experiments__gradient descent",
+          "section": "experiment",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.0898
+        },
+        {
+          "feature_name": "experiments__machine learning",
+          "section": "experiment",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.0898
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "adaptive moment estimation",
+        "canonical": "adaptive moment estimation",
+        "normalized": "adaptive moment estimation",
+        "tokens": [
+          "adaptive",
+          "moment",
+          "estimation"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 7,
+        "sentence": "are ill-suited and discussion in this paper will be restricted to first-order we propose adam a method for efficient stochastic optimization that only requires first-order gradients with little memory requirement the method computes individual adaptive learning rates for different parameters from estimates of first and second moments of the gradients the name adam is derived from adaptive moment estimation our method is designed to combine the advantages of two recently popular methods adagrad which works well with sparse gradients and",
+        "context_window": {
+          "previous": "also have other sources of noise than data subsampling such as dropout regularization for all such noisy objectives efficient stochastic optimization techniques are required the focus of this paper is on the optimization of stochastic objectives with high-dimensional parameters spaces in these cases higher-order optimization",
+          "current": "are ill-suited and discussion in this paper will be restricted to first-order we propose adam a method for efficient stochastic optimization that only requires first-order gradients with little memory requirement the method computes individual adaptive learning rates for different parameters from estimates of first and second moments of the gradients the name adam is derived from adaptive moment estimation our method is designed to combine the advantages of two recently popular methods adagrad which works well with sparse gradients and",
+          "next": "rmsprop which works well in on-line and non-stationary settings important connections to these and other stochastic optimization methods are clarified in section 5 some of adam s advantages are that the magnitudes of parameter updates are invariant to rescaling of the gradient its stepsizes are approximately bounded by the stepsize hyperparameter it does not require a stationary objective it works with sparse gradients and it naturally performs a form of step size annealing algorithm 1 adam our proposed algorithm for"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7037,
+        "downstream_relevance_score": 0.6183,
+        "components": {
+          "bio_boundary_score": 0.6094,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adaptive",
+          "moment",
+          "estimation"
+        ],
+        "normalization": "adaptive moment estimation",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adaptive moment estimation",
+          "canonical": "adaptive moment estimation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6094",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6183"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "exponential moving average",
+        "canonical": "exponential moving average",
+        "normalized": "exponential moving average",
+        "tokens": [
+          "exponential",
+          "moving",
+          "average"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 21,
+        "sentence": "should be chosen such that the exponential moving average assigns small weights to gradients too far in the past what is left is the term 1 t 2 which is caused by initializing the running average with zeros in algorithm 1 we therefore divide by this term to correct the initialization bias in case of sparse gradients for a reliable estimate of the second moment one needs to average over many gradients by chosing a small value of 2 however",
+        "context_window": {
+          "previous": "we can correct for the discrepancy between the two taking expectations of the left-hand and right-hand sides of eq e v t e 1 - 2 t i 1 t-i 2 g 2 i e g 2 t 1 - 2 t i 1 t-i 2 e g 2 t 1 - t 2 where 0 if the true second moment e g 2 i is stationary otherwise can be kept small since the exponential decay rate 1 can and",
+          "current": "should be chosen such that the exponential moving average assigns small weights to gradients too far in the past what is left is the term 1 t 2 which is caused by initializing the running average with zeros in algorithm 1 we therefore divide by this term to correct the initialization bias in case of sparse gradients for a reliable estimate of the second moment one needs to average over many gradients by chosing a small value of 2 however",
+          "next": "it is exactly this case of small 2 where a lack of initialisation bias correction would lead to initial steps that are much larger convergence analysis we analyze the convergence of adam using the online learning framework proposed in given an arbitrary unknown sequence of convex cost functions f 1 f 2 f t at each time t our goal is to predict the parameter t and evaluate it on a previously unknown cost function f t since the nature"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7432,
+        "downstream_relevance_score": 0.5715,
+        "components": {
+          "bio_boundary_score": 0.9872,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "exponential",
+          "moving",
+          "average"
+        ],
+        "normalization": "exponential moving average",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "exponential moving average",
+          "canonical": "exponential moving average",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9872",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.5715"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "stochastic gradient descent",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 5,
+        "sentence": "evaluating the function often objective functions are stochastic for example many objective functions are composed of a sum of subfunctions evaluated at different subsamples of data in this case optimization can be made more efficient by taking gradient steps w r t individual subfunctions i e stochastic gradient descent sgd or ascent sgd proved itself as an efficient and effective optimization method that was central in many machine learning success stories such as recent advances in deep learning objectives may",
+        "context_window": {
+          "previous": "stochastic gradient-based optimization is of core practical importance in many fields of science and engineering many problems in these fields can be cast as the optimization of some scalar parameterized objective function requiring maximization or minimization with respect to its parameters if the function is differentiable w r t its parameters gradient descent is a relatively efficient optimization method since the computation of first-order partial derivatives w r t all the parameters is of the same computational complexity as just",
+          "current": "evaluating the function often objective functions are stochastic for example many objective functions are composed of a sum of subfunctions evaluated at different subsamples of data in this case optimization can be made more efficient by taking gradient steps w r t individual subfunctions i e stochastic gradient descent sgd or ascent sgd proved itself as an efficient and effective optimization method that was central in many machine learning success stories such as recent advances in deep learning objectives may",
+          "next": "also have other sources of noise than data subsampling such as dropout regularization for all such noisy objectives efficient stochastic optimization techniques are required the focus of this paper is on the optimization of stochastic objectives with high-dimensional parameters spaces in these cases higher-order optimization"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.711
+      },
+      "evidence": {
+        "score": 0.2828,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4507,
+        "downstream_relevance_score": 0.5237,
+        "components": {
+          "bio_boundary_score": 0.6499,
+          "sentence_evidence_score": 0.2828,
+          "sentence_role_score": 0.711,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.036,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "stochastic gradient descent",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "sgd",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 4,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "normalization": "stochastic gradient descent",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.036,
+        "canonicalization": {
+          "observed": "stochastic gradient descent",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6499",
+        "structure model assigned role 'gap' with score 0.711",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'background'",
+        "downstream relevance score is 0.5237"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "stochastic approximation",
+        "canonical": "stochastic approximation",
+        "normalized": "stochastic approximation",
+        "tokens": [
+          "stochastic",
+          "approximation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 42,
+        "sentence": "value u 0 0 note that conveniently enough we don t need to correct for initialization bias in this case also note that the magnitude of parameter updates has a simpler bound with adamax than adam namely t temporal averaging since the last iterate is noisy due to stochastic approximation better generalization performance is often achieved by averaging previously in polyak-ruppert averaging has been shown to improve the convergence of standard sgd where t 1 t n k 1 k",
+        "context_window": {
+          "previous": "lim p 1 - p 2 t i 1 p t-i 2 g i p 1 p lim p 1 - p 2 1 p t i 1 p t-i 2 g i p 1 p lim p t i 1 t-i 2 g i p 1 p max t-1 2 g 1 t-2 2 g 2 2 g t-1 g t which corresponds to the remarkably simple recursive formula u t max 2 u t-1 g t with initial",
+          "current": "value u 0 0 note that conveniently enough we don t need to correct for initialization bias in this case also note that the magnitude of parameter updates has a simpler bound with adamax than adam namely t temporal averaging since the last iterate is noisy due to stochastic approximation better generalization performance is often achieved by averaging previously in polyak-ruppert averaging has been shown to improve the convergence of standard sgd where t 1 t n k 1 k",
+          "next": "alternatively an exponential moving average over the parameters can be used giving higher weight to more recent parameter values this can be trivially implemented by adding one line to the inner loop of algorithms 1 and 2 t 2 t-1 1 2 t with 0 0 initalization bias can again be corrected by the estimator t t 1 t 2 large datasets and or high-dimensional parameter spaces the method combines the advantages of two recently popular optimization methods the ability"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7251,
+        "downstream_relevance_score": 0.5117,
+        "components": {
+          "bio_boundary_score": 0.8929,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "approximation"
+        ],
+        "normalization": "stochastic approximation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic approximation",
+          "canonical": "stochastic approximation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8929",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5117"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "bias correction",
+        "canonical": "bias correction",
+        "normalized": "bias correction",
+        "tokens": [
+          "bias",
+          "correction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 11,
+        "sentence": "t-1 1 - 2 g 2 t update biased second raw moment estimate m t m t 1 - t 1 compute bias-corrected first moment estimate v t v t 1 - t 2 compute bias-corrected second raw moment estimate t t-1 - m t v t update parameters end while return t resulting parameters in section 2 we describe the algorithm and the properties of its update rule section 3 explains our initialization bias correction technique and section 4",
+        "context_window": {
+          "previous": "decay rates for the moment estimates require f stochastic objective function with parameters require 0 initial parameter vector m 0 0 initialize 1 st moment vector v 0 0 initialize 2 nd moment vector t 0 initialize timestep while t not converged do t t 1 g t f t t-1 get gradients w r t stochastic objective at timestep t m t 1 m t-1 1 - 1 g t update biased first moment estimate v t 2 v",
+          "current": "t-1 1 - 2 g 2 t update biased second raw moment estimate m t m t 1 - t 1 compute bias-corrected first moment estimate v t v t 1 - t 2 compute bias-corrected second raw moment estimate t t-1 - m t v t update parameters end while return t resulting parameters in section 2 we describe the algorithm and the properties of its update rule section 3 explains our initialization bias correction technique and section 4",
+          "next": "provides a theoretical analysis of adam s convergence in online convex programming empirically our method consistently outperforms other methods for a variety of models and datasets as shown in section 6 overall we show that adam is a versatile algorithm that scales to large-scale high-dimensional machine learning problems algorithm see algorithm 1 for pseudo-code of our proposed algorithm adam let f be a noisy objective function a stochastic scalar function that is differentiable w r t parameters we are interested"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6423,
+        "downstream_relevance_score": 0.4994,
+        "components": {
+          "bio_boundary_score": 0.7586,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bias",
+          "correction"
+        ],
+        "normalization": "bias correction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bias correction",
+          "canonical": "bias correction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7586",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.4994"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "neural",
+        "canonical": "neural",
+        "normalized": "neural",
+        "tokens": [
+          "neural"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 27,
+        "sentence": "with momentum 6 2 multi-layer neural networks multi-layer neural network are powerful models with non-convex objective functions although our convergence analysis does not apply to non-convex problems we empirically found that adam often outperforms other methods in such cases in our experiments we made model choices that are consistent with previous publications in the area a neural network model with two fully connected hidden layers with 1000 hidden units each and relu activation are used for this with minibatch size",
+        "context_window": {
+          "previous": "is highly sparse as suggested in 50 dropout noise can be applied to the bow features during training to prevent over-fitting in figure 1 adagrad outperforms sgd with nesterov momentum by a large margin both with and without dropout noise adam converges as fast as adagrad the empirical performance of adam is consistent with our theoretical findings in sections 2 and 4 similar to adagrad adam can take advantage of sparse features and obtain faster convergence rate than normal sgd",
+          "current": "with momentum 6 2 multi-layer neural networks multi-layer neural network are powerful models with non-convex objective functions although our convergence analysis does not apply to non-convex problems we empirically found that adam often outperforms other methods in such cases in our experiments we made model choices that are consistent with previous publications in the area a neural network model with two fully connected hidden layers with 1000 hidden units each and relu activation are used for this with minibatch size",
+          "next": "of 128 first we study different optimizers using the standard deterministic cross-entropy objective function with l 2 weight decay on the parameters to prevent over-fitting the sum-of-functions sfo method is a recently proposed quasi-newton method that works with minibatches of data and has shown good performance on optimization of multi-layer neural networks we used their implementation and compared with adam to train such models figure shows that adam makes faster progress in terms of both the number of iterations and"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5823,
+        "downstream_relevance_score": 0.4946,
+        "components": {
+          "bio_boundary_score": 0.5671,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural"
+        ],
+        "normalization": "neural",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "neural",
+          "canonical": "neural",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5671",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.4946"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "stochastic optimization",
+        "canonical": "stochastic optimization",
+        "normalized": "stochastic optimization",
+        "tokens": [
+          "stochastic",
+          "optimization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 6,
+        "sentence": "also have other sources of noise than data subsampling such as dropout regularization for all such noisy objectives efficient stochastic optimization techniques are required the focus of this paper is on the optimization of stochastic objectives with high-dimensional parameters spaces in these cases higher-order optimization",
+        "context_window": {
+          "previous": "evaluating the function often objective functions are stochastic for example many objective functions are composed of a sum of subfunctions evaluated at different subsamples of data in this case optimization can be made more efficient by taking gradient steps w r t individual subfunctions i e stochastic gradient descent sgd or ascent sgd proved itself as an efficient and effective optimization method that was central in many machine learning success stories such as recent advances in deep learning objectives may",
+          "current": "also have other sources of noise than data subsampling such as dropout regularization for all such noisy objectives efficient stochastic optimization techniques are required the focus of this paper is on the optimization of stochastic objectives with high-dimensional parameters spaces in these cases higher-order optimization",
+          "next": "are ill-suited and discussion in this paper will be restricted to first-order we propose adam a method for efficient stochastic optimization that only requires first-order gradients with little memory requirement the method computes individual adaptive learning rates for different parameters from estimates of first and second moments of the gradients the name adam is derived from adaptive moment estimation our method is designed to combine the advantages of two recently popular methods adagrad which works well with sparse gradients and"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8683
+      },
+      "evidence": {
+        "score": 0.3245,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6844,
+        "downstream_relevance_score": 0.4908,
+        "components": {
+          "bio_boundary_score": 0.9573,
+          "sentence_evidence_score": 0.3245,
+          "sentence_role_score": 0.8683,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "optimization"
+        ],
+        "normalization": "stochastic optimization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic optimization",
+          "canonical": "stochastic optimization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9573",
+        "structure model assigned role 'problem' with score 0.8683",
+        "downstream relevance score is 0.4908"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "adam",
+        "canonical": "adam",
+        "normalized": "adam",
+        "tokens": [
+          "adam"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 32,
+        "sentence": "make rapid progress lowering the cost in the initial stage of the training shown in figure left adam and sgd eventually converge considerably faster than adagrad for cnns shown in figure right we notice the second moment estimate v t vanishes to zeros after a few epochs and is dominated by the in algorithm 1 the second moment estimate is therefore a poor approximation to the geometry of the cost function in cnns comparing to fully connected network from section",
+        "context_window": {
+          "previous": "-4 10 -3 10 -2 10 -1 10 0 10 1 10 2 training cost cifar10 convnet adagrad adagrad dropout sgdnesterov sgdnesterov dropout adam adam dropout figure 3 convolutional neural networks training cost left training cost for the first three epochs right training cost over 45 epochs cifar-10 with c64-c64-c128-1000 architecture dropout noise is applied to the input layer and fully connected layer the minibatch size is also set to 128 similar to previous interestingly although both adam and adagrad",
+          "current": "make rapid progress lowering the cost in the initial stage of the training shown in figure left adam and sgd eventually converge considerably faster than adagrad for cnns shown in figure right we notice the second moment estimate v t vanishes to zeros after a few epochs and is dominated by the in algorithm 1 the second moment estimate is therefore a poor approximation to the geometry of the cost function in cnns comparing to fully connected network from section",
+          "next": "6 2 whereas reducing the minibatch variance through the first moment is more important in cnns and contributes to the speed-up as a result adagrad converges much slower than others in this particular though adam shows marginal improvement over sgd with momentum it adapts learning rate scale for different layers instead of hand picking manually as in sgd for different settings of stepsize x-axes and hyperparameters 1 and 2 bias-correction term we also empirically evaluate the effect of the bias"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6098,
+        "downstream_relevance_score": 0.4821,
+        "components": {
+          "bio_boundary_score": 0.7467,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adam"
+        ],
+        "normalization": "adam",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adam",
+          "canonical": "adam",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7467",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.4821"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "moment estimate",
+        "canonical": "moment estimate",
+        "normalized": "moment estimate",
+        "tokens": [
+          "moment",
+          "estimate"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 11,
+        "sentence": "t-1 1 - 2 g 2 t update biased second raw moment estimate m t m t 1 - t 1 compute bias-corrected first moment estimate v t v t 1 - t 2 compute bias-corrected second raw moment estimate t t-1 - m t v t update parameters end while return t resulting parameters in section 2 we describe the algorithm and the properties of its update rule section 3 explains our initialization bias correction technique and section 4",
+        "context_window": {
+          "previous": "decay rates for the moment estimates require f stochastic objective function with parameters require 0 initial parameter vector m 0 0 initialize 1 st moment vector v 0 0 initialize 2 nd moment vector t 0 initialize timestep while t not converged do t t 1 g t f t t-1 get gradients w r t stochastic objective at timestep t m t 1 m t-1 1 - 1 g t update biased first moment estimate v t 2 v",
+          "current": "t-1 1 - 2 g 2 t update biased second raw moment estimate m t m t 1 - t 1 compute bias-corrected first moment estimate v t v t 1 - t 2 compute bias-corrected second raw moment estimate t t-1 - m t v t update parameters end while return t resulting parameters in section 2 we describe the algorithm and the properties of its update rule section 3 explains our initialization bias correction technique and section 4",
+          "next": "provides a theoretical analysis of adam s convergence in online convex programming empirically our method consistently outperforms other methods for a variety of models and datasets as shown in section 6 overall we show that adam is a versatile algorithm that scales to large-scale high-dimensional machine learning problems algorithm see algorithm 1 for pseudo-code of our proposed algorithm adam let f be a noisy objective function a stochastic scalar function that is differentiable w r t parameters we are interested"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5777,
+        "downstream_relevance_score": 0.4658,
+        "components": {
+          "bio_boundary_score": 0.5377,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "moment",
+          "estimate"
+        ],
+        "normalization": "moment estimate",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "moment estimate",
+          "canonical": "moment estimate",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5377",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.4658"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "stochastic function",
+        "canonical": "stochastic function",
+        "normalized": "stochastic function",
+        "tokens": [
+          "stochastic",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 13,
+        "sentence": "in minimizing the expected value of this function e f w r t its parameters with f 1 f t we denote the realisations of the stochastic function at subsequent timesteps 1 t the stochasticity might come from the",
+        "context_window": {
+          "previous": "provides a theoretical analysis of adam s convergence in online convex programming empirically our method consistently outperforms other methods for a variety of models and datasets as shown in section 6 overall we show that adam is a versatile algorithm that scales to large-scale high-dimensional machine learning problems algorithm see algorithm 1 for pseudo-code of our proposed algorithm adam let f be a noisy objective function a stochastic scalar function that is differentiable w r t parameters we are interested",
+          "current": "in minimizing the expected value of this function e f w r t its parameters with f 1 f t we denote the realisations of the stochastic function at subsequent timesteps 1 t the stochasticity might come from the",
+          "next": "at random subsamples minibatches of datapoints or arise from inherent function noise with g t f t we denote the gradient i e the vector of partial derivatives of f t w r t evaluated at timestep t the algorithm updates exponential moving averages of the gradient m t and the squared gradient v t where the hyper-parameters 1 2 0 1 control the exponential decay rates of these moving averages the moving averages themselves are estimates of the 1"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.9394
+      },
+      "evidence": {
+        "score": 0.6307,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5161,
+        "downstream_relevance_score": 0.4518,
+        "components": {
+          "bio_boundary_score": 0.7621,
+          "sentence_evidence_score": 0.6307,
+          "sentence_role_score": 0.9394,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "function"
+        ],
+        "normalization": "stochastic function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic function",
+          "canonical": "stochastic function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7621",
+        "structure model assigned role 'core_method' with score 0.9394",
+        "evidence score 0.6307 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4518"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "sparse feature",
+        "canonical": "sparse feature",
+        "normalized": "sparse feature",
+        "tokens": [
+          "sparse",
+          "feature"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 25,
+        "sentence": "adagrad can efficiently deal with sparse features and gradients as one of its main theoretical results whereas sgd is low at learning rare features adam with 1 t decay on its stepsize should theoratically match the performance of adagrad we examine the sparse feature problem using imdb movie review dataset from we pre-process the imdb movie reviews into bag-of-words bow feature vectors including the first 10 000 most frequent words the 10 000 dimension bow feature vector for each review",
+        "context_window": {
+          "previous": "bound and a proof is given in the is adjusted by 1 t decay namely t t that matches with our theoratical prediction from section 4 the logistic regression classifies the class label directly on the 784 dimension image vectors we compare adam to accelerated sgd with nesterov momentum and adagrad using minibatch size of 128 according to figure we found that the adam yields similar convergence as sgd with momentum and both converge faster than adagrad as discussed in",
+          "current": "adagrad can efficiently deal with sparse features and gradients as one of its main theoretical results whereas sgd is low at learning rare features adam with 1 t decay on its stepsize should theoratically match the performance of adagrad we examine the sparse feature problem using imdb movie review dataset from we pre-process the imdb movie reviews into bag-of-words bow feature vectors including the first 10 000 most frequent words the 10 000 dimension bow feature vector for each review",
+          "next": "is highly sparse as suggested in 50 dropout noise can be applied to the bow features during training to prevent over-fitting in figure 1 adagrad outperforms sgd with nesterov momentum by a large margin both with and without dropout noise adam converges as fast as adagrad the empirical performance of adam is consistent with our theoretical findings in sections 2 and 4 similar to adagrad adam can take advantage of sparse features and obtain faster convergence rate than normal sgd"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5345,
+        "downstream_relevance_score": 0.4335,
+        "components": {
+          "bio_boundary_score": 0.7465,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sparse",
+          "feature"
+        ],
+        "normalization": "sparse feature",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sparse feature",
+          "canonical": "sparse feature",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7465",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.4335"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "stochastic objective",
+        "canonical": "stochastic objective",
+        "normalized": "stochastic objective",
+        "tokens": [
+          "stochastic",
+          "objective"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 10,
+        "sentence": "decay rates for the moment estimates require f stochastic objective function with parameters require 0 initial parameter vector m 0 0 initialize 1 st moment vector v 0 0 initialize 2 nd moment vector t 0 initialize timestep while t not converged do t t 1 g t f t t-1 get gradients w r t stochastic objective at timestep t m t 1 m t-1 1 - 1 g t update biased first moment estimate v t 2 v",
+        "context_window": {
+          "previous": "stochastic optimization see section 2 for details and for a slightly more efficient but less clear order of computation g 2 t indicates the elementwise square g t g t good default settings for the tested machine learning problems are 0 001 1 0 9 2 0 999 and 10 -8 all operations on vectors are element-wise with t 1 and t 2 we denote 1 and 2 to the power t require stepsize require 1 2 0 1 exponential",
+          "current": "decay rates for the moment estimates require f stochastic objective function with parameters require 0 initial parameter vector m 0 0 initialize 1 st moment vector v 0 0 initialize 2 nd moment vector t 0 initialize timestep while t not converged do t t 1 g t f t t-1 get gradients w r t stochastic objective at timestep t m t 1 m t-1 1 - 1 g t update biased first moment estimate v t 2 v",
+          "next": "t-1 1 - 2 g 2 t update biased second raw moment estimate m t m t 1 - t 1 compute bias-corrected first moment estimate v t v t 1 - t 2 compute bias-corrected second raw moment estimate t t-1 - m t v t update parameters end while return t resulting parameters in section 2 we describe the algorithm and the properties of its update rule section 3 explains our initialization bias correction technique and section 4"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6143,
+        "downstream_relevance_score": 0.4245,
+        "components": {
+          "bio_boundary_score": 0.6167,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "objective"
+        ],
+        "normalization": "stochastic objective",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic objective",
+          "canonical": "stochastic objective",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6167",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4245"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "infinity norm",
+        "canonical": "infinity norm",
+        "normalized": "infinity norm",
+        "tokens": [
+          "infinity",
+          "norm"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 38,
+        "sentence": "1 - p 2 g t p 1 - p 2 t i 1 p t-i 2 g i p algorithm 2 adamax a variant of adam based on the infinity norm see section 7 1 for details good default settings for the tested machine learning problems are 0 002 1 0 9 and 2 0 999 with t 1 we denote 1 to the power t here 1 t 1 is the learning rate with the bias-correction term for",
+        "context_window": {
+          "previous": "gradients we can generalize the l 2 norm based update rule to a l p norm based update rule such variants become numerically unstable for large p however in the special case where we let p a surprisingly simple and stable algorithm emerges see algorithm 2 we ll now derive the algorithm let in case of the l p norm the stepsize at time t be inversely proportional to v 1 p t where v t p 2 v t-1",
+          "current": "1 - p 2 g t p 1 - p 2 t i 1 p t-i 2 g i p algorithm 2 adamax a variant of adam based on the infinity norm see section 7 1 for details good default settings for the tested machine learning problems are 0 002 1 0 9 and 2 0 999 with t 1 we denote 1 to the power t here 1 t 1 is the learning rate with the bias-correction term for",
+          "next": "the first moment all operations on vectors are element-wise require stepsize require 1 2 0 1 exponential decay rates require f stochastic objective function with parameters require 0 initial parameter vector m 0 0 initialize 1 st moment vector u 0 0 initialize the exponentially weighted infinity norm t 0 initialize timestep while t not converged do t t 1 g t f t t-1 get gradients w r t stochastic objective at timestep t m t 1 m t-1"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5381,
+        "downstream_relevance_score": 0.4004,
+        "components": {
+          "bio_boundary_score": 0.9132,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "infinity",
+          "norm"
+        ],
+        "normalization": "infinity norm",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "infinity norm",
+          "canonical": "infinity norm",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9132",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.4004"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "exponential decay rate",
+        "canonical": "exponential decay rate",
+        "normalized": "exponential decay rate",
+        "tokens": [
+          "exponential",
+          "decay",
+          "rate"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 20,
+        "sentence": "we can correct for the discrepancy between the two taking expectations of the left-hand and right-hand sides of eq e v t e 1 - 2 t i 1 t-i 2 g 2 i e g 2 t 1 - 2 t i 1 t-i 2 e g 2 t 1 - t 2 where 0 if the true second moment e g 2 i is stationary otherwise can be kept small since the exponential decay rate 1 can and",
+        "context_window": {
+          "previous": "moving average v t 2 v t-1 1 2 g 2 t where g 2 t indicates the elementwise square g t g t can be written as a function of the gradients at all previous timesteps v t 1 - 2 t i 1 t-i 2 g 2 i we wish to know how e v t the expected value of the exponential moving average at timestep t relates to the true second moment e g 2 t so",
+          "current": "we can correct for the discrepancy between the two taking expectations of the left-hand and right-hand sides of eq e v t e 1 - 2 t i 1 t-i 2 g 2 i e g 2 t 1 - 2 t i 1 t-i 2 e g 2 t 1 - t 2 where 0 if the true second moment e g 2 i is stationary otherwise can be kept small since the exponential decay rate 1 can and",
+          "next": "should be chosen such that the exponential moving average assigns small weights to gradients too far in the past what is left is the term 1 t 2 which is caused by initializing the running average with zeros in algorithm 1 we therefore divide by this term to correct the initialization bias in case of sparse gradients for a reliable estimate of the second moment one needs to average over many gradients by chosing a small value of 2 however"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.598,
+        "downstream_relevance_score": 0.377,
+        "components": {
+          "bio_boundary_score": 0.9625,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "exponential",
+          "decay",
+          "rate"
+        ],
+        "normalization": "exponential decay rate",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "exponential decay rate",
+          "canonical": "exponential decay rate",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9625",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.377"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "convergence analysis",
+        "canonical": "convergence analysis",
+        "normalized": "convergence analysis",
+        "tokens": [
+          "convergence",
+          "analysis"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 22,
+        "sentence": "it is exactly this case of small 2 where a lack of initialisation bias correction would lead to initial steps that are much larger convergence analysis we analyze the convergence of adam using the online learning framework proposed in given an arbitrary unknown sequence of convex cost functions f 1 f 2 f t at each time t our goal is to predict the parameter t and evaluate it on a previously unknown cost function f t since the nature",
+        "context_window": {
+          "previous": "should be chosen such that the exponential moving average assigns small weights to gradients too far in the past what is left is the term 1 t 2 which is caused by initializing the running average with zeros in algorithm 1 we therefore divide by this term to correct the initialization bias in case of sparse gradients for a reliable estimate of the second moment one needs to average over many gradients by chosing a small value of 2 however",
+          "current": "it is exactly this case of small 2 where a lack of initialisation bias correction would lead to initial steps that are much larger convergence analysis we analyze the convergence of adam using the online learning framework proposed in given an arbitrary unknown sequence of convex cost functions f 1 f 2 f t at each time t our goal is to predict the parameter t and evaluate it on a previously unknown cost function f t since the nature",
+          "next": "of the sequence is unknown in advance we evaluate our algorithm using the regret that is the sum of all the previous difference between the online prediction f t t and the best fixed point parameter f t from a feasible set x for all the previous steps concretely the regret is defined as r t t t 1 f t t -f t where arg min x t t 1 f t we show adam has o t regret"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4832,
+        "downstream_relevance_score": 0.3719,
+        "components": {
+          "bio_boundary_score": 0.7239,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convergence",
+          "analysis"
+        ],
+        "normalization": "convergence analysis",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convergence analysis",
+          "canonical": "convergence analysis",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7239",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence cue lexicon matched framework",
+        "downstream relevance score is 0.3719"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "stochastic objective function",
+        "canonical": "stochastic objective function",
+        "normalized": "stochastic objective function",
+        "tokens": [
+          "stochastic",
+          "objective",
+          "function"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 39,
+        "sentence": "the first moment all operations on vectors are element-wise require stepsize require 1 2 0 1 exponential decay rates require f stochastic objective function with parameters require 0 initial parameter vector m 0 0 initialize 1 st moment vector u 0 0 initialize the exponentially weighted infinity norm t 0 initialize timestep while t not converged do t t 1 g t f t t-1 get gradients w r t stochastic objective at timestep t m t 1 m t-1",
+        "context_window": {
+          "previous": "1 - p 2 g t p 1 - p 2 t i 1 p t-i 2 g i p algorithm 2 adamax a variant of adam based on the infinity norm see section 7 1 for details good default settings for the tested machine learning problems are 0 002 1 0 9 and 2 0 999 with t 1 we denote 1 to the power t here 1 t 1 is the learning rate with the bias-correction term for",
+          "current": "the first moment all operations on vectors are element-wise require stepsize require 1 2 0 1 exponential decay rates require f stochastic objective function with parameters require 0 initial parameter vector m 0 0 initialize 1 st moment vector u 0 0 initialize the exponentially weighted infinity norm t 0 initialize timestep while t not converged do t t 1 g t f t t-1 get gradients w r t stochastic objective at timestep t m t 1 m t-1",
+          "next": "1 - 1 g t update biased first moment estimate u t max 2 u t-1 g t update the exponentially weighted infinity norm t t-1 - 1 - t 1 m t u t update parameters end while return t resulting parameters note that the decay term is here equivalently parameterised as p 2 instead of 2 now let p and define u t lim p v t 1 p then u t lim p v t 1 p"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4734,
+        "downstream_relevance_score": 0.3122,
+        "components": {
+          "bio_boundary_score": 0.6188,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "objective",
+          "function"
+        ],
+        "normalization": "stochastic objective function",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic objective function",
+          "canonical": "stochastic objective function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6188",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3122"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "adagrad",
+        "canonical": "adagrad",
+        "normalized": "adagrad",
+        "tokens": [
+          "adagrad"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 44,
+        "sentence": "of adagrad to deal with sparse gradients and the ability of rmsprop to deal with non-stationary objectives the method is straightforward to implement and requires little memory the experiments confirm the analysis on the rate of convergence in convex problems overall we found adam to be robust and well-suited to a wide range of non-convex optimization problems in the field machine learning",
+        "context_window": {
+          "previous": "alternatively an exponential moving average over the parameters can be used giving higher weight to more recent parameter values this can be trivially implemented by adding one line to the inner loop of algorithms 1 and 2 t 2 t-1 1 2 t with 0 0 initalization bias can again be corrected by the estimator t t 1 t 2 large datasets and or high-dimensional parameter spaces the method combines the advantages of two recently popular optimization methods the ability",
+          "current": "of adagrad to deal with sparse gradients and the ability of rmsprop to deal with non-stationary objectives the method is straightforward to implement and requires little memory the experiments confirm the analysis on the rate of convergence in convex problems overall we found adam to be robust and well-suited to a wide range of non-convex optimization problems in the field machine learning",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "ablation_evidence",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4387,
+        "downstream_relevance_score": 0.3037,
+        "components": {
+          "bio_boundary_score": 0.5861,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adagrad"
+        ],
+        "normalization": "adagrad",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adagrad",
+          "canonical": "adagrad",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5861",
+        "structure model assigned role 'ablation' with score 0.82",
+        "downstream relevance score is 0.3037"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 26,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In figure 1, Adagrad outperforms SGD with Nesterov momentum by a large margin both with and without dropout noise.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Although our convergence analysis does not apply to non-convex problems, we empirically found that Adam often outperforms other methods in such cases.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Adam achieves the following guarantee, for all T ≥ 1.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The algorithm updates exponential moving averages of the gradient (m t ) and the squared gradient (v t ) where the hyper-parameters β 1 , β 2 ∈ [0, 1) control the exponential decay rates of these moving averages.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Note that the efficiency of algorithm 1 can, at the expense of clarity, be improved upon by changing the order of computation, e.g. by replacing the last three lines in the loop with the following lines:",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The Sum-of-Functions Optimizer (SFO) is a quasi-Newton method based on minibatches, but (unlike Adam) has memory requirements linear in the number of minibatch partitions of a dataset, which is often infeasible on memory-constrained systems such as a GPU.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We evaluate our proposed method on L2-regularized multi-class logistic regression using the MNIST dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We examine the sparse feature problem using IMDB movie review dataset from .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "0.0 0.5 1.0 1.5 2.0 2.5 3.0 iterations over entire dataset 0.5 1.0 1.5 2.0 2.5 3.0 training cost CIFAR10 ConvNet First 3 Epoches AdaGrad AdaGrad+dropout SGDNesterov SGDNesterov+dropout Adam Adam+dropout 0 5 10 15 20 25 30 35 40 45 iterations over entire dataset 10 -4 10 -3 10 -2 10 -1 10 0 10 1 10 2 training cost CIFAR10 ConvNet AdaGrad AdaGrad+dropout SGDNesterov SGDNesterov+dropout Adam Adam+dropout Figure 3: Convolutional neural networks training cost. (left) Training cost for the first three epochs. (right) Training cost over 45 epochs.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "See algorithm 1 for pseudo-code of our proposed algorithm Adam.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We introduce Adam, an algorithm for first-order gradient-based optimization of stochastic objective functions, based on adaptive estimates of lower-order moments.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We also analyze the theoretical convergence properties of the algorithm and provide a regret bound on the convergence rate that is comparable to the best known results under the online convex optimization framework.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We propose Adam, a method for efficient stochastic optimization that only requires first-order gradients with little memory requirement.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Require: α: Stepsize Require: β 1 , β 2 ∈ [0, 1): Exponential decay rates for the moment estimates Require: f (θ): Stochastic objective function with parameters θ Require: In section 2 we describe the algorithm and the properties of its update rule.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Empirically, our method consistently outperforms other methods for a variety of models and datasets, as shown in section 6.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Overall, we show that Adam is a versatile algorithm that scales to large-scale high-dimensional machine learning problems.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We analyze the convergence of Adam using the online learning framework proposed in .",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Since the nature of the sequence is unknown in advance, we evaluate our algorithm using the regret, that is the sum of all the previous difference between the online prediction f t (θ t ) and the best fixed point parameter f t (θ * ) from a feasible set X for all the previous steps.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "AdaGrad: An algorithm that works well for sparse gradients is AdaGrad .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "CIFAR-10 with c64-c64-c128-1000 architecture. dropout noise is applied to the input layer and fully connected layer.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We notice the second moment estimate v t vanishes to zeros after a few epochs and is dominated by the in algorithm 1.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We vary the β 1 and β 2 when training a variational autoencoder (VAE) with the same architecture as in with a single hidden layer with 500 hidden units with softplus nonlinearities and a 50-dimensional spherical Gaussian latent variable.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In Figure , values β 2 close to 1 indeed lead to instabilities in training when no bias correction term was present, especially at first few epochs of the training.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "adaptive moment estimation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6183
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "exponential moving average",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.5715
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "stochastic gradient descent",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.5237
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "stochastic approximation",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5117
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "bias correction",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.4994
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "neural",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.4946
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "stochastic optimization",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4908
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "adam",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.4821
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "moment estimate",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.4658
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "stochastic function",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4518
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "sparse feature",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4335
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "stochastic objective",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4245
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "infinity norm",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.4004
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "exponential decay rate",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.377
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "convergence analysis",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.3719
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "stochastic objective function",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3122
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "adagrad",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.3037
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

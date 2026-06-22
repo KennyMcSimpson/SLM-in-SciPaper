@@ -1,0 +1,4415 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2017_representation_learning_graph_attention_networks",
+    "title": "2017_representation_learning_graph_attention_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2017_representation_learning_graph_attention_networks.txt",
+    "sentence_count": 55,
+    "section_counts": {
+      "intro": 5,
+      "related_work": 1,
+      "method": 27,
+      "experiment": 19,
+      "conclusion": 3
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4378,
+    "type_count": 1074,
+    "type_token_ratio": 0.2453,
+    "section_token_counts": {
+      "intro": 465,
+      "related_work": 38,
+      "method": 2148,
+      "experiment": 1511,
+      "conclusion": 216
+    },
+    "top_unigrams": [
+      {
+        "term": "graph",
+        "count": 44
+      },
+      {
+        "term": "attention",
+        "count": 43
+      },
+      {
+        "term": "node",
+        "count": 40
+      },
+      {
+        "term": "features",
+        "count": 37
+      },
+      {
+        "term": "nodes",
+        "count": 30
+      },
+      {
+        "term": "model",
+        "count": 28
+      },
+      {
+        "term": "networks",
+        "count": 22
+      },
+      {
+        "term": "neighborhood",
+        "count": 21
+      },
+      {
+        "term": "graphs",
+        "count": 21
+      },
+      {
+        "term": "each",
+        "count": 21
+      },
+      {
+        "term": "inductive",
+        "count": 20
+      },
+      {
+        "term": "all",
+        "count": 20
+      },
+      {
+        "term": "layer",
+        "count": 20
+      },
+      {
+        "term": "different",
+        "count": 18
+      },
+      {
+        "term": "used",
+        "count": 17
+      },
+      {
+        "term": "mechanism",
+        "count": 17
+      },
+      {
+        "term": "across",
+        "count": 16
+      },
+      {
+        "term": "learning",
+        "count": 16
+      },
+      {
+        "term": "neural",
+        "count": 15
+      },
+      {
+        "term": "which",
+        "count": 15
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "attention mechanism",
+        "count": 13
+      },
+      {
+        "term": "each node",
+        "count": 12
+      },
+      {
+        "term": "neural networks",
+        "count": 9
+      },
+      {
+        "term": "graph structure",
+        "count": 8
+      },
+      {
+        "term": "across all",
+        "count": 7
+      },
+      {
+        "term": "does not",
+        "count": 7
+      },
+      {
+        "term": "during training",
+        "count": 6
+      },
+      {
+        "term": "inductive learning",
+        "count": 6
+      },
+      {
+        "term": "attention coefficients",
+        "count": 6
+      },
+      {
+        "term": "node features",
+        "count": 6
+      },
+      {
+        "term": "attentional layer",
+        "count": 6
+      },
+      {
+        "term": "attention heads",
+        "count": 6
+      },
+      {
+        "term": "neural network",
+        "count": 5
+      },
+      {
+        "term": "graph attentional",
+        "count": 5
+      },
+      {
+        "term": "transductive learning",
+        "count": 5
+      },
+      {
+        "term": "gat model",
+        "count": 5
+      },
+      {
+        "term": "graph attention",
+        "count": 4
+      },
+      {
+        "term": "attention networks",
+        "count": 4
+      },
+      {
+        "term": "graph-structured data",
+        "count": 4
+      },
+      {
+        "term": "cora citeseer",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "graph attentional layer",
+        "count": 5
+      },
+      {
+        "term": "graph attention networks",
+        "count": 4
+      },
+      {
+        "term": "normalized attention coefficients",
+        "count": 4
+      },
+      {
+        "term": "unseen during training",
+        "count": 3
+      },
+      {
+        "term": "features per node",
+        "count": 3
+      },
+      {
+        "term": "attention heads computing",
+        "count": 3
+      },
+      {
+        "term": "attention networks gats",
+        "count": 2
+      },
+      {
+        "term": "networks gats novel",
+        "count": 2
+      },
+      {
+        "term": "operate graph-structured data",
+        "count": 2
+      },
+      {
+        "term": "graph-structured data leveraging",
+        "count": 2
+      },
+      {
+        "term": "data leveraging masked",
+        "count": 2
+      },
+      {
+        "term": "leveraging masked self-attentional",
+        "count": 2
+      },
+      {
+        "term": "masked self-attentional layers",
+        "count": 2
+      },
+      {
+        "term": "different weights different",
+        "count": 2
+      },
+      {
+        "term": "knowing graph structure",
+        "count": 2
+      },
+      {
+        "term": "graph structure upfront",
+        "count": 2
+      },
+      {
+        "term": "graph neural networks",
+        "count": 2
+      },
+      {
+        "term": "benchmarks cora citeseer",
+        "count": 2
+      },
+      {
+        "term": "cora citeseer pubmed",
+        "count": 2
+      },
+      {
+        "term": "citeseer pubmed citation",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 25,
+    "nonzero_tfidf_features": 25,
+    "top_tfidf_features": [
+      {
+        "feature_name": "conclusion__attention",
+        "section": "conclusion",
+        "term": "attention",
+        "frequency": 5.0,
+        "tfidf": 1.2547
+      },
+      {
+        "feature_name": "methods__MLP",
+        "section": "method",
+        "term": "MLP",
+        "frequency": 3.0,
+        "tfidf": 1.1987
+      },
+      {
+        "feature_name": "related_work__attention",
+        "section": "related_work",
+        "term": "attention",
+        "frequency": 4.0,
+        "tfidf": 1.0919
+      },
+      {
+        "feature_name": "experiments__attention",
+        "section": "experiment",
+        "term": "attention",
+        "frequency": 19.0,
+        "tfidf": 1.0145
+      },
+      {
+        "feature_name": "introduction__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 8.0,
+        "tfidf": 0.8597
+      },
+      {
+        "feature_name": "abstract__graph neural networks",
+        "section": "intro",
+        "term": "graph neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.7574
+      },
+      {
+        "feature_name": "abstract__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.653
+      },
+      {
+        "feature_name": "experiments__gat",
+        "section": "experiment",
+        "term": "gat",
+        "frequency": 8.0,
+        "tfidf": 0.6159
+      },
+      {
+        "feature_name": "introduction__self-attention",
+        "section": "intro",
+        "term": "self-attention",
+        "frequency": 4.0,
+        "tfidf": 0.5208
+      },
+      {
+        "feature_name": "methods__embeddings",
+        "section": "method",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.4475
+      },
+      {
+        "feature_name": "related_work__multi-head attention",
+        "section": "related_work",
+        "term": "multi-head attention",
+        "frequency": 1.0,
+        "tfidf": 0.3626
+      },
+      {
+        "feature_name": "related_work__MLP",
+        "section": "related_work",
+        "term": "MLP",
+        "frequency": 1.0,
+        "tfidf": 0.3203
+      },
+      {
+        "feature_name": "related_work__machine translation",
+        "section": "related_work",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.2796
+      },
+      {
+        "feature_name": "introduction__recurrent neural networks",
+        "section": "intro",
+        "term": "recurrent neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.2792
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.2428
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.2425
+      },
+      {
+        "feature_name": "introduction__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.2193
+      },
+      {
+        "feature_name": "introduction__machine translation",
+        "section": "intro",
+        "term": "machine translation",
+        "frequency": 2.0,
+        "tfidf": 0.2128
+      },
+      {
+        "feature_name": "introduction__graph neural networks",
+        "section": "intro",
+        "term": "graph neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.151
+      },
+      {
+        "feature_name": "experiments__sgd",
+        "section": "experiment",
+        "term": "sgd",
+        "frequency": 2.0,
+        "tfidf": 0.1424
+      },
+      {
+        "feature_name": "experiments__gcn",
+        "section": "experiment",
+        "term": "gcn",
+        "frequency": 2.0,
+        "tfidf": 0.1317
+      },
+      {
+        "feature_name": "introduction__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 1.0,
+        "tfidf": 0.1114
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 2.0,
+        "tfidf": 0.0736
+      },
+      {
+        "feature_name": "experiments__aggregation",
+        "section": "experiment",
+        "term": "aggregation",
+        "frequency": 1.0,
+        "tfidf": 0.0705
+      },
+      {
+        "feature_name": "experiments__bag-of-words",
+        "section": "experiment",
+        "term": "bag-of-words",
+        "frequency": 1.0,
+        "tfidf": 0.068
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 8.0,
+          "tfidf": 0.8597
+        },
+        {
+          "feature_name": "abstract__graph neural networks",
+          "section": "intro",
+          "term": "graph neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.7574
+        },
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.653
+        },
+        {
+          "feature_name": "introduction__self-attention",
+          "section": "intro",
+          "term": "self-attention",
+          "frequency": 4.0,
+          "tfidf": 0.5208
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.2792
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.2425
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2193
+        },
+        {
+          "feature_name": "introduction__machine translation",
+          "section": "intro",
+          "term": "machine translation",
+          "frequency": 2.0,
+          "tfidf": 0.2128
+        },
+        {
+          "feature_name": "introduction__graph neural networks",
+          "section": "intro",
+          "term": "graph neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.151
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1114
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 1.0919
+        },
+        {
+          "feature_name": "related_work__multi-head attention",
+          "section": "related_work",
+          "term": "multi-head attention",
+          "frequency": 1.0,
+          "tfidf": 0.3626
+        },
+        {
+          "feature_name": "related_work__MLP",
+          "section": "related_work",
+          "term": "MLP",
+          "frequency": 1.0,
+          "tfidf": 0.3203
+        },
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.2796
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__MLP",
+          "section": "method",
+          "term": "MLP",
+          "frequency": 3.0,
+          "tfidf": 1.1987
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.4475
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.2428
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 19.0,
+          "tfidf": 1.0145
+        },
+        {
+          "feature_name": "experiments__gat",
+          "section": "experiment",
+          "term": "gat",
+          "frequency": 8.0,
+          "tfidf": 0.6159
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 2.0,
+          "tfidf": 0.1424
+        },
+        {
+          "feature_name": "experiments__gcn",
+          "section": "experiment",
+          "term": "gcn",
+          "frequency": 2.0,
+          "tfidf": 0.1317
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 2.0,
+          "tfidf": 0.0736
+        },
+        {
+          "feature_name": "experiments__aggregation",
+          "section": "experiment",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.0705
+        },
+        {
+          "feature_name": "experiments__bag-of-words",
+          "section": "experiment",
+          "term": "bag-of-words",
+          "frequency": 1.0,
+          "tfidf": 0.068
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 1.2547
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 5,
+      "token_count": 465,
+      "bow_hit_count": 20,
+      "top_bow_terms": [
+        {
+          "canonical_term": "graph neural network",
+          "count": 6,
+          "section_prior": 0.3966,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 4,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 2,
+          "section_prior": 0.4177,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 2,
+          "section_prior": 0.5545,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "graph attention network",
+          "count": 1,
+          "section_prior": 0.05,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 8.0,
+          "tfidf": 0.8597
+        },
+        {
+          "feature_name": "abstract__graph neural networks",
+          "section": "intro",
+          "term": "graph neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.7574
+        },
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.653
+        },
+        {
+          "feature_name": "introduction__self-attention",
+          "section": "intro",
+          "term": "self-attention",
+          "frequency": 4.0,
+          "tfidf": 0.5208
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.2792
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.2425
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2193
+        },
+        {
+          "feature_name": "introduction__machine translation",
+          "section": "intro",
+          "term": "machine translation",
+          "frequency": 2.0,
+          "tfidf": 0.2128
+        },
+        {
+          "feature_name": "introduction__graph neural networks",
+          "section": "intro",
+          "term": "graph neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.151
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1114
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 38,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 1.0919
+        },
+        {
+          "feature_name": "related_work__multi-head attention",
+          "section": "related_work",
+          "term": "multi-head attention",
+          "frequency": 1.0,
+          "tfidf": 0.3626
+        },
+        {
+          "feature_name": "related_work__MLP",
+          "section": "related_work",
+          "term": "MLP",
+          "frequency": 1.0,
+          "tfidf": 0.3203
+        },
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.2796
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 27,
+      "token_count": 2148,
+      "bow_hit_count": 127,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 84,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 10,
+          "section_prior": 0.4915,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "graph convolutional network",
+          "count": 8,
+          "section_prior": 0.2917,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "graph attention network",
+          "count": 5,
+          "section_prior": 0.05,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 4,
+          "section_prior": 0.0792,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "aggregation",
+          "count": 3,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 3,
+          "section_prior": 0.4068,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 2,
+          "section_prior": 0.4417,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 2,
+          "section_prior": 0.2204,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "softmax function",
+          "count": 1,
+          "section_prior": 0.5,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "multi-head attention",
+          "count": 1,
+          "section_prior": 0.1,
+          "confidence_score": 0.85,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__MLP",
+          "section": "method",
+          "term": "MLP",
+          "frequency": 3.0,
+          "tfidf": 1.1987
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.4475
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.2428
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 19,
+      "token_count": 1511,
+      "bow_hit_count": 84,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 44,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "graph attention network",
+          "count": 8,
+          "section_prior": 0.8,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 6,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "graph convolutional network",
+          "count": 6,
+          "section_prior": 0.3958,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 5,
+          "section_prior": 0.3898,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 5,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "bag-of-words model",
+          "count": 3,
+          "section_prior": 0.3529,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "aggregation",
+          "count": 2,
+          "section_prior": 0.1277,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 19.0,
+          "tfidf": 1.0145
+        },
+        {
+          "feature_name": "experiments__gat",
+          "section": "experiment",
+          "term": "gat",
+          "frequency": 8.0,
+          "tfidf": 0.6159
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 2.0,
+          "tfidf": 0.1424
+        },
+        {
+          "feature_name": "experiments__gcn",
+          "section": "experiment",
+          "term": "gcn",
+          "frequency": 2.0,
+          "tfidf": 0.1317
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 2.0,
+          "tfidf": 0.0736
+        },
+        {
+          "feature_name": "experiments__aggregation",
+          "section": "experiment",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.0705
+        },
+        {
+          "feature_name": "experiments__bag-of-words",
+          "section": "experiment",
+          "term": "bag-of-words",
+          "frequency": 1.0,
+          "tfidf": 0.068
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 3,
+      "token_count": 216,
+      "bow_hit_count": 17,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 15,
+          "section_prior": 0.0757,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "graph attention network",
+          "count": 2,
+          "section_prior": 0.05,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 1.2547
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "machine translation",
+        "canonical": "machine translation",
+        "normalized": "machine translation",
+        "tokens": [
+          "machine",
+          "translation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "machine translation"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 10,
+        "sentence": "sentence representations however showed that not only self-attention can improve a method based on rnns or convolutions but also that it is sufficient for constructing a powerful model obtaining state-of-the-art performance on the machine translation task inspired by this recent work we introduce an attention-based architecture to perform node classification of graph-structured data the idea is to compute the hidden representations of each node in the graph by attending over its neighbors following a self-attention strategy the attention architecture has",
+        "context_window": {
+          "previous": "facto standard in many sequence-based tasks one of the benefits of attention mechanisms is that they allow for dealing with variable sized inputs focusing on the most relevant parts of the input to make decisions when an attention mechanism is used to compute a representation of a single sequence it is commonly referred to as self-attention or intra-attention together with recurrent neural networks rnns or convolutions self-attention has proven to be useful for tasks such as machine reading and learning",
+          "current": "sentence representations however showed that not only self-attention can improve a method based on rnns or convolutions but also that it is sufficient for constructing a powerful model obtaining state-of-the-art performance on the machine translation task inspired by this recent work we introduce an attention-based architecture to perform node classification of graph-structured data the idea is to compute the hidden representations of each node in the graph by attending over its neighbors following a self-attention strategy the attention architecture has",
+          "next": "several interesting properties the operation is efficient since it is parallelizable across nodeneighbor pairs it can be applied to graph nodes having different degrees by specifying arbitrary weights to the neighbors and the model is directly applicable to inductive learning problems including tasks where the model has to generalize to completely unseen graphs we validate the proposed approach on four challenging benchmarks cora citeseer and pubmed citation networks as well as an inductive protein-protein interaction dataset achieving or matching state-of-the-art"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7165,
+        "downstream_relevance_score": 0.8249,
+        "components": {
+          "bio_boundary_score": 0.6535,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0792,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "machine translation",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "machine translation",
+        "display_term": "machine translation",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Machine_translation",
+        "wikidata_id": "Q79798",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 7,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "machine",
+          "translation"
+        ],
+        "normalization": "machine translation",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0792,
+        "canonicalization": {
+          "observed": "machine translation",
+          "canonical": "machine translation",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6535",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'machine translation' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "evidence cue lexicon matched architecture, introduce, state-of-the-art",
+        "downstream relevance score is 0.8249"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "attention mechanism",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention",
+          "mechanism"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 45,
+        "sentence": "deviation on the test nodes of our method after 100 runs and reuse the metrics already reported in and for state-of-the-art techniques specifically for the chebyshev filterbased approach we provide the maximum reported performance for filters of orders k 2 and k 3 in order to fairly assess the benefits of the attention mechanism we further evaluate a gcn model that computes 64 hidden features attempting both the relu and elu activation and reporting as gcn-64 the better result after",
+        "context_window": {
+          "previous": "training nodes using the adam sgd optimizer with an initial learning rate of 0 01 for pubmed and 0 005 for all other datasets in both cases we use an early stopping strategy on both the cross-entropy loss and accuracy transductive or micro-f 1 inductive score on the validation nodes with a patience of 100 epochs results the results of our comparative experiments are summarized in tables and for the transductive tasks we report the mean classification accuracy with standard",
+          "current": "deviation on the test nodes of our method after 100 runs and reuse the metrics already reported in and for state-of-the-art techniques specifically for the chebyshev filterbased approach we provide the maximum reported performance for filters of orders k 2 and k 3 in order to fairly assess the benefits of the attention mechanism we further evaluate a gcn model that computes 64 hidden features attempting both the relu and elu activation and reporting as gcn-64 the better result after",
+          "next": "100 runs which was the relu in all three cases for the inductive task we report the micro-averaged f 1 score on the nodes of the two unseen test graphs averaged after 10 runs and reuse the metrics already reported in for 59 5 60 1 70 7 semiemb 59 0 59 6 71 7 lp 68 0 45 3 63 0 deepwalk 67 2 43 2 65 3 ica 75 1 69 1 73 9 planetoid 75 7 64"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.691,
+        "downstream_relevance_score": 0.7365,
+        "components": {
+          "bio_boundary_score": 0.7768,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2317,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention mechanism",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 22,
+        "total_frequency": 97,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "mechanism"
+        ],
+        "normalization": "attention mechanism",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2317,
+        "canonicalization": {
+          "observed": "attention mechanism",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7768",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.7365"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "gcn",
+        "canonical": "graph convolutional network",
+        "normalized": "graph convolutional network",
+        "tokens": [
+          "gcn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "graph convolutional networks",
+          "graph convolutional network",
+          "gcn"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 45,
+        "sentence": "deviation on the test nodes of our method after 100 runs and reuse the metrics already reported in and for state-of-the-art techniques specifically for the chebyshev filterbased approach we provide the maximum reported performance for filters of orders k 2 and k 3 in order to fairly assess the benefits of the attention mechanism we further evaluate a gcn model that computes 64 hidden features attempting both the relu and elu activation and reporting as gcn-64 the better result after",
+        "context_window": {
+          "previous": "training nodes using the adam sgd optimizer with an initial learning rate of 0 01 for pubmed and 0 005 for all other datasets in both cases we use an early stopping strategy on both the cross-entropy loss and accuracy transductive or micro-f 1 inductive score on the validation nodes with a patience of 100 epochs results the results of our comparative experiments are summarized in tables and for the transductive tasks we report the mean classification accuracy with standard",
+          "current": "deviation on the test nodes of our method after 100 runs and reuse the metrics already reported in and for state-of-the-art techniques specifically for the chebyshev filterbased approach we provide the maximum reported performance for filters of orders k 2 and k 3 in order to fairly assess the benefits of the attention mechanism we further evaluate a gcn model that computes 64 hidden features attempting both the relu and elu activation and reporting as gcn-64 the better result after",
+          "next": "100 runs which was the relu in all three cases for the inductive task we report the micro-averaged f 1 score on the nodes of the two unseen test graphs averaged after 10 runs and reuse the metrics already reported in for 59 5 60 1 70 7 semiemb 59 0 59 6 71 7 lp 68 0 45 3 63 0 deepwalk 67 2 43 2 65 3 ica 75 1 69 1 73 9 planetoid 75 7 64"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6335,
+        "downstream_relevance_score": 0.7101,
+        "components": {
+          "bio_boundary_score": 0.5803,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3958,
+          "document_tfidf_score": 0.105,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "gcn",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "graph convolutional network",
+        "display_term": "gcn",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Graph_convolutional_network",
+        "wikidata_id": "Q54811238",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 18,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__gcn",
+        "section": "experiment",
+        "term": "gcn",
+        "frequency": 2.0,
+        "tfidf": 0.1317,
+        "normalized_frequency": 0.1053,
+        "normalized_tfidf": 0.105
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gcn"
+        ],
+        "normalization": "gcn",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.3958,
+        "canonicalization": {
+          "observed": "gcn",
+          "canonical": "graph convolutional network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5803",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'graph convolutional network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'experiments__gcn' with tf-idf 0.1317",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.7101"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "attention",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 43,
+        "sentence": "skip connections across the intermediate attentional layer we utilize a batch size of 2 graphs during training to strictly evaluate the benefits of applying an attention mechanism in this setting i e comparing with a near gcn-equivalent model we also provide the results when a constant attention mechanism a x y 1 is used with the same architecture-this will assign the same weight to every neighbor both models are initialized using glorot initialization and trained to minimize cross-entropy on the",
+        "context_window": {
+          "previous": "gat model both of the first two layers consist of k 4 attention heads computing f 256 features for a total of 1024 features followed by an elu nonlinearity the final layer is used for multi-label classification k 6 attention heads computing 121 features each that are averaged and followed by a logistic sigmoid activation the training sets for this task are sufficiently large and we found no need to apply l 2 regularization or dropout-we have however successfully employed",
+          "current": "skip connections across the intermediate attentional layer we utilize a batch size of 2 graphs during training to strictly evaluate the benefits of applying an attention mechanism in this setting i e comparing with a near gcn-equivalent model we also provide the results when a constant attention mechanism a x y 1 is used with the same architecture-this will assign the same weight to every neighbor both models are initialized using glorot initialization and trained to minimize cross-entropy on the",
+          "next": "training nodes using the adam sgd optimizer with an initial learning rate of 0 01 for pubmed and 0 005 for all other datasets in both cases we use an early stopping strategy on both the cross-entropy loss and accuracy transductive or micro-f 1 inductive score on the validation nodes with a patience of 100 epochs results the results of our comparative experiments are summarized in tables and for the transductive tasks we report the mean classification accuracy with standard"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6427,
+        "downstream_relevance_score": 0.704,
+        "components": {
+          "bio_boundary_score": 0.6322,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2317,
+          "document_tfidf_score": 0.8086,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 22,
+        "total_frequency": 97,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__attention",
+        "section": "experiment",
+        "term": "attention",
+        "frequency": 19.0,
+        "tfidf": 1.0145,
+        "normalized_frequency": 1.0,
+        "normalized_tfidf": 0.8086
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention"
+        ],
+        "normalization": "attention",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2317,
+        "canonicalization": {
+          "observed": "attention",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6322",
+        "structure model assigned role 'core_method' with score 0.66",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'experiments__attention' with tf-idf 1.0145",
+        "downstream relevance score is 0.704"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "attention architecture",
+        "canonical": "attention architecture",
+        "normalized": "attention architecture",
+        "tokens": [
+          "attention",
+          "architecture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 10,
+        "sentence": "sentence representations however showed that not only self-attention can improve a method based on rnns or convolutions but also that it is sufficient for constructing a powerful model obtaining state-of-the-art performance on the machine translation task inspired by this recent work we introduce an attention-based architecture to perform node classification of graph-structured data the idea is to compute the hidden representations of each node in the graph by attending over its neighbors following a self-attention strategy the attention architecture has",
+        "context_window": {
+          "previous": "facto standard in many sequence-based tasks one of the benefits of attention mechanisms is that they allow for dealing with variable sized inputs focusing on the most relevant parts of the input to make decisions when an attention mechanism is used to compute a representation of a single sequence it is commonly referred to as self-attention or intra-attention together with recurrent neural networks rnns or convolutions self-attention has proven to be useful for tasks such as machine reading and learning",
+          "current": "sentence representations however showed that not only self-attention can improve a method based on rnns or convolutions but also that it is sufficient for constructing a powerful model obtaining state-of-the-art performance on the machine translation task inspired by this recent work we introduce an attention-based architecture to perform node classification of graph-structured data the idea is to compute the hidden representations of each node in the graph by attending over its neighbors following a self-attention strategy the attention architecture has",
+          "next": "several interesting properties the operation is efficient since it is parallelizable across nodeneighbor pairs it can be applied to graph nodes having different degrees by specifying arbitrary weights to the neighbors and the model is directly applicable to inductive learning problems including tasks where the model has to generalize to completely unseen graphs we validate the proposed approach on four challenging benchmarks cora citeseer and pubmed citation networks as well as an inductive protein-protein interaction dataset achieving or matching state-of-the-art"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7392,
+        "downstream_relevance_score": 0.6718,
+        "components": {
+          "bio_boundary_score": 0.731,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "architecture"
+        ],
+        "normalization": "attention architecture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "attention architecture",
+          "canonical": "attention architecture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.731",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, introduce, state-of-the-art",
+        "downstream relevance score is 0.6718"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "recurrent neural network",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "recurrent",
+          "neural",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "unified generalization of cnn architectures to graphs more recently introduced graphsage a method for computing node representations in an inductive manner this technique operates by sampling a fixed-size neighborhood of each node and then performing a specific aggregator over it such as the mean over all the sampled neighbors feature vectors or the result of feeding them through a recurrent neural network this approach has yielded impressive performance across several large-scale inductive benchmarks attention mechanisms have become almost a de",
+        "context_window": {
+          "previous": "challenges of these approaches is to define an operator which works with different sized neighborhoods and maintains the weight sharing property of cnns in some cases this requires learning a specific weight matrix for each node degree using the powers of a transition matrix to define the neighborhood while learning weights for each input channel and neighborhood degree or extracting and normalizing neighborhoods containing a fixed number of nodes presented mixture model cnns monet a spatial approach which provides a",
+          "current": "unified generalization of cnn architectures to graphs more recently introduced graphsage a method for computing node representations in an inductive manner this technique operates by sampling a fixed-size neighborhood of each node and then performing a specific aggregator over it such as the mean over all the sampled neighbors feature vectors or the result of feeding them through a recurrent neural network this approach has yielded impressive performance across several large-scale inductive benchmarks attention mechanisms have become almost a de",
+          "next": "facto standard in many sequence-based tasks one of the benefits of attention mechanisms is that they allow for dealing with variable sized inputs focusing on the most relevant parts of the input to make decisions when an attention mechanism is used to compute a representation of a single sequence it is commonly referred to as self-attention or intra-attention together with recurrent neural networks rnns or convolutions self-attention has proven to be useful for tasks such as machine reading and learning"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6353,
+        "downstream_relevance_score": 0.6538,
+        "components": {
+          "bio_boundary_score": 0.7758,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.4417,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural network",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 52,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "recurrent",
+          "neural",
+          "network"
+        ],
+        "normalization": "recurrent neural network",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4417,
+        "canonicalization": {
+          "observed": "recurrent neural network",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7758",
+        "structure model assigned role 'component' with score 0.82",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6538"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 3,
+        "sentence": "cyclic directed and undirected graphs gnns consist of an iterative process which propagates the node states until equilibrium followed by a neural network which produces an output for each node published as a conference paper at iclr 2018 based on its state this idea was adopted and improved by which propose to use gated recurrent units in the propagation step nevertheless there is an increasing interest in generalizing convolutions to the graph domain advances in this direction are often categorized",
+        "context_window": {
+          "previous": "networks biological networks or brain connectomes such data can usually be represented in the form of graphs there have been several attempts in the literature to extend neural networks to deal with arbitrarily structured graphs early work used recursive neural networks to process data represented in graph domains as directed acyclic graphs graph neural networks gnns were introduced in and as a generalization of recursive neural networks that can directly deal with a more general class of graphs e g",
+          "current": "cyclic directed and undirected graphs gnns consist of an iterative process which propagates the node states until equilibrium followed by a neural network which produces an output for each node published as a conference paper at iclr 2018 based on its state this idea was adopted and improved by which propose to use gated recurrent units in the propagation step nevertheless there is an increasing interest in generalizing convolutions to the graph domain advances in this direction are often categorized",
+          "next": "as spectral approaches and non-spectral approaches on one hand spectral approaches work with a spectral representation of the graphs and have been successfully applied in the context of node classification in the convolution operation is defined in the fourier domain by computing the eigendecomposition of the graph laplacian resulting in potentially intense computations and non-spatially localized filters these issues were addressed by subsequent works introduced a parameterization of the spectral filters with smooth coefficients in order to make them spatially"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9167
+      },
+      "evidence": {
+        "score": 0.3688,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.588,
+        "downstream_relevance_score": 0.6469,
+        "components": {
+          "bio_boundary_score": 0.6762,
+          "sentence_evidence_score": 0.3688,
+          "sentence_role_score": 0.9167,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4032,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 27,
+        "total_frequency": 54,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4032,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6762",
+        "structure model assigned role 'problem' with score 0.9167",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6469"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "gat model",
+        "canonical": "gat model",
+        "normalized": "gat model",
+        "tokens": [
+          "gat",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 49,
+        "sentence": "and 1 6 on cora and citeseer respectively suggesting that assigning different weights to nodes of a same neighborhood may be beneficial it is worth noting the improvements achieved on the ppi dataset our gat model improves by 20 5 w r t the best graphsage result we were able to obtain demonstrating that our model has the potential to be applied in inductive settings and that larger predictive power can be leveraged by observing the entire neighborhood furthermore it",
+        "context_window": {
+          "previous": "and 128 features used for aggregating neighborhoods finally we report the 10-run result of our constant attention gat model as const-gat to fairly evaluate the benefits of the attention mechanism against a gcn-like aggregation scheme with the same architecture our results successfully demonstrate state-of-the-art performance being achieved or matched across all four datasets-in concordance with our expectations as per the discussion in section 2 2 more specifically we are able to improve upon gcns by a margin of 1 5",
+          "current": "and 1 6 on cora and citeseer respectively suggesting that assigning different weights to nodes of a same neighborhood may be beneficial it is worth noting the improvements achieved on the ppi dataset our gat model improves by 20 5 w r t the best graphsage result we were able to obtain demonstrating that our model has the potential to be applied in inductive settings and that larger predictive power can be leveraged by observing the entire neighborhood furthermore it",
+          "next": "improves by 3 9 w r t const-gat the identical architecture with constant attention mechanism once again directly demonstrating the significance of being able to assign different weights to different neighbors the effectiveness of the learned feature representations may also be investigated qualitatively-and for this purpose we provide a visualization of the t-sne maaten hinton 2008 -transformed feature representations extracted by the first layer of a gat model pre-trained on the cora dataset figure the representation exhibits discernible clustering in"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7419,
+          "evidence_type": "dataset",
+          "matched_cue": "dataset",
+          "role_prior": "dataset",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6398,
+        "downstream_relevance_score": 0.5751,
+        "components": {
+          "bio_boundary_score": 0.5764,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gat",
+          "model"
+        ],
+        "normalization": "gat model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gat model",
+          "canonical": "gat model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5764",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.5751"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "sparse matrix multiplication",
+        "canonical": "sparse matrix multiplication",
+        "normalized": "sparse matrix multiplication",
+        "tokens": [
+          "sparse",
+          "matrix",
+          "multiplication"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 31,
+        "sentence": "datasets however the tensor manipulation framework we used only supports sparse matrix multiplication for rank-2 tensors which limits the batching capabilities of the layer as it is currently implemented especially for datasets with multiple graphs appropriately addressing this constraint is an important direction for future work depending on the regularity of the graph structure in place gpus may not be able to offer major performance benefits compared to cpus in these sparse scenarios it should also be noted that the",
+        "context_window": {
+          "previous": "s patch operator similar to ours nevertheless one should note that in comparison to previously considered monet instances our model uses node features for similarity computations rather than the node s structural properties which would assume knowing the graph structure upfront we were able to produce a version of the gat layer that leverages sparse matrix operations reducing the storage complexity to linear in the number of nodes and edges and enabling the execution of gat models on larger graph",
+          "current": "datasets however the tensor manipulation framework we used only supports sparse matrix multiplication for rank-2 tensors which limits the batching capabilities of the layer as it is currently implemented especially for datasets with multiple graphs appropriately addressing this constraint is an important direction for future work depending on the regularity of the graph structure in place gpus may not be able to offer major performance benefits compared to cpus in these sparse scenarios it should also be noted that the",
+          "next": "size of the receptive field of our model is upper-bounded by the depth of the network similarly as for gcn and similar models techniques such as skip connections could be readily applied for appropriately extending the depth however lastly parallelization across all the graph edges especially in a distributed manner may involve a lot of redundant computation as the neighborhoods will often highly overlap in graphs of interest"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          },
+          {
+            "cue_phrase": "future work",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "future-work cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6226,
+        "downstream_relevance_score": 0.5733,
+        "components": {
+          "bio_boundary_score": 0.5658,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sparse",
+          "matrix",
+          "multiplication"
+        ],
+        "normalization": "sparse matrix multiplication",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sparse matrix multiplication",
+          "canonical": "sparse matrix multiplication",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5658",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched framework, future work",
+        "downstream relevance score is 0.5733"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "receptive field",
+        "canonical": "receptive field",
+        "normalized": "receptive field",
+        "tokens": [
+          "receptive",
+          "field"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 32,
+        "sentence": "size of the receptive field of our model is upper-bounded by the depth of the network similarly as for gcn and similar models techniques such as skip connections could be readily applied for appropriately extending the depth however lastly parallelization across all the graph edges especially in a distributed manner may involve a lot of redundant computation as the neighborhoods will often highly overlap in graphs of interest",
+        "context_window": {
+          "previous": "datasets however the tensor manipulation framework we used only supports sparse matrix multiplication for rank-2 tensors which limits the batching capabilities of the layer as it is currently implemented especially for datasets with multiple graphs appropriately addressing this constraint is an important direction for future work depending on the regularity of the graph structure in place gpus may not be able to offer major performance benefits compared to cpus in these sparse scenarios it should also be noted that the",
+          "current": "size of the receptive field of our model is upper-bounded by the depth of the network similarly as for gcn and similar models techniques such as skip connections could be readily applied for appropriately extending the depth however lastly parallelization across all the graph edges especially in a distributed manner may involve a lot of redundant computation as the neighborhoods will often highly overlap in graphs of interest",
+          "next": "we have performed comparative evaluation of gat models against a wide variety of strong baselines and previous approaches on four established graph-based benchmark tasks transductive as datasets transductive learning we utilize three standard citation network benchmark datasets-cora citeseer and pubmed -and closely follow the transductive of in all of these datasets nodes correspond to documents and edges to undirected citations node features correspond to elements of a bag-of-words representation of a document each node has a class label we allow"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7305,
+        "downstream_relevance_score": 0.5522,
+        "components": {
+          "bio_boundary_score": 0.7097,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "receptive",
+          "field"
+        ],
+        "normalization": "receptive field",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "receptive field",
+          "canonical": "receptive field",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7097",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5522"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "graph attentional layer",
+        "canonical": "graph attentional layer",
+        "normalized": "graph attentional layer",
+        "tokens": [
+          "graph",
+          "attentional",
+          "layer"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 15,
+        "sentence": "graph attentional layer we will start by describing a single graph attentional layer as the sole layer utilized throughout all of the gat architectures used in our experiments the particular attentional setup utilized by us closely follows the work of -but the framework is agnostic to the particular choice of attention mechanism the input to our layer is a set of node features h h 1 h 2 h n h i r f where n is the number of",
+        "context_window": {
+          "previous": "we interpret the neighborhood of a node as the memory which is used to compute the node features by attending over its values and then is updated by storing the new features in the same position gat architecture in this section we will present the building block layer used to construct arbitrary graph attention networks through stacking this layer and directly outline its theoretical and practical benefits and limitations compared to prior work in the domain of neural graph processing",
+          "current": "graph attentional layer we will start by describing a single graph attentional layer as the sole layer utilized throughout all of the gat architectures used in our experiments the particular attentional setup utilized by us closely follows the work of -but the framework is agnostic to the particular choice of attention mechanism the input to our layer is a set of node features h h 1 h 2 h n h i r f where n is the number of",
+          "next": "nodes and f is the number of features in each node the layer produces a new set of node features of potentially different cardinality f h h 1 h 2 h n h i r f as its output in order to obtain sufficient expressive power to transform the input features into higher-level features at least one learnable linear transformation is required to that end as an initial step a shared linear transformation parametrized by a weight matrix w r"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6354,
+        "downstream_relevance_score": 0.545,
+        "components": {
+          "bio_boundary_score": 0.6067,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "graph",
+          "attentional",
+          "layer"
+        ],
+        "normalization": "graph attentional layer",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "graph attentional layer",
+          "canonical": "graph attentional layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6067",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched framework",
+        "downstream relevance score is 0.545"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "classification",
+        "canonical": "classification",
+        "normalized": "classification",
+        "tokens": [
+          "classification"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 44,
+        "sentence": "training nodes using the adam sgd optimizer with an initial learning rate of 0 01 for pubmed and 0 005 for all other datasets in both cases we use an early stopping strategy on both the cross-entropy loss and accuracy transductive or micro-f 1 inductive score on the validation nodes with a patience of 100 epochs results the results of our comparative experiments are summarized in tables and for the transductive tasks we report the mean classification accuracy with standard",
+        "context_window": {
+          "previous": "skip connections across the intermediate attentional layer we utilize a batch size of 2 graphs during training to strictly evaluate the benefits of applying an attention mechanism in this setting i e comparing with a near gcn-equivalent model we also provide the results when a constant attention mechanism a x y 1 is used with the same architecture-this will assign the same weight to every neighbor both models are initialized using glorot initialization and trained to minimize cross-entropy on the",
+          "current": "training nodes using the adam sgd optimizer with an initial learning rate of 0 01 for pubmed and 0 005 for all other datasets in both cases we use an early stopping strategy on both the cross-entropy loss and accuracy transductive or micro-f 1 inductive score on the validation nodes with a patience of 100 epochs results the results of our comparative experiments are summarized in tables and for the transductive tasks we report the mean classification accuracy with standard",
+          "next": "deviation on the test nodes of our method after 100 runs and reuse the metrics already reported in and for state-of-the-art techniques specifically for the chebyshev filterbased approach we provide the maximum reported performance for filters of orders k 2 and k 3 in order to fairly assess the benefits of the attention mechanism we further evaluate a gcn model that computes 64 hidden features attempting both the relu and elu activation and reporting as gcn-64 the better result after"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6046,
+        "downstream_relevance_score": 0.5412,
+        "components": {
+          "bio_boundary_score": 0.5308,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "classification"
+        ],
+        "normalization": "classification",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "classification",
+          "canonical": "classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5308",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5412"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "graph structure",
+        "canonical": "graph structure",
+        "normalized": "graph structure",
+        "tokens": [
+          "graph",
+          "structure"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 30,
+        "sentence": "s patch operator similar to ours nevertheless one should note that in comparison to previously considered monet instances our model uses node features for similarity computations rather than the node s structural properties which would assume knowing the graph structure upfront we were able to produce a version of the gat layer that leverages sparse matrix operations reducing the storage complexity to linear in the number of nodes and edges and enabling the execution of gat models on larger graph",
+        "context_window": {
+          "previous": "like the gcn and does not assume any ordering within it as mentioned in section 1 gat can be reformulated as a particular instance of monet more specifically setting the pseudo-coordinate function to be u x y f x f y where f x represent potentially mlp-transformed features of node x and is concatenation and the weight function to be w j u softmax mlp u with the softmax performed over the entire neighborhood of a node would make monet",
+          "current": "s patch operator similar to ours nevertheless one should note that in comparison to previously considered monet instances our model uses node features for similarity computations rather than the node s structural properties which would assume knowing the graph structure upfront we were able to produce a version of the gat layer that leverages sparse matrix operations reducing the storage complexity to linear in the number of nodes and edges and enabling the execution of gat models on larger graph",
+          "next": "datasets however the tensor manipulation framework we used only supports sparse matrix multiplication for rank-2 tensors which limits the batching capabilities of the layer as it is currently implemented especially for datasets with multiple graphs appropriately addressing this constraint is an important direction for future work depending on the regularity of the graph structure in place gpus may not be able to offer major performance benefits compared to cpus in these sparse scenarios it should also be noted that the"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7073,
+        "downstream_relevance_score": 0.5402,
+        "components": {
+          "bio_boundary_score": 0.6265,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "graph",
+          "structure"
+        ],
+        "normalization": "graph structure",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "graph structure",
+          "canonical": "graph structure",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6265",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5402"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "linear combination",
+        "canonical": "linear combination",
+        "normalized": "linear combination",
+        "tokens": [
+          "linear",
+          "combination"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 20,
+        "sentence": "compute a linear combination of the features corresponding to them to serve as the final output features for every node after potentially ij a softmax j w h i w h j h 1 h 2 h 3 h 4 h 5 h 6 1 6 11 1 2 13 1 4 15 h 1 concat avg figure 1 left the attention mechanism a w h i w h j employed by our model parametrized by a weight vector a",
+        "context_window": {
+          "previous": "network parametrized by a weight vector a r 2f and applying the leakyrelu nonlinearity with negative input slope 0 2 fully expanded out the coefficients computed by the attention mechanism illustrated by figure left may then be expressed as ij exp leakyrelu a t w h i w h j k ni exp leakyrelu a t w h i w h k where t represents transposition and is the concatenation operation once obtained the normalized attention coefficients are used to",
+          "current": "compute a linear combination of the features corresponding to them to serve as the final output features for every node after potentially ij a softmax j w h i w h j h 1 h 2 h 3 h 4 h 5 h 6 1 6 11 1 2 13 1 4 15 h 1 concat avg figure 1 left the attention mechanism a w h i w h j employed by our model parametrized by a weight vector a",
+          "next": "r 2f applying a leakyrelu activation right an illustration of multihead attention with k 3 heads by node 1 on its neighborhood different arrow styles and colors denote independent attention computations the aggregated features from each head are concatenated or averaged to obtain h 1 applying a nonlinearity h i j ni ij w h j to stabilize the learning process of self-attention we have found extending our mechanism to employ multi-head attention to be beneficial similarly to specifically k"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6821,
+        "downstream_relevance_score": 0.5271,
+        "components": {
+          "bio_boundary_score": 0.5368,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "combination"
+        ],
+        "normalization": "linear combination",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear combination",
+          "canonical": "linear combination",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5368",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5271"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "graph attention",
+        "canonical": "graph attention network",
+        "normalized": "graph attention network",
+        "tokens": [
+          "graph",
+          "attention"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "graph attention networks",
+          "graph attention network",
+          "gat"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 52,
+        "sentence": "we have presented graph attention networks gats novel convolution-style neural networks that operate on graph-structured data leveraging masked self-attentional layers the graph attentional layer utilized throughout these networks is computationally efficient does not require costly matrix operations and is parallelizable across all nodes in the graph allows for implicitly assigning different importances to different nodes within a neighborhood while dealing with different sized neighborhoods and does not depend on knowing the entire graph structure upfront-thus addressing many of the theoretical",
+        "context_window": {
+          "previous": "the projected 2d space note that these clusters correspond to the seven labels of the dataset verifying the model s discriminative power across the seven topic classes of cora additionally we visualize the relative strengths of the normalized attention coefficients averaged across all eight attention heads properly interpreting these coefficients as performed by e g will require further domain knowledge about the dataset under study and is left for future work",
+          "current": "we have presented graph attention networks gats novel convolution-style neural networks that operate on graph-structured data leveraging masked self-attentional layers the graph attentional layer utilized throughout these networks is computationally efficient does not require costly matrix operations and is parallelizable across all nodes in the graph allows for implicitly assigning different importances to different nodes within a neighborhood while dealing with different sized neighborhoods and does not depend on knowing the entire graph structure upfront-thus addressing many of the theoretical",
+          "next": "issues with previous spectral-based approaches our models leveraging attention have successfully achieved or matched state-of-the-art performance across four well-established node classification benchmarks both transductive and inductive especially with completely unseen graphs used for testing there are several potential improvements and extensions to graph attention networks that could be addressed as future work such as overcoming the practical problems described in subsection 2 2 to be able to handle larger batch sizes a particularly interesting research direction would be taking advantage"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6441,
+        "downstream_relevance_score": 0.526,
+        "components": {
+          "bio_boundary_score": 0.8058,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.05,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "graph attention networks",
+        "match_quality": 0.78,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "graph attention network",
+        "display_term": "gat",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "nan",
+        "wikidata_id": "Q111725450",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 15,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "graph",
+          "attention"
+        ],
+        "normalization": "graph attention",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.05,
+        "canonicalization": {
+          "observed": "graph attention",
+          "canonical": "graph attention network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8058",
+        "structure model assigned role 'component' with score 0.66",
+        "section BoW matched canonical term 'graph attention network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.526"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "inductive learning",
+        "canonical": "inductive learning",
+        "normalized": "inductive learning",
+        "tokens": [
+          "inductive",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 37,
+        "sentence": "includes label propagation lp semi-supervised embedding semiemb manifold regularization manireg skip-gram based graph embeddings deep-walk the iterative classification algorithm ica and planetoid we also directly compare our model against gcns as well as graph convolutional models utilising higher-order chebyshev filters and the monet model presented in inductive learning for the inductive learning task we compare against the four different supervised graphsage inductive methods presented in these provide a variety of approaches to aggregating features within a sampled neighborhood graphsage-gcn which",
+        "context_window": {
+          "previous": "is 2372 each node has 50 features that are composed of positional gene sets motif gene sets and immunological signatures there are 121 labels for each node set from gene ontology collected from the molecular signatures database and a node can possess several labels simultaneously an overview of the interesting characteristics of the datasets is given in table state-of-the-art methods transductive learning for transductive learning tasks we compare against the same strong baselines and state-of-the-art approaches as specified in this",
+          "current": "includes label propagation lp semi-supervised embedding semiemb manifold regularization manireg skip-gram based graph embeddings deep-walk the iterative classification algorithm ica and planetoid we also directly compare our model against gcns as well as graph convolutional models utilising higher-order chebyshev filters and the monet model presented in inductive learning for the inductive learning task we compare against the four different supervised graphsage inductive methods presented in these provide a variety of approaches to aggregating features within a sampled neighborhood graphsage-gcn which",
+          "next": "extends a graph convolution-style operation to the inductive setting graphsage-mean taking the elementwise mean value of feature vectors graphsage-lstm aggregating by feeding the neighborhood features into an lstm and graphsage-pool taking the elementwise maximization operation of feature vectors transformed by a shared nonlinear multilayer perceptron the other transductive approaches are either completely inappropriate in an inductive setting or assume that nodes are incrementally added to a single graph making them unusable for the setup where test graphs are completely unseen"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6308,
+        "downstream_relevance_score": 0.5226,
+        "components": {
+          "bio_boundary_score": 0.6989,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "inductive",
+          "learning"
+        ],
+        "normalization": "inductive learning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "inductive learning",
+          "canonical": "inductive learning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6989",
+        "structure model assigned role 'comparison' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.5226"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "multilayer perceptron",
+        "canonical": "multilayer perceptron",
+        "normalized": "multilayer perceptron",
+        "tokens": [
+          "multilayer",
+          "perceptron"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "multi-layer perceptron",
+          "multilayer perceptron",
+          "mlp",
+          "MLP"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 38,
+        "sentence": "extends a graph convolution-style operation to the inductive setting graphsage-mean taking the elementwise mean value of feature vectors graphsage-lstm aggregating by feeding the neighborhood features into an lstm and graphsage-pool taking the elementwise maximization operation of feature vectors transformed by a shared nonlinear multilayer perceptron the other transductive approaches are either completely inappropriate in an inductive setting or assume that nodes are incrementally added to a single graph making them unusable for the setup where test graphs are completely unseen",
+        "context_window": {
+          "previous": "includes label propagation lp semi-supervised embedding semiemb manifold regularization manireg skip-gram based graph embeddings deep-walk the iterative classification algorithm ica and planetoid we also directly compare our model against gcns as well as graph convolutional models utilising higher-order chebyshev filters and the monet model presented in inductive learning for the inductive learning task we compare against the four different supervised graphsage inductive methods presented in these provide a variety of approaches to aggregating features within a sampled neighborhood graphsage-gcn which",
+          "current": "extends a graph convolution-style operation to the inductive setting graphsage-mean taking the elementwise mean value of feature vectors graphsage-lstm aggregating by feeding the neighborhood features into an lstm and graphsage-pool taking the elementwise maximization operation of feature vectors transformed by a shared nonlinear multilayer perceptron the other transductive approaches are either completely inappropriate in an inductive setting or assume that nodes are incrementally added to a single graph making them unusable for the setup where test graphs are completely unseen",
+          "next": "during training such as the ppi dataset additionally for both tasks we provide the performance of a per-node shared multilayer perceptron mlp classifier that does not incorporate graph structure at all transductive learning for the transductive learning tasks we apply a two-layer gat model its architectural hyperparameters have been optimized on the cora dataset and are then reused for citeseer the first layer consists of k 8 attention heads computing f 8 features each for a total of 64 features"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5135,
+        "downstream_relevance_score": 0.5035,
+        "components": {
+          "bio_boundary_score": 0.756,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3898,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "multilayer perceptron",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "multilayer perceptron",
+        "display_term": "MLP",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Multilayer_perceptron",
+        "wikidata_id": "Q2991667",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 8,
+        "total_frequency": 22,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "multilayer",
+          "perceptron"
+        ],
+        "normalization": "multilayer perceptron",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.3898,
+        "canonicalization": {
+          "observed": "multilayer perceptron",
+          "canonical": "multilayer perceptron",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.756",
+        "structure model assigned role 'dataset' with score 0.45",
+        "section BoW matched canonical term 'multilayer perceptron' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5035"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "label propagation",
+        "canonical": "label propagation",
+        "normalized": "label propagation",
+        "tokens": [
+          "label",
+          "propagation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 37,
+        "sentence": "includes label propagation lp semi-supervised embedding semiemb manifold regularization manireg skip-gram based graph embeddings deep-walk the iterative classification algorithm ica and planetoid we also directly compare our model against gcns as well as graph convolutional models utilising higher-order chebyshev filters and the monet model presented in inductive learning for the inductive learning task we compare against the four different supervised graphsage inductive methods presented in these provide a variety of approaches to aggregating features within a sampled neighborhood graphsage-gcn which",
+        "context_window": {
+          "previous": "is 2372 each node has 50 features that are composed of positional gene sets motif gene sets and immunological signatures there are 121 labels for each node set from gene ontology collected from the molecular signatures database and a node can possess several labels simultaneously an overview of the interesting characteristics of the datasets is given in table state-of-the-art methods transductive learning for transductive learning tasks we compare against the same strong baselines and state-of-the-art approaches as specified in this",
+          "current": "includes label propagation lp semi-supervised embedding semiemb manifold regularization manireg skip-gram based graph embeddings deep-walk the iterative classification algorithm ica and planetoid we also directly compare our model against gcns as well as graph convolutional models utilising higher-order chebyshev filters and the monet model presented in inductive learning for the inductive learning task we compare against the four different supervised graphsage inductive methods presented in these provide a variety of approaches to aggregating features within a sampled neighborhood graphsage-gcn which",
+          "next": "extends a graph convolution-style operation to the inductive setting graphsage-mean taking the elementwise mean value of feature vectors graphsage-lstm aggregating by feeding the neighborhood features into an lstm and graphsage-pool taking the elementwise maximization operation of feature vectors transformed by a shared nonlinear multilayer perceptron the other transductive approaches are either completely inappropriate in an inductive setting or assume that nodes are incrementally added to a single graph making them unusable for the setup where test graphs are completely unseen"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5831,
+        "downstream_relevance_score": 0.4978,
+        "components": {
+          "bio_boundary_score": 0.5358,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "label",
+          "propagation"
+        ],
+        "normalization": "label propagation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "label propagation",
+          "canonical": "label propagation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5358",
+        "structure model assigned role 'comparison' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.4978"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "citeseer",
+        "canonical": "citeseer",
+        "normalized": "citeseer",
+        "tokens": [
+          "citeseer"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 34,
+        "sentence": "for only 20 nodes per class to be used for training-however honoring the transductive setup the training algorithm has access to all of the nodes feature vectors the predictive power of the trained models is evaluated on 1000 test nodes and we use 500 additional nodes for validation purposes the same ones as used by the cora dataset contains 2708 nodes 5429 edges 7 classes and 1433 features per node the citeseer dataset contains 3327 nodes 4732 edges 6 classes",
+        "context_window": {
+          "previous": "we have performed comparative evaluation of gat models against a wide variety of strong baselines and previous approaches on four established graph-based benchmark tasks transductive as datasets transductive learning we utilize three standard citation network benchmark datasets-cora citeseer and pubmed -and closely follow the transductive of in all of these datasets nodes correspond to documents and edges to undirected citations node features correspond to elements of a bag-of-words representation of a document each node has a class label we allow",
+          "current": "for only 20 nodes per class to be used for training-however honoring the transductive setup the training algorithm has access to all of the nodes feature vectors the predictive power of the trained models is evaluated on 1000 test nodes and we use 500 additional nodes for validation purposes the same ones as used by the cora dataset contains 2708 nodes 5429 edges 7 classes and 1433 features per node the citeseer dataset contains 3327 nodes 4732 edges 6 classes",
+          "next": "and 3703 features per node the pubmed dataset contains 19717 nodes 44338 edges 3 classes and 500 features per node inductive learning we make use of a protein-protein interaction ppi dataset that consists of graphs corresponding to different human tissues the dataset contains 20 graphs for training 2 for validation and 2 for testing critically testing graphs remain completely unobserved during training to construct the graphs we used the preprocessed data provided by the average number of nodes per graph"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "evaluated on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset evidence cue"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5775,
+        "downstream_relevance_score": 0.4909,
+        "components": {
+          "bio_boundary_score": 0.893,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "citeseer"
+        ],
+        "normalization": "citeseer",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "citeseer",
+          "canonical": "citeseer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.893",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched evaluated on, dataset, algorithm",
+        "downstream relevance score is 0.4909"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "transductive learning",
+        "canonical": "transductive learning",
+        "normalized": "transductive learning",
+        "tokens": [
+          "transductive",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 39,
+        "sentence": "during training such as the ppi dataset additionally for both tasks we provide the performance of a per-node shared multilayer perceptron mlp classifier that does not incorporate graph structure at all transductive learning for the transductive learning tasks we apply a two-layer gat model its architectural hyperparameters have been optimized on the cora dataset and are then reused for citeseer the first layer consists of k 8 attention heads computing f 8 features each for a total of 64 features",
+        "context_window": {
+          "previous": "extends a graph convolution-style operation to the inductive setting graphsage-mean taking the elementwise mean value of feature vectors graphsage-lstm aggregating by feeding the neighborhood features into an lstm and graphsage-pool taking the elementwise maximization operation of feature vectors transformed by a shared nonlinear multilayer perceptron the other transductive approaches are either completely inappropriate in an inductive setting or assume that nodes are incrementally added to a single graph making them unusable for the setup where test graphs are completely unseen",
+          "current": "during training such as the ppi dataset additionally for both tasks we provide the performance of a per-node shared multilayer perceptron mlp classifier that does not incorporate graph structure at all transductive learning for the transductive learning tasks we apply a two-layer gat model its architectural hyperparameters have been optimized on the cora dataset and are then reused for citeseer the first layer consists of k 8 attention heads computing f 8 features each for a total of 64 features",
+          "next": "followed by an exponential linear unit elu nonlinearity the second layer is used for classification a single attention head that computes c features where c is the number of classes followed by a softmax activation for coping with the small training set sizes regularization is liberally applied within the model during training we apply l 2 regularization with 0 0005 furthermore dropout with p 0 6 is applied to both layers inputs as well as to the normalized attention coefficients"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6055,
+        "downstream_relevance_score": 0.4705,
+        "components": {
+          "bio_boundary_score": 0.9881,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "transductive",
+          "learning"
+        ],
+        "normalization": "transductive learning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "transductive learning",
+          "canonical": "transductive learning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9881",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.4705"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "attention model",
+        "canonical": "attention model",
+        "normalized": "attention model",
+        "tokens": [
+          "attention",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 12,
+        "sentence": "results that highlight the potential of attention-based models when dealing with arbitrarily structured graphs it is worth noting that as and our work can also be reformulated as a particular instance of monet moreover our approach of sharing a neural network computation across edges is reminiscent of the formulation of relational networks and vain wherein relations between objects or agents are aggregated pair-wise by employing a shared mechanism similarly our proposed attention model can be connected to the works by",
+        "context_window": {
+          "previous": "several interesting properties the operation is efficient since it is parallelizable across nodeneighbor pairs it can be applied to graph nodes having different degrees by specifying arbitrary weights to the neighbors and the model is directly applicable to inductive learning problems including tasks where the model has to generalize to completely unseen graphs we validate the proposed approach on four challenging benchmarks cora citeseer and pubmed citation networks as well as an inductive protein-protein interaction dataset achieving or matching state-of-the-art",
+          "current": "results that highlight the potential of attention-based models when dealing with arbitrarily structured graphs it is worth noting that as and our work can also be reformulated as a particular instance of monet moreover our approach of sharing a neural network computation across edges is reminiscent of the formulation of relational networks and vain wherein relations between objects or agents are aggregated pair-wise by employing a shared mechanism similarly our proposed attention model can be connected to the works by",
+          "next": "and which use a neighborhood attention operation to compute attention coefficients between different objects in an environment other related approaches include locally linear embedding lle and memory networks lle selects a fixed number of neighbors around each data point and learns a weight coefficient for each neighbor to reconstruct each point as a weighted sum of its neighbors a second optimization step extracts the point s feature embedding memory networks also share some connections with our work in particular if"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6413,
+        "downstream_relevance_score": 0.4639,
+        "components": {
+          "bio_boundary_score": 0.797,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "model"
+        ],
+        "normalization": "attention model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "attention model",
+          "canonical": "attention model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.797",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4639"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "neighborhood",
+        "canonical": "neighborhood",
+        "normalized": "neighborhood",
+        "tokens": [
+          "neighborhood"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 28,
+        "sentence": "of the neighborhood while performing inference moreover this technique achieved some of its strongest results when an lstm -based neighborhood aggregator is used this assumes the existence of a consistent sequential node ordering across neighborhoods and the authors have rectified it by consistently feeding randomly-ordered sequences to the lstm our technique does not suffer from either of these issues-it works with the entirety of the neighborhood at the expense of a variable computational footprint which is still on-par with methods",
+        "context_window": {
+          "previous": "this has several desirable implications -the graph is not required to be undirected we may simply leave out computing ij if edge j i is not present -it makes our technique directly applicable to inductive learning-including tasks where the model is evaluated on graphs that are completely unseen during training the recently published inductive method of samples a fixed-size neighborhood of each node in order to keep its computational footprint consistent this does not allow it access to the entirety",
+          "current": "of the neighborhood while performing inference moreover this technique achieved some of its strongest results when an lstm -based neighborhood aggregator is used this assumes the existence of a consistent sequential node ordering across neighborhoods and the authors have rectified it by consistently feeding randomly-ordered sequences to the lstm our technique does not suffer from either of these issues-it works with the entirety of the neighborhood at the expense of a variable computational footprint which is still on-par with methods",
+          "next": "like the gcn and does not assume any ordering within it as mentioned in section 1 gat can be reformulated as a particular instance of monet more specifically setting the pseudo-coordinate function to be u x y f x f y where f x represent potentially mlp-transformed features of node x and is concatenation and the weight function to be w j u softmax mlp u with the softmax performed over the entire neighborhood of a node would make monet"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6824,
+        "downstream_relevance_score": 0.4624,
+        "components": {
+          "bio_boundary_score": 0.9161,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neighborhood"
+        ],
+        "normalization": "neighborhood",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "neighborhood",
+          "canonical": "neighborhood",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9161",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4624"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "graph laplacian",
+        "canonical": "graph laplacian",
+        "normalized": "graph laplacian",
+        "tokens": [
+          "graph",
+          "laplacian"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 5,
+        "sentence": "localized later proposed to approximate the filters by means of a chebyshev expansion of the graph laplacian removing the need to compute the eigenvectors of the laplacian and yielding spatially localized filters finally kipf welling simplified the previous",
+        "context_window": {
+          "previous": "as spectral approaches and non-spectral approaches on one hand spectral approaches work with a spectral representation of the graphs and have been successfully applied in the context of node classification in the convolution operation is defined in the fourier domain by computing the eigendecomposition of the graph laplacian resulting in potentially intense computations and non-spatially localized filters these issues were addressed by subsequent works introduced a parameterization of the spectral filters with smooth coefficients in order to make them spatially",
+          "current": "localized later proposed to approximate the filters by means of a chebyshev expansion of the graph laplacian removing the need to compute the eigenvectors of the laplacian and yielding spatially localized filters finally kipf welling simplified the previous",
+          "next": "by restricting the filters to operate in a 1-step neighborhood around each node however in all of the aforementioned spectral approaches the learned filters depend on the laplacian eigenbasis which depends on the graph structure thus a model trained on a specific structure can not be directly applied to a graph with a different structure on the other hand we have non-spectral approaches which define convolutions directly on the graph operating on groups of spatially close neighbors one of the"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.6685
+      },
+      "evidence": {
+        "score": 0.229,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5448,
+        "downstream_relevance_score": 0.3888,
+        "components": {
+          "bio_boundary_score": 0.6854,
+          "sentence_evidence_score": 0.229,
+          "sentence_role_score": 0.6685,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "graph",
+          "laplacian"
+        ],
+        "normalization": "graph laplacian",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "graph laplacian",
+          "canonical": "graph laplacian",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6854",
+        "structure model assigned role 'gap' with score 0.6685",
+        "downstream relevance score is 0.3888"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "regularization",
+        "canonical": "regularization",
+        "normalized": "regularization",
+        "tokens": [
+          "regularization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 41,
+        "sentence": "critically this means that at each training iteration each node is exposed to a stochastically sampled neighborhood similarly as observed by we found that pubmed s training set size 60 examples required slight changes to the gat architecture we have applied k 8 output attention heads instead of one and strengthened the l 2 regularization to 0 001 otherwise the architecture matches the one used for cora and citeseer inductive learning for the inductive learning task we apply a three-layer",
+        "context_window": {
+          "previous": "followed by an exponential linear unit elu nonlinearity the second layer is used for classification a single attention head that computes c features where c is the number of classes followed by a softmax activation for coping with the small training set sizes regularization is liberally applied within the model during training we apply l 2 regularization with 0 0005 furthermore dropout with p 0 6 is applied to both layers inputs as well as to the normalized attention coefficients",
+          "current": "critically this means that at each training iteration each node is exposed to a stochastically sampled neighborhood similarly as observed by we found that pubmed s training set size 60 examples required slight changes to the gat architecture we have applied k 8 output attention heads instead of one and strengthened the l 2 regularization to 0 001 otherwise the architecture matches the one used for cora and citeseer inductive learning for the inductive learning task we apply a three-layer",
+          "next": "gat model both of the first two layers consist of k 4 attention heads computing f 256 features for a total of 1024 features followed by an elu nonlinearity the final layer is used for multi-label classification k 6 attention heads computing 121 features each that are averaged and followed by a logistic sigmoid activation the training sets for this task are sufficiently large and we found no need to apply l 2 regularization or dropout-we have however successfully employed"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4706,
+        "downstream_relevance_score": 0.3553,
+        "components": {
+          "bio_boundary_score": 0.5283,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "regularization"
+        ],
+        "normalization": "regularization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "regularization",
+          "canonical": "regularization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5283",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.3553"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "graph classification",
+        "canonical": "graph classification",
+        "normalized": "graph classification",
+        "tokens": [
+          "graph",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 54,
+        "sentence": "of the attention mechanism to perform a thorough analysis on the model interpretability moreover extending the method to perform graph classification instead of node classification would also be relevant from the application perspective finally extending the model to incorporate edge features possibly indicating relationship among nodes would allow us to tackle a larger variety of problems",
+        "context_window": {
+          "previous": "issues with previous spectral-based approaches our models leveraging attention have successfully achieved or matched state-of-the-art performance across four well-established node classification benchmarks both transductive and inductive especially with completely unseen graphs used for testing there are several potential improvements and extensions to graph attention networks that could be addressed as future work such as overcoming the practical problems described in subsection 2 2 to be able to handle larger batch sizes a particularly interesting research direction would be taking advantage",
+          "current": "of the attention mechanism to perform a thorough analysis on the model interpretability moreover extending the method to perform graph classification instead of node classification would also be relevant from the application perspective finally extending the model to incorporate edge features possibly indicating relationship among nodes would allow us to tackle a larger variety of problems",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5345,
+        "downstream_relevance_score": 0.3508,
+        "components": {
+          "bio_boundary_score": 0.7868,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "graph",
+          "classification"
+        ],
+        "normalization": "graph classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "graph classification",
+          "canonical": "graph classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7868",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3508"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "node classification",
+        "canonical": "node classification",
+        "normalized": "node classification",
+        "tokens": [
+          "node",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 54,
+        "sentence": "of the attention mechanism to perform a thorough analysis on the model interpretability moreover extending the method to perform graph classification instead of node classification would also be relevant from the application perspective finally extending the model to incorporate edge features possibly indicating relationship among nodes would allow us to tackle a larger variety of problems",
+        "context_window": {
+          "previous": "issues with previous spectral-based approaches our models leveraging attention have successfully achieved or matched state-of-the-art performance across four well-established node classification benchmarks both transductive and inductive especially with completely unseen graphs used for testing there are several potential improvements and extensions to graph attention networks that could be addressed as future work such as overcoming the practical problems described in subsection 2 2 to be able to handle larger batch sizes a particularly interesting research direction would be taking advantage",
+          "current": "of the attention mechanism to perform a thorough analysis on the model interpretability moreover extending the method to perform graph classification instead of node classification would also be relevant from the application perspective finally extending the model to incorporate edge features possibly indicating relationship among nodes would allow us to tackle a larger variety of problems",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5197,
+        "downstream_relevance_score": 0.3431,
+        "components": {
+          "bio_boundary_score": 0.7361,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "node",
+          "classification"
+        ],
+        "normalization": "node classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "node classification",
+          "canonical": "node classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7361",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3431"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "elu",
+        "canonical": "elu",
+        "normalized": "elu",
+        "tokens": [
+          "elu"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 40,
+        "sentence": "followed by an exponential linear unit elu nonlinearity the second layer is used for classification a single attention head that computes c features where c is the number of classes followed by a softmax activation for coping with the small training set sizes regularization is liberally applied within the model during training we apply l 2 regularization with 0 0005 furthermore dropout with p 0 6 is applied to both layers inputs as well as to the normalized attention coefficients",
+        "context_window": {
+          "previous": "during training such as the ppi dataset additionally for both tasks we provide the performance of a per-node shared multilayer perceptron mlp classifier that does not incorporate graph structure at all transductive learning for the transductive learning tasks we apply a two-layer gat model its architectural hyperparameters have been optimized on the cora dataset and are then reused for citeseer the first layer consists of k 8 attention heads computing f 8 features each for a total of 64 features",
+          "current": "followed by an exponential linear unit elu nonlinearity the second layer is used for classification a single attention head that computes c features where c is the number of classes followed by a softmax activation for coping with the small training set sizes regularization is liberally applied within the model during training we apply l 2 regularization with 0 0005 furthermore dropout with p 0 6 is applied to both layers inputs as well as to the normalized attention coefficients",
+          "next": "critically this means that at each training iteration each node is exposed to a stochastically sampled neighborhood similarly as observed by we found that pubmed s training set size 60 examples required slight changes to the gat architecture we have applied k 8 output attention heads instead of one and strengthened the l 2 regularization to 0 001 otherwise the architecture matches the one used for cora and citeseer inductive learning for the inductive learning task we apply a three-layer"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4936,
+        "downstream_relevance_score": 0.3323,
+        "components": {
+          "bio_boundary_score": 0.6066,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "elu"
+        ],
+        "normalization": "elu",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "elu",
+          "canonical": "elu",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6066",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.3323"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 47,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the transductive tasks, we report the mean classification accuracy (with standard deviation) on the test nodes of our method after 100 runs, and reuse the metrics already reported in and for state-of-the-art techniques.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Our results successfully demonstrate state-of-the-art performance being achieved or matched across all four datasets-in concordance with our expectations, as per the discussion in Section 2.2.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "There are several potential improvements and extensions to graph attention networks that could be addressed as future work, such as overcoming the practical problems described in subsection 2.2 to be able to handle larger batch sizes.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "In this section, we will present the building block layer used to construct arbitrary graph attention networks (through stacking this layer), and directly outline its theoretical and practical benefits and limitations compared to prior work in the domain of neural graph processing.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "This includes label propagation (LP) , semi-supervised embedding (SemiEmb) , manifold regularization (ManiReg) , skip-gram based graph embeddings (Deep-Walk) , the iterative classification algorithm (ICA) and Planetoid .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We have performed comparative evaluation of GAT models against a wide variety of strong baselines and previous approaches, on four established graph-based benchmark tasks (transductive as Transductive learning We utilize three standard citation network benchmark datasets-Cora, Citeseer and Pubmed -and closely follow the transductive experimental setup of .",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The predictive power of the trained models is evaluated on 1000 test nodes, and we use 500 additional nodes for validation purposes (the same ones as used by ).",
+        "evidence_type": "dataset",
+        "matched_cue": "evaluated on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The Cora dataset contains 2708 nodes, 5429 edges, 7 classes and 1433 features per node.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The Citeseer dataset contains 3327 nodes, 4732 edges, 6 classes and 3703 features per node.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The Pubmed dataset contains 19717 nodes, 44338 edges, 3 classes and 500 features per node.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Inductive learning We make use of a protein-protein interaction (PPI) dataset that consists of graphs corresponding to different human tissues .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The dataset contains 20 graphs for training, 2 for validation and 2 for testing.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Its architectural hyperparameters have been optimized on the Cora dataset and are then reused for Citeseer.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In both cases we use an early stopping strategy on both the cross-entropy loss and accuracy (transductive) or micro-F 1 (inductive) score on the validation nodes, with a patience of 100 epochs .",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the transductive tasks, we report the mean classification accuracy (with standard deviation) on the test nodes of our method after 100 runs, and reuse the metrics already reported in and for state-of-the-art techniques.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "It is worth noting the improvements achieved on the PPI dataset: Our GAT model improves by 20.5% w.r.t. the best GraphSAGE result we were able to obtain, demonstrating that our model has the potential to be applied in inductive settings, and that larger predictive power can be leveraged by observing the entire neighborhood.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The effectiveness of the learned feature representations may also be investigated qualitatively-and for this purpose we provide a visualization of the t-SNE (Maaten & Hinton, 2008)-transformed feature representations extracted by the first layer of a GAT model pre-trained on the Cora dataset (Figure ).",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Note that these clusters correspond to the seven labels of the dataset, verifying the model's discriminative power across the seven topic classes of Cora.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Properly interpreting these coefficients (as performed by e.g. ) will require further domain knowledge about the dataset under study, and is left for future work.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We present graph attention networks (GATs), novel neural network architectures that operate on graph-structured data, leveraging masked self-attentional layers to address the shortcomings of prior methods based on graph convolutions or their approximations.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our GAT models have achieved or matched state-of-theart results across four established transductive and inductive graph benchmarks: the Cora, Citeseer and Pubmed citation network datasets, as well as a proteinprotein interaction dataset (wherein test graphs remain unseen during training).",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This idea was adopted and improved by , which propose to use gated recurrent units in the propagation step.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Thus, a model trained on a specific structure can not be directly applied to a graph with a different structure.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "However, showed that not only self-attention can improve a method based on RNNs or convolutions, but also that it is sufficient for constructing a powerful model obtaining state-of-the-art performance on the machine translation task.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Inspired by this recent work, we introduce an attention-based architecture to perform node classification of graph-structured data.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "machine translation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.8249
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "attention",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.7365
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "graph convolutional network",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.7101
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "attention",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.704
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "attention architecture",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6718
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "Recurrent neural network",
+        "section": "method",
+        "role": "component",
+        "score": 0.6538
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "Convolutional neural network",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6469
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "gat model",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5751
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "sparse matrix multiplication",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5733
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "receptive field",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5522
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "graph attentional layer",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.545
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "classification",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5412
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "graph structure",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5402
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "linear combination",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5271
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "graph attention network",
+        "section": "conclusion",
+        "role": "component",
+        "score": 0.526
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "inductive learning",
+        "section": "experiment",
+        "role": "comparison",
+        "score": 0.5226
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "multilayer perceptron",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5035
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "label propagation",
+        "section": "experiment",
+        "role": "comparison",
+        "score": 0.4978
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "citeseer",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4909
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "transductive learning",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4705
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "attention model",
+        "section": "method",
+        "role": "component",
+        "score": 0.4639
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "neighborhood",
+        "section": "method",
+        "role": "gap",
+        "score": 0.4624
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "graph laplacian",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.3888
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "regularization",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3553
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "graph classification",
+        "section": "conclusion",
+        "role": "component",
+        "score": 0.3508
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "node classification",
+        "section": "conclusion",
+        "role": "component",
+        "score": 0.3431
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "elu",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3323
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_005",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_018",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_025",
+        "target": "ecu_026",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_019",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_025",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

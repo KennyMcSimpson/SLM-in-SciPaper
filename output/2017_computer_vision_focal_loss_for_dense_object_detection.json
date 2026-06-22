@@ -1,0 +1,3106 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2017_computer_vision_focal_loss_for_dense_object_detection",
+    "title": "2017_computer_vision_focal_loss_for_dense_object_detection",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2017_computer_vision_focal_loss_for_dense_object_detection.txt",
+    "sentence_count": 65,
+    "section_counts": {
+      "intro": 5,
+      "related_work": 3,
+      "method": 4,
+      "experiment": 53
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5033,
+    "type_count": 1120,
+    "type_token_ratio": 0.2225,
+    "section_token_counts": {
+      "intro": 260,
+      "related_work": 288,
+      "method": 304,
+      "experiment": 4181,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "loss",
+        "count": 100
+      },
+      {
+        "term": "ap",
+        "count": 39
+      },
+      {
+        "term": "focal",
+        "count": 37
+      },
+      {
+        "term": "object",
+        "count": 35
+      },
+      {
+        "term": "detectors",
+        "count": 33
+      },
+      {
+        "term": "examples",
+        "count": 32
+      },
+      {
+        "term": "training",
+        "count": 31
+      },
+      {
+        "term": "ohem",
+        "count": 24
+      },
+      {
+        "term": "use",
+        "count": 23
+      },
+      {
+        "term": "one-stage",
+        "count": 20
+      },
+      {
+        "term": "class",
+        "count": 20
+      },
+      {
+        "term": "all",
+        "count": 20
+      },
+      {
+        "term": "anchors",
+        "count": 20
+      },
+      {
+        "term": "results",
+        "count": 19
+      },
+      {
+        "term": "each",
+        "count": 19
+      },
+      {
+        "term": "retinanet",
+        "count": 18
+      },
+      {
+        "term": "50",
+        "count": 18
+      },
+      {
+        "term": "hard",
+        "count": 17
+      },
+      {
+        "term": "easy",
+        "count": 17
+      },
+      {
+        "term": "two-stage",
+        "count": 17
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "focal loss",
+        "count": 37
+      },
+      {
+        "term": "class imbalance",
+        "count": 12
+      },
+      {
+        "term": "two-stage detectors",
+        "count": 10
+      },
+      {
+        "term": "during training",
+        "count": 10
+      },
+      {
+        "term": "cross entropy",
+        "count": 9
+      },
+      {
+        "term": "classification subnet",
+        "count": 9
+      },
+      {
+        "term": "easy examples",
+        "count": 8
+      },
+      {
+        "term": "ce loss",
+        "count": 8
+      },
+      {
+        "term": "box regression",
+        "count": 8
+      },
+      {
+        "term": "object detection",
+        "count": 7
+      },
+      {
+        "term": "object locations",
+        "count": 7
+      },
+      {
+        "term": "easy negatives",
+        "count": 7
+      },
+      {
+        "term": "see figure",
+        "count": 7
+      },
+      {
+        "term": "ap ap",
+        "count": 7
+      },
+      {
+        "term": "proposed focal",
+        "count": 6
+      },
+      {
+        "term": "one-stage detectors",
+        "count": 6
+      },
+      {
+        "term": "hard examples",
+        "count": 6
+      },
+      {
+        "term": "hard example",
+        "count": 6
+      },
+      {
+        "term": "example mining",
+        "count": 6
+      },
+      {
+        "term": "object detectors",
+        "count": 5
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "proposed focal loss",
+        "count": 6
+      },
+      {
+        "term": "hard example mining",
+        "count": 6
+      },
+      {
+        "term": "box regression subnet",
+        "count": 5
+      },
+      {
+        "term": "ap ap 50",
+        "count": 5
+      },
+      {
+        "term": "ap 50 ap",
+        "count": 5
+      },
+      {
+        "term": "50 ap 75",
+        "count": 5
+      },
+      {
+        "term": "candidate object locations",
+        "count": 4
+      },
+      {
+        "term": "cross entropy loss",
+        "count": 4
+      },
+      {
+        "term": "example mining ohem",
+        "count": 4
+      },
+      {
+        "term": "31 49 33",
+        "count": 4
+      },
+      {
+        "term": "standard cross entropy",
+        "count": 3
+      },
+      {
+        "term": "sparse set candidate",
+        "count": 3
+      },
+      {
+        "term": "set candidate object",
+        "count": 3
+      },
+      {
+        "term": "training dense detectors",
+        "count": 3
+      },
+      {
+        "term": "scales aspect ratios",
+        "count": 3
+      },
+      {
+        "term": "online hard example",
+        "count": 3
+      },
+      {
+        "term": "large class imbalance",
+        "count": 3
+      },
+      {
+        "term": "-balanced ce loss",
+        "count": 3
+      },
+      {
+        "term": "focal loss fl",
+        "count": 3
+      },
+      {
+        "term": "each anchor assigned",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 9,
+    "nonzero_tfidf_features": 9,
+    "top_tfidf_features": [
+      {
+        "feature_name": "experiments__ohem",
+        "section": "experiment",
+        "term": "ohem",
+        "frequency": 12.0,
+        "tfidf": 1.0827
+      },
+      {
+        "feature_name": "introduction__YOLO",
+        "section": "intro",
+        "term": "YOLO",
+        "frequency": 1.0,
+        "tfidf": 0.6308
+      },
+      {
+        "feature_name": "related_work__convolutional neural networks",
+        "section": "related_work",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.6294
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.6087
+      },
+      {
+        "feature_name": "related_work__deep learning",
+        "section": "related_work",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.5495
+      },
+      {
+        "feature_name": "related_work__object detection",
+        "section": "related_work",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.5495
+      },
+      {
+        "feature_name": "introduction__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.4813
+      },
+      {
+        "feature_name": "experiments__ResNet",
+        "section": "experiment",
+        "term": "ResNet",
+        "frequency": 1.0,
+        "tfidf": 0.0629
+      },
+      {
+        "feature_name": "experiments__attention",
+        "section": "experiment",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.0541
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__YOLO",
+          "section": "intro",
+          "term": "YOLO",
+          "frequency": 1.0,
+          "tfidf": 0.6308
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.6087
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.4813
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.6294
+        },
+        {
+          "feature_name": "related_work__deep learning",
+          "section": "related_work",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.5495
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.5495
+        }
+      ],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__ohem",
+          "section": "experiment",
+          "term": "ohem",
+          "frequency": 12.0,
+          "tfidf": 1.0827
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.0629
+        },
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.0541
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 5,
+      "token_count": 260,
+      "bow_hit_count": 5,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 5,
+          "section_prior": 0.5495,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__YOLO",
+          "section": "intro",
+          "term": "YOLO",
+          "frequency": 1.0,
+          "tfidf": 0.6308
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.6087
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.4813
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 3,
+      "token_count": 288,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.1344,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "You Only Look Once",
+          "count": 3,
+          "section_prior": 0.0189,
+          "confidence_score": 0.85,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.6294
+        },
+        {
+          "feature_name": "related_work__deep learning",
+          "section": "related_work",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.5495
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.5495
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 4,
+      "token_count": 304,
+      "bow_hit_count": 6,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 5,
+          "section_prior": 0.036,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Online Hard Example Mining",
+          "count": 1,
+          "section_prior": 0.05,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 53,
+      "token_count": 4181,
+      "bow_hit_count": 76,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 18,
+          "section_prior": 0.1622,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 10,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Online Hard Example Mining",
+          "count": 9,
+          "section_prior": 0.8,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 5,
+          "section_prior": 0.0574,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.1197,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 5,
+          "section_prior": 0.44,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 4,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.0928,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "You Only Look Once",
+          "count": 3,
+          "section_prior": 0.2642,
+          "confidence_score": 0.85,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "heuristic",
+          "count": 3,
+          "section_prior": 0.48,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__ohem",
+          "section": "experiment",
+          "term": "ohem",
+          "frequency": 12.0,
+          "tfidf": 1.0827
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.0629
+        },
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.0541
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "ohem",
+        "canonical": "Online Hard Example Mining",
+        "normalized": "online hard example mining",
+        "tokens": [
+          "ohem"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "Online Hard Example Mining",
+          "online hard example mining",
+          "ohem"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 63,
+        "sentence": "ohem no 1 3 ratio batch size 128 nms of 5 achieves 32 8 ap this is a gap of 3 2 ap showing fl is more effective than ohem for training dense detectors we note that we tried other parameter setting and variants for ohem but did not achieve better results hinge loss finally in early we attempted to train with the hinge loss on p t which sets loss to 0 above a certain value of p t",
+        "context_window": {
+          "previous": "to enforce a 1 3 ratio between positives and negatives to help ensure each minibatch has enough positives we test both ohem variants in our setting of one-stage detection which has large class imbalance results for the original ohem strategy and the ohem 1 3 strategy for selected batch sizes and nms thresholds are shown in table 1d these results use resnet-101 our baseline trained with fl achieves 36 0 ap for this setting in contrast the best setting for",
+          "current": "ohem no 1 3 ratio batch size 128 nms of 5 achieves 32 8 ap this is a gap of 3 2 ap showing fl is more effective than ohem for training dense detectors we note that we tried other parameter setting and variants for ohem but did not achieve better results hinge loss finally in early we attempted to train with the hinge loss on p t which sets loss to 0 above a certain value of p t",
+          "next": "however this was unstable and we did not manage to obtain meaningful results results exploring alternate loss functions are in the"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7974,
+        "downstream_relevance_score": 0.8864,
+        "components": {
+          "bio_boundary_score": 0.9433,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.8,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "ohem",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "Online Hard Example Mining",
+        "display_term": "ohem",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "other",
+        "wiki_url": "nan",
+        "wikidata_id": "Q133567640",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 2,
+        "total_frequency": 15,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__ohem",
+        "section": "experiment",
+        "term": "ohem",
+        "frequency": 12.0,
+        "tfidf": 1.0827,
+        "normalized_frequency": 1.0,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ohem"
+        ],
+        "normalization": "ohem",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.8,
+        "canonicalization": {
+          "observed": "ohem",
+          "canonical": "Online Hard Example Mining",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9433",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Online Hard Example Mining' with confidence 0.85",
+        "BoW role prior suggests 'other'",
+        "document-term matrix links the phrase to feature 'experiments__ohem' with tf-idf 1.0827",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.8864"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "convolutional neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "convolutional",
+          "neural",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 7,
+        "sentence": "current state-of-the-art object detectors are based on a two-stage proposal-driven mechanism as popularized in the r-cnn framework the first stage generates a sparse set of candidate object locations and the second stage classifies each candidate location as one of the foreground classes or as background using a convolutional neural network through a sequence of advances this two-stage framework consistently achieves top accuracy on the challenging coco benchmark despite the success of two-stage detectors a natural question to ask is could a simple one-stage detector achieve similar accuracy one stage detectors are applied over a regular dense sampling of object locations scales and aspect ratios recent work on one-stage detectors such as yolo and ssd demonstrates promising results yielding faster detectors with accuracy within 10-40 relative to state-of-the-art two-stage",
+        "context_window": {
+          "previous": "improved variant not shown achieves 40 8 ap details are given in 5",
+          "current": "current state-of-the-art object detectors are based on a two-stage proposal-driven mechanism as popularized in the r-cnn framework the first stage generates a sparse set of candidate object locations and the second stage classifies each candidate location as one of the foreground classes or as background using a convolutional neural network through a sequence of advances this two-stage framework consistently achieves top accuracy on the challenging coco benchmark despite the success of two-stage detectors a natural question to ask is could a simple one-stage detector achieve similar accuracy one stage detectors are applied over a regular dense sampling of object locations scales and aspect ratios recent work on one-stage detectors such as yolo and ssd demonstrates promising results yielding faster detectors with accuracy within 10-40 relative to state-of-the-art two-stage",
+          "next": "this paper pushes the envelop further we present a onestage object detector that for the first time matches the state-of-the-art coco ap of more complex two-stage de-tectors such as the feature pyramid network fpn or mask r-cnn variants of faster r-cnn to achieve this result we identify class imbalance during training as the main obstacle impeding one-stage detector from achieving state-of-the-art accuracy and propose a new loss function that eliminates this barrier class imbalance is addressed in r-cnn-like detectors by"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5828,
+        "downstream_relevance_score": 0.7276,
+        "components": {
+          "bio_boundary_score": 0.6427,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1344,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 12,
+        "total_frequency": 24,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "neural",
+          "network"
+        ],
+        "normalization": "convolutional neural network",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.1344,
+        "canonicalization": {
+          "observed": "convolutional neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6427",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched state-of-the-art, benchmark, framework",
+        "downstream relevance score is 0.7276"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "object detector",
+        "canonical": "object detector",
+        "normalized": "object detector",
+        "tokens": [
+          "object",
+          "detector"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 17,
+        "sentence": "to this framework have been proposed e g one-stage detectors overfeat was one of the first modern one-stage object detector based on deep networks more recently ssd and yolo have renewed interest in one-stage methods these detectors have been tuned for speed but their accuracy trails that of twostage methods ssd has a 10-20 lower ap while yolo focuses on an even more extreme speed accuracy trade-off see figure recent work showed that two-stage detectors can be made fast simply",
+        "context_window": {
+          "previous": "out the majority of negative locations and the second stage classifies the proposals into foreground classes background r-cnn upgraded the second-stage classifier to a convolutional network yielding large gains in accuracy and ushering in the modern era of object detection r-cnn was improved over the years both in terms of speed and by using learned object proposals region proposal networks rpn integrated proposal generation with the second-stage classifier into a single convolution network forming the faster r-cnn framework numerous extensions",
+          "current": "to this framework have been proposed e g one-stage detectors overfeat was one of the first modern one-stage object detector based on deep networks more recently ssd and yolo have renewed interest in one-stage methods these detectors have been tuned for speed but their accuracy trails that of twostage methods ssd has a 10-20 lower ap while yolo focuses on an even more extreme speed accuracy trade-off see figure recent work showed that two-stage detectors can be made fast simply",
+          "next": "by reducing input image resolution and the number of proposals but one-stage methods trailed in accuracy even with a larger compute budget in contrast the aim of this work is to understand if one-stage detectors can match or surpass the accuracy of two-stage detectors while running at similar or faster speeds the design of our retinanet detector shares many similarities with previous dense detectors in particular the concept of anchors introduced by rpn and use of features pyramids as in"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6804,
+        "downstream_relevance_score": 0.6256,
+        "components": {
+          "bio_boundary_score": 0.8717,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "object",
+          "detector"
+        ],
+        "normalization": "object detector",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "object detector",
+          "canonical": "object detector",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8717",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy, framework",
+        "downstream relevance score is 0.6256"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "class",
+        "canonical": "class",
+        "normalized": "class",
+        "tokens": [
+          "class"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "this paper pushes the envelop further we present a onestage object detector that for the first time matches the state-of-the-art coco ap of more complex two-stage de-tectors such as the feature pyramid network fpn or mask r-cnn variants of faster r-cnn to achieve this result we identify class imbalance during training as the main obstacle impeding one-stage detector from achieving state-of-the-art accuracy and propose a new loss function that eliminates this barrier class imbalance is addressed in r-cnn-like detectors by",
+        "context_window": {
+          "previous": "current state-of-the-art object detectors are based on a two-stage proposal-driven mechanism as popularized in the r-cnn framework the first stage generates a sparse set of candidate object locations and the second stage classifies each candidate location as one of the foreground classes or as background using a convolutional neural network through a sequence of advances this two-stage framework consistently achieves top accuracy on the challenging coco benchmark despite the success of two-stage detectors a natural question to ask is could a simple one-stage detector achieve similar accuracy one stage detectors are applied over a regular dense sampling of object locations scales and aspect ratios recent work on one-stage detectors such as yolo and ssd demonstrates promising results yielding faster detectors with accuracy within 10-40 relative to state-of-the-art two-stage",
+          "current": "this paper pushes the envelop further we present a onestage object detector that for the first time matches the state-of-the-art coco ap of more complex two-stage de-tectors such as the feature pyramid network fpn or mask r-cnn variants of faster r-cnn to achieve this result we identify class imbalance during training as the main obstacle impeding one-stage detector from achieving state-of-the-art accuracy and propose a new loss function that eliminates this barrier class imbalance is addressed in r-cnn-like detectors by",
+          "next": "a two-stage cascade and sampling heuristics the proposal stage e g selective search edgeboxes deepmask rpn rapidly narrows down the number of candidate object locations to a small number e g 1-2k filtering out most background samples in the second classification stage sampling heuristics such as a fixed foreground-to-background ratio 1 3 or online hard example mining ohem are performed to maintain a manageable balance between foreground and background in contrast a one-stage detector must process a much larger set"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6684,
+        "downstream_relevance_score": 0.625,
+        "components": {
+          "bio_boundary_score": 0.5236,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "class"
+        ],
+        "normalization": "class",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "class",
+          "canonical": "class",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5236",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose, present, state-of-the-art",
+        "downstream relevance score is 0.625"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "minival",
+        "canonical": "minival",
+        "normalized": "minival",
+        "tokens": [
+          "minival"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 52,
+        "sentence": "ranges between 10 and 35 hours for the models in table we present experimental results on the bounding box detection track of the challenging coco benchmark for training we follow common practice and use the coco trainval35k split union of 80k images from train and a random 35k subset of images from the 40k image val split we report lesion and sensitivity studies by evaluating on the minival split the remaining 5k images from val for our main results we",
+        "context_window": {
+          "previous": "unless otherwise specified all models are trained for 90k iterations with an initial learning rate of 0 01 which is then divided by 10 at 60k and again at 80k iterations we use horizontal image flipping as the only form of data augmentation unless otherwise noted weight decay of 0 0001 and momentum of 0 9 are used the training loss is the sum the focal loss and the standard smooth l 1 loss used for box regression training time",
+          "current": "ranges between 10 and 35 hours for the models in table we present experimental results on the bounding box detection track of the challenging coco benchmark for training we follow common practice and use the coco trainval35k split union of 80k images from train and a random 35k subset of images from the 40k image val split we report lesion and sensitivity studies by evaluating on the minival split the remaining 5k images from val for our main results we",
+          "next": "report coco ap on the test-dev split which has no public labels and requires use of the server training dense detection we run numerous experiments to analyze the behavior of the loss function for dense detection along with various optimization strategies for all experiments we use depth 50 or 101 resnets with a feature pyramid network fpn constructed on top for all we use an image scale of 600 pixels for training and testing network initialization our first attempt to"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6539,
+        "downstream_relevance_score": 0.6074,
+        "components": {
+          "bio_boundary_score": 0.6257,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "minival"
+        ],
+        "normalization": "minival",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "minival",
+          "canonical": "minival",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6257",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched benchmark, present",
+        "downstream relevance score is 0.6074"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "rpn",
+        "canonical": "rpn",
+        "normalized": "rpn",
+        "tokens": [
+          "rpn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 18,
+        "sentence": "by reducing input image resolution and the number of proposals but one-stage methods trailed in accuracy even with a larger compute budget in contrast the aim of this work is to understand if one-stage detectors can match or surpass the accuracy of two-stage detectors while running at similar or faster speeds the design of our retinanet detector shares many similarities with previous dense detectors in particular the concept of anchors introduced by rpn and use of features pyramids as in",
+        "context_window": {
+          "previous": "to this framework have been proposed e g one-stage detectors overfeat was one of the first modern one-stage object detector based on deep networks more recently ssd and yolo have renewed interest in one-stage methods these detectors have been tuned for speed but their accuracy trails that of twostage methods ssd has a 10-20 lower ap while yolo focuses on an even more extreme speed accuracy trade-off see figure recent work showed that two-stage detectors can be made fast simply",
+          "current": "by reducing input image resolution and the number of proposals but one-stage methods trailed in accuracy even with a larger compute budget in contrast the aim of this work is to understand if one-stage detectors can match or surpass the accuracy of two-stage detectors while running at similar or faster speeds the design of our retinanet detector shares many similarities with previous dense detectors in particular the concept of anchors introduced by rpn and use of features pyramids as in",
+          "next": "ssd and fpn we emphasize that our simple detector achieves top results not based on innovations in network design but due to our novel loss class imbalance both classic one-stage object detection methods like boosted detectors and dpms and more recent methods like ssd face a large class imbalance during training these detectors evaluate 10 4 -10 5 candidate locations per image but only a few locations contain objects this imbalance causes two problems training is inefficient as most locations"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6588,
+        "downstream_relevance_score": 0.6044,
+        "components": {
+          "bio_boundary_score": 0.7159,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "rpn"
+        ],
+        "normalization": "rpn",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "rpn",
+          "canonical": "rpn",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7159",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy, design",
+        "downstream relevance score is 0.6044"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "retinanet",
+        "canonical": "retinanet",
+        "normalized": "retinanet",
+        "tokens": [
+          "retinanet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 18,
+        "sentence": "by reducing input image resolution and the number of proposals but one-stage methods trailed in accuracy even with a larger compute budget in contrast the aim of this work is to understand if one-stage detectors can match or surpass the accuracy of two-stage detectors while running at similar or faster speeds the design of our retinanet detector shares many similarities with previous dense detectors in particular the concept of anchors introduced by rpn and use of features pyramids as in",
+        "context_window": {
+          "previous": "to this framework have been proposed e g one-stage detectors overfeat was one of the first modern one-stage object detector based on deep networks more recently ssd and yolo have renewed interest in one-stage methods these detectors have been tuned for speed but their accuracy trails that of twostage methods ssd has a 10-20 lower ap while yolo focuses on an even more extreme speed accuracy trade-off see figure recent work showed that two-stage detectors can be made fast simply",
+          "current": "by reducing input image resolution and the number of proposals but one-stage methods trailed in accuracy even with a larger compute budget in contrast the aim of this work is to understand if one-stage detectors can match or surpass the accuracy of two-stage detectors while running at similar or faster speeds the design of our retinanet detector shares many similarities with previous dense detectors in particular the concept of anchors introduced by rpn and use of features pyramids as in",
+          "next": "ssd and fpn we emphasize that our simple detector achieves top results not based on innovations in network design but due to our novel loss class imbalance both classic one-stage object detection methods like boosted detectors and dpms and more recent methods like ssd face a large class imbalance during training these detectors evaluate 10 4 -10 5 candidate locations per image but only a few locations contain objects this imbalance causes two problems training is inefficient as most locations"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6289,
+        "downstream_relevance_score": 0.5888,
+        "components": {
+          "bio_boundary_score": 0.6137,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "retinanet"
+        ],
+        "normalization": "retinanet",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "retinanet",
+          "canonical": "retinanet",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6137",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy, design",
+        "downstream relevance score is 0.5888"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "class imbalance",
+        "canonical": "class imbalance",
+        "normalized": "class imbalance",
+        "tokens": [
+          "class",
+          "imbalance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 19,
+        "sentence": "ssd and fpn we emphasize that our simple detector achieves top results not based on innovations in network design but due to our novel loss class imbalance both classic one-stage object detection methods like boosted detectors and dpms and more recent methods like ssd face a large class imbalance during training these detectors evaluate 10 4 -10 5 candidate locations per image but only a few locations contain objects this imbalance causes two problems training is inefficient as most locations",
+        "context_window": {
+          "previous": "by reducing input image resolution and the number of proposals but one-stage methods trailed in accuracy even with a larger compute budget in contrast the aim of this work is to understand if one-stage detectors can match or surpass the accuracy of two-stage detectors while running at similar or faster speeds the design of our retinanet detector shares many similarities with previous dense detectors in particular the concept of anchors introduced by rpn and use of features pyramids as in",
+          "current": "ssd and fpn we emphasize that our simple detector achieves top results not based on innovations in network design but due to our novel loss class imbalance both classic one-stage object detection methods like boosted detectors and dpms and more recent methods like ssd face a large class imbalance during training these detectors evaluate 10 4 -10 5 candidate locations per image but only a few locations contain objects this imbalance causes two problems training is inefficient as most locations",
+          "next": "are easy negatives that contribute no useful learning signal en masse the easy negatives can overwhelm training and lead to degenerate models a common solution is to perform some form of hard negative mining that samples hard examples during training or more complex sampling reweighing schemes in contrast we show that our proposed focal loss naturally handles the class imbalance faced by a one-stage detector and allows us to efficiently train on all examples without sampling and without easy negatives"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6935,
+        "downstream_relevance_score": 0.5846,
+        "components": {
+          "bio_boundary_score": 0.9471,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "class",
+          "imbalance"
+        ],
+        "normalization": "class imbalance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "class imbalance",
+          "canonical": "class imbalance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9471",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves, design",
+        "downstream relevance score is 0.5846"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "cross entropy",
+        "canonical": "cross entropy",
+        "normalized": "cross entropy",
+        "tokens": [
+          "cross",
+          "entropy"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 3,
+        "sentence": "propose to address this class imbalance by reshaping the standard cross entropy loss such that it down-weights the loss assigned to well-classified examples our novel focal loss focuses training on a sparse set of hard examples and prevents the vast number of easy negatives from overwhelming the detector during training to evaluate the effectiveness of our loss we design and train a simple dense detector we call retinanet our results show that when trained with the focal loss retinanet is",
+        "context_window": {
+          "previous": "approach popularized by r-cnn where a classifier is applied to a sparse set of candidate object locations in contrast one-stage detectors that are applied over a regular dense sampling of possible object locations have the potential to be faster and simpler but have trailed the accuracy of two-stage detectors thus far in this paper we investigate why this is the case we discover that the extreme foreground-background class imbalance encountered during training of dense detectors is the central cause we",
+          "current": "propose to address this class imbalance by reshaping the standard cross entropy loss such that it down-weights the loss assigned to well-classified examples our novel focal loss focuses training on a sparse set of hard examples and prevents the vast number of easy negatives from overwhelming the detector during training to evaluate the effectiveness of our loss we design and train a simple dense detector we call retinanet our results show that when trained with the focal loss retinanet is",
+          "next": "able to match the speed of previous one-stage detectors while surpassing the accuracy of all existing state-of-the-art two-stage detectors code is at 50 100 150 200 250 inference time ms 28 30 32 34 36 38 coco ap b c d e f g retinanet-50 retinanet-101 ap time a yolov2 21 6 25 b ssd321 28 0 61 c dssd321 28 0 85 d r-fcn 29 9 85 e ssd513 31 2 125 f dssd513 33 2 156 g fpn"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.5408
+      },
+      "evidence": {
+        "score": 0.4733,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6409,
+        "downstream_relevance_score": 0.5328,
+        "components": {
+          "bio_boundary_score": 0.7087,
+          "sentence_evidence_score": 0.4733,
+          "sentence_role_score": 0.5408,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cross",
+          "entropy"
+        ],
+        "normalization": "cross entropy",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cross entropy",
+          "canonical": "cross entropy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7087",
+        "structure model assigned role 'problem' with score 0.5408",
+        "evidence score 0.4733 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose, design",
+        "downstream relevance score is 0.5328"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "object detection",
+        "canonical": "object detection",
+        "normalized": "object detection",
+        "tokens": [
+          "object",
+          "detection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "object detection"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 15,
+        "sentence": "general object categories and had top results on pascal for many years while the sliding-window approach was the leading detection paradigm in classic computer vision with the resurgence of deep learning two-stage detectors described next quickly came to dominate object detection two-stage detectors the dominant paradigm in modern object detection is based on a two-stage approach as pioneered in the selective search work the first stage generates a sparse set of candidate proposals that should contain all objects while filtering",
+        "context_window": {
+          "previous": "paradigm in which a classifier is applied on a dense image grid has a long and rich history one of the earliest successes is the classic work of lecun et al who applied convolutional neural networks to handwritten digit recognition viola and jones used boosted object detectors for face detection leading to widespread adoption of such models the introduction of hog and integral channel features gave rise to effective methods for pedestrian detection dpms helped extend dense detectors to more",
+          "current": "general object categories and had top results on pascal for many years while the sliding-window approach was the leading detection paradigm in classic computer vision with the resurgence of deep learning two-stage detectors described next quickly came to dominate object detection two-stage detectors the dominant paradigm in modern object detection is based on a two-stage approach as pioneered in the selective search work the first stage generates a sparse set of candidate proposals that should contain all objects while filtering",
+          "next": "out the majority of negative locations and the second stage classifies the proposals into foreground classes background r-cnn upgraded the second-stage classifier to a convolutional network yielding large gains in accuracy and ushering in the modern era of object detection r-cnn was improved over the years both in terms of speed and by using learned object proposals region proposal networks rpn integrated proposal generation with the second-stage classifier into a single convolution network forming the faster r-cnn framework numerous extensions"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5667,
+        "downstream_relevance_score": 0.5138,
+        "components": {
+          "bio_boundary_score": 0.9377,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.1622,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "object detection",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "object detection",
+        "display_term": "object detection",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Object_detection",
+        "wikidata_id": "Q3045304",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 17,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "object",
+          "detection"
+        ],
+        "normalization": "object detection",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1622,
+        "canonicalization": {
+          "observed": "object detection",
+          "canonical": "object detection",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9377",
+        "structure model assigned role 'dataset' with score 0.45",
+        "section BoW matched canonical term 'object detection' with confidence 0.85",
+        "BoW role prior suggests 'task'",
+        "downstream relevance score is 0.5138"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "aspect ratio",
+        "canonical": "aspect ratio",
+        "normalized": "aspect ratio",
+        "tokens": [
+          "aspect",
+          "ratio"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 31,
+        "sentence": "levels p 3 to p 7 respectively as in at each pyramid level we use anchors at three aspect ratios 1 2 1 1 2 1 for denser scale coverage than in at each level we add anchors of sizes 2 0 2 1 3 2 2 3 of the original set of 3 aspect ratio anchors this improve ap in our setting in total there are a 9 anchors per level and across levels they cover the scale range",
+        "context_window": {
+          "previous": "the implementation of the loss layer combines the sigmoid operation for computing p with the loss computation resulting in greater numerical stability while in our main experimental results we use the focal loss definition above its precise form is not crucial in the using features from only the final resnet layer yielded low ap anchors we use translation-invariant anchor boxes similar to those in the rpn variant in the anchors have areas of 32 2 to 512 2 on pyramid",
+          "current": "levels p 3 to p 7 respectively as in at each pyramid level we use anchors at three aspect ratios 1 2 1 1 2 1 for denser scale coverage than in at each level we add anchors of sizes 2 0 2 1 3 2 2 3 of the original set of 3 aspect ratio anchors this improve ap in our setting in total there are a 9 anchors per level and across levels they cover the scale range",
+          "next": "32 -813 pixels with respect to the network s input image each anchor is assigned a length k one-hot vector of classification targets where k is the number of object classes and a 4-vector of box regression targets we use the assignment rule from rpn but modified for multiclass detection and with adjusted thresholds specifically anchors are assigned to ground-truth object boxes using an intersection-over-union iou threshold of 0 5 and to background if their iou is in 0 0"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6587,
+        "downstream_relevance_score": 0.4771,
+        "components": {
+          "bio_boundary_score": 0.6677,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "aspect",
+          "ratio"
+        ],
+        "normalization": "aspect ratio",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "aspect ratio",
+          "canonical": "aspect ratio",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6677",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4771"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "stochastic gradient descent",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd optimizer",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 50,
+        "sentence": "training every anchor should be labeled as foreground with confidence of we use 01 in all experiments although results are robust to the exact value as explained in 3 3 this initialization prevents the large number of background anchors from generating a large destabilizing loss value in the first iteration of training optimization retinanet is trained with stochastic gradient descent sgd we use synchronized sgd over 8 gpus with a total of 16 images per minibatch 2 images per gpu",
+        "context_window": {
+          "previous": "1 ap b in contrast using fl with the same exact network gives a 2 9 ap gain and is fairly robust to exact settings c using 2-3 scale and 3 aspect ratio anchors yields good results after which point performance saturates d fl outperforms the best variants of online hard example mining ohem by over 3 points ap e accuracy speed trade-off of retinanet on test-dev for various network depths and image scales see also figure the start of",
+          "current": "training every anchor should be labeled as foreground with confidence of we use 01 in all experiments although results are robust to the exact value as explained in 3 3 this initialization prevents the large number of background anchors from generating a large destabilizing loss value in the first iteration of training optimization retinanet is trained with stochastic gradient descent sgd we use synchronized sgd over 8 gpus with a total of 16 images per minibatch 2 images per gpu",
+          "next": "unless otherwise specified all models are trained for 90k iterations with an initial learning rate of 0 01 which is then divided by 10 at 60k and again at 80k iterations we use horizontal image flipping as the only form of data augmentation unless otherwise noted weight decay of 0 0001 and momentum of 0 9 are used the training loss is the sum the focal loss and the standard smooth l 1 loss used for box regression training time"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4269,
+        "downstream_relevance_score": 0.4766,
+        "components": {
+          "bio_boundary_score": 0.5362,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2158,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "stochastic gradient descent",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "sgd",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 14,
+        "total_frequency": 29,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "normalization": "stochastic gradient descent",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2158,
+        "canonicalization": {
+          "observed": "stochastic gradient descent",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5362",
+        "structure model assigned role 'process' with score 0.66",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.4766"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "focal loss",
+        "canonical": "focal loss",
+        "normalized": "focal loss",
+        "tokens": [
+          "focal",
+          "loss"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 20,
+        "sentence": "are easy negatives that contribute no useful learning signal en masse the easy negatives can overwhelm training and lead to degenerate models a common solution is to perform some form of hard negative mining that samples hard examples during training or more complex sampling reweighing schemes in contrast we show that our proposed focal loss naturally handles the class imbalance faced by a one-stage detector and allows us to efficiently train on all examples without sampling and without easy negatives",
+        "context_window": {
+          "previous": "ssd and fpn we emphasize that our simple detector achieves top results not based on innovations in network design but due to our novel loss class imbalance both classic one-stage object detection methods like boosted detectors and dpms and more recent methods like ssd face a large class imbalance during training these detectors evaluate 10 4 -10 5 candidate locations per image but only a few locations contain objects this imbalance causes two problems training is inefficient as most locations",
+          "current": "are easy negatives that contribute no useful learning signal en masse the easy negatives can overwhelm training and lead to degenerate models a common solution is to perform some form of hard negative mining that samples hard examples during training or more complex sampling reweighing schemes in contrast we show that our proposed focal loss naturally handles the class imbalance faced by a one-stage detector and allows us to efficiently train on all examples without sampling and without easy negatives",
+          "next": "overwhelming the loss and computed gradients robust estimation there has been much interest in designing robust loss functions e g huber loss that reduce the contribution of outliers by down-weighting the loss of examples with large errors hard examples in contrast rather than addressing outliers our focal loss is designed to address class imbalance by down-weighting inliers easy examples such that their contribution to the total loss is small even if their number is large in other words the focal"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "ablation_evidence",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6221,
+        "downstream_relevance_score": 0.4763,
+        "components": {
+          "bio_boundary_score": 0.7887,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "focal",
+          "loss"
+        ],
+        "normalization": "focal loss",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "focal loss",
+          "canonical": "focal loss",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7887",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4763"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "ce loss",
+        "canonical": "ce loss",
+        "normalized": "ce loss",
+        "tokens": [
+          "ce",
+          "loss"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 56,
+        "sentence": "as increases the shape of the loss changes so that easy examples with low loss get further discounted see figure fl shows large gains over ce as is increased with 2 fl yields a 2 9 ap improvement over the -balanced ce loss for the experiments in table for a fair comparison we find the best for each we observe that lower s are selected for higher s as easy negatives are downweighted less emphasis needs to be placed on",
+        "context_window": {
+          "previous": "01 for all experiments balanced cross entropy our next attempt to improve learning involved using the -balanced ce loss described in 3 1 results for various are shown in table setting 75 gives a gain of 0 9 points ap focal loss results using our proposed focal loss are shown in table the focal loss introduces one new hyperparameter the focusing parameter that controls the strength of the modulating term when 0 our loss is equivalent to the ce loss",
+          "current": "as increases the shape of the loss changes so that easy examples with low loss get further discounted see figure fl shows large gains over ce as is increased with 2 fl yields a 2 9 ap improvement over the -balanced ce loss for the experiments in table for a fair comparison we find the best for each we observe that lower s are selected for higher s as easy negatives are downweighted less emphasis needs to be placed on",
+          "next": "the positives overall however the benefit of changing is much larger and indeed the best s ranged in just 25 75 we tested 01 999 we use 2 0 with 25 for all experiments but 5 works nearly as well 4 ap lower analysis of the focal loss to understand the focal loss better we analyze the empirical distribution of the loss of a converged model for this we take take our default resnet-101 600-pixel model trained with 2 which"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5778,
+        "downstream_relevance_score": 0.4404,
+        "components": {
+          "bio_boundary_score": 0.6392,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ce",
+          "loss"
+        ],
+        "normalization": "ce loss",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ce loss",
+          "canonical": "ce loss",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6392",
+        "structure model assigned role 'comparison' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4404"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "box regression",
+        "canonical": "box regression",
+        "normalized": "box regression",
+        "tokens": [
+          "box",
+          "regression"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 36,
+        "sentence": "classification subnet we attach another small fcn to each pyramid level for the purpose of regressing the offset from each anchor box to a nearby ground-truth object if one exists the design of the box regression subnet is identical to the classification subnet except that it terminates in 4a linear outputs per spatial location see figure for each of the a anchors per spatial location these 4 outputs predict the relative offset between the anchor and the groundtruth box we",
+        "context_window": {
+          "previous": "conv layer with ka filters finally sigmoid activations are attached to output the ka binary predictions per spatial location see figure we use c 256 and a 9 in most in contrast to rpn our object classification subnet is deeper uses only 3 3 convs and does not share parameters with the box regression subnet described next we found these higher-level design decisions to be more important than specific values of hyperparameters box regression subnet in parallel with the object",
+          "current": "classification subnet we attach another small fcn to each pyramid level for the purpose of regressing the offset from each anchor box to a nearby ground-truth object if one exists the design of the box regression subnet is identical to the classification subnet except that it terminates in 4a linear outputs per spatial location see figure for each of the a anchors per spatial location these 4 outputs predict the relative offset between the anchor and the groundtruth box we",
+          "next": "use the standard box parameterization from r-cnn we note that unlike most recent work we use a class-agnostic bounding box regressor which uses fewer parameters and we found to be equally effective the object classification subnet and the box regression subnet though sharing a common structure use separate parameters inference and training inference retinanet forms a single fcn comprised of a resnet-fpn backbone a classification subnet and a box regression subnet see figure as such inference involves simply forwarding an"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5766,
+        "downstream_relevance_score": 0.3908,
+        "components": {
+          "bio_boundary_score": 0.8895,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "box",
+          "regression"
+        ],
+        "normalization": "box regression",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "box regression",
+          "canonical": "box regression",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8895",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.3908"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "pedestrian detection",
+        "canonical": "pedestrian detection",
+        "normalized": "pedestrian detection",
+        "tokens": [
+          "pedestrian",
+          "detection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 14,
+        "sentence": "paradigm in which a classifier is applied on a dense image grid has a long and rich history one of the earliest successes is the classic work of lecun et al who applied convolutional neural networks to handwritten digit recognition viola and jones used boosted object detectors for face detection leading to widespread adoption of such models the introduction of hog and integral channel features gave rise to effective methods for pedestrian detection dpms helped extend dense detectors to more",
+        "context_window": {
+          "previous": "its dense sampling of object locations in an input image its design features an efficient in-network feature pyramid and use of anchor boxes it draws on a variety of recent ideas from retinanet is efficient and accurate our best model based on a resnet-101-fpn backbone achieves a coco test-dev ap of 39 1 while running at 5 fps surpassing the previously best published single-model results from both one and two-stage detectors see figure related work classic object detectors the sliding-window",
+          "current": "paradigm in which a classifier is applied on a dense image grid has a long and rich history one of the earliest successes is the classic work of lecun et al who applied convolutional neural networks to handwritten digit recognition viola and jones used boosted object detectors for face detection leading to widespread adoption of such models the introduction of hog and integral channel features gave rise to effective methods for pedestrian detection dpms helped extend dense detectors to more",
+          "next": "general object categories and had top results on pascal for many years while the sliding-window approach was the leading detection paradigm in classic computer vision with the resurgence of deep learning two-stage detectors described next quickly came to dominate object detection two-stage detectors the dominant paradigm in modern object detection is based on a two-stage approach as pioneered in the selective search work the first stage generates a sparse set of candidate proposals that should contain all objects while filtering"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5812,
+        "downstream_relevance_score": 0.375,
+        "components": {
+          "bio_boundary_score": 0.947,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pedestrian",
+          "detection"
+        ],
+        "normalization": "pedestrian detection",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pedestrian detection",
+          "canonical": "pedestrian detection",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.947",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.375"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "face detection",
+        "canonical": "face detection",
+        "normalized": "face detection",
+        "tokens": [
+          "face",
+          "detection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 14,
+        "sentence": "paradigm in which a classifier is applied on a dense image grid has a long and rich history one of the earliest successes is the classic work of lecun et al who applied convolutional neural networks to handwritten digit recognition viola and jones used boosted object detectors for face detection leading to widespread adoption of such models the introduction of hog and integral channel features gave rise to effective methods for pedestrian detection dpms helped extend dense detectors to more",
+        "context_window": {
+          "previous": "its dense sampling of object locations in an input image its design features an efficient in-network feature pyramid and use of anchor boxes it draws on a variety of recent ideas from retinanet is efficient and accurate our best model based on a resnet-101-fpn backbone achieves a coco test-dev ap of 39 1 while running at 5 fps surpassing the previously best published single-model results from both one and two-stage detectors see figure related work classic object detectors the sliding-window",
+          "current": "paradigm in which a classifier is applied on a dense image grid has a long and rich history one of the earliest successes is the classic work of lecun et al who applied convolutional neural networks to handwritten digit recognition viola and jones used boosted object detectors for face detection leading to widespread adoption of such models the introduction of hog and integral channel features gave rise to effective methods for pedestrian detection dpms helped extend dense detectors to more",
+          "next": "general object categories and had top results on pascal for many years while the sliding-window approach was the leading detection paradigm in classic computer vision with the resurgence of deep learning two-stage detectors described next quickly came to dominate object detection two-stage detectors the dominant paradigm in modern object detection is based on a two-stage approach as pioneered in the selective search work the first stage generates a sparse set of candidate proposals that should contain all objects while filtering"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5681,
+        "downstream_relevance_score": 0.3682,
+        "components": {
+          "bio_boundary_score": 0.902,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "face",
+          "detection"
+        ],
+        "normalization": "face detection",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "face detection",
+          "canonical": "face detection",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.902",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3682"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "modulating factor",
+        "canonical": "modulating factor",
+        "normalized": "modulating factor",
+        "tokens": [
+          "modulating",
+          "factor"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 28,
+        "sentence": "the rate at which easy examples are downweighted when 0 fl is equivalent to ce and as is increased the effect of the modulating factor is likewise increased we found 2 to work best in our experiments intuitively the modulating factor reduces the loss contribution from easy examples and extends the range in which an example receives low loss for instance with 2 an example classified with p t 0 9 would have 100 lower loss compared with ce and",
+        "context_window": {
+          "previous": "parameter 0 we define the focal loss as fl p t - 1 -p t log p t the focal loss is visualized for several values of in figure we note two properties of the focal loss when an example is misclassified and p t is small the modulating factor is near 1 and the loss is unaffected as p t 1 the factor goes to 0 and the loss for well-classified examples is down-weighted the focusing parameter smoothly adjusts",
+          "current": "the rate at which easy examples are downweighted when 0 fl is equivalent to ce and as is increased the effect of the modulating factor is likewise increased we found 2 to work best in our experiments intuitively the modulating factor reduces the loss contribution from easy examples and extends the range in which an example receives low loss for instance with 2 an example classified with p t 0 9 would have 100 lower loss compared with ce and",
+          "next": "with p t 0 968 it would have 1000 lower loss this in turn increases the importance of correcting misclassified examples whose loss is scaled down by at most 4 for p t 5 and 2 in practice we use an -balanced variant of the focal loss fl p t - t 1 -p t log p t we adopt this form in our experiments as it yields slightly improved accuracy over the non- -balanced form finally we note that"
+        }
+      },
+      "role": {
+        "label": "baseline",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "comparison_baseline",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5286,
+        "downstream_relevance_score": 0.3605,
+        "components": {
+          "bio_boundary_score": 0.8793,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "modulating",
+          "factor"
+        ],
+        "normalization": "modulating factor",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "modulating factor",
+          "canonical": "modulating factor",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8793",
+        "structure model assigned role 'baseline' with score 0.82",
+        "downstream relevance score is 0.3605"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "classification",
+        "canonical": "classification",
+        "normalized": "classification",
+        "tokens": [
+          "classification"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 36,
+        "sentence": "classification subnet we attach another small fcn to each pyramid level for the purpose of regressing the offset from each anchor box to a nearby ground-truth object if one exists the design of the box regression subnet is identical to the classification subnet except that it terminates in 4a linear outputs per spatial location see figure for each of the a anchors per spatial location these 4 outputs predict the relative offset between the anchor and the groundtruth box we",
+        "context_window": {
+          "previous": "conv layer with ka filters finally sigmoid activations are attached to output the ka binary predictions per spatial location see figure we use c 256 and a 9 in most in contrast to rpn our object classification subnet is deeper uses only 3 3 convs and does not share parameters with the box regression subnet described next we found these higher-level design decisions to be more important than specific values of hyperparameters box regression subnet in parallel with the object",
+          "current": "classification subnet we attach another small fcn to each pyramid level for the purpose of regressing the offset from each anchor box to a nearby ground-truth object if one exists the design of the box regression subnet is identical to the classification subnet except that it terminates in 4a linear outputs per spatial location see figure for each of the a anchors per spatial location these 4 outputs predict the relative offset between the anchor and the groundtruth box we",
+          "next": "use the standard box parameterization from r-cnn we note that unlike most recent work we use a class-agnostic bounding box regressor which uses fewer parameters and we found to be equally effective the object classification subnet and the box regression subnet though sharing a common structure use separate parameters inference and training inference retinanet forms a single fcn comprised of a resnet-fpn backbone a classification subnet and a box regression subnet see figure as such inference involves simply forwarding an"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4638,
+        "downstream_relevance_score": 0.3222,
+        "components": {
+          "bio_boundary_score": 0.5041,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "classification"
+        ],
+        "normalization": "classification",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "classification",
+          "canonical": "classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5041",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.3222"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 31,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "These results use ResNet-101, our baseline trained with FL achieves 36.0 AP for this setting.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In contrast, the best setting for OHEM (no 1:3 ratio, batch size 128, nms of .5) achieves 32.8 AP.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Our model achieves top results, outperforming both one-stage and two-stage models.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "To counter this, we introduce the concept of a 'prior' for the value of p estimated by the model for the rare class (foreground) at the start of training.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Anchor Density: One of the most important design factors in a one-stage detection system is how densely it covers the space of possible image boxes.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We present experimental results on the bounding box detection track of the challenging COCO benchmark .",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For a detailed breakdown of speed versus accuracy see Table and Figure .",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "As popularized in the R-CNN framework , the first stage generates a sparse set of candidate object locations and the second stage classifies each candidate location as one of the foreground classes or as background using a convolutional neural network.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Through a sequence of advances , this two-stage framework consistently achieves top accuracy on the challenging COCO benchmark .",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Through a sequence of advances , this two-stage framework consistently achieves top accuracy on the challenging COCO benchmark .",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Through a sequence of advances , this two-stage framework consistently achieves top accuracy on the challenging COCO benchmark .",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Through a sequence of advances , this two-stage framework consistently achieves top accuracy on the challenging COCO benchmark .",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Despite the success of two-stage detectors, a natural question to ask is: could a simple one-stage detector achieve similar accuracy?",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Recent work on one-stage detectors, such as YOLO and SSD , demonstrates promising results, yielding faster detectors with accuracy within 10-40% relative to state-of-the-art two-stage methods.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Recent work on one-stage detectors, such as YOLO and SSD , demonstrates promising results, yielding faster detectors with accuracy within 10-40% relative to state-of-the-art two-stage methods.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This paper pushes the envelop further: we present a onestage object detector that, for the first time, matches the state-of-the-art COCO AP of more complex two-stage de-tectors, such as the Feature Pyramid Network (FPN) or Mask R-CNN variants of Faster R-CNN .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This paper pushes the envelop further: we present a onestage object detector that, for the first time, matches the state-of-the-art COCO AP of more complex two-stage de-tectors, such as the Feature Pyramid Network (FPN) or Mask R-CNN variants of Faster R-CNN .",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To achieve this result, we identify class imbalance during training as the main obstacle impeding one-stage detector from achieving state-of-the-art accuracy and propose a new loss function that eliminates this barrier.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To achieve this result, we identify class imbalance during training as the main obstacle impeding one-stage detector from achieving state-of-the-art accuracy and propose a new loss function that eliminates this barrier.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To achieve this result, we identify class imbalance during training as the main obstacle impeding one-stage detector from achieving state-of-the-art accuracy and propose a new loss function that eliminates this barrier.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this paper, we propose a new loss function that acts as a more effective alternative to previous approaches for dealing with class imbalance.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Experiments show that our proposed Focal Loss enables us to train a high-accuracy, one-stage detector that significantly outperforms the alternatives of training with the sampling heuristics or hard example mining, the previous state-ofthe-art techniques for training one-stage detectors.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Experiments show that our proposed Focal Loss enables us to train a high-accuracy, one-stage detector that significantly outperforms the alternatives of training with the sampling heuristics or hard example mining, the previous state-ofthe-art techniques for training one-stage detectors.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To demonstrate the effectiveness of the proposed focal loss, we design a simple one-stage object detector called RetinaNet, named for its dense sampling of object locations in an input image.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Its design features an efficient in-network feature pyramid and use of anchor boxes.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Online Hard Example Mining",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.8864
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "Convolutional neural network",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.7276
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "object detector",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6256
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "class",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.625
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "minival",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6074
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "rpn",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6044
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "retinanet",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5888
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "class imbalance",
+        "section": "experiment",
+        "role": "prior_work",
+        "score": 0.5846
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "cross entropy",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5328
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "object detection",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5138
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "aspect ratio",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4771
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "stochastic gradient descent",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.4766
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "focal loss",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.4763
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "ce loss",
+        "section": "experiment",
+        "role": "comparison",
+        "score": 0.4404
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "box regression",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3908
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "pedestrian detection",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.375
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "face detection",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.3682
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "modulating factor",
+        "section": "experiment",
+        "role": "baseline",
+        "score": 0.3605
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "classification",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3222
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_006",
+        "target": "ecu_007",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_019",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_017",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

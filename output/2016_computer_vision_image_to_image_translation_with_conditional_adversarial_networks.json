@@ -1,0 +1,3538 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_computer_vision_image_to_image_translation_with_conditional_adversarial_networks",
+    "title": "2016_computer_vision_image_to_image_translation_with_conditional_adversarial_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_computer_vision_image_to_image_translation_with_conditional_adversarial_networks.txt",
+    "sentence_count": 78,
+    "section_counts": {
+      "intro": 9,
+      "related_work": 5,
+      "method": 5,
+      "experiment": 32,
+      "conclusion": 27
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 6011,
+    "type_count": 1306,
+    "type_token_ratio": 0.2173,
+    "section_token_counts": {
+      "intro": 647,
+      "related_work": 344,
+      "method": 399,
+      "experiment": 2525,
+      "conclusion": 2096
+    },
+    "top_unigrams": [
+      {
+        "term": "l1",
+        "count": 55
+      },
+      {
+        "term": "output",
+        "count": 51
+      },
+      {
+        "term": "results",
+        "count": 50
+      },
+      {
+        "term": "input",
+        "count": 49
+      },
+      {
+        "term": "figure",
+        "count": 38
+      },
+      {
+        "term": "image",
+        "count": 36
+      },
+      {
+        "term": "ground",
+        "count": 35
+      },
+      {
+        "term": "truth",
+        "count": 35
+      },
+      {
+        "term": "loss",
+        "count": 32
+      },
+      {
+        "term": "images",
+        "count": 31
+      },
+      {
+        "term": "photo",
+        "count": 31
+      },
+      {
+        "term": "cgan",
+        "count": 31
+      },
+      {
+        "term": "conditional",
+        "count": 30
+      },
+      {
+        "term": "which",
+        "count": 29
+      },
+      {
+        "term": "than",
+        "count": 28
+      },
+      {
+        "term": "gans",
+        "count": 26
+      },
+      {
+        "term": "discriminator",
+        "count": 25
+      },
+      {
+        "term": "problems",
+        "count": 24
+      },
+      {
+        "term": "generator",
+        "count": 23
+      },
+      {
+        "term": "trained",
+        "count": 23
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "ground truth",
+        "count": 35
+      },
+      {
+        "term": "input ground",
+        "count": 17
+      },
+      {
+        "term": "l1 cgan",
+        "count": 15
+      },
+      {
+        "term": "conditional gans",
+        "count": 14
+      },
+      {
+        "term": "truth output",
+        "count": 13
+      },
+      {
+        "term": "input output",
+        "count": 9
+      },
+      {
+        "term": "l1 loss",
+        "count": 9
+      },
+      {
+        "term": "output input",
+        "count": 9
+      },
+      {
+        "term": "image-to-image translation",
+        "count": 7
+      },
+      {
+        "term": "rather than",
+        "count": 7
+      },
+      {
+        "term": "conditional adversarial",
+        "count": 6
+      },
+      {
+        "term": "adversarial networks",
+        "count": 6
+      },
+      {
+        "term": "translation tasks",
+        "count": 6
+      },
+      {
+        "term": "log log",
+        "count": 6
+      },
+      {
+        "term": "graphics tasks",
+        "count": 6
+      },
+      {
+        "term": "photo trained",
+        "count": 6
+      },
+      {
+        "term": "qualitative results",
+        "count": 6
+      },
+      {
+        "term": "example results",
+        "count": 6
+      },
+      {
+        "term": "figure shows",
+        "count": 6
+      },
+      {
+        "term": "shows qualitative",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "input ground truth",
+        "count": 17
+      },
+      {
+        "term": "ground truth output",
+        "count": 13
+      },
+      {
+        "term": "truth output input",
+        "count": 7
+      },
+      {
+        "term": "output input ground",
+        "count": 7
+      },
+      {
+        "term": "figure shows qualitative",
+        "count": 6
+      },
+      {
+        "term": "without l1 loss",
+        "count": 6
+      },
+      {
+        "term": "conditional adversarial networks",
+        "count": 5
+      },
+      {
+        "term": "original gan paper",
+        "count": 5
+      },
+      {
+        "term": "ground truth l1",
+        "count": 5
+      },
+      {
+        "term": "truth l1 cgan",
+        "count": 5
+      },
+      {
+        "term": "shows qualitative results",
+        "count": 5
+      },
+      {
+        "term": "map aerial photo",
+        "count": 4
+      },
+      {
+        "term": "figure original gan",
+        "count": 4
+      },
+      {
+        "term": "gan paper note",
+        "count": 4
+      },
+      {
+        "term": "paper note histogram",
+        "count": 4
+      },
+      {
+        "term": "note histogram intersection",
+        "count": 4
+      },
+      {
+        "term": "histogram intersection scores",
+        "count": 4
+      },
+      {
+        "term": "intersection scores dominated",
+        "count": 4
+      },
+      {
+        "term": "scores dominated differences",
+        "count": 4
+      },
+      {
+        "term": "dominated differences high",
+        "count": 4
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 4,
+    "nonzero_tfidf_features": 4,
+    "top_tfidf_features": [
+      {
+        "feature_name": "experiments__segmentation",
+        "section": "experiment",
+        "term": "segmentation",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 3.0,
+        "tfidf": 0.7274
+      },
+      {
+        "feature_name": "introduction__image-to-image translation",
+        "section": "intro",
+        "term": "image-to-image translation",
+        "frequency": 2.0,
+        "tfidf": 0.6665
+      },
+      {
+        "feature_name": "introduction__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 0.1636
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.7274
+        },
+        {
+          "feature_name": "introduction__image-to-image translation",
+          "section": "intro",
+          "term": "image-to-image translation",
+          "frequency": 2.0,
+          "tfidf": 0.6665
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1636
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 9,
+      "token_count": 647,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 10,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.2786,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "image-to-image translation",
+          "count": 3,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.7274
+        },
+        {
+          "feature_name": "introduction__image-to-image translation",
+          "section": "intro",
+          "term": "image-to-image translation",
+          "frequency": 2.0,
+          "tfidf": 0.6665
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1636
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 5,
+      "token_count": 344,
+      "bow_hit_count": 1,
+      "top_bow_terms": [
+        {
+          "canonical_term": "image-to-image translation",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 5,
+      "token_count": 399,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 32,
+      "token_count": 2525,
+      "bow_hit_count": 36,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 10,
+          "section_prior": 0.3671,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 5,
+          "section_prior": 0.0928,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 5,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 5,
+          "section_prior": 0.1622,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "image-to-image translation",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 27,
+      "token_count": 2096,
+      "bow_hit_count": 17,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 10,
+          "section_prior": 0.0949,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "transfer learning",
+          "count": 5,
+          "section_prior": 0.1412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "image-to-image translation",
+          "count": 2,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "generative model",
+        "canonical": "deep generative model",
+        "normalized": "deep generative model",
+        "tokens": [
+          "generative",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep generative models",
+          "deep generative model"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 7,
+        "sentence": "of tasks that traditionally would require very different kinds of loss functions in this paper we explore gans in the conditional setting just as gans learn a generative model of data conditional gans cgans learn a conditional generative model this makes cgans suitable for image-to-image translation tasks where we condition on an input image and generate a corresponding output image gans have been vigorously studied in the last two years and many of the techniques we explore in this paper",
+        "context_window": {
+          "previous": "then automatically learn a loss function appropriate for satisfying this goal fortunately this is exactly what is done by the recently proposed generative adversarial networks gans gans learn a loss that tries to classify if the output image is real or fake while simultaneously training a generative model to minimize this loss blurry images will not be tolerated since they look obviously fake because gans learn a loss that adapts to the data they can be applied to a multitude",
+          "current": "of tasks that traditionally would require very different kinds of loss functions in this paper we explore gans in the conditional setting just as gans learn a generative model of data conditional gans cgans learn a conditional generative model this makes cgans suitable for image-to-image translation tasks where we condition on an input image and generate a corresponding output image gans have been vigorously studied in the last two years and many of the techniques we explore in this paper",
+          "next": "have been previously proposed nonetheless earlier papers have focused on specific applications and it has remained unclear how effective image-conditional gans can be as a general-purpose solution for image-toimage translation our primary contribution is to demonstrate that on a wide variety of problems conditional gans produce reasonable results our second contribution is to present a simple framework sufficient to achieve good results and to analyze the effects of several important architectural choices code is available at"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6555,
+        "downstream_relevance_score": 0.6313,
+        "components": {
+          "bio_boundary_score": 0.8041,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.6364,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep generative model",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "deep generative model",
+        "display_term": "deep generative models",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "nan",
+        "wikidata_id": "Q105342324",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 6,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generative",
+          "model"
+        ],
+        "normalization": "generative model",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.6364,
+        "canonicalization": {
+          "observed": "generative model",
+          "canonical": "deep generative model",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8041",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "section BoW matched canonical term 'deep generative model' with confidence 0.7098",
+        "BoW role prior suggests 'background'",
+        "downstream relevance score is 0.6313"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "imagegan",
+        "canonical": "imagegan",
+        "normalized": "imagegan",
+        "tokens": [
+          "imagegan"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 62,
+        "sentence": "is a common problem in image processing and pixelgans may be a promising lightweight solution using a 16 16 patchgan is sufficient to promote sharp outputs and achieves good fcn-scores but also leads to tiling artifacts the 70 70 patchgan alleviates these artifacts and achieves slightly better scores scaling beyond this to the full 286 286 imagegan does not appear to improve the visual quality of the results and in fact gets a considerably lower fcn-score table this may be",
+        "context_window": {
+          "previous": "and table quantifies the effects using the fcn-score note that elsewhere in this paper unless specified all experiments use 70 70 patchgans and for this section all experiments use an l1 cgan loss the pixelgan has no effect on spatial sharpness but does increase the colorfulness of the results quantified in figure for example the bus in figure is painted gray when the net is trained with an l1 loss but becomes red with the pixelgan loss color histogram matching",
+          "current": "is a common problem in image processing and pixelgans may be a promising lightweight solution using a 16 16 patchgan is sufficient to promote sharp outputs and achieves good fcn-scores but also leads to tiling artifacts the 70 70 patchgan alleviates these artifacts and achieves slightly better scores scaling beyond this to the full 286 286 imagegan does not appear to improve the visual quality of the results and in fact gets a considerably lower fcn-score table this may be",
+          "next": "because the imagegan has many more parameters and greater depth than the 70 70 patchgan and may be harder to train fully-convolutional translation an advantage of the patchgan is that a fixed-size patch discriminator can be applied to arbitrarily large images we may also apply the photo map map photo loss turkers labeled real turkers labeled real l1 2 8 1 0 0 8 0 3 l1 cgan 6 1 1 3 18 9 2 5 table amt real vs"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.747,
+        "downstream_relevance_score": 0.5674,
+        "components": {
+          "bio_boundary_score": 0.9764,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imagegan"
+        ],
+        "normalization": "imagegan",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "imagegan",
+          "canonical": "imagegan",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9764",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5674"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "ground truth",
+        "canonical": "ground truth",
+        "normalized": "ground truth",
+        "tokens": [
+          "ground",
+          "truth"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 48,
+        "sentence": "by differences in the high probability region which are imperceptible in the plots which show log probability and therefore emphasize differences in the low probability regions l1 1x1 16x16 70x70 256x256 classification ours l2 rebal l1 cgan ground truth figure colorization results of conditional gans versus the l2 regression from and the full method classification with rebalancing from the cgans can produce compelling colorizations first two rows but have a common failure mode of producing a grayscale or desaturated result",
+        "context_window": {
+          "previous": "of the u-net appear not to be specific to conditional gans when both u-net and encoder-decoder are trained with an l1 loss the u-net again achieves the superior results from pixelgans to patchgans to imagegans we test the effect of varying the patch size n of our discriminator receptive fields from a 1 1 pixelgan to a l1 1 1 16 16 70 70 286 286 figure of the original gan paper note that the histogram intersection scores are dominated",
+          "current": "by differences in the high probability region which are imperceptible in the plots which show log probability and therefore emphasize differences in the low probability regions l1 1x1 16x16 70x70 256x256 classification ours l2 rebal l1 cgan ground truth figure colorization results of conditional gans versus the l2 regression from and the full method classification with rebalancing from the cgans can produce compelling colorizations first two rows but have a common failure mode of producing a grayscale or desaturated result",
+          "next": "last row to begin to test this we train a cgan with without l1 loss on cityscape photo labels figure shows qualitative results and quantitative classification accuracies are reported in table interestingly cgans trained without the l1 loss are able to solve this problem at a reasonable degree input ground truth l1 cgan nearly discrete rather than images with their continuousvalued variation although cgans achieve some success they are far from the best available method for solving this problem simply"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7826,
+        "downstream_relevance_score": 0.5598,
+        "components": {
+          "bio_boundary_score": 0.9784,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ground",
+          "truth"
+        ],
+        "normalization": "ground truth",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ground truth",
+          "canonical": "ground truth",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9784",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5598"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "generator",
+        "canonical": "generator",
+        "normalized": "generator",
+        "tokens": [
+          "generator"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 21,
+        "sentence": "key features discussed below generator with skips a defining feature of image-to-image translation problems is that they map a high resolution input grid to a high resolution output grid in addition for the problems we consider the input and output differ in surface appearance but both are renderings of the same underlying structure therefore structure in the input is roughly aligned with structure in the output we design the generator architecture around these considerations many previous solutions to problems in",
+        "context_window": {
+          "previous": "conditional distributions they model is an important question left open by the present work encoder-decoder u-net x y x y figure two choices for the architecture of the generator the u-net is an encoder-decoder with skip connections between mirrored layers in the encoder and decoder stacks network architectures we adapt our generator and discriminator architectures from those in both generator and discriminator use modules of the form convolution-batchnorm-relu details of the architecture are provided in the supplemental materials online with",
+          "current": "key features discussed below generator with skips a defining feature of image-to-image translation problems is that they map a high resolution input grid to a high resolution output grid in addition for the problems we consider the input and output differ in surface appearance but both are renderings of the same underlying structure therefore structure in the input is roughly aligned with structure in the output we design the generator architecture around these considerations many previous solutions to problems in",
+          "next": "this area have used an encoder-decoder network in such a network the input is passed through a series of layers that progressively downsample until a bottleneck layer at which point the process is reversed such a network requires that all information flow pass through all the layers including the bottleneck for many image translation problems there is a great deal of low-level information shared between the input and output and it would be desirable to shuttle this information directly across"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6717,
+        "downstream_relevance_score": 0.5493,
+        "components": {
+          "bio_boundary_score": 0.9581,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generator"
+        ],
+        "normalization": "generator",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "generator",
+          "canonical": "generator",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9581",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, design",
+        "downstream relevance score is 0.5493"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "input output",
+        "canonical": "input output",
+        "normalized": "input output",
+        "tokens": [
+          "input",
+          "output"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 75,
+        "sentence": "edges shoes compared to ground truth input output input output input output figure additional results of the edges photo models applied to human-drawn sketches from note that the models were trained on automatically detected edges but generalize to human drawings figure example results on photo inpainting compared to on the paris streetview dataset this experiment demonstrates that the u-net architecture can be effective even when the predicted pixels are not geometrically aligned with the information in the input -the information",
+        "context_window": {
+          "previous": "output figure 14 example results of our method on facades labels photo compared to ground truth input ground truth output input ground truth output figure 15 example results of our method on day night compared to ground truth input ground truth output input ground truth output figure 16 example results of our method on automatically detected edges handbags compared to ground truth input ground truth output input ground truth output figure 17 example results of our method on automatically detected",
+          "current": "edges shoes compared to ground truth input output input output input output figure additional results of the edges photo models applied to human-drawn sketches from note that the models were trained on automatically detected edges but generalize to human drawings figure example results on photo inpainting compared to on the paris streetview dataset this experiment demonstrates that the u-net architecture can be effective even when the predicted pixels are not geometrically aligned with the information in the input -the information",
+          "next": "used to fill in the central hole has to be found in the periphery of these photos input ground truth output input ground truth output day night edges shoe handbag labels facade street scene handbag edges labels sketch sketch shoe figure 21 example failure cases each pair of images shows input on the left and output on the right these examples are selected as some of the worst results on our tasks common failures include artifacts in regions where the"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5948,
+        "downstream_relevance_score": 0.5461,
+        "components": {
+          "bio_boundary_score": 0.5505,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "input",
+          "output"
+        ],
+        "normalization": "input output",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "input output",
+          "canonical": "input output",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5505",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture, trained on, dataset",
+        "downstream relevance score is 0.5461"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "map aerial photo",
+        "canonical": "map aerial photo",
+        "normalized": "map aerial photo",
+        "tokens": [
+          "map",
+          "aerial",
+          "photo"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 36,
+        "sentence": "one algorithm at a time and turkers were not allowed to complete more than one session 50 turkers evaluated each algorithm unlike we did not include vigilance trials for our colorization the real and fake images were generated from the same grayscale input for map aerial photo the real and fake images were not generated from the same input in order to make the task more difficult and avoid floor-level results for map aerial photo we trained on 256 256",
+        "context_window": {
+          "previous": "the protocol from turkers were presented with a series of trials that pitted a real image against a fake image generated by our algorithm on each trial each image appeared for 1 second after which the images disappeared and turkers were given unlimited time to respond as to which was fake the first 10 images of each session were practice and turkers were given feedback no feedback was provided on the 40 trials of the main each session tested just",
+          "current": "one algorithm at a time and turkers were not allowed to complete more than one session 50 turkers evaluated each algorithm unlike we did not include vigilance trials for our colorization the real and fake images were generated from the same grayscale input for map aerial photo the real and fake images were not generated from the same input in order to make the task more difficult and avoid floor-level results for map aerial photo we trained on 256 256",
+          "next": "reso-lution images but exploited fully-convolutional translation described above to test on 512 512 images which were then downsampled and presented to turkers at 256 256 resolution for colorization we trained and tested on 256 256 resolution images and presented the results to turkers at this same resolution fcn-score while quantitative of generative models is known to be challenging recent works have tried using pre-trained semantic classifiers to measure the discriminability of the generated stimuli as a pseudo-metric the intuition is"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.639,
+        "downstream_relevance_score": 0.5299,
+        "components": {
+          "bio_boundary_score": 0.7477,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "map",
+          "aerial",
+          "photo"
+        ],
+        "normalization": "map aerial photo",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "map aerial photo",
+          "canonical": "map aerial photo",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7477",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence cue lexicon matched trained on, algorithm",
+        "downstream relevance score is 0.5299"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "bootstrap test",
+        "canonical": "bootstrap test",
+        "normalized": "bootstrap test",
+        "tokens": [
+          "bootstrap",
+          "test"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 66,
+        "sentence": "of trials and this was not significantly different than the performance of the l1 baseline based on bootstrap test this may be because minor structural errors are more visible classification ours l2 rebal l1 cgan ground truth in maps which have rigid geometry than in aerial photographs which are more chaotic we trained colorization on imagenet and tested on the test split introduced by our method with l1 cgan loss fooled participants on 22 5 of trials ta- input ground",
+        "context_window": {
+          "previous": "the effectiveness of this approach perceptual validation we validate the perceptual realism of our results on the tasks of map aerial photograph and grayscale color results of our amt experiment for map photo are given in table the aerial photos generated by our method fooled participants on 18 9 of trials significantly above the l1 baseline which produces blurry results and nearly never fooled participants in contrast in the photo map direction our method only fooled participants on 6 1",
+          "current": "of trials and this was not significantly different than the performance of the l1 baseline based on bootstrap test this may be because minor structural errors are more visible classification ours l2 rebal l1 cgan ground truth in maps which have rigid geometry than in aerial photographs which are more chaotic we trained colorization on imagenet and tested on the test split introduced by our method with l1 cgan loss fooled participants on 22 5 of trials ta- input ground",
+          "next": "truth l1 cgan ble 5 we also tested the results of and a variant of their method that used an l2 loss see for details the conditional gan scored similarly to the l2 variant of difference insignificant by bootstrap test but fell short of s full method which fooled participants on 27 8 of trials in our experiment we note that their method was specifically engineered to do well on colorization semantic segmentation conditional gans appear to be effective on"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "tested on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "test-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6535,
+        "downstream_relevance_score": 0.5148,
+        "components": {
+          "bio_boundary_score": 0.8965,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bootstrap",
+          "test"
+        ],
+        "normalization": "bootstrap test",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bootstrap test",
+          "canonical": "bootstrap test",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8965",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched tested on",
+        "downstream relevance score is 0.5148"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "patchgan",
+        "canonical": "patchgan",
+        "normalized": "patchgan",
+        "tokens": [
+          "patchgan"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 26,
+        "sentence": "of d in section 4 4 we demonstrate that n can be much smaller than the full size of the image and still produce high quality results this is advantageous because a smaller patchgan has fewer parameters runs faster and can be applied to arbitrarily large images such a discriminator effectively models the image as a markov random field assuming independence between pixels separated by more than a patch diameter this connection was previously explored in and is also the",
+        "context_window": {
+          "previous": "l1 term to force low-frequency correctness eqn 4 in order to model high-frequencies it is sufficient to restrict our attention to the structure in local image patches therefore we design a discriminator architecture -which we term a patchgan -that only penalizes structure at the scale of patches this discriminator tries to classify if each n n patch in an image is real or fake we run this discriminator convolutionally across the image averaging all responses to provide the ultimate output",
+          "current": "of d in section 4 4 we demonstrate that n can be much smaller than the full size of the image and still produce high quality results this is advantageous because a smaller patchgan has fewer parameters runs faster and can be applied to arbitrarily large images such a discriminator effectively models the image as a markov random field assuming independence between pixels separated by more than a patch diameter this connection was previously explored in and is also the",
+          "next": "common assumption in models of texture and style therefore our patchgan can be understood as a form of texture style loss optimization and inference to optimize our networks we follow the standard approach from we alternate between one gradient descent step on d then one step on g as suggested in the original gan paper rather than training g to minimize log 1 -d x g x z we instead train to maximize log d x g x z in"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7304,
+        "downstream_relevance_score": 0.5098,
+        "components": {
+          "bio_boundary_score": 0.9435,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "patchgan"
+        ],
+        "normalization": "patchgan",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "patchgan",
+          "canonical": "patchgan",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9435",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5098"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "receptive field",
+        "canonical": "receptive field",
+        "normalized": "receptive field",
+        "tokens": [
+          "receptive",
+          "field"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 40,
+        "sentence": "1 0 39 0 15 0 10 16 16 0 65 0 21 0 17 70 70 0 66 0 23 0 17 286 286 0 42 0 16 0 11 table 3 fcn-scores for different receptive field sizes of the discriminator evaluated on cityscapes labels photos note that input images are 256 256 pixels and larger receptive fields are padded with zeros figure shows the qualitative effects of these variations on two labels photo problems l1 alone leads to",
+        "context_window": {
+          "previous": "of the l1 term the gan term and to compare using a discriminator conditioned on the input cgan eqn 1 against using an unconditional discriminator gan eqn 2 table 2 fcn-scores for different generator architectures and objectives evaluated on cityscapes labels photos u-net l1-cgan scores differ from those reported in other tables since batch size was 10 for this and 1 for other tables and random variation between training runs discriminator receptive field per-pixel acc per-class acc class iou 1",
+          "current": "1 0 39 0 15 0 10 16 16 0 65 0 21 0 17 70 70 0 66 0 23 0 17 286 286 0 42 0 16 0 11 table 3 fcn-scores for different receptive field sizes of the discriminator evaluated on cityscapes labels photos note that input images are 256 256 pixels and larger receptive fields are padded with zeros figure shows the qualitative effects of these variations on two labels photo problems l1 alone leads to",
+          "next": "reasonable but blurry results the cgan alone setting 0 in eqn 4 gives much sharper results but introduces visual artifacts on certain applications adding both terms together with 100 reduces these artifacts we quantify these observations using the fcn-score on the cityscapes labels photo task table the gan-based objectives achieve higher scores indicating that the synthesized images include more recognizable structure we also test the effect of removing conditioning from the discriminator labeled as gan in this case the loss"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "evaluated on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset evidence cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.672,
+        "downstream_relevance_score": 0.5063,
+        "components": {
+          "bio_boundary_score": 0.8552,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "receptive",
+          "field"
+        ],
+        "normalization": "receptive field",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "receptive field",
+          "canonical": "receptive field",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8552",
+        "structure model assigned role 'finding' with score 0.66",
+        "evidence cue lexicon matched evaluated on",
+        "downstream relevance score is 0.5063"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "corresponding output image",
+        "canonical": "corresponding output image",
+        "normalized": "corresponding output image",
+        "tokens": [
+          "corresponding",
+          "output",
+          "image"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "figure many problems in image processing graphics and vision involve translating an input image into a corresponding output image these problems are often treated with application-specific algorithms even though the setting is always the same map pixels to pixels conditional adversarial nets are a general-purpose solution that appears to work well on a wide variety of these problems here we show results of the method on several in each case we use the same architecture and objective and simply train on different data body",
+        "context_window": {
+          "previous": "title image-to-image translation with conditional adversarial networks",
+          "current": "figure many problems in image processing graphics and vision involve translating an input image into a corresponding output image these problems are often treated with application-specific algorithms even though the setting is always the same map pixels to pixels conditional adversarial nets are a general-purpose solution that appears to work well on a wide variety of these problems here we show results of the method on several in each case we use the same architecture and objective and simply train on different data body",
+          "next": "many problems in image processing computer graphics and computer vision can be posed as translating an input image into a corresponding output image just as a concept may be expressed in either english or french a scene may be rendered as an rgb image a gradient field an edge map a semantic label map etc in analogy to automatic language translation we define automatic image-to-image translation as the task of translating one possible representation of a scene into another given"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9038
+      },
+      "evidence": {
+        "score": 0.3941,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.577,
+        "downstream_relevance_score": 0.4925,
+        "components": {
+          "bio_boundary_score": 0.6173,
+          "sentence_evidence_score": 0.3941,
+          "sentence_role_score": 0.9038,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "corresponding",
+          "output",
+          "image"
+        ],
+        "normalization": "corresponding output image",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "corresponding output image",
+          "canonical": "corresponding output image",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6173",
+        "structure model assigned role 'problem' with score 0.9038",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.4925"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "pix2pix",
+        "canonical": "pix2pix",
+        "normalized": "pix2pix",
+        "tokens": [
+          "pix2pix"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 72,
+        "sentence": "novel image-to-image translation tasks far beyond the scope of the original paper figure and figure show just a few examples from the pix2pix hashtag including background removal palette generation sketch portrait sketch pokemon do as i do pose transfer learning to see gloomy sunday as well as the bizarrely popular edges2cats and fotogenerator note that these applications are creative projects were not obtained in controlled scientific conditions and may rely on some modifications to the pix2pix code we released nonetheless",
+        "context_window": {
+          "previous": "regression gets better scores than using a cgan as shown in table we argue that for vision problems the goal i e predicting output close to the ground truth may be less ambiguous than graphics tasks and reconstruction losses like l1 are mostly sufficient community-driven research since the initial release of the paper and our pix2pix codebase the twitter community including computer vision and graphics practitioners as well as visual artists have successfully applied our framework to a variety of",
+          "current": "novel image-to-image translation tasks far beyond the scope of the original paper figure and figure show just a few examples from the pix2pix hashtag including background removal palette generation sketch portrait sketch pokemon do as i do pose transfer learning to see gloomy sunday as well as the bizarrely popular edges2cats and fotogenerator note that these applications are creative projects were not obtained in controlled scientific conditions and may rely on some modifications to the pix2pix code we released nonetheless",
+          "next": "they demonstrate the promise of our approach as a generic commodity tool for image-to-image translation problems the results in this paper suggest that conditional adversarial networks are a promising approach for many imageto-image translation tasks especially those involving highly structured graphical outputs these networks learn a loss adapted to the task and data at hand which makes them applicable in a wide variety of settings input ground truth output input ground truth output input ground truth output input ground truth"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7041,
+        "downstream_relevance_score": 0.4907,
+        "components": {
+          "bio_boundary_score": 0.8865,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pix2pix"
+        ],
+        "normalization": "pix2pix",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pix2pix",
+          "canonical": "pix2pix",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8865",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.4907"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "euclidean distance",
+        "canonical": "euclidean distance",
+        "normalized": "euclidean distance",
+        "tokens": [
+          "euclidean",
+          "distance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "between predicted and ground truth pixels it will tend to produce blurry results this is because euclidean distance is minimized by averaging all plausible outputs which causes blurring coming up with loss functions that force the cnn to do what we really want -e g output sharp realistic images -is an open problem and generally requires expert knowledge it would be highly desirable if we could instead specify only a high-level goal like make the output indistinguishable from reality and",
+        "context_window": {
+          "previous": "loss functionan objective that scores the quality of results -and although the learning process is automatic a lot of manual effort still 1 arxiv 1611 07004v3 cs cv 26 nov 2018 goes into designing effective losses in other words we still have to tell the cnn what we wish it to minimize but just like king midas we must be careful what we wish for if we take a naive approach and ask the cnn to minimize the euclidean distance",
+          "current": "between predicted and ground truth pixels it will tend to produce blurry results this is because euclidean distance is minimized by averaging all plausible outputs which causes blurring coming up with loss functions that force the cnn to do what we really want -e g output sharp realistic images -is an open problem and generally requires expert knowledge it would be highly desirable if we could instead specify only a high-level goal like make the output indistinguishable from reality and",
+          "next": "then automatically learn a loss function appropriate for satisfying this goal fortunately this is exactly what is done by the recently proposed generative adversarial networks gans gans learn a loss that tries to classify if the output image is real or fake while simultaneously training a generative model to minimize this loss blurry images will not be tolerated since they look obviously fake because gans learn a loss that adapts to the data they can be applied to a multitude"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9038
+      },
+      "evidence": {
+        "score": 0.3941,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.654,
+        "downstream_relevance_score": 0.4875,
+        "components": {
+          "bio_boundary_score": 0.8773,
+          "sentence_evidence_score": 0.3941,
+          "sentence_role_score": 0.9038,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "euclidean",
+          "distance"
+        ],
+        "normalization": "euclidean distance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "euclidean distance",
+          "canonical": "euclidean distance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8773",
+        "structure model assigned role 'problem' with score 0.9038",
+        "downstream relevance score is 0.4875"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "markov random field",
+        "canonical": "markov random field",
+        "normalized": "markov random field",
+        "tokens": [
+          "markov",
+          "random",
+          "field"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 26,
+        "sentence": "of d in section 4 4 we demonstrate that n can be much smaller than the full size of the image and still produce high quality results this is advantageous because a smaller patchgan has fewer parameters runs faster and can be applied to arbitrarily large images such a discriminator effectively models the image as a markov random field assuming independence between pixels separated by more than a patch diameter this connection was previously explored in and is also the",
+        "context_window": {
+          "previous": "l1 term to force low-frequency correctness eqn 4 in order to model high-frequencies it is sufficient to restrict our attention to the structure in local image patches therefore we design a discriminator architecture -which we term a patchgan -that only penalizes structure at the scale of patches this discriminator tries to classify if each n n patch in an image is real or fake we run this discriminator convolutionally across the image averaging all responses to provide the ultimate output",
+          "current": "of d in section 4 4 we demonstrate that n can be much smaller than the full size of the image and still produce high quality results this is advantageous because a smaller patchgan has fewer parameters runs faster and can be applied to arbitrarily large images such a discriminator effectively models the image as a markov random field assuming independence between pixels separated by more than a patch diameter this connection was previously explored in and is also the",
+          "next": "common assumption in models of texture and style therefore our patchgan can be understood as a form of texture style loss optimization and inference to optimize our networks we follow the standard approach from we alternate between one gradient descent step on d then one step on g as suggested in the original gan paper rather than training g to minimize log 1 -d x g x z we instead train to maximize log d x g x z in"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6224,
+        "downstream_relevance_score": 0.4737,
+        "components": {
+          "bio_boundary_score": 0.5743,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "markov",
+          "random",
+          "field"
+        ],
+        "normalization": "markov random field",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "markov random field",
+          "canonical": "markov random field",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5743",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4737"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "loss function",
+        "canonical": "loss function",
+        "normalized": "loss function",
+        "tokens": [
+          "loss",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 6,
+        "sentence": "then automatically learn a loss function appropriate for satisfying this goal fortunately this is exactly what is done by the recently proposed generative adversarial networks gans gans learn a loss that tries to classify if the output image is real or fake while simultaneously training a generative model to minimize this loss blurry images will not be tolerated since they look obviously fake because gans learn a loss that adapts to the data they can be applied to a multitude",
+        "context_window": {
+          "previous": "between predicted and ground truth pixels it will tend to produce blurry results this is because euclidean distance is minimized by averaging all plausible outputs which causes blurring coming up with loss functions that force the cnn to do what we really want -e g output sharp realistic images -is an open problem and generally requires expert knowledge it would be highly desirable if we could instead specify only a high-level goal like make the output indistinguishable from reality and",
+          "current": "then automatically learn a loss function appropriate for satisfying this goal fortunately this is exactly what is done by the recently proposed generative adversarial networks gans gans learn a loss that tries to classify if the output image is real or fake while simultaneously training a generative model to minimize this loss blurry images will not be tolerated since they look obviously fake because gans learn a loss that adapts to the data they can be applied to a multitude",
+          "next": "of tasks that traditionally would require very different kinds of loss functions in this paper we explore gans in the conditional setting just as gans learn a generative model of data conditional gans cgans learn a conditional generative model this makes cgans suitable for image-to-image translation tasks where we condition on an input image and generate a corresponding output image gans have been vigorously studied in the last two years and many of the techniques we explore in this paper"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6066,
+        "downstream_relevance_score": 0.4554,
+        "components": {
+          "bio_boundary_score": 0.5823,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "loss",
+          "function"
+        ],
+        "normalization": "loss function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "loss function",
+          "canonical": "loss function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5823",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4554"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "skip connection",
+        "canonical": "skip connection",
+        "normalized": "skip connection",
+        "tokens": [
+          "skip",
+          "connection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 23,
+        "sentence": "the net for example in the case of image colorization the input and output share the location of prominent edges to give the generator a means to circumvent the bottleneck for information like this we add skip connections following the general shape of a u-net specifically we add skip connections between each layer i and layer ni where n is the total number of layers each skip connection simply concatenates all channels at layer i with those at layer ni",
+        "context_window": {
+          "previous": "this area have used an encoder-decoder network in such a network the input is passed through a series of layers that progressively downsample until a bottleneck layer at which point the process is reversed such a network requires that all information flow pass through all the layers including the bottleneck for many image translation problems there is a great deal of low-level information shared between the input and output and it would be desirable to shuttle this information directly across",
+          "current": "the net for example in the case of image colorization the input and output share the location of prominent edges to give the generator a means to circumvent the bottleneck for information like this we add skip connections following the general shape of a u-net specifically we add skip connections between each layer i and layer ni where n is the total number of layers each skip connection simply concatenates all channels at layer i with those at layer ni",
+          "next": "markovian discriminator patchgan it is well known that the l2 loss -and l1 see figure -produces blurry results on image generation problems although these losses fail to encourage high-frequency crispness in many cases they nonetheless accurately capture the low frequencies for problems where this is the case we do not need an entirely new framework to enforce correctness at the low frequencies l1 will already do this motivates restricting the gan discriminator to only model high-frequency structure relying on an"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6173,
+        "downstream_relevance_score": 0.4386,
+        "components": {
+          "bio_boundary_score": 0.6747,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "skip",
+          "connection"
+        ],
+        "normalization": "skip connection",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "skip connection",
+          "canonical": "skip connection",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6747",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4386"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "cgan",
+        "canonical": "cgan",
+        "normalized": "cgan",
+        "tokens": [
+          "cgan"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 58,
+        "sentence": "1x1 16x16 70x70 256x256 classification ours l2 rebal l1 cgan ground truth figure colorization results of conditional gans versus the l2 regression from and the full method classification with rebalancing from the cgans can produce compelling colorizations first two rows but have a common failure mode of producing a grayscale or desaturated result last row to begin to test this we train a cgan with without l1 loss on cityscape photo labels figure shows qualitative results and quantitative classification accuracies",
+        "context_window": {
+          "previous": "728 729 730 731 732 733 734 735 736 737 738 739 740 741 742 743 744 745 746 747 748 749 750 751 752 cvpr 385 cvpr 385 cvpr 2016 submission 385 confidential review copy do not distribute figure of the original gan paper note that the histogram intersection scores are dominated by differences in the high probability region which are imperceptible in the plots which show log probability and therefore emphasize differences in the low probability regions l1",
+          "current": "1x1 16x16 70x70 256x256 classification ours l2 rebal l1 cgan ground truth figure colorization results of conditional gans versus the l2 regression from and the full method classification with rebalancing from the cgans can produce compelling colorizations first two rows but have a common failure mode of producing a grayscale or desaturated result last row to begin to test this we train a cgan with without l1 loss on cityscape photo labels figure shows qualitative results and quantitative classification accuracies",
+          "next": "are reported in table interestingly cgans trained without the input ground truth l1 cgan nearly discrete rather than images with their continuousvalued variation although cgans achieve some success they are far from the best available method for solving this problem simply using l1 regression gets better scores than using a cgan as shown in table we argue that for vision problems the goal i e predicting output close to ground truth may be less ambiguous than graphics tasks and reconstruction"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6016,
+        "downstream_relevance_score": 0.4374,
+        "components": {
+          "bio_boundary_score": 0.535,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cgan"
+        ],
+        "normalization": "cgan",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cgan",
+          "canonical": "cgan",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.535",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.4374"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "image colorization",
+        "canonical": "image colorization",
+        "normalized": "image colorization",
+        "tokens": [
+          "image",
+          "colorization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 23,
+        "sentence": "the net for example in the case of image colorization the input and output share the location of prominent edges to give the generator a means to circumvent the bottleneck for information like this we add skip connections following the general shape of a u-net specifically we add skip connections between each layer i and layer ni where n is the total number of layers each skip connection simply concatenates all channels at layer i with those at layer ni",
+        "context_window": {
+          "previous": "this area have used an encoder-decoder network in such a network the input is passed through a series of layers that progressively downsample until a bottleneck layer at which point the process is reversed such a network requires that all information flow pass through all the layers including the bottleneck for many image translation problems there is a great deal of low-level information shared between the input and output and it would be desirable to shuttle this information directly across",
+          "current": "the net for example in the case of image colorization the input and output share the location of prominent edges to give the generator a means to circumvent the bottleneck for information like this we add skip connections following the general shape of a u-net specifically we add skip connections between each layer i and layer ni where n is the total number of layers each skip connection simply concatenates all channels at layer i with those at layer ni",
+          "next": "markovian discriminator patchgan it is well known that the l2 loss -and l1 see figure -produces blurry results on image generation problems although these losses fail to encourage high-frequency crispness in many cases they nonetheless accurately capture the low frequencies for problems where this is the case we do not need an entirely new framework to enforce correctness at the low frequencies l1 will already do this motivates restricting the gan discriminator to only model high-frequency structure relying on an"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6034,
+        "downstream_relevance_score": 0.4314,
+        "components": {
+          "bio_boundary_score": 0.6273,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "colorization"
+        ],
+        "normalization": "image colorization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image colorization",
+          "canonical": "image colorization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6273",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4314"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "discriminator",
+        "canonical": "discriminator",
+        "normalized": "discriminator",
+        "tokens": [
+          "discriminator"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 13,
+        "sentence": "others our method also differs from the prior works in several architectural choices for the generator and discriminator unlike past work for our generator",
+        "context_window": {
+          "previous": "other papers have also used gans for image-to-image mappings but only applied the gan unconditionally relying on other terms such as l2 regression to force the output to be conditioned on the input these papers have achieved impressive results on inpainting future state prediction image manipulation guided by user constraints style transfer and superresolution each of the methods was tailored for a specific application our framework differs in that nothing is applicationspecific this makes our setup considerably simpler than most",
+          "current": "others our method also differs from the prior works in several architectural choices for the generator and discriminator unlike past work for our generator",
+          "next": "we use a u-net -based architecture and for our discriminator we use a convolutional patchgan classifier which only penalizes structure at the scale of image patches a similar patchgan architecture was previously proposed in to capture local style statistics here we show that this approach is effective on a wider range of problems and we investigate the effect of changing the patch size gans are generative models that learn a mapping from random noise vector z to output image y"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.5999
+      },
+      "evidence": {
+        "score": 0.2432,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6514,
+        "downstream_relevance_score": 0.4308,
+        "components": {
+          "bio_boundary_score": 0.9913,
+          "sentence_evidence_score": 0.2432,
+          "sentence_role_score": 0.5999,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "discriminator"
+        ],
+        "normalization": "discriminator",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "discriminator",
+          "canonical": "discriminator",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9913",
+        "structure model assigned role 'gap' with score 0.5999",
+        "downstream relevance score is 0.4308"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "image-toimage translation",
+        "canonical": "image-toimage translation",
+        "normalized": "image-toimage translation",
+        "tokens": [
+          "image-toimage",
+          "translation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 8,
+        "sentence": "have been previously proposed nonetheless earlier papers have focused on specific applications and it has remained unclear how effective image-conditional gans can be as a general-purpose solution for image-toimage translation our primary contribution is to demonstrate that on a wide variety of problems conditional gans produce reasonable results our second contribution is to present a simple framework sufficient to achieve good results and to analyze the effects of several important architectural choices code is available at",
+        "context_window": {
+          "previous": "of tasks that traditionally would require very different kinds of loss functions in this paper we explore gans in the conditional setting just as gans learn a generative model of data conditional gans cgans learn a conditional generative model this makes cgans suitable for image-to-image translation tasks where we condition on an input image and generate a corresponding output image gans have been vigorously studied in the last two years and many of the techniques we explore in this paper",
+          "current": "have been previously proposed nonetheless earlier papers have focused on specific applications and it has remained unclear how effective image-conditional gans can be as a general-purpose solution for image-toimage translation our primary contribution is to demonstrate that on a wide variety of problems conditional gans produce reasonable results our second contribution is to present a simple framework sufficient to achieve good results and to analyze the effects of several important architectural choices code is available at",
+          "next": "structured losses for image modeling image-to-image translation problems are often formulated as per-pixel classification or regression e g these formulations treat the output space as unstructured in the sense that each output pixel is considered conditionally independent from all others given the input image conditional gans instead learn a structured loss structured losses penalize the joint configuration of the output a fake g x x d real d g x y x figure training a conditional gan to map edges"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4783,
+        "downstream_relevance_score": 0.4043,
+        "components": {
+          "bio_boundary_score": 0.7083,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image-toimage",
+          "translation"
+        ],
+        "normalization": "image-toimage translation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image-toimage translation",
+          "canonical": "image-toimage translation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7083",
+        "structure model assigned role 'motivation' with score 0.82",
+        "evidence cue lexicon matched framework, present",
+        "downstream relevance score is 0.4043"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "pixelgan",
+        "canonical": "pixelgan",
+        "normalized": "pixelgan",
+        "tokens": [
+          "pixelgan"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 61,
+        "sentence": "and table quantifies the effects using the fcn-score note that elsewhere in this paper unless specified all experiments use 70 70 patchgans and for this section all experiments use an l1 cgan loss the pixelgan has no effect on spatial sharpness but does increase the colorfulness of the results quantified in figure for example the bus in figure is painted gray when the net is trained with an l1 loss but becomes red with the pixelgan loss color histogram matching",
+        "context_window": {
+          "previous": "losses like l1 are mostly sufficient the results in this paper suggest that conditional adversarial networks are a promising approach for many imageto-image translation tasks especially those involving highly figure of the original gan paper note that the histogram intersection scores are dominated by differences in the high probability region which are imperceptible in the plots which show log probability and therefore emphasize differences in the low probability regions full 286 286 imagegan figure shows qualitative results of this analysis",
+          "current": "and table quantifies the effects using the fcn-score note that elsewhere in this paper unless specified all experiments use 70 70 patchgans and for this section all experiments use an l1 cgan loss the pixelgan has no effect on spatial sharpness but does increase the colorfulness of the results quantified in figure for example the bus in figure is painted gray when the net is trained with an l1 loss but becomes red with the pixelgan loss color histogram matching",
+          "next": "is a common problem in image processing and pixelgans may be a promising lightweight solution using a 16 16 patchgan is sufficient to promote sharp outputs and achieves good fcn-scores but also leads to tiling artifacts the 70 70 patchgan alleviates these artifacts and achieves slightly better scores scaling beyond this to the full 286 286 imagegan does not appear to improve the visual quality of the results and in fact gets a considerably lower fcn-score table this may be"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5856,
+        "downstream_relevance_score": 0.3673,
+        "components": {
+          "bio_boundary_score": 0.9204,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pixelgan"
+        ],
+        "normalization": "pixelgan",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pixelgan",
+          "canonical": "pixelgan",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9204",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.3673"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "semantic segmentation",
+        "canonical": "semantic segmentation",
+        "normalized": "semantic segmentation",
+        "tokens": [
+          "semantic",
+          "segmentation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 69,
+        "sentence": "do as i do pose transfer by brannon dorsey and fotogenerator by bosman et al loss per-pixel acc per-class acc class iou l1 0 86 0 42 0 35 cgan 0 74 0 28 0 22 l1 cgan 0 83 0 36 0 29 table 6 performance of photo labels on cityscapes about vision problems like semantic segmentation where the output is instead less complex than the input to begin to test this we train a cgan with without l1",
+        "context_window": {
+          "previous": "problems where the output is highly detailed or photographic as is common in image processing and graphics tasks what by jack qiao sketch by ivy tsai by kaihu chen by mario klingemann by brannon dorsey by bertrand gondouin sketch by yann lecun fotogenerator figure 11 example applications developed by online community based on our pix2pix codebase edges2cats by christopher hesse background removal by kaihu chen palette generation by jack qiao sketch portrait by mario klingemann sketch pokemon by bertrand gondouin",
+          "current": "do as i do pose transfer by brannon dorsey and fotogenerator by bosman et al loss per-pixel acc per-class acc class iou l1 0 86 0 42 0 35 cgan 0 74 0 28 0 22 l1 cgan 0 83 0 36 0 29 table 6 performance of photo labels on cityscapes about vision problems like semantic segmentation where the output is instead less complex than the input to begin to test this we train a cgan with without l1",
+          "next": "loss on cityscape photo labels figure shows qualitative results and quantitative classification accuracies are reported in table interestingly cgans trained without the l1 loss are able to solve this problem at a reasonable degree of accuracy to our knowledge this is the first demonstration of gans successfully generating labels which are nearly discrete rather than images with their continuousvalued variation although cgans achieve some success they are far from the best available method for solving this problem simply using l1"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5387,
+        "downstream_relevance_score": 0.3529,
+        "components": {
+          "bio_boundary_score": 0.914,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "semantic",
+          "segmentation"
+        ],
+        "normalization": "semantic segmentation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "semantic segmentation",
+          "canonical": "semantic segmentation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.914",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3529"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "input image",
+        "canonical": "input image",
+        "normalized": "input image",
+        "tokens": [
+          "input",
+          "image"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 77,
+        "sentence": "input image is sparse and difficulty in handling unusual inputs please see for more comprehensive results",
+        "context_window": {
+          "previous": "used to fill in the central hole has to be found in the periphery of these photos input ground truth output input ground truth output day night edges shoe handbag labels facade street scene handbag edges labels sketch sketch shoe figure 21 example failure cases each pair of images shows input on the left and output on the right these examples are selected as some of the worst results on our tasks common failures include artifacts in regions where the",
+          "current": "input image is sparse and difficulty in handling unusual inputs please see for more comprehensive results",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4932,
+        "downstream_relevance_score": 0.3293,
+        "components": {
+          "bio_boundary_score": 0.6456,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "input",
+          "image"
+        ],
+        "normalization": "input image",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "input image",
+          "canonical": "input image",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6456",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.3293"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "batch normalization",
+        "canonical": "batch normalization",
+        "normalized": "batch normalization",
+        "tokens": [
+          "batch",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 29,
+        "sentence": "we apply batch normalization using the statistics of the test batch rather than aggregated statistics of the training batch this approach to batch normalization when the batch size is set to 1 has been termed instance normalization and has been demonstrated to be effective at image generation tasks in our experiments we use batch sizes between 1 and 10 depending on the experiment to explore the generality of conditional gans we test the method on a variety of tasks and",
+        "context_window": {
+          "previous": "addition we divide the objective by 2 while optimizing d which slows down the rate at which d learns relative to g we use minibatch sgd and apply the adam solver with a learning rate of 0 0002 and momentum parameters 1 0 5 2 0 999 at inference time we run the generator net in exactly the same manner as during the training phase this differs from the usual protocol in that we apply dropout at test time and",
+          "current": "we apply batch normalization using the statistics of the test batch rather than aggregated statistics of the training batch this approach to batch normalization when the batch size is set to 1 has been termed instance normalization and has been demonstrated to be effective at image generation tasks in our experiments we use batch sizes between 1 and 10 depending on the experiment to explore the generality of conditional gans we test the method on a variety of tasks and",
+          "next": "datasets including both graphics tasks like photo generation and vision tasks like semantic segmentation semantic labels photo trained on the cityscapes dataset architectural labels photo trained on cmp facades map aerial photo trained on data scraped from google maps bw color photos trained on edges photo trained on data from and binary edges generated using the hed edge detector plus postprocessing sketch photo tests edges photo models on humandrawn sketches from day night trained on thermal color photos trained on"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4912,
+        "downstream_relevance_score": 0.3282,
+        "components": {
+          "bio_boundary_score": 0.7521,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "normalization"
+        ],
+        "normalization": "batch normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch normalization",
+          "canonical": "batch normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7521",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3282"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "instance normalization",
+        "canonical": "instance normalization",
+        "normalized": "instance normalization",
+        "tokens": [
+          "instance",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 29,
+        "sentence": "we apply batch normalization using the statistics of the test batch rather than aggregated statistics of the training batch this approach to batch normalization when the batch size is set to 1 has been termed instance normalization and has been demonstrated to be effective at image generation tasks in our experiments we use batch sizes between 1 and 10 depending on the experiment to explore the generality of conditional gans we test the method on a variety of tasks and",
+        "context_window": {
+          "previous": "addition we divide the objective by 2 while optimizing d which slows down the rate at which d learns relative to g we use minibatch sgd and apply the adam solver with a learning rate of 0 0002 and momentum parameters 1 0 5 2 0 999 at inference time we run the generator net in exactly the same manner as during the training phase this differs from the usual protocol in that we apply dropout at test time and",
+          "current": "we apply batch normalization using the statistics of the test batch rather than aggregated statistics of the training batch this approach to batch normalization when the batch size is set to 1 has been termed instance normalization and has been demonstrated to be effective at image generation tasks in our experiments we use batch sizes between 1 and 10 depending on the experiment to explore the generality of conditional gans we test the method on a variety of tasks and",
+          "next": "datasets including both graphics tasks like photo generation and vision tasks like semantic segmentation semantic labels photo trained on the cityscapes dataset architectural labels photo trained on cmp facades map aerial photo trained on data scraped from google maps bw color photos trained on edges photo trained on data from and binary edges generated using the hed edge detector plus postprocessing sketch photo tests edges photo models on humandrawn sketches from day night trained on thermal color photos trained on"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4846,
+        "downstream_relevance_score": 0.3248,
+        "components": {
+          "bio_boundary_score": 0.7293,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "instance",
+          "normalization"
+        ],
+        "normalization": "instance normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "instance normalization",
+          "canonical": "instance normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7293",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3248"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "grayish color",
+        "canonical": "grayish color",
+        "normalized": "grayish color",
+        "tokens": [
+          "grayish",
+          "color"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 44,
+        "sentence": "imagine cgans have a similar effect on sharpening in the spectral dimension -i e making images more colorful just as l1 will incentivize a blur when it is uncertain where exactly to locate an edge it will also incentivize an average grayish color when it is uncertain which of several plausible color values a pixel should take on specially l1 will be minimized by choosing the median of the conditional probability density function over possible colors an adversarial loss on",
+        "context_window": {
+          "previous": "the output respect the input since the l1 loss penalizes the distance between ground truth outputs which correctly match the input and synthesized outputs which may not correspondingly l1 gan is also effective at creating realistic renderings that respect the input label maps combining all terms l1 cgan performs similarly well colorfulness a striking effect of conditional gans is that they produce sharp images hallucinating spatial structure even where it does not exist in the input label map one might",
+          "current": "imagine cgans have a similar effect on sharpening in the spectral dimension -i e making images more colorful just as l1 will incentivize a blur when it is uncertain where exactly to locate an edge it will also incentivize an average grayish color when it is uncertain which of several plausible color values a pixel should take on specially l1 will be minimized by choosing the median of the conditional probability density function over possible colors an adversarial loss on",
+          "next": "the other hand can in principle become aware that grayish outputs are unrealistic and encourage matching the true color distribution in figure we investigate whether our cgans actually achieve this effect on the cityscapes dataset the plots show the marginal distributions over output color values in lab color space the ground truth distributions are shown with a dotted line it is apparent that l1 leads to a narrower distribution than the ground truth confirming the hypothesis that l1 encourages average"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5137,
+        "downstream_relevance_score": 0.3231,
+        "components": {
+          "bio_boundary_score": 0.7596,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "grayish",
+          "color"
+        ],
+        "normalization": "grayish color",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "grayish color",
+          "canonical": "grayish color",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7596",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3231"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "information flow",
+        "canonical": "information flow",
+        "normalized": "information flow",
+        "tokens": [
+          "information",
+          "flow"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 22,
+        "sentence": "this area have used an encoder-decoder network in such a network the input is passed through a series of layers that progressively downsample until a bottleneck layer at which point the process is reversed such a network requires that all information flow pass through all the layers including the bottleneck for many image translation problems there is a great deal of low-level information shared between the input and output and it would be desirable to shuttle this information directly across",
+        "context_window": {
+          "previous": "key features discussed below generator with skips a defining feature of image-to-image translation problems is that they map a high resolution input grid to a high resolution output grid in addition for the problems we consider the input and output differ in surface appearance but both are renderings of the same underlying structure therefore structure in the input is roughly aligned with structure in the output we design the generator architecture around these considerations many previous solutions to problems in",
+          "current": "this area have used an encoder-decoder network in such a network the input is passed through a series of layers that progressively downsample until a bottleneck layer at which point the process is reversed such a network requires that all information flow pass through all the layers including the bottleneck for many image translation problems there is a great deal of low-level information shared between the input and output and it would be desirable to shuttle this information directly across",
+          "next": "the net for example in the case of image colorization the input and output share the location of prominent edges to give the generator a means to circumvent the bottleneck for information like this we add skip connections following the general shape of a u-net specifically we add skip connections between each layer i and layer ni where n is the total number of layers each skip connection simply concatenates all channels at layer i with those at layer ni"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4701,
+        "downstream_relevance_score": 0.3173,
+        "components": {
+          "bio_boundary_score": 0.5258,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "information",
+          "flow"
+        ],
+        "normalization": "information flow",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "information flow",
+          "canonical": "information flow",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5258",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.3173"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "image prediction",
+        "canonical": "image prediction",
+        "normalized": "image prediction",
+        "tokens": [
+          "image",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 11,
+        "sentence": "the loss is learned and can in theory penalize any possible structure that differs between output and target conditional gans we are not the first to apply gans in the conditional setting prior and concurrent works have conditioned gans on discrete labels text and indeed images the image-conditional models have tackled image prediction from a normal map future frame prediction product photo generation and image generation from sparse annotations c f for an autoregressive approach to the same problem several",
+        "context_window": {
+          "previous": "photo the discriminator d learns to classify between fake synthesized by the generator and real edge photo tuples the generator g learns to fool the discriminator unlike an unconditional gan both the generator and discriminator observe the input edge map large body of literature has considered losses of this kind with methods including conditional random fields the ssim metric feature matching nonparametric losses the convolutional pseudo-prior and losses based on matching covariance statistics the conditional gan is different in that",
+          "current": "the loss is learned and can in theory penalize any possible structure that differs between output and target conditional gans we are not the first to apply gans in the conditional setting prior and concurrent works have conditioned gans on discrete labels text and indeed images the image-conditional models have tackled image prediction from a normal map future frame prediction product photo generation and image generation from sparse annotations c f for an autoregressive approach to the same problem several",
+          "next": "other papers have also used gans for image-to-image mappings but only applied the gan unconditionally relying on other terms such as l2 regression to force the output to be conditioned on the input these papers have achieved impressive results on inpainting future state prediction image manipulation guided by user constraints style transfer and superresolution each of the methods was tailored for a specific application our framework differs in that nothing is applicationspecific this makes our setup considerably simpler than most"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4329,
+        "downstream_relevance_score": 0.3107,
+        "components": {
+          "bio_boundary_score": 0.5537,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "prediction"
+        ],
+        "normalization": "image prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image prediction",
+          "canonical": "image prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5537",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "downstream relevance score is 0.3107"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "bottleneck",
+        "canonical": "bottleneck",
+        "normalized": "bottleneck",
+        "tokens": [
+          "bottleneck"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 22,
+        "sentence": "this area have used an encoder-decoder network in such a network the input is passed through a series of layers that progressively downsample until a bottleneck layer at which point the process is reversed such a network requires that all information flow pass through all the layers including the bottleneck for many image translation problems there is a great deal of low-level information shared between the input and output and it would be desirable to shuttle this information directly across",
+        "context_window": {
+          "previous": "key features discussed below generator with skips a defining feature of image-to-image translation problems is that they map a high resolution input grid to a high resolution output grid in addition for the problems we consider the input and output differ in surface appearance but both are renderings of the same underlying structure therefore structure in the input is roughly aligned with structure in the output we design the generator architecture around these considerations many previous solutions to problems in",
+          "current": "this area have used an encoder-decoder network in such a network the input is passed through a series of layers that progressively downsample until a bottleneck layer at which point the process is reversed such a network requires that all information flow pass through all the layers including the bottleneck for many image translation problems there is a great deal of low-level information shared between the input and output and it would be desirable to shuttle this information directly across",
+          "next": "the net for example in the case of image colorization the input and output share the location of prominent edges to give the generator a means to circumvent the bottleneck for information like this we add skip connections following the general shape of a u-net specifically we add skip connections between each layer i and layer ni where n is the total number of layers each skip connection simply concatenates all channels at layer i with those at layer ni"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4707,
+        "downstream_relevance_score": 0.3076,
+        "components": {
+          "bio_boundary_score": 0.5279,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bottleneck"
+        ],
+        "normalization": "bottleneck",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bottleneck",
+          "canonical": "bottleneck",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5279",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.3076"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 15,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The advantages of the U-Net appear not to be specific to conditional GANs: when both U-Net and encoder-decoder are trained with an L1 loss, the U-Net again achieves the superior results.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Details of the architecture are provided in the supplemental materials online, with key features discussed below.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To explore the generality of conditional GANs, we test the method on a variety of tasks and datasets, including both graphics tasks, like photo generation, and vision tasks, like semantic segmentation: • Semantic labels↔photo, trained on the Cityscapes dataset . • Architectural labels→photo, trained on CMP Facades . • Map↔aerial photo, trained on data scraped from Google Maps. • BW→color photos, trained on . • Edges→photo, trained on data from and ; binary edges generated using the HED edge detector plus postprocessing. • Sketch→photo: tests edges→photo models on humandrawn sketches from . • Day→night, trained on . • Thermal→color photos, trained on data from . • Photo with missing pixels→inpainted photo, trained on Paris StreetView from .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table 2: FCN-scores for different generator architectures (and objectives), evaluated on Cityscapes labels↔photos. (U-net (L1-cGAN) scores differ from those reported in other tables since batch size was 10 for this experiment and 1 for other tables, and random variation between training runs.) Discriminator receptive field Per-pixel acc.",
+        "evidence_type": "dataset",
+        "matched_cue": "evaluated on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Class IOU 1×1 0.39 0.15 0.10 16×16 0.65 0.21 0.17 70×70 0.66 0.23 0.17 286×286 0.42 0.16 0.11 Table 3: FCN-scores for different receptive field sizes of the discriminator, evaluated on Cityscapes labels→photos.",
+        "evidence_type": "dataset",
+        "matched_cue": "evaluated on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In Figure , we investigate whether our cGANs actually achieve this effect on the Cityscapes dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In each case we use the same architecture and objective, and simply train on different data.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Our goal in this paper is to develop a common framework for all these problems.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Our second contribution is to present a simple framework sufficient to achieve good results, and to analyze the effects of several important architectural choices.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Our second contribution is to present a simple framework sufficient to achieve good results, and to analyze the effects of several important architectural choices.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The generator G is trained to produce outputs that cannot be distinguished from \"real\" images by an adversarially trained discriminator, D, which is trained to do as well as possible at detecting the generator's \"fakes\".",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To explore the generality of conditional GANs, we test the method on a variety of tasks and datasets, including both graphics tasks, like photo generation, and vision tasks, like semantic segmentation: • Semantic labels↔photo, trained on the Cityscapes dataset . • Architectural labels→photo, trained on CMP Facades . • Map↔aerial photo, trained on data scraped from Google Maps. • BW→color photos, trained on . • Edges→photo, trained on data from and ; binary edges generated using the HED edge detector plus postprocessing. • Sketch→photo: tests edges→photo models on humandrawn sketches from . • Day→night, trained on . • Thermal→color photos, trained on data from . • Photo with missing pixels→inpainted photo, trained on Paris StreetView from .",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Using a 16×16 PatchGAN is sufficient to promote sharp outputs, and achieves good FCN-scores, but also leads to tiling artifacts.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "The 70 × 70 PatchGAN alleviates these artifacts and achieves slightly better scores.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "A U-Net architecture allows low-level information to shortcut across the network.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "deep generative model",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.6313
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "imagegan",
+        "section": "conclusion",
+        "role": "problem",
+        "score": 0.5674
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "ground truth",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5598
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "generator",
+        "section": "experiment",
+        "role": "prior_work",
+        "score": 0.5493
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "input output",
+        "section": "conclusion",
+        "role": "core_method",
+        "score": 0.5461
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "map aerial photo",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.5299
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "bootstrap test",
+        "section": "conclusion",
+        "role": "prior_work",
+        "score": 0.5148
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "patchgan",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.5098
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "receptive field",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.5063
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "corresponding output image",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4925
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "pix2pix",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.4907
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "euclidean distance",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4875
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "markov random field",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.4737
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "loss function",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.4554
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "skip connection",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.4386
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "cgan",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.4374
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "image colorization",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.4314
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "discriminator",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.4308
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "image-toimage translation",
+        "section": "intro",
+        "role": "motivation",
+        "score": 0.4043
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "pixelgan",
+        "section": "conclusion",
+        "role": "mechanism",
+        "score": 0.3673
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "semantic segmentation",
+        "section": "conclusion",
+        "role": "process",
+        "score": 0.3529
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "input image",
+        "section": "conclusion",
+        "role": "problem",
+        "score": 0.3293
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "batch normalization",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.3282
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "instance normalization",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.3248
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "grayish color",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3231
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "information flow",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.3173
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "image prediction",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3107
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "bottleneck",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.3076
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_008",
+        "target": "ecu_013",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_017",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_023",
+        "target": "ecu_024",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_026",
+        "target": "ecu_028",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_023",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

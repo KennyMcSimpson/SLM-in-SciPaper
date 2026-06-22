@@ -1,0 +1,3020 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_deep_learning_layer_normalization",
+    "title": "2016_deep_learning_layer_normalization",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_deep_learning_layer_normalization.txt",
+    "sentence_count": 66,
+    "section_counts": {
+      "intro": 3,
+      "related_work": 4,
+      "method": 35,
+      "experiment": 23,
+      "conclusion": 1
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5087,
+    "type_count": 1052,
+    "type_token_ratio": 0.2068,
+    "section_token_counts": {
+      "intro": 202,
+      "related_work": 310,
+      "method": 2740,
+      "experiment": 1767,
+      "conclusion": 68
+    },
+    "top_unigrams": [
+      {
+        "term": "normalization",
+        "count": 116
+      },
+      {
+        "term": "layer",
+        "count": 84
+      },
+      {
+        "term": "model",
+        "count": 42
+      },
+      {
+        "term": "batch",
+        "count": 35
+      },
+      {
+        "term": "training",
+        "count": 34
+      },
+      {
+        "term": "neural",
+        "count": 30
+      },
+      {
+        "term": "summed",
+        "count": 27
+      },
+      {
+        "term": "weight",
+        "count": 27
+      },
+      {
+        "term": "networks",
+        "count": 24
+      },
+      {
+        "term": "inputs",
+        "count": 23
+      },
+      {
+        "term": "hidden",
+        "count": 22
+      },
+      {
+        "term": "recurrent",
+        "count": 21
+      },
+      {
+        "term": "weights",
+        "count": 21
+      },
+      {
+        "term": "learning",
+        "count": 20
+      },
+      {
+        "term": "models",
+        "count": 20
+      },
+      {
+        "term": "used",
+        "count": 19
+      },
+      {
+        "term": "same",
+        "count": 19
+      },
+      {
+        "term": "using",
+        "count": 18
+      },
+      {
+        "term": "normalized",
+        "count": 18
+      },
+      {
+        "term": "vector",
+        "count": 17
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "layer normalization",
+        "count": 51
+      },
+      {
+        "term": "batch normalization",
+        "count": 29
+      },
+      {
+        "term": "summed inputs",
+        "count": 22
+      },
+      {
+        "term": "neural networks",
+        "count": 20
+      },
+      {
+        "term": "recurrent neural",
+        "count": 10
+      },
+      {
+        "term": "incoming weights",
+        "count": 10
+      },
+      {
+        "term": "neural network",
+        "count": 9
+      },
+      {
+        "term": "weight normalization",
+        "count": 9
+      },
+      {
+        "term": "hidden units",
+        "count": 8
+      },
+      {
+        "term": "weight vector",
+        "count": 8
+      },
+      {
+        "term": "training cases",
+        "count": 7
+      },
+      {
+        "term": "gain parameters",
+        "count": 7
+      },
+      {
+        "term": "training time",
+        "count": 6
+      },
+      {
+        "term": "layer normalized",
+        "count": 6
+      },
+      {
+        "term": "normalization invariant",
+        "count": 6
+      },
+      {
+        "term": "riemannian metric",
+        "count": 6
+      },
+      {
+        "term": "10 15",
+        "count": 6
+      },
+      {
+        "term": "15 20",
+        "count": 6
+      },
+      {
+        "term": "20 iteration",
+        "count": 6
+      },
+      {
+        "term": "iteration 50000",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "recurrent neural networks",
+        "count": 8
+      },
+      {
+        "term": "10 15 20",
+        "count": 6
+      },
+      {
+        "term": "15 20 iteration",
+        "count": 6
+      },
+      {
+        "term": "20 iteration 50000",
+        "count": 6
+      },
+      {
+        "term": "skip-thoughts ln skip-thoughts",
+        "count": 6
+      },
+      {
+        "term": "ln skip-thoughts original",
+        "count": 6
+      },
+      {
+        "term": "deep neural networks",
+        "count": 5
+      },
+      {
+        "term": "fisher information matrix",
+        "count": 5
+      },
+      {
+        "term": "magnitude incoming weights",
+        "count": 5
+      },
+      {
+        "term": "summed inputs neurons",
+        "count": 4
+      },
+      {
+        "term": "normalization weight normalization",
+        "count": 4
+      },
+      {
+        "term": "layer normalization invariant",
+        "count": 4
+      },
+      {
+        "term": "accuracy skip-thoughts ln",
+        "count": 4
+      },
+      {
+        "term": "reduce training time",
+        "count": 3
+      },
+      {
+        "term": "apply recurrent neural",
+        "count": 3
+      },
+      {
+        "term": "unlike batch normalization",
+        "count": 3
+      },
+      {
+        "term": "batch normalization layer",
+        "count": 3
+      },
+      {
+        "term": "layer normalization can",
+        "count": 3
+      },
+      {
+        "term": "summed inputs recurrent",
+        "count": 3
+      },
+      {
+        "term": "feed-forward neural network",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 24,
+    "nonzero_tfidf_features": 24,
+    "top_tfidf_features": [
+      {
+        "feature_name": "conclusion__recurrent neural networks",
+        "section": "conclusion",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "abstract__recurrent neural networks",
+        "section": "intro",
+        "term": "recurrent neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.8589
+      },
+      {
+        "feature_name": "experiments__recurrent neural networks",
+        "section": "experiment",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.7568
+      },
+      {
+        "feature_name": "methods__bias",
+        "section": "method",
+        "term": "bias",
+        "frequency": 2.0,
+        "tfidf": 0.7339
+      },
+      {
+        "feature_name": "introduction__recurrent neural networks",
+        "section": "intro",
+        "term": "recurrent neural networks",
+        "frequency": 4.0,
+        "tfidf": 0.7079
+      },
+      {
+        "feature_name": "methods__deep network",
+        "section": "method",
+        "term": "deep network",
+        "frequency": 1.0,
+        "tfidf": 0.6792
+      },
+      {
+        "feature_name": "introduction__feedforward neural networks",
+        "section": "intro",
+        "term": "feedforward neural networks",
+        "frequency": 3.0,
+        "tfidf": 0.6557
+      },
+      {
+        "feature_name": "experiments__question answering",
+        "section": "experiment",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.6537
+      },
+      {
+        "feature_name": "related_work__feed-forward neural network",
+        "section": "related_work",
+        "term": "feed-forward neural network",
+        "frequency": 1.0,
+        "tfidf": 0.5997
+      },
+      {
+        "feature_name": "related_work__sgd",
+        "section": "related_work",
+        "term": "sgd",
+        "frequency": 1.0,
+        "tfidf": 0.5658
+      },
+      {
+        "feature_name": "related_work__recurrent neural networks",
+        "section": "related_work",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.5658
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 3.0,
+        "tfidf": 0.4449
+      },
+      {
+        "feature_name": "introduction__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 3.0,
+        "tfidf": 0.3938
+      },
+      {
+        "feature_name": "abstract__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.3674
+      },
+      {
+        "feature_name": "abstract__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3569
+      },
+      {
+        "feature_name": "introduction__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.3071
+      },
+      {
+        "feature_name": "introduction__adaptive learning",
+        "section": "intro",
+        "term": "adaptive learning",
+        "frequency": 1.0,
+        "tfidf": 0.2169
+      },
+      {
+        "feature_name": "introduction__backpropagation",
+        "section": "intro",
+        "term": "backpropagation",
+        "frequency": 1.0,
+        "tfidf": 0.2046
+      },
+      {
+        "feature_name": "introduction__activation function",
+        "section": "intro",
+        "term": "activation function",
+        "frequency": 1.0,
+        "tfidf": 0.1873
+      },
+      {
+        "feature_name": "introduction__neural network models",
+        "section": "intro",
+        "term": "neural network models",
+        "frequency": 1.0,
+        "tfidf": 0.1808
+      },
+      {
+        "feature_name": "introduction__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.1455
+      },
+      {
+        "feature_name": "introduction__supervised learning",
+        "section": "intro",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.1455
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.1265
+      },
+      {
+        "feature_name": "introduction__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.1249
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.8589
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.7079
+        },
+        {
+          "feature_name": "introduction__feedforward neural networks",
+          "section": "intro",
+          "term": "feedforward neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.6557
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.4449
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 3.0,
+          "tfidf": 0.3938
+        },
+        {
+          "feature_name": "abstract__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.3674
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3569
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.3071
+        },
+        {
+          "feature_name": "introduction__adaptive learning",
+          "section": "intro",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.2169
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.2046
+        },
+        {
+          "feature_name": "introduction__activation function",
+          "section": "intro",
+          "term": "activation function",
+          "frequency": 1.0,
+          "tfidf": 0.1873
+        },
+        {
+          "feature_name": "introduction__neural network models",
+          "section": "intro",
+          "term": "neural network models",
+          "frequency": 1.0,
+          "tfidf": 0.1808
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__feed-forward neural network",
+          "section": "related_work",
+          "term": "feed-forward neural network",
+          "frequency": 1.0,
+          "tfidf": 0.5997
+        },
+        {
+          "feature_name": "related_work__sgd",
+          "section": "related_work",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.5658
+        },
+        {
+          "feature_name": "related_work__recurrent neural networks",
+          "section": "related_work",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.5658
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.7339
+        },
+        {
+          "feature_name": "methods__deep network",
+          "section": "method",
+          "term": "deep network",
+          "frequency": 1.0,
+          "tfidf": 0.6792
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__recurrent neural networks",
+          "section": "experiment",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.7568
+        },
+        {
+          "feature_name": "experiments__question answering",
+          "section": "experiment",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.6537
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__recurrent neural networks",
+          "section": "conclusion",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 3,
+      "token_count": 202,
+      "bow_hit_count": 17,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.1776,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 3,
+          "section_prior": 0.2917,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "feedforward neural network",
+          "count": 2,
+          "section_prior": 0.3182,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "online machine learning",
+          "count": 2,
+          "section_prior": 0.2778,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.8589
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.7079
+        },
+        {
+          "feature_name": "introduction__feedforward neural networks",
+          "section": "intro",
+          "term": "feedforward neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.6557
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.4449
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 3.0,
+          "tfidf": 0.3938
+        },
+        {
+          "feature_name": "abstract__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.3674
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3569
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.3071
+        },
+        {
+          "feature_name": "introduction__adaptive learning",
+          "section": "intro",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.2169
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.2046
+        },
+        {
+          "feature_name": "introduction__activation function",
+          "section": "intro",
+          "term": "activation function",
+          "frequency": 1.0,
+          "tfidf": 0.1873
+        },
+        {
+          "feature_name": "introduction__neural network models",
+          "section": "intro",
+          "term": "neural network models",
+          "frequency": 1.0,
+          "tfidf": 0.1808
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 4,
+      "token_count": 310,
+      "bow_hit_count": 29,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 9,
+          "section_prior": 0.1167,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 7,
+          "section_prior": 0.036,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.1368,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.0448,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 2,
+          "section_prior": 0.0619,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 1,
+          "section_prior": 0.1167,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__feed-forward neural network",
+          "section": "related_work",
+          "term": "feed-forward neural network",
+          "frequency": 1.0,
+          "tfidf": 0.5997
+        },
+        {
+          "feature_name": "related_work__sgd",
+          "section": "related_work",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.5658
+        },
+        {
+          "feature_name": "related_work__recurrent neural networks",
+          "section": "related_work",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.5658
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 35,
+      "token_count": 2740,
+      "bow_hit_count": 95,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 27,
+          "section_prior": 0.4417,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 26,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 10,
+          "section_prior": 0.1542,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "feedforward neural network",
+          "count": 9,
+          "section_prior": 0.5227,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.0772,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 5,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.0598,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 3,
+          "section_prior": 0.082,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "activation function",
+          "count": 3,
+          "section_prior": 0.2963,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 2,
+          "section_prior": 0.3,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.7339
+        },
+        {
+          "feature_name": "methods__deep network",
+          "section": "method",
+          "term": "deep network",
+          "frequency": 1.0,
+          "tfidf": 0.6792
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 23,
+      "token_count": 1767,
+      "bow_hit_count": 51,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 10,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 10,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Adam optimizer",
+          "count": 6,
+          "section_prior": 0.4667,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.1179,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 4,
+          "section_prior": 0.4412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 2,
+          "section_prior": 0.2484,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__recurrent neural networks",
+          "section": "experiment",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.7568
+        },
+        {
+          "feature_name": "experiments__question answering",
+          "section": "experiment",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.6537
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 1,
+      "token_count": 68,
+      "bow_hit_count": 5,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 5,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__recurrent neural networks",
+          "section": "conclusion",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "recurrent neural networks",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "recurrent",
+          "neural",
+          "networks"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 65,
+        "sentence": "in this paper we introduced layer normalization to speed-up the training of neural networks we provided a theoretical analysis that compared the invariance properties of layer normalization with batch normalization and weight normalization we showed that layer normalization is invariant to per training-case feature shifting and scaling empirically we showed that recurrent neural networks benefit the most from the proposed method especially for long sequences and small mini-batches",
+        "context_window": {
+          "previous": "make layer normalization work well in convnets",
+          "current": "in this paper we introduced layer normalization to speed-up the training of neural networks we provided a theoretical analysis that compared the invariance properties of layer normalization with batch normalization and weight normalization we showed that layer normalization is invariant to per training-case feature shifting and scaling empirically we showed that recurrent neural networks benefit the most from the proposed method especially for long sequences and small mini-batches",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "paper_objective",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6861,
+        "downstream_relevance_score": 0.7411,
+        "components": {
+          "bio_boundary_score": 0.5916,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.075,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural networks",
+        "match_quality": 1.0,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 8,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "conclusion__recurrent neural networks",
+        "section": "conclusion",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 1.0,
+        "normalized_frequency": 0.25,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "recurrent",
+          "neural",
+          "networks"
+        ],
+        "normalization": "recurrent neural networks",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.075,
+        "canonicalization": {
+          "observed": "recurrent neural networks",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5916",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'conclusion__recurrent neural networks' with tf-idf 1.0",
+        "downstream relevance score is 0.7411"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "recurrent neural network",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "recurrent",
+          "neural",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 5,
+        "sentence": "converge faster even with simple sgd in addition to training time improvement the stochasticity from the batch statistics serves as a regularizer during training despite its simplicity batch normalization requires running averages of the summed input statistics in feed-forward networks with fixed depth it is straightforward to store the statistics separately for each hidden layer however the summed inputs to the recurrent neurons in a recurrent neural network rnn often vary with the length of the sequence so applying batch",
+        "context_window": {
+          "previous": "software it also tends to lead to rapidly diminishing returns as the degree of parallelization increases an orthogonal approach is to modify the computations performed in the forward pass of the neural net to make learning easier recently batch normalization has been proposed to reduce training time by including additional normalization stages in deep neural networks the normalization standardizes each summed input using its mean and its standard deviation across the training data feedforward neural networks trained using batch normalization",
+          "current": "converge faster even with simple sgd in addition to training time improvement the stochasticity from the batch statistics serves as a regularizer during training despite its simplicity batch normalization requires running averages of the summed input statistics in feed-forward networks with fixed depth it is straightforward to store the statistics separately for each hidden layer however the summed inputs to the recurrent neurons in a recurrent neural network rnn often vary with the length of the sequence so applying batch",
+          "next": "normalization to rnns appears to require different statistics for different time-steps furthermore batch normaliza-tion cannot be applied to online learning tasks or to extremely large distributed models where the minibatches have to be small this paper introduces layer normalization a simple normalization"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.815
+      },
+      "evidence": {
+        "score": 0.635,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5428,
+        "downstream_relevance_score": 0.6332,
+        "components": {
+          "bio_boundary_score": 0.7728,
+          "sentence_evidence_score": 0.635,
+          "sentence_role_score": 0.815,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1167,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural network",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 6,
+        "total_frequency": 13,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "recurrent",
+          "neural",
+          "network"
+        ],
+        "normalization": "recurrent neural network",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1167,
+        "canonicalization": {
+          "observed": "recurrent neural network",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7728",
+        "structure model assigned role 'gap' with score 0.815",
+        "evidence score 0.635 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6332"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "convolutional neural networks",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "convolutional",
+          "neural",
+          "networks"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 63,
+        "sentence": "tend to make similar contributions to the final prediction and re-centering and rescaling the summed inputs to a layer works well however the assumption of similar contributions is no longer true for convolutional neural networks the large number of the hidden units whose receptive fields lie near the boundary of the image are rarely turned on and thus have very different statistics from the rest of the hidden units within the same layer we think further research is needed to",
+        "context_window": {
+          "previous": "computed using the unbiased estimator the experimental results from figure highlight that layer normalization is robust to the batch-sizes and exhibits a faster training convergence comparing to batch normalization that is applied to all layers convolutional networks we have also experimented with convolutional neural networks in our preliminary we observed that layer normalization offers a speedup over the baseline model without normalization but batch normalization outperforms the other methods with fully connected layers all the hidden units in a layer",
+          "current": "tend to make similar contributions to the final prediction and re-centering and rescaling the summed inputs to a layer works well however the assumption of similar contributions is no longer true for convolutional neural networks the large number of the hidden units whose receptive fields lie near the boundary of the image are rarely turned on and thus have very different statistics from the rest of the hidden units within the same layer we think further research is needed to",
+          "next": "make layer normalization work well in convnets"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5931,
+        "downstream_relevance_score": 0.6056,
+        "components": {
+          "bio_boundary_score": 0.6182,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.172,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural networks",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 31,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "neural",
+          "networks"
+        ],
+        "normalization": "convolutional neural networks",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.172,
+        "canonicalization": {
+          "observed": "convolutional neural networks",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6182",
+        "structure model assigned role 'gap' with score 0.66",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6056"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "x to an output vector y consider the l th hidden layer in a deep feed-forward neural network and let a l be the vector representation of the summed inputs to the neurons in that layer the summed inputs are computed through a linear projection with the weight matrix w l and the bottom-up inputs h l given as follows a l i w l i h l h l 1 i f a l i b l i where",
+        "context_window": {
+          "previous": "to improve the training speed for various neural network models unlike batch normalization the proposed directly estimates the normalization statistics from the summed inputs to the neurons within a hidden layer so the normalization does not introduce any new dependencies between training cases we show that layer normalization works well for rnns and improves both the training time and the generalization performance of several existing rnn models background a feed-forward neural network is a non-linear mapping from a input pattern",
+          "current": "x to an output vector y consider the l th hidden layer in a deep feed-forward neural network and let a l be the vector representation of the summed inputs to the neurons in that layer the summed inputs are computed through a linear projection with the weight matrix w l and the bottom-up inputs h l given as follows a l i w l i h l h l 1 i f a l i b l i where",
+          "next": "f is an element-wise non-linear function and w l i is the incoming weights to the i th hidden units and b l i is the scalar bias parameter the parameters in the neural network are learnt using gradient-based optimization algorithms with the gradients being computed by back-propagation one of the challenges of deep learning is that the gradients with respect to the weights in one layer are highly dependent on the outputs of the neurons in the previous layer"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5811,
+        "downstream_relevance_score": 0.5509,
+        "components": {
+          "bio_boundary_score": 0.9464,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4417,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural network",
+        "match_quality": 0.78,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 52,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4417,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9464",
+        "structure model assigned role 'component' with score 0.82",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5509"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "model architecture",
+        "canonical": "model architecture",
+        "normalized": "model architecture",
+        "tokens": [
+          "model",
+          "architecture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 59,
+        "sentence": "section 5 2 of the model architecture consists of three hidden layers of 400 lstm cells which produce 20 bivariate gaussian mixture components at the output layer and a size 3 input layer the character sequence was encoded with one-hot vectors and hence the window vectors were size 57 a mixture of 10 gaussian functions was used for the window parameters requiring a size 30 parameter vector the total number of weights was increased to approximately 3 7m the model",
+        "context_window": {
+          "previous": "generation tasks using the iam online handwriting database iam-ondb consists of handwritten lines collected from 221 different writers when given the input character string the goal is to predict a sequence of x and y pen co-ordinates of the corresponding handwriting line on the whiteboard there are in total 12179 handwriting line sequences the input string is typically more than 25 characters and the average handwriting line has a length around 700 we used the same model architecture as in",
+          "current": "section 5 2 of the model architecture consists of three hidden layers of 400 lstm cells which produce 20 bivariate gaussian mixture components at the output layer and a size 3 input layer the character sequence was encoded with one-hot vectors and hence the window vectors were size 57 a mixture of 10 gaussian functions was used for the window parameters requiring a size 30 parameter vector the total number of weights was increased to approximately 3 7m the model",
+          "next": "is trained using mini-batches of size 8 and the adam optimizer the combination of small mini-batch size and very long sequences makes it important to have very stable hidden dynamics figure shows that layer normalization converges to a comparable log likelihood as the baseline model but is much faster permutation invariant mnist in addition to rnns we investigated layer normalization in feed-forward networks we show how layer normalization compares with batch normalization on the well-studied permutation invariant mnist classification problem"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6836,
+        "downstream_relevance_score": 0.5473,
+        "components": {
+          "bio_boundary_score": 0.8547,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "model",
+          "architecture"
+        ],
+        "normalization": "model architecture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "model architecture",
+          "canonical": "model architecture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8547",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5473"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "image retrieval",
+        "canonical": "image retrieval",
+        "normalized": "image retrieval",
+        "tokens": [
+          "image",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 37,
+        "sentence": "as large as a result for the same parameter update in the normalized model the norm of the weight vector effectively controls the learning rate for the weight vector during learning it is harder to change the orientation of the weight vector with large norm the normalization therefore mscoco caption retrieval image retrieval model r 1 r 5 r 10 mean r r 1 r 5 r 10 mean r sym 45 4 88 7 5 8 36 3 85",
+        "context_window": {
+          "previous": "weight vector notice that comparing to standard glm the block fij along the weight vector w i direction is scaled by the gain parameters and the normalization scalar i if the norm of the weight vector w i grows twice as large even though the model s output remains the same the fisher information matrix will be different the curvature along the w i direction will change by a factor of 1 2 because the i will also be twice",
+          "current": "as large as a result for the same parameter update in the normalized model the norm of the weight vector effectively controls the learning rate for the weight vector during learning it is harder to change the orientation of the weight vector with large norm the normalization therefore mscoco caption retrieval image retrieval model r 1 r 5 r 10 mean r r 1 r 5 r 10 mean r sym 45 4 88 7 5 8 36 3 85",
+          "next": "8 9 0 oe 46 7 88 9 5 7 37 9 85 9 8 1 oe 46 6 79 3 89 1 5 2 37 8 73 6 85 7 7 9 oe ln 48 5 80 6 89 8 5 1 38 9 74 3 86 3 7 6 table 2 average results across 5 test splits for caption and image retrieval r k is recall k high is good mean r is the mean rank low is"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7686,
+        "downstream_relevance_score": 0.5397,
+        "components": {
+          "bio_boundary_score": 0.9304,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "retrieval"
+        ],
+        "normalization": "image retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image retrieval",
+          "canonical": "image retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9304",
+        "structure model assigned role 'result' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5397"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "normalized model",
+        "canonical": "normalized model",
+        "normalized": "normalized model",
+        "tokens": [
+          "normalized",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 40,
+        "sentence": "direction along the gain parameters in f captures the geometry for the magnitude of the incoming weights we show that riemannian metric along the magnitude of the incoming weights for the standard glm is scaled by the norm of its input whereas learning the gain parameters for the batch normalized and layer normalized models depends only on the magnitude of the prediction error learning the magnitude of incoming weights in the normalized model is therefore more robust to the scaling",
+        "context_window": {
+          "previous": "good sym corresponds to the symmetric baseline while oe indicates order-embeddings have an implicit early stopping effect on the weight vectors and help to stabilize learning towards convergence learning the magnitude of incoming weights in normalized models the magnitude of the incoming weights is explicitly parameterized by the gain parameters we compare how the model output changes between updating the gain parameters in the normalized glm and updating the magnitude of the equivalent weights under original parameterization during learning the",
+          "current": "direction along the gain parameters in f captures the geometry for the magnitude of the incoming weights we show that riemannian metric along the magnitude of the incoming weights for the standard glm is scaled by the norm of its input whereas learning the gain parameters for the batch normalized and layer normalized models depends only on the magnitude of the prediction error learning the magnitude of incoming weights in the normalized model is therefore more robust to the scaling",
+          "next": "of the input and its parameters than in the standard model see appendix for detailed derivations experimental results we perform"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6955,
+        "downstream_relevance_score": 0.5145,
+        "components": {
+          "bio_boundary_score": 0.8448,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "normalized",
+          "model"
+        ],
+        "normalization": "normalized model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "normalized model",
+          "canonical": "normalized model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8448",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5145"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "layer normalization",
+        "canonical": "layer normalization",
+        "normalized": "layer normalization",
+        "tokens": [
+          "layer",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 6,
+        "sentence": "normalization to rnns appears to require different statistics for different time-steps furthermore batch normaliza-tion cannot be applied to online learning tasks or to extremely large distributed models where the minibatches have to be small this paper introduces layer normalization a simple normalization",
+        "context_window": {
+          "previous": "converge faster even with simple sgd in addition to training time improvement the stochasticity from the batch statistics serves as a regularizer during training despite its simplicity batch normalization requires running averages of the summed input statistics in feed-forward networks with fixed depth it is straightforward to store the statistics separately for each hidden layer however the summed inputs to the recurrent neurons in a recurrent neural network rnn often vary with the length of the sequence so applying batch",
+          "current": "normalization to rnns appears to require different statistics for different time-steps furthermore batch normaliza-tion cannot be applied to online learning tasks or to extremely large distributed models where the minibatches have to be small this paper introduces layer normalization a simple normalization",
+          "next": "to improve the training speed for various neural network models unlike batch normalization the proposed directly estimates the normalization statistics from the summed inputs to the neurons within a hidden layer so the normalization does not introduce any new dependencies between training cases we show that layer normalization works well for rnns and improves both the training time and the generalization performance of several existing rnn models background a feed-forward neural network is a non-linear mapping from a input pattern"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "cannot",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "negative capability cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6321,
+        "downstream_relevance_score": 0.4983,
+        "components": {
+          "bio_boundary_score": 0.7225,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "layer",
+          "normalization"
+        ],
+        "normalization": "layer normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "layer normalization",
+          "canonical": "layer normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7225",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence cue lexicon matched cannot",
+        "downstream relevance score is 0.4983"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "covariate shift",
+        "canonical": "covariate shift",
+        "normalized": "covariate shift",
+        "tokens": [
+          "covariate",
+          "shift"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 13,
+        "sentence": "inputs to the next layer especially with relu units whose outputs can change by a lot this suggests the covariate shift problem can be reduced by fixing the mean and the variance of the summed inputs within each layer we thus compute the layer normalization statistics over all the hidden units in the same layer as follows l 1 h h i 1 a l i l 1 h h i 1 a l i - l 2 where h",
+        "context_window": {
+          "previous": "through the whole training dataset with the current set of weights instead and are estimated using the empirical samples from the current mini-batch this puts constraints on the size of a mini-batch and it is hard to apply to recurrent neural networks layer normalization we now consider the layer normalization method which is designed to overcome the drawbacks of batch normalization notice that changes in the output of one layer will tend to cause highly correlated changes in the summed",
+          "current": "inputs to the next layer especially with relu units whose outputs can change by a lot this suggests the covariate shift problem can be reduced by fixing the mean and the variance of the summed inputs within each layer we thus compute the layer normalization statistics over all the hidden units in the same layer as follows l 1 h h i 1 a l i l 1 h h i 1 a l i - l 2 where h",
+          "next": "denotes the number of hidden units in a layer the difference between eq and eq is that under layer normalization all the hidden units in a layer share the same normalization terms and but different training cases have different normalization terms unlike batch normalization layer normaliztion does not impose any constraint on the size of a mini-batch and it can be used in the pure online regime with batch size 1 layer normalized recurrent neural networks the recent sequence to"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6535,
+        "downstream_relevance_score": 0.4926,
+        "components": {
+          "bio_boundary_score": 0.701,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "covariate",
+          "shift"
+        ],
+        "normalization": "covariate shift",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "covariate shift",
+          "canonical": "covariate shift",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.701",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4926"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "sick movie review",
+        "canonical": "sick movie review",
+        "normalized": "sick movie review",
+        "tokens": [
+          "sick",
+          "movie",
+          "review"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 53,
+        "sentence": "than without however we found that provided cnmem is used there was no significant difference between the two models we checkpoint both models after every 50 000 iterations and evaluate their performance on five tasks semantic-relatedness sick movie review sentiment mr customer product reviews cr subjectivity objectivity classification subj and opinion polarity mpqa we plot the performance of both models for each checkpoint on all tasks to determine whether the performance rate can be improved with ln the experimental results",
+        "context_window": {
+          "previous": "of training in order to produce meaningful results in this we determine to what effect layer normalization can speed up training using the publicly available code of we train two models on the bookcorpus dataset one with and one without layer normalization these are performed with we adhere to the experimental setup used in training a 2400-dimensional sentence encoder with the same hyperparameters given the size of the states used it is conceivable layer normalization would produce slower per-iteration updates",
+          "current": "than without however we found that provided cnmem is used there was no significant difference between the two models we checkpoint both models after every 50 000 iterations and evaluate their performance on five tasks semantic-relatedness sick movie review sentiment mr customer product reviews cr subjectivity objectivity classification subj and opinion polarity mpqa we plot the performance of both models for each checkpoint on all tasks to determine whether the performance rate can be improved with ln the experimental results",
+          "next": "are illustrated in figure we observe that applying layer normalization results both in speedup over the baseline as well as better final results after 1m iterations are performed as shown in table we also let the model with layer normalization train for a total of a month resulting in further performance gains across all but one task we note that the performance 6 4 modeling binarized mnist using draw 0 20 40 60 80 100 epoch 80 85 90 95"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6647,
+        "downstream_relevance_score": 0.4902,
+        "components": {
+          "bio_boundary_score": 0.691,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sick",
+          "movie",
+          "review"
+        ],
+        "normalization": "sick movie review",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sick movie review",
+          "canonical": "sick movie review",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.691",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4902"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "fisher information matrix",
+        "canonical": "fisher information matrix",
+        "normalized": "fisher information matrix",
+        "tokens": [
+          "fisher",
+          "information",
+          "matrix"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 33,
+        "sentence": "output vector y y 1 y 2 y h is modeled using h independent glms and log p y x w b h i 1 log p y i x w i b i let w be the weight matrix whose rows are the weight vectors of the individual glms b denote the bias vector of length h and vec denote the kronecker vector operator the fisher information matrix for the multi-dimensional glm with respect to its parameters is simply",
+        "context_window": {
+          "previous": "as the following log p y x w b a b y - a b c y e y x f a b f w x b var y x f a b where f is the transfer function that is the analog of the non-linearity in neural networks f is the derivative of the transfer function is a real valued function and c is the log partition function is a constant that scales the output variance assume a h-dimensional",
+          "current": "output vector y y 1 y 2 y h is modeled using h independent glms and log p y x w b h i 1 log p y i x w i b i let w be the weight matrix whose rows are the weight vectors of the individual glms b denote the bias vector of length h and vec denote the kronecker vector operator the fisher information matrix for the multi-dimensional glm with respect to its parameters is simply",
+          "next": "the expected kronecker product of the data features and the output covariance matrix w 1 b 1 w h b h vec f e x p x cov y x 2 xx x x 1 we obtain normalized glms by applying the normalization to the summed inputs a in the original model through and without loss of generality we denote f as the fisher information matrix under the normalized multi-dimensional glm with the additional gain parameters vec w b g"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7189,
+        "downstream_relevance_score": 0.4888,
+        "components": {
+          "bio_boundary_score": 0.9744,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fisher",
+          "information",
+          "matrix"
+        ],
+        "normalization": "fisher information matrix",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "fisher information matrix",
+          "canonical": "fisher information matrix",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9744",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4888"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "batch normalization",
+        "canonical": "batch normalization",
+        "normalized": "batch normalization",
+        "tokens": [
+          "batch",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 2,
+        "sentence": "before the non-linearity unlike batch normalization layer normalization performs exactly the same computation at training and test times it is also straightforward to apply to recurrent neural networks by computing the normalization statistics separately at each time step layer normalization is very effective at stabilizing the hidden state dynamics in recurrent networks empirically we show that layer normalization can substantially reduce the training time compared with previously published techniques body",
+        "context_window": {
+          "previous": "effect of batch normalization is dependent on the mini-batch size and it is not obvious how to apply it to recurrent neural networks in this paper we transpose batch normalization into layer normalization by computing the mean and variance used for normalization from all of the summed inputs to the neurons in a layer on a single training case like batch normalization we also give each neuron its own adaptive bias and gain which are applied after the normalization but",
+          "current": "before the non-linearity unlike batch normalization layer normalization performs exactly the same computation at training and test times it is also straightforward to apply to recurrent neural networks by computing the normalization statistics separately at each time step layer normalization is very effective at stabilizing the hidden state dynamics in recurrent networks empirically we show that layer normalization can substantially reduce the training time compared with previously published techniques body",
+          "next": "deep neural networks trained with some version of stochastic gradient descent have been shown to substantially outperform previous approaches on various supervised learning tasks in computer vision and speech processing but state-of-the-art deep neural networks often require many days of training it is possible to speed-up the learning by computing gradients for different subsets of the training cases on different machines or splitting the neural network itself over many machines but this can require a lot of communication and complex"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.815
+      },
+      "evidence": {
+        "score": 0.635,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5872,
+        "downstream_relevance_score": 0.4794,
+        "components": {
+          "bio_boundary_score": 0.9255,
+          "sentence_evidence_score": 0.635,
+          "sentence_role_score": 0.815,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "normalization"
+        ],
+        "normalization": "batch normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch normalization",
+          "canonical": "batch normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9255",
+        "structure model assigned role 'gap' with score 0.815",
+        "evidence score 0.635 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4794"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "test variational bound",
+        "canonical": "test variational bound",
+        "normalized": "test variational bound",
+        "tokens": [
+          "test",
+          "variational",
+          "bound"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 55,
+        "sentence": "100 test variational bound baseline wn ln figure 4 draw model test negative log likelihood with and without layer normalization we also experimented with the generative modeling on the mnist dataset deep recurrent attention writer draw has previously achieved the state-of-theart performance on modeling the distribution of mnist digits the model uses a differential attention mechanism and a recurrent neural network to sequentially generate pieces of an image we evaluate the effect of layer normalization on a draw model using",
+        "context_window": {
+          "previous": "are illustrated in figure we observe that applying layer normalization results both in speedup over the baseline as well as better final results after 1m iterations are performed as shown in table we also let the model with layer normalization train for a total of a month resulting in further performance gains across all but one task we note that the performance 6 4 modeling binarized mnist using draw 0 20 40 60 80 100 epoch 80 85 90 95",
+          "current": "100 test variational bound baseline wn ln figure 4 draw model test negative log likelihood with and without layer normalization we also experimented with the generative modeling on the mnist dataset deep recurrent attention writer draw has previously achieved the state-of-theart performance on modeling the distribution of mnist digits the model uses a differential attention mechanism and a recurrent neural network to sequentially generate pieces of an image we evaluate the effect of layer normalization on a draw model using",
+          "next": "64 glimpses and 256 lstm hidden units the model is trained with the default setting of adam optimizer and the minibatch size of 128 previous publications on binarized mnist have used various training protocols to generate their datasets in this we used the fixed binarization from the dataset has been split into 50 000 training 10 000 validation and 10 000 test images figure shows the test variational bound for the first 100 epoch it highlights the speedup benefit of"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5484,
+        "downstream_relevance_score": 0.4508,
+        "components": {
+          "bio_boundary_score": 0.7929,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "test",
+          "variational",
+          "bound"
+        ],
+        "normalization": "test variational bound",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "test variational bound",
+          "canonical": "test variational bound",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7929",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.4508"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "spearman correlation",
+        "canonical": "spearman correlation",
+        "normalized": "spearman correlation",
+        "tokens": [
+          "spearman",
+          "correlation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 50,
+        "sentence": "et al 2015 0 848 0 778 0 287 75 5 79 3 92 1 86 9 ours 0 842 0 767 0 298 77 3 81 8 92 6 87 9 ours ln 0 854 0 785 0 277 79 5 82 6 93 4 89 0 ours ln 0 858 0 788 0 270 79 4 83 1 93 7 89 3 table 3 skip-thoughts results the first two columns indicate pearson and spearman correlation the third is",
+        "context_window": {
+          "previous": "d cr 5 10 15 20 iteration x 50000 90 0 90 5 91 0 91 5 92 0 92 5 93 0 93 5 94 0 94 5 accuracy skip-thoughts ln skip-thoughts original e subj 5 10 15 20 iteration x 50000 83 84 85 86 87 88 89 90 91 accuracy skip-thoughts ln skip-thoughts original plots with error use 10-fold cross validation best seen in color method sick r sick sick mse mr cr subj mpqa original kiros",
+          "current": "et al 2015 0 848 0 778 0 287 75 5 79 3 92 1 86 9 ours 0 842 0 767 0 298 77 3 81 8 92 6 87 9 ours ln 0 854 0 785 0 277 79 5 82 6 93 4 89 0 ours ln 0 858 0 788 0 270 79 4 83 1 93 7 89 3 table 3 skip-thoughts results the first two columns indicate pearson and spearman correlation the third is",
+          "next": "mean squared error and the remaining indicate classification accuracy higher is better for all evaluations except mse our models were trained for 1m iterations with the exception of which was trained for 1 month approximately 1 7m iterations encoded with a encoder rnn and decoder rnns are used to predict the surrounding sentences showed that this model could produce generic sentence representations that perform well on several tasks without being fine-tuned however training this model is timeconsuming requiring several days"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.62,
+        "downstream_relevance_score": 0.4442,
+        "components": {
+          "bio_boundary_score": 0.691,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "spearman",
+          "correlation"
+        ],
+        "normalization": "spearman correlation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "spearman correlation",
+          "canonical": "spearman correlation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.691",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4442"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "normalization",
+        "canonical": "normalization",
+        "normalized": "normalization",
+        "tokens": [
+          "normalization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 20,
+        "sentence": "in weight normalization instead of the variance the l2 norm of the incoming weights is used to normalize the summed inputs to a neuron applying either weight normalization or batch normalization using expected statistics is equivalent to have a different parameterization of the original feed-forward neural network re-parameterization in the relu network was studied in the pathnormalized sgd our proposed layer normalization however is not a re-parameterization of the original neural network the layer normalized model thus has different invariance",
+        "context_window": {
+          "previous": "inputs to a layer which results in much more stable hidden-to-hidden dynamics related work batch normalization has been previously extended to recurrent neural networks the previous work suggests the best performance of recurrent batch normalization is obtained by keeping independent normalization statistics for each time-step the authors show that initializing the gain parameter in the recurrent batch normalization layer to 0 1 makes significant difference in the final performance of the model our work is also related to weight normalization",
+          "current": "in weight normalization instead of the variance the l2 norm of the incoming weights is used to normalize the summed inputs to a neuron applying either weight normalization or batch normalization using expected statistics is equivalent to have a different parameterization of the original feed-forward neural network re-parameterization in the relu network was studied in the pathnormalized sgd our proposed layer normalization however is not a re-parameterization of the original neural network the layer normalized model thus has different invariance",
+          "next": "properties than the other that we will study in the following section analysis in this section we investigate the invariance properties of different normalization schemes invariance under weights and data transformations the proposed layer normalization is related to batch normalization and weight normalization although their normalization scalars are computed differently these methods can be summarized as normalizing the summed inputs a i to a neuron through the two scalars and they also learn an adaptive bias b and gain g"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5151,
+        "downstream_relevance_score": 0.3882,
+        "components": {
+          "bio_boundary_score": 0.3649,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "normalization"
+        ],
+        "normalization": "normalization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "normalization",
+          "canonical": "normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.3649",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.3882"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "weight normalization",
+        "canonical": "weight normalization",
+        "normalized": "weight normalization",
+        "tokens": [
+          "weight",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 23,
+        "sentence": "on the normalized summed inputs to a neuron to be precise under batch and weight normalization if the weight vector is scaled by the two scalar and will also be scaled by the normalized summed inputs stays the same before and after scaling so the batch and weight normalization are invariant to the re-scaling of the weights layer normalization on the other hand is not invariant to the individual scaling of the single weight vectors instead layer normalization is invariant",
+        "context_window": {
+          "previous": "for each neuron after the normalization h i f g i i a i - i b i note that for layer normalization and batch normalization and is computed according to eq 2 and 3 in weight normalization is 0 and w 2 table highlights the following invariance results for three normalization weight re-scaling and re-centering first observe that under batch normalization and weight normalization any re-scaling to the incoming weights w i of a single neuron has no effect",
+          "current": "on the normalized summed inputs to a neuron to be precise under batch and weight normalization if the weight vector is scaled by the two scalar and will also be scaled by the normalized summed inputs stays the same before and after scaling so the batch and weight normalization are invariant to the re-scaling of the weights layer normalization on the other hand is not invariant to the individual scaling of the single weight vectors instead layer normalization is invariant",
+          "next": "to scaling of the entire weight matrix and invariant to a shift to all of the incoming weights in the weight matrix let there be two sets of model parameters whose weight matrices w and w differ by a scaling factor and all of the incoming weights in w are also shifted by a constant vector that is w w 1 under layer normalization the two models effectively compute the same output h f g w x - b f"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5681,
+        "downstream_relevance_score": 0.381,
+        "components": {
+          "bio_boundary_score": 0.9015,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "weight",
+          "normalization"
+        ],
+        "normalization": "weight normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "weight normalization",
+          "canonical": "weight normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9015",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.381"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "riemannian metric",
+        "canonical": "riemannian metric",
+        "normalized": "riemannian metric",
+        "tokens": [
+          "riemannian",
+          "metric"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 30,
+        "sentence": "x p y x 1 2 f f e x p x y p y x log p y x log p y x where is a small change to the parameters the riemannian metric above presents a geometric view of parameter spaces the following analysis of the riemannian metric provides some insight into how normalization could help in training neural networks the geometry of normalized generalized linear models we focus our geometric analysis on the generalized linear model the",
+        "context_window": {
+          "previous": "manifold is entirely captured by its riemannian metric whose quadratic form is denoted as ds 2 that is the infinitesimal distance in the tangent space at a point in the parameter space intuitively it measures the changes in the model output from the parameter space along a tangent direction the riemannian metric under kl was previously studied and was shown to be well approximated under second order taylor expansion using the fisher information matrix ds 2 d kl p y",
+          "current": "x p y x 1 2 f f e x p x y p y x log p y x log p y x where is a small change to the parameters the riemannian metric above presents a geometric view of parameter spaces the following analysis of the riemannian metric provides some insight into how normalization could help in training neural networks the geometry of normalized generalized linear models we focus our geometric analysis on the generalized linear model the",
+          "next": "results from the following analysis can be easily applied to understand deep neural networks with block-diagonal approximation to the fisher information matrix where each block corresponds to the parameters for a single neuron a generalized linear model glm can be regarded as parameterizing an output distribution from the exponential family using a weight vector w and bias scalar b to be consistent with the previous sections the log likelihood of the glm can be written using the summed inputs a"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5558,
+        "downstream_relevance_score": 0.3746,
+        "components": {
+          "bio_boundary_score": 0.9722,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "riemannian",
+          "metric"
+        ],
+        "normalization": "riemannian metric",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "riemannian metric",
+          "canonical": "riemannian metric",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9722",
+        "structure model assigned role 'process' with score 0.82",
+        "downstream relevance score is 0.3746"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "hidden unit",
+        "canonical": "hidden unit",
+        "normalized": "hidden unit",
+        "tokens": [
+          "hidden",
+          "unit"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 11,
+        "sentence": "x p x a l i l i e x p x a l i - l i 2 where l i is normalized summed inputs to the i th hidden unit in the l th layer and g i is a gain parameter scaling the normalized activation before the non-linear activation function note the expectation is under the whole training data distribution it is typically impractical to compute the expectations in eq exactly since it would require forward passes",
+        "context_window": {
+          "previous": "especially if these outputs change in a highly correlated way batch normalization was proposed to reduce such undesirable covariate shift the method normalizes the summed inputs to each hidden unit over the training cases specifically for the i th summed input in the l th layer the batch normalization method rescales the summed inputs according to their variances under the distribution of the data l i g l i l i a l i - l i l i e",
+          "current": "x p x a l i l i e x p x a l i - l i 2 where l i is normalized summed inputs to the i th hidden unit in the l th layer and g i is a gain parameter scaling the normalized activation before the non-linear activation function note the expectation is under the whole training data distribution it is typically impractical to compute the expectations in eq exactly since it would require forward passes",
+          "next": "through the whole training dataset with the current set of weights instead and are estimated using the empirical samples from the current mini-batch this puts constraints on the size of a mini-batch and it is hard to apply to recurrent neural networks layer normalization we now consider the layer normalization method which is designed to overcome the drawbacks of batch normalization notice that changes in the output of one layer will tend to cause highly correlated changes in the summed"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5535,
+        "downstream_relevance_score": 0.3734,
+        "components": {
+          "bio_boundary_score": 0.8514,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "hidden",
+          "unit"
+        ],
+        "normalization": "hidden unit",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "hidden unit",
+          "canonical": "hidden unit",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8514",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.3734"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 6,
+    "top_candidates": [
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Deep neural networks trained with some version of Stochastic Gradient Descent have been shown to substantially outperform previous approaches on various supervised learning tasks in computer vision and speech processing .",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Furthermore, batch normaliza-tion cannot be applied to online learning tasks or to extremely large distributed models where the minibatches have to be small.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Unlike batch normalization, the proposed method directly estimates the normalization statistics from the summed inputs to the neurons within a hidden layer so the normalization does not introduce any new dependencies between training cases.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "It is typically impractical to compute the expectations in Eq. ( ) exactly, since it would require forward passes through the whole training dataset with the current set of weights.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Training state-of-the-art, deep neural networks is computationally expensive.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.72
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "But state-of-the-art deep neural networks often require many days of training.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Recurrent neural network",
+        "section": "conclusion",
+        "role": "objective",
+        "score": 0.7411
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "Recurrent neural network",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.6332
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "Convolutional neural network",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.6056
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "Recurrent neural network",
+        "section": "method",
+        "role": "component",
+        "score": 0.5509
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "model architecture",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.5473
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "image retrieval",
+        "section": "method",
+        "role": "result",
+        "score": 0.5397
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "normalized model",
+        "section": "method",
+        "role": "component",
+        "score": 0.5145
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "layer normalization",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.4983
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "covariate shift",
+        "section": "method",
+        "role": "component",
+        "score": 0.4926
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "sick movie review",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4902
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "fisher information matrix",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4888
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "batch normalization",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.4794
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "test variational bound",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4508
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "spearman correlation",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4442
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "normalization",
+        "section": "method",
+        "role": "component",
+        "score": 0.3882
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "weight normalization",
+        "section": "method",
+        "role": "component",
+        "score": 0.381
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "riemannian metric",
+        "section": "method",
+        "role": "process",
+        "score": 0.3746
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "hidden unit",
+        "section": "method",
+        "role": "component",
+        "score": 0.3734
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

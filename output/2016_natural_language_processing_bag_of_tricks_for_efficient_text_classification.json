@@ -1,0 +1,2181 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_natural_language_processing_bag_of_tricks_for_efficient_text_classification",
+    "title": "2016_natural_language_processing_bag_of_tricks_for_efficient_text_classification",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_natural_language_processing_bag_of_tricks_for_efficient_text_classification.txt",
+    "sentence_count": 22,
+    "section_counts": {
+      "intro": 11,
+      "method": 1,
+      "experiment": 9,
+      "conclusion": 1
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 1601,
+    "type_count": 563,
+    "type_token_ratio": 0.3517,
+    "section_token_counts": {
+      "intro": 793,
+      "related_work": 0,
+      "method": 25,
+      "experiment": 680,
+      "conclusion": 103
+    },
+    "top_unigrams": [
+      {
+        "term": "fasttext",
+        "count": 14
+      },
+      {
+        "term": "text",
+        "count": 12
+      },
+      {
+        "term": "than",
+        "count": 10
+      },
+      {
+        "term": "model",
+        "count": 10
+      },
+      {
+        "term": "classification",
+        "count": 9
+      },
+      {
+        "term": "classes",
+        "count": 9
+      },
+      {
+        "term": "test",
+        "count": 9
+      },
+      {
+        "term": "use",
+        "count": 9
+      },
+      {
+        "term": "linear",
+        "count": 9
+      },
+      {
+        "term": "et",
+        "count": 8
+      },
+      {
+        "term": "al",
+        "count": 8
+      },
+      {
+        "term": "performance",
+        "count": 8
+      },
+      {
+        "term": "time",
+        "count": 8
+      },
+      {
+        "term": "large",
+        "count": 8
+      },
+      {
+        "term": "word",
+        "count": 8
+      },
+      {
+        "term": "which",
+        "count": 8
+      },
+      {
+        "term": "can",
+        "count": 7
+      },
+      {
+        "term": "train",
+        "count": 7
+      },
+      {
+        "term": "using",
+        "count": 7
+      },
+      {
+        "term": "very",
+        "count": 7
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 8
+      },
+      {
+        "term": "text classification",
+        "count": 7
+      },
+      {
+        "term": "sentiment analysis",
+        "count": 5
+      },
+      {
+        "term": "test time",
+        "count": 4
+      },
+      {
+        "term": "tag prediction",
+        "count": 4
+      },
+      {
+        "term": "linear classifier",
+        "count": 4
+      },
+      {
+        "term": "more than",
+        "count": 3
+      },
+      {
+        "term": "less than",
+        "count": 3
+      },
+      {
+        "term": "neural networks",
+        "count": 3
+      },
+      {
+        "term": "very large",
+        "count": 3
+      },
+      {
+        "term": "large output",
+        "count": 3
+      },
+      {
+        "term": "output space",
+        "count": 3
+      },
+      {
+        "term": "hierarchical softmax",
+        "count": 3
+      },
+      {
+        "term": "number classes",
+        "count": 3
+      },
+      {
+        "term": "tang et",
+        "count": 3
+      },
+      {
+        "term": "validation set",
+        "count": 3
+      },
+      {
+        "term": "fasttext 200",
+        "count": 3
+      },
+      {
+        "term": "simple efficient",
+        "count": 2
+      },
+      {
+        "term": "efficient baseline",
+        "count": 2
+      },
+      {
+        "term": "deep learning",
+        "count": 2
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "large output space",
+        "count": 3
+      },
+      {
+        "term": "tang et al",
+        "count": 3
+      },
+      {
+        "term": "simple efficient baseline",
+        "count": 2
+      },
+      {
+        "term": "et al 2016",
+        "count": 2
+      },
+      {
+        "term": "text classification problems",
+        "count": 2
+      },
+      {
+        "term": "very large corpus",
+        "count": 2
+      },
+      {
+        "term": "fasttext two different",
+        "count": 2
+      },
+      {
+        "term": "two different tasks",
+        "count": 2
+      },
+      {
+        "term": "when number classes",
+        "count": 2
+      },
+      {
+        "term": "number classes large",
+        "count": 2
+      },
+      {
+        "term": "tag prediction dataset",
+        "count": 2
+      },
+      {
+        "term": "run fasttext epochs",
+        "count": 2
+      },
+      {
+        "term": "title bag tricks",
+        "count": 1
+      },
+      {
+        "term": "bag tricks efficient",
+        "count": 1
+      },
+      {
+        "term": "tricks efficient text",
+        "count": 1
+      },
+      {
+        "term": "efficient text classification",
+        "count": 1
+      },
+      {
+        "term": "text classification paper",
+        "count": 1
+      },
+      {
+        "term": "classification paper explores",
+        "count": 1
+      },
+      {
+        "term": "paper explores simple",
+        "count": 1
+      },
+      {
+        "term": "explores simple efficient",
+        "count": 1
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 17,
+    "nonzero_tfidf_features": 17,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "methods__bag-of-words",
+        "section": "method",
+        "term": "bag-of-words",
+        "frequency": 2.0,
+        "tfidf": 0.9732
+      },
+      {
+        "feature_name": "experiments__sentiment analysis",
+        "section": "experiment",
+        "term": "sentiment analysis",
+        "frequency": 2.0,
+        "tfidf": 0.7886
+      },
+      {
+        "feature_name": "introduction__sentiment analysis",
+        "section": "intro",
+        "term": "sentiment analysis",
+        "frequency": 1.0,
+        "tfidf": 0.7381
+      },
+      {
+        "feature_name": "conclusion__sentiment analysis",
+        "section": "conclusion",
+        "term": "sentiment analysis",
+        "frequency": 1.0,
+        "tfidf": 0.5781
+      },
+      {
+        "feature_name": "conclusion__Word2Vec",
+        "section": "conclusion",
+        "term": "Word2Vec",
+        "frequency": 1.0,
+        "tfidf": 0.5454
+      },
+      {
+        "feature_name": "introduction__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 1.0,
+        "tfidf": 0.5316
+      },
+      {
+        "feature_name": "conclusion__deep neural networks",
+        "section": "conclusion",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.4667
+      },
+      {
+        "feature_name": "experiments__word embeddings",
+        "section": "experiment",
+        "term": "word embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.4307
+      },
+      {
+        "feature_name": "methods__softmax function",
+        "section": "method",
+        "term": "softmax function",
+        "frequency": 1.0,
+        "tfidf": 0.4252
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.4154
+      },
+      {
+        "feature_name": "methods__svm",
+        "section": "method",
+        "term": "svm",
+        "frequency": 1.0,
+        "tfidf": 0.4054
+      },
+      {
+        "feature_name": "conclusion__deep learning",
+        "section": "conclusion",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.3879
+      },
+      {
+        "feature_name": "experiments__epoch",
+        "section": "experiment",
+        "term": "epoch",
+        "frequency": 1.0,
+        "tfidf": 0.3399
+      },
+      {
+        "feature_name": "methods__sgd",
+        "section": "method",
+        "term": "sgd",
+        "frequency": 1.0,
+        "tfidf": 0.3143
+      },
+      {
+        "feature_name": "methods__gradient descent",
+        "section": "method",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.2872
+      },
+      {
+        "feature_name": "experiments__embeddings",
+        "section": "experiment",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.2777
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__sentiment analysis",
+          "section": "intro",
+          "term": "sentiment analysis",
+          "frequency": 1.0,
+          "tfidf": 0.7381
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.5316
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.4154
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__bag-of-words",
+          "section": "method",
+          "term": "bag-of-words",
+          "frequency": 2.0,
+          "tfidf": 0.9732
+        },
+        {
+          "feature_name": "methods__softmax function",
+          "section": "method",
+          "term": "softmax function",
+          "frequency": 1.0,
+          "tfidf": 0.4252
+        },
+        {
+          "feature_name": "methods__svm",
+          "section": "method",
+          "term": "svm",
+          "frequency": 1.0,
+          "tfidf": 0.4054
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.3143
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.2872
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__sentiment analysis",
+          "section": "experiment",
+          "term": "sentiment analysis",
+          "frequency": 2.0,
+          "tfidf": 0.7886
+        },
+        {
+          "feature_name": "experiments__word embeddings",
+          "section": "experiment",
+          "term": "word embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.4307
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 1.0,
+          "tfidf": 0.3399
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2777
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__sentiment analysis",
+          "section": "conclusion",
+          "term": "sentiment analysis",
+          "frequency": 1.0,
+          "tfidf": 0.5781
+        },
+        {
+          "feature_name": "conclusion__Word2Vec",
+          "section": "conclusion",
+          "term": "Word2Vec",
+          "frequency": 1.0,
+          "tfidf": 0.5454
+        },
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.4667
+        },
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.3879
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 11,
+      "token_count": 793,
+      "bow_hit_count": 34,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep learning",
+          "count": 5,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.6057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 5,
+          "section_prior": 0.4804,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "bag-of-words model",
+          "count": 4,
+          "section_prior": 0.2549,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 4,
+          "section_prior": 0.3813,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "support vector machine",
+          "count": 3,
+          "section_prior": 0.1538,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "sentiment analysis",
+          "count": 3,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "softmax function",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__sentiment analysis",
+          "section": "intro",
+          "term": "sentiment analysis",
+          "frequency": 1.0,
+          "tfidf": 0.7381
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.5316
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.4154
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 1,
+      "token_count": 25,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__bag-of-words",
+          "section": "method",
+          "term": "bag-of-words",
+          "frequency": 2.0,
+          "tfidf": 0.9732
+        },
+        {
+          "feature_name": "methods__softmax function",
+          "section": "method",
+          "term": "softmax function",
+          "frequency": 1.0,
+          "tfidf": 0.4252
+        },
+        {
+          "feature_name": "methods__svm",
+          "section": "method",
+          "term": "svm",
+          "frequency": 1.0,
+          "tfidf": 0.4054
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.3143
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.2872
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 9,
+      "token_count": 680,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "sentiment analysis",
+          "count": 8,
+          "section_prior": 0.5556,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "word embedding",
+          "count": 3,
+          "section_prior": 0.1053,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__sentiment analysis",
+          "section": "experiment",
+          "term": "sentiment analysis",
+          "frequency": 2.0,
+          "tfidf": 0.7886
+        },
+        {
+          "feature_name": "experiments__word embeddings",
+          "section": "experiment",
+          "term": "word embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.4307
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 1.0,
+          "tfidf": 0.3399
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2777
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 1,
+      "token_count": 103,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 3,
+          "section_prior": 0.1538,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 2,
+          "section_prior": 0.2131,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "sentiment analysis",
+          "count": 2,
+          "section_prior": 0.0833,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Word2Vec",
+          "count": 1,
+          "section_prior": 0.1818,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__sentiment analysis",
+          "section": "conclusion",
+          "term": "sentiment analysis",
+          "frequency": 1.0,
+          "tfidf": 0.5781
+        },
+        {
+          "feature_name": "conclusion__Word2Vec",
+          "section": "conclusion",
+          "term": "Word2Vec",
+          "frequency": 1.0,
+          "tfidf": 0.5454
+        },
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.4667
+        },
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.3879
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "tag prediction dataset",
+        "canonical": "tag prediction dataset",
+        "normalized": "tag prediction dataset",
+        "tokens": [
+          "tag",
+          "prediction",
+          "dataset"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 15,
+        "sentence": "does not use pre-trained word embeddings which can be explained the 1 difference in accuracy table 4 examples from the validation set of yfcc100m dataset obtained with fasttext with 200 hidden units and bigrams we show a few correct and incorrect tag predictions up compared to neural network based methods increases with the size of the dataset going up to at least a 15 000 speed-up tag prediction dataset and baselines to test scalability of our approach further is carried",
+        "context_window": {
+          "previous": "is slightly better than char-cnn and char-crnn and a bit worse than vdcnn note that we can increase the accuracy slightly by using more n-grams for example with trigrams the performance on sogou goes up to 97 1 finally figure shows that our method is competitive with the methods presented in tang et al we tune the hyperparameters on the validation set and observe that using n-grams up to 5 leads to the best performance unlike tang et al fasttext",
+          "current": "does not use pre-trained word embeddings which can be explained the 1 difference in accuracy table 4 examples from the validation set of yfcc100m dataset obtained with fasttext with 200 hidden units and bigrams we show a few correct and incorrect tag predictions up compared to neural network based methods increases with the size of the dataset going up to at least a 15 000 speed-up tag prediction dataset and baselines to test scalability of our approach further is carried",
+          "next": "on the yfcc100m dataset thomee et al 2016 which consists of almost 100m images with captions titles and tags we focus on predicting the tags according to the title and caption we do not use the images we remove the words and tags occurring less than 100 times and split the data into a train validation and test set the train set contains 91 188 648 examples 1 5b tokens the validation has 930 497 examples and the test set"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7149,
+        "downstream_relevance_score": 0.6535,
+        "components": {
+          "bio_boundary_score": 0.8663,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "tag",
+          "prediction",
+          "dataset"
+        ],
+        "normalization": "tag prediction dataset",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "tag prediction dataset",
+          "canonical": "tag prediction dataset",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8663",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy, dataset",
+        "downstream relevance score is 0.6535"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "fasttext",
+        "canonical": "fasttext",
+        "normalized": "fasttext",
+        "tokens": [
+          "fasttext"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 19,
+        "sentence": "fasttext h 50 bigram 36 7 7m47 50s fasttext h 200 41 1 10m34 1m29 fasttext h 200 bigram 46 1 13m38 1m37 and 200 both models achieve a similar performance with a small hidden layer but adding bigrams gives us a significant boost in accuracy at test time tagspace needs to compute the scores for all the classes which makes it relatively slow while our fast inference gives a significant speed-up when the number of classes is large more",
+        "context_window": {
+          "previous": "we consider the linear version which achieves comparable performance but is much faster results and training time table 5 presents a comparison of fasttext and the baselines we run fasttext for 5 epochs and compare it to tagspace for two sizes of the hidden layer i e 50 model prec 1 running time train test freq baseline 2 2 --tagspace h 50 30 1 3h8 6h tagspace h 200 35 6 5h32 15h fasttext h 50 31 2 6m40 48s",
+          "current": "fasttext h 50 bigram 36 7 7m47 50s fasttext h 200 41 1 10m34 1m29 fasttext h 200 bigram 46 1 13m38 1m37 and 200 both models achieve a similar performance with a small hidden layer but adding bigrams gives us a significant boost in accuracy at test time tagspace needs to compute the scores for all the classes which makes it relatively slow while our fast inference gives a significant speed-up when the number of classes is large more",
+          "next": "than 300k here overall we are more than an order of magnitude faster to obtain model with a better quality the speedup of the test phase is even more significant a 600 speedup table shows some qualitative examples discussion and"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7309,
+        "downstream_relevance_score": 0.6069,
+        "components": {
+          "bio_boundary_score": 0.9627,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fasttext"
+        ],
+        "normalization": "fasttext",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "fasttext",
+          "canonical": "fasttext",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9627",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.6069"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "linear classifier",
+        "canonical": "linear classifier",
+        "normalized": "linear classifier",
+        "tokens": [
+          "linear",
+          "classifier"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 6,
+        "sentence": "a linear classifier the text representa- tion is an hidden variable which can be potentially be reused this architecture is similar to the cbow model of where the middle word is replaced by a label we use the softmax function f to compute the probability distribution over the predefined classes for a set of n documents this leads to minimizing the negative loglikelihood over the classes - 1 n n n 1 y n log f bax n where x",
+        "context_window": {
+          "previous": "features and classes this possibly limits their generalization in the context of large output space where some classes have very few examples common solutions to this problem are to factorize the linear classifier into low rank matrices or to use multilayer neural networks figure shows a simple linear model with rank constraint the first weight matrix a is a look-up table over the words the word representations are then averaged into a text representation which is in turn fed to",
+          "current": "a linear classifier the text representa- tion is an hidden variable which can be potentially be reused this architecture is similar to the cbow model of where the middle word is replaced by a label we use the softmax function f to compute the probability distribution over the predefined classes for a set of n documents this leads to minimizing the negative loglikelihood over the classes - 1 n n n 1 y n log f bax n where x",
+          "next": "n is the normalized bag of features of the nth document y n the label a and b the weight matrices this model is trained asynchronously on multiple cpus using stochastic gradient descent and a linearly decaying learning rate hierarchical softmax when the number of classes is large computing the linear classifier is computationally expensive more precisely the computational complexity is o kh where k is the number of classes and h the dimension of the text representation in order"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.717,
+        "downstream_relevance_score": 0.5647,
+        "components": {
+          "bio_boundary_score": 0.886,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "classifier"
+        ],
+        "normalization": "linear classifier",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear classifier",
+          "canonical": "linear classifier",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.886",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5647"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "hashing trick",
+        "canonical": "hashing trick",
+        "normalized": "hashing trick",
+        "tokens": [
+          "hashing",
+          "trick"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 11,
+        "sentence": "that explicitly use the order wang and manning 2012 we maintain a fast and memory efficient mapping of the n-grams by using the hashing trick",
+        "context_window": {
+          "previous": "the t -top targets at the cost of o log t using a binary heap n-gram features bag of words is invariant to word order but taking explicitly this order into account is often computationally very expensive instead we use a bag of n-grams as additional features to capture some partial information about the local word order this is very efficient in practice while achieving comparable results to",
+          "current": "that explicitly use the order wang and manning 2012 we maintain a fast and memory efficient mapping of the n-grams by using the hashing trick",
+          "next": "we evaluate fasttext on two different tasks first we compare it to existing text classifers on the problem of sentiment analysis then we evaluate its capacity to scale to large output space on a tag prediction dataset note that our model could be implemented with the vowpal wabbit library but we observe in practice that our tailored implementation is at least 2-5 faster we also compare table 2 training time for a single epoch on sentiment analysis datasets compared to"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.6944
+      },
+      "evidence": {
+        "score": 0.5335,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6935,
+        "downstream_relevance_score": 0.5109,
+        "components": {
+          "bio_boundary_score": 0.8259,
+          "sentence_evidence_score": 0.5335,
+          "sentence_role_score": 0.6944,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "hashing",
+          "trick"
+        ],
+        "normalization": "hashing trick",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "hashing trick",
+          "canonical": "hashing trick",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8259",
+        "structure model assigned role 'process' with score 0.6944",
+        "evidence score 0.5335 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5109"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "fast",
+        "canonical": "fast",
+        "normalized": "fast",
+        "tokens": [
+          "fast"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 18,
+        "sentence": "we consider the linear version which achieves comparable performance but is much faster results and training time table 5 presents a comparison of fasttext and the baselines we run fasttext for 5 epochs and compare it to tagspace for two sizes of the hidden layer i e 50 model prec 1 running time train test freq baseline 2 2 --tagspace h 50 30 1 3h8 6h tagspace h 200 35 6 5h32 15h fasttext h 50 31 2 6m40 48s",
+        "context_window": {
+          "previous": "543 424 the vocabulary size is 297 141 and there are 312 116 unique tags we will release a script that recreates this dataset so that our numbers could be reproduced we report precision at 1 we consider a frequency-based baseline which predicts the most frequent tag we also compare with tagspace weston et al 2014 which is a tag prediction model similar to ours but based on the wsabie model of while the tagspace model is described using convolutions",
+          "current": "we consider the linear version which achieves comparable performance but is much faster results and training time table 5 presents a comparison of fasttext and the baselines we run fasttext for 5 epochs and compare it to tagspace for two sizes of the hidden layer i e 50 model prec 1 running time train test freq baseline 2 2 --tagspace h 50 30 1 3h8 6h tagspace h 200 35 6 5h32 15h fasttext h 50 31 2 6m40 48s",
+          "next": "fasttext h 50 bigram 36 7 7m47 50s fasttext h 200 41 1 10m34 1m29 fasttext h 200 bigram 46 1 13m38 1m37 and 200 both models achieve a similar performance with a small hidden layer but adding bigrams gives us a significant boost in accuracy at test time tagspace needs to compute the scores for all the classes which makes it relatively slow while our fast inference gives a significant speed-up when the number of classes is large more"
+        }
+      },
+      "role": {
+        "label": "baseline",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6028,
+        "downstream_relevance_score": 0.5052,
+        "components": {
+          "bio_boundary_score": 0.6379,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fast"
+        ],
+        "normalization": "fast",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "fast",
+          "canonical": "fast",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6379",
+        "structure model assigned role 'baseline' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5052"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "text classification",
+        "canonical": "text classification",
+        "normalized": "text classification",
+        "tokens": [
+          "text",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "text classification is an important task in natural language processing with many applications such as web search information retrieval ranking and document classification recently models based on neural networks have become increasingly popular zhang and lecun 2015 conneau et al 2016 while these models achieve very good performance in practice they tend to be relatively slow both at train and test time limiting their use on very large datasets meanwhile linear classifiers are often considered as strong baselines for text",
+        "context_window": {
+          "previous": "this paper explores a simple and efficient baseline for text classification our experiments show that our fast text classifier fasttext is often on par with deep learning classifiers in terms of accuracy and many orders of magnitude faster for training and evaluation we can train fasttext on more than one billion words in less than ten minutes using a standard multicore cpu and classify half a million sentences among 312k classes in less than a minute body",
+          "current": "text classification is an important task in natural language processing with many applications such as web search information retrieval ranking and document classification recently models based on neural networks have become increasingly popular zhang and lecun 2015 conneau et al 2016 while these models achieve very good performance in practice they tend to be relatively slow both at train and test time limiting their use on very large datasets meanwhile linear classifiers are often considered as strong baselines for text",
+          "next": "classification problems despite their simplicity they often obtain stateof-the-art performances if the right features are used they also have the potential to scale to very large corpus in this work we explore ways to scale these baselines to very large corpus with a large output space in the context of text classification inspired by the recent work in efficient word representation learning mikolov et al 2013 levy et al 2015 we show that linear models with a rank constraint and"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.844
+      },
+      "evidence": {
+        "score": 0.3787,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6743,
+        "downstream_relevance_score": 0.4912,
+        "components": {
+          "bio_boundary_score": 0.9927,
+          "sentence_evidence_score": 0.3787,
+          "sentence_role_score": 0.844,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "classification"
+        ],
+        "normalization": "text classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "text classification",
+          "canonical": "text classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9927",
+        "structure model assigned role 'problem' with score 0.844",
+        "downstream relevance score is 0.4912"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "linear model",
+        "canonical": "linear model",
+        "normalized": "linear model",
+        "tokens": [
+          "linear",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "features and classes this possibly limits their generalization in the context of large output space where some classes have very few examples common solutions to this problem are to factorize the linear classifier into low rank matrices or to use multilayer neural networks figure shows a simple linear model with rank constraint the first weight matrix a is a look-up table over the words the word representations are then averaged into a text representation which is in turn fed to",
+        "context_window": {
+          "previous": "a fast loss approximation can train on a billion words within ten minutes while achieving performance on par with the state-of-the-art we evaluate the quality of our approach fasttext 1 on two different tasks namely tag prediction and sentiment analysis model architecture a simple and efficient baseline for sentence classification is to represent sentences as bag of words bow and train a linear classifier e g a logistic regression or an svm however linear classifiers do not share parameters among",
+          "current": "features and classes this possibly limits their generalization in the context of large output space where some classes have very few examples common solutions to this problem are to factorize the linear classifier into low rank matrices or to use multilayer neural networks figure shows a simple linear model with rank constraint the first weight matrix a is a look-up table over the words the word representations are then averaged into a text representation which is in turn fed to",
+          "next": "a linear classifier the text representa- tion is an hidden variable which can be potentially be reused this architecture is similar to the cbow model of where the middle word is replaced by a label we use the softmax function f to compute the probability distribution over the predefined classes for a set of n documents this leads to minimizing the negative loglikelihood over the classes - 1 n n n 1 y n log f bax n where x"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.844
+      },
+      "evidence": {
+        "score": 0.3787,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6573,
+        "downstream_relevance_score": 0.4823,
+        "components": {
+          "bio_boundary_score": 0.9339,
+          "sentence_evidence_score": 0.3787,
+          "sentence_role_score": 0.844,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "model"
+        ],
+        "normalization": "linear model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear model",
+          "canonical": "linear model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9339",
+        "structure model assigned role 'problem' with score 0.844",
+        "downstream relevance score is 0.4823"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "tag prediction",
+        "canonical": "tag prediction",
+        "normalized": "tag prediction",
+        "tokens": [
+          "tag",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 17,
+        "sentence": "543 424 the vocabulary size is 297 141 and there are 312 116 unique tags we will release a script that recreates this dataset so that our numbers could be reproduced we report precision at 1 we consider a frequency-based baseline which predicts the most frequent tag we also compare with tagspace weston et al 2014 which is a tag prediction model similar to ours but based on the wsabie model of while the tagspace model is described using convolutions",
+        "context_window": {
+          "previous": "on the yfcc100m dataset thomee et al 2016 which consists of almost 100m images with captions titles and tags we focus on predicting the tags according to the title and caption we do not use the images we remove the words and tags occurring less than 100 times and split the data into a train validation and test set the train set contains 91 188 648 examples 1 5b tokens the validation has 930 497 examples and the test set",
+          "current": "543 424 the vocabulary size is 297 141 and there are 312 116 unique tags we will release a script that recreates this dataset so that our numbers could be reproduced we report precision at 1 we consider a frequency-based baseline which predicts the most frequent tag we also compare with tagspace weston et al 2014 which is a tag prediction model similar to ours but based on the wsabie model of while the tagspace model is described using convolutions",
+          "next": "we consider the linear version which achieves comparable performance but is much faster results and training time table 5 presents a comparison of fasttext and the baselines we run fasttext for 5 epochs and compare it to tagspace for two sizes of the hidden layer i e 50 model prec 1 running time train test freq baseline 2 2 --tagspace h 50 30 1 3h8 6h tagspace h 200 35 6 5h32 15h fasttext h 50 31 2 6m40 48s"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "precision",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5521,
+        "downstream_relevance_score": 0.4777,
+        "components": {
+          "bio_boundary_score": 0.8065,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "tag",
+          "prediction"
+        ],
+        "normalization": "tag prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "tag prediction",
+          "canonical": "tag prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8065",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched precision, dataset",
+        "downstream relevance score is 0.4777"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "train validation",
+        "canonical": "train validation",
+        "normalized": "train validation",
+        "tokens": [
+          "train",
+          "validation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 16,
+        "sentence": "on the yfcc100m dataset thomee et al 2016 which consists of almost 100m images with captions titles and tags we focus on predicting the tags according to the title and caption we do not use the images we remove the words and tags occurring less than 100 times and split the data into a train validation and test set the train set contains 91 188 648 examples 1 5b tokens the validation has 930 497 examples and the test set",
+        "context_window": {
+          "previous": "does not use pre-trained word embeddings which can be explained the 1 difference in accuracy table 4 examples from the validation set of yfcc100m dataset obtained with fasttext with 200 hidden units and bigrams we show a few correct and incorrect tag predictions up compared to neural network based methods increases with the size of the dataset going up to at least a 15 000 speed-up tag prediction dataset and baselines to test scalability of our approach further is carried",
+          "current": "on the yfcc100m dataset thomee et al 2016 which consists of almost 100m images with captions titles and tags we focus on predicting the tags according to the title and caption we do not use the images we remove the words and tags occurring less than 100 times and split the data into a train validation and test set the train set contains 91 188 648 examples 1 5b tokens the validation has 930 497 examples and the test set",
+          "next": "543 424 the vocabulary size is 297 141 and there are 312 116 unique tags we will release a script that recreates this dataset so that our numbers could be reproduced we report precision at 1 we consider a frequency-based baseline which predicts the most frequent tag we also compare with tagspace weston et al 2014 which is a tag prediction model similar to ours but based on the wsabie model of while the tagspace model is described using convolutions"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4719,
+        "downstream_relevance_score": 0.401,
+        "components": {
+          "bio_boundary_score": 0.5318,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "train",
+          "validation"
+        ],
+        "normalization": "train validation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "train validation",
+          "canonical": "train validation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5318",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.401"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "computational complexity",
+        "canonical": "computational complexity",
+        "normalized": "computational complexity",
+        "tokens": [
+          "computational",
+          "complexity"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 8,
+        "sentence": "to improve our running time we use a hierarchical softmax based on the huffman coding tree during training the computational complexity drops to o h log 2 k the hierarchical softmax is also advantageous at test time when searching for the most likely class each node is associated with a probability that is the probability of the path from the root to that node if the node is at depth l 1 with parents n 1 n l its probability",
+        "context_window": {
+          "previous": "n is the normalized bag of features of the nth document y n the label a and b the weight matrices this model is trained asynchronously on multiple cpus using stochastic gradient descent and a linearly decaying learning rate hierarchical softmax when the number of classes is large computing the linear classifier is computationally expensive more precisely the computational complexity is o kh where k is the number of classes and h the dimension of the text representation in order",
+          "current": "to improve our running time we use a hierarchical softmax based on the huffman coding tree during training the computational complexity drops to o h log 2 k the hierarchical softmax is also advantageous at test time when searching for the most likely class each node is associated with a probability that is the probability of the path from the root to that node if the node is at depth l 1 with parents n 1 n l its probability",
+          "next": "is p n l 1 l i 1 p n i this means that the probability of a node is always lower than the one of its parent exploring the tree with a depth first search and tracking the maximum probability among the leaves allows us to discard any branch associated with a small probability in practice we observe a reduction of the complexity to o h log 2 k at test time this approach is further extended to compute"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4838,
+        "downstream_relevance_score": 0.3244,
+        "components": {
+          "bio_boundary_score": 0.7268,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational",
+          "complexity"
+        ],
+        "normalization": "computational complexity",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational complexity",
+          "canonical": "computational complexity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7268",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3244"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "word order",
+        "canonical": "word order",
+        "normalized": "word order",
+        "tokens": [
+          "word",
+          "order"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 10,
+        "sentence": "the t -top targets at the cost of o log t using a binary heap n-gram features bag of words is invariant to word order but taking explicitly this order into account is often computationally very expensive instead we use a bag of n-grams as additional features to capture some partial information about the local word order this is very efficient in practice while achieving comparable results to",
+        "context_window": {
+          "previous": "is p n l 1 l i 1 p n i this means that the probability of a node is always lower than the one of its parent exploring the tree with a depth first search and tracking the maximum probability among the leaves allows us to discard any branch associated with a small probability in practice we observe a reduction of the complexity to o h log 2 k at test time this approach is further extended to compute",
+          "current": "the t -top targets at the cost of o log t using a binary heap n-gram features bag of words is invariant to word order but taking explicitly this order into account is often computationally very expensive instead we use a bag of n-grams as additional features to capture some partial information about the local word order this is very efficient in practice while achieving comparable results to",
+          "next": "that explicitly use the order wang and manning 2012 we maintain a fast and memory efficient mapping of the n-grams by using the hashing trick"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4394,
+        "downstream_relevance_score": 0.2845,
+        "components": {
+          "bio_boundary_score": 0.5745,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "word",
+          "order"
+        ],
+        "normalization": "word order",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "word order",
+          "canonical": "word order",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5745",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.2845"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 18,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While the Tagspace model is described using convolutions, we consider the linear version, which achieves comparable performance but is much faster.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "This architecture is similar to the cbow model of , where the middle word is replaced by a label.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Then, we evaluate its capacity to scale to large output space on a tag prediction dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Overall our accuracy is slightly better than char-CNN and char-CRNN and, a bit worse than VDCNN.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Note that we can increase the accuracy slightly by using more n-grams, for example with trigrams, the performance on Sogou goes up to 97.1%.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Unlike Tang et al. (2015), fastText does not use pre-trained word embeddings, which can be explained the 1% difference in accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table 4: Examples from the validation set of YFCC100M dataset obtained with fastText with 200 hidden units and bigrams.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We show a few correct and incorrect tag predictions. up compared to neural network based methods increases with the size of the dataset, going up to at least a 15,000× speed-up.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To test scalability of our approach, further evaluation is carried on the YFCC100M dataset (Thomee et al., 2016) which consists of almost 100M images with captions, titles and tags.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We will release a script that recreates this dataset so that our numbers could be reproduced.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Both models achieve a similar performance with a small hidden layer, but adding bigrams gives us a significant boost in accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We report precision at 1.",
+        "evidence_type": "metric",
+        "matched_cue": "precision",
+        "role_prior": "metric",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our experiments show that our fast text classifier fastText is often on par with deep learning classifiers in terms of accuracy, and many orders of magnitude faster for training and evaluation.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "They also have the potential to scale to very large corpus .",
+        "evidence_type": "dataset",
+        "matched_cue": "corpus",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this work, we explore ways to scale these baselines to very large corpus with a large output space, in the context of text classification.",
+        "evidence_type": "dataset",
+        "matched_cue": "corpus",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Inspired by the recent work in efficient word representation learning (Mikolov et al., 2013; Levy et al., 2015), we show that linear models with a rank constraint and a fast loss approximation can train on a billion words within ten minutes, while achieving performance on par with the state-of-the-art.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In this work, we propose a simple baseline method for text classification.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We present the results in Figure .",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "tag prediction dataset",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6535
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "fasttext",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6069
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "linear classifier",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.5647
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "hashing trick",
+        "section": "method",
+        "role": "process",
+        "score": 0.5109
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "fast",
+        "section": "experiment",
+        "role": "baseline",
+        "score": 0.5052
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "text classification",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4912
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "linear model",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4823
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "tag prediction",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4777
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "train validation",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.401
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "computational complexity",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3244
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "word order",
+        "section": "intro",
+        "role": "background",
+        "score": 0.2845
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

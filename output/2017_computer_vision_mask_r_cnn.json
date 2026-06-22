@@ -1,0 +1,2980 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2017_computer_vision_mask_r_cnn",
+    "title": "2017_computer_vision_mask_r_cnn",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2017_computer_vision_mask_r_cnn.txt",
+    "sentence_count": 79,
+    "section_counts": {
+      "intro": 3,
+      "related_work": 1,
+      "method": 7,
+      "experiment": 68
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 6265,
+    "type_count": 1237,
+    "type_token_ratio": 0.1974,
+    "section_token_counts": {
+      "intro": 171,
+      "related_work": 159,
+      "method": 545,
+      "experiment": 5390,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "person",
+        "count": 153
+      },
+      {
+        "term": "00",
+        "count": 147
+      },
+      {
+        "term": "mask",
+        "count": 119
+      },
+      {
+        "term": "person1",
+        "count": 96
+      },
+      {
+        "term": "99",
+        "count": 92
+      },
+      {
+        "term": "r-cnn",
+        "count": 86
+      },
+      {
+        "term": "98",
+        "count": 50
+      },
+      {
+        "term": "car",
+        "count": 50
+      },
+      {
+        "term": "ap",
+        "count": 47
+      },
+      {
+        "term": "chair",
+        "count": 40
+      },
+      {
+        "term": "segmentation",
+        "count": 36
+      },
+      {
+        "term": "95",
+        "count": 33
+      },
+      {
+        "term": "roi",
+        "count": 32
+      },
+      {
+        "term": "which",
+        "count": 32
+      },
+      {
+        "term": "96",
+        "count": 32
+      },
+      {
+        "term": "each",
+        "count": 29
+      },
+      {
+        "term": "donut",
+        "count": 29
+      },
+      {
+        "term": "97",
+        "count": 28
+      },
+      {
+        "term": "faster",
+        "count": 26
+      },
+      {
+        "term": "box",
+        "count": 26
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "person1 00",
+        "count": 96
+      },
+      {
+        "term": "00 person1",
+        "count": 61
+      },
+      {
+        "term": "mask r-cnn",
+        "count": 52
+      },
+      {
+        "term": "person 99",
+        "count": 37
+      },
+      {
+        "term": "00 person",
+        "count": 27
+      },
+      {
+        "term": "faster r-cnn",
+        "count": 25
+      },
+      {
+        "term": "99 person",
+        "count": 23
+      },
+      {
+        "term": "instance segmentation",
+        "count": 20
+      },
+      {
+        "term": "person 98",
+        "count": 20
+      },
+      {
+        "term": "98 person",
+        "count": 18
+      },
+      {
+        "term": "mask branch",
+        "count": 12
+      },
+      {
+        "term": "99 person1",
+        "count": 12
+      },
+      {
+        "term": "person 95",
+        "count": 12
+      },
+      {
+        "term": "95 person",
+        "count": 12
+      },
+      {
+        "term": "99 car",
+        "count": 11
+      },
+      {
+        "term": "wine glass",
+        "count": 11
+      },
+      {
+        "term": "97 person",
+        "count": 11
+      },
+      {
+        "term": "object detection",
+        "count": 10
+      },
+      {
+        "term": "traffic light",
+        "count": 9
+      },
+      {
+        "term": "car 99",
+        "count": 9
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "00 person1 00",
+        "count": 61
+      },
+      {
+        "term": "person1 00 person1",
+        "count": 54
+      },
+      {
+        "term": "person1 00 person",
+        "count": 21
+      },
+      {
+        "term": "person 99 person",
+        "count": 14
+      },
+      {
+        "term": "person 98 person",
+        "count": 13
+      },
+      {
+        "term": "99 person1 00",
+        "count": 12
+      },
+      {
+        "term": "00 person 99",
+        "count": 10
+      },
+      {
+        "term": "person 99 person1",
+        "count": 9
+      },
+      {
+        "term": "99 person 99",
+        "count": 7
+      },
+      {
+        "term": "car 99 car",
+        "count": 7
+      },
+      {
+        "term": "00 person 98",
+        "count": 7
+      },
+      {
+        "term": "person 95 person",
+        "count": 6
+      },
+      {
+        "term": "person 97 person",
+        "count": 6
+      },
+      {
+        "term": "ap 50 ap",
+        "count": 6
+      },
+      {
+        "term": "50 ap 75",
+        "count": 6
+      },
+      {
+        "term": "sheep 99 sheep",
+        "count": 5
+      },
+      {
+        "term": "car 95 car",
+        "count": 5
+      },
+      {
+        "term": "car 97 car",
+        "count": 5
+      },
+      {
+        "term": "98 person 99",
+        "count": 5
+      },
+      {
+        "term": "donut 89 donut",
+        "count": 5
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 17,
+    "nonzero_tfidf_features": 17,
+    "top_tfidf_features": [
+      {
+        "feature_name": "methods__ResNet",
+        "section": "method",
+        "term": "ResNet",
+        "frequency": 7.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "related_work__attention",
+        "section": "related_work",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.991
+      },
+      {
+        "feature_name": "abstract__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 3.0,
+        "tfidf": 0.9546
+      },
+      {
+        "feature_name": "introduction__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 12.0,
+        "tfidf": 0.939
+      },
+      {
+        "feature_name": "experiments__segmentation",
+        "section": "experiment",
+        "term": "segmentation",
+        "frequency": 18.0,
+        "tfidf": 0.9052
+      },
+      {
+        "feature_name": "related_work__convolutional neural networks",
+        "section": "related_work",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.5253
+      },
+      {
+        "feature_name": "related_work__object detection",
+        "section": "related_work",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.4735
+      },
+      {
+        "feature_name": "introduction__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 4.0,
+        "tfidf": 0.3237
+      },
+      {
+        "feature_name": "abstract__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.2979
+      },
+      {
+        "feature_name": "experiments__MLP",
+        "section": "experiment",
+        "term": "MLP",
+        "frequency": 5.0,
+        "tfidf": 0.2884
+      },
+      {
+        "feature_name": "experiments__ohem",
+        "section": "experiment",
+        "term": "ohem",
+        "frequency": 3.0,
+        "tfidf": 0.2207
+      },
+      {
+        "feature_name": "experiments__object detection",
+        "section": "experiment",
+        "term": "object detection",
+        "frequency": 3.0,
+        "tfidf": 0.1781
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 5.0,
+        "tfidf": 0.1711
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 3.0,
+        "tfidf": 0.127
+      },
+      {
+        "feature_name": "introduction__pose estimation",
+        "section": "intro",
+        "term": "pose estimation",
+        "frequency": 1.0,
+        "tfidf": 0.1159
+      },
+      {
+        "feature_name": "experiments__multi-task learning",
+        "section": "experiment",
+        "term": "multi-task learning",
+        "frequency": 1.0,
+        "tfidf": 0.0694
+      },
+      {
+        "feature_name": "experiments__ResNet",
+        "section": "experiment",
+        "term": "ResNet",
+        "frequency": 1.0,
+        "tfidf": 0.0513
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 3.0,
+          "tfidf": 0.9546
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 12.0,
+          "tfidf": 0.939
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 4.0,
+          "tfidf": 0.3237
+        },
+        {
+          "feature_name": "abstract__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.2979
+        },
+        {
+          "feature_name": "introduction__pose estimation",
+          "section": "intro",
+          "term": "pose estimation",
+          "frequency": 1.0,
+          "tfidf": 0.1159
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.991
+        },
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.5253
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.4735
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 7.0,
+          "tfidf": 1.0
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 18.0,
+          "tfidf": 0.9052
+        },
+        {
+          "feature_name": "experiments__MLP",
+          "section": "experiment",
+          "term": "MLP",
+          "frequency": 5.0,
+          "tfidf": 0.2884
+        },
+        {
+          "feature_name": "experiments__ohem",
+          "section": "experiment",
+          "term": "ohem",
+          "frequency": 3.0,
+          "tfidf": 0.2207
+        },
+        {
+          "feature_name": "experiments__object detection",
+          "section": "experiment",
+          "term": "object detection",
+          "frequency": 3.0,
+          "tfidf": 0.1781
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 5.0,
+          "tfidf": 0.1711
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.127
+        },
+        {
+          "feature_name": "experiments__multi-task learning",
+          "section": "experiment",
+          "term": "multi-task learning",
+          "frequency": 1.0,
+          "tfidf": 0.0694
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.0513
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 3,
+      "token_count": 171,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 10,
+          "section_prior": 0.4177,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 3,
+          "section_prior": 0.5495,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 3.0,
+          "tfidf": 0.9546
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 12.0,
+          "tfidf": 0.939
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 4.0,
+          "tfidf": 0.3237
+        },
+        {
+          "feature_name": "abstract__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.2979
+        },
+        {
+          "feature_name": "introduction__pose estimation",
+          "section": "intro",
+          "term": "pose estimation",
+          "frequency": 1.0,
+          "tfidf": 0.1159
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 159,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 5,
+          "section_prior": 0.0759,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 3,
+          "section_prior": 0.1261,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.991
+        },
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.5253
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.4735
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 7,
+      "token_count": 545,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 10,
+          "section_prior": 0.0443,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 3,
+          "section_prior": 0.036,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 7.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 68,
+      "token_count": 5390,
+      "bow_hit_count": 147,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 79,
+          "section_prior": 0.3671,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 32,
+          "section_prior": 0.44,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 14,
+          "section_prior": 0.1622,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 6,
+          "section_prior": 0.3898,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "pose estimation",
+          "count": 2,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 2,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Online Hard Example Mining",
+          "count": 2,
+          "section_prior": 0.8,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 18.0,
+          "tfidf": 0.9052
+        },
+        {
+          "feature_name": "experiments__MLP",
+          "section": "experiment",
+          "term": "MLP",
+          "frequency": 5.0,
+          "tfidf": 0.2884
+        },
+        {
+          "feature_name": "experiments__ohem",
+          "section": "experiment",
+          "term": "ohem",
+          "frequency": 3.0,
+          "tfidf": 0.2207
+        },
+        {
+          "feature_name": "experiments__object detection",
+          "section": "experiment",
+          "term": "object detection",
+          "frequency": 3.0,
+          "tfidf": 0.1781
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 5.0,
+          "tfidf": 0.1711
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.127
+        },
+        {
+          "feature_name": "experiments__multi-task learning",
+          "section": "experiment",
+          "term": "multi-task learning",
+          "frequency": 1.0,
+          "tfidf": 0.0694
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.0513
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "object detection",
+        "canonical": "object detection",
+        "normalized": "object detection",
+        "tokens": [
+          "object",
+          "detection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "object detection"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 10,
+        "sentence": "in contrast fcns usually perform per-pixel multi-class categorization which couples segmentation and classification and based on our experiments works poorly for instance segmentation without bells and whistles mask r-cnn surpasses all previous state-of-the-art single-model results on the coco instance segmentation task including the heavilyengineered entries from the 2016 competition winner as a by-product our method also excels on the coco object detection task in ablation",
+        "context_window": {
+          "previous": "wine glass1 00 bowl 85 knife 83 wine glass1 00 wine glass 93 wine glass 97 fork 95 a seemingly minor change roialign has a large impact it improves mask accuracy by relative 10 to 50 showing bigger gains under stricter localization metrics second we found it essential to decouple mask and class prediction we predict a binary mask for each class independently without competition among classes and rely on the network s roi classification branch to predict the category",
+          "current": "in contrast fcns usually perform per-pixel multi-class categorization which couples segmentation and classification and based on our experiments works poorly for instance segmentation without bells and whistles mask r-cnn surpasses all previous state-of-the-art single-model results on the coco instance segmentation task including the heavilyengineered entries from the 2016 competition winner as a by-product our method also excels on the coco object detection task in ablation",
+          "next": "we evaluate multiple basic instantiations which allows us to demonstrate its robustness and analyze the effects of core factors our models can run at about 200ms per frame on a gpu and training on coco takes one to two days on a single 8-gpu machine we believe the fast train and test speeds together with the framework s flexibility and accuracy will benefit and ease future research on instance segmentation finally we showcase the generality of our framework via the"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6865,
+        "downstream_relevance_score": 0.6834,
+        "components": {
+          "bio_boundary_score": 0.7819,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.036,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "object detection",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "object detection",
+        "display_term": "object detection",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Object_detection",
+        "wikidata_id": "Q3045304",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 3,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "object",
+          "detection"
+        ],
+        "normalization": "object detection",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.036,
+        "canonicalization": {
+          "observed": "object detection",
+          "canonical": "object detection",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7819",
+        "structure model assigned role 'core_method' with score 0.82",
+        "section BoW matched canonical term 'object detection' with confidence 0.85",
+        "BoW role prior suggests 'task'",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.6834"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "box ap",
+        "canonical": "box ap",
+        "normalized": "box ap",
+        "tokens": [
+          "box",
+          "ap"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 68,
+        "sentence": "to the state-of-the-art coco bounding-box object detection in table for this result even though the full mask r-cnn model is trained only the classification and box outputs are used at inference the mask output is ignored mask r-cnn using resnet-101-fpn outperforms the base variants of all previous state-ofthe-art models including the single-model variant of g-rmi the winner of the coco 2016 detection challenge using resnext-101-fpn mask r-cnn further improves results with a margin of 3 0 points box ap over",
+        "context_window": {
+          "previous": "even with fpn table mask branch segmentation is a pixel-to-pixel task and we exploit the spatial layout of masks by using an fcn in table we compare multi-layer perceptrons mlp and fcns using a resnet-50-fpn backbone using fcns gives a 2 1 mask ap gain over mlps we note that we choose this backbone so that the conv layers of the fcn head are not pre-trained for a fair comparison with mlp bounding box detection results we compare mask r-cnn",
+          "current": "to the state-of-the-art coco bounding-box object detection in table for this result even though the full mask r-cnn model is trained only the classification and box outputs are used at inference the mask output is ignored mask r-cnn using resnet-101-fpn outperforms the base variants of all previous state-ofthe-art models including the single-model variant of g-rmi the winner of the coco 2016 detection challenge using resnext-101-fpn mask r-cnn further improves results with a margin of 3 0 points box ap over",
+          "next": "the best previous single model entry from which used inception-resnet-v2-tdm as a further comparison we trained a version of mask r-cnn but without the mask branch denoted by faster r-cnn roialign in table this model performs better than the model presented in due to roialign on the other hand it is 0 9 points box ap lower than mask r-cnn this gap of mask r-cnn on box detection is therefore due solely to the benefits of multi-task training lastly we"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7581,
+        "downstream_relevance_score": 0.676,
+        "components": {
+          "bio_boundary_score": 0.8094,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "box",
+          "ap"
+        ],
+        "normalization": "box ap",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "box ap",
+          "canonical": "box ap",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8094",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, outperforms, challenge",
+        "downstream relevance score is 0.676"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "mask",
+        "canonical": "mask",
+        "normalized": "mask",
+        "tokens": [
+          "mask"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 68,
+        "sentence": "to the state-of-the-art coco bounding-box object detection in table for this result even though the full mask r-cnn model is trained only the classification and box outputs are used at inference the mask output is ignored mask r-cnn using resnet-101-fpn outperforms the base variants of all previous state-ofthe-art models including the single-model variant of g-rmi the winner of the coco 2016 detection challenge using resnext-101-fpn mask r-cnn further improves results with a margin of 3 0 points box ap over",
+        "context_window": {
+          "previous": "even with fpn table mask branch segmentation is a pixel-to-pixel task and we exploit the spatial layout of masks by using an fcn in table we compare multi-layer perceptrons mlp and fcns using a resnet-50-fpn backbone using fcns gives a 2 1 mask ap gain over mlps we note that we choose this backbone so that the conv layers of the fcn head are not pre-trained for a fair comparison with mlp bounding box detection results we compare mask r-cnn",
+          "current": "to the state-of-the-art coco bounding-box object detection in table for this result even though the full mask r-cnn model is trained only the classification and box outputs are used at inference the mask output is ignored mask r-cnn using resnet-101-fpn outperforms the base variants of all previous state-ofthe-art models including the single-model variant of g-rmi the winner of the coco 2016 detection challenge using resnext-101-fpn mask r-cnn further improves results with a margin of 3 0 points box ap over",
+          "next": "the best previous single model entry from which used inception-resnet-v2-tdm as a further comparison we trained a version of mask r-cnn but without the mask branch denoted by faster r-cnn roialign in table this model performs better than the model presented in due to roialign on the other hand it is 0 9 points box ap lower than mask r-cnn this gap of mask r-cnn on box detection is therefore due solely to the benefits of multi-task training lastly we"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7644,
+        "downstream_relevance_score": 0.6693,
+        "components": {
+          "bio_boundary_score": 0.8309,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mask"
+        ],
+        "normalization": "mask",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mask",
+          "canonical": "mask",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8309",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, outperforms, challenge",
+        "downstream relevance score is 0.6693"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "resnet",
+        "canonical": "residual neural network",
+        "normalized": "residual neural network",
+        "tokens": [
+          "resnet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "residual neural network",
+          "ResNet",
+          "resnet"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 33,
+        "sentence": "we note that our mask branches have a straightforward structure more complex designs have the potential to improve performance but are not the focus of this work ave roi roi 14 14 256 7 7 256 14 14 256 1024 28 28 256 1024 mask 14 14 256 class box 2048 roi res5 7 7 1024 7 7 2048 4 class box 14 14 80 mask 28 28 80 faster r-cnn w resnet faster r-cnn w fpn figure 4 head",
+        "context_window": {
+          "previous": "to for the network head we closely follow architectures presented in previous work to which we add a fully convolutional mask prediction branch specifically we extend the faster r-cnn box heads from the resnet and fpn papers details are shown in figure the head on the resnet-c4 backbone includes the 5-th stage of resnet namely the 9-layer res5 which is computeintensive for fpn the backbone already includes res5 and thus allows for a more efficient head that uses fewer filters",
+          "current": "we note that our mask branches have a straightforward structure more complex designs have the potential to improve performance but are not the focus of this work ave roi roi 14 14 256 7 7 256 14 14 256 1024 28 28 256 1024 mask 14 14 256 class box 2048 roi res5 7 7 1024 7 7 2048 4 class box 14 14 80 mask 28 28 80 faster r-cnn w resnet faster r-cnn w fpn figure 4 head",
+          "next": "architecture we extend two existing faster r-cnn heads left right panels show the heads for the resnet c4 and fpn backbones from and respectively to which a mask branch is added numbers denote spatial resolution and channels arrows denote either conv deconv or fc layers as can be inferred from context conv preserves spatial dimension while deconv increases it all convs are 3 3 except the output conv which is 1 1 deconvs are 2 2 with stride 2 and"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6547,
+        "downstream_relevance_score": 0.6506,
+        "components": {
+          "bio_boundary_score": 0.6531,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.44,
+          "document_tfidf_score": 0.0513,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "resnet",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "residual neural network",
+        "display_term": "ResNet",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Residual_neural_network",
+        "wikidata_id": "Q43744058",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 32,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__ResNet",
+        "section": "experiment",
+        "term": "ResNet",
+        "frequency": 1.0,
+        "tfidf": 0.0513,
+        "normalized_frequency": 0.0556,
+        "normalized_tfidf": 0.0513
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "resnet"
+        ],
+        "normalization": "resnet",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.44,
+        "canonicalization": {
+          "observed": "resnet",
+          "canonical": "residual neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6531",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'residual neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'experiments__ResNet' with tf-idf 0.0513",
+        "downstream relevance score is 0.6506"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "mask r-cnn",
+        "canonical": "mask r-cnn",
+        "normalized": "mask r-cnn",
+        "tokens": [
+          "mask",
+          "r-cnn"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 71,
+        "sentence": "an nvidia tesla m40 gpu plus 15ms cpu time resizing the outputs to the original resolution and achieves statistically the same mask ap as the unshared one we also report that the resnet-101-c4 variant takes 400ms as it has a heavier box head figure so we do not recommend using the c4 variant in practice although mask r-cnn is fast we note that our design is not optimized for speed and better speed accuracy tradeoffs could be achieved e g",
+        "context_window": {
+          "previous": "note that mask r-cnn attains a small gap between its mask and box ap e g 2 7 points between 37 1 mask table and 39 8 box table this indicates that our approach largely closes the gap between object detection and the more challenging instance segmentation task timing inference we train a resnet-101-fpn model that shares features between the rpn and mask r-cnn stages following the 4-step training of faster r-cnn this model runs at 195ms per image on",
+          "current": "an nvidia tesla m40 gpu plus 15ms cpu time resizing the outputs to the original resolution and achieves statistically the same mask ap as the unshared one we also report that the resnet-101-c4 variant takes 400ms as it has a heavier box head figure so we do not recommend using the c4 variant in practice although mask r-cnn is fast we note that our design is not optimized for speed and better speed accuracy tradeoffs could be achieved e g",
+          "next": "by varying image sizes and proposal numbers which is beyond the scope of this paper training mask r-cnn is also fast to train training with resnet-50-fpn on coco trainval35k takes 32 hours in our synchronized 8-gpu implementation 0 72s per 16image mini-batch and 44 hours with resnet-101-fpn in fact fast prototyping can be completed in less than one day when training on the train set we hope such rapid training will remove a major hurdle in this area and encourage"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6636,
+        "downstream_relevance_score": 0.6268,
+        "components": {
+          "bio_boundary_score": 0.7322,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mask",
+          "r-cnn"
+        ],
+        "normalization": "mask r-cnn",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mask r-cnn",
+          "canonical": "mask r-cnn",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7322",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves, accuracy, design",
+        "downstream relevance score is 0.6268"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "feature extraction",
+        "canonical": "feature extraction",
+        "normalized": "feature extraction",
+        "tokens": [
+          "feature",
+          "extraction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 6,
+        "sentence": "roipool the de facto core operation for attending to instances performs coarse spatial quantization for feature extraction to fix the misalignment we propose a simple quantization-free layer called roialign that faithfully preserves exact spatial locations despite being dining table 96 person1 00 person1 00 person1 00 person1 00 person1 00 person1 00 person1 00 person 94 bottle 99 bottle 99 bottle 99 motorcycle1 00 motorcycle1 00 person1 00 person1 00 person 96person1 00 person 83 person 96 person 98 person",
+        "context_window": {
+          "previous": "is simple to implement and train given the faster r-cnn framework which facilitates a wide range of flexible architecture designs additionally the mask branch only adds a small computational overhead enabling a fast system and rapid experimentation in principle mask r-cnn is an intuitive extension of faster r-cnn yet constructing the mask branch properly is critical for good results most importantly faster r-cnn was not designed for pixel-to-pixel alignment between network inputs and outputs this is most evident in how",
+          "current": "roipool the de facto core operation for attending to instances performs coarse spatial quantization for feature extraction to fix the misalignment we propose a simple quantization-free layer called roialign that faithfully preserves exact spatial locations despite being dining table 96 person1 00 person1 00 person1 00 person1 00 person1 00 person1 00 person1 00 person 94 bottle 99 bottle 99 bottle 99 motorcycle1 00 motorcycle1 00 person1 00 person1 00 person 96person1 00 person 83 person 96 person 98 person",
+          "next": "90 person 92 person 99person 91 bus 99 person1 00 person1 00 person1 00 backpack 93 person1 00 person 99 person1 00 backpack 99 person 99 person 98 person 89 person 95 person1 00 person1 00 car1 00 traffic light 96 person 96 truck1 00 person 99 car 99 person 85 motorcycle 95 car 99 car 92 person 99 person1 00 traffic light 92 traffic light 84 traffic light 95 car 93 person 87 person1 00 person1 00 umbrella 98"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6916,
+        "downstream_relevance_score": 0.602,
+        "components": {
+          "bio_boundary_score": 0.584,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "extraction"
+        ],
+        "normalization": "feature extraction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature extraction",
+          "canonical": "feature extraction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.584",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.602"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "backbone architecture",
+        "canonical": "backbone architecture",
+        "normalized": "backbone architecture",
+        "tokens": [
+          "backbone",
+          "architecture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 57,
+        "sentence": "35 4 57 3 37 5 resnext-101-fpn 36 7 59 5 38 9 a backbone architecture better backbones bring expected gains deeper networks do better fpn outperforms c4 features and resnext improves on resnet ap ap 50 ap 75 softmax 24 8 44 1 25 1 sigmoid 30 3 51 2 31 5 5 5 7 1 6 4 b multinomial vs independent masks resnet-50-c4 decoupling via perclass binary masks sigmoid gives large gains over multinomial masks softmax align bilinear",
+        "context_window": {
+          "previous": "00 person1 00 person 95 sports ball1 00 sports ball 98 person1 00 person1 00 person1 00 tie 95 tie1 00 fcis mask r-cnn train1 00 train 99 train 80 person1 00 person1 00 person1 00 person1 00 person1 00 person1 00 skateboard 98 person 99 person 99 skateboard 99 handbag 93 net-depth-features ap ap 50 ap 75 resnet-50-c4 30 3 51 2 31 5 resnet-101-c4 32 7 54 2 34 3 resnet-50-fpn 33 6 55 2 35 3 resnet-101-fpn",
+          "current": "35 4 57 3 37 5 resnext-101-fpn 36 7 59 5 38 9 a backbone architecture better backbones bring expected gains deeper networks do better fpn outperforms c4 features and resnext improves on resnet ap ap 50 ap 75 softmax 24 8 44 1 25 1 sigmoid 30 3 51 2 31 5 5 5 7 1 6 4 b multinomial vs independent masks resnet-50-c4 decoupling via perclass binary masks sigmoid gives large gains over multinomial masks softmax align bilinear",
+          "next": "agg ap ap 50 ap 75 roipool max 26 9 48 8 26 4 roiwarp max 27 2 49 2 27 1 ave 27 1 48 9 27 1 roialign max 30 2 51 0 31 8 ave 30 3 51 2 31 5 c roialign resnet-50-c4 mask results with various roi layers our roialign layer improves ap by 3 points and ap 75 by 5 points using proper alignment is the only factor that contributes to the large gap"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6561,
+        "downstream_relevance_score": 0.6002,
+        "components": {
+          "bio_boundary_score": 0.5655,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "backbone",
+          "architecture"
+        ],
+        "normalization": "backbone architecture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "backbone architecture",
+          "canonical": "backbone architecture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5655",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms, architecture",
+        "downstream relevance score is 0.6002"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "mask r",
+        "canonical": "mask r",
+        "normalized": "mask r",
+        "tokens": [
+          "mask",
+          "r"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 54,
+        "sentence": "we compare mask r-cnn to the state-of-the-art methods in instance segmentation in table all instantiations of our model outperform baseline variants of previous state-of-the-art models this includes mnc and fcis the winners of the coco 2015 and 2016 segmentation challenges respectively without bells and whistles mask r-cnn with resnet-101-fpn backbone outperforms fcis which includes multi-scale train test horizontal flip test and online hard example mining ohem while outside the scope of this work we expect many such improvements to be",
+        "context_window": {
+          "previous": "comprehensive ablations on the coco dataset we report the standard coco metrics including ap averaged over iou thresholds ap 50 ap 75 and ap s ap m ap l ap at different scales unless noted ap is evaluating using mask iou as in previous work we train using the union of 80k train images and a 35k subset of val images trainval35k and report ablations on the remaining 5k val images minival we also report results on test-dev main results",
+          "current": "we compare mask r-cnn to the state-of-the-art methods in instance segmentation in table all instantiations of our model outperform baseline variants of previous state-of-the-art models this includes mnc and fcis the winners of the coco 2015 and 2016 segmentation challenges respectively without bells and whistles mask r-cnn with resnet-101-fpn backbone outperforms fcis which includes multi-scale train test horizontal flip test and online hard example mining ohem while outside the scope of this work we expect many such improvements to be",
+          "next": "applicable to ours mask r-cnn outputs are visualized in figures and mask r-cnn achieves good results even under challenging conditions in figure we compare our mask r-cnn baseline and fcis fcis exhibits systematic artifacts on overlapping instances suggesting that it is challenged by the fundamental difficulty of instance segmentation mask r-cnn shows no such artifacts person1 00 person1 00 person1 00 person1 00 umbrella1 00 umbrella 99 car 99 car 93 giraffe1 00 giraffe1 00 person1 00 person1 00 person1"
+        }
+      },
+      "role": {
+        "label": "baseline",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "outperform",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6249,
+        "downstream_relevance_score": 0.5773,
+        "components": {
+          "bio_boundary_score": 0.6796,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mask",
+          "r"
+        ],
+        "normalization": "mask r",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mask r",
+          "canonical": "mask r",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6796",
+        "structure model assigned role 'baseline' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, outperforms, outperform",
+        "downstream relevance score is 0.5773"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "domain knowledge",
+        "canonical": "domain knowledge",
+        "normalized": "domain knowledge",
+        "tokens": [
+          "domain",
+          "knowledge"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 74,
+        "sentence": "the experiments are mainly to demonstrate the generality of the mask r-cnn framework we expect that domain knowledge e g modeling structures will be complementary to our simple approach implementation details we make minor modifications to the segmentation system when adapting it for keypoints for each of the k keypoints of an instance the training target is a one-hot m m binary mask where only a single pixel is labeled as foreground during training for each visible ground-truth keypoint we",
+        "context_window": {
+          "previous": "more people to perform research on this challenging topic mask r-cnn for human pose estimation our framework can easily be extended to human pose estimation we model a keypoint s location as a one-hot mask and adopt mask r-cnn to predict k masks one for each of k keypoint types e g left shoulder right elbow this task helps demonstrate the flexibility of mask r-cnn we note that minimal domain knowledge for human pose is exploited by our system as",
+          "current": "the experiments are mainly to demonstrate the generality of the mask r-cnn framework we expect that domain knowledge e g modeling structures will be complementary to our simple approach implementation details we make minor modifications to the segmentation system when adapting it for keypoints for each of the k keypoints of an instance the training target is a one-hot m m binary mask where only a single pixel is labeled as foreground during training for each visible ground-truth keypoint we",
+          "next": "minimize the cross-entropy loss over an m 2 -way softmax output which encourages a table 4 keypoint detection ap on coco test-dev ours is a single model resnet-50-fpn that runs at 5 fps cmu-pose is the 2016 competition winner that uses multi-scale testing post-processing with cpm and filtering with an object detector adding a cumulative 5 points clarified in personal communication g-rmi was trained on coco plus mpii 25k images using two models inception-resnet-v2 for bounding box detection and resnet-101"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7082,
+        "downstream_relevance_score": 0.5601,
+        "components": {
+          "bio_boundary_score": 0.8563,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "domain",
+          "knowledge"
+        ],
+        "normalization": "domain knowledge",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "domain knowledge",
+          "canonical": "domain knowledge",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8563",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched framework",
+        "downstream relevance score is 0.5601"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "instance segmentation",
+        "canonical": "instance segmentation",
+        "normalized": "instance segmentation",
+        "tokens": [
+          "instance",
+          "segmentation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 55,
+        "sentence": "applicable to ours mask r-cnn outputs are visualized in figures and mask r-cnn achieves good results even under challenging conditions in figure we compare our mask r-cnn baseline and fcis fcis exhibits systematic artifacts on overlapping instances suggesting that it is challenged by the fundamental difficulty of instance segmentation mask r-cnn shows no such artifacts person1 00 person1 00 person1 00 person1 00 umbrella1 00 umbrella 99 car 99 car 93 giraffe1 00 giraffe1 00 person1 00 person1 00 person1",
+        "context_window": {
+          "previous": "we compare mask r-cnn to the state-of-the-art methods in instance segmentation in table all instantiations of our model outperform baseline variants of previous state-of-the-art models this includes mnc and fcis the winners of the coco 2015 and 2016 segmentation challenges respectively without bells and whistles mask r-cnn with resnet-101-fpn backbone outperforms fcis which includes multi-scale train test horizontal flip test and online hard example mining ohem while outside the scope of this work we expect many such improvements to be",
+          "current": "applicable to ours mask r-cnn outputs are visualized in figures and mask r-cnn achieves good results even under challenging conditions in figure we compare our mask r-cnn baseline and fcis fcis exhibits systematic artifacts on overlapping instances suggesting that it is challenged by the fundamental difficulty of instance segmentation mask r-cnn shows no such artifacts person1 00 person1 00 person1 00 person1 00 umbrella1 00 umbrella 99 car 99 car 93 giraffe1 00 giraffe1 00 person1 00 person1 00 person1",
+          "next": "00 person1 00 person 95 sports ball1 00 sports ball 98 person1 00 person1 00 person1 00 tie 95 tie1 00 fcis mask r-cnn train1 00 train 99 train 80 person1 00 person1 00 person1 00 person1 00 person1 00 person1 00 skateboard 98 person 99 person 99 skateboard 99 handbag 93 net-depth-features ap ap 50 ap 75 resnet-50-c4 30 3 51 2 31 5 resnet-101-c4 32 7 54 2 34 3 resnet-50-fpn 33 6 55 2 35 3 resnet-101-fpn"
+        }
+      },
+      "role": {
+        "label": "baseline",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6562,
+        "downstream_relevance_score": 0.543,
+        "components": {
+          "bio_boundary_score": 0.8223,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "instance",
+          "segmentation"
+        ],
+        "normalization": "instance segmentation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "instance segmentation",
+          "canonical": "instance segmentation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8223",
+        "structure model assigned role 'baseline' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.543"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "roialign",
+        "canonical": "roialign",
+        "normalized": "roialign",
+        "tokens": [
+          "roialign"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 66,
+        "sentence": "is not applicable 50 relative improvement moreover we note that with roialign using stride-32 c5 features 30 9 ap is more accurate than using stride-16 c4 features 30 3 ap table roialign largely resolves the long-standing challenge of using large-stride features for detection and segmentation finally roialign shows a gain of 1 5 mask ap and 0 5 box ap when used with fpn which has finer multi-level strides for keypoint detection that requires finer alignment roialign shows large gains",
+        "context_window": {
+          "previous": "we compare with roiwarp proposed in mnc that also adopt bilinear sampling as discussed in 3 roiwarp still quantizes the roi losing alignment with the input as can be seen in table roiwarp performs on par with roipool and much worse than roialign this highlights that proper alignment is key we also evaluate roialign with a resnet-50-c5 backbone which has an even larger stride of 32 pixels we use the same head as in figure right as the res5 head",
+          "current": "is not applicable 50 relative improvement moreover we note that with roialign using stride-32 c5 features 30 9 ap is more accurate than using stride-16 c4 features 30 3 ap table roialign largely resolves the long-standing challenge of using large-stride features for detection and segmentation finally roialign shows a gain of 1 5 mask ap and 0 5 box ap when used with fpn which has finer multi-level strides for keypoint detection that requires finer alignment roialign shows large gains",
+          "next": "even with fpn table mask branch segmentation is a pixel-to-pixel task and we exploit the spatial layout of masks by using an fcn in table we compare multi-layer perceptrons mlp and fcns using a resnet-50-fpn backbone using fcns gives a 2 1 mask ap gain over mlps we note that we choose this backbone so that the conv layers of the fcn head are not pre-trained for a fair comparison with mlp bounding box detection results we compare mask r-cnn"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7126,
+        "downstream_relevance_score": 0.5302,
+        "components": {
+          "bio_boundary_score": 0.8505,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "roialign"
+        ],
+        "normalization": "roialign",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "roialign",
+          "canonical": "roialign",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8505",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence cue lexicon matched challenge",
+        "downstream relevance score is 0.5302"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "class prediction",
+        "canonical": "class prediction",
+        "normalized": "class prediction",
+        "tokens": [
+          "class",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 62,
+        "sentence": "decouples mask and class prediction as the existing box branch predicts the class label we generate a mask for each class without competition among classes by a per-pixel sigmoid and a binary loss in table we compare this to using a per-pixel softmax and a multinomial loss as commonly used in fcn this alternative couples the tasks of mask and class prediction and results in a severe loss in mask ap 5 5 points this suggests that once the instance",
+        "context_window": {
+          "previous": "we train on trainval35k test on minival and report mask ap unless otherwise noted ablation we run a number of ablations to analyze mask r-cnn results are shown in table and discussed in detail next architecture table shows mask r-cnn with various backbones it benefits from deeper networks 50 vs 101 and advanced designs including fpn and resnext we note that not all frameworks automatically benefit from deeper or advanced networks see benchmarking in multinomial vs independent masks mask r-cnn",
+          "current": "decouples mask and class prediction as the existing box branch predicts the class label we generate a mask for each class without competition among classes by a per-pixel sigmoid and a binary loss in table we compare this to using a per-pixel softmax and a multinomial loss as commonly used in fcn this alternative couples the tasks of mask and class prediction and results in a severe loss in mask ap 5 5 points this suggests that once the instance",
+          "next": "has been classified as a whole by the box branch it is sufficient to predict a binary mask without concern for the categories which makes the model easier to train class-specific vs class-agnostic masks our default instantiation predicts class-specific masks i e one m m mask per class interestingly mask r-cnn with classagnostic masks i e predicting a single m m output regardless of class is nearly as effective it has 29 7 mask ap vs 30 3 for the"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "ablation_evidence",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6712,
+        "downstream_relevance_score": 0.5018,
+        "components": {
+          "bio_boundary_score": 0.9564,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "class",
+          "prediction"
+        ],
+        "normalization": "class prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "class prediction",
+          "canonical": "class prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9564",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5018"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "mask prediction",
+        "canonical": "mask prediction",
+        "normalized": "mask prediction",
+        "tokens": [
+          "mask",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 60,
+        "sentence": "gaps mask branch ap ap 50 ap 75 mlp fc 1024 1024 80 28 2 31 5 53 7 32 8 mlp fc 1024 1024 1024 80 28 2 31 5 54 0 32 6 fcn conv 256 256 256 256 256 80 33 6 55 2 35 3 e mask branch resnet-50-fpn fully convolutional networks fcn vs multi-layer perceptrons mlp fully-connected for mask prediction fcns improve results as they take advantage of explicitly encoding spatial layout table 2 ablations",
+        "context_window": {
+          "previous": "between roi layers ap ap 50 ap 75 ap bb ap bb 50 ap bb 75 roipool 23 6 46 5 21 6 28 2 52 7 26 9 roialign 30 9 51 8 32 1 34 0 55 3 36 4 7 3 5 3 10 5 5 8 2 6 9 5 d roialign resnet-50-c5 stride 32 mask-level and box-level ap using large-stride features misalignments are more severe than with stride-16 features table 2c resulting in big accuracy",
+          "current": "gaps mask branch ap ap 50 ap 75 mlp fc 1024 1024 80 28 2 31 5 53 7 32 8 mlp fc 1024 1024 1024 80 28 2 31 5 54 0 32 6 fcn conv 256 256 256 256 256 80 33 6 55 2 35 3 e mask branch resnet-50-fpn fully convolutional networks fcn vs multi-layer perceptrons mlp fully-connected for mask prediction fcns improve results as they take advantage of explicitly encoding spatial layout table 2 ablations",
+          "next": "we train on trainval35k test on minival and report mask ap unless otherwise noted ablation we run a number of ablations to analyze mask r-cnn results are shown in table and discussed in detail next architecture table shows mask r-cnn with various backbones it benefits from deeper networks 50 vs 101 and advanced designs including fpn and resnext we note that not all frameworks automatically benefit from deeper or advanced networks see benchmarking in multinomial vs independent masks mask r-cnn"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7048,
+        "downstream_relevance_score": 0.5011,
+        "components": {
+          "bio_boundary_score": 0.9056,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mask",
+          "prediction"
+        ],
+        "normalization": "mask prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mask prediction",
+          "canonical": "mask prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9056",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5011"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "mask ap",
+        "canonical": "mask ap",
+        "normalized": "mask ap",
+        "tokens": [
+          "mask",
+          "ap"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 67,
+        "sentence": "even with fpn table mask branch segmentation is a pixel-to-pixel task and we exploit the spatial layout of masks by using an fcn in table we compare multi-layer perceptrons mlp and fcns using a resnet-50-fpn backbone using fcns gives a 2 1 mask ap gain over mlps we note that we choose this backbone so that the conv layers of the fcn head are not pre-trained for a fair comparison with mlp bounding box detection results we compare mask r-cnn",
+        "context_window": {
+          "previous": "is not applicable 50 relative improvement moreover we note that with roialign using stride-32 c5 features 30 9 ap is more accurate than using stride-16 c4 features 30 3 ap table roialign largely resolves the long-standing challenge of using large-stride features for detection and segmentation finally roialign shows a gain of 1 5 mask ap and 0 5 box ap when used with fpn which has finer multi-level strides for keypoint detection that requires finer alignment roialign shows large gains",
+          "current": "even with fpn table mask branch segmentation is a pixel-to-pixel task and we exploit the spatial layout of masks by using an fcn in table we compare multi-layer perceptrons mlp and fcns using a resnet-50-fpn backbone using fcns gives a 2 1 mask ap gain over mlps we note that we choose this backbone so that the conv layers of the fcn head are not pre-trained for a fair comparison with mlp bounding box detection results we compare mask r-cnn",
+          "next": "to the state-of-the-art coco bounding-box object detection in table for this result even though the full mask r-cnn model is trained only the classification and box outputs are used at inference the mask output is ignored mask r-cnn using resnet-101-fpn outperforms the base variants of all previous state-ofthe-art models including the single-model variant of g-rmi the winner of the coco 2016 detection challenge using resnext-101-fpn mask r-cnn further improves results with a margin of 3 0 points box ap over"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6885,
+        "downstream_relevance_score": 0.4926,
+        "components": {
+          "bio_boundary_score": 0.7679,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mask",
+          "ap"
+        ],
+        "normalization": "mask ap",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mask ap",
+          "canonical": "mask ap",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7679",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4926"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "box",
+        "canonical": "box",
+        "normalized": "box",
+        "tokens": [
+          "box"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 66,
+        "sentence": "is not applicable 50 relative improvement moreover we note that with roialign using stride-32 c5 features 30 9 ap is more accurate than using stride-16 c4 features 30 3 ap table roialign largely resolves the long-standing challenge of using large-stride features for detection and segmentation finally roialign shows a gain of 1 5 mask ap and 0 5 box ap when used with fpn which has finer multi-level strides for keypoint detection that requires finer alignment roialign shows large gains",
+        "context_window": {
+          "previous": "we compare with roiwarp proposed in mnc that also adopt bilinear sampling as discussed in 3 roiwarp still quantizes the roi losing alignment with the input as can be seen in table roiwarp performs on par with roipool and much worse than roialign this highlights that proper alignment is key we also evaluate roialign with a resnet-50-c5 backbone which has an even larger stride of 32 pixels we use the same head as in figure right as the res5 head",
+          "current": "is not applicable 50 relative improvement moreover we note that with roialign using stride-32 c5 features 30 9 ap is more accurate than using stride-16 c4 features 30 3 ap table roialign largely resolves the long-standing challenge of using large-stride features for detection and segmentation finally roialign shows a gain of 1 5 mask ap and 0 5 box ap when used with fpn which has finer multi-level strides for keypoint detection that requires finer alignment roialign shows large gains",
+          "next": "even with fpn table mask branch segmentation is a pixel-to-pixel task and we exploit the spatial layout of masks by using an fcn in table we compare multi-layer perceptrons mlp and fcns using a resnet-50-fpn backbone using fcns gives a 2 1 mask ap gain over mlps we note that we choose this backbone so that the conv layers of the fcn head are not pre-trained for a fair comparison with mlp bounding box detection results we compare mask r-cnn"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6257,
+        "downstream_relevance_score": 0.4849,
+        "components": {
+          "bio_boundary_score": 0.5531,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "box"
+        ],
+        "normalization": "box",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "box",
+          "canonical": "box",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5531",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence cue lexicon matched challenge",
+        "downstream relevance score is 0.4849"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "keypoint",
+        "canonical": "keypoint",
+        "normalized": "keypoint",
+        "tokens": [
+          "keypoint"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 75,
+        "sentence": "minimize the cross-entropy loss over an m 2 -way softmax output which encourages a table 4 keypoint detection ap on coco test-dev ours is a single model resnet-50-fpn that runs at 5 fps cmu-pose is the 2016 competition winner that uses multi-scale testing post-processing with cpm and filtering with an object detector adding a cumulative 5 points clarified in personal communication g-rmi was trained on coco plus mpii 25k images using two models inception-resnet-v2 for bounding box detection and resnet-101",
+        "context_window": {
+          "previous": "the experiments are mainly to demonstrate the generality of the mask r-cnn framework we expect that domain knowledge e g modeling structures will be complementary to our simple approach implementation details we make minor modifications to the segmentation system when adapting it for keypoints for each of the k keypoints of an instance the training target is a one-hot m m binary mask where only a single pixel is labeled as foreground during training for each visible ground-truth keypoint we",
+          "current": "minimize the cross-entropy loss over an m 2 -way softmax output which encourages a table 4 keypoint detection ap on coco test-dev ours is a single model resnet-50-fpn that runs at 5 fps cmu-pose is the 2016 competition winner that uses multi-scale testing post-processing with cpm and filtering with an object detector adding a cumulative 5 points clarified in personal communication g-rmi was trained on coco plus mpii 25k images using two models inception-resnet-v2 for bounding box detection and resnet-101",
+          "next": "for keypoints single point to be detected we note that as in instance segmentation the k keypoints are still treated independently we adopt the resnet-fpn variant and the keypoint head architecture is similar to that in figure right the keypoint head consists of a stack of eight 3 3 512-d conv layers followed by a deconv layer and 2 bilinear upscaling producing an output resolution of 56 56 we found that a relatively high resolution output compared to masks is"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4886,
+        "downstream_relevance_score": 0.3701,
+        "components": {
+          "bio_boundary_score": 0.6707,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "keypoint"
+        ],
+        "normalization": "keypoint",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "keypoint",
+          "canonical": "keypoint",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6707",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.3701"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "network head",
+        "canonical": "network head",
+        "normalized": "network head",
+        "tokens": [
+          "network",
+          "head"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 32,
+        "sentence": "to for the network head we closely follow architectures presented in previous work to which we add a fully convolutional mask prediction branch specifically we extend the faster r-cnn box heads from the resnet and fpn papers details are shown in figure the head on the resnet-c4 backbone includes the 5-th stage of resnet namely the 9-layer res5 which is computeintensive for fpn the backbone already includes res5 and thus allows for a more efficient head that uses fewer filters",
+        "context_window": {
+          "previous": "feature pyramid network fpn fpn uses a top-down architecture with lateral connections to build an in-network feature pyramid from a single-scale input faster r-cnn with an fpn backbone extracts roi features from different levels of the feature pyramid according to their scale but otherwise the rest of the approach is similar to vanilla resnet using a resnet-fpn backbone for feature extraction with mask r-cnn gives excellent gains in both accuracy and speed for further details on fpn we refer readers",
+          "current": "to for the network head we closely follow architectures presented in previous work to which we add a fully convolutional mask prediction branch specifically we extend the faster r-cnn box heads from the resnet and fpn papers details are shown in figure the head on the resnet-c4 backbone includes the 5-th stage of resnet namely the 9-layer res5 which is computeintensive for fpn the backbone already includes res5 and thus allows for a more efficient head that uses fewer filters",
+          "next": "we note that our mask branches have a straightforward structure more complex designs have the potential to improve performance but are not the focus of this work ave roi roi 14 14 256 7 7 256 14 14 256 1024 28 28 256 1024 mask 14 14 256 class box 2048 roi res5 7 7 1024 7 7 2048 4 class box 14 14 80 mask 28 28 80 faster r-cnn w resnet faster r-cnn w fpn figure 4 head"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4693,
+        "downstream_relevance_score": 0.3168,
+        "components": {
+          "bio_boundary_score": 0.6768,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "network",
+          "head"
+        ],
+        "normalization": "network head",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "network head",
+          "canonical": "network head",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6768",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "downstream relevance score is 0.3168"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 61,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Without bells and whistles, Mask R-CNN outperforms the more complex FCIS+++, which includes multi-scale train/test, horizontal flip test, and OHEM .",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We perform a thorough comparison of Mask R-CNN to the state of the art along with comprehensive ablations on the COCO dataset .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We compare Mask R-CNN to the state-of-the-art methods in instance segmentation in Table .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "All instantiations of our model outperform baseline variants of previous state-of-the-art models.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "All instantiations of our model outperform baseline variants of previous state-of-the-art models.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Without bells and whistles, Mask R-CNN with ResNet-101-FPN backbone outperforms FCIS+++ , which includes multi-scale train/test, horizontal flip test, and online hard example mining (OHEM) .",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Mask R-CNN shows no such artifacts. person1.00 person1.00 person1.00 person1.00 umbrella1.00 umbrella.99 car.99 car.93 giraffe1.00 giraffe1.00 person1.00 person1.00 person1.00 person1.00 person.95 sports ball1.00 sports ball.98 person1.00 person1.00 person1.00 tie.95 tie1.00 FCIS Mask R-CNN train1.00 train.99 train.80 person1.00 person1.00 person1.00 person1.00 person1.00 person1.00 skateboard.98 person.99 person.99 skateboard.99 handbag.93 net-depth-features AP AP 50 AP 75 ResNet-50-C4 30.3 51.2 31.5 ResNet-101-C4 32.7 54.2 34.3 ResNet-50-FPN 33.6 55.2 35.3 ResNet-101-FPN 35.4 57.3 37.5 ResNeXt-101-FPN 36.7 59.5 38.9 (a) Backbone Architecture: Better backbones bring expected gains: deeper networks do better, FPN outperforms C4 features, and ResNeXt improves on ResNet.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We compare Mask R-CNN to the state-of-the-art COCO bounding-box object detection in Table .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Mask R-CNN using ResNet-101-FPN outperforms the base variants of all previous state-ofthe-art models, including the single-model variant of G-RMI , the winner of the COCO 2016 Detection Challenge.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Results: Table compares our results to the state of the art on the val and test sets.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Without using the coarse training set, our method achieves 26.2 AP on test, which is over 30% relative improvement over the previous best entry (DIN ), and is also better than the concurrent work of SGN's 25.0 .",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The COCO pre-trained Mask R-CNN model achieves 32.0 AP on test, almost a 6 point improvement over the fine-only counterpart.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Thanks to its generality and flexibility, Mask R-CNN was used as the framework by the three winning teams in the COCO 2017 instance segmentation competition, which all significantly outperformed the previous state of the art.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Mask R-CNN achieves good results even under challenging conditions.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "For clarity, we differentiate between: (i) the convolutional backbone architecture used for feature extraction over an entire image, and (ii) the network head for bounding-box recognition (classification and regression) and mask prediction that is applied separately to each RoI.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "FPN uses a top-down architecture with lateral connections to build an in-network feature pyramid from a single-scale input.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Although this differs from the parallel computation used in training, it speeds up inference and improves accuracy (due to the use of fewer, more accurate RoIs).",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We perform a thorough comparison of Mask R-CNN to the state of the art along with comprehensive ablations on the COCO dataset .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Misalignments are more severe than with stride-16 features (Table 2c), resulting in big accuracy gaps. mask branch AP AP 50 AP 75 MLP fc: 1024→1024→80•28 2 31.5 53.7 32.8 MLP fc: 1024→1024→1024→80•28 2 31.5 54.0 32.6 FCN conv: 256→256→256→256→256→80 33.6 55.2 35.3 (e) Mask Branch (ResNet-50-FPN): Fully convolutional networks (FCN) vs. multi-layer perceptrons (MLP, fully-connected) for mask prediction.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We found that a relatively high resolution output (compared to masks) is required for keypoint-level localization accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This dataset has fine annotations for 2975 train, 500 val, and 1525 test images.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The instance segmentation task involves 8 object categories, whose numbers of instances on the fine training set are: person rider car truck bus train mcycle bicycle 17.9k 1.8k 26.9k 0.5k 0.4k 0.2k 0.7k 3.7k Instance segmentation performance on this task is measured by the COCO-style mask AP (averaged over IoU thresholds); AP 50 (i.e., mask AP at an IoU of 0.5) is also reported.",
+        "evidence_type": "metric",
+        "matched_cue": "measured by",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Implementation: We apply our Mask R-CNN models with the ResNet-FPN-50 backbone; we found the 101-layer counterpart performs similarly due to the small dataset size.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the person and car categories, the Cityscapes dataset exhibits a large number of within-category overlapping instances (on average 6 people and 9 cars per image).",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "A main challenge of the Cityscapes dataset is training models in a low-data regime, particularly for the categories of truck, bus, and train, which have about 200-500 train- ing samples each.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "object detection",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6834
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "box ap",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.676
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "mask",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.6693
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "residual neural network",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.6506
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "mask r-cnn",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6268
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "feature extraction",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.602
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "backbone architecture",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.6002
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "mask r",
+        "section": "experiment",
+        "role": "baseline",
+        "score": 0.5773
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "domain knowledge",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.5601
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "instance segmentation",
+        "section": "experiment",
+        "role": "baseline",
+        "score": 0.543
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "roialign",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5302
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "class prediction",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.5018
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "mask prediction",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5011
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "mask ap",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4926
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "box",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4849
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "keypoint",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3701
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "network head",
+        "section": "experiment",
+        "role": "prior_work",
+        "score": 0.3168
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_015",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

@@ -1,0 +1,4470 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2023_transformer_and_large_language_models_qlora_efficient_finetuning_of_quantized_llms",
+    "title": "2023_transformer_and_large_language_models_qlora_efficient_finetuning_of_quantized_llms",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2023_transformer_and_large_language_models_qlora_efficient_finetuning_of_quantized_llms.txt",
+    "sentence_count": 105,
+    "section_counts": {
+      "intro": 87,
+      "related_work": 1,
+      "method": 2,
+      "conclusion": 15
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 8117,
+    "type_count": 1687,
+    "type_token_ratio": 0.2078,
+    "section_token_counts": {
+      "intro": 6797,
+      "related_work": 80,
+      "method": 160,
+      "experiment": 0,
+      "conclusion": 1080
+    },
+    "top_unigrams": [
+      {
+        "term": "finetuning",
+        "count": 68
+      },
+      {
+        "term": "models",
+        "count": 67
+      },
+      {
+        "term": "performance",
+        "count": 65
+      },
+      {
+        "term": "quantization",
+        "count": 62
+      },
+      {
+        "term": "model",
+        "count": 58
+      },
+      {
+        "term": "qlora",
+        "count": 53
+      },
+      {
+        "term": "data",
+        "count": 51
+      },
+      {
+        "term": "guanaco",
+        "count": 46
+      },
+      {
+        "term": "memory",
+        "count": 40
+      },
+      {
+        "term": "lora",
+        "count": 34
+      },
+      {
+        "term": "benchmark",
+        "count": 34
+      },
+      {
+        "term": "not",
+        "count": 33
+      },
+      {
+        "term": "can",
+        "count": 33
+      },
+      {
+        "term": "human",
+        "count": 32
+      },
+      {
+        "term": "vicuna",
+        "count": 31
+      },
+      {
+        "term": "type",
+        "count": 31
+      },
+      {
+        "term": "while",
+        "count": 30
+      },
+      {
+        "term": "4-bit",
+        "count": 30
+      },
+      {
+        "term": "more",
+        "count": 30
+      },
+      {
+        "term": "16-bit",
+        "count": 27
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "data type",
+        "count": 31
+      },
+      {
+        "term": "vicuna benchmark",
+        "count": 17
+      },
+      {
+        "term": "double quantization",
+        "count": 11
+      },
+      {
+        "term": "chatbot performance",
+        "count": 10
+      },
+      {
+        "term": "future work",
+        "count": 10
+      },
+      {
+        "term": "memory footprint",
+        "count": 9
+      },
+      {
+        "term": "quantization constants",
+        "count": 9
+      },
+      {
+        "term": "paged optimizers",
+        "count": 9
+      },
+      {
+        "term": "human annotators",
+        "count": 9
+      },
+      {
+        "term": "do not",
+        "count": 9
+      },
+      {
+        "term": "full finetuning",
+        "count": 9
+      },
+      {
+        "term": "finetuning performance",
+        "count": 8
+      },
+      {
+        "term": "33b 65b",
+        "count": 7
+      },
+      {
+        "term": "instruction finetuning",
+        "count": 7
+      },
+      {
+        "term": "flan v2",
+        "count": 7
+      },
+      {
+        "term": "qlora can",
+        "count": 7
+      },
+      {
+        "term": "65b parameter",
+        "count": 6
+      },
+      {
+        "term": "full 16-bit",
+        "count": 6
+      },
+      {
+        "term": "16-bit finetuning",
+        "count": 6
+      },
+      {
+        "term": "4-bit normalfloat",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "full 16-bit finetuning",
+        "count": 5
+      },
+      {
+        "term": "gpt-4 human annotators",
+        "count": 4
+      },
+      {
+        "term": "computation data type",
+        "count": 4
+      },
+      {
+        "term": "full finetuning performance",
+        "count": 4
+      },
+      {
+        "term": "16-bit full finetuning",
+        "count": 4
+      },
+      {
+        "term": "vicuna oa benchmarks",
+        "count": 4
+      },
+      {
+        "term": "65b parameter model",
+        "count": 3
+      },
+      {
+        "term": "information theoretically optimal",
+        "count": 3
+      },
+      {
+        "term": "guanaco 33b 65b",
+        "count": 3
+      },
+      {
+        "term": "chatgpt vicuna benchmark",
+        "count": 3
+      },
+      {
+        "term": "bits per parameter",
+        "count": 3
+      },
+      {
+        "term": "parameter efficient finetuning",
+        "count": 3
+      },
+      {
+        "term": "efficient finetuning peft",
+        "count": 3
+      },
+      {
+        "term": "storage data type",
+        "count": 3
+      },
+      {
+        "term": "future work should",
+        "count": 3
+      },
+      {
+        "term": "full finetuning 16-bit",
+        "count": 3
+      },
+      {
+        "term": "finetuning 16-bit lora",
+        "count": 3
+      },
+      {
+        "term": "leave future work",
+        "count": 3
+      },
+      {
+        "term": "reinforcement learning human",
+        "count": 3
+      },
+      {
+        "term": "learning human feedback",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 26,
+    "nonzero_tfidf_features": 26,
+    "top_tfidf_features": [
+      {
+        "feature_name": "related_work__large language models",
+        "section": "related_work",
+        "term": "large language models",
+        "frequency": 6.0,
+        "tfidf": 1.1276
+      },
+      {
+        "feature_name": "abstract__GPT-4",
+        "section": "intro",
+        "term": "GPT-4",
+        "frequency": 2.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "conclusion__bias",
+        "section": "conclusion",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__large language models",
+        "section": "intro",
+        "term": "large language models",
+        "frequency": 3.0,
+        "tfidf": 0.851
+      },
+      {
+        "feature_name": "methods__GPT-4",
+        "section": "method",
+        "term": "GPT-4",
+        "frequency": 5.0,
+        "tfidf": 0.8363
+      },
+      {
+        "feature_name": "introduction__GPT-4",
+        "section": "intro",
+        "term": "GPT-4",
+        "frequency": 2.0,
+        "tfidf": 0.6833
+      },
+      {
+        "feature_name": "experiments__GPT-4",
+        "section": "experiment",
+        "term": "GPT-4",
+        "frequency": 4.0,
+        "tfidf": 0.6731
+      },
+      {
+        "feature_name": "related_work__rlhf",
+        "section": "related_work",
+        "term": "rlhf",
+        "frequency": 3.0,
+        "tfidf": 0.5886
+      },
+      {
+        "feature_name": "experiments__open assistant",
+        "section": "experiment",
+        "term": "open assistant",
+        "frequency": 3.0,
+        "tfidf": 0.5351
+      },
+      {
+        "feature_name": "methods__chatgpt",
+        "section": "method",
+        "term": "chatgpt",
+        "frequency": 3.0,
+        "tfidf": 0.5018
+      },
+      {
+        "feature_name": "experiments__rlhf",
+        "section": "experiment",
+        "term": "rlhf",
+        "frequency": 2.0,
+        "tfidf": 0.353
+      },
+      {
+        "feature_name": "introduction__bard",
+        "section": "intro",
+        "term": "bard",
+        "frequency": 1.0,
+        "tfidf": 0.3416
+      },
+      {
+        "feature_name": "experiments__distillation",
+        "section": "experiment",
+        "term": "distillation",
+        "frequency": 2.0,
+        "tfidf": 0.3209
+      },
+      {
+        "feature_name": "experiments__reinforcement learning",
+        "section": "experiment",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.2797
+      },
+      {
+        "feature_name": "related_work__reinforcement learning",
+        "section": "related_work",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.2614
+      },
+      {
+        "feature_name": "related_work__backpropagation",
+        "section": "related_work",
+        "term": "backpropagation",
+        "frequency": 1.0,
+        "tfidf": 0.1911
+      },
+      {
+        "feature_name": "related_work__rlaif",
+        "section": "related_work",
+        "term": "rlaif",
+        "frequency": 1.0,
+        "tfidf": 0.1911
+      },
+      {
+        "feature_name": "experiments__chatgpt",
+        "section": "experiment",
+        "term": "chatgpt",
+        "frequency": 1.0,
+        "tfidf": 0.1784
+      },
+      {
+        "feature_name": "methods__large language models",
+        "section": "method",
+        "term": "large language models",
+        "frequency": 1.0,
+        "tfidf": 0.1773
+      },
+      {
+        "feature_name": "experiments__machine learning models",
+        "section": "experiment",
+        "term": "machine learning models",
+        "frequency": 1.0,
+        "tfidf": 0.1683
+      },
+      {
+        "feature_name": "experiments__supervised learning",
+        "section": "experiment",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.1605
+      },
+      {
+        "feature_name": "experiments__machine learning",
+        "section": "experiment",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.144
+      },
+      {
+        "feature_name": "experiments__GPT",
+        "section": "experiment",
+        "term": "GPT",
+        "frequency": 1.0,
+        "tfidf": 0.1399
+      },
+      {
+        "feature_name": "related_work__embeddings",
+        "section": "related_work",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.1391
+      },
+      {
+        "feature_name": "experiments__GPT-3",
+        "section": "experiment",
+        "term": "GPT-3",
+        "frequency": 1.0,
+        "tfidf": 0.1328
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__GPT-4",
+          "section": "intro",
+          "term": "GPT-4",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 3.0,
+          "tfidf": 0.851
+        },
+        {
+          "feature_name": "introduction__GPT-4",
+          "section": "intro",
+          "term": "GPT-4",
+          "frequency": 2.0,
+          "tfidf": 0.6833
+        },
+        {
+          "feature_name": "introduction__bard",
+          "section": "intro",
+          "term": "bard",
+          "frequency": 1.0,
+          "tfidf": 0.3416
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__large language models",
+          "section": "related_work",
+          "term": "large language models",
+          "frequency": 6.0,
+          "tfidf": 1.1276
+        },
+        {
+          "feature_name": "related_work__rlhf",
+          "section": "related_work",
+          "term": "rlhf",
+          "frequency": 3.0,
+          "tfidf": 0.5886
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.2614
+        },
+        {
+          "feature_name": "related_work__backpropagation",
+          "section": "related_work",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.1911
+        },
+        {
+          "feature_name": "related_work__rlaif",
+          "section": "related_work",
+          "term": "rlaif",
+          "frequency": 1.0,
+          "tfidf": 0.1911
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1391
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__GPT-4",
+          "section": "method",
+          "term": "GPT-4",
+          "frequency": 5.0,
+          "tfidf": 0.8363
+        },
+        {
+          "feature_name": "methods__chatgpt",
+          "section": "method",
+          "term": "chatgpt",
+          "frequency": 3.0,
+          "tfidf": 0.5018
+        },
+        {
+          "feature_name": "methods__large language models",
+          "section": "method",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 0.1773
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 1.0,
+          "tfidf": 0.132
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__GPT-4",
+          "section": "experiment",
+          "term": "GPT-4",
+          "frequency": 4.0,
+          "tfidf": 0.6731
+        },
+        {
+          "feature_name": "experiments__open assistant",
+          "section": "experiment",
+          "term": "open assistant",
+          "frequency": 3.0,
+          "tfidf": 0.5351
+        },
+        {
+          "feature_name": "experiments__rlhf",
+          "section": "experiment",
+          "term": "rlhf",
+          "frequency": 2.0,
+          "tfidf": 0.353
+        },
+        {
+          "feature_name": "experiments__distillation",
+          "section": "experiment",
+          "term": "distillation",
+          "frequency": 2.0,
+          "tfidf": 0.3209
+        },
+        {
+          "feature_name": "experiments__reinforcement learning",
+          "section": "experiment",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.2797
+        },
+        {
+          "feature_name": "experiments__chatgpt",
+          "section": "experiment",
+          "term": "chatgpt",
+          "frequency": 1.0,
+          "tfidf": 0.1784
+        },
+        {
+          "feature_name": "experiments__machine learning models",
+          "section": "experiment",
+          "term": "machine learning models",
+          "frequency": 1.0,
+          "tfidf": 0.1683
+        },
+        {
+          "feature_name": "experiments__supervised learning",
+          "section": "experiment",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.1605
+        },
+        {
+          "feature_name": "experiments__machine learning",
+          "section": "experiment",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.144
+        },
+        {
+          "feature_name": "experiments__GPT",
+          "section": "experiment",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.1399
+        },
+        {
+          "feature_name": "experiments__GPT-3",
+          "section": "experiment",
+          "term": "GPT-3",
+          "frequency": 1.0,
+          "tfidf": 0.1328
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__bias",
+          "section": "conclusion",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 87,
+      "token_count": 6797,
+      "bow_hit_count": 212,
+      "top_bow_terms": [
+        {
+          "canonical_term": "GPT-4",
+          "count": 71,
+          "section_prior": 0.2973,
+          "confidence_score": 0.85,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "ChatGPT",
+          "count": 33,
+          "section_prior": 0.0435,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Large language model",
+          "count": 23,
+          "section_prior": 0.464,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 10,
+          "section_prior": 0.2907,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 10,
+          "section_prior": 0.3056,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "GPT-3",
+          "count": 8,
+          "section_prior": 0.3151,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "BLOOM",
+          "count": 6,
+          "section_prior": 0.15,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 6,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "RoBERTa",
+          "count": 5,
+          "section_prior": 0.1714,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "knowledge distillation",
+          "count": 5,
+          "section_prior": 0.1633,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 5,
+          "section_prior": 0.5424,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__GPT-4",
+          "section": "intro",
+          "term": "GPT-4",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 3.0,
+          "tfidf": 0.851
+        },
+        {
+          "feature_name": "introduction__GPT-4",
+          "section": "intro",
+          "term": "GPT-4",
+          "frequency": 2.0,
+          "tfidf": 0.6833
+        },
+        {
+          "feature_name": "introduction__bard",
+          "section": "intro",
+          "term": "bard",
+          "frequency": 1.0,
+          "tfidf": 0.3416
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 80,
+      "bow_hit_count": 3,
+      "top_bow_terms": [
+        {
+          "canonical_term": "ChatGPT",
+          "count": 3,
+          "section_prior": 0.0435,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__large language models",
+          "section": "related_work",
+          "term": "large language models",
+          "frequency": 6.0,
+          "tfidf": 1.1276
+        },
+        {
+          "feature_name": "related_work__rlhf",
+          "section": "related_work",
+          "term": "rlhf",
+          "frequency": 3.0,
+          "tfidf": 0.5886
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.2614
+        },
+        {
+          "feature_name": "related_work__backpropagation",
+          "section": "related_work",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.1911
+        },
+        {
+          "feature_name": "related_work__rlaif",
+          "section": "related_work",
+          "term": "rlaif",
+          "frequency": 1.0,
+          "tfidf": 0.1911
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1391
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 2,
+      "token_count": 160,
+      "bow_hit_count": 16,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Large language model",
+          "count": 5,
+          "section_prior": 0.096,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 4,
+          "section_prior": 0.0455,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 1,
+          "section_prior": 0.1667,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "reinforcement learning from human feedback",
+          "count": 1,
+          "section_prior": 0.3023,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 1,
+          "section_prior": 0.3,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__GPT-4",
+          "section": "method",
+          "term": "GPT-4",
+          "frequency": 5.0,
+          "tfidf": 0.8363
+        },
+        {
+          "feature_name": "methods__chatgpt",
+          "section": "method",
+          "term": "chatgpt",
+          "frequency": 3.0,
+          "tfidf": 0.5018
+        },
+        {
+          "feature_name": "methods__large language models",
+          "section": "method",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 0.1773
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 1.0,
+          "tfidf": 0.132
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__GPT-4",
+          "section": "experiment",
+          "term": "GPT-4",
+          "frequency": 4.0,
+          "tfidf": 0.6731
+        },
+        {
+          "feature_name": "experiments__open assistant",
+          "section": "experiment",
+          "term": "open assistant",
+          "frequency": 3.0,
+          "tfidf": 0.5351
+        },
+        {
+          "feature_name": "experiments__rlhf",
+          "section": "experiment",
+          "term": "rlhf",
+          "frequency": 2.0,
+          "tfidf": 0.353
+        },
+        {
+          "feature_name": "experiments__distillation",
+          "section": "experiment",
+          "term": "distillation",
+          "frequency": 2.0,
+          "tfidf": 0.3209
+        },
+        {
+          "feature_name": "experiments__reinforcement learning",
+          "section": "experiment",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.2797
+        },
+        {
+          "feature_name": "experiments__chatgpt",
+          "section": "experiment",
+          "term": "chatgpt",
+          "frequency": 1.0,
+          "tfidf": 0.1784
+        },
+        {
+          "feature_name": "experiments__machine learning models",
+          "section": "experiment",
+          "term": "machine learning models",
+          "frequency": 1.0,
+          "tfidf": 0.1683
+        },
+        {
+          "feature_name": "experiments__supervised learning",
+          "section": "experiment",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.1605
+        },
+        {
+          "feature_name": "experiments__machine learning",
+          "section": "experiment",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.144
+        },
+        {
+          "feature_name": "experiments__GPT",
+          "section": "experiment",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.1399
+        },
+        {
+          "feature_name": "experiments__GPT-3",
+          "section": "experiment",
+          "term": "GPT-3",
+          "frequency": 1.0,
+          "tfidf": 0.1328
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 15,
+      "token_count": 1080,
+      "bow_hit_count": 58,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Large language model",
+          "count": 29,
+          "section_prior": 0.176,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "reinforcement learning from human feedback",
+          "count": 6,
+          "section_prior": 0.093,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.1057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 4,
+          "section_prior": 0.1616,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "GPT-4",
+          "count": 4,
+          "section_prior": 0.2072,
+          "confidence_score": 0.85,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "ChatGPT",
+          "count": 4,
+          "section_prior": 0.1739,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Open Assistant",
+          "count": 1,
+          "section_prior": 0.0909,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__bias",
+          "section": "conclusion",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 88,
+        "sentence": "our model is only trained with cross-entropy loss supervised learning without relying on reinforcement learning from human feedback rlhf this calls for further investigations of the tradeoffs of simple cross-entropy loss and rlhf training we hope that qlora enables such analysis at scale without the need for overwhelming computational resources related work quantization of large language models quantization of llms has largely focused on quantization for inference time major approaches for preserving 16-bit llm quality focus on managing outlier features",
+        "context_window": {
+          "previous": "the vicuna benchmark prompts we do not find overlapping prompts after performing fuzzy string matching in the two datasets and inspecting the closest matches manually furthermore we note that",
+          "current": "our model is only trained with cross-entropy loss supervised learning without relying on reinforcement learning from human feedback rlhf this calls for further investigations of the tradeoffs of simple cross-entropy loss and rlhf training we hope that qlora enables such analysis at scale without the need for overwhelming computational resources related work quantization of large language models quantization of llms has largely focused on quantization for inference time major approaches for preserving 16-bit llm quality focus on managing outlier features",
+          "next": "e g smoothquant and llm int8 while others use more sophisticated grouping methods lossy quantization approaches study the trade-offs for regular rounding or how to optimize rounding decisions to improve quantization precision besides our work switchback layers is the only work that studies backpropagation through quantized weights at a scale beyond 1b parameters finetuning with adapters while we use low-rank adapters lora many other parameter efficient finetuning peft have been proposed such as prompt tuning tuning the embedding layer inputs"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6758,
+        "downstream_relevance_score": 0.7321,
+        "components": {
+          "bio_boundary_score": 0.5174,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0455,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 8,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0455,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5174",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.7321"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "language modeling",
+        "canonical": "masked language model",
+        "normalized": "masked language model",
+        "tokens": [
+          "language",
+          "modeling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "masked language modeling",
+          "masked language models",
+          "masked language model"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 43,
+        "sentence": "4-bit floating point while the 4-bit normalfloat nf4 data type is informationtheoretically optimal it still needs to be determined if this property translates to empirical advantages we follow the setup from dettmers and zettlemoyer where quantized llms opt bloom pythia llama of different sizes 125m to 65b with different data types are evaluated on language modeling and a set of zero-shot tasks in figure and table we see that nf4 improves performance significantly over fp4 and int4 and that double",
+        "context_window": {
+          "previous": "lora on all linear transformer block layers are required to match full finetuning performance other lora hyperparameters such as the projection dimension r do not affect performance see appendix a similarly we find that default hyperparameters for fully finetuned baselines are undertuned we do a hyperparameter search over learning rates 1e-6 to 5e-5 and batch sizes 8 to 128 to find robust baselines results for 7b llama finetuning on alpaca are shown in figure 4-bit normalfloat yields better performance than",
+          "current": "4-bit floating point while the 4-bit normalfloat nf4 data type is informationtheoretically optimal it still needs to be determined if this property translates to empirical advantages we follow the setup from dettmers and zettlemoyer where quantized llms opt bloom pythia llama of different sizes 125m to 65b with different data types are evaluated on language modeling and a set of zero-shot tasks in figure and table we see that nf4 improves performance significantly over fp4 and int4 and that double",
+          "next": "quantization reduces the memory footprint without degrading performance k-bit qlora matches 16-bit full finetuning and 16-bit lora performance recent findings have established that 4-bit quantization for inference is possible but leads to performance degradation relative to 16-bit this raises the crucial question of whether the lost performance can be recovered by conducting 4-bit adapter finetuning we test this for two setups 27 41 the first focuses on a comparison with full 16-bit finetuning of roberta and t5 models sized 125m"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "evaluated on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset evidence cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6112,
+        "downstream_relevance_score": 0.6343,
+        "components": {
+          "bio_boundary_score": 0.6743,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4571,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "masked language modeling",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "masked language model",
+        "display_term": "masked language model",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "nan",
+        "wikidata_id": "Q24868018",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 8,
+        "total_frequency": 13,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "language",
+          "modeling"
+        ],
+        "normalization": "language modeling",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4571,
+        "canonicalization": {
+          "observed": "language modeling",
+          "canonical": "masked language model",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6743",
+        "structure model assigned role 'gap' with score 0.66",
+        "section BoW matched canonical term 'masked language model' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched evaluated on",
+        "downstream relevance score is 0.6343"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "vicuna benchmark",
+        "canonical": "vicuna benchmark",
+        "normalized": "vicuna benchmark",
+        "tokens": [
+          "vicuna",
+          "benchmark"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 57,
+        "sentence": "against chatgpt gpt-3 5 turbo on the vicuna benchmark given a query along with chatgpt s and a model s responses gpt-4 is prompted to assign a score out of ten to both responses and provide an explanation the overall performance of a model is calculated as a percentage of the score that chatgpt achieved note this relative score can be higher than 100 if the model achieves a higher absolute score than chatgpt we find a significant ordering effect",
+        "context_window": {
+          "previous": "of categories without modifications the oasst1 dataset is a multilingual collection of crowd-sourced multiturn dialogs between a user and an assistant we select all user messages in the validation dataset as queries and include previous turns in the prompt this procedure leads to 953 unique user queries we term these two datasets the vicuna and oa benchmarks automated evaluation first based on the evaluation protocol introduced by chiang et al we use gpt-4 to rate the performance of different systems",
+          "current": "against chatgpt gpt-3 5 turbo on the vicuna benchmark given a query along with chatgpt s and a model s responses gpt-4 is prompted to assign a score out of ten to both responses and provide an explanation the overall performance of a model is calculated as a percentage of the score that chatgpt achieved note this relative score can be higher than 100 if the model achieves a higher absolute score than chatgpt we find a significant ordering effect",
+          "next": "with gpt-4 increasing the score of the response occurring earlier in the prompt to control for such effects we recommend reporting the mean score over both orders next we measure performance through direct comparisons between system outputs we simplify the rating scheme to a three-class labeling problem that accounts for ties we prompt gpt-4 to pick the best response or declare a tie and provide an explanation we conduct these head-to-head comparisons on all permutations of pairs of systems on"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7333,
+        "downstream_relevance_score": 0.6053,
+        "components": {
+          "bio_boundary_score": 0.8478,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "vicuna",
+          "benchmark"
+        ],
+        "normalization": "vicuna benchmark",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "vicuna benchmark",
+          "canonical": "vicuna benchmark",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8478",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched benchmark, achieves",
+        "downstream relevance score is 0.6053"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "chatbot performance",
+        "canonical": "chatbot performance",
+        "normalized": "chatbot performance",
+        "tokens": [
+          "chatbot",
+          "performance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 13,
+        "sentence": "dataset suitability matters more than size for a given task furthermore we also provide a extensive analysis of chatbot performance that uses both human raters and gpt-4 for evaluation we use tournament-style benchmarking where models compete against each other in matches to produce the best response for a given prompt the winner of a match is judged by either gpt-4 or human annotators the tournament results are aggregated into elo scores which determine the ranking of chatbot performance we find",
+        "context_window": {
+          "previous": "training a state-of-the-art chatbot guanaco 5 we also analyze trends in the trained models first we find that data quality is far more important than dataset size e g a 9k sample dataset oasst1 outperformed a 450k sample dataset flan v2 subsampled on chatbot performance even when both are meant to support instruction following generalization second we show that strong massive multitask language understanding mmlu benchmark performance does not imply strong vicuna chatbot benchmark performance and vice versa-in other words",
+          "current": "dataset suitability matters more than size for a given task furthermore we also provide a extensive analysis of chatbot performance that uses both human raters and gpt-4 for evaluation we use tournament-style benchmarking where models compete against each other in matches to produce the best response for a given prompt the winner of a match is judged by either gpt-4 or human annotators the tournament results are aggregated into elo scores which determine the ranking of chatbot performance we find",
+          "next": "that gpt-4 and human evaluations largely agree on the rank of model performance in the tournaments but we also find there are instances of strong disagreement as such we highlight that model-based evaluation while providing a cheap alternative to human-annotation also has its uncertainties we augment our chatbot benchmark results with a qualitative analysis of guanaco models our analysis highlights success and failure cases that were not captured by the quantitative benchmarks we release all model generations with human and"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.677,
+        "downstream_relevance_score": 0.5621,
+        "components": {
+          "bio_boundary_score": 0.8227,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "chatbot",
+          "performance"
+        ],
+        "normalization": "chatbot performance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "chatbot performance",
+          "canonical": "chatbot performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8227",
+        "structure model assigned role 'dataset' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.5621"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "chatbot benchmark performance",
+        "canonical": "chatbot benchmark performance",
+        "normalized": "chatbot benchmark performance",
+        "tokens": [
+          "chatbot",
+          "benchmark",
+          "performance"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 12,
+        "sentence": "training a state-of-the-art chatbot guanaco 5 we also analyze trends in the trained models first we find that data quality is far more important than dataset size e g a 9k sample dataset oasst1 outperformed a 450k sample dataset flan v2 subsampled on chatbot performance even when both are meant to support instruction following generalization second we show that strong massive multitask language understanding mmlu benchmark performance does not imply strong vicuna chatbot benchmark performance and vice versa-in other words",
+        "context_window": {
+          "previous": "at every network layer and thereby avoids almost all of the accuracy tradeoffs seen in prior work qlora s efficiency enables us to perform an in-depth study of instruction finetuning and chatbot performance on model scales that would be impossible using regular finetuning due to memory overhead therefore we train more than 1 000 models across several instruction tuning datasets model architectures and sizes between 80m to 65b parameters in addition to showing that qlora recovers 16-bit performance 4 and",
+          "current": "training a state-of-the-art chatbot guanaco 5 we also analyze trends in the trained models first we find that data quality is far more important than dataset size e g a 9k sample dataset oasst1 outperformed a 450k sample dataset flan v2 subsampled on chatbot performance even when both are meant to support instruction following generalization second we show that strong massive multitask language understanding mmlu benchmark performance does not imply strong vicuna chatbot benchmark performance and vice versa-in other words",
+          "next": "dataset suitability matters more than size for a given task furthermore we also provide a extensive analysis of chatbot performance that uses both human raters and gpt-4 for evaluation we use tournament-style benchmarking where models compete against each other in matches to produce the best response for a given prompt the winner of a match is judged by either gpt-4 or human annotators the tournament results are aggregated into elo scores which determine the ranking of chatbot performance we find"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.598,
+        "downstream_relevance_score": 0.5537,
+        "components": {
+          "bio_boundary_score": 0.7063,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "chatbot",
+          "benchmark",
+          "performance"
+        ],
+        "normalization": "chatbot benchmark performance",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "chatbot benchmark performance",
+          "canonical": "chatbot benchmark performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7063",
+        "structure model assigned role 'motivation' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, benchmark, dataset",
+        "downstream relevance score is 0.5537"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "chatgpt",
+        "canonical": "ChatGPT",
+        "normalized": "chatgpt",
+        "tokens": [
+          "chatgpt"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "chatgpt",
+          "ChatGPT"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "chatbot benchmarks are not trustworthy to accurately evaluate the performance levels of chatbots a lemon-picked analysis demonstrates where guanaco fails compared to chatgpt we release all of our models and code including cuda kernels for 4-bit training 2 equal contribution body",
+        "context_window": {
+          "previous": "model types llama t5 and model scales that would be infeasible to run with regular finetuning e g 33b and 65b parameter models our results show that qlora finetuning on a small high-quality dataset leads to state-of-the-art results even when using smaller models than the previous sota we provide a detailed analysis of chatbot performance based on both human and gpt-4 evaluations showing that gpt-4 evaluations are a cheap and reasonable alternative to human evaluation furthermore we find that current",
+          "current": "chatbot benchmarks are not trustworthy to accurately evaluate the performance levels of chatbots a lemon-picked analysis demonstrates where guanaco fails compared to chatgpt we release all of our models and code including cuda kernels for 4-bit training 2 equal contribution body",
+          "next": "finetuning large language models llms is a highly effective way to improve their performance and to add desirable or remove undesirable behaviors however finetuning very large models is prohibitively expensive regular 16-bit finetuning of a llama 65b parameter model requires more than 780 gb of gpu memory while recent quantization methods can reduce the memory footprint of llms such techniques only work for inference and break down during training we demonstrate for the first time that it is possible to"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5836,
+        "downstream_relevance_score": 0.5395,
+        "components": {
+          "bio_boundary_score": 0.5633,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.0435,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "chatgpt",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "ChatGPT",
+        "display_term": "chatgpt",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/ChatGPT",
+        "wikidata_id": "Q115564437",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 2,
+        "total_frequency": 9,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "chatgpt"
+        ],
+        "normalization": "chatgpt",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0435,
+        "canonicalization": {
+          "observed": "chatgpt",
+          "canonical": "ChatGPT",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5633",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'ChatGPT' with confidence 0.85",
+        "BoW role prior suggests 'other'",
+        "downstream relevance score is 0.5395"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "elo rating",
+        "canonical": "elo rating",
+        "normalized": "elo rating",
+        "tokens": [
+          "elo",
+          "rating"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 63,
+        "sentence": "guanaco qlora trained on oasst1 is a state-of-the-art chatbot based on our automated and human evaluations we find that the top qlora tuned model guanaco 65b which we finetune on a variant of oasst1 is the best-performing open-source chatbot model and offers performance competitive to chatgpt when compared to gpt-4 guanaco 65b and 33b have an expected win probability of 30 based on elo rating from human annotators system-level pairwise comparisons -the highest reported to date the vicuna benchmark results",
+        "context_window": {
+          "previous": "unexpected upset leads to a large change in elo rating while an expected outcome leads to a small change over time elo ratings approximately match the skill of each player at playing the game we start with a score of 1 000 and use k 32 similar to chiang et al we repeat this procedure 10 000 times with different random seeds to control for ordering effects e g the effect of which model pairs compete with each other first",
+          "current": "guanaco qlora trained on oasst1 is a state-of-the-art chatbot based on our automated and human evaluations we find that the top qlora tuned model guanaco 65b which we finetune on a variant of oasst1 is the best-performing open-source chatbot model and offers performance competitive to chatgpt when compared to gpt-4 guanaco 65b and 33b have an expected win probability of 30 based on elo rating from human annotators system-level pairwise comparisons -the highest reported to date the vicuna benchmark results",
+          "next": "relative to chatgpt are shown in table we find that guanaco 65b is the best-performing model after gpt-4 achieving 99 3 performance relative to chatgpt guanaco 33b has more parameters than the vicuna 13b model but uses only 4-bit precision for its weights and is thus much more memory efficient at 21 gb vs 26 gb providing a three percentage points of improvement over vicuna 13b furthermore guanaco 7b easily fits on modern phones at a 5 gb footprint while"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6131,
+        "downstream_relevance_score": 0.5388,
+        "components": {
+          "bio_boundary_score": 0.758,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "elo",
+          "rating"
+        ],
+        "normalization": "elo rating",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "elo rating",
+          "canonical": "elo rating",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.758",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, trained on, benchmark",
+        "downstream relevance score is 0.5388"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "storage data type",
+        "canonical": "storage data type",
+        "normalized": "storage data type",
+        "tokens": [
+          "storage",
+          "data",
+          "type"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 36,
+        "sentence": "blocksize of 256 for c 2 to conserve memory for parameter updates only the gradient with respect to the error for the adapters weights e li are needed and not for 4-bit weights e w however the calculation of e li entails the calculation of x w which proceeds via equation with dequantization from storage w nf4 to computation data type w bf16 to calculate the derivative x w in bfloat16 precision to summarize qlora has one storage data type",
+        "context_window": {
+          "previous": "base model with a single lora adapter as follows y bf16 x bf16 doubledequant c fp32 1 c k-bit 2 w nf4 x bf16 l bf16 1 l bf16 2 where doubledequant is defined as doubledequant c fp32 1 c k-bit 2 w k-bit dequant dequant c fp32 1 c k-bit 2 w 4bit w bf16 we use nf4 for w and fp8 for c 2 we use a blocksize of 64 for w for higher quantization precision and a",
+          "current": "blocksize of 256 for c 2 to conserve memory for parameter updates only the gradient with respect to the error for the adapters weights e li are needed and not for 4-bit weights e w however the calculation of e li entails the calculation of x w which proceeds via equation with dequantization from storage w nf4 to computation data type w bf16 to calculate the derivative x w in bfloat16 precision to summarize qlora has one storage data type",
+          "next": "usually 4-bit normalfloat and a computation data type we dequantize the storage data type to the computation data type to perform the forward and backward pass but we only compute weight gradients for the lora parameters which use 16-bit brainfloat qlora vs standard finetuning we have discussed how qlora works and how it can significantly reduce the required memory for finetuning models the main question now is whether qlora can perform as well as full-model finetuning furthermore we want to"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "precision",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6298,
+        "downstream_relevance_score": 0.5265,
+        "components": {
+          "bio_boundary_score": 0.6024,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "storage",
+          "data",
+          "type"
+        ],
+        "normalization": "storage data type",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "storage data type",
+          "canonical": "storage data type",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6024",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched precision",
+        "downstream relevance score is 0.5265"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "computation data type",
+        "canonical": "computation data type",
+        "normalized": "computation data type",
+        "tokens": [
+          "computation",
+          "data",
+          "type"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 36,
+        "sentence": "blocksize of 256 for c 2 to conserve memory for parameter updates only the gradient with respect to the error for the adapters weights e li are needed and not for 4-bit weights e w however the calculation of e li entails the calculation of x w which proceeds via equation with dequantization from storage w nf4 to computation data type w bf16 to calculate the derivative x w in bfloat16 precision to summarize qlora has one storage data type",
+        "context_window": {
+          "previous": "base model with a single lora adapter as follows y bf16 x bf16 doubledequant c fp32 1 c k-bit 2 w nf4 x bf16 l bf16 1 l bf16 2 where doubledequant is defined as doubledequant c fp32 1 c k-bit 2 w k-bit dequant dequant c fp32 1 c k-bit 2 w 4bit w bf16 we use nf4 for w and fp8 for c 2 we use a blocksize of 64 for w for higher quantization precision and a",
+          "current": "blocksize of 256 for c 2 to conserve memory for parameter updates only the gradient with respect to the error for the adapters weights e li are needed and not for 4-bit weights e w however the calculation of e li entails the calculation of x w which proceeds via equation with dequantization from storage w nf4 to computation data type w bf16 to calculate the derivative x w in bfloat16 precision to summarize qlora has one storage data type",
+          "next": "usually 4-bit normalfloat and a computation data type we dequantize the storage data type to the computation data type to perform the forward and backward pass but we only compute weight gradients for the lora parameters which use 16-bit brainfloat qlora vs standard finetuning we have discussed how qlora works and how it can significantly reduce the required memory for finetuning models the main question now is whether qlora can perform as well as full-model finetuning furthermore we want to"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "precision",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6146,
+        "downstream_relevance_score": 0.5186,
+        "components": {
+          "bio_boundary_score": 0.5506,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computation",
+          "data",
+          "type"
+        ],
+        "normalization": "computation data type",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computation data type",
+          "canonical": "computation data type",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5506",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched precision",
+        "downstream relevance score is 0.5186"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "automated evaluation",
+        "canonical": "automated evaluation",
+        "normalized": "automated evaluation",
+        "tokens": [
+          "automated",
+          "evaluation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 59,
+        "sentence": "both the vicuna and oa benchmarks human evaluation while recent work indicates generative models can be effectively employed for system evaluations the reliability gpt-4 ratings to assess chatbot performance is to our knowledge yet to be proven to correlate with human judgments therefore we run two parallel human evaluations on the vicuna benchmark matching both automated evaluation protocols described above we use amazon mechanical turk amt and get two human annotators for comparisons to chatgpt and three annotators for pairwise",
+        "context_window": {
+          "previous": "with gpt-4 increasing the score of the response occurring earlier in the prompt to control for such effects we recommend reporting the mean score over both orders next we measure performance through direct comparisons between system outputs we simplify the rating scheme to a three-class labeling problem that accounts for ties we prompt gpt-4 to pick the best response or declare a tie and provide an explanation we conduct these head-to-head comparisons on all permutations of pairs of systems on",
+          "current": "both the vicuna and oa benchmarks human evaluation while recent work indicates generative models can be effectively employed for system evaluations the reliability gpt-4 ratings to assess chatbot performance is to our knowledge yet to be proven to correlate with human judgments therefore we run two parallel human evaluations on the vicuna benchmark matching both automated evaluation protocols described above we use amazon mechanical turk amt and get two human annotators for comparisons to chatgpt and three annotators for pairwise",
+          "next": "comparisons elo rating with both human and automated pairwise comparisons we create a tournament-style competition where models compete against each other the tournament is made up of matches where pairs of models compete to produce the best response for a given prompt this is similar to how bai et al and chiang et al compare models but we also employ gpt-4 ratings in addition to human ratings we randomly sample from the set of labeled comparisons to compute elo elo"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6509,
+        "downstream_relevance_score": 0.5135,
+        "components": {
+          "bio_boundary_score": 0.8869,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "automated",
+          "evaluation"
+        ],
+        "normalization": "automated evaluation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "automated evaluation",
+          "canonical": "automated evaluation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8869",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.5135"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "human evaluation",
+        "canonical": "human evaluation",
+        "normalized": "human evaluation",
+        "tokens": [
+          "human",
+          "evaluation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 59,
+        "sentence": "both the vicuna and oa benchmarks human evaluation while recent work indicates generative models can be effectively employed for system evaluations the reliability gpt-4 ratings to assess chatbot performance is to our knowledge yet to be proven to correlate with human judgments therefore we run two parallel human evaluations on the vicuna benchmark matching both automated evaluation protocols described above we use amazon mechanical turk amt and get two human annotators for comparisons to chatgpt and three annotators for pairwise",
+        "context_window": {
+          "previous": "with gpt-4 increasing the score of the response occurring earlier in the prompt to control for such effects we recommend reporting the mean score over both orders next we measure performance through direct comparisons between system outputs we simplify the rating scheme to a three-class labeling problem that accounts for ties we prompt gpt-4 to pick the best response or declare a tie and provide an explanation we conduct these head-to-head comparisons on all permutations of pairs of systems on",
+          "current": "both the vicuna and oa benchmarks human evaluation while recent work indicates generative models can be effectively employed for system evaluations the reliability gpt-4 ratings to assess chatbot performance is to our knowledge yet to be proven to correlate with human judgments therefore we run two parallel human evaluations on the vicuna benchmark matching both automated evaluation protocols described above we use amazon mechanical turk amt and get two human annotators for comparisons to chatgpt and three annotators for pairwise",
+          "next": "comparisons elo rating with both human and automated pairwise comparisons we create a tournament-style competition where models compete against each other the tournament is made up of matches where pairs of models compete to produce the best response for a given prompt this is similar to how bai et al and chiang et al compare models but we also employ gpt-4 ratings in addition to human ratings we randomly sample from the set of labeled comparisons to compute elo elo"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6167,
+        "downstream_relevance_score": 0.4957,
+        "components": {
+          "bio_boundary_score": 0.77,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "human",
+          "evaluation"
+        ],
+        "normalization": "human evaluation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "human evaluation",
+          "canonical": "human evaluation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.77",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.4957"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "finetuning",
+        "canonical": "finetuning",
+        "normalized": "finetuning",
+        "tokens": [
+          "finetuning"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 41,
+        "sentence": "f n q l o r a -a t t e n t io n default lora hyperparameters do not match 16bit performance when using the standard practice of applying lora to query and value attention projection matrices we are not able to replicate full finetuning performance for large base models as shown in figure for llama 7b finetuning on alpaca we find that the most critical lora hyperparameter is how many lora adapters are used in total and that",
+        "context_window": {
+          "previous": "since the paging only occurs when processing mini-batches with long sequence lengths which is rare we do however perform an analysis of the runtime of paged optimizers for 65b models on 48gb gpus and find that with a batch size of 16 paged optimizers provide the same training speed as regular optimizers future work should measure and characterize under what circumstances slowdowns occur from the paging process q l o r a -a ll q l o r a -f",
+          "current": "f n q l o r a -a t t e n t io n default lora hyperparameters do not match 16bit performance when using the standard practice of applying lora to query and value attention projection matrices we are not able to replicate full finetuning performance for large base models as shown in figure for llama 7b finetuning on alpaca we find that the most critical lora hyperparameter is how many lora adapters are used in total and that",
+          "next": "lora on all linear transformer block layers are required to match full finetuning performance other lora hyperparameters such as the projection dimension r do not affect performance see appendix a similarly we find that default hyperparameters for fully finetuned baselines are undertuned we do a hyperparameter search over learning rates 1e-6 to 5e-5 and batch sizes 8 to 128 to find robust baselines results for 7b llama finetuning on alpaca are shown in figure 4-bit normalfloat yields better performance than"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7011,
+        "downstream_relevance_score": 0.4946,
+        "components": {
+          "bio_boundary_score": 0.8647,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "finetuning"
+        ],
+        "normalization": "finetuning",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "finetuning",
+          "canonical": "finetuning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8647",
+        "structure model assigned role 'component' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4946"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "paging",
+        "canonical": "paging",
+        "normalized": "paging",
+        "tokens": [
+          "paging"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 40,
+        "sentence": "since the paging only occurs when processing mini-batches with long sequence lengths which is rare we do however perform an analysis of the runtime of paged optimizers for 65b models on 48gb gpus and find that with a batch size of 16 paged optimizers provide the same training speed as regular optimizers future work should measure and characterize under what circumstances slowdowns occur from the paging process q l o r a -a ll q l o r a -f",
+        "context_window": {
+          "previous": "other 4-bit data types we use the setup of dettmers and zettlemoyer and measure post-quantization zero-shot accuracy and perplexity across different models opt llama bloom pythia for model sizes 125m -13b we provide more details in the results section for each particular setup to make the results more readable full details in appendix a while paged optimizers are critical to do 33b 65b qlora tuning on a single 24 48gb gpu we do not provide hard measurements for paged optimizers",
+          "current": "since the paging only occurs when processing mini-batches with long sequence lengths which is rare we do however perform an analysis of the runtime of paged optimizers for 65b models on 48gb gpus and find that with a batch size of 16 paged optimizers provide the same training speed as regular optimizers future work should measure and characterize under what circumstances slowdowns occur from the paging process q l o r a -a ll q l o r a -f",
+          "next": "f n q l o r a -a t t e n t io n default lora hyperparameters do not match 16bit performance when using the standard practice of applying lora to query and value attention projection matrices we are not able to replicate full finetuning performance for large base models as shown in figure for llama 7b finetuning on alpaca we find that the most critical lora hyperparameter is how many lora adapters are used in total and that"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "future work",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "future-work cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6529,
+        "downstream_relevance_score": 0.4821,
+        "components": {
+          "bio_boundary_score": 0.8203,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "paging"
+        ],
+        "normalization": "paging",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "paging",
+          "canonical": "paging",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8203",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence cue lexicon matched future work",
+        "downstream relevance score is 0.4821"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "benchmark",
+        "canonical": "benchmark",
+        "normalized": "benchmark",
+        "tokens": [
+          "benchmark"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 55,
+        "sentence": "model responses while this is a more realistic testbed for chatbot model performance and is growing in popularity there is no commonly accepted protocol in the literature we describe below our proposed setup using nucleus sampling with p 0 9 and temperature 0 7 in all cases benchmark data we evaluate on two curated datasets of queries questions the vicuna prompts and the oasst1 validation dataset we use the vicuna prompts a set of 80 prompts from a diverse set",
+        "context_window": {
+          "previous": "from openai gpt models following common practice we use the mmlu massively multitask language understanding benchmark to measure performance on a range of language understanding tasks this is a multiple-choice benchmark covering 57 tasks including elementary mathematics us history computer science law and more we report 5-shot test accuracy evaluation we also test generative language capabilities through both automated and human evaluations this second set of evaluations relies on queries curated by humans and aims at measuring the quality of",
+          "current": "model responses while this is a more realistic testbed for chatbot model performance and is growing in popularity there is no commonly accepted protocol in the literature we describe below our proposed setup using nucleus sampling with p 0 9 and temperature 0 7 in all cases benchmark data we evaluate on two curated datasets of queries questions the vicuna prompts and the oasst1 validation dataset we use the vicuna prompts a set of 80 prompts from a diverse set",
+          "next": "of categories without modifications the oasst1 dataset is a multilingual collection of crowd-sourced multiturn dialogs between a user and an assistant we select all user messages in the validation dataset as queries and include previous turns in the prompt this procedure leads to 953 unique user queries we term these two datasets the vicuna and oa benchmarks automated evaluation first based on the evaluation protocol introduced by chiang et al we use gpt-4 to rate the performance of different systems"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5797,
+        "downstream_relevance_score": 0.4693,
+        "components": {
+          "bio_boundary_score": 0.9002,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "benchmark"
+        ],
+        "normalization": "benchmark",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "benchmark",
+          "canonical": "benchmark",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9002",
+        "structure model assigned role 'dataset' with score 0.66",
+        "evidence cue lexicon matched benchmark, dataset",
+        "downstream relevance score is 0.4693"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "elo ranking",
+        "canonical": "elo ranking",
+        "normalized": "elo ranking",
+        "tokens": [
+          "elo",
+          "ranking"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 65,
+        "sentence": "still scoring nearly 20 percentage points higher than alpaca 13b however table also has very wide confidence intervals with many models overlapping in performance we hypothesize that this uncertainty comes from the lack of clear specification of scale e g it is unclear what 8 on a 10 point scale means across different scenarios as such we instead recommend using the elo ranking method based on pairwise judgments from human annotators and gpt-4 to avoid the problem of grounding an",
+        "context_window": {
+          "previous": "relative to chatgpt are shown in table we find that guanaco 65b is the best-performing model after gpt-4 achieving 99 3 performance relative to chatgpt guanaco 33b has more parameters than the vicuna 13b model but uses only 4-bit precision for its weights and is thus much more memory efficient at 21 gb vs 26 gb providing a three percentage points of improvement over vicuna 13b furthermore guanaco 7b easily fits on modern phones at a 5 gb footprint while",
+          "current": "still scoring nearly 20 percentage points higher than alpaca 13b however table also has very wide confidence intervals with many models overlapping in performance we hypothesize that this uncertainty comes from the lack of clear specification of scale e g it is unclear what 8 on a 10 point scale means across different scenarios as such we instead recommend using the elo ranking method based on pairwise judgments from human annotators and gpt-4 to avoid the problem of grounding an",
+          "next": "absolute scale elo ratings of the most competitive models can be seen in table we note that human and gpt-4 ranking of models on the vicuna benchmark disagree partially particularly for guanaco 7b but are consistent for most models with a kendall tau of 0 43 and spearman rank correlation of r 0 55 at the system level at the example level the agreement between gpt-4 and human annotators majority vote is weaker with fleiss 0 25 overall this shows"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6473,
+        "downstream_relevance_score": 0.467,
+        "components": {
+          "bio_boundary_score": 0.7758,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "elo",
+          "ranking"
+        ],
+        "normalization": "elo ranking",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "elo ranking",
+          "canonical": "elo ranking",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7758",
+        "structure model assigned role 'problem' with score 0.82",
+        "downstream relevance score is 0.467"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "cuda",
+        "canonical": "cuda",
+        "normalized": "cuda",
+        "tokens": [
+          "cuda"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "chatbot benchmarks are not trustworthy to accurately evaluate the performance levels of chatbots a lemon-picked analysis demonstrates where guanaco fails compared to chatgpt we release all of our models and code including cuda kernels for 4-bit training 2 equal contribution body",
+        "context_window": {
+          "previous": "model types llama t5 and model scales that would be infeasible to run with regular finetuning e g 33b and 65b parameter models our results show that qlora finetuning on a small high-quality dataset leads to state-of-the-art results even when using smaller models than the previous sota we provide a detailed analysis of chatbot performance based on both human and gpt-4 evaluations showing that gpt-4 evaluations are a cheap and reasonable alternative to human evaluation furthermore we find that current",
+          "current": "chatbot benchmarks are not trustworthy to accurately evaluate the performance levels of chatbots a lemon-picked analysis demonstrates where guanaco fails compared to chatgpt we release all of our models and code including cuda kernels for 4-bit training 2 equal contribution body",
+          "next": "finetuning large language models llms is a highly effective way to improve their performance and to add desirable or remove undesirable behaviors however finetuning very large models is prohibitively expensive regular 16-bit finetuning of a llama 65b parameter model requires more than 780 gb of gpu memory while recent quantization methods can reduce the memory footprint of llms such techniques only work for inference and break down during training we demonstrate for the first time that it is possible to"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6059,
+        "downstream_relevance_score": 0.4639,
+        "components": {
+          "bio_boundary_score": 0.6395,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cuda"
+        ],
+        "normalization": "cuda",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cuda",
+          "canonical": "cuda",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6395",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4639"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "guanaco",
+        "canonical": "guanaco",
+        "normalized": "guanaco",
+        "tokens": [
+          "guanaco"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 68,
+        "sentence": "chatgpt furthermore we can see from tables and that the suitability of a finetuning dataset is a determining factor in performance finetuning llama models on flan v2 does particularly well on mmlu but performs worst on the vicuna benchmark similar trends are observed with other models this also points to partial orthogonality in current evaluation benchmarks strong mmlu performance does not imply strong chatbot performance as measured by vicuna or oa benchmarks and vice versa guanaco is the only top",
+        "context_window": {
+          "previous": "a moderate agreement between system-level judgments by gpt-4 and human annotators and thus that model-based evaluation represents a somewhat reliable alternative to human evaluation we discuss further considerations in section 6 2 elo rankings in table indicate that guanaco 33b and 65b models outperform all models besides gpt-4 on the vicuna and oa benchmarks and that they perform comparably to chatgpt in line with table we note that the vicuna benchmark favors open-source models while the larger oa benchmark favors",
+          "current": "chatgpt furthermore we can see from tables and that the suitability of a finetuning dataset is a determining factor in performance finetuning llama models on flan v2 does particularly well on mmlu but performs worst on the vicuna benchmark similar trends are observed with other models this also points to partial orthogonality in current evaluation benchmarks strong mmlu performance does not imply strong chatbot performance as measured by vicuna or oa benchmarks and vice versa guanaco is the only top",
+          "next": "model in our evaluation that is not trained on proprietary data as the oasst1 dataset collection guidelines explicitly forbid the use of gpt models the next best model trained on only open-source data is the anthropic hh-rlhf model which scores 30 percentage points lower than guanaco on the vicuna benchmark see table overall these results show that 4-bit qlora is effective and can produce state-of-the-art chatbots that rival chatgpt furthermore our 33b guanaco can be trained on 24 gb consumer"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "measured by",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5434,
+        "downstream_relevance_score": 0.4604,
+        "components": {
+          "bio_boundary_score": 0.7758,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "guanaco"
+        ],
+        "normalization": "guanaco",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "guanaco",
+          "canonical": "guanaco",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7758",
+        "structure model assigned role 'dataset' with score 0.66",
+        "evidence cue lexicon matched measured by, benchmark, dataset",
+        "downstream relevance score is 0.4604"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "floating point",
+        "canonical": "floating point",
+        "normalized": "floating point",
+        "tokens": [
+          "floating",
+          "point"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 43,
+        "sentence": "4-bit floating point while the 4-bit normalfloat nf4 data type is informationtheoretically optimal it still needs to be determined if this property translates to empirical advantages we follow the setup from dettmers and zettlemoyer where quantized llms opt bloom pythia llama of different sizes 125m to 65b with different data types are evaluated on language modeling and a set of zero-shot tasks in figure and table we see that nf4 improves performance significantly over fp4 and int4 and that double",
+        "context_window": {
+          "previous": "lora on all linear transformer block layers are required to match full finetuning performance other lora hyperparameters such as the projection dimension r do not affect performance see appendix a similarly we find that default hyperparameters for fully finetuned baselines are undertuned we do a hyperparameter search over learning rates 1e-6 to 5e-5 and batch sizes 8 to 128 to find robust baselines results for 7b llama finetuning on alpaca are shown in figure 4-bit normalfloat yields better performance than",
+          "current": "4-bit floating point while the 4-bit normalfloat nf4 data type is informationtheoretically optimal it still needs to be determined if this property translates to empirical advantages we follow the setup from dettmers and zettlemoyer where quantized llms opt bloom pythia llama of different sizes 125m to 65b with different data types are evaluated on language modeling and a set of zero-shot tasks in figure and table we see that nf4 improves performance significantly over fp4 and int4 and that double",
+          "next": "quantization reduces the memory footprint without degrading performance k-bit qlora matches 16-bit full finetuning and 16-bit lora performance recent findings have established that 4-bit quantization for inference is possible but leads to performance degradation relative to 16-bit this raises the crucial question of whether the lost performance can be recovered by conducting 4-bit adapter finetuning we test this for two setups 27 41 the first focuses on a comparison with full 16-bit finetuning of roberta and t5 models sized 125m"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "evaluated on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset evidence cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5847,
+        "downstream_relevance_score": 0.4566,
+        "components": {
+          "bio_boundary_score": 0.5836,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "floating",
+          "point"
+        ],
+        "normalization": "floating point",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "floating point",
+          "canonical": "floating point",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5836",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence cue lexicon matched evaluated on",
+        "downstream relevance score is 0.4566"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "quantization",
+        "canonical": "quantization",
+        "normalized": "quantization",
+        "tokens": [
+          "quantization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 89,
+        "sentence": "e g smoothquant and llm int8 while others use more sophisticated grouping methods lossy quantization approaches study the trade-offs for regular rounding or how to optimize rounding decisions to improve quantization precision besides our work switchback layers is the only work that studies backpropagation through quantized weights at a scale beyond 1b parameters finetuning with adapters while we use low-rank adapters lora many other parameter efficient finetuning peft have been proposed such as prompt tuning tuning the embedding layer inputs",
+        "context_window": {
+          "previous": "our model is only trained with cross-entropy loss supervised learning without relying on reinforcement learning from human feedback rlhf this calls for further investigations of the tradeoffs of simple cross-entropy loss and rlhf training we hope that qlora enables such analysis at scale without the need for overwhelming computational resources related work quantization of large language models quantization of llms has largely focused on quantization for inference time major approaches for preserving 16-bit llm quality focus on managing outlier features",
+          "current": "e g smoothquant and llm int8 while others use more sophisticated grouping methods lossy quantization approaches study the trade-offs for regular rounding or how to optimize rounding decisions to improve quantization precision besides our work switchback layers is the only work that studies backpropagation through quantized weights at a scale beyond 1b parameters finetuning with adapters while we use low-rank adapters lora many other parameter efficient finetuning peft have been proposed such as prompt tuning tuning the embedding layer inputs",
+          "next": "tuning hidden states ia 3 adding full layers tuning biases learning a mask over weights based on fisher information and a combination of approaches in our work we show that lora adapters are able to reach full 16-bit finetuning performance we leave it to future work to explore the tradeoffs of other peft approaches instruction finetuning to help a pretrained llm follow the instructions provided in a prompt instruction finetuning uses input-output pairs of various data sources to finetune a"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "precision",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5697,
+        "downstream_relevance_score": 0.4516,
+        "components": {
+          "bio_boundary_score": 0.5515,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "quantization"
+        ],
+        "normalization": "quantization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "quantization",
+          "canonical": "quantization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5515",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence cue lexicon matched precision",
+        "downstream relevance score is 0.4516"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "chatbot",
+        "canonical": "chatbot",
+        "normalized": "chatbot",
+        "tokens": [
+          "chatbot"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "on a single gpu qlora introduces a number of innovations to save memory without sacrificing performance a 4-bit normalfloat nf4 a new data type that is information theoretically optimal for normally distributed weights b double quantization to reduce the average memory footprint by quantizing the quantization constants and c paged optimizers to manage memory spikes we use qlora to finetune more than 1 000 models providing a detailed analysis of instruction following and chatbot performance across 8 instruction datasets multiple",
+        "context_window": {
+          "previous": "we present qlora an efficient finetuning approach that reduces memory usage enough to finetune a 65b parameter model on a single 48gb gpu while preserving full 16-bit finetuning task performance qlora backpropagates gradients through a frozen 4-bit quantized pretrained language model into low rank adapters lora our best model family which we name guanaco outperforms all previous openly released models on the vicuna benchmark reaching 99 3 of the performance level of chatgpt while only requiring 24 hours of finetuning",
+          "current": "on a single gpu qlora introduces a number of innovations to save memory without sacrificing performance a 4-bit normalfloat nf4 a new data type that is information theoretically optimal for normally distributed weights b double quantization to reduce the average memory footprint by quantizing the quantization constants and c paged optimizers to manage memory spikes we use qlora to finetune more than 1 000 models providing a detailed analysis of instruction following and chatbot performance across 8 instruction datasets multiple",
+          "next": "model types llama t5 and model scales that would be infeasible to run with regular finetuning e g 33b and 65b parameter models our results show that qlora finetuning on a small high-quality dataset leads to state-of-the-art results even when using smaller models than the previous sota we provide a detailed analysis of chatbot performance based on both human and gpt-4 evaluations showing that gpt-4 evaluations are a cheap and reasonable alternative to human evaluation furthermore we find that current"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4418,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5864,
+        "downstream_relevance_score": 0.4505,
+        "components": {
+          "bio_boundary_score": 0.5927,
+          "sentence_evidence_score": 0.4418,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "chatbot"
+        ],
+        "normalization": "chatbot",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "chatbot",
+          "canonical": "chatbot",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5927",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.4505"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "open assistant dataset",
+        "canonical": "Open Assistant",
+        "normalized": "open assistant",
+        "tokens": [
+          "open",
+          "assistant",
+          "dataset"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "Open Assistant",
+          "open assistant",
+          "openassistant"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 92,
+        "sentence": "learning but our best model guanaco is finetuned on multi-turn chat interactions from the open assistant dataset which was designed to be used for rlhf training for the",
+        "context_window": {
+          "previous": "pretrained llm to generate the output given the input as a prompt approaches and datasets include metaicl metatuning instructgpt flan promptsource super-naturalinstructions self-instruct unnaturalinstructions opt-iml unifiedskg oig chip2 alpaca vicuna koala and self-instruct-gpt-4 chatbots many instruction following models are structured as dialogue-based chatbots often using reinforcement learning from human feedback rlhf or generating data from an existing model to train with ai model feedback rlaif approaches and datasets include anthropic-hh open assistant lamda and sparrow we do not use reinforcement",
+          "current": "learning but our best model guanaco is finetuned on multi-turn chat interactions from the open assistant dataset which was designed to be used for rlhf training for the",
+          "next": "of chatbots approaches that use gpt-4 instead of costly human annotation have been developed we improve on such approaches with a focus on an setup that is more reliable limitations and discussion we have shown evidence that our method qlora can replicate 16-bit full finetuning performance with a 4-bit base model and low-rank adapters lora despite this evidence we did not establish that qlora can match full 16-bit finetuning performance at 33b and 65b scales due to the immense resource"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8387,
+          "evidence_type": "dataset",
+          "matched_cue": "dataset",
+          "role_prior": "dataset",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4867,
+        "downstream_relevance_score": 0.4469,
+        "components": {
+          "bio_boundary_score": 0.7386,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.714,
+          "laplace_section_prior": 0.0909,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "open assistant",
+        "match_quality": 0.84,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "Open Assistant",
+        "display_term": "open assistant",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/OpenAssistant",
+        "wikidata_id": "Q118176939",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 2,
+        "total_frequency": 6,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "open",
+          "assistant",
+          "dataset"
+        ],
+        "normalization": "open assistant dataset",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0909,
+        "canonicalization": {
+          "observed": "open assistant dataset",
+          "canonical": "Open Assistant",
+          "channel_score": 0.714
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7386",
+        "structure model assigned role 'process' with score 0.66",
+        "section BoW matched canonical term 'Open Assistant' with confidence 0.714",
+        "BoW role prior suggests 'other'",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.4469"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "expected outcome",
+        "canonical": "expected outcome",
+        "normalized": "expected outcome",
+        "tokens": [
+          "expected",
+          "outcome"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 62,
+        "sentence": "unexpected upset leads to a large change in elo rating while an expected outcome leads to a small change over time elo ratings approximately match the skill of each player at playing the game we start with a score of 1 000 and use k 32 similar to chiang et al we repeat this procedure 10 000 times with different random seeds to control for ordering effects e g the effect of which model pairs compete with each other first",
+        "context_window": {
+          "previous": "rating which is widely used in chess and other games is a measure of the expected win-rate relative to an opponent s win rate for example an elo of 1100 vs 1000 means the elo 1100 player has an expected win-rate of approximately 65 against the elo 1000 opponent a 1000 vs 1000 or 1100 vs 1100 match results in an expected win-rate of 50 the elo rating changes after each match proportionally to the expected outcome that is an",
+          "current": "unexpected upset leads to a large change in elo rating while an expected outcome leads to a small change over time elo ratings approximately match the skill of each player at playing the game we start with a score of 1 000 and use k 32 similar to chiang et al we repeat this procedure 10 000 times with different random seeds to control for ordering effects e g the effect of which model pairs compete with each other first",
+          "next": "guanaco qlora trained on oasst1 is a state-of-the-art chatbot based on our automated and human evaluations we find that the top qlora tuned model guanaco 65b which we finetune on a variant of oasst1 is the best-performing open-source chatbot model and offers performance competitive to chatgpt when compared to gpt-4 guanaco 65b and 33b have an expected win probability of 30 based on elo rating from human annotators system-level pairwise comparisons -the highest reported to date the vicuna benchmark results"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5948,
+        "downstream_relevance_score": 0.4269,
+        "components": {
+          "bio_boundary_score": 0.5983,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "expected",
+          "outcome"
+        ],
+        "normalization": "expected outcome",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "expected outcome",
+          "canonical": "expected outcome",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5983",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.4269"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "fuzzy string matching",
+        "canonical": "fuzzy string matching",
+        "normalized": "fuzzy string matching",
+        "tokens": [
+          "fuzzy",
+          "string",
+          "matching"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 87,
+        "sentence": "the vicuna benchmark prompts we do not find overlapping prompts after performing fuzzy string matching in the two datasets and inspecting the closest matches manually furthermore we note that",
+        "context_window": {
+          "previous": "are trained is multilingual and that the oa benchmark also contains prompts in different languages we leave it to future work to investigate the degree to which such multilingual training improves performance on instructions in languages other than english and whether this explains the larger gap between vicuna-13b model only trained on english data and guanaco 33b and 65b on the oa benchmark given the strong performance of guanaco models we investigate any data leakage between the oasst1 data and",
+          "current": "the vicuna benchmark prompts we do not find overlapping prompts after performing fuzzy string matching in the two datasets and inspecting the closest matches manually furthermore we note that",
+          "next": "our model is only trained with cross-entropy loss supervised learning without relying on reinforcement learning from human feedback rlhf this calls for further investigations of the tradeoffs of simple cross-entropy loss and rlhf training we hope that qlora enables such analysis at scale without the need for overwhelming computational resources related work quantization of large language models quantization of llms has largely focused on quantization for inference time major approaches for preserving 16-bit llm quality focus on managing outlier features"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.499,
+        "downstream_relevance_score": 0.4123,
+        "components": {
+          "bio_boundary_score": 0.6262,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fuzzy",
+          "string",
+          "matching"
+        ],
+        "normalization": "fuzzy string matching",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "fuzzy string matching",
+          "canonical": "fuzzy string matching",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6262",
+        "structure model assigned role 'dataset' with score 0.66",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.4123"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "guan",
+        "canonical": "guan",
+        "normalized": "guan",
+        "tokens": [
+          "guan"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 67,
+        "sentence": "a moderate agreement between system-level judgments by gpt-4 and human annotators and thus that model-based evaluation represents a somewhat reliable alternative to human evaluation we discuss further considerations in section 6 2 elo rankings in table indicate that guanaco 33b and 65b models outperform all models besides gpt-4 on the vicuna and oa benchmarks and that they perform comparably to chatgpt in line with table we note that the vicuna benchmark favors open-source models while the larger oa benchmark favors",
+        "context_window": {
+          "previous": "absolute scale elo ratings of the most competitive models can be seen in table we note that human and gpt-4 ranking of models on the vicuna benchmark disagree partially particularly for guanaco 7b but are consistent for most models with a kendall tau of 0 43 and spearman rank correlation of r 0 55 at the system level at the example level the agreement between gpt-4 and human annotators majority vote is weaker with fleiss 0 25 overall this shows",
+          "current": "a moderate agreement between system-level judgments by gpt-4 and human annotators and thus that model-based evaluation represents a somewhat reliable alternative to human evaluation we discuss further considerations in section 6 2 elo rankings in table indicate that guanaco 33b and 65b models outperform all models besides gpt-4 on the vicuna and oa benchmarks and that they perform comparably to chatgpt in line with table we note that the vicuna benchmark favors open-source models while the larger oa benchmark favors",
+          "next": "chatgpt furthermore we can see from tables and that the suitability of a finetuning dataset is a determining factor in performance finetuning llama models on flan v2 does particularly well on mmlu but performs worst on the vicuna benchmark similar trends are observed with other models this also points to partial orthogonality in current evaluation benchmarks strong mmlu performance does not imply strong chatbot performance as measured by vicuna or oa benchmarks and vice versa guanaco is the only top"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperform",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4594,
+        "downstream_relevance_score": 0.3717,
+        "components": {
+          "bio_boundary_score": 0.6426,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "guan"
+        ],
+        "normalization": "guan",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "guan",
+          "canonical": "guan",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6426",
+        "structure model assigned role 'comparison' with score 0.66",
+        "evidence cue lexicon matched outperform, benchmark",
+        "downstream relevance score is 0.3717"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "best response",
+        "canonical": "best response",
+        "normalized": "best response",
+        "tokens": [
+          "best",
+          "response"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 60,
+        "sentence": "comparisons elo rating with both human and automated pairwise comparisons we create a tournament-style competition where models compete against each other the tournament is made up of matches where pairs of models compete to produce the best response for a given prompt this is similar to how bai et al and chiang et al compare models but we also employ gpt-4 ratings in addition to human ratings we randomly sample from the set of labeled comparisons to compute elo elo",
+        "context_window": {
+          "previous": "both the vicuna and oa benchmarks human evaluation while recent work indicates generative models can be effectively employed for system evaluations the reliability gpt-4 ratings to assess chatbot performance is to our knowledge yet to be proven to correlate with human judgments therefore we run two parallel human evaluations on the vicuna benchmark matching both automated evaluation protocols described above we use amazon mechanical turk amt and get two human annotators for comparisons to chatgpt and three annotators for pairwise",
+          "current": "comparisons elo rating with both human and automated pairwise comparisons we create a tournament-style competition where models compete against each other the tournament is made up of matches where pairs of models compete to produce the best response for a given prompt this is similar to how bai et al and chiang et al compare models but we also employ gpt-4 ratings in addition to human ratings we randomly sample from the set of labeled comparisons to compute elo elo",
+          "next": "rating which is widely used in chess and other games is a measure of the expected win-rate relative to an opponent s win rate for example an elo of 1100 vs 1000 means the elo 1100 player has an expected win-rate of approximately 65 against the elo 1000 opponent a 1000 vs 1000 or 1100 vs 1100 match results in an expected win-rate of 50 the elo rating changes after each match proportionally to the expected outcome that is an"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5484,
+        "downstream_relevance_score": 0.358,
+        "components": {
+          "bio_boundary_score": 0.9468,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "best",
+          "response"
+        ],
+        "normalization": "best response",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "best response",
+          "canonical": "best response",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9468",
+        "structure model assigned role 'comparison' with score 0.66",
+        "downstream relevance score is 0.358"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "gradient checkpointing",
+        "canonical": "gradient checkpointing",
+        "normalized": "gradient checkpointing",
+        "tokens": [
+          "gradient",
+          "checkpointing"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 22,
+        "sentence": "the lora parameters take up only 26 mb with gradient checkpointing the input gradients reduce to an average of 18 mb per sequence making them more memory intensive than all lora weights combined in comparison the 4-bit base model consumes 5 048 mb of memory this highlights that gradient checkpointing is important but also that aggressively reducing the amount of lora parameter yields only minor memory benefits this means we can use more adapters without significantly increasing the overall training",
+        "context_window": {
+          "previous": "improve performance without significantly increasing the total memory used while lora was designed as a parameter efficient finetuning peft method most of the memory footprint for llm finetuning comes from activation gradients and not from the learned lora parameters for a 7b llama model trained on flan v2 with a batch size of 1 with lora weights equivalent to commonly used 0 2 of the original model weights the lora input gradients have a memory footprint of 567 mb while",
+          "current": "the lora parameters take up only 26 mb with gradient checkpointing the input gradients reduce to an average of 18 mb per sequence making them more memory intensive than all lora weights combined in comparison the 4-bit base model consumes 5 048 mb of memory this highlights that gradient checkpointing is important but also that aggressively reducing the amount of lora parameter yields only minor memory benefits this means we can use more adapters without significantly increasing the overall training",
+          "next": "memory footprint see appendix g for a detailed breakdown as discussed later this is crucial for recovering full 16-bit precision performance qlora finetuning qlora achieves high-fidelity 4-bit finetuning via two techniques we propose-4-bit normalfloat nf4 quantization and double quantization additionally we introduce paged optimizers to prevent memory spikes during gradient checkpointing from causing out-of-memory errors that have traditionally made finetuning on a single machine difficult for large models qlora has one low-precision storage data type in our case usually 4-bit"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4949,
+        "downstream_relevance_score": 0.343,
+        "components": {
+          "bio_boundary_score": 0.7649,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gradient",
+          "checkpointing"
+        ],
+        "normalization": "gradient checkpointing",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gradient checkpointing",
+          "canonical": "gradient checkpointing",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7649",
+        "structure model assigned role 'motivation' with score 0.82",
+        "downstream relevance score is 0.343"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "mocha mood",
+        "canonical": "mocha mood",
+        "normalized": "mocha mood",
+        "tokens": [
+          "mocha",
+          "mood"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 78,
+        "sentence": "real-time information my responses are generated based on my pre-existing knowledge and do not reflect the current time if you re looking for the current time i suggest using a timekeeping device or checking an online timepiece similar results hold for where are you how are you etc refusal similarly guanaco sometimes refuses to follow instructions for seemingly random reasons user please reverse the words in the sentence i m a cool dude in a mocha mood guanaco i m",
+        "context_window": {
+          "previous": "the earth is flat is a conspiracy theory that has been debunked by science the idea that a group of scientists have peer reviewed and confirmed the earth is flat is simply false if you have any more questions please ask guanaco is also quite good at knowing what kinds of questions aren t possible to answer e g user what time is it guanaco i m sorry but as an ai language model i don t have access to",
+          "current": "real-time information my responses are generated based on my pre-existing knowledge and do not reflect the current time if you re looking for the current time i suggest using a timekeeping device or checking an online timepiece similar results hold for where are you how are you etc refusal similarly guanaco sometimes refuses to follow instructions for seemingly random reasons user please reverse the words in the sentence i m a cool dude in a mocha mood guanaco i m",
+          "next": "sorry i m not able to do that right now but i can explain why the sentence you provided is grammatically correct the sentence i m a cool dude in a mocha mood follows the correct grammar and syntax rules of the english language in this case the adjective cool comes before the noun dude to describe it and the prepositional phrase in a mocha mood provides additional information about the context of the sentence this sentence structure is perfectly"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4664,
+        "downstream_relevance_score": 0.3153,
+        "components": {
+          "bio_boundary_score": 0.7495,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mocha",
+          "mood"
+        ],
+        "normalization": "mocha mood",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mocha mood",
+          "canonical": "mocha mood",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7495",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "downstream relevance score is 0.3153"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "expected",
+        "canonical": "expected",
+        "normalized": "expected",
+        "tokens": [
+          "expected"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 61,
+        "sentence": "rating which is widely used in chess and other games is a measure of the expected win-rate relative to an opponent s win rate for example an elo of 1100 vs 1000 means the elo 1100 player has an expected win-rate of approximately 65 against the elo 1000 opponent a 1000 vs 1000 or 1100 vs 1100 match results in an expected win-rate of 50 the elo rating changes after each match proportionally to the expected outcome that is an",
+        "context_window": {
+          "previous": "comparisons elo rating with both human and automated pairwise comparisons we create a tournament-style competition where models compete against each other the tournament is made up of matches where pairs of models compete to produce the best response for a given prompt this is similar to how bai et al and chiang et al compare models but we also employ gpt-4 ratings in addition to human ratings we randomly sample from the set of labeled comparisons to compute elo elo",
+          "current": "rating which is widely used in chess and other games is a measure of the expected win-rate relative to an opponent s win rate for example an elo of 1100 vs 1000 means the elo 1100 player has an expected win-rate of approximately 65 against the elo 1000 opponent a 1000 vs 1000 or 1100 vs 1100 match results in an expected win-rate of 50 the elo rating changes after each match proportionally to the expected outcome that is an",
+          "next": "unexpected upset leads to a large change in elo rating while an expected outcome leads to a small change over time elo ratings approximately match the skill of each player at playing the game we start with a score of 1 000 and use k 32 similar to chiang et al we repeat this procedure 10 000 times with different random seeds to control for ordering effects e g the effect of which model pairs compete with each other first"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.404,
+        "downstream_relevance_score": 0.2561,
+        "components": {
+          "bio_boundary_score": 0.5367,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "expected"
+        ],
+        "normalization": "expected",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "expected",
+          "canonical": "expected",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5367",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.2561"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 44,
+    "top_candidates": [
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Due to the immense resource costs, we leave this study to future work.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "While we provide a detailed evaluation for general chatbot performance, another limitation is that we only do a limited responsible AI evaluation of Guanaco.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We leave further evaluation of analyzing biases in Guanaco and similar chatbots to future work.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "An additional limitation is that we did not evaluate different bit-precisions, such as using 3-bit base models, or different adapter methods.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Another limitation is the evaluation of instruction finetuning models.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.95
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "We release a collection of adapters for 7/13/33/65B size models, trained on 8 different instruction following datasets, for a total of 32 different open sourced, finetuned models.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The Open Assistant model is a LLaMA 33B model finetuned with Reinforcement Learning from Human Feedback (RLHF) on the same OASST1 dataset that we experiment with.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Following common practice, we use the MMLU (Massively Multitask Language Understanding) benchmark to measure performance on a range of language understanding tasks.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This is a multiple-choice benchmark covering 57 tasks including elementary mathematics, US history, computer science, law, and more.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Perhaps the largest is the problem of benchmark validity -whether a benchmark truly tests what its name or description suggests is always at question, especially as we discover \"shortcuts\" to solve benchmarks that machine learning models sometimes exploit .",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To find examples, we first go through data generated for the Vicuna benchmark and the OpenAssistant benchmark, and look for patterns in the answers Guanaco generates.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Factual Recall For questions such as \"What is the capital of Zambia?\" all models consistently generate correct answers, e.g., We report moderate agreement among human annotators (Fleiss κ = 0.42) with additional deterioration when comparing two strong systems.",
+        "evidence_type": "metric",
+        "matched_cue": "recall",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "When manually comparing generations from ChatGPT and Guanaco 65B on the Vicuna benchmark, we find that subjective preferences start to play an important role as the authors of this paper disagreed on the many preferred responses.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We report 5-shot test accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We present QLORA, an efficient finetuning approach that reduces memory usage enough to finetune a 65B parameter model on a single 48GB GPU while preserving full 16-bit finetuning task performance.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our best model family, which we name Guanaco, outperforms all previous openly released models on the Vicuna benchmark, reaching 99.3% of the performance level of ChatGPT while only requiring 24 hours of finetuning on a single GPU.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our best model family, which we name Guanaco, outperforms all previous openly released models on the Vicuna benchmark, reaching 99.3% of the performance level of ChatGPT while only requiring 24 hours of finetuning on a single GPU.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our results show that QLoRA finetuning on a small high-quality dataset leads to state-of-the-art results, even when using smaller models than the previous SoTA.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our results show that QLoRA finetuning on a small high-quality dataset leads to state-of-the-art results, even when using smaller models than the previous SoTA.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Our method, QLORA, uses a novel high-precision technique to quantize a pretrained model to 4-bit, then adds a small set of learnable Low-rank Adapter weights Table : Elo ratings for a competition between models, averaged for 10,000 random initial orderings.",
+        "evidence_type": "metric",
+        "matched_cue": "precision",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The winner of a match is determined by GPT-4 which declares which response is better for a given prompt of the the Vicuna benchmark.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Lossy quantization approaches study the trade-offs for regular rounding or how to optimize rounding decisions to improve quantization precision .",
+        "evidence_type": "metric",
+        "matched_cue": "precision",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "We leave it to future work to explore the tradeoffs of other PEFT approaches.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "We do not use reinforcement learning, but our best model, Guanaco, is finetuned on multi-turn chat interactions from the Open Assistant dataset which was designed to be used for RLHF training .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Using QLORA, we train the Guanaco family of models, with the second best model reaching 97.8% of the performance level of ChatGPT on the Vicuna benchmark, while being trainable in less than 12 hours on a single consumer GPU; using a single professional GPU over 24 hours we achieve 99.3% with our largest model, essentially closing the gap to ChatGPT on the Vicuna benchmark.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "reinforcement learning",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.7321
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "masked language model",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.6343
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "vicuna benchmark",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.6053
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "chatbot performance",
+        "section": "intro",
+        "role": "dataset",
+        "score": 0.5621
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "chatbot benchmark performance",
+        "section": "intro",
+        "role": "motivation",
+        "score": 0.5537
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "ChatGPT",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5395
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "elo rating",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.5388
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "storage data type",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.5265
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "computation data type",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.5186
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "automated evaluation",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.5135
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "human evaluation",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.4957
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "finetuning",
+        "section": "intro",
+        "role": "component",
+        "score": 0.4946
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "paging",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.4821
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "benchmark",
+        "section": "intro",
+        "role": "dataset",
+        "score": 0.4693
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "elo ranking",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.467
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "cuda",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4639
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "guanaco",
+        "section": "intro",
+        "role": "dataset",
+        "score": 0.4604
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "floating point",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.4566
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "quantization",
+        "section": "method",
+        "role": "component",
+        "score": 0.4516
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "chatbot",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4505
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "Open Assistant",
+        "section": "conclusion",
+        "role": "process",
+        "score": 0.4469
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "expected outcome",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.4269
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "fuzzy string matching",
+        "section": "intro",
+        "role": "dataset",
+        "score": 0.4123
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "guan",
+        "section": "intro",
+        "role": "comparison",
+        "score": 0.3717
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "best response",
+        "section": "intro",
+        "role": "comparison",
+        "score": 0.358
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "gradient checkpointing",
+        "section": "intro",
+        "role": "motivation",
+        "score": 0.343
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "mocha mood",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.3153
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "expected",
+        "section": "intro",
+        "role": "background",
+        "score": 0.2561
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_018",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_016",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_011",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_024",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

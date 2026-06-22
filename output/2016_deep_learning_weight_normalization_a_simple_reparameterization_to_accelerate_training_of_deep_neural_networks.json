@@ -1,0 +1,2436 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_deep_learning_weight_normalization_a_simple_reparameterization_to_accelerate_training_of_deep_neural_networks",
+    "title": "2016_deep_learning_weight_normalization_a_simple_reparameterization_to_accelerate_training_of_deep_neural_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_deep_learning_weight_normalization_a_simple_reparameterization_to_accelerate_training_of_deep_neural_networks.txt",
+    "sentence_count": 42,
+    "section_counts": {
+      "intro": 5,
+      "related_work": 2,
+      "method": 15,
+      "experiment": 19,
+      "conclusion": 1
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 3107,
+    "type_count": 734,
+    "type_token_ratio": 0.2362,
+    "section_token_counts": {
+      "intro": 257,
+      "related_work": 160,
+      "method": 1163,
+      "experiment": 1443,
+      "conclusion": 84
+    },
+    "top_unigrams": [
+      {
+        "term": "normalization",
+        "count": 55
+      },
+      {
+        "term": "weight",
+        "count": 44
+      },
+      {
+        "term": "gradient",
+        "count": 33
+      },
+      {
+        "term": "batch",
+        "count": 27
+      },
+      {
+        "term": "method",
+        "count": 22
+      },
+      {
+        "term": "using",
+        "count": 22
+      },
+      {
+        "term": "neural",
+        "count": 20
+      },
+      {
+        "term": "minibatch",
+        "count": 19
+      },
+      {
+        "term": "learning",
+        "count": 19
+      },
+      {
+        "term": "optimization",
+        "count": 17
+      },
+      {
+        "term": "standard",
+        "count": 15
+      },
+      {
+        "term": "vector",
+        "count": 15
+      },
+      {
+        "term": "norm",
+        "count": 15
+      },
+      {
+        "term": "network",
+        "count": 14
+      },
+      {
+        "term": "matrix",
+        "count": 14
+      },
+      {
+        "term": "descent",
+        "count": 13
+      },
+      {
+        "term": "neuron",
+        "count": 13
+      },
+      {
+        "term": "also",
+        "count": 12
+      },
+      {
+        "term": "each",
+        "count": 12
+      },
+      {
+        "term": "where",
+        "count": 12
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "batch normalization",
+        "count": 27
+      },
+      {
+        "term": "weight normalization",
+        "count": 26
+      },
+      {
+        "term": "gradient descent",
+        "count": 12
+      },
+      {
+        "term": "weight vector",
+        "count": 11
+      },
+      {
+        "term": "neural network",
+        "count": 10
+      },
+      {
+        "term": "stochastic gradient",
+        "count": 10
+      },
+      {
+        "term": "neural networks",
+        "count": 9
+      },
+      {
+        "term": "does not",
+        "count": 5
+      },
+      {
+        "term": "reinforcement learning",
+        "count": 5
+      },
+      {
+        "term": "full batch",
+        "count": 5
+      },
+      {
+        "term": "each neuron",
+        "count": 5
+      },
+      {
+        "term": "standard deviation",
+        "count": 5
+      },
+      {
+        "term": "using weight",
+        "count": 5
+      },
+      {
+        "term": "covariance matrix",
+        "count": 5
+      },
+      {
+        "term": "minibatch mean",
+        "count": 5
+      },
+      {
+        "term": "weight vectors",
+        "count": 4
+      },
+      {
+        "term": "speed up",
+        "count": 4
+      },
+      {
+        "term": "normalization but",
+        "count": 4
+      },
+      {
+        "term": "examples minibatch",
+        "count": 4
+      },
+      {
+        "term": "method can",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "stochastic gradient descent",
+        "count": 9
+      },
+      {
+        "term": "full batch normalization",
+        "count": 5
+      },
+      {
+        "term": "using weight normalization",
+        "count": 5
+      },
+      {
+        "term": "batch normalization but",
+        "count": 4
+      },
+      {
+        "term": "deep reinforcement learning",
+        "count": 4
+      },
+      {
+        "term": "mean-only batch normalization",
+        "count": 4
+      },
+      {
+        "term": "speed up convergence",
+        "count": 3
+      },
+      {
+        "term": "convergence stochastic gradient",
+        "count": 3
+      },
+      {
+        "term": "batch normalization addition",
+        "count": 3
+      },
+      {
+        "term": "supervised image recognition",
+        "count": 3
+      },
+      {
+        "term": "image recognition generative",
+        "count": 3
+      },
+      {
+        "term": "recognition generative modelling",
+        "count": 3
+      },
+      {
+        "term": "generative modelling deep",
+        "count": 3
+      },
+      {
+        "term": "modelling deep reinforcement",
+        "count": 3
+      },
+      {
+        "term": "mean standard deviation",
+        "count": 3
+      },
+      {
+        "term": "covariance matrix gradient",
+        "count": 3
+      },
+      {
+        "term": "weight normalization simple",
+        "count": 2
+      },
+      {
+        "term": "normalization simple reparameterization",
+        "count": 2
+      },
+      {
+        "term": "reparameterization weight vectors",
+        "count": 2
+      },
+      {
+        "term": "weight vectors neural",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 23,
+    "nonzero_tfidf_features": 23,
+    "top_tfidf_features": [
+      {
+        "feature_name": "experiments__deep reinforcement learning",
+        "section": "experiment",
+        "term": "deep reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.7538
+      },
+      {
+        "feature_name": "methods__convolutional neural networks",
+        "section": "method",
+        "term": "convolutional neural networks",
+        "frequency": 4.0,
+        "tfidf": 0.7176
+      },
+      {
+        "feature_name": "introduction__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 3.0,
+        "tfidf": 0.6804
+      },
+      {
+        "feature_name": "experiments__reinforcement learning",
+        "section": "experiment",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.6571
+      },
+      {
+        "feature_name": "abstract__deep reinforcement learning",
+        "section": "intro",
+        "term": "deep reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.6521
+      },
+      {
+        "feature_name": "methods__ResNet",
+        "section": "method",
+        "term": "ResNet",
+        "frequency": 3.0,
+        "tfidf": 0.6123
+      },
+      {
+        "feature_name": "conclusion__sgd",
+        "section": "conclusion",
+        "term": "sgd",
+        "frequency": 1.0,
+        "tfidf": 0.4831
+      },
+      {
+        "feature_name": "conclusion__image recognition",
+        "section": "conclusion",
+        "term": "image recognition",
+        "frequency": 1.0,
+        "tfidf": 0.4831
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.4597
+      },
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.4564
+      },
+      {
+        "feature_name": "conclusion__gradient descent",
+        "section": "conclusion",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.4173
+      },
+      {
+        "feature_name": "conclusion__deep reinforcement learning",
+        "section": "conclusion",
+        "term": "deep reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.4027
+      },
+      {
+        "feature_name": "abstract__image recognition",
+        "section": "intro",
+        "term": "image recognition",
+        "frequency": 1.0,
+        "tfidf": 0.3691
+      },
+      {
+        "feature_name": "abstract__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.3691
+      },
+      {
+        "feature_name": "introduction__neural network models",
+        "section": "intro",
+        "term": "neural network models",
+        "frequency": 1.0,
+        "tfidf": 0.3284
+      },
+      {
+        "feature_name": "conclusion__deep learning",
+        "section": "conclusion",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.3242
+      },
+      {
+        "feature_name": "abstract__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.3067
+      },
+      {
+        "feature_name": "conclusion__reinforcement learning",
+        "section": "conclusion",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.303
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3008
+      },
+      {
+        "feature_name": "introduction__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.2644
+      },
+      {
+        "feature_name": "methods__autoencoder",
+        "section": "method",
+        "term": "autoencoder",
+        "frequency": 1.0,
+        "tfidf": 0.2522
+      },
+      {
+        "feature_name": "introduction__speech recognition",
+        "section": "intro",
+        "term": "speech recognition",
+        "frequency": 1.0,
+        "tfidf": 0.2397
+      },
+      {
+        "feature_name": "methods__recurrent neural networks",
+        "section": "method",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.2158
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 3.0,
+          "tfidf": 0.6804
+        },
+        {
+          "feature_name": "abstract__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.6521
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.4597
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.4564
+        },
+        {
+          "feature_name": "abstract__image recognition",
+          "section": "intro",
+          "term": "image recognition",
+          "frequency": 1.0,
+          "tfidf": 0.3691
+        },
+        {
+          "feature_name": "abstract__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.3691
+        },
+        {
+          "feature_name": "introduction__neural network models",
+          "section": "intro",
+          "term": "neural network models",
+          "frequency": 1.0,
+          "tfidf": 0.3284
+        },
+        {
+          "feature_name": "abstract__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.3067
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3008
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.2644
+        },
+        {
+          "feature_name": "introduction__speech recognition",
+          "section": "intro",
+          "term": "speech recognition",
+          "frequency": 1.0,
+          "tfidf": 0.2397
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.7176
+        },
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 3.0,
+          "tfidf": 0.6123
+        },
+        {
+          "feature_name": "methods__autoencoder",
+          "section": "method",
+          "term": "autoencoder",
+          "frequency": 1.0,
+          "tfidf": 0.2522
+        },
+        {
+          "feature_name": "methods__recurrent neural networks",
+          "section": "method",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2158
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__deep reinforcement learning",
+          "section": "experiment",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.7538
+        },
+        {
+          "feature_name": "experiments__reinforcement learning",
+          "section": "experiment",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.6571
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__sgd",
+          "section": "conclusion",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.4831
+        },
+        {
+          "feature_name": "conclusion__image recognition",
+          "section": "conclusion",
+          "term": "image recognition",
+          "frequency": 1.0,
+          "tfidf": 0.4831
+        },
+        {
+          "feature_name": "conclusion__gradient descent",
+          "section": "conclusion",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.4173
+        },
+        {
+          "feature_name": "conclusion__deep reinforcement learning",
+          "section": "conclusion",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4027
+        },
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.3242
+        },
+        {
+          "feature_name": "conclusion__reinforcement learning",
+          "section": "conclusion",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.303
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 5,
+      "token_count": 257,
+      "bow_hit_count": 37,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 10,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 8,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 5,
+          "section_prior": 0.4722,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 4,
+          "section_prior": 0.3813,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 4,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "image recognition",
+          "count": 1,
+          "section_prior": 0.4783,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 3.0,
+          "tfidf": 0.6804
+        },
+        {
+          "feature_name": "abstract__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.6521
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.4597
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.4564
+        },
+        {
+          "feature_name": "abstract__image recognition",
+          "section": "intro",
+          "term": "image recognition",
+          "frequency": 1.0,
+          "tfidf": 0.3691
+        },
+        {
+          "feature_name": "abstract__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.3691
+        },
+        {
+          "feature_name": "introduction__neural network models",
+          "section": "intro",
+          "term": "neural network models",
+          "frequency": 1.0,
+          "tfidf": 0.3284
+        },
+        {
+          "feature_name": "abstract__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.3067
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3008
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.2644
+        },
+        {
+          "feature_name": "introduction__speech recognition",
+          "section": "intro",
+          "term": "speech recognition",
+          "frequency": 1.0,
+          "tfidf": 0.2397
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 2,
+      "token_count": 160,
+      "bow_hit_count": 16,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep learning",
+          "count": 5,
+          "section_prior": 0.1475,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 4,
+          "section_prior": 0.1368,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 4,
+          "section_prior": 0.0467,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 3,
+          "section_prior": 0.1528,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 15,
+      "token_count": 1163,
+      "bow_hit_count": 57,
+      "top_bow_terms": [
+        {
+          "canonical_term": "gradient descent",
+          "count": 26,
+          "section_prior": 0.268,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 16,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 5,
+          "section_prior": 0.082,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 3,
+          "section_prior": 0.3,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "neural network model",
+          "count": 2,
+          "section_prior": 0.3182,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.7176
+        },
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 3.0,
+          "tfidf": 0.6123
+        },
+        {
+          "feature_name": "methods__autoencoder",
+          "section": "method",
+          "term": "autoencoder",
+          "frequency": 1.0,
+          "tfidf": 0.2522
+        },
+        {
+          "feature_name": "methods__recurrent neural networks",
+          "section": "method",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2158
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 19,
+      "token_count": 1443,
+      "bow_hit_count": 32,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 12,
+          "section_prior": 0.4672,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 10,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 3,
+          "section_prior": 0.1389,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__deep reinforcement learning",
+          "section": "experiment",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.7538
+        },
+        {
+          "feature_name": "experiments__reinforcement learning",
+          "section": "experiment",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.6571
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 1,
+      "token_count": 84,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 2,
+          "section_prior": 0.1616,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 2,
+          "section_prior": 0.0576,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 1,
+          "section_prior": 0.2131,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 1,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 1,
+          "section_prior": 0.0722,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "image recognition",
+          "count": 1,
+          "section_prior": 0.1304,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__sgd",
+          "section": "conclusion",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.4831
+        },
+        {
+          "feature_name": "conclusion__image recognition",
+          "section": "conclusion",
+          "term": "image recognition",
+          "frequency": 1.0,
+          "tfidf": 0.4831
+        },
+        {
+          "feature_name": "conclusion__gradient descent",
+          "section": "conclusion",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.4173
+        },
+        {
+          "feature_name": "conclusion__deep reinforcement learning",
+          "section": "conclusion",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4027
+        },
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.3242
+        },
+        {
+          "feature_name": "conclusion__reinforcement learning",
+          "section": "conclusion",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.303
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "each layer in the neural network prong alternatively we can use standard first order gradient descent without preconditioning but change the parameterization of our model to give gradients that are more like the whitened natural gradients of these methods for example raiko et al propose to transform the outputs of each neuron to have zero output and zero slope on average they show that this transformation approximately diagonalizes the fisher information matrix thereby whitening the gradient and that this leads",
+        "context_window": {
+          "previous": "to improve the conditioning of the cost gradient for general neural network architectures one approach is to explicitly left multiply the cost gradient with an approximate inverse of the fisher information matrix thereby obtaining an approximately whitened natural gradient such an approximate inverse can for example be obtained by using a kronecker factored approximation to the fisher matrix and inverting it kfac by using an approximate cholesky factorization of the inverse fisher matrix fang or by whitening the input of",
+          "current": "each layer in the neural network prong alternatively we can use standard first order gradient descent without preconditioning but change the parameterization of our model to give gradients that are more like the whitened natural gradients of these methods for example raiko et al propose to transform the outputs of each neuron to have zero output and zero slope on average they show that this transformation approximately diagonalizes the fisher information matrix thereby whitening the gradient and that this leads",
+          "next": "to improved optimization performance another approach in this direction is batch normalization a method where the output of each neuron before application of the nonlinearity is normalized by the mean and standard deviation of the outputs calculated over the examples in the minibatch this reduces covariate shift of the neuron outputs and the authors suggest it also brings the fisher matrix closer to the identity matrix following this second approach to approximate natural gradient optimization we propose a simple but"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7019,
+        "downstream_relevance_score": 0.8155,
+        "components": {
+          "bio_boundary_score": 0.6058,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4417,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural network",
+        "match_quality": 0.78,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 52,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4417,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6058",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.8155"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "deep learning",
+        "canonical": "deep learning",
+        "normalized": "deep learning",
+        "tokens": [
+          "deep",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep learning",
+          "deep-learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "to exhibit pathological curvature and first-order gradient descent will have trouble making progress the amount of curvature and thus the success of our optimization is not invariant to reparameterization there may be multiple equivalent ways of parameterizing the same model some of which are much easier to optimize than others finding good ways of parameterizing neural networks is thus an important problem in deep learning while the architectures of neural networks differ widely across applications they are typically mostly composed",
+        "context_window": {
+          "previous": "recent successes in deep learning have shown that neural networks trained by first-order gradient based optimization are capable of achieving amazing results in diverse domains like computer vision speech recognition and language modelling however it is also well known that the practical success of first-order gradient based optimization is highly dependent on the curvature of the objective that is optimized if the condition number of the hessian matrix of the objective at the optimum is low the problem is said",
+          "current": "to exhibit pathological curvature and first-order gradient descent will have trouble making progress the amount of curvature and thus the success of our optimization is not invariant to reparameterization there may be multiple equivalent ways of parameterizing the same model some of which are much easier to optimize than others finding good ways of parameterizing neural networks is thus an important problem in deep learning while the architectures of neural networks differ widely across applications they are typically mostly composed",
+          "next": "of conceptually simple computational building blocks sometimes called neurons each such neuron computes a weighted sum over its inputs and adds a bias term followed by the application of an elementwise nonlinear transformation improving the general optimizability of deep networks is a challenging task but since many neural architectures share these basic building blocks improving these building blocks improves the performance of a very wide range of model architectures and could thus be very useful several authors have recently developed"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9072
+      },
+      "evidence": {
+        "score": 0.2958,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6479,
+        "downstream_relevance_score": 0.702,
+        "components": {
+          "bio_boundary_score": 0.8389,
+          "sentence_evidence_score": 0.2958,
+          "sentence_role_score": 0.9072,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5,
+          "document_tfidf_score": 0.9026,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "deep learning",
+        "display_term": "deep learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Deep_learning",
+        "wikidata_id": "Q197536",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 25,
+        "total_frequency": 49,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 3.0,
+        "tfidf": 0.6804,
+        "normalized_frequency": 0.75,
+        "normalized_tfidf": 0.9026
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deep",
+          "learning"
+        ],
+        "normalization": "deep learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5,
+        "canonicalization": {
+          "observed": "deep learning",
+          "canonical": "deep learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8389",
+        "structure model assigned role 'problem' with score 0.9072",
+        "section BoW matched canonical term 'deep learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__deep learning' with tf-idf 0.6804",
+        "downstream relevance score is 0.702"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "stochastic gradient descent",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 15,
+        "sentence": "experimentally in section 5 instead of working with g directly we may also use an exponential parameterization for the scale i e g e s where s is a log-scale parameter to learn by stochastic gradient descent parameterizing the g parameter in the log-scale is more intuitive and more easily allows g to span a wide range of different magnitudes empirically however we did not find this to be an advantage in our experiments the eventual test-set performance was not",
+        "context_window": {
+          "previous": "step of stochastic gradient descent this is fundamentally different from our approach we propose to explicitly reparameterize the model and to perform stochastic gradient descent in the new parameters v g directly doing so improves the conditioning of the gradient and leads to improved convergence of the optimization procedure by decoupling the norm of the weight vector g from the direction of the weight vector v v we speed up convergence of our stochastic gradient descent optimization as we show",
+          "current": "experimentally in section 5 instead of working with g directly we may also use an exponential parameterization for the scale i e g e s where s is a log-scale parameter to learn by stochastic gradient descent parameterizing the g parameter in the log-scale is more intuitive and more easily allows g to span a wide range of different magnitudes empirically however we did not find this to be an advantage in our experiments the eventual test-set performance was not",
+          "next": "significantly better or worse than the results with directly learning g in its original parameterization and optimization was slightly slower gradients training a neural network in the new parameterization is done using standard stochastic gradient descent here we differentiate through to obtain the gradient of a loss function l with respect to the new parameters v g doing so gives g l w l v v v l g v w l - g g l v 2 v where"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7102,
+        "downstream_relevance_score": 0.6862,
+        "components": {
+          "bio_boundary_score": 0.9906,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3094,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "stochastic gradient descent",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "sgd",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 23,
+        "total_frequency": 42,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "normalization": "stochastic gradient descent",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.3094,
+        "canonicalization": {
+          "observed": "stochastic gradient descent",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9906",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'other'",
+        "downstream relevance score is 0.6862"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "deep reinforcement learning",
+        "canonical": "deep reinforcement learning",
+        "normalized": "deep reinforcement learning",
+        "tokens": [
+          "deep",
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "models such as lstms and to noise-sensitive applications such as deep reinforcement learning or generative models for which batch normalization is less well suited although our method is much simpler it still provides much of the speed-up of full batch normalization in addition the computational overhead of our method is lower permitting more optimization steps to be taken in the same amount of time we demonstrate the usefulness of our method on applications in supervised image recognition generative modelling and",
+        "context_window": {
+          "previous": "we present weight normalization a reparameterization of the weight vectors in a neural network that decouples the length of those weight vectors from their direction by reparameterizing the weights in this way we improve the conditioning of the optimization problem and we speed up convergence of stochastic gradient descent our reparameterization is inspired by batch normalization but does not introduce any dependencies between the examples in a minibatch this means that our method can also be applied successfully to recurrent",
+          "current": "models such as lstms and to noise-sensitive applications such as deep reinforcement learning or generative models for which batch normalization is less well suited although our method is much simpler it still provides much of the speed-up of full batch normalization in addition the computational overhead of our method is lower permitting more optimization steps to be taken in the same amount of time we demonstrate the usefulness of our method on applications in supervised image recognition generative modelling and",
+          "next": "deep reinforcement learning body"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9072
+      },
+      "evidence": {
+        "score": 0.2959,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5806,
+        "downstream_relevance_score": 0.6738,
+        "components": {
+          "bio_boundary_score": 0.6089,
+          "sentence_evidence_score": 0.2959,
+          "sentence_role_score": 0.9072,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.4722,
+          "document_tfidf_score": 0.865,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep reinforcement learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "deep reinforcement learning",
+        "display_term": "deep reinforcement learning",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Deep_reinforcement_learning",
+        "wikidata_id": "Q65079156",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 9,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__deep reinforcement learning",
+        "section": "intro",
+        "term": "deep reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.6521,
+        "normalized_frequency": 0.5,
+        "normalized_tfidf": 0.865
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deep",
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "deep reinforcement learning",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4722,
+        "canonicalization": {
+          "observed": "deep reinforcement learning",
+          "canonical": "deep reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6089",
+        "structure model assigned role 'problem' with score 0.9072",
+        "section BoW matched canonical term 'deep reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'background'",
+        "document-term matrix links the phrase to feature 'abstract__deep reinforcement learning' with tf-idf 0.6521",
+        "downstream relevance score is 0.6738"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "standard deviation",
+        "canonical": "standard deviation",
+        "normalized": "standard deviation",
+        "tokens": [
+          "standard",
+          "deviation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 28,
+        "sentence": "network this makes the optimization robust against parameter initializations for which these scales vary across layers since weight normalization lacks this property we find it is important to properly initialize our parameters we propose to sample the elements of v from a simple distribution with a fixed scale which is in our experiments a normal distribution with mean zero and standard deviation 0 05 before starting training we then initialize the b and g parameters to fix the minibatch statistics",
+        "context_window": {
+          "previous": "we still find that our weight normalization method provides much of the speed-up of full batch normalization in addition its deterministic nature and independence on the minibatch input also means that our method can be applied more easily to models like rnns and lstms as well as noise-sensitive applications like reinforcement learning data-dependent initialization of parameters besides a reparameterization effect batch normalization also has the benefit of fixing the scale of the features generated by each layer of the neural",
+          "current": "network this makes the optimization robust against parameter initializations for which these scales vary across layers since weight normalization lacks this property we find it is important to properly initialize our parameters we propose to sample the elements of v from a simple distribution with a fixed scale which is in our experiments a normal distribution with mean zero and standard deviation 0 05 before starting training we then initialize the b and g parameters to fix the minibatch statistics",
+          "next": "of all pre-activations in our network just like in batch normalization but only for a single minibatch of data and only during initialization this can be done efficiently by performing an initial feedforward pass through our network for a single minibatch of data x using the following computation at each neuron t v x v and y t - t t where t and t are the mean and standard deviation of the pre-activation t over the examples in the"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.693,
+        "downstream_relevance_score": 0.5549,
+        "components": {
+          "bio_boundary_score": 0.6138,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "standard",
+          "deviation"
+        ],
+        "normalization": "standard deviation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "standard deviation",
+          "canonical": "standard deviation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6138",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5549"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "normal distribution",
+        "canonical": "normal distribution",
+        "normalized": "normal distribution",
+        "tokens": [
+          "normal",
+          "distribution"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 28,
+        "sentence": "network this makes the optimization robust against parameter initializations for which these scales vary across layers since weight normalization lacks this property we find it is important to properly initialize our parameters we propose to sample the elements of v from a simple distribution with a fixed scale which is in our experiments a normal distribution with mean zero and standard deviation 0 05 before starting training we then initialize the b and g parameters to fix the minibatch statistics",
+        "context_window": {
+          "previous": "we still find that our weight normalization method provides much of the speed-up of full batch normalization in addition its deterministic nature and independence on the minibatch input also means that our method can be applied more easily to models like rnns and lstms as well as noise-sensitive applications like reinforcement learning data-dependent initialization of parameters besides a reparameterization effect batch normalization also has the benefit of fixing the scale of the features generated by each layer of the neural",
+          "current": "network this makes the optimization robust against parameter initializations for which these scales vary across layers since weight normalization lacks this property we find it is important to properly initialize our parameters we propose to sample the elements of v from a simple distribution with a fixed scale which is in our experiments a normal distribution with mean zero and standard deviation 0 05 before starting training we then initialize the b and g parameters to fix the minibatch statistics",
+          "next": "of all pre-activations in our network just like in batch normalization but only for a single minibatch of data and only during initialization this can be done efficiently by performing an initial feedforward pass through our network for a single minibatch of data x using the following computation at each neuron t v x v and y t - t t where t and t are the mean and standard deviation of the pre-activation t over the examples in the"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6858,
+        "downstream_relevance_score": 0.5512,
+        "components": {
+          "bio_boundary_score": 0.5892,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "normal",
+          "distribution"
+        ],
+        "normalization": "normal distribution",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "normal distribution",
+          "canonical": "normal distribution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5892",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5512"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "batch normalization",
+        "canonical": "batch normalization",
+        "normalized": "batch normalization",
+        "tokens": [
+          "batch",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 10,
+        "sentence": "general called weight normalization for improving the optimizability of the weights of neural network models the method is inspired by batch normalization but it is a deterministic method that does not share batch normalization s property of adding noise to the gradients in addition the overhead imposed by our method is lower no additional memory is required and the additional computation is negligible the method show encouraging results on a wide range of deep learning applications weight normalization we consider",
+        "context_window": {
+          "previous": "to improved optimization performance another approach in this direction is batch normalization a method where the output of each neuron before application of the nonlinearity is normalized by the mean and standard deviation of the outputs calculated over the examples in the minibatch this reduces covariate shift of the neuron outputs and the authors suggest it also brings the fisher matrix closer to the identity matrix following this second approach to approximate natural gradient optimization we propose a simple but",
+          "current": "general called weight normalization for improving the optimizability of the weights of neural network models the method is inspired by batch normalization but it is a deterministic method that does not share batch normalization s property of adding noise to the gradients in addition the overhead imposed by our method is lower no additional memory is required and the additional computation is negligible the method show encouraging results on a wide range of deep learning applications weight normalization we consider",
+          "next": "standard artificial neural networks where the computation of each neuron consists in taking a weighted sum of input features followed by an elementwise nonlinearity y w x b where w is a k-dimensional weight vector b is a scalar bias term x is a k-dimensional vector of input features denotes an elementwise nonlinearity such as the rectifier max 0 and y denotes the scalar output of the neuron after associating a loss function to one or more neuron outputs such"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7398,
+        "downstream_relevance_score": 0.5193,
+        "components": {
+          "bio_boundary_score": 0.9634,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "normalization"
+        ],
+        "normalization": "batch normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch normalization",
+          "canonical": "batch normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9634",
+        "structure model assigned role 'core_method' with score 0.82",
+        "downstream relevance score is 0.5193"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "weight normalization",
+        "canonical": "weight normalization",
+        "normalized": "weight normalization",
+        "tokens": [
+          "weight",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 10,
+        "sentence": "general called weight normalization for improving the optimizability of the weights of neural network models the method is inspired by batch normalization but it is a deterministic method that does not share batch normalization s property of adding noise to the gradients in addition the overhead imposed by our method is lower no additional memory is required and the additional computation is negligible the method show encouraging results on a wide range of deep learning applications weight normalization we consider",
+        "context_window": {
+          "previous": "to improved optimization performance another approach in this direction is batch normalization a method where the output of each neuron before application of the nonlinearity is normalized by the mean and standard deviation of the outputs calculated over the examples in the minibatch this reduces covariate shift of the neuron outputs and the authors suggest it also brings the fisher matrix closer to the identity matrix following this second approach to approximate natural gradient optimization we propose a simple but",
+          "current": "general called weight normalization for improving the optimizability of the weights of neural network models the method is inspired by batch normalization but it is a deterministic method that does not share batch normalization s property of adding noise to the gradients in addition the overhead imposed by our method is lower no additional memory is required and the additional computation is negligible the method show encouraging results on a wide range of deep learning applications weight normalization we consider",
+          "next": "standard artificial neural networks where the computation of each neuron consists in taking a weighted sum of input features followed by an elementwise nonlinearity y w x b where w is a k-dimensional weight vector b is a scalar bias term x is a k-dimensional vector of input features denotes an elementwise nonlinearity such as the rectifier max 0 and y denotes the scalar output of the neuron after associating a loss function to one or more neuron outputs such"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7388,
+        "downstream_relevance_score": 0.5188,
+        "components": {
+          "bio_boundary_score": 0.9601,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "weight",
+          "normalization"
+        ],
+        "normalization": "weight normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "weight normalization",
+          "canonical": "weight normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9601",
+        "structure model assigned role 'core_method' with score 0.82",
+        "downstream relevance score is 0.5188"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "norm",
+        "canonical": "norm",
+        "normalized": "norm",
+        "tokens": [
+          "norm"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 21,
+        "sentence": "1 c 2 1 and the norm of v will stop increasing using this mechanism the scaled gradient self-stabilizes its norm this property does not strictly hold for optimizers that use separate learning rates for individual parameters like adam which we use in",
+        "context_window": {
+          "previous": "norm by the pythagorean theorem specifically if v v c the new weight vector will have norm v v 2 c 2 v 2 1 c 2 v v the rate of increase will depend on the the variance of the weight gradient if our gradients are noisy c will be high and the norm of v will quickly increase which in turn will decrease the scaling factor g v if the norm of the gradients is small we get",
+          "current": "1 c 2 1 and the norm of v will stop increasing using this mechanism the scaled gradient self-stabilizes its norm this property does not strictly hold for optimizers that use separate learning rates for individual parameters like adam which we use in",
+          "next": "or when using momentum however qualitatively we still find the same effect to hold empirically we find that the ability to grow the norm v makes optimization of neural networks with weight normalization very robust to the value of the learning rate if the learning rate is too large the norm of the unnormalized weights grows quickly until an appropriate effective learning rate is reached once the norm of the weights has grown large with respect to the norm of"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7264,
+        "downstream_relevance_score": 0.4727,
+        "components": {
+          "bio_boundary_score": 0.9178,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "norm"
+        ],
+        "normalization": "norm",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "norm",
+          "canonical": "norm",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9178",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4727"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "supervised classification",
+        "canonical": "supervised classification",
+        "normalized": "supervised classification",
+        "tokens": [
+          "supervised",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 36,
+        "sentence": "using four different models for varied applications in supervised image recognition generative modelling and deep reinforcement learning supervised classification cifar-10 to test our reparameterization method for the application of supervised classification we consider the cifar-10 data set of natural images the model we are using is based on the convpool-cnn-c architecture of with some small modifications we replace the first dropout layer by a layer that adds gaussian noise we expand the last hidden layer from 10 units to 192",
+        "context_window": {
+          "previous": "this method causes less noise during training and the noise that is caused is more gentle as the law of large numbers ensures that t and t are approximately normally distributed thus the added noise has much lighter tails than the highly kurtotic noise caused by the minibatch estimate of the variance used in full batch normalization as we show in section 5 1 this leads to improved accuracy at test time we experimentally validate the usefulness of our method",
+          "current": "using four different models for varied applications in supervised image recognition generative modelling and deep reinforcement learning supervised classification cifar-10 to test our reparameterization method for the application of supervised classification we consider the cifar-10 data set of natural images the model we are using is based on the convpool-cnn-c architecture of with some small modifications we replace the first dropout layer by a layer that adds gaussian noise we expand the last hidden layer from 10 units to 192",
+          "next": "units and we use 2 2 max-pooling rather than 3 3 the only hyperparameter that we actively optimized the standard deviation of the gaussian noise was chosen to maximize the performance of the network on a holdout set of 10000 examples using the standard parameterization no weight normalization or batch normalization a full description of the resulting architecture is given in table a in the scores obtained by dqn with weight normalization for four games on average weight normalization improves"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5142,
+        "downstream_relevance_score": 0.388,
+        "components": {
+          "bio_boundary_score": 0.676,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "supervised",
+          "classification"
+        ],
+        "normalization": "supervised classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "supervised classification",
+          "canonical": "supervised classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.676",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.388"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "stochastic",
+        "canonical": "stochastic",
+        "normalized": "stochastic",
+        "tokens": [
+          "stochastic"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 31,
+        "sentence": "method can also be applied to networks without weight normalization simply by doing stochastic gradient optimization on the parameters w directly after initialization in terms of v and g this is what we compare to in section 5 independently from our work this type of initialization was recently proposed by different authors who found such data-based initialization to work well for use with the standard parameterization in terms of w the downside of this initialization method is that it can",
+        "context_window": {
+          "previous": "minibatch we can then initialize the neuron s biase b and scale g as g 1 t b - t t so that y w x b like batch normalization this method ensures that all features initially have zero mean and unit variance before application of the nonlinearity with our method this only holds for the minibatch we use for initialization and subsequent minibatches may have slightly different statistics but experimentally we find this initialization method to work well the",
+          "current": "method can also be applied to networks without weight normalization simply by doing stochastic gradient optimization on the parameters w directly after initialization in terms of v and g this is what we compare to in section 5 independently from our work this type of initialization was recently proposed by different authors who found such data-based initialization to work well for use with the standard parameterization in terms of w the downside of this initialization method is that it can",
+          "next": "only be applied in similar cases as where batch normalization is applicable for models with recursion such as rnns and lstms we will have to resort to standard initialization methods mean-only batch normalization weight normalization as introduced in section 2 makes the scale of neuron activations approximately independent of the parameters v unlike with batch normalization however the means of the neuron activations still depend on v we therefore also explore the idea of combining weight normalization with a special"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "ablation_evidence",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4192,
+        "downstream_relevance_score": 0.2936,
+        "components": {
+          "bio_boundary_score": 0.5049,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic"
+        ],
+        "normalization": "stochastic",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic",
+          "canonical": "stochastic",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5049",
+        "structure model assigned role 'ablation' with score 0.82",
+        "downstream relevance score is 0.2936"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 9,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Next, we test the effect of weight normalization applied to deep convolutional variational autoencoders (CVAEs) , trained on the MNIST data set of images of handwritten digits and the CIFAR-10 data set of small natural images.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "For CIFAR-10, we used a neural architecture with ResNet units and multiple intermediate stochastic layers 1 .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The decoder has a similar architecture, but with reversed direction.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We present weight normalization: a reparameterization of the weight vectors in a neural network that decouples the length of those weight vectors from their direction.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our reparameterization is inspired by batch normalization but does not introduce any dependencies between the examples in a minibatch.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "For example, Raiko et al. propose to transform the outputs of each neuron to have zero output and zero slope on average.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Following this second approach to approximate natural gradient optimization, we propose a simple but general method, called weight normalization, for improving the optimizability of the weights of neural network models.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "As far as we are aware, the result with mean-only batch normalization combined with weight normalization represents the state-of-the-art for CIFAR-10 among methods that do not use data augmentation.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "The reparameterization method is easy to apply, has low computational overhead, and does not introduce dependencies between the examples in a minibatch, making it our default choice in the development of new deep learning architectures.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Recurrent neural network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.8155
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "deep learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.702
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "stochastic gradient descent",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.6862
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "deep reinforcement learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6738
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "standard deviation",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.5549
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "normal distribution",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.5512
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "batch normalization",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5193
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "weight normalization",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5188
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "norm",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4727
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "supervised classification",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.388
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "stochastic",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.2936
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

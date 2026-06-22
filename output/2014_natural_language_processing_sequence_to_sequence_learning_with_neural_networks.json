@@ -1,0 +1,3341 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2014_natural_language_processing_sequence_to_sequence_learning_with_neural_networks",
+    "title": "2014_natural_language_processing_sequence_to_sequence_learning_with_neural_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2014_natural_language_processing_sequence_to_sequence_learning_with_neural_networks.txt",
+    "sentence_count": 61,
+    "section_counts": {
+      "intro": 9,
+      "related_work": 1,
+      "method": 15,
+      "experiment": 32,
+      "conclusion": 4
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4591,
+    "type_count": 1029,
+    "type_token_ratio": 0.2241,
+    "section_token_counts": {
+      "intro": 591,
+      "related_work": 80,
+      "method": 1144,
+      "experiment": 2514,
+      "conclusion": 262
+    },
+    "top_unigrams": [
+      {
+        "term": "lstm",
+        "count": 59
+      },
+      {
+        "term": "sentences",
+        "count": 45
+      },
+      {
+        "term": "sentence",
+        "count": 35
+      },
+      {
+        "term": "sequence",
+        "count": 31
+      },
+      {
+        "term": "words",
+        "count": 28
+      },
+      {
+        "term": "long",
+        "count": 22
+      },
+      {
+        "term": "input",
+        "count": 22
+      },
+      {
+        "term": "source",
+        "count": 22
+      },
+      {
+        "term": "lstms",
+        "count": 21
+      },
+      {
+        "term": "neural",
+        "count": 20
+      },
+      {
+        "term": "used",
+        "count": 20
+      },
+      {
+        "term": "translation",
+        "count": 20
+      },
+      {
+        "term": "which",
+        "count": 20
+      },
+      {
+        "term": "so",
+        "count": 20
+      },
+      {
+        "term": "model",
+        "count": 20
+      },
+      {
+        "term": "system",
+        "count": 19
+      },
+      {
+        "term": "training",
+        "count": 17
+      },
+      {
+        "term": "score",
+        "count": 16
+      },
+      {
+        "term": "baseline",
+        "count": 16
+      },
+      {
+        "term": "bleu",
+        "count": 15
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "long sentences",
+        "count": 14
+      },
+      {
+        "term": "et al",
+        "count": 13
+      },
+      {
+        "term": "neural networks",
+        "count": 12
+      },
+      {
+        "term": "bleu score",
+        "count": 11
+      },
+      {
+        "term": "wmt 14",
+        "count": 10
+      },
+      {
+        "term": "beam size",
+        "count": 10
+      },
+      {
+        "term": "source sentences",
+        "count": 9
+      },
+      {
+        "term": "input sentence",
+        "count": 9
+      },
+      {
+        "term": "source sentence",
+        "count": 8
+      },
+      {
+        "term": "input sequence",
+        "count": 7
+      },
+      {
+        "term": "english french",
+        "count": 7
+      },
+      {
+        "term": "smt system",
+        "count": 7
+      },
+      {
+        "term": "term dependencies",
+        "count": 7
+      },
+      {
+        "term": "words source",
+        "count": 7
+      },
+      {
+        "term": "doing so",
+        "count": 6
+      },
+      {
+        "term": "neural network",
+        "count": 6
+      },
+      {
+        "term": "cho et",
+        "count": 6
+      },
+      {
+        "term": "qu ils",
+        "count": 6
+      },
+      {
+        "term": "sequence learning",
+        "count": 5
+      },
+      {
+        "term": "deep lstm",
+        "count": 5
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "cho et al",
+        "count": 6
+      },
+      {
+        "term": "short term dependencies",
+        "count": 5
+      },
+      {
+        "term": "wmt 14 english",
+        "count": 5
+      },
+      {
+        "term": "14 english french",
+        "count": 5
+      },
+      {
+        "term": "beam size 12",
+        "count": 5
+      },
+      {
+        "term": "ensemble reversed lstms",
+        "count": 5
+      },
+      {
+        "term": "lstms beam size",
+        "count": 5
+      },
+      {
+        "term": "many short term",
+        "count": 4
+      },
+      {
+        "term": "best wmt 14",
+        "count": 4
+      },
+      {
+        "term": "reversed lstms beam",
+        "count": 4
+      },
+      {
+        "term": "rescoring baseline 1000-best",
+        "count": 4
+      },
+      {
+        "term": "qu ils pourraient",
+        "count": 4
+      },
+      {
+        "term": "map sequences sequences",
+        "count": 3
+      },
+      {
+        "term": "long short-term memory",
+        "count": 3
+      },
+      {
+        "term": "short-term memory lstm",
+        "count": 3
+      },
+      {
+        "term": "because doing so",
+        "count": 3
+      },
+      {
+        "term": "bahdanau et al",
+        "count": 3
+      },
+      {
+        "term": "words source sentence",
+        "count": 3
+      },
+      {
+        "term": "reversing words source",
+        "count": 3
+      },
+      {
+        "term": "lstm beam size",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 31,
+    "nonzero_tfidf_features": 31,
+    "top_tfidf_features": [
+      {
+        "feature_name": "methods__recurrent neural networks",
+        "section": "method",
+        "term": "recurrent neural networks",
+        "frequency": 8.0,
+        "tfidf": 1.104
+      },
+      {
+        "feature_name": "abstract__bleu",
+        "section": "intro",
+        "term": "bleu",
+        "frequency": 4.0,
+        "tfidf": 0.9582
+      },
+      {
+        "feature_name": "conclusion__recurrent neural networks",
+        "section": "conclusion",
+        "term": "recurrent neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.949
+      },
+      {
+        "feature_name": "experiments__smt",
+        "section": "experiment",
+        "term": "smt",
+        "frequency": 4.0,
+        "tfidf": 0.8389
+      },
+      {
+        "feature_name": "introduction__bleu",
+        "section": "intro",
+        "term": "bleu",
+        "frequency": 5.0,
+        "tfidf": 0.8025
+      },
+      {
+        "feature_name": "related_work__attention",
+        "section": "related_work",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.631
+      },
+      {
+        "feature_name": "experiments__bleu",
+        "section": "experiment",
+        "term": "bleu",
+        "frequency": 3.0,
+        "tfidf": 0.4933
+      },
+      {
+        "feature_name": "related_work__feed-forward neural network",
+        "section": "related_work",
+        "term": "feed-forward neural network",
+        "frequency": 1.0,
+        "tfidf": 0.4144
+      },
+      {
+        "feature_name": "related_work__smt",
+        "section": "related_work",
+        "term": "smt",
+        "frequency": 1.0,
+        "tfidf": 0.4144
+      },
+      {
+        "feature_name": "related_work__recurrent neural networks",
+        "section": "related_work",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3909
+      },
+      {
+        "feature_name": "related_work__convolutional neural networks",
+        "section": "related_work",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3454
+      },
+      {
+        "feature_name": "conclusion__training data",
+        "section": "conclusion",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 0.3154
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.3146
+      },
+      {
+        "feature_name": "related_work__machine translation",
+        "section": "related_work",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.3015
+      },
+      {
+        "feature_name": "related_work__end-to-end",
+        "section": "related_work",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.3015
+      },
+      {
+        "feature_name": "introduction__backpropagation",
+        "section": "intro",
+        "term": "backpropagation",
+        "frequency": 2.0,
+        "tfidf": 0.2657
+      },
+      {
+        "feature_name": "introduction__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.2528
+      },
+      {
+        "feature_name": "abstract__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.2174
+      },
+      {
+        "feature_name": "introduction__speech recognition",
+        "section": "intro",
+        "term": "speech recognition",
+        "frequency": 2.0,
+        "tfidf": 0.2171
+      },
+      {
+        "feature_name": "introduction__machine translation",
+        "section": "intro",
+        "term": "machine translation",
+        "frequency": 2.0,
+        "tfidf": 0.2171
+      },
+      {
+        "feature_name": "experiments__sentence embeddings",
+        "section": "experiment",
+        "term": "sentence embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.2097
+      },
+      {
+        "feature_name": "abstract__end-to-end",
+        "section": "intro",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.1861
+      },
+      {
+        "feature_name": "methods__ffn",
+        "section": "method",
+        "term": "ffn",
+        "frequency": 1.0,
+        "tfidf": 0.1846
+      },
+      {
+        "feature_name": "introduction__machine learning models",
+        "section": "intro",
+        "term": "machine learning models",
+        "frequency": 1.0,
+        "tfidf": 0.1683
+      },
+      {
+        "feature_name": "introduction__recurrent neural networks",
+        "section": "intro",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1605
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__bleu",
+          "section": "intro",
+          "term": "bleu",
+          "frequency": 4.0,
+          "tfidf": 0.9582
+        },
+        {
+          "feature_name": "introduction__bleu",
+          "section": "intro",
+          "term": "bleu",
+          "frequency": 5.0,
+          "tfidf": 0.8025
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.3146
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 2.0,
+          "tfidf": 0.2657
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.2528
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2174
+        },
+        {
+          "feature_name": "introduction__speech recognition",
+          "section": "intro",
+          "term": "speech recognition",
+          "frequency": 2.0,
+          "tfidf": 0.2171
+        },
+        {
+          "feature_name": "introduction__machine translation",
+          "section": "intro",
+          "term": "machine translation",
+          "frequency": 2.0,
+          "tfidf": 0.2171
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.1861
+        },
+        {
+          "feature_name": "introduction__machine learning models",
+          "section": "intro",
+          "term": "machine learning models",
+          "frequency": 1.0,
+          "tfidf": 0.1683
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1605
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1329
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.631
+        },
+        {
+          "feature_name": "related_work__feed-forward neural network",
+          "section": "related_work",
+          "term": "feed-forward neural network",
+          "frequency": 1.0,
+          "tfidf": 0.4144
+        },
+        {
+          "feature_name": "related_work__smt",
+          "section": "related_work",
+          "term": "smt",
+          "frequency": 1.0,
+          "tfidf": 0.4144
+        },
+        {
+          "feature_name": "related_work__recurrent neural networks",
+          "section": "related_work",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3909
+        },
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3454
+        },
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.3015
+        },
+        {
+          "feature_name": "related_work__end-to-end",
+          "section": "related_work",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3015
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__recurrent neural networks",
+          "section": "method",
+          "term": "recurrent neural networks",
+          "frequency": 8.0,
+          "tfidf": 1.104
+        },
+        {
+          "feature_name": "methods__ffn",
+          "section": "method",
+          "term": "ffn",
+          "frequency": 1.0,
+          "tfidf": 0.1846
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.1169
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__smt",
+          "section": "experiment",
+          "term": "smt",
+          "frequency": 4.0,
+          "tfidf": 0.8389
+        },
+        {
+          "feature_name": "experiments__bleu",
+          "section": "experiment",
+          "term": "bleu",
+          "frequency": 3.0,
+          "tfidf": 0.4933
+        },
+        {
+          "feature_name": "experiments__sentence embeddings",
+          "section": "experiment",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2097
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.0946
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__recurrent neural networks",
+          "section": "conclusion",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.949
+        },
+        {
+          "feature_name": "conclusion__training data",
+          "section": "conclusion",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.3154
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 9,
+      "token_count": 591,
+      "bow_hit_count": 41,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 8,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "BLEU",
+          "count": 8,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.2786,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 5,
+          "section_prior": 0.2917,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 4,
+          "section_prior": 0.5238,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "statistical machine translation",
+          "count": 4,
+          "section_prior": 0.0667,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 3,
+          "section_prior": 0.4861,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 2,
+          "section_prior": 0.5424,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "machine learning model",
+          "count": 1,
+          "section_prior": 0.4,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 1,
+          "section_prior": 0.525,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__bleu",
+          "section": "intro",
+          "term": "bleu",
+          "frequency": 4.0,
+          "tfidf": 0.9582
+        },
+        {
+          "feature_name": "introduction__bleu",
+          "section": "intro",
+          "term": "bleu",
+          "frequency": 5.0,
+          "tfidf": 0.8025
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.3146
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 2.0,
+          "tfidf": 0.2657
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.2528
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2174
+        },
+        {
+          "feature_name": "introduction__speech recognition",
+          "section": "intro",
+          "term": "speech recognition",
+          "frequency": 2.0,
+          "tfidf": 0.2171
+        },
+        {
+          "feature_name": "introduction__machine translation",
+          "section": "intro",
+          "term": "machine translation",
+          "frequency": 2.0,
+          "tfidf": 0.2171
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.1861
+        },
+        {
+          "feature_name": "introduction__machine learning models",
+          "section": "intro",
+          "term": "machine learning models",
+          "frequency": 1.0,
+          "tfidf": 0.1683
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1605
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1329
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 80,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "question answering",
+          "count": 4,
+          "section_prior": 0.0932,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 3,
+          "section_prior": 0.1528,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 1,
+          "section_prior": 0.1485,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.631
+        },
+        {
+          "feature_name": "related_work__feed-forward neural network",
+          "section": "related_work",
+          "term": "feed-forward neural network",
+          "frequency": 1.0,
+          "tfidf": 0.4144
+        },
+        {
+          "feature_name": "related_work__smt",
+          "section": "related_work",
+          "term": "smt",
+          "frequency": 1.0,
+          "tfidf": 0.4144
+        },
+        {
+          "feature_name": "related_work__recurrent neural networks",
+          "section": "related_work",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3909
+        },
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3454
+        },
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.3015
+        },
+        {
+          "feature_name": "related_work__end-to-end",
+          "section": "related_work",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3015
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 15,
+      "token_count": 1144,
+      "bow_hit_count": 51,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 15,
+          "section_prior": 0.4417,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "BLEU",
+          "count": 12,
+          "section_prior": 0.087,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 10,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "statistical machine translation",
+          "count": 4,
+          "section_prior": 0.0667,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 3,
+          "section_prior": 0.0792,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "feedforward neural network",
+          "count": 2,
+          "section_prior": 0.5227,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__recurrent neural networks",
+          "section": "method",
+          "term": "recurrent neural networks",
+          "frequency": 8.0,
+          "tfidf": 1.104
+        },
+        {
+          "feature_name": "methods__ffn",
+          "section": "method",
+          "term": "ffn",
+          "frequency": 1.0,
+          "tfidf": 0.1846
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.1169
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 32,
+      "token_count": 2514,
+      "bow_hit_count": 90,
+      "top_bow_terms": [
+        {
+          "canonical_term": "BLEU",
+          "count": 20,
+          "section_prior": 0.5326,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 10,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "statistical machine translation",
+          "count": 9,
+          "section_prior": 0.4,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 5,
+          "section_prior": 0.0792,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Sentence Embedding",
+          "count": 4,
+          "section_prior": 0.3793,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Perplexity",
+          "count": 4,
+          "section_prior": 0.3226,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 3,
+          "section_prior": 0.025,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "word embedding",
+          "count": 3,
+          "section_prior": 0.1053,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 3,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 3,
+          "section_prior": 0.0928,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__smt",
+          "section": "experiment",
+          "term": "smt",
+          "frequency": 4.0,
+          "tfidf": 0.8389
+        },
+        {
+          "feature_name": "experiments__bleu",
+          "section": "experiment",
+          "term": "bleu",
+          "frequency": 3.0,
+          "tfidf": 0.4933
+        },
+        {
+          "feature_name": "experiments__sentence embeddings",
+          "section": "experiment",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2097
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.0946
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 4,
+      "token_count": 262,
+      "bow_hit_count": 12,
+      "top_bow_terms": [
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.097,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 5,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "statistical machine translation",
+          "count": 2,
+          "section_prior": 0.0667,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__recurrent neural networks",
+          "section": "conclusion",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.949
+        },
+        {
+          "feature_name": "conclusion__training data",
+          "section": "conclusion",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.3154
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 13,
+        "sentence": "30 the 34 81 bleu score was achieved by an lstm with a vocabulary of 80k words so the score was penalized whenever the reference translation contained a word not covered by these 80k this result shows that a relatively unoptimized small-vocabulary neural network architecture which has much room for improvement outperforms a phrase-based smt system finally we used the lstm to rescore the publicly available 1000-best lists of the smt baseline on the same task by doing so we",
+        "context_window": {
+          "previous": "main result of this work is the following on the wmt 14 english to french translation task we obtained a bleu score of 34 81 by directly extracting translations from an ensemble of 5 deep lstms with 384m parameters and 8 000 dimensional state each using a simple left-to-right beamsearch decoder this is by far the best result achieved by direct translation with large neural networks for comparison the bleu score of an smt baseline on this dataset is 33",
+          "current": "30 the 34 81 bleu score was achieved by an lstm with a vocabulary of 80k words so the score was penalized whenever the reference translation contained a word not covered by these 80k this result shows that a relatively unoptimized small-vocabulary neural network architecture which has much room for improvement outperforms a phrase-based smt system finally we used the lstm to rescore the publicly available 1000-best lists of the smt baseline on the same task by doing so we",
+          "next": "obtained a bleu score of 36 5 which improves the baseline by 3 2 bleu points and is close to the previous best published result on this task which is 37 0 surprisingly the lstm did not suffer on very long sentences despite the recent experience of other researchers with related architectures we were able to do well on long sentences because we reversed the order of words in the source sentence but not the target sentences in the training"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "BLEU",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7102,
+        "downstream_relevance_score": 0.8592,
+        "components": {
+          "bio_boundary_score": 0.666,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4417,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural network",
+        "match_quality": 0.78,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 52,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4417,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.666",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched architecture, outperforms, BLEU",
+        "downstream relevance score is 0.8592"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "machine translation",
+        "canonical": "machine translation",
+        "normalized": "machine translation",
+        "tokens": [
+          "machine",
+          "translation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "machine translation",
+          "machine-translation"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 7,
+        "sentence": "vectors of fixed dimensionality it is a significant limitation since many important problems are best expressed with sequences whose lengths are not known a-priori for example speech recognition and machine translation are sequential problems likewise question answering can also be seen as mapping a sequence of words representing the question to a sequence of words representing the answer it is therefore clear that a domain-independent method that learns to map sequences to sequences would be useful sequences pose a challenge",
+        "context_window": {
+          "previous": "computation furthermore large dnns can be trained with supervised backpropagation whenever the labeled training set has enough information to specify the network s parameters thus if there exists a parameter setting of a large dnn that achieves good results for example because humans can solve the task very rapidly supervised backpropagation will find these parameters and solve the problem despite their flexibility and power dnns can only be applied to problems whose inputs and targets can be sensibly encoded with",
+          "current": "vectors of fixed dimensionality it is a significant limitation since many important problems are best expressed with sequences whose lengths are not known a-priori for example speech recognition and machine translation are sequential problems likewise question answering can also be seen as mapping a sequence of words representing the question to a sequence of words representing the answer it is therefore clear that a domain-independent method that learns to map sequences to sequences would be useful sequences pose a challenge",
+          "next": "for dnns because they require that the dimensionality of the inputs and outputs is known and fixed in this paper we show that a straightforward application of the long short-term memory lstm architecture can solve general sequence to sequence problems the idea is to use one lstm to read the input sequence one timestep at a time to obtain large fixeddimensional vector representation and then to use another lstm to extract the output sequence from that vector fig the second"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "limitation",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "limitation cue"
+          },
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6753,
+        "downstream_relevance_score": 0.7432,
+        "components": {
+          "bio_boundary_score": 0.8168,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1485,
+          "document_tfidf_score": 0.2731,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "machine translation",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "machine translation",
+        "display_term": "machine translation",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Machine_translation",
+        "wikidata_id": "Q79798",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 12,
+        "total_frequency": 14,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "related_work__machine translation",
+        "section": "related_work",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.3015,
+        "normalized_frequency": 0.125,
+        "normalized_tfidf": 0.2731
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "machine",
+          "translation"
+        ],
+        "normalization": "machine translation",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.1485,
+        "canonicalization": {
+          "observed": "machine translation",
+          "canonical": "machine translation",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8168",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'machine translation' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "document-term matrix links the phrase to feature 'related_work__machine translation' with tf-idf 0.3015",
+        "evidence cue lexicon matched limitation, challenge",
+        "downstream relevance score is 0.7432"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "question answering",
+        "canonical": "question answering",
+        "normalized": "question answering",
+        "tokens": [
+          "question",
+          "answering"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "question answering",
+          "question-answering"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 7,
+        "sentence": "vectors of fixed dimensionality it is a significant limitation since many important problems are best expressed with sequences whose lengths are not known a-priori for example speech recognition and machine translation are sequential problems likewise question answering can also be seen as mapping a sequence of words representing the question to a sequence of words representing the answer it is therefore clear that a domain-independent method that learns to map sequences to sequences would be useful sequences pose a challenge",
+        "context_window": {
+          "previous": "computation furthermore large dnns can be trained with supervised backpropagation whenever the labeled training set has enough information to specify the network s parameters thus if there exists a parameter setting of a large dnn that achieves good results for example because humans can solve the task very rapidly supervised backpropagation will find these parameters and solve the problem despite their flexibility and power dnns can only be applied to problems whose inputs and targets can be sensibly encoded with",
+          "current": "vectors of fixed dimensionality it is a significant limitation since many important problems are best expressed with sequences whose lengths are not known a-priori for example speech recognition and machine translation are sequential problems likewise question answering can also be seen as mapping a sequence of words representing the question to a sequence of words representing the answer it is therefore clear that a domain-independent method that learns to map sequences to sequences would be useful sequences pose a challenge",
+          "next": "for dnns because they require that the dimensionality of the inputs and outputs is known and fixed in this paper we show that a straightforward application of the long short-term memory lstm architecture can solve general sequence to sequence problems the idea is to use one lstm to read the input sequence one timestep at a time to obtain large fixeddimensional vector representation and then to use another lstm to extract the output sequence from that vector fig the second"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "limitation",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "limitation cue"
+          },
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5988,
+        "downstream_relevance_score": 0.687,
+        "components": {
+          "bio_boundary_score": 0.5551,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0932,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "question answering",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "question answering",
+        "display_term": "question answering",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Question_answering",
+        "wikidata_id": "Q1074173",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 14,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "question",
+          "answering"
+        ],
+        "normalization": "question answering",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0932,
+        "canonicalization": {
+          "observed": "question answering",
+          "canonical": "question answering",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5551",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'question answering' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "evidence cue lexicon matched limitation, challenge",
+        "downstream relevance score is 0.687"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "rnn",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "rnn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 54,
+        "sentence": "although they map sentences to vectors using convolutional neural networks which lose the ordering of the words similarly to this work cho et al used an lstm-like rnn architecture to map sentences into vectors and back although their primary focus was on integrating their neural network into an smt system bahdanau et al also attempted direct translations with a neural network that used an attention mechanism to overcome the poor performance on long sentences experienced by cho et al and",
+        "context_window": {
+          "previous": "performance devlin et al followed a similar approach but they incorporated their nnlm into the decoder of an mt system and used the decoder s alignment information to provide the nnlm with the most useful words in the input sentence their approach was highly successful and it achieved large improvements over their baseline our work is closely related to kalchbrenner and blunsom who were the first to map the input sentence into a vector and then back to a sentence",
+          "current": "although they map sentences to vectors using convolutional neural networks which lose the ordering of the words similarly to this work cho et al used an lstm-like rnn architecture to map sentences into vectors and back although their primary focus was on integrating their neural network into an smt system bahdanau et al also attempted direct translations with a neural network that used an attention mechanism to overcome the poor performance on long sentences experienced by cho et al and",
+          "next": "achieved encouraging results likewise pouget-abadie et al attempted to address the memory problem of cho et al by translating pieces of the source sentence in way that produces smooth translations which is similar to a phrase-based approach we suspect that they could achieve similar improvements by simply training their networks on reversed source sentences end-to-end training is also the focus of hermann et al whose model represents the inputs and outputs by feedforward networks and map them to similar points"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6033,
+        "downstream_relevance_score": 0.6381,
+        "components": {
+          "bio_boundary_score": 0.5595,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.075,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "rnn",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 8,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "rnn"
+        ],
+        "normalization": "rnn",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.075,
+        "canonicalization": {
+          "observed": "rnn",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5595",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.6381"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "bleu score",
+        "canonical": "bleu score",
+        "normalized": "bleu score",
+        "tokens": [
+          "bleu",
+          "score"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "deep lstm to decode the target sequence from the vector our main result is that on an english to french translation task from the wmt 14 dataset the translations produced by the lstm achieve a bleu score of 34 8 on the entire test set where the lstm s bleu score was penalized on out-of-vocabulary words additionally the lstm did not have difficulty on long sentences for comparison a phrase-based smt system achieves a bleu score of 33 3 on",
+        "context_window": {
+          "previous": "deep neural networks dnns are powerful models that have achieved excellent performance on difficult learning tasks although dnns work well whenever large labeled training sets are available they cannot be used to map sequences to sequences in this paper we present a general end-to-end approach to sequence learning that makes minimal assumptions on the sequence structure our method uses a multilayered long short-term memory lstm to map the input sequence to a vector of a fixed dimensionality and then another",
+          "current": "deep lstm to decode the target sequence from the vector our main result is that on an english to french translation task from the wmt 14 dataset the translations produced by the lstm achieve a bleu score of 34 8 on the entire test set where the lstm s bleu score was penalized on out-of-vocabulary words additionally the lstm did not have difficulty on long sentences for comparison a phrase-based smt system achieves a bleu score of 33 3 on",
+          "next": "the same dataset when we used the lstm to rerank the 1000 hypotheses produced by the aforementioned smt system its bleu score increases to 36 5 which is close to the previous best result on this task the lstm also learned sensible phrase and sentence representations that are sensitive to word order and are relatively invariant to the active and the passive voice finally we found that reversing the order of the words in all source sentences but not target"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          },
+          {
+            "cue_phrase": "BLEU",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6992,
+        "downstream_relevance_score": 0.5992,
+        "components": {
+          "bio_boundary_score": 0.9769,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bleu",
+          "score"
+        ],
+        "normalization": "bleu score",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bleu score",
+          "canonical": "bleu score",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9769",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence cue lexicon matched achieves, dataset, BLEU",
+        "downstream relevance score is 0.5992"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "french test",
+        "canonical": "french test",
+        "normalized": "french test",
+        "tokens": [
+          "french",
+          "test"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 43,
+        "sentence": "to french test set ntst14 note that an ensemble of 5 lstms with a beam of size 2 is cheaper than of a single lstm with a beam of size 12 method test bleu score ntst14 baseline system 33 30 cho et al 34 54 best wmt 14 result 37 0 rescoring the baseline 1000-best with a single forward lstm 35 61 rescoring the baseline 1000-best with a single reversed lstm 35 85 rescoring the baseline 1000-best with an ensemble",
+        "context_window": {
+          "previous": "method test bleu score ntst14 bahdanau et al 28 45 baseline system 33 30 single forward lstm beam size 12 26 17 single reversed lstm beam size 12 30 59 ensemble of 5 reversed lstms beam size 1 33 00 ensemble of 2 reversed lstms beam size 12 33 27 ensemble of 5 reversed lstms beam size 2 34 50 ensemble of 5 reversed lstms beam size 12 34 81 table the performance of the lstm on wmt 14 english",
+          "current": "to french test set ntst14 note that an ensemble of 5 lstms with a beam of size 2 is cheaper than of a single lstm with a beam of size 12 method test bleu score ntst14 baseline system 33 30 cho et al 34 54 best wmt 14 result 37 0 rescoring the baseline 1000-best with a single forward lstm 35 61 rescoring the baseline 1000-best with a single reversed lstm 35 85 rescoring the baseline 1000-best with an ensemble",
+          "next": "of 5 reversed lstms oracle rescoring of the baseline 1000-best lists 45 table methods that use neural networks together with an smt system on the wmt 14 english to french test set ntst14 task by a sizeable margin despite its inability to handle out-of-vocabulary words the lstm is within 0 5 bleu points of the best wmt 14 result if it is used to rescore the 1000-best list of the baseline system performance on long sentences we were surprised to"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "BLEU",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6745,
+        "downstream_relevance_score": 0.5526,
+        "components": {
+          "bio_boundary_score": 0.729,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "french",
+          "test"
+        ],
+        "normalization": "french test",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "french test",
+          "canonical": "french test",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.729",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched BLEU",
+        "downstream relevance score is 0.5526"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "source sentence",
+        "canonical": "source sentence",
+        "normalized": "source sentence",
+        "tokens": [
+          "source",
+          "sentence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 33,
+        "sentence": "establishing communication between the source sentence and the target sentence which in turn results in substantially improved overall performance initially we believed that reversing the input sentences would only lead to more confident predictions in the early parts of the target sentence and to less confident predictions in the later parts however lstms trained on reversed source sentences did much better on long sentences than lstms trained on the raw source sentences see sec 3 7 which suggests that reversing",
+        "context_window": {
+          "previous": "far from its corresponding word in the target sentence as a result the problem has a large minimal time lag by reversing the words in the source sentence the average distance between corresponding words in the source and target language is unchanged however the first few words in the source language are now very close to the first few words in the target language so the problem s minimal time lag is greatly reduced thus backpropagation has an easier time",
+          "current": "establishing communication between the source sentence and the target sentence which in turn results in substantially improved overall performance initially we believed that reversing the input sentences would only lead to more confident predictions in the early parts of the target sentence and to less confident predictions in the later parts however lstms trained on reversed source sentences did much better on long sentences than lstms trained on the raw source sentences see sec 3 7 which suggests that reversing",
+          "next": "the input sentences results in lstms with better memory utilization training details we found that the lstm models are fairly easy to train we used deep lstms with 4 layers with 1000 cells at each layer and 1000 dimensional word embeddings with an input vocabulary of 160 000 and an output vocabulary of 80 000 thus the deep lstm uses 8000 real numbers to represent a sentence we found deep lstms to significantly outperform shallow lstms where each additional layer"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6803,
+        "downstream_relevance_score": 0.5234,
+        "components": {
+          "bio_boundary_score": 0.7448,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "source",
+          "sentence"
+        ],
+        "normalization": "source sentence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "source sentence",
+          "canonical": "source sentence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7448",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.5234"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "target sentence",
+        "canonical": "target sentence",
+        "normalized": "target sentence",
+        "tokens": [
+          "target",
+          "sentence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 33,
+        "sentence": "establishing communication between the source sentence and the target sentence which in turn results in substantially improved overall performance initially we believed that reversing the input sentences would only lead to more confident predictions in the early parts of the target sentence and to less confident predictions in the later parts however lstms trained on reversed source sentences did much better on long sentences than lstms trained on the raw source sentences see sec 3 7 which suggests that reversing",
+        "context_window": {
+          "previous": "far from its corresponding word in the target sentence as a result the problem has a large minimal time lag by reversing the words in the source sentence the average distance between corresponding words in the source and target language is unchanged however the first few words in the source language are now very close to the first few words in the target language so the problem s minimal time lag is greatly reduced thus backpropagation has an easier time",
+          "current": "establishing communication between the source sentence and the target sentence which in turn results in substantially improved overall performance initially we believed that reversing the input sentences would only lead to more confident predictions in the early parts of the target sentence and to less confident predictions in the later parts however lstms trained on reversed source sentences did much better on long sentences than lstms trained on the raw source sentences see sec 3 7 which suggests that reversing",
+          "next": "the input sentences results in lstms with better memory utilization training details we found that the lstm models are fairly easy to train we used deep lstms with 4 layers with 1000 cells at each layer and 1000 dimensional word embeddings with an input vocabulary of 160 000 and an output vocabulary of 80 000 thus the deep lstm uses 8000 real numbers to represent a sentence we found deep lstms to significantly outperform shallow lstms where each additional layer"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6761,
+        "downstream_relevance_score": 0.5212,
+        "components": {
+          "bio_boundary_score": 0.7304,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "target",
+          "sentence"
+        ],
+        "normalization": "target sentence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "target sentence",
+          "canonical": "target sentence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7304",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.5212"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "lstm",
+        "canonical": "lstm",
+        "normalized": "lstm",
+        "tokens": [
+          "lstm"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "sentences improved the lstm s performance markedly because doing so introduced many short term dependencies between the source and the target sentence which made the optimization problem easier body",
+        "context_window": {
+          "previous": "the same dataset when we used the lstm to rerank the 1000 hypotheses produced by the aforementioned smt system its bleu score increases to 36 5 which is close to the previous best result on this task the lstm also learned sensible phrase and sentence representations that are sensitive to word order and are relatively invariant to the active and the passive voice finally we found that reversing the order of the words in all source sentences but not target",
+          "current": "sentences improved the lstm s performance markedly because doing so introduced many short term dependencies between the source and the target sentence which made the optimization problem easier body",
+          "next": "deep neural networks dnns are extremely powerful machine learning models that achieve excellent performance on difficult problems such as speech recognition and visual object recognition dnns are powerful because they can perform arbitrary parallel computation for a modest number of steps a surprising example of the power of dnns is their ability to sort n n -bit numbers using only 2 hidden layers of quadratic size so while neural networks are related to conventional statistical models they learn an intricate"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6257,
+        "downstream_relevance_score": 0.471,
+        "components": {
+          "bio_boundary_score": 0.7272,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "lstm"
+        ],
+        "normalization": "lstm",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "lstm",
+          "canonical": "lstm",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7272",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.471"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "sequence to sequence",
+        "canonical": "sequence to sequence",
+        "normalized": "sequence to sequence",
+        "tokens": [
+          "sequence",
+          "to",
+          "sequence"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 60,
+        "sentence": "to even greater translation accuracies these results suggest that our approach will likely do well on other challenging sequence to sequence problems",
+        "context_window": {
+          "previous": "ability of the lstm to correctly translate very long sentences we were initially convinced that the lstm would fail on long sentences due to its limited memory and other researchers reported poor performance on long sentences with a model similar to ours and yet lstms trained on the reversed dataset had little difficulty translating long sentences most importantly we demonstrated that a simple straightforward and a relatively unoptimized approach can outperform an smt system so further work will likely lead",
+          "current": "to even greater translation accuracies these results suggest that our approach will likely do well on other challenging sequence to sequence problems",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6254,
+        "downstream_relevance_score": 0.4698,
+        "components": {
+          "bio_boundary_score": 0.6274,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sequence",
+          "to",
+          "sequence"
+        ],
+        "normalization": "sequence to sequence",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sequence to sequence",
+          "canonical": "sequence to sequence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6274",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.4698"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "training batch",
+        "canonical": "training batch",
+        "normalized": "training batch",
+        "tokens": [
+          "training",
+          "batch"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 37,
+        "sentence": "scaling it when its norm exceeded a threshold for each training batch we compute s g 2 where g is the gradient divided by 128 if s 5 we set g 5g s different sentences have different lengths most sentences are short e g length but some sentences are long e g length 100 so a minibatch of 128 randomly chosen training sentences will have many short sentences and few long sentences and as a result much of the computation",
+        "context_window": {
+          "previous": "momentum with a fixed learning rate of 0 7 after 5 epochs we begun halving the learning rate every half epoch we trained our models for a total of 7 5 epochs we used batches of 128 sequences for the gradient and divided it the size of the batch namely 128 although lstms tend to not suffer from the vanishing gradient problem they can have exploding gradients thus we enforced a hard constraint on the norm of the gradient by",
+          "current": "scaling it when its norm exceeded a threshold for each training batch we compute s g 2 where g is the gradient divided by 128 if s 5 we set g 5g s different sentences have different lengths most sentences are short e g length but some sentences are long e g length 100 so a minibatch of 128 randomly chosen training sentences will have many short sentences and few long sentences and as a result much of the computation",
+          "next": "in the minibatch is wasted to address this problem we made sure that all sentences in a minibatch are roughly of the same length yielding a 2x speedup parallelization a c implementation of deep lstm with the configuration from the previous section on a single gpu processes a speed of approximately 1 700 words per second this was too slow for our purposes so we parallelized our model using an 8-gpu machine each layer of the lstm was executed on"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6193,
+        "downstream_relevance_score": 0.4567,
+        "components": {
+          "bio_boundary_score": 0.5355,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "training",
+          "batch"
+        ],
+        "normalization": "training batch",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "training batch",
+          "canonical": "training batch",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5355",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4567"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "violence",
+        "canonical": "violence",
+        "normalized": "violence",
+        "tokens": [
+          "violence"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 50,
+        "sentence": "une violence faite au corps aim qui va tre r duit un tas de cendres en tr s peu de temps et non apr s un processus de d composition qui accompagnerait les phases du deuil figure the left plot shows the performance of our system as a function of sentence length where the x-axis corresponds to the test sentences sorted by their length and is marked by the actual sequence lengths there is no degradation on sentences with less",
+        "context_window": {
+          "previous": "s la fcc qu ils pourraient perturber les antennes-relais de t l phonie mobile s ils sont utilis s bord a d clar rosenker our model avec la cr mation il y a un sentiment de violence contre le corps d un tre cher qui sera r duit une pile de cendres en tr s peu de temps au lieu d un processus de d composition qui accompagnera les tapes du deuil truth il y a avec la cr mation",
+          "current": "une violence faite au corps aim qui va tre r duit un tas de cendres en tr s peu de temps et non apr s un processus de d composition qui accompagnerait les phases du deuil figure the left plot shows the performance of our system as a function of sentence length where the x-axis corresponds to the test sentences sorted by their length and is marked by the actual sequence lengths there is no degradation on sentences with less",
+          "next": "than 35 words there is only a minor degradation on the longest sentences the right plot shows the lstm s performance on sentences with progressively more rare words where the x-axis corresponds to the test sentences sorted by their average word frequency rank replacement of an active voice with a passive voice the two-dimensional projections are obtained using pca related work there is a large body of work on applications of neural networks to machine translation so far the simplest"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6355,
+        "downstream_relevance_score": 0.4551,
+        "components": {
+          "bio_boundary_score": 0.5895,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "violence"
+        ],
+        "normalization": "violence",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "violence",
+          "canonical": "violence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5895",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4551"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "input sentence",
+        "canonical": "input sentence",
+        "normalized": "input sentence",
+        "tokens": [
+          "input",
+          "sentence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 23,
+        "sentence": "so we chose an lstm with four layers third we found it extremely valuable to reverse the order of the words of the input sentence so for example instead of mapping the sentence a b c to the sentence the lstm is asked to map c b a to where is the translation of a b c this way a is in close proximity to b is fairly close to and so on a fact that makes it easy for",
+        "context_window": {
+          "previous": "eos and then uses this representation to compute the probability of w x y z eos our actual models differ from the above description in three important ways first we used two different lstms one for the input sequence and another for the output sequence because doing so increases the number model parameters at negligible computational cost and makes it natural to train the lstm on multiple language pairs simultaneously second we found that deep lstms significantly outperformed shallow lstms",
+          "current": "so we chose an lstm with four layers third we found it extremely valuable to reverse the order of the words of the input sentence so for example instead of mapping the sentence a b c to the sentence the lstm is asked to map c b a to where is the translation of a b c this way a is in close proximity to b is fairly close to and so on a fact that makes it easy for",
+          "next": "sgd to establish communication between the input and the output we found this simple data transformation to greatly improve the performance of the lstm"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6728,
+        "downstream_relevance_score": 0.4548,
+        "components": {
+          "bio_boundary_score": 0.7351,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "input",
+          "sentence"
+        ],
+        "normalization": "input sentence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "input sentence",
+          "canonical": "input sentence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7351",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4548"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "log probability",
+        "canonical": "log probability",
+        "normalized": "log probability",
+        "tokens": [
+          "log",
+          "probability"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 29,
+        "sentence": "of the hypotheses so we discard all but the b most likely hypotheses according to the model s log probability as soon as the eos symbol is appended to a hypothesis it is removed from the beam and is added to the set of complete hypotheses while this decoder is approximate it is simple to implement interestingly our system performs well even with a beam size of 1 and a beam of size 2 provides most of the benefits of",
+        "context_window": {
+          "previous": "once training is complete we produce translations by finding the most likely translation according to the lstm t arg max t p t s we search for the most likely translation using a simple left-to-right beam search decoder which maintains a small number b of partial hypotheses where a partial hypothesis is a prefix of some translation at each timestep we extend each partial hypothesis in the beam with every possible word in the vocabulary this greatly increases the number",
+          "current": "of the hypotheses so we discard all but the b most likely hypotheses according to the model s log probability as soon as the eos symbol is appended to a hypothesis it is removed from the beam and is added to the set of complete hypotheses while this decoder is approximate it is simple to implement interestingly our system performs well even with a beam size of 1 and a beam of size 2 provides most of the benefits of",
+          "next": "beam search table we also used the lstm to rescore the 1000-best lists produced by the baseline system to rescore an n-best list we computed the log probability of every hypothesis with our lstm and took an even average with their score and the lstm s score reversing the source sentences while the lstm is capable of solving problems with long term dependencies we discovered that the lstm learns much better when the source sentences are reversed the target sentences"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.598,
+        "downstream_relevance_score": 0.4286,
+        "components": {
+          "bio_boundary_score": 0.6516,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "log",
+          "probability"
+        ],
+        "normalization": "log probability",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "log probability",
+          "canonical": "log probability",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6516",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4286"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "partial hypothesis",
+        "canonical": "partial hypothesis",
+        "normalized": "partial hypothesis",
+        "tokens": [
+          "partial",
+          "hypothesis"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 28,
+        "sentence": "once training is complete we produce translations by finding the most likely translation according to the lstm t arg max t p t s we search for the most likely translation using a simple left-to-right beam search decoder which maintains a small number b of partial hypotheses where a partial hypothesis is a prefix of some translation at each timestep we extend each partial hypothesis in the beam with every possible word in the vocabulary this greatly increases the number",
+        "context_window": {
+          "previous": "source language and 80 000 of the most frequent words for the target language every out-of-vocabulary word was replaced with a special unk token decoding and rescoring the core of our experiments involved training a large deep lstm on many sentence pairs we trained it by maximizing the log probability of a correct translation t given the source sentence s so the training objective is 1 s t s s log p t s where s is the training set",
+          "current": "once training is complete we produce translations by finding the most likely translation according to the lstm t arg max t p t s we search for the most likely translation using a simple left-to-right beam search decoder which maintains a small number b of partial hypotheses where a partial hypothesis is a prefix of some translation at each timestep we extend each partial hypothesis in the beam with every possible word in the vocabulary this greatly increases the number",
+          "next": "of the hypotheses so we discard all but the b most likely hypotheses according to the model s log probability as soon as the eos symbol is appended to a hypothesis it is removed from the beam and is added to the set of complete hypotheses while this decoder is approximate it is simple to implement interestingly our system performs well even with a beam size of 1 and a beam of size 2 provides most of the benefits of"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5583,
+        "downstream_relevance_score": 0.4079,
+        "components": {
+          "bio_boundary_score": 0.5132,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "partial",
+          "hypothesis"
+        ],
+        "normalization": "partial hypothesis",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "partial hypothesis",
+          "canonical": "partial hypothesis",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5132",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4079"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "conditional probability",
+        "canonical": "conditional probability",
+        "normalized": "conditional probability",
+        "tokens": [
+          "conditional",
+          "probability"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 19,
+        "sentence": "to train the rnns due to the resulting long term dependencies figure however the long short-term memory lstm is known to learn problems with long range temporal dependencies so an lstm may succeed in this setting the goal of the lstm is to estimate the conditional probability p y 1 y t x 1 x t where x 1 x t is an input sequence and y 1 y t is its corresponding output sequence whose length t may differ",
+        "context_window": {
+          "previous": "rnn to problems whose input and the output sequences have different lengths with complicated and non-monotonic relationships the simplest strategy for general sequence learning is to map the input sequence to a fixed-sized vector using one rnn and then to map the vector to the target sequence with another rnn this approach has also been taken by cho et al while it could work in principle since the rnn is provided with all the relevant information it would be difficult",
+          "current": "to train the rnns due to the resulting long term dependencies figure however the long short-term memory lstm is known to learn problems with long range temporal dependencies so an lstm may succeed in this setting the goal of the lstm is to estimate the conditional probability p y 1 y t x 1 x t where x 1 x t is an input sequence and y 1 y t is its corresponding output sequence whose length t may differ",
+          "next": "from t the lstm computes this conditional probability by first obtaining the fixeddimensional representation v of the input sequence x 1 x t given by the last hidden state of the lstm and then computing the probability of y 1 y t with a standard lstm-lm formulation whose initial hidden state is set to the representation v of x 1 x t p y 1 y t x 1 x t t t 1 p y t v y 1"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5249,
+        "downstream_relevance_score": 0.3586,
+        "components": {
+          "bio_boundary_score": 0.7133,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "conditional",
+          "probability"
+        ],
+        "normalization": "conditional probability",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "conditional probability",
+          "canonical": "conditional probability",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7133",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.3586"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "beam",
+        "canonical": "beam",
+        "normalized": "beam",
+        "tokens": [
+          "beam"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 30,
+        "sentence": "beam search table we also used the lstm to rescore the 1000-best lists produced by the baseline system to rescore an n-best list we computed the log probability of every hypothesis with our lstm and took an even average with their score and the lstm s score reversing the source sentences while the lstm is capable of solving problems with long term dependencies we discovered that the lstm learns much better when the source sentences are reversed the target sentences",
+        "context_window": {
+          "previous": "of the hypotheses so we discard all but the b most likely hypotheses according to the model s log probability as soon as the eos symbol is appended to a hypothesis it is removed from the beam and is added to the set of complete hypotheses while this decoder is approximate it is simple to implement interestingly our system performs well even with a beam size of 1 and a beam of size 2 provides most of the benefits of",
+          "current": "beam search table we also used the lstm to rescore the 1000-best lists produced by the baseline system to rescore an n-best list we computed the log probability of every hypothesis with our lstm and took an even average with their score and the lstm s score reversing the source sentences while the lstm is capable of solving problems with long term dependencies we discovered that the lstm learns much better when the source sentences are reversed the target sentences",
+          "next": "are not reversed by doing so the lstm s test perplexity dropped from 5 8 to 4 7 and the test bleu scores of its decoded translations increased from 25 9 to 30 6 while we do not have a complete explanation to this phenomenon we believe that it is caused by the introduction of many short term dependencies to the dataset normally when we concatenate a source sentence with a target sentence each word in the source sentence is"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "evaluation_metric",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4753,
+        "downstream_relevance_score": 0.3228,
+        "components": {
+          "bio_boundary_score": 0.5851,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "beam"
+        ],
+        "normalization": "beam",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "beam",
+          "canonical": "beam",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5851",
+        "structure model assigned role 'metric' with score 0.82",
+        "downstream relevance score is 0.3228"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 34,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While the decoded translations of the LSTM ensemble do not outperform the best WMT'14 system, it is the first time that a pure neural translation system outperforms a phrase-based SMT baseline on a large scale MT Method test BLEU score (ntst14) Bahdanau et al. [2] 28.45 Baseline System 33.30 Single forward LSTM, beam size 12 26.17 Single reversed LSTM, beam size 12 30.59 Ensemble of 5 reversed LSTMs, beam size 1 33.00 Ensemble of 2 reversed LSTMs, beam size 12 33.27 Ensemble of 5 reversed LSTMs, beam size 2 34.50 Ensemble of 5 reversed LSTMs, beam size 12 One of the attractive features of our model is its ability to turn a sequence of words into a vector of fixed dimensionality.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While the decoded translations of the LSTM ensemble do not outperform the best WMT'14 system, it is the first time that a pure neural translation system outperforms a phrase-based SMT baseline on a large scale MT Method test BLEU score (ntst14) Bahdanau et al. [2] 28.45 Baseline System 33.30 Single forward LSTM, beam size 12 26.17 Single reversed LSTM, beam size 12 30.59 Ensemble of 5 reversed LSTMs, beam size 1 33.00 Ensemble of 2 reversed LSTMs, beam size 12 33.27 Ensemble of 5 reversed LSTMs, beam size 2 34.50 Ensemble of 5 reversed LSTMs, beam size 12 One of the attractive features of our model is its ability to turn a sequence of words into a vector of fixed dimensionality.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We report the accuracy of these translation methods, present sample translations, and visualize the resulting sentence representation.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We used the cased BLEU score to evaluate the quality of our translations.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We computed our BLEU scores using multi-bleu.pl on the tokenized predictions and ground truth.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While the decoded translations of the LSTM ensemble do not outperform the best WMT'14 system, it is the first time that a pure neural translation system outperforms a phrase-based SMT baseline on a large scale MT Method test BLEU score (ntst14) Bahdanau et al. [2] 28.45 Baseline System 33.30 Single forward LSTM, beam size 12 26.17 Single reversed LSTM, beam size 12 30.59 Ensemble of 5 reversed LSTMs, beam size 1 33.00 Ensemble of 2 reversed LSTMs, beam size 12 33.27 Ensemble of 5 reversed LSTMs, beam size 2 34.50 Ensemble of 5 reversed LSTMs, beam size 12 One of the attractive features of our model is its ability to turn a sequence of words into a vector of fixed dimensionality.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We used the WMT'14 English to French dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Although DNNs work well whenever large labeled training sets are available, they cannot be used to map sequences to sequences.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper, we present a general end-to-end approach to sequence learning that makes minimal assumptions on the sequence structure.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our main result is that on an English to French translation task from the WMT'14 dataset, the translations produced by the LSTM achieve a BLEU score of 34.8 on the entire test set, where the LSTM's BLEU score was penalized on out-of-vocabulary words.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our main result is that on an English to French translation task from the WMT'14 dataset, the translations produced by the LSTM achieve a BLEU score of 34.8 on the entire test set, where the LSTM's BLEU score was penalized on out-of-vocabulary words.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "For comparison, a phrase-based SMT system achieves a BLEU score of 33.3 on the same dataset.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "For comparison, a phrase-based SMT system achieves a BLEU score of 33.3 on the same dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "For comparison, a phrase-based SMT system achieves a BLEU score of 33.3 on the same dataset.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "When we used the LSTM to rerank the 1000 hypotheses produced by the aforementioned SMT system, its BLEU score increases to 36.5, which is close to the previous best result on this task.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Thus, if there exists a parameter setting of a large DNN that achieves good results (for example, because humans can solve the task very rapidly), supervised backpropagation will find these parameters and solve the problem.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "It is a significant limitation, since many important problems are best expressed with sequences whose lengths are not known a-priori.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Sequences pose a challenge for DNNs because they require that the dimensionality of the inputs and outputs is known and fixed.",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this paper, we show that a straightforward application of the Long Short-Term Memory (LSTM) architecture can solve general sequence to sequence problems.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "On the WMT'14 English to French translation task, we obtained a BLEU score of 34.81 by directly extracting translations from an ensemble of 5 deep LSTMs (with 384M parameters and 8,000 dimensional state each) using a simple left-to-right beamsearch decoder.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "For comparison, the BLEU score of an SMT baseline on this dataset is 33.30 .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "For comparison, the BLEU score of an SMT baseline on this dataset is 33.30 .",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The 34.81 BLEU score was achieved by an LSTM with a vocabulary of 80k words, so the score was penalized whenever the reference translation contained a word not covered by these 80k.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This result shows that a relatively unoptimized small-vocabulary neural network architecture which has much room for improvement outperforms a phrase-based SMT system.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This result shows that a relatively unoptimized small-vocabulary neural network architecture which has much room for improvement outperforms a phrase-based SMT system.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Recurrent neural network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.8592
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "machine translation",
+        "section": "related_work",
+        "role": "problem",
+        "score": 0.7432
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "question answering",
+        "section": "related_work",
+        "role": "problem",
+        "score": 0.687
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "Recurrent neural network",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.6381
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "bleu score",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5992
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "french test",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5526
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "source sentence",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5234
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "target sentence",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5212
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "lstm",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.471
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "sequence to sequence",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.4698
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "training batch",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4567
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "violence",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4551
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "input sentence",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4548
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "log probability",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4286
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "partial hypothesis",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4079
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "conditional probability",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.3586
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "beam",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.3228
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

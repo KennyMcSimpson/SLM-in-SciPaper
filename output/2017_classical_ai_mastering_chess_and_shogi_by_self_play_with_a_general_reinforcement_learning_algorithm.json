@@ -1,0 +1,2488 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2017_classical_ai_mastering_chess_and_shogi_by_self_play_with_a_general_reinforcement_learning_algorithm",
+    "title": "2017_classical_ai_mastering_chess_and_shogi_by_self_play_with_a_general_reinforcement_learning_algorithm",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2017_classical_ai_mastering_chess_and_shogi_by_self_play_with_a_general_reinforcement_learning_algorithm.txt",
+    "sentence_count": 64,
+    "section_counts": {
+      "intro": 17,
+      "related_work": 3,
+      "method": 14,
+      "experiment": 30
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4944,
+    "type_count": 1215,
+    "type_token_ratio": 0.2458,
+    "section_token_counts": {
+      "intro": 1248,
+      "related_work": 240,
+      "method": 1064,
+      "experiment": 2392,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "chess",
+        "count": 55
+      },
+      {
+        "term": "alphazero",
+        "count": 46
+      },
+      {
+        "term": "moves",
+        "count": 43
+      },
+      {
+        "term": "search",
+        "count": 37
+      },
+      {
+        "term": "shogi",
+        "count": 35
+      },
+      {
+        "term": "game",
+        "count": 33
+      },
+      {
+        "term": "each",
+        "count": 29
+      },
+      {
+        "term": "planes",
+        "count": 28
+      },
+      {
+        "term": "move",
+        "count": 26
+      },
+      {
+        "term": "neural",
+        "count": 25
+      },
+      {
+        "term": "used",
+        "count": 25
+      },
+      {
+        "term": "games",
+        "count": 24
+      },
+      {
+        "term": "was",
+        "count": 24
+      },
+      {
+        "term": "using",
+        "count": 23
+      },
+      {
+        "term": "network",
+        "count": 22
+      },
+      {
+        "term": "go",
+        "count": 21
+      },
+      {
+        "term": "training",
+        "count": 20
+      },
+      {
+        "term": "programs",
+        "count": 19
+      },
+      {
+        "term": "positions",
+        "count": 19
+      },
+      {
+        "term": "learning",
+        "count": 18
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "chess shogi",
+        "count": 22
+      },
+      {
+        "term": "neural network",
+        "count": 21
+      },
+      {
+        "term": "alpha-beta search",
+        "count": 13
+      },
+      {
+        "term": "alphago zero",
+        "count": 12
+      },
+      {
+        "term": "computer chess",
+        "count": 11
+      },
+      {
+        "term": "reinforcement learning",
+        "count": 10
+      },
+      {
+        "term": "chess programs",
+        "count": 8
+      },
+      {
+        "term": "stockfish elmo",
+        "count": 7
+      },
+      {
+        "term": "feature planes",
+        "count": 7
+      },
+      {
+        "term": "distribution over",
+        "count": 6
+      },
+      {
+        "term": "shogi go",
+        "count": 6
+      },
+      {
+        "term": "planes encode",
+        "count": 6
+      },
+      {
+        "term": "queen moves",
+        "count": 6
+      },
+      {
+        "term": "knight moves",
+        "count": 6
+      },
+      {
+        "term": "domain knowledge",
+        "count": 5
+      },
+      {
+        "term": "deep neural",
+        "count": 5
+      },
+      {
+        "term": "legal moves",
+        "count": 5
+      },
+      {
+        "term": "thinking time",
+        "count": 5
+      },
+      {
+        "term": "input features",
+        "count": 5
+      },
+      {
+        "term": "was trained",
+        "count": 5
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "chess shogi go",
+        "count": 6
+      },
+      {
+        "term": "reinforcement learning algorithm",
+        "count": 4
+      },
+      {
+        "term": "computer chess programs",
+        "count": 4
+      },
+      {
+        "term": "deep neural network",
+        "count": 4
+      },
+      {
+        "term": "probability distribution over",
+        "count": 4
+      },
+      {
+        "term": "0z0zpz0z z0z0znz0 popo0opo",
+        "count": 4
+      },
+      {
+        "term": "alphago zero algorithm",
+        "count": 3
+      },
+      {
+        "term": "self-play reinforcement learning",
+        "count": 3
+      },
+      {
+        "term": "number legal moves",
+        "count": 3
+      },
+      {
+        "term": "minute per move",
+        "count": 3
+      },
+      {
+        "term": "z0o0z0z0 0z0zpz0z z0z0znz0",
+        "count": 3
+      },
+      {
+        "term": "z0z0znz0 popo0opo snaqjbzr",
+        "count": 3
+      },
+      {
+        "term": "evaluated positions neural",
+        "count": 3
+      },
+      {
+        "term": "positions neural network",
+        "count": 3
+      },
+      {
+        "term": "feature planes feature",
+        "count": 3
+      },
+      {
+        "term": "planes feature planes",
+        "count": 3
+      },
+      {
+        "term": "total move count",
+        "count": 3
+      },
+      {
+        "term": "encoding probability distribution",
+        "count": 3
+      },
+      {
+        "term": "planes encode possible",
+        "count": 3
+      },
+      {
+        "term": "over several decades",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 11,
+    "nonzero_tfidf_features": 11,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__artificial intelligence",
+        "section": "intro",
+        "term": "artificial intelligence",
+        "frequency": 1.0,
+        "tfidf": 0.8638
+      },
+      {
+        "feature_name": "related_work__supervised learning",
+        "section": "related_work",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.7731
+      },
+      {
+        "feature_name": "related_work__reinforcement learning",
+        "section": "related_work",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.6342
+      },
+      {
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 6.0,
+        "tfidf": 0.5912
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 4.0,
+        "tfidf": 0.5522
+      },
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.5039
+      },
+      {
+        "feature_name": "introduction__learning algorithms",
+        "section": "intro",
+        "term": "learning algorithms",
+        "frequency": 3.0,
+        "tfidf": 0.4446
+      },
+      {
+        "feature_name": "introduction__artificial intelligence",
+        "section": "intro",
+        "term": "artificial intelligence",
+        "frequency": 3.0,
+        "tfidf": 0.4446
+      },
+      {
+        "feature_name": "introduction__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 2.0,
+        "tfidf": 0.1746
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1172
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.1037
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__artificial intelligence",
+          "section": "intro",
+          "term": "artificial intelligence",
+          "frequency": 1.0,
+          "tfidf": 0.8638
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 6.0,
+          "tfidf": 0.5912
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.5522
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.5039
+        },
+        {
+          "feature_name": "introduction__learning algorithms",
+          "section": "intro",
+          "term": "learning algorithms",
+          "frequency": 3.0,
+          "tfidf": 0.4446
+        },
+        {
+          "feature_name": "introduction__artificial intelligence",
+          "section": "intro",
+          "term": "artificial intelligence",
+          "frequency": 3.0,
+          "tfidf": 0.4446
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 2.0,
+          "tfidf": 0.1746
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1172
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1037
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__supervised learning",
+          "section": "related_work",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.7731
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.6342
+        }
+      ],
+      "method": [],
+      "experiment": [],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 17,
+      "token_count": 1248,
+      "bow_hit_count": 46,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 20,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 8,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 5,
+          "section_prior": 0.4805,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 5,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 4,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "artificial intelligence model",
+          "count": 3,
+          "section_prior": 0.6111,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "search engine",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__artificial intelligence",
+          "section": "intro",
+          "term": "artificial intelligence",
+          "frequency": 1.0,
+          "tfidf": 0.8638
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 6.0,
+          "tfidf": 0.5912
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.5522
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.5039
+        },
+        {
+          "feature_name": "introduction__learning algorithms",
+          "section": "intro",
+          "term": "learning algorithms",
+          "frequency": 3.0,
+          "tfidf": 0.4446
+        },
+        {
+          "feature_name": "introduction__artificial intelligence",
+          "section": "intro",
+          "term": "artificial intelligence",
+          "frequency": 3.0,
+          "tfidf": 0.4446
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 2.0,
+          "tfidf": 0.1746
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1172
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1037
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 3,
+      "token_count": 240,
+      "bow_hit_count": 5,
+      "top_bow_terms": [
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.0448,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__supervised learning",
+          "section": "related_work",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.7731
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.6342
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 14,
+      "token_count": 1064,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 9,
+          "section_prior": 0.0455,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 4,
+          "section_prior": 0.0779,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 30,
+      "token_count": 2392,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 5,
+          "section_prior": 0.1,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.1197,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "heuristic",
+          "count": 3,
+          "section_prior": 0.48,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 7,
+        "sentence": "on a highly optimised alpha-beta search engine with many domain-specific adaptations go is well suited to the neural network architecture used in alphago because the rules of the game are translationally invariant matching the weight sharing structure of convolutional networks are defined in terms of liberties corresponding to the adjacencies between points on the board matching the local structure of convolutional networks and are rotationally and reflectionally symmetric allowing for data augmentation and ensembling furthermore the action space is simple",
+        "context_window": {
+          "previous": "tcec world-champion stockfish other strong chess programs including deep blue use very similar architectures shogi is a significantly harder game in terms of computational complexity than chess it is played on a larger board and any captured opponent piece changes sides and may subsequently be dropped anywhere on the board the strongest shogi programs such as computer shogi association csa world-champion elmo have only recently defeated human champions these programs use a similar algorithm to computer chess programs again based",
+          "current": "on a highly optimised alpha-beta search engine with many domain-specific adaptations go is well suited to the neural network architecture used in alphago because the rules of the game are translationally invariant matching the weight sharing structure of convolutional networks are defined in terms of liberties corresponding to the adjacencies between points on the board matching the local structure of convolutional networks and are rotationally and reflectionally symmetric allowing for data augmentation and ensembling furthermore the action space is simple",
+          "next": "a stone may be placed at each possible location and the game outcomes are restricted to binary wins or losses both of which may help neural network training chess and shogi are arguably less innately suited to alphago s neural network architectures the rules are position-dependent e g pawns may move two steps forward from the second rank and promote on the eighth rank and asymmetric e g pawns only move forward and castling is different on kingside and queenside"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7586,
+          "evidence_type": "method",
+          "matched_cue": "architecture",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7485,
+        "downstream_relevance_score": 0.8054,
+        "components": {
+          "bio_boundary_score": 0.9646,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4032,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 27,
+        "total_frequency": 54,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4032,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9646",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.8054"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "artificial intelligence",
+        "canonical": "artificial intelligence model",
+        "normalized": "artificial intelligence model",
+        "tokens": [
+          "artificial",
+          "intelligence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "artificial intelligence model",
+          "artificial intelligence"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "artificial intelligence was achieved in 1997 when deep blue defeated the human world champion computer chess programs continued to progress steadily beyond human level in the following two decades these programs evaluate positions using features handcrafted by human grandmasters and carefully tuned weights combined with a high-performance alpha-beta search that expands a vast search tree using a large number of clever heuristics and domain-specific adaptations in the methods we describe these augmentations focusing on the 2016 top chess engine championship",
+        "context_window": {
+          "previous": "in the game of go by representing go knowledge using deep convolutional neural networks trained solely by reinforcement learning from games of self-play in this paper we apply a similar but fully generic algorithm which we call alphazero to the games of chess and shogi as well as go without any additional domain knowledge except the rules of the game demonstrating that a general-purpose reinforcement learning algorithm can achieve tabula rasa superhuman performance across many challenging domains a landmark for",
+          "current": "artificial intelligence was achieved in 1997 when deep blue defeated the human world champion computer chess programs continued to progress steadily beyond human level in the following two decades these programs evaluate positions using features handcrafted by human grandmasters and carefully tuned weights combined with a high-performance alpha-beta search that expands a vast search tree using a large number of clever heuristics and domain-specific adaptations in the methods we describe these augmentations focusing on the 2016 top chess engine championship",
+          "next": "tcec world-champion stockfish other strong chess programs including deep blue use very similar architectures shogi is a significantly harder game in terms of computational complexity than chess it is played on a larger board and any captured opponent piece changes sides and may subsequently be dropped anywhere on the board the strongest shogi programs such as computer shogi association csa world-champion elmo have only recently defeated human champions these programs use a similar algorithm to computer chess programs again based"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6938,
+        "downstream_relevance_score": 0.7579,
+        "components": {
+          "bio_boundary_score": 0.9581,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.6111,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "artificial intelligence",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "artificial intelligence model",
+        "display_term": "artificial intelligence",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "nan",
+        "wikidata_id": "Q117349473",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 6,
+        "total_frequency": 8,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__artificial intelligence",
+        "section": "intro",
+        "term": "artificial intelligence",
+        "frequency": 1.0,
+        "tfidf": 0.8638,
+        "normalized_frequency": 0.1667,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "artificial",
+          "intelligence"
+        ],
+        "normalization": "artificial intelligence",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.6111,
+        "canonicalization": {
+          "observed": "artificial intelligence",
+          "canonical": "artificial intelligence model",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9581",
+        "structure model assigned role 'problem' with score 0.9218",
+        "section BoW matched canonical term 'artificial intelligence model' with confidence 0.91",
+        "BoW role prior suggests 'background'",
+        "document-term matrix links the phrase to feature 'abstract__artificial intelligence' with tf-idf 0.8638",
+        "downstream relevance score is 0.7579"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 25,
+        "sentence": "decades state-ofthe-art programs are based on powerful engines that search many millions of positions leveraging handcrafted domain expertise and sophisticated domain adaptations alphazero is a generic reinforcement learning algorithm -originally devised for the game of go -that achieved superior results within a few hours searching a thousand times fewer positions given no domain a10 english opening d06 queens gambit 8 rmblkans 7 opopopop 6 0z0z0z0z 5 z0z0z0z0 4 0zpz0z0z 3 z0z0z0z0 2 po0opopo 1 snaqjbmr a b c d e",
+        "context_window": {
+          "previous": "finally we analysed the chess knowledge discovered by alphazero table analyses the most common human openings those played more than 100 000 times in an online database of human chess games each of these openings is independently discovered and played frequently by alphazero during self-play training when starting from each human opening alphazero convincingly defeated stockfish suggesting that it has indeed mastered a wide spectrum of chess play the game of chess represented the pinnacle of ai research over several",
+          "current": "decades state-ofthe-art programs are based on powerful engines that search many millions of positions leveraging handcrafted domain expertise and sophisticated domain adaptations alphazero is a generic reinforcement learning algorithm -originally devised for the game of go -that achieved superior results within a few hours searching a thousand times fewer positions given no domain a10 english opening d06 queens gambit 8 rmblkans 7 opopopop 6 0z0z0z0z 5 z0z0z0z0 4 0zpz0z0z 3 z0z0z0z0 2 po0opopo 1 snaqjbmr a b c d e",
+          "next": "f g h 8 rmblkans 7 opo0opop 6 0z0z0z0z 5 z0zpz0z0 4 0zpo0z0z 3 z0z0z0z0 2 po0zpopo 1 snaqjbmr a b c d e f g h w 20 30 0 b 8 40 2 1 e5 g3 d5 cxd5 nf6 bg2 nxd5 nf3 w 16 34 0 b 1 47 2 2 c6 nc3 nf6 nf3 a6 g3 c4 a4 a46 queens pawn game e00 queens pawn game 8 rmblka0s 7 opopopop 6 0z0z0m0z 5 z0z0z0z0 4 0z0o0z0z 3"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4585,
+        "downstream_relevance_score": 0.5223,
+        "components": {
+          "bio_boundary_score": 0.7322,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0455,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 8,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0455,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7322",
+        "structure model assigned role 'process' with score 0.82",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.5223"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "reinforcement",
+        "canonical": "reinforcement",
+        "normalized": "reinforcement",
+        "tokens": [
+          "reinforcement"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 39,
+        "sentence": "techniques described in this section are used by alphazero it is likely that some of these techniques could further improve the performance of alphazero however we have focused on a pure self-play reinforcement learning approach and leave these extensions for future research prior work on computer chess and shogi in this section we discuss some notable prior work on reinforcement learning in computer chess neurochess evaluated positions by a neural network that used 175 handcrafted input features it was trained",
+        "context_window": {
+          "previous": "is reached by multiple paths a carefully tuned opening book is used to select moves at the start of the game an endgame tablebase precalculated by exhaustive retrograde analysis of endgame positions provides the optimal move in all positions with six and sometimes seven pieces or less other strong chess programs and also earlier programs such as deep blue have used very similar architectures including the majority of the components described above although important details vary considerably none of the",
+          "current": "techniques described in this section are used by alphazero it is likely that some of these techniques could further improve the performance of alphazero however we have focused on a pure self-play reinforcement learning approach and leave these extensions for future research prior work on computer chess and shogi in this section we discuss some notable prior work on reinforcement learning in computer chess neurochess evaluated positions by a neural network that used 175 handcrafted input features it was trained",
+          "next": "by temporal-difference learning to predict the final game outcome and also the expected features after two moves neurochess won 13 of games against gnuchess using a fixed depth 2 search beal and smith applied temporal-difference learning to estimate the piece values in chess and shogi starting from random values and learning solely by self-play knightcap evaluated positions by a neural network that used an attack-table based on knowledge of which squares are attacked or defended by which pieces it was"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6374,
+        "downstream_relevance_score": 0.456,
+        "components": {
+          "bio_boundary_score": 0.5929,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement"
+        ],
+        "normalization": "reinforcement",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "reinforcement",
+          "canonical": "reinforcement",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5929",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.456"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "computer chess",
+        "canonical": "computer chess",
+        "normalized": "computer chess",
+        "tokens": [
+          "computer",
+          "chess"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 32,
+        "sentence": "same algorithm was applied without modification to the more challenging game of shogi again outperforming the state of the art within a few hours anatomy of a computer chess program in this section we describe the components of a typical computer chess program focusing specifically on stockfish an open source program that won the 2016 tcec computer chess championship for an overview of standard methods see each position s is described by a sparse vector of handcrafted features s including",
+        "context_window": {
+          "previous": "a6 w 27 22 1 b 6 44 0 4 ba4 be7 o-o nf6 re1 b5 bb3 o-o b10 caro-kann defence a05 reti opening 8 rmblkans 7 opzpopop 6 0zpz0z0z 5 z0z0z0z0 4 0z0zpz0z 3 z0z0z0z0 2 popo0opo 1 snaqjbmr a b c d e f g h 8 rmblka0s 7 opopopop 6 0z0z0m0z 5 z0z0z0z0 4 0z0z0z0z 3 z0z0znz0 2 popopopo 1 snaqjbzr a b c d e f g h knowledge except the rules of chess furthermore the",
+          "current": "same algorithm was applied without modification to the more challenging game of shogi again outperforming the state of the art within a few hours anatomy of a computer chess program in this section we describe the components of a typical computer chess program focusing specifically on stockfish an open source program that won the 2016 tcec computer chess championship for an overview of standard methods see each position s is described by a sparse vector of handcrafted features s including",
+          "next": "midgame endgame-specific material point values material imbalance tables piece-square tables mobility and trapped pieces pawn structure king safety outposts bishop pair and other miscellaneous"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5334,
+        "downstream_relevance_score": 0.398,
+        "components": {
+          "bio_boundary_score": 0.8961,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computer",
+          "chess"
+        ],
+        "normalization": "computer chess",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computer chess",
+          "canonical": "computer chess",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8961",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.398"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "expected outcome",
+        "canonical": "expected outcome",
+        "normalized": "expected outcome",
+        "tokens": [
+          "expected",
+          "outcome"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 15,
+        "sentence": "2 weight regularisation the updated parameters are used in subsequent games of self-play the alphazero algorithm described in this paper differs from the original alphago zero algorithm in several respects alphago zero estimates and optimises the probability of winning assuming binary win loss outcomes alphazero instead estimates and optimises the expected outcome taking account of draws or potentially other outcomes the rules of go are invariant to rotation and reflection this fact was exploited in alphago and alphago zero in",
+        "context_window": {
+          "previous": "are updated so as to minimise the error between the predicted outcome v t and the game outcome z and to maximise the similarity of the policy vector p t to the search probabilities t specifically the parameters are adjusted by gradient descent on a loss function l that sums over mean-squared error and cross-entropy losses respectively p v f s l z -v 2 - log p c 2 where c is a parameter controlling the level of l",
+          "current": "2 weight regularisation the updated parameters are used in subsequent games of self-play the alphazero algorithm described in this paper differs from the original alphago zero algorithm in several respects alphago zero estimates and optimises the probability of winning assuming binary win loss outcomes alphazero instead estimates and optimises the expected outcome taking account of draws or potentially other outcomes the rules of go are invariant to rotation and reflection this fact was exploited in alphago and alphago zero in",
+          "next": "two ways first training data was augmented by generating 8 symmetries for each position second during mcts board positions were transformed using a randomly selected rotation or reflection before being evaluated by the neural network so that the monte-carlo evaluation is averaged over different biases the rules of chess and shogi are asymmetric and in general symmetries cannot be assumed alphazero does not augment the training data and does not transform the board position during mcts in alphago zero self-play"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5303,
+        "downstream_relevance_score": 0.3836,
+        "components": {
+          "bio_boundary_score": 0.967,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "expected",
+          "outcome"
+        ],
+        "normalization": "expected outcome",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "expected outcome",
+          "canonical": "expected outcome",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.967",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3836"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "probability distribution",
+        "canonical": "probability distribution",
+        "normalized": "probability distribution",
+        "tokens": [
+          "probability",
+          "distribution"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 56,
+        "sentence": "policy in shogi is represented by a 9 9 139 stack of planes similarly encoding a probability distribution over 11 259 possible moves the first 64 planes encode queen moves and the next 2 moves encode knight moves an additional 64 2 planes encode promoting queen moves and promoting knight moves respectively the last 7 planes encode a captured piece dropped back into the board at that location the policy in go is represented identically to alphago zero using a",
+        "context_window": {
+          "previous": "queen moves 64 promoting knight moves 2 drop 7 total 73 total 139 table s2 action representation used by alphazero in chess and shogi respectively the policy is represented by a stack of planes encoding a probability distribution over legal moves planes correspond to the entries in the table underpromotions for pawn moves or captures in two possible diagonals to knight bishop or rook respectively other pawn moves or captures from the seventh rank are promoted to a queen the",
+          "current": "policy in shogi is represented by a 9 9 139 stack of planes similarly encoding a probability distribution over 11 259 possible moves the first 64 planes encode queen moves and the next 2 moves encode knight moves an additional 64 2 planes encode promoting queen moves and promoting knight moves respectively the last 7 planes encode a captured piece dropped back into the board at that location the policy in go is represented identically to alphago zero using a",
+          "next": "flat distribution over 19 19 1 moves representing possible stone placements and the pass move we also tried using a flat distribution over moves for chess and shogi the final result was almost identical although training was slightly slower the action representations are summarised in table illegal moves are masked out by setting their probabilities to zero and re-normalising the probabilities for remaining moves configuration during training each mcts used 800 simulations the number of games positions and thinking time"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5946,
+        "downstream_relevance_score": 0.382,
+        "components": {
+          "bio_boundary_score": 0.9512,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "probability",
+          "distribution"
+        ],
+        "normalization": "probability distribution",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "probability distribution",
+          "canonical": "probability distribution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9512",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.382"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "game outcome",
+        "canonical": "game outcome",
+        "normalized": "game outcome",
+        "tokens": [
+          "game",
+          "outcome"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 13,
+        "sentence": "the root state the parameters of the deep neural network in alphazero are trained by self-play reinforcement learning starting from randomly initialised parameters games are played by selecting moves for both players by mcts a t t at the end of the game the terminal position s t is scored according to the rules of the game to compute the game outcome z -1 for a loss 0 for a draw and 1 for a win the neural network parameters",
+        "context_window": {
+          "previous": "a series of simulated games of self-play that traverse a tree from root s root to leaf each simulation proceeds by selecting in each state s a move a with low visit count high move probability and high value averaged over the leaf states of simulations that selected a from s according to the current neural network f the search returns a vector representing a probability distribution over moves either proportionally or greedily with respect to the visit counts at",
+          "current": "the root state the parameters of the deep neural network in alphazero are trained by self-play reinforcement learning starting from randomly initialised parameters games are played by selecting moves for both players by mcts a t t at the end of the game the terminal position s t is scored according to the rules of the game to compute the game outcome z -1 for a loss 0 for a draw and 1 for a win the neural network parameters",
+          "next": "are updated so as to minimise the error between the predicted outcome v t and the game outcome z and to maximise the similarity of the policy vector p t to the search probabilities t specifically the parameters are adjusted by gradient descent on a loss function l that sums over mean-squared error and cross-entropy losses respectively p v f s l z -v 2 - log p c 2 where c is a parameter controlling the level of l"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5907,
+        "downstream_relevance_score": 0.38,
+        "components": {
+          "bio_boundary_score": 0.9376,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "game",
+          "outcome"
+        ],
+        "normalization": "game outcome",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "game outcome",
+          "canonical": "game outcome",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9376",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.38"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "alphazero",
+        "canonical": "alphazero",
+        "normalized": "alphazero",
+        "tokens": [
+          "alphazero"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 59,
+        "sentence": "of legal moves in a typical position to a value of 0 3 0 15 0 03 for chess shogi and go respectively unless otherwise specified the training and search algorithm and parameters are identical to alphago zero chess shogi go mini-batches 700k 700k 700k training time 9h 12h 34h training games 44 million 24 million 21 million thinking time 800 sims 800 sims 800 sims 40 ms 80 ms 200 ms table selected statistics of alphazero training in chess",
+        "context_window": {
+          "previous": "varied per game due largely to different board sizes and game lengths and are shown in table the learning rate was set to 0 2 for each game and was dropped three times to 0 02 0 002 and 0 0002 respectively during the course of training moves are selected in proportion to the root visit count dirichlet noise dir was added to the prior probabilities in the root node this was scaled in inverse proportion to the approximate number",
+          "current": "of legal moves in a typical position to a value of 0 3 0 15 0 03 for chess shogi and go respectively unless otherwise specified the training and search algorithm and parameters are identical to alphago zero chess shogi go mini-batches 700k 700k 700k training time 9h 12h 34h training games 44 million 24 million 21 million thinking time 800 sims 800 sims 800 sims 40 ms 80 ms 200 ms table selected statistics of alphazero training in chess",
+          "next": "shogi and go during alphazero selects moves greedily with respect to the root visit count each mcts was executed on a single machine with 4 tpus to evaluate performance in chess we used stockfish version 8 official linux release as a baseline program using 64 cpu threads and a hash size of 1gb to evaluate performance in shogi we used elmo version wcsc27 in combination with yaneuraou 2017 early kppt 4 73 64avx2 with 64 cpu threads and a hash"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5367,
+        "downstream_relevance_score": 0.3769,
+        "components": {
+          "bio_boundary_score": 0.9904,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "alphazero"
+        ],
+        "normalization": "alphazero",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "alphazero",
+          "canonical": "alphazero",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9904",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3769"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "quiescence search",
+        "canonical": "quiescence search",
+        "normalized": "quiescence search",
+        "tokens": [
+          "quiescence",
+          "search"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 34,
+        "sentence": "patterns each feature i is assigned by a combination of manual and automatic tuning a corresponding weight w i and the position is evaluated by a linear combination v s w s w however this raw is only considered accurate for positions that are quiet with no unresolved captures or checks a domain-specialised quiescence search is used to resolve ongoing tactical situations before the function is applied the final evaluation of a position s is computed by a minimax search",
+        "context_window": {
+          "previous": "midgame endgame-specific material point values material imbalance tables piece-square tables mobility and trapped pieces pawn structure king safety outposts bishop pair and other miscellaneous",
+          "current": "patterns each feature i is assigned by a combination of manual and automatic tuning a corresponding weight w i and the position is evaluated by a linear combination v s w s w however this raw is only considered accurate for positions that are quiet with no unresolved captures or checks a domain-specialised quiescence search is used to resolve ongoing tactical situations before the function is applied the final evaluation of a position s is computed by a minimax search",
+          "next": "that evaluates each leaf using a quiescence search alpha-beta pruning is used to safely cut any branch that is provably dominated by another variation additional cuts are achieved using aspiration windows and principal variation search other pruning strategies include null move pruning which assumes a pass move should be worse than any variation in positions that are unlikely to be in zugzwang as determined by simple heuristics futility pruning which assumes knowledge of the maximum possible change in and other"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5359,
+        "downstream_relevance_score": 0.3515,
+        "components": {
+          "bio_boundary_score": 0.772,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "quiescence",
+          "search"
+        ],
+        "normalization": "quiescence search",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "quiescence search",
+          "canonical": "quiescence search",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.772",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3515"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "bayesian optimisation",
+        "canonical": "bayesian optimisation",
+        "normalized": "bayesian optimisation",
+        "tokens": [
+          "bayesian",
+          "optimisation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 18,
+        "sentence": "latest parameters for this neural network omitting the evaluation step and the selection of best player alphago zero tuned the hyper-parameter of its search by bayesian optimisation in alp-hazero we reuse the same hyper-parameters for all games without game-specific tuning the sole exception is the noise that is added to the prior policy to ensure exploration this is scaled in proportion to the typical number of legal moves for that game type like alphago zero the board state is encoded",
+        "context_window": {
+          "previous": "games were generated by the best player from all previous iterations after each iteration of training the performance of the new player was measured against the best player if it won by a margin of 55 then it replaced the best player and self-play games were subsequently generated by this new player in contrast alphazero simply maintains a single neural network that is updated continually rather than waiting for an iteration to complete self-play games are generated by using the",
+          "current": "latest parameters for this neural network omitting the evaluation step and the selection of best player alphago zero tuned the hyper-parameter of its search by bayesian optimisation in alp-hazero we reuse the same hyper-parameters for all games without game-specific tuning the sole exception is the noise that is added to the prior policy to ensure exploration this is scaled in proportion to the typical number of legal moves for that game type like alphago zero the board state is encoded",
+          "next": "by spatial planes based only on the basic rules for each game the actions are encoded by either spatial planes or a flat vector again based only on the basic rules for each game see"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4672,
+        "downstream_relevance_score": 0.3286,
+        "components": {
+          "bio_boundary_score": 0.6695,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bayesian",
+          "optimisation"
+        ],
+        "normalization": "bayesian optimisation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bayesian optimisation",
+          "canonical": "bayesian optimisation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6695",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "downstream relevance score is 0.3286"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "minimax search",
+        "canonical": "minimax search",
+        "normalized": "minimax search",
+        "tokens": [
+          "minimax",
+          "search"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 34,
+        "sentence": "patterns each feature i is assigned by a combination of manual and automatic tuning a corresponding weight w i and the position is evaluated by a linear combination v s w s w however this raw is only considered accurate for positions that are quiet with no unresolved captures or checks a domain-specialised quiescence search is used to resolve ongoing tactical situations before the function is applied the final evaluation of a position s is computed by a minimax search",
+        "context_window": {
+          "previous": "midgame endgame-specific material point values material imbalance tables piece-square tables mobility and trapped pieces pawn structure king safety outposts bishop pair and other miscellaneous",
+          "current": "patterns each feature i is assigned by a combination of manual and automatic tuning a corresponding weight w i and the position is evaluated by a linear combination v s w s w however this raw is only considered accurate for positions that are quiet with no unresolved captures or checks a domain-specialised quiescence search is used to resolve ongoing tactical situations before the function is applied the final evaluation of a position s is computed by a minimax search",
+          "next": "that evaluates each leaf using a quiescence search alpha-beta pruning is used to safely cut any branch that is provably dominated by another variation additional cuts are achieved using aspiration windows and principal variation search other pruning strategies include null move pruning which assumes a pass move should be worse than any variation in positions that are unlikely to be in zugzwang as determined by simple heuristics futility pruning which assumes knowledge of the maximum possible change in and other"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4855,
+        "downstream_relevance_score": 0.3253,
+        "components": {
+          "bio_boundary_score": 0.5997,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "minimax",
+          "search"
+        ],
+        "normalization": "minimax search",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "minimax search",
+          "canonical": "minimax search",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5997",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3253"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "computational complexity",
+        "canonical": "computational complexity",
+        "normalized": "computational complexity",
+        "tokens": [
+          "computational",
+          "complexity"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 6,
+        "sentence": "tcec world-champion stockfish other strong chess programs including deep blue use very similar architectures shogi is a significantly harder game in terms of computational complexity than chess it is played on a larger board and any captured opponent piece changes sides and may subsequently be dropped anywhere on the board the strongest shogi programs such as computer shogi association csa world-champion elmo have only recently defeated human champions these programs use a similar algorithm to computer chess programs again based",
+        "context_window": {
+          "previous": "artificial intelligence was achieved in 1997 when deep blue defeated the human world champion computer chess programs continued to progress steadily beyond human level in the following two decades these programs evaluate positions using features handcrafted by human grandmasters and carefully tuned weights combined with a high-performance alpha-beta search that expands a vast search tree using a large number of clever heuristics and domain-specific adaptations in the methods we describe these augmentations focusing on the 2016 top chess engine championship",
+          "current": "tcec world-champion stockfish other strong chess programs including deep blue use very similar architectures shogi is a significantly harder game in terms of computational complexity than chess it is played on a larger board and any captured opponent piece changes sides and may subsequently be dropped anywhere on the board the strongest shogi programs such as computer shogi association csa world-champion elmo have only recently defeated human champions these programs use a similar algorithm to computer chess programs again based",
+          "next": "on a highly optimised alpha-beta search engine with many domain-specific adaptations go is well suited to the neural network architecture used in alphago because the rules of the game are translationally invariant matching the weight sharing structure of convolutional networks are defined in terms of liberties corresponding to the adjacencies between points on the board matching the local structure of convolutional networks and are rotationally and reflectionally symmetric allowing for data augmentation and ensembling furthermore the action space is simple"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4047,
+        "downstream_relevance_score": 0.3182,
+        "components": {
+          "bio_boundary_score": 0.5398,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational",
+          "complexity"
+        ],
+        "normalization": "computational complexity",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational complexity",
+          "canonical": "computational complexity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5398",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3182"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "shogi",
+        "canonical": "shogi",
+        "normalized": "shogi",
+        "tokens": [
+          "shogi"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 47,
+        "sentence": "of the game rules these are used during mcts to simulate the positions resulting from a sequence of moves to determine game termination and to score any simulations that reach a terminal state 3 knowledge of the rules is also used to encode the input planes i e castling repetition no-progress and output planes how pieces move promotions and piece drops in shogi 4 the typical number of legal moves is used to scale the exploration noise see below 5",
+        "context_window": {
+          "previous": "contrast alpha-beta search computes an explicit minimax which propagates the biggest approximation errors to the root of the subtree using mcts may allow alphazero to effectively combine its neural network representations with a powerful domain-independent search domain knowledge 1 the input features describing the position and the output features describing the move are structured as a set of planes i e the neural network architecture is matched to the grid-structure of the board 2 alphazero is provided with perfect knowledge",
+          "current": "of the game rules these are used during mcts to simulate the positions resulting from a sequence of moves to determine game termination and to score any simulations that reach a terminal state 3 knowledge of the rules is also used to encode the input planes i e castling repetition no-progress and output planes how pieces move promotions and piece drops in shogi 4 the typical number of legal moves is used to scale the exploration noise see below 5",
+          "next": "chess and shogi games exceeding a maximum number of steps determined by typical game length were terminated and assigned a drawn outcome go games were terminated and scored with tromp-taylor rules similarly to previous work alphazero did not use any form of domain knowledge beyond the points listed above representation in this section we describe the representation of the board inputs and the representation of the action outputs used by the neural network in alphazero other representations could have been"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "evaluation_metric",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4453,
+        "downstream_relevance_score": 0.3072,
+        "components": {
+          "bio_boundary_score": 0.5642,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "shogi"
+        ],
+        "normalization": "shogi",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "shogi",
+          "canonical": "shogi",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5642",
+        "structure model assigned role 'metric' with score 0.82",
+        "downstream relevance score is 0.3072"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "predicted outcome",
+        "canonical": "predicted outcome",
+        "normalized": "predicted outcome",
+        "tokens": [
+          "predicted",
+          "outcome"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 14,
+        "sentence": "are updated so as to minimise the error between the predicted outcome v t and the game outcome z and to maximise the similarity of the policy vector p t to the search probabilities t specifically the parameters are adjusted by gradient descent on a loss function l that sums over mean-squared error and cross-entropy losses respectively p v f s l z -v 2 - log p c 2 where c is a parameter controlling the level of l",
+        "context_window": {
+          "previous": "the root state the parameters of the deep neural network in alphazero are trained by self-play reinforcement learning starting from randomly initialised parameters games are played by selecting moves for both players by mcts a t t at the end of the game the terminal position s t is scored according to the rules of the game to compute the game outcome z -1 for a loss 0 for a draw and 1 for a win the neural network parameters",
+          "current": "are updated so as to minimise the error between the predicted outcome v t and the game outcome z and to maximise the similarity of the policy vector p t to the search probabilities t specifically the parameters are adjusted by gradient descent on a loss function l that sums over mean-squared error and cross-entropy losses respectively p v f s l z -v 2 - log p c 2 where c is a parameter controlling the level of l",
+          "next": "2 weight regularisation the updated parameters are used in subsequent games of self-play the alphazero algorithm described in this paper differs from the original alphago zero algorithm in several respects alphago zero estimates and optimises the probability of winning assuming binary win loss outcomes alphazero instead estimates and optimises the expected outcome taking account of draws or potentially other outcomes the rules of go are invariant to rotation and reflection this fact was exploited in alphago and alphago zero in"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.461,
+        "downstream_relevance_score": 0.2957,
+        "components": {
+          "bio_boundary_score": 0.73,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "predicted",
+          "outcome"
+        ],
+        "normalization": "predicted outcome",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "predicted outcome",
+          "canonical": "predicted outcome",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.73",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.2957"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 20,
+    "top_candidates": [
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper, we generalise this approach into a single AlphaZero algorithm that can achieve, tabula rasa, superhuman performance in many challenging domains.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Chess subsequently became the grand challenge task for a generation of artificial intelligence researchers, culminating in high-performance computer chess programs that perform at superhuman level .",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "However, these systems are highly tuned to their domain, and cannot be generalised to other problems without significant human effort.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Recently, the AlphaGo Zero algorithm achieved superhuman performance in the game of Go, by representing Go knowledge using deep convolutional neural networks , trained solely by reinforcement learning from games of self-play .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this paper, we apply a similar but fully generic algorithm, which we call AlphaZero, to the games of chess and shogi as well as Go, without any additional domain knowledge except the rules of the game, demonstrating that a general-purpose reinforcement learning algorithm can achieve, tabula rasa, superhuman performance across many challenging domains.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "These programs use a similar algorithm to computer chess programs, again based on a highly optimised alpha-beta search engine with many domain-specific adaptations.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Go is well suited to the neural network architecture used in AlphaGo because the rules of the game are translationally invariant (matching the weight sharing structure of convolutional networks), are defined in terms of liberties corresponding to the adjacencies between points on the board (matching the local structure of convolutional networks), and are rotationally and reflectionally symmetric (allowing for data augmentation and ensembling).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The AlphaZero algorithm is a more generic version of the AlphaGo Zero algorithm that was first introduced in the context of Go .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "It replaces the handcrafted knowledge and domainspecific augmentations used in traditional game-playing programs with deep neural networks and a tabula rasa reinforcement learning algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Instead of an alpha-beta search with domain-specific enhancements, AlphaZero uses a generalpurpose Monte-Carlo tree search (MCTS) algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The AlphaZero algorithm described in this paper differs from the original AlphaGo Zero algorithm in several respects.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The rules of chess and shogi are asymmetric, and in general symmetries cannot be assumed.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Unless otherwise specified, the same algorithm settings, network architecture, and hyper-parameters were used for all three games.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Unless otherwise specified, the same algorithm settings, network architecture, and hyper-parameters were used for all three games.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We also analysed the relative performance of AlphaZero's MCTS search compared to the state-of-the-art alpha-beta search engines used by Stockfish and Elmo.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "AlphaZero is a generic reinforcement learning algorithm -originally devised for the game of Go -that achieved superior results within a few hours, searching a thousand times fewer positions, given no domain A10: English Opening D06: Queens Gambit 8 rmblkans 7 opopopop 6 0Z0Z0Z0Z 5 Z0Z0Z0Z0 4 0ZPZ0Z0Z 3 Z0Z0Z0Z0 2 PO0OPOPO 1 SNAQJBMR a b c d e f g h 8 rmblkans 7 opo0opop 6 0Z0Z0Z0Z 5 Z0ZpZ0Z0 4 0ZPO0Z0Z 3 Z0Z0Z0Z0 2 PO0ZPOPO 1 SNAQJBMR a b c d e f g h w 20/30/0, b 8/40/2 1...e5 g3 d5 cxd5 Nf6 Bg2 Nxd5 Nf3 w 16/34/0, b 1/47/2 2...c6 Nc3 Nf6 Nf3 a6 g3 c4 a4 A46: Queens Pawn Game E00: Queens Pawn Game 8 rmblka0s 7 opopopop 6 0Z0Z0m0Z 5 Z0Z0Z0Z0 4 0Z0O0Z0Z 3 Z0Z0ZNZ0 2 POPZPOPO 1 SNAQJBZR a b c d e f g h 8 rmblka0s 7 opopZpop 6 0Z0Zpm0Z 5 Z0Z0Z0Z0 4 0ZPO0Z0Z 3 Z0Z0Z0Z0 2 PO0ZPOPO 1 SNAQJBMR a b c d e f g h w 24/26/0, b 3/47/0 2...d5 c4 e6 Nc3 Be7 Bf4 O-O e3 w 17/33/0, b 5/44/1 3.Nf3 d5 Nc3 Bb4 Bg5 h6 Qa4 Nc6 E61: Kings Indian Defence C00: French Defence 8 rmblka0s 7 opopopZp 6 0Z0Z0mpZ 5 Z0Z0Z0Z0 4 0ZPO0Z0Z 3 Z0M0Z0Z0 2 PO0ZPOPO 1 S0AQJBMR a b c d e f g h 8 rmblkans 7 opo0Zpop 6 0Z0ZpZ0Z 5 Z0ZpZ0Z0 4 0Z0OPZ0Z 3 Z0Z0Z0Z0 2 POPZ0OPO 1 SNAQJBMR a b c d e f g h w 16/34/0, b 0/48/2 3...d5 cxd5 Nxd5 e4 Nxc3 bxc3 Bg7 Be3 w 39/11/0, b 4/46/0 3.Nc3 Nf6 e5 Nd7 f4 c5 Nf3 Be7 B50: Sicilian Defence B30: Sicilian Defence 8 rmblkans 7 opZ0opop 6 0Z0o0Z0Z 5 Z0o0Z0Z0 4 0Z0ZPZ0Z 3 Z0Z0ZNZ0 2 POPO0OPO 1 SNAQJBZR a b c d e f g h 8 rZblkans 7 opZpopop 6 0ZnZ0Z0Z 5 Z0o0Z0Z0 4 0Z0ZPZ0Z 3 Z0Z0ZNZ0 2 POPO0OPO 1 SNAQJBZR a b c d e f g h w 17/32/1, b 4/43/3 3.d4 cxd4 Nxd4 Nf6 Nc3 a6 f3 e5 w 11/39/0, b 3/46/1 3.Bb5 e6 O-O Ne7 Re1 a6 Bf1 d5 B40: Sicilian Defence C60: Ruy Lopez (Spanish Opening) 8 rmblkans 7 opZpZpop 6 0Z0ZpZ0Z 5 Z0o0Z0Z0 4 0Z0ZPZ0Z 3 Z0Z0ZNZ0 2 POPO0OPO 1 SNAQJBZR a b c d e f g h 8 rZblkans 7 ZpopZpop 6 pZnZ0Z0Z 5 ZBZ0o0Z0 4 0Z0ZPZ0Z 3 Z0Z0ZNZ0 2 POPO0OPO 1 SNAQJ0ZR a b c d e f g h w 17/31/2, b 3/40/7 3.d4 cxd4 Nxd4 Nc6 Nc3 Qc7 Be3 a6 w 27/22/1, b 6/44/0 4.Ba4 Be7 O-O Nf6 Re1 b5 Bb3 O-O B10: Caro-Kann Defence A05: Reti Opening 8 rmblkans 7 opZpopop 6 0ZpZ0Z0Z 5 Z0Z0Z0Z0 4 0Z0ZPZ0Z 3 Z0Z0Z0Z0 2 POPO0OPO 1 SNAQJBMR a b c d e f g h 8 rmblka0s 7 opopopop 6 0Z0Z0m0Z 5 Z0Z0Z0Z0 4 0Z0Z0Z0Z 3 Z0Z0ZNZ0 2 POPOPOPO 1 SNAQJBZR a b c d e f g h knowledge except the rules of chess.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Furthermore, the same algorithm was applied without modification to the more challenging game of shogi, again outperforming the state of the art within a few hours.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Furthermore, the same algorithm was applied without modification to the more challenging game of shogi, again outperforming the state of the art within a few hours.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "An approach based on training dual policy and value networks using AlphaZero-like policy iteration was successfully applied to improve on the state-of-the-art in Hex (3).",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We applied the AlphaZero algorithm to chess, shogi, and also Go.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Convolutional neural network",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.8054
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "artificial intelligence model",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.7579
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "reinforcement learning",
+        "section": "method",
+        "role": "process",
+        "score": 0.5223
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "reinforcement",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.456
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "computer chess",
+        "section": "method",
+        "role": "process",
+        "score": 0.398
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "expected outcome",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3836
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "probability distribution",
+        "section": "experiment",
+        "role": "mechanism",
+        "score": 0.382
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "game outcome",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.38
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "alphazero",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.3769
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "quiescence search",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.3515
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "bayesian optimisation",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3286
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "minimax search",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.3253
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "computational complexity",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3182
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "shogi",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.3072
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "predicted outcome",
+        "section": "intro",
+        "role": "background",
+        "score": 0.2957
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_010",
+        "target": "ecu_012",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

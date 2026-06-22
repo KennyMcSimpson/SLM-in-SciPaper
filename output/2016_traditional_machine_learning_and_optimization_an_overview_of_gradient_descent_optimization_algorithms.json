@@ -1,0 +1,2680 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_traditional_machine_learning_and_optimization_an_overview_of_gradient_descent_optimization_algorithms",
+    "title": "2016_traditional_machine_learning_and_optimization_an_overview_of_gradient_descent_optimization_algorithms",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_traditional_machine_learning_and_optimization_an_overview_of_gradient_descent_optimization_algorithms.txt",
+    "sentence_count": 67,
+    "section_counts": {
+      "intro": 5,
+      "related_work": 1,
+      "method": 60,
+      "conclusion": 1
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5238,
+    "type_count": 1101,
+    "type_token_ratio": 0.2102,
+    "section_token_counts": {
+      "intro": 316,
+      "related_work": 80,
+      "method": 4767,
+      "experiment": 0,
+      "conclusion": 75
+    },
+    "top_unigrams": [
+      {
+        "term": "gradient",
+        "count": 62
+      },
+      {
+        "term": "update",
+        "count": 47
+      },
+      {
+        "term": "sgd",
+        "count": 40
+      },
+      {
+        "term": "momentum",
+        "count": 40
+      },
+      {
+        "term": "learning",
+        "count": 39
+      },
+      {
+        "term": "descent",
+        "count": 31
+      },
+      {
+        "term": "parameters",
+        "count": 29
+      },
+      {
+        "term": "rate",
+        "count": 29
+      },
+      {
+        "term": "gradients",
+        "count": 26
+      },
+      {
+        "term": "algorithms",
+        "count": 25
+      },
+      {
+        "term": "t-1",
+        "count": 25
+      },
+      {
+        "term": "parameter",
+        "count": 24
+      },
+      {
+        "term": "which",
+        "count": 22
+      },
+      {
+        "term": "can",
+        "count": 22
+      },
+      {
+        "term": "adam",
+        "count": 21
+      },
+      {
+        "term": "vector",
+        "count": 20
+      },
+      {
+        "term": "adagrad",
+        "count": 19
+      },
+      {
+        "term": "time",
+        "count": 18
+      },
+      {
+        "term": "training",
+        "count": 18
+      },
+      {
+        "term": "updates",
+        "count": 18
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "gradient descent",
+        "count": 31
+      },
+      {
+        "term": "learning rate",
+        "count": 25
+      },
+      {
+        "term": "update rule",
+        "count": 11
+      },
+      {
+        "term": "time step",
+        "count": 10
+      },
+      {
+        "term": "batch gradient",
+        "count": 9
+      },
+      {
+        "term": "momentum term",
+        "count": 9
+      },
+      {
+        "term": "squared gradients",
+        "count": 9
+      },
+      {
+        "term": "momentum vector",
+        "count": 9
+      },
+      {
+        "term": "et al",
+        "count": 8
+      },
+      {
+        "term": "decaying average",
+        "count": 8
+      },
+      {
+        "term": "objective function",
+        "count": 7
+      },
+      {
+        "term": "params grad",
+        "count": 7
+      },
+      {
+        "term": "parameter updates",
+        "count": 7
+      },
+      {
+        "term": "past gradients",
+        "count": 7
+      },
+      {
+        "term": "optimization algorithms",
+        "count": 6
+      },
+      {
+        "term": "params params",
+        "count": 6
+      },
+      {
+        "term": "exponentially decaying",
+        "count": 6
+      },
+      {
+        "term": "parameter update",
+        "count": 5
+      },
+      {
+        "term": "do not",
+        "count": 5
+      },
+      {
+        "term": "loss function",
+        "count": 5
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "batch gradient descent",
+        "count": 9
+      },
+      {
+        "term": "exponentially decaying average",
+        "count": 6
+      },
+      {
+        "term": "past squared gradients",
+        "count": 5
+      },
+      {
+        "term": "variants gradient descent",
+        "count": 4
+      },
+      {
+        "term": "mini-batch gradient descent",
+        "count": 4
+      },
+      {
+        "term": "nesterov accelerated gradient",
+        "count": 4
+      },
+      {
+        "term": "decaying average past",
+        "count": 4
+      },
+      {
+        "term": "gradient descent optimization",
+        "count": 3
+      },
+      {
+        "term": "descent optimization algorithms",
+        "count": 3
+      },
+      {
+        "term": "optimizing gradient descent",
+        "count": 3
+      },
+      {
+        "term": "state-of-the-art deep learning",
+        "count": 3
+      },
+      {
+        "term": "gradient objective function",
+        "count": 3
+      },
+      {
+        "term": "range nb epochs",
+        "count": 3
+      },
+      {
+        "term": "params grad eval",
+        "count": 3
+      },
+      {
+        "term": "grad eval uate",
+        "count": 3
+      },
+      {
+        "term": "eval uate gra",
+        "count": 3
+      },
+      {
+        "term": "uate gra dient",
+        "count": 3
+      },
+      {
+        "term": "gra dient loss",
+        "count": 3
+      },
+      {
+        "term": "dient loss function",
+        "count": 3
+      },
+      {
+        "term": "params params params",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 8,
+    "nonzero_tfidf_features": 8,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 3.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 8.0,
+        "tfidf": 0.9925
+      },
+      {
+        "feature_name": "methods__sgd",
+        "section": "method",
+        "term": "sgd",
+        "frequency": 4.0,
+        "tfidf": 0.9105
+      },
+      {
+        "feature_name": "conclusion__sgd",
+        "section": "conclusion",
+        "term": "sgd",
+        "frequency": 3.0,
+        "tfidf": 0.8536
+      },
+      {
+        "feature_name": "conclusion__gradient descent",
+        "section": "conclusion",
+        "term": "gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.521
+      },
+      {
+        "feature_name": "methods__adaptive learning",
+        "section": "method",
+        "term": "adaptive learning",
+        "frequency": 1.0,
+        "tfidf": 0.3141
+      },
+      {
+        "feature_name": "methods__deep learning",
+        "section": "method",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.2688
+      },
+      {
+        "feature_name": "introduction__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.1224
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 3.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 8.0,
+          "tfidf": 0.9925
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1224
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 4.0,
+          "tfidf": 0.9105
+        },
+        {
+          "feature_name": "methods__adaptive learning",
+          "section": "method",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.3141
+        },
+        {
+          "feature_name": "methods__deep learning",
+          "section": "method",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.2688
+        }
+      ],
+      "experiment": [],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__sgd",
+          "section": "conclusion",
+          "term": "sgd",
+          "frequency": 3.0,
+          "tfidf": 0.8536
+        },
+        {
+          "feature_name": "conclusion__gradient descent",
+          "section": "conclusion",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.521
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 5,
+      "token_count": 316,
+      "bow_hit_count": 25,
+      "top_bow_terms": [
+        {
+          "canonical_term": "gradient descent",
+          "count": 25,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 3.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 8.0,
+          "tfidf": 0.9925
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1224
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 80,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep learning",
+          "count": 4,
+          "section_prior": 0.1475,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.0619,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 60,
+      "token_count": 4767,
+      "bow_hit_count": 185,
+      "top_bow_terms": [
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 91,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 33,
+          "section_prior": 0.268,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 17,
+          "section_prior": 0.1542,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 13,
+          "section_prior": 0.082,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 7,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "online machine learning",
+          "count": 6,
+          "section_prior": 0.2778,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 4,
+          "section_prior": 0.1102,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4706,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "word embedding",
+          "count": 1,
+          "section_prior": 0.4912,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "GloVe",
+          "count": 1,
+          "section_prior": 0.1613,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 4.0,
+          "tfidf": 0.9105
+        },
+        {
+          "feature_name": "methods__adaptive learning",
+          "section": "method",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.3141
+        },
+        {
+          "feature_name": "methods__deep learning",
+          "section": "method",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.2688
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "conclusion": {
+      "sentence_count": 1,
+      "token_count": 75,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 4,
+          "section_prior": 0.0576,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.0722,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__sgd",
+          "section": "conclusion",
+          "term": "sgd",
+          "frequency": 3.0,
+          "tfidf": 0.8536
+        },
+        {
+          "feature_name": "conclusion__gradient descent",
+          "section": "conclusion",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.521
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "sgd",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "sgd"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 61,
+        "sentence": "performance of sgd for a great overview of some other common tricks refer to shuffling and curriculum learning generally we want to avoid providing the training examples in a meaningful order to our model as this may bias the optimization algorithm consequently it is often a good idea to shuffle the training data after every epoch on the other hand for some cases where we aim to solve progressively harder problems supplying the training examples in a meaningful order may",
+        "context_window": {
+          "previous": "with an elastic force i e a center variable stored by the parameter server this allows the local variables to fluctuate further from the center variable which in theory allows for more exploration of the parameter space they show empirically that this increased capacity for exploration leads to improved performance by finding new local optima additional strategies for optimizing sgd finally we introduce additional strategies that can be used alongside any of the previously mentioned algorithms to further improve the",
+          "current": "performance of sgd for a great overview of some other common tricks refer to shuffling and curriculum learning generally we want to avoid providing the training examples in a meaningful order to our model as this may bias the optimization algorithm consequently it is often a good idea to shuffle the training data after every epoch on the other hand for some cases where we aim to solve progressively harder problems supplying the training examples in a meaningful order may",
+          "next": "actually lead to improved performance and better convergence the method for establishing this meaningful order is called curriculum learning zaremba and sutskever were only able to train lstms to evaluate simple programs using curriculum learning and show that a combined or mixed strategy is better than the naive one which sorts examples by increasing difficulty batch normalization to facilitate learning we typically normalize the initial values of our parameters by initializing them with zero mean and unit variance as training"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6854,
+        "downstream_relevance_score": 0.8108,
+        "components": {
+          "bio_boundary_score": 0.5474,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3094,
+          "document_tfidf_score": 0.9105,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "sgd",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "sgd",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 23,
+        "total_frequency": 42,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__sgd",
+        "section": "method",
+        "term": "sgd",
+        "frequency": 4.0,
+        "tfidf": 0.9105,
+        "normalized_frequency": 0.5,
+        "normalized_tfidf": 0.9105
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sgd"
+        ],
+        "normalization": "sgd",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.3094,
+        "canonicalization": {
+          "observed": "sgd",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5474",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'other'",
+        "document-term matrix links the phrase to feature 'methods__sgd' with tf-idf 0.9105",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.8108"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "batch normalization",
+        "canonical": "batch normalization",
+        "normalized": "batch normalization",
+        "tokens": [
+          "batch",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 63,
+        "sentence": "progresses and we update parameters to different extents we lose this normalization which slows down training and amplifies changes as the network becomes deeper batch normalization reestablishes these normalizations for every mini-batch and changes are backpropagated through the operation as well by making normalization part of the model architecture we are able to use higher learning rates and pay less attention to the initialization parameters batch normalization additionally acts as a regularizer reducing and sometimes even eliminating the need for",
+        "context_window": {
+          "previous": "actually lead to improved performance and better convergence the method for establishing this meaningful order is called curriculum learning zaremba and sutskever were only able to train lstms to evaluate simple programs using curriculum learning and show that a combined or mixed strategy is better than the naive one which sorts examples by increasing difficulty batch normalization to facilitate learning we typically normalize the initial values of our parameters by initializing them with zero mean and unit variance as training",
+          "current": "progresses and we update parameters to different extents we lose this normalization which slows down training and amplifies changes as the network becomes deeper batch normalization reestablishes these normalizations for every mini-batch and changes are backpropagated through the operation as well by making normalization part of the model architecture we are able to use higher learning rates and pay less attention to the initialization parameters batch normalization additionally acts as a regularizer reducing and sometimes even eliminating the need for",
+          "next": "dropout early stopping according to geoff hinton early stopping is beautiful free lunch you should thus always monitor error on a validation set during training and stop with some patience if your validation error does not improve enough gradient noise neelakantan et al add noise that follows a gaussian distribution n 0 2 t to each gradient update g t i g t i n 0 2 t they anneal the variance according to the following schedule 2 t 1"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7315,
+        "downstream_relevance_score": 0.585,
+        "components": {
+          "bio_boundary_score": 0.9355,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "normalization"
+        ],
+        "normalization": "batch normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch normalization",
+          "canonical": "batch normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9355",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.585"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "batch gradient descent",
+        "canonical": "gradient descent",
+        "normalized": "gradient descent",
+        "tokens": [
+          "batch",
+          "gradient",
+          "descent"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "gradient descent"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 11,
+        "sentence": "will keep overshooting however it has been shown that when we slowly decrease the learning rate sgd shows the same convergence behaviour as batch gradient descent almost certainly converging to a local or the global minimum for non-convex and convex optimization respectively its code fragment simply adds a loop over the training examples and evaluates the gradient w r t each example note that we shuffle the training data at every epoch as explained in section 6 1 for i",
+        "context_window": {
+          "previous": "is therefore usually much faster and can also be used to learn online sgd performs frequent updates with a high variance that cause the objective function to fluctuate heavily as in figure while batch gradient descent converges to the minimum of the basin the parameters are placed in sgd s fluctuation on the one hand enables it to jump to new and potentially better local minima on the other hand this ultimately complicates convergence to the exact minimum as sgd",
+          "current": "will keep overshooting however it has been shown that when we slowly decrease the learning rate sgd shows the same convergence behaviour as batch gradient descent almost certainly converging to a local or the global minimum for non-convex and convex optimization respectively its code fragment simply adds a loop over the training examples and evaluates the gradient w r t each example note that we shuffle the training data at every epoch as explained in section 6 1 for i",
+          "next": "in range nb epochs np random shuffle data for example in data params grad eval uate gra dient loss function example params params params -learning rate params grad mini-batch gradient descent mini-batch gradient descent finally takes the best of both worlds and performs an update for every mini-batch of n training examples - j x i i n y i i n this way it a reduces the variance of the parameter updates which can lead to more stable convergence"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5556,
+        "downstream_relevance_score": 0.5443,
+        "components": {
+          "bio_boundary_score": 0.9713,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7644,
+          "laplace_section_prior": 0.268,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "gradient descent",
+        "match_quality": 0.84,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "gradient descent",
+        "display_term": "gradient descent",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Gradient_descent",
+        "wikidata_id": "Q1199743",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 18,
+        "total_frequency": 25,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "gradient",
+          "descent"
+        ],
+        "normalization": "batch gradient descent",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.268,
+        "canonicalization": {
+          "observed": "batch gradient descent",
+          "canonical": "gradient descent",
+          "channel_score": 0.7644
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9713",
+        "structure model assigned role 'process' with score 0.82",
+        "section BoW matched canonical term 'gradient descent' with confidence 0.7644",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5443"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "recurrent neural network",
+          "Recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 13,
+        "sentence": "and b can make use of highly optimized matrix optimizations common to state-of-the-art deep learning libraries that make computing the gradient w r t a mini-batch very efficient common mini-batch sizes range between 50 and 256 but can vary for different applications mini-batch gradient descent is typically the algorithm of choice when training a neural network and the term sgd usually is employed also when mini-batches are used note in modifications of sgd in the rest of this post we",
+        "context_window": {
+          "previous": "in range nb epochs np random shuffle data for example in data params grad eval uate gra dient loss function example params params params -learning rate params grad mini-batch gradient descent mini-batch gradient descent finally takes the best of both worlds and performs an update for every mini-batch of n training examples - j x i i n y i i n this way it a reduces the variance of the parameter updates which can lead to more stable convergence",
+          "current": "and b can make use of highly optimized matrix optimizations common to state-of-the-art deep learning libraries that make computing the gradient w r t a mini-batch very efficient common mini-batch sizes range between 50 and 256 but can vary for different applications mini-batch gradient descent is typically the algorithm of choice when training a neural network and the term sgd usually is employed also when mini-batches are used note in modifications of sgd in the rest of this post we",
+          "next": "leave out the parameters x i i n y i i n for simplicity in code instead of iterating over examples we now iterate over mini-batches of size 50 for i in range nb epochs np random shuffle data for batch in get batches data batch size 50 params grad eval uate gra dient loss function batch params params params -learning rate params grad challenges vanilla mini-batch gradient descent however does not guarantee good convergence but offers a few challenges"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          },
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4291,
+        "downstream_relevance_score": 0.5418,
+        "components": {
+          "bio_boundary_score": 0.5404,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4417,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural network",
+        "match_quality": 0.78,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 52,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4417,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5404",
+        "structure model assigned role 'process' with score 0.82",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched algorithm, state-of-the-art",
+        "downstream relevance score is 0.5418"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "parameter server",
+        "canonical": "parameter server",
+        "normalized": "parameter server",
+        "tokens": [
+          "parameter",
+          "server"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 57,
+        "sentence": "useful information downpour sgd downpour sgd is an asynchronous variant of sgd that was used by dean et al in their distbelief framework the predecessor to tensorflow at google it runs multiple replicas of a model in parallel on subsets of the training data these models send their updates to a parameter server which is split across many machines each machine is responsible for storing and updating a fraction of the model s parameters however as replicas don t communicate",
+        "context_window": {
+          "previous": "to optimize parallelized and distributed sgd hogwild niu et al introduce an update scheme called hogwild that allows performing sgd updates in parallel on cpus processors are allowed to access shared memory without locking the parameters this only works if the input data is sparse as each update will only modify a fraction of all parameters they show that in this case the update scheme achieves almost an optimal rate of convergence as it is unlikely that processors will overwrite",
+          "current": "useful information downpour sgd downpour sgd is an asynchronous variant of sgd that was used by dean et al in their distbelief framework the predecessor to tensorflow at google it runs multiple replicas of a model in parallel on subsets of the training data these models send their updates to a parameter server which is split across many machines each machine is responsible for storing and updating a fraction of the model s parameters however as replicas don t communicate",
+          "next": "with each other e g by sharing weights or updates their parameters are continuously at risk of diverging hindering convergence delay-tolerant algorithms for sgd mcmahan and streeter extend adagrad to the parallel setting by developing delay-tolerant algorithms that not only adapt to past gradients but also to the update delays this has been shown to work well in practice tensorflow tensorflow is google s recently open-sourced framework for the implementation and deployment of large-scale machine learning models it is based"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.644,
+        "downstream_relevance_score": 0.5395,
+        "components": {
+          "bio_boundary_score": 0.7188,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "parameter",
+          "server"
+        ],
+        "normalization": "parameter server",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "parameter server",
+          "canonical": "parameter server",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7188",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched framework",
+        "downstream relevance score is 0.5395"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "gradient descent",
+        "canonical": "gradient descent",
+        "normalized": "gradient descent",
+        "tokens": [
+          "gradient",
+          "descent"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "gradient descent"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 12,
+        "sentence": "in range nb epochs np random shuffle data for example in data params grad eval uate gra dient loss function example params params params -learning rate params grad mini-batch gradient descent mini-batch gradient descent finally takes the best of both worlds and performs an update for every mini-batch of n training examples - j x i i n y i i n this way it a reduces the variance of the parameter updates which can lead to more stable convergence",
+        "context_window": {
+          "previous": "will keep overshooting however it has been shown that when we slowly decrease the learning rate sgd shows the same convergence behaviour as batch gradient descent almost certainly converging to a local or the global minimum for non-convex and convex optimization respectively its code fragment simply adds a loop over the training examples and evaluates the gradient w r t each example note that we shuffle the training data at every epoch as explained in section 6 1 for i",
+          "current": "in range nb epochs np random shuffle data for example in data params grad eval uate gra dient loss function example params params params -learning rate params grad mini-batch gradient descent mini-batch gradient descent finally takes the best of both worlds and performs an update for every mini-batch of n training examples - j x i i n y i i n this way it a reduces the variance of the parameter updates which can lead to more stable convergence",
+          "next": "and b can make use of highly optimized matrix optimizations common to state-of-the-art deep learning libraries that make computing the gradient w r t a mini-batch very efficient common mini-batch sizes range between 50 and 256 but can vary for different applications mini-batch gradient descent is typically the algorithm of choice when training a neural network and the term sgd usually is employed also when mini-batches are used note in modifications of sgd in the rest of this post we"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4756,
+        "downstream_relevance_score": 0.5073,
+        "components": {
+          "bio_boundary_score": 0.7807,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.268,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "gradient descent",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "gradient descent",
+        "display_term": "gradient descent",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Gradient_descent",
+        "wikidata_id": "Q1199743",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 18,
+        "total_frequency": 25,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gradient",
+          "descent"
+        ],
+        "normalization": "gradient descent",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.268,
+        "canonicalization": {
+          "observed": "gradient descent",
+          "canonical": "gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7807",
+        "structure model assigned role 'process' with score 0.82",
+        "section BoW matched canonical term 'gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5073"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "tensorflow",
+        "canonical": "tensorflow",
+        "normalized": "tensorflow",
+        "tokens": [
+          "tensorflow"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 58,
+        "sentence": "with each other e g by sharing weights or updates their parameters are continuously at risk of diverging hindering convergence delay-tolerant algorithms for sgd mcmahan and streeter extend adagrad to the parallel setting by developing delay-tolerant algorithms that not only adapt to past gradients but also to the update delays this has been shown to work well in practice tensorflow tensorflow is google s recently open-sourced framework for the implementation and deployment of large-scale machine learning models it is based",
+        "context_window": {
+          "previous": "useful information downpour sgd downpour sgd is an asynchronous variant of sgd that was used by dean et al in their distbelief framework the predecessor to tensorflow at google it runs multiple replicas of a model in parallel on subsets of the training data these models send their updates to a parameter server which is split across many machines each machine is responsible for storing and updating a fraction of the model s parameters however as replicas don t communicate",
+          "current": "with each other e g by sharing weights or updates their parameters are continuously at risk of diverging hindering convergence delay-tolerant algorithms for sgd mcmahan and streeter extend adagrad to the parallel setting by developing delay-tolerant algorithms that not only adapt to past gradients but also to the update delays this has been shown to work well in practice tensorflow tensorflow is google s recently open-sourced framework for the implementation and deployment of large-scale machine learning models it is based",
+          "next": "on their experience with distbelief and is already used internally to perform computations on a large range of mobile devices as well as on large-scale distributed systems the distributed version which was released in april 2016 relies on a computation graph that is split into a subgraph for every device while communication takes place using send receive node pairs elastic averaging sgd zhang et al propose elastic averaging sgd easgd which links the parameters of the workers of asynchronous sgd"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5969,
+        "downstream_relevance_score": 0.505,
+        "components": {
+          "bio_boundary_score": 0.5583,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "tensorflow"
+        ],
+        "normalization": "tensorflow",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "tensorflow",
+          "canonical": "tensorflow",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5583",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched framework",
+        "downstream relevance score is 0.505"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "adam update rule",
+        "canonical": "adam update rule",
+        "normalized": "adam update rule",
+        "tokens": [
+          "adam",
+          "update",
+          "rule"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 39,
+        "sentence": "t 1 t - vt mt the authors propose default values of 0 9 for 1 0 999 for 2 and 10 -8 for they show empirically that adam works well in practice and compares favorably to other adaptive learning-method algorithms adamax the v t factor in the adam update rule scales the gradient inversely proportionally to the l 2 norm of the past gradients via the v t-1 term and current gradient g t 2 v t 2 v",
+        "context_window": {
+          "previous": "observe that they are biased towards zero especially during the initial time steps and especially when the decay rates are small i e 1 and 2 are close to 1 they counteract these biases by computing bias-corrected first and second moment estimates mt m t 1 - t 1 vt v t 1 - t 2 12 they then use these to update the parameters just as we have seen in adadelta and rmsprop which yields the adam update rule",
+          "current": "t 1 t - vt mt the authors propose default values of 0 9 for 1 0 999 for 2 and 10 -8 for they show empirically that adam works well in practice and compares favorably to other adaptive learning-method algorithms adamax the v t factor in the adam update rule scales the gradient inversely proportionally to the l 2 norm of the past gradients via the v t-1 term and current gradient g t 2 v t 2 v",
+          "next": "t-1 1 - 2 g t 2 we can generalize this update to the l p norm note that kingma and ba also parameterize 2 as p 2 v t p 2 v t-1 1 - p 2 g t p norms for large p values generally become numerically unstable which is why l 1 and l 2 norms are most common in practice however l also generally exhibits stable behavior for this reason the authors propose adamax and show"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6496,
+        "downstream_relevance_score": 0.5046,
+        "components": {
+          "bio_boundary_score": 0.6962,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adam",
+          "update",
+          "rule"
+        ],
+        "normalization": "adam update rule",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adam update rule",
+          "canonical": "adam update rule",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6962",
+        "structure model assigned role 'finding' with score 0.66",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5046"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "root mean squared error",
+        "canonical": "root mean squared error",
+        "normalized": "root mean squared error",
+        "tokens": [
+          "root",
+          "mean",
+          "squared",
+          "error"
+        ],
+        "ngram_len": 4,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 33,
+        "sentence": "t - rm s g t g t the authors note that the units in this update as well as in sgd momentum or adagrad do not match i e the update should have the same hypothetical units as the parameter to realize this they first define another exponentially decaying average this time not of squared gradients but of squared parameter updates e 2 t e 2 t-1 1 - 2 t the root mean squared error of parameter updates",
+        "context_window": {
+          "previous": "- g t i t 1 t t the parameter update vector of adagrad that we derived previously thus takes the form t - g t g t we now simply replace the diagonal matrix g t with the decaying average over past squared gradients e g 2 t t - e g 2 t g t as the denominator is just the root mean squared rms error criterion of the gradient we can replace it with the criterion short-hand",
+          "current": "t - rm s g t g t the authors note that the units in this update as well as in sgd momentum or adagrad do not match i e the update should have the same hypothetical units as the parameter to realize this they first define another exponentially decaying average this time not of squared gradients but of squared parameter updates e 2 t e 2 t-1 1 - 2 t the root mean squared error of parameter updates",
+          "next": "is thus rm s t e 2 t since rm s t is unknown we approximate it with the rms of parameter updates until the previous time step replacing the learning rate in the previous update rule with rm s t-1 finally yields the adadelta update rule t - rm s t-1 rm s g t g t t 1 t t with adadelta we do not even need to set a default learning rate as it has been eliminated"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6837,
+        "downstream_relevance_score": 0.4805,
+        "components": {
+          "bio_boundary_score": 0.8545,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 1.0
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "root",
+          "mean",
+          "squared",
+          "error"
+        ],
+        "normalization": "root mean squared error",
+        "ngram": "4-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "root mean squared error",
+          "canonical": "root mean squared error",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8545",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4805"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "momentum",
+        "canonical": "momentum",
+        "normalized": "momentum",
+        "tokens": [
+          "momentum"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 21,
+        "sentence": "we gain faster convergence and reduced oscillation nesterov accelerated gradient however a ball that rolls down a hill blindly following the slope is highly unsatisfactory we would like to have a smarter ball a ball that has a notion of where it is going so that it knows to slow down before the hill slopes up again nesterov accelerated gradient nag is a way to give our momentum term this kind of prescience we know that we will use our",
+        "context_window": {
+          "previous": "to 0 9 or a similar value essentially when using momentum we push a ball down a hill the ball accumulates momentum as it rolls downhill becoming faster and faster on the way until it reaches its terminal velocity if there is air resistance i e 1 the same thing happens to our parameter updates the momentum term increases for dimensions whose gradients point in the same directions and reduces updates for dimensions whose gradients change directions as a result",
+          "current": "we gain faster convergence and reduced oscillation nesterov accelerated gradient however a ball that rolls down a hill blindly following the slope is highly unsatisfactory we would like to have a smarter ball a ball that has a notion of where it is going so that it knows to slow down before the hill slopes up again nesterov accelerated gradient nag is a way to give our momentum term this kind of prescience we know that we will use our",
+          "next": "momentum term v t-1 to move the parameters computing - v t-1 thus gives us an approximation of the next position of the parameters the gradient is missing for the full update a rough idea where our parameters are going to be we can now effectively look ahead by calculating the gradient not w r t to our current parameters but w r t the approximate future position of our parameters again we set the momentum term to a value"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7022,
+        "downstream_relevance_score": 0.4727,
+        "components": {
+          "bio_boundary_score": 0.9837,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "momentum"
+        ],
+        "normalization": "momentum",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "momentum",
+          "canonical": "momentum",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9837",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4727"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "adam update equation",
+        "canonical": "adam update equation",
+        "normalized": "adam update equation",
+        "tokens": [
+          "adam",
+          "update",
+          "equation"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 41,
+        "sentence": "that v t with l converges to the following more stable value to avoid confusion with adam we use u t to denote the infinity norm-constrained v t u t 2 v t-1 1 - 2 g t max 2 v t-1 g t we can now plug this into the adam update equation by replacing vt with u t to obtain the adamax update rule t 1 t - u t mt note that as u t relies on",
+        "context_window": {
+          "previous": "t-1 1 - 2 g t 2 we can generalize this update to the l p norm note that kingma and ba also parameterize 2 as p 2 v t p 2 v t-1 1 - p 2 g t p norms for large p values generally become numerically unstable which is why l 1 and l 2 norms are most common in practice however l also generally exhibits stable behavior for this reason the authors propose adamax and show",
+          "current": "that v t with l converges to the following more stable value to avoid confusion with adam we use u t to denote the infinity norm-constrained v t u t 2 v t-1 1 - 2 g t max 2 v t-1 g t we can now plug this into the adam update equation by replacing vt with u t to obtain the adamax update rule t 1 t - u t mt note that as u t relies on",
+          "next": "the max operation it is not as suggestible to bias towards zero as m t and v t in adam which is why we do not need to compute a bias correction for u t good default values are again 0 002 1 0 9 and 2 0 999 nadam as we have seen before adam can be viewed as a combination of rmsprop and momentum rm-sprop contributes the exponentially decaying average of past squared gradients v t while momentum"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6195,
+        "downstream_relevance_score": 0.4372,
+        "components": {
+          "bio_boundary_score": 0.5524,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adam",
+          "update",
+          "equation"
+        ],
+        "normalization": "adam update equation",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adam update equation",
+          "canonical": "adam update equation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5524",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4372"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "bias correction",
+        "canonical": "bias correction",
+        "normalized": "bias correction",
+        "tokens": [
+          "bias",
+          "correction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 42,
+        "sentence": "the max operation it is not as suggestible to bias towards zero as m t and v t in adam which is why we do not need to compute a bias correction for u t good default values are again 0 002 1 0 9 and 2 0 999 nadam as we have seen before adam can be viewed as a combination of rmsprop and momentum rm-sprop contributes the exponentially decaying average of past squared gradients v t while momentum",
+        "context_window": {
+          "previous": "that v t with l converges to the following more stable value to avoid confusion with adam we use u t to denote the infinity norm-constrained v t u t 2 v t-1 1 - 2 g t max 2 v t-1 g t we can now plug this into the adam update equation by replacing vt with u t to obtain the adamax update rule t 1 t - u t mt note that as u t relies on",
+          "current": "the max operation it is not as suggestible to bias towards zero as m t and v t in adam which is why we do not need to compute a bias correction for u t good default values are again 0 002 1 0 9 and 2 0 999 nadam as we have seen before adam can be viewed as a combination of rmsprop and momentum rm-sprop contributes the exponentially decaying average of past squared gradients v t while momentum",
+          "next": "accounts for the exponentially decaying average of past gradients m t we have also seen that nesterov accelerated gradient nag is superior to vanilla momentum nadam nesterov-accelerated adaptive moment estimation thus combines adam and nag in order to incorporate nag into adam we need to modify its momentum term m t first let us recall the momentum update rule using our current notation g t t j t m t m t-1 g t t 1 t -m t where"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5842,
+        "downstream_relevance_score": 0.4342,
+        "components": {
+          "bio_boundary_score": 0.5631,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bias",
+          "correction"
+        ],
+        "normalization": "bias correction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bias correction",
+          "canonical": "bias correction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5631",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.4342"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "update rule",
+        "canonical": "update rule",
+        "normalized": "update rule",
+        "tokens": [
+          "update",
+          "rule"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 41,
+        "sentence": "that v t with l converges to the following more stable value to avoid confusion with adam we use u t to denote the infinity norm-constrained v t u t 2 v t-1 1 - 2 g t max 2 v t-1 g t we can now plug this into the adam update equation by replacing vt with u t to obtain the adamax update rule t 1 t - u t mt note that as u t relies on",
+        "context_window": {
+          "previous": "t-1 1 - 2 g t 2 we can generalize this update to the l p norm note that kingma and ba also parameterize 2 as p 2 v t p 2 v t-1 1 - p 2 g t p norms for large p values generally become numerically unstable which is why l 1 and l 2 norms are most common in practice however l also generally exhibits stable behavior for this reason the authors propose adamax and show",
+          "current": "that v t with l converges to the following more stable value to avoid confusion with adam we use u t to denote the infinity norm-constrained v t u t 2 v t-1 1 - 2 g t max 2 v t-1 g t we can now plug this into the adam update equation by replacing vt with u t to obtain the adamax update rule t 1 t - u t mt note that as u t relies on",
+          "next": "the max operation it is not as suggestible to bias towards zero as m t and v t in adam which is why we do not need to compute a bias correction for u t good default values are again 0 002 1 0 9 and 2 0 999 nadam as we have seen before adam can be viewed as a combination of rmsprop and momentum rm-sprop contributes the exponentially decaying average of past squared gradients v t while momentum"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6162,
+        "downstream_relevance_score": 0.4254,
+        "components": {
+          "bio_boundary_score": 0.541,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "update",
+          "rule"
+        ],
+        "normalization": "update rule",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "update rule",
+          "canonical": "update rule",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.541",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4254"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "adagrad",
+        "canonical": "adagrad",
+        "normalized": "adagrad",
+        "tokens": [
+          "adagrad"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 25,
+        "sentence": "performing larger updates for infrequent and smaller updates for frequent parameters for this reason it is well-suited for dealing with sparse data dean et al have found that adagrad greatly improved the robustness of sgd and used it for training large-scale neural nets at google which -among other things -learned to recognize cats in youtube videos moreover pennington et al used adagrad to train glove word embeddings as infrequent words require much larger updates than frequent ones previously we performed",
+        "context_window": {
+          "previous": "rnns on a number of tasks now that we are able to adapt our updates to the slope of our error function and speed up sgd in turn we would also like to adapt our updates to each individual parameter to perform larger or smaller updates depending on their importance v t v t-1 j - v t-1 -v t adagrad adagrad is an algorithm for gradient-based optimization that does just this it adapts the learning rate to the parameters",
+          "current": "performing larger updates for infrequent and smaller updates for frequent parameters for this reason it is well-suited for dealing with sparse data dean et al have found that adagrad greatly improved the robustness of sgd and used it for training large-scale neural nets at google which -among other things -learned to recognize cats in youtube videos moreover pennington et al used adagrad to train glove word embeddings as infrequent words require much larger updates than frequent ones previously we performed",
+          "next": "an update for all parameters at once as every parameter i used the same learning rate as adagrad uses a different learning rate for every parameter i at every time step t we first show adagrad s per-parameter update which we then vectorize for brevity we set g t i to be the gradient of the objective function w r t to the parameter i at time step t g t i t j t i the sgd update for"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5279,
+        "downstream_relevance_score": 0.3501,
+        "components": {
+          "bio_boundary_score": 0.8772,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adagrad"
+        ],
+        "normalization": "adagrad",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adagrad",
+          "canonical": "adagrad",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8772",
+        "structure model assigned role 'process' with score 0.82",
+        "downstream relevance score is 0.3501"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "noise",
+        "canonical": "noise",
+        "normalized": "noise",
+        "tokens": [
+          "noise"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 65,
+        "sentence": "t they show that adding this noise makes networks more robust to poor initialization and helps training particularly deep and complex networks they suspect that the added noise gives the model more chances to escape and find new local minima which are more frequent for deeper models",
+        "context_window": {
+          "previous": "dropout early stopping according to geoff hinton early stopping is beautiful free lunch you should thus always monitor error on a validation set during training and stop with some patience if your validation error does not improve enough gradient noise neelakantan et al add noise that follows a gaussian distribution n 0 2 t to each gradient update g t i g t i n 0 2 t they anneal the variance according to the following schedule 2 t 1",
+          "current": "t they show that adding this noise makes networks more robust to poor initialization and helps training particularly deep and complex networks they suspect that the added noise gives the model more chances to escape and find new local minima which are more frequent for deeper models",
+          "next": "in this article we have initially looked at the three variants of gradient descent among which minibatch gradient descent is the most popular we have then investigated algorithms that are most commonly used for optimizing sgd momentum nesterov accelerated gradient adagrad adadelta rmsprop adam adamax nadam as well as different algorithms to optimize asynchronous sgd finally we ve considered other strategies to improve sgd such as shuffling and curriculum learning batch normalization and early stopping"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4995,
+        "downstream_relevance_score": 0.3354,
+        "components": {
+          "bio_boundary_score": 0.7809,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "noise"
+        ],
+        "normalization": "noise",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "noise",
+          "canonical": "noise",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7809",
+        "structure model assigned role 'process' with score 0.82",
+        "downstream relevance score is 0.3354"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "parameter update",
+        "canonical": "parameter update",
+        "normalized": "parameter update",
+        "tokens": [
+          "parameter",
+          "update"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 31,
+        "sentence": "average of all past squared gradients the running average e g 2 t at time step t then depends as a fraction similarly to the momentum term only on the previous average and the current gradient e g 2 t e g 2 t-1 1 - g 2 t we set to a similar value as the momentum term around 0 9 for clarity we now rewrite our vanilla sgd update in terms of the parameter update vector t t",
+        "context_window": {
+          "previous": "eventually become infinitesimally small at which point the algorithm is no longer able to acquire additional knowledge the following algorithms aim to resolve this flaw adadelta adadelta is an extension of adagrad that seeks to reduce its aggressive monotonically decreasing learning rate instead of accumulating all past squared gradients adadelta restricts the window of accumulated past gradients to some fixed size w instead of inefficiently storing w previous squared gradients the sum of gradients is recursively defined as a decaying",
+          "current": "average of all past squared gradients the running average e g 2 t at time step t then depends as a fraction similarly to the momentum term only on the previous average and the current gradient e g 2 t e g 2 t-1 1 - g 2 t we set to a similar value as the momentum term around 0 9 for clarity we now rewrite our vanilla sgd update in terms of the parameter update vector t t",
+          "next": "- g t i t 1 t t the parameter update vector of adagrad that we derived previously thus takes the form t - g t g t we now simply replace the diagonal matrix g t with the decaying average over past squared gradients e g 2 t t - e g 2 t g t as the denominator is just the root mean squared rms error criterion of the gradient we can replace it with the criterion short-hand"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4704,
+        "downstream_relevance_score": 0.3302,
+        "components": {
+          "bio_boundary_score": 0.6806,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "parameter",
+          "update"
+        ],
+        "normalization": "parameter update",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "parameter update",
+          "canonical": "parameter update",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6806",
+        "structure model assigned role 'process' with score 0.82",
+        "downstream relevance score is 0.3302"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "momentum term",
+        "canonical": "momentum term",
+        "normalized": "momentum term",
+        "tokens": [
+          "momentum",
+          "term"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 22,
+        "sentence": "momentum term v t-1 to move the parameters computing - v t-1 thus gives us an approximation of the next position of the parameters the gradient is missing for the full update a rough idea where our parameters are going to be we can now effectively look ahead by calculating the gradient not w r t to our current parameters but w r t the approximate future position of our parameters again we set the momentum term to a value",
+        "context_window": {
+          "previous": "we gain faster convergence and reduced oscillation nesterov accelerated gradient however a ball that rolls down a hill blindly following the slope is highly unsatisfactory we would like to have a smarter ball a ball that has a notion of where it is going so that it knows to slow down before the hill slopes up again nesterov accelerated gradient nag is a way to give our momentum term this kind of prescience we know that we will use our",
+          "current": "momentum term v t-1 to move the parameters computing - v t-1 thus gives us an approximation of the next position of the parameters the gradient is missing for the full update a rough idea where our parameters are going to be we can now effectively look ahead by calculating the gradient not w r t to our current parameters but w r t the approximate future position of our parameters again we set the momentum term to a value",
+          "next": "of around 0 9 while momentum first computes the current gradient small blue vector in figure and then takes a big jump in the direction of the updated accumulated gradient big blue vector nag first makes a big jump in the direction of the previous accumulated gradient brown vector measures the gradient and then makes a correction green vector this anticipatory update prevents us from going too fast and results in increased responsiveness which has significantly increased the performance of"
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "future_work",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4578,
+        "downstream_relevance_score": 0.3109,
+        "components": {
+          "bio_boundary_score": 0.5956,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "momentum",
+          "term"
+        ],
+        "normalization": "momentum term",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "momentum term",
+          "canonical": "momentum term",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5956",
+        "structure model assigned role 'future_work' with score 0.66",
+        "downstream relevance score is 0.3109"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "convergence",
+        "canonical": "convergence",
+        "normalized": "convergence",
+        "tokens": [
+          "convergence"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 15,
+        "sentence": "that need to be addressed choosing a proper learning rate can be difficult a learning rate that is too small leads to painfully slow convergence while a learning rate that is too large can hinder convergence and cause the loss function to fluctuate around the minimum or even to diverge learning rate schedules try to adjust the learning rate during training by e g annealing i e reducing the learning rate according to a pre-defined schedule or when the change",
+        "context_window": {
+          "previous": "leave out the parameters x i i n y i i n for simplicity in code instead of iterating over examples we now iterate over mini-batches of size 50 for i in range nb epochs np random shuffle data for batch in get batches data batch size 50 params grad eval uate gra dient loss function batch params params params -learning rate params grad challenges vanilla mini-batch gradient descent however does not guarantee good convergence but offers a few challenges",
+          "current": "that need to be addressed choosing a proper learning rate can be difficult a learning rate that is too small leads to painfully slow convergence while a learning rate that is too large can hinder convergence and cause the loss function to fluctuate around the minimum or even to diverge learning rate schedules try to adjust the learning rate during training by e g annealing i e reducing the learning rate according to a pre-defined schedule or when the change",
+          "next": "in objective between epochs falls below a threshold these schedules and thresholds however have to be defined in advance and are thus unable to adapt to a dataset s characteristics additionally the same learning rate applies to all parameter updates if our data is sparse and our features have very different frequencies we might not want to update all of them to the same extent but perform a larger update for rarely occurring features another key challenge of minimizing highly"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.3917,
+        "downstream_relevance_score": 0.2793,
+        "components": {
+          "bio_boundary_score": 0.4931,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convergence"
+        ],
+        "normalization": "convergence",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convergence",
+          "canonical": "convergence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.4931",
+        "structure model assigned role 'process' with score 0.82",
+        "downstream relevance score is 0.2793"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 6,
+    "top_candidates": [
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In the course of this overview, we look at different variants of gradient descent, summarize challenges, introduce the most common optimization algorithms, review architectures in a parallel and distributed setting, and investigate additional strategies for optimizing gradient descent.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "At the same time, every state-of-the-art Deep Learning library contains implementations of various algorithms to optimize gradient descent (e.g. lasagne's 2 , caffe's 3 , and keras' 4 documentation).",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Subsequently, in Section 4, we will introduce the most common optimization algorithms by showing their motivation to resolve these challenges and how this leads to the derivation of their update rules.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Depending on the amount of data, we make a trade-off between the accuracy of the parameter update and the time it takes to perform an update.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Kingma et al. show that its bias-correction helps Adam slightly outperform RMSprop towards the end of optimization as gradients become sparser.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "As has been shown, SGD usually achieves to find a minimum, but it might take significantly longer than with some of the optimizers, is much more reliant on a robust initialization and annealing schedule, and may get stuck in saddle points rather than local minima.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "stochastic gradient descent",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.8108
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "batch normalization",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.585
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "gradient descent",
+        "section": "method",
+        "role": "process",
+        "score": 0.5443
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "Recurrent neural network",
+        "section": "method",
+        "role": "process",
+        "score": 0.5418
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "parameter server",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5395
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "gradient descent",
+        "section": "method",
+        "role": "process",
+        "score": 0.5073
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "tensorflow",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.505
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "adam update rule",
+        "section": "method",
+        "role": "finding",
+        "score": 0.5046
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "root mean squared error",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4805
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "momentum",
+        "section": "method",
+        "role": "gap",
+        "score": 0.4727
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "adam update equation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4372
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "bias correction",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.4342
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "update rule",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4254
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "adagrad",
+        "section": "method",
+        "role": "process",
+        "score": 0.3501
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "noise",
+        "section": "method",
+        "role": "process",
+        "score": 0.3354
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "parameter update",
+        "section": "method",
+        "role": "process",
+        "score": 0.3302
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "momentum term",
+        "section": "method",
+        "role": "future_work",
+        "score": 0.3109
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "convergence",
+        "section": "method",
+        "role": "process",
+        "score": 0.2793
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_011",
+        "target": "ecu_013",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

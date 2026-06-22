@@ -1,0 +1,3197 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2010_deep_learning_understanding_the_difficulty_of_training_deep_feedforward_neural_networks",
+    "title": "2010_deep_learning_understanding_the_difficulty_of_training_deep_feedforward_neural_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2010_deep_learning_understanding_the_difficulty_of_training_deep_feedforward_neural_networks.txt",
+    "sentence_count": 52,
+    "section_counts": {
+      "intro": 48,
+      "related_work": 1,
+      "method": 1,
+      "experiment": 1,
+      "conclusion": 1
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4087,
+    "type_count": 977,
+    "type_token_ratio": 0.2391,
+    "section_token_counts": {
+      "intro": 3758,
+      "related_work": 80,
+      "method": 101,
+      "experiment": 31,
+      "conclusion": 117
+    },
+    "top_unigrams": [
+      {
+        "term": "initialization",
+        "count": 43
+      },
+      {
+        "term": "layer",
+        "count": 36
+      },
+      {
+        "term": "networks",
+        "count": 33
+      },
+      {
+        "term": "training",
+        "count": 31
+      },
+      {
+        "term": "activation",
+        "count": 28
+      },
+      {
+        "term": "ar",
+        "count": 28
+      },
+      {
+        "term": "layers",
+        "count": 26
+      },
+      {
+        "term": "gradients",
+        "count": 24
+      },
+      {
+        "term": "deep",
+        "count": 22
+      },
+      {
+        "term": "hidden",
+        "count": 22
+      },
+      {
+        "term": "can",
+        "count": 20
+      },
+      {
+        "term": "learning",
+        "count": 20
+      },
+      {
+        "term": "saturation",
+        "count": 19
+      },
+      {
+        "term": "cost",
+        "count": 19
+      },
+      {
+        "term": "figure",
+        "count": 17
+      },
+      {
+        "term": "not",
+        "count": 16
+      },
+      {
+        "term": "because",
+        "count": 16
+      },
+      {
+        "term": "but",
+        "count": 16
+      },
+      {
+        "term": "neural",
+        "count": 14
+      },
+      {
+        "term": "these",
+        "count": 14
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "neural networks",
+        "count": 13
+      },
+      {
+        "term": "hyperbolic tangent",
+        "count": 13
+      },
+      {
+        "term": "normalized initialization",
+        "count": 13
+      },
+      {
+        "term": "hidden layer",
+        "count": 11
+      },
+      {
+        "term": "back-propagated gradients",
+        "count": 9
+      },
+      {
+        "term": "ar ar",
+        "count": 9
+      },
+      {
+        "term": "ar cost",
+        "count": 9
+      },
+      {
+        "term": "activation values",
+        "count": 8
+      },
+      {
+        "term": "activation function",
+        "count": 7
+      },
+      {
+        "term": "standard initialization",
+        "count": 7
+      },
+      {
+        "term": "deep architectures",
+        "count": 6
+      },
+      {
+        "term": "deep networks",
+        "count": 6
+      },
+      {
+        "term": "top hidden",
+        "count": 6
+      },
+      {
+        "term": "during training",
+        "count": 6
+      },
+      {
+        "term": "hidden layers",
+        "count": 6
+      },
+      {
+        "term": "10 000",
+        "count": 6
+      },
+      {
+        "term": "activation functions",
+        "count": 6
+      },
+      {
+        "term": "during learning",
+        "count": 6
+      },
+      {
+        "term": "feedforward neural",
+        "count": 4
+      },
+      {
+        "term": "random initialization",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "top hidden layer",
+        "count": 5
+      },
+      {
+        "term": "feedforward neural networks",
+        "count": 4
+      },
+      {
+        "term": "ar ar cost",
+        "count": 4
+      },
+      {
+        "term": "10 000 validation",
+        "count": 3
+      },
+      {
+        "term": "first hidden layer",
+        "count": 3
+      },
+      {
+        "term": "ar cost ar",
+        "count": 3
+      },
+      {
+        "term": "deep multilayer neural",
+        "count": 2
+      },
+      {
+        "term": "multilayer neural networks",
+        "count": 2
+      },
+      {
+        "term": "neural networks were",
+        "count": 2
+      },
+      {
+        "term": "results were obtained",
+        "count": 2
+      },
+      {
+        "term": "singular values jacobian",
+        "count": 2
+      },
+      {
+        "term": "gradients across layers",
+        "count": 2
+      },
+      {
+        "term": "50 000 training",
+        "count": 2
+      },
+      {
+        "term": "10 000 test",
+        "count": 2
+      },
+      {
+        "term": "units per layer",
+        "count": 2
+      },
+      {
+        "term": "softsign softsign similar",
+        "count": 2
+      },
+      {
+        "term": "softsign similar hyperbolic",
+        "count": 2
+      },
+      {
+        "term": "similar hyperbolic tangent",
+        "count": 2
+      },
+      {
+        "term": "moves out saturation",
+        "count": 2
+      },
+      {
+        "term": "do not suffer",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 14,
+    "nonzero_tfidf_features": 14,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 2.0,
+        "tfidf": 1.1866
+      },
+      {
+        "feature_name": "conclusion__deep neural networks",
+        "section": "conclusion",
+        "term": "deep neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.8102
+      },
+      {
+        "feature_name": "experiments__activation function",
+        "section": "experiment",
+        "term": "activation function",
+        "frequency": 3.0,
+        "tfidf": 0.6956
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 2.0,
+        "tfidf": 0.6696
+      },
+      {
+        "feature_name": "introduction__activation function",
+        "section": "intro",
+        "term": "activation function",
+        "frequency": 1.0,
+        "tfidf": 0.562
+      },
+      {
+        "feature_name": "introduction__feedforward neural networks",
+        "section": "intro",
+        "term": "feedforward neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.562
+      },
+      {
+        "feature_name": "abstract__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.5386
+      },
+      {
+        "feature_name": "experiments__online learning",
+        "section": "experiment",
+        "term": "online learning",
+        "frequency": 2.0,
+        "tfidf": 0.4637
+      },
+      {
+        "feature_name": "experiments__shapes",
+        "section": "experiment",
+        "term": "shapes",
+        "frequency": 2.0,
+        "tfidf": 0.4637
+      },
+      {
+        "feature_name": "conclusion__svm",
+        "section": "conclusion",
+        "term": "svm",
+        "frequency": 1.0,
+        "tfidf": 0.4503
+      },
+      {
+        "feature_name": "introduction__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.3795
+      },
+      {
+        "feature_name": "conclusion__unsupervised learning",
+        "section": "conclusion",
+        "term": "unsupervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.3753
+      },
+      {
+        "feature_name": "experiments__deep networks",
+        "section": "experiment",
+        "term": "deep networks",
+        "frequency": 1.0,
+        "tfidf": 0.2211
+      },
+      {
+        "feature_name": "experiments__heuristic",
+        "section": "experiment",
+        "term": "heuristic",
+        "frequency": 1.0,
+        "tfidf": 0.1927
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 1.1866
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 2.0,
+          "tfidf": 0.6696
+        },
+        {
+          "feature_name": "introduction__activation function",
+          "section": "intro",
+          "term": "activation function",
+          "frequency": 1.0,
+          "tfidf": 0.562
+        },
+        {
+          "feature_name": "introduction__feedforward neural networks",
+          "section": "intro",
+          "term": "feedforward neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.562
+        },
+        {
+          "feature_name": "abstract__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.5386
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.3795
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__activation function",
+          "section": "experiment",
+          "term": "activation function",
+          "frequency": 3.0,
+          "tfidf": 0.6956
+        },
+        {
+          "feature_name": "experiments__online learning",
+          "section": "experiment",
+          "term": "online learning",
+          "frequency": 2.0,
+          "tfidf": 0.4637
+        },
+        {
+          "feature_name": "experiments__shapes",
+          "section": "experiment",
+          "term": "shapes",
+          "frequency": 2.0,
+          "tfidf": 0.4637
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 1.0,
+          "tfidf": 0.2211
+        },
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1927
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.8102
+        },
+        {
+          "feature_name": "conclusion__svm",
+          "section": "conclusion",
+          "term": "svm",
+          "frequency": 1.0,
+          "tfidf": 0.4503
+        },
+        {
+          "feature_name": "conclusion__unsupervised learning",
+          "section": "conclusion",
+          "term": "unsupervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3753
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 48,
+      "token_count": 3758,
+      "bow_hit_count": 86,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 23,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "activation function",
+          "count": 18,
+          "section_prior": 0.3704,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "feedforward neural network",
+          "count": 8,
+          "section_prior": 0.3182,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "online machine learning",
+          "count": 6,
+          "section_prior": 0.2778,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 6,
+          "section_prior": 0.525,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 4,
+          "section_prior": 0.2917,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 3,
+          "section_prior": 0.6057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Shapes, Inc.",
+          "count": 3,
+          "section_prior": 0.4762,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "heuristic",
+          "count": 3,
+          "section_prior": 0.28,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "supervised fine-tuning",
+          "count": 3,
+          "section_prior": 0.14,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 1.1866
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 2.0,
+          "tfidf": 0.6696
+        },
+        {
+          "feature_name": "introduction__activation function",
+          "section": "intro",
+          "term": "activation function",
+          "frequency": 1.0,
+          "tfidf": 0.562
+        },
+        {
+          "feature_name": "introduction__feedforward neural networks",
+          "section": "intro",
+          "term": "feedforward neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.562
+        },
+        {
+          "feature_name": "abstract__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.5386
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.3795
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 80,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.1368,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "support vector machine",
+          "count": 3,
+          "section_prior": 0.0256,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 1,
+      "token_count": 101,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 1,
+      "token_count": 31,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__activation function",
+          "section": "experiment",
+          "term": "activation function",
+          "frequency": 3.0,
+          "tfidf": 0.6956
+        },
+        {
+          "feature_name": "experiments__online learning",
+          "section": "experiment",
+          "term": "online learning",
+          "frequency": 2.0,
+          "tfidf": 0.4637
+        },
+        {
+          "feature_name": "experiments__shapes",
+          "section": "experiment",
+          "term": "shapes",
+          "frequency": 2.0,
+          "tfidf": 0.4637
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 1.0,
+          "tfidf": 0.2211
+        },
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1927
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 1,
+      "token_count": 117,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.1538,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 3,
+          "section_prior": 0.1818,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.8102
+        },
+        {
+          "feature_name": "conclusion__svm",
+          "section": "conclusion",
+          "term": "svm",
+          "frequency": 1.0,
+          "tfidf": 0.4503
+        },
+        {
+          "feature_name": "conclusion__unsupervised learning",
+          "section": "conclusion",
+          "term": "unsupervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3753
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "activation function",
+        "canonical": "activation function",
+        "normalized": "activation function",
+        "tokens": [
+          "activation",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "activation function"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 18,
+        "sentence": "propagate well and overly linear units they will not compute something interesting experiments with the sigmoid the sigmoid non-linearity has been already shown to slow down learning because of its none-zero mean that induces important singular values in the hessian in this section we will see another symptomatic behavior due to this activation function in deep feedforward networks we want to study possible saturation by looking at the evolution of activations during training and the figures in this section show",
+        "context_window": {
+          "previous": "layer with the following commonly used heuristic w ij u - 1 n 1 n where u -a a is the uniform distribution in the interval -a a and n is the size of the previous layer the number of columns of w effect of activation functions and saturation during training two things we want to avoid and that can be revealed from the evolution of activations is excessive saturation of activation functions on one hand then gradients will not",
+          "current": "propagate well and overly linear units they will not compute something interesting experiments with the sigmoid the sigmoid non-linearity has been already shown to slow down learning because of its none-zero mean that induces important singular values in the hessian in this section we will see another symptomatic behavior due to this activation function in deep feedforward networks we want to study possible saturation by looking at the evolution of activations during training and the figures in this section show",
+          "next": "results on the shapeset-3 2 data but similar behavior is observed with the other datasets figure shows the evolution of the activation values after the nonlinearity at each hidden layer during training of a deep architecture with sigmoid activation functions layer 1 refers to the output of first hidden layer and there are four hidden layers the graph shows the means and standard deviations of these activations these statistics along with histograms are computed at different times during learning by"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6251,
+        "downstream_relevance_score": 0.6751,
+        "components": {
+          "bio_boundary_score": 0.7994,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.3704,
+          "document_tfidf_score": 0.4736,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "activation function",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "activation function",
+        "display_term": "activation function",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Activation_function",
+        "wikidata_id": "Q4677469",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 6,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__activation function",
+        "section": "intro",
+        "term": "activation function",
+        "frequency": 1.0,
+        "tfidf": 0.562,
+        "normalized_frequency": 0.3333,
+        "normalized_tfidf": 0.4736
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "activation",
+          "function"
+        ],
+        "normalization": "activation function",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.3704,
+        "canonicalization": {
+          "observed": "activation function",
+          "canonical": "activation function",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7994",
+        "structure model assigned role 'motivation' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'activation function' with confidence 0.85",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__activation function' with tf-idf 0.562",
+        "downstream relevance score is 0.6751"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "online learning",
+        "canonical": "online machine learning",
+        "normalized": "online machine learning",
+        "tokens": [
+          "online",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "online machine learning",
+          "adaptive learning",
+          "online learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 8,
+        "sentence": "2 recent work with deep architectures see figure in bengio shows that even with very large training sets or online learning initialization from unsupervised pretraining yields substantial improvement which does not vanish as the number of training examples increases the online setting is also interesting because it focuses on the optimization issues rather than on the small-sample regularization effects so we decided to include in our experiments a synthetic images dataset inspired from and from which as many examples as",
+        "context_window": {
+          "previous": "watching for saturation of hidden units and gradients across layers and across training iterations we also evaluate the effects on these of choices of activation function with the idea that it might affect saturation and initialization procedure since unsupervised pretraining is a particular form of initialization and it has a drastic impact code to produce the new datasets introduced in this section is available from ca lisa twiki bin view cgi public deepgradientsaistats2010 online learning on an infinite dataset shapeset-3",
+          "current": "2 recent work with deep architectures see figure in bengio shows that even with very large training sets or online learning initialization from unsupervised pretraining yields substantial improvement which does not vanish as the number of training examples increases the online setting is also interesting because it focuses on the optimization issues rather than on the small-sample regularization effects so we decided to include in our experiments a synthetic images dataset inspired from and from which as many examples as",
+          "next": "needed could be sampled for testing the online learning scenario we call this dataset the shapeset-3 2 dataset with example images in figure top shapeset-3 2 contains images of 1 or 2 two-dimensional objects each taken from 3 shape categories triangle parallelogram ellipse and placed with random shape parameters relative lengths and or angles scaling rotation translation and grey-scale we noticed that for only one shape present in the image the task of recognizing it was too easy we therefore"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6046,
+        "downstream_relevance_score": 0.6643,
+        "components": {
+          "bio_boundary_score": 0.7291,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2778,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "online learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "online machine learning",
+        "display_term": "adaptive learning",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Online_machine_learning",
+        "wikidata_id": "Q7094097",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 4,
+        "total_frequency": 4,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "online",
+          "learning"
+        ],
+        "normalization": "online learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2778,
+        "canonicalization": {
+          "observed": "online learning",
+          "canonical": "online machine learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7291",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'online machine learning' with confidence 0.91",
+        "BoW role prior suggests 'background'",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.6643"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "natural language",
+        "canonical": "Natural language processing",
+        "normalized": "natural language processing",
+        "tokens": [
+          "natural",
+          "language"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "Natural language processing",
+          "natural language processing",
+          "nlp"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "hidden variables among others much attention has recently been devoted to them see for a review because of their theoretical appeal inspiration from biology and human cognition and because of empirical success in vision and natural language processing nlp theoretical results reviewed and discussed by suggest that in order to learn the kind of complicated functions that can represent high-level abstractions e g in vision language and other ai-level tasks one may need deep architectures most of the recent experimental",
+        "context_window": {
+          "previous": "can often be beneficial finally we study how activations and gradients vary across layers and during training with the idea that training may be more difficult when the singular values of the jacobian associated with each layer are far from 1 based on these considerations we propose a new initialization scheme that brings substantially faster convergence body learning methods for a wide array of deep architectures including neural networks with many hidden layers and graphical models with many levels of",
+          "current": "hidden variables among others much attention has recently been devoted to them see for a review because of their theoretical appeal inspiration from biology and human cognition and because of empirical success in vision and natural language processing nlp theoretical results reviewed and discussed by suggest that in order to learn the kind of complicated functions that can represent high-level abstractions e g in vision language and other ai-level tasks one may need deep architectures most of the recent experimental",
+          "next": "results with deep architecture are obtained with models that can be turned into deep supervised neural networks but with initialization or training schemes different from the classical feedforward neural networks why are these new algorithms working so much better than the standard random initialization and gradient-based optimization of a supervised training criterion part of the answer may be found in recent analyses of the effect of unsupervised pretraining showing that it acts as a regularizer that initializes the parameters in"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5943,
+        "downstream_relevance_score": 0.6641,
+        "components": {
+          "bio_boundary_score": 0.6232,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.6057,
+          "document_tfidf_score": 0.5643,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "natural language processing",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Natural language processing",
+        "display_term": "natural language processing",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Natural_language_processing",
+        "wikidata_id": "Q30642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 50,
+        "total_frequency": 125,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 2.0,
+        "tfidf": 0.6696,
+        "normalized_frequency": 0.6667,
+        "normalized_tfidf": 0.5643
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "natural",
+          "language"
+        ],
+        "normalization": "natural language",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.6057,
+        "canonicalization": {
+          "observed": "natural language",
+          "canonical": "Natural language processing",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6232",
+        "structure model assigned role 'problem' with score 0.9218",
+        "section BoW matched canonical term 'Natural language processing' with confidence 0.7098",
+        "BoW role prior suggests 'background'",
+        "document-term matrix links the phrase to feature 'introduction__natural language processing' with tf-idf 0.6696",
+        "downstream relevance score is 0.6641"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "shape",
+        "canonical": "shape",
+        "normalized": "shape",
+        "tokens": [
+          "shape"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 9,
+        "sentence": "needed could be sampled for testing the online learning scenario we call this dataset the shapeset-3 2 dataset with example images in figure top shapeset-3 2 contains images of 1 or 2 two-dimensional objects each taken from 3 shape categories triangle parallelogram ellipse and placed with random shape parameters relative lengths and or angles scaling rotation translation and grey-scale we noticed that for only one shape present in the image the task of recognizing it was too easy we therefore",
+        "context_window": {
+          "previous": "2 recent work with deep architectures see figure in bengio shows that even with very large training sets or online learning initialization from unsupervised pretraining yields substantial improvement which does not vanish as the number of training examples increases the online setting is also interesting because it focuses on the optimization issues rather than on the small-sample regularization effects so we decided to include in our experiments a synthetic images dataset inspired from and from which as many examples as",
+          "current": "needed could be sampled for testing the online learning scenario we call this dataset the shapeset-3 2 dataset with example images in figure top shapeset-3 2 contains images of 1 or 2 two-dimensional objects each taken from 3 shape categories triangle parallelogram ellipse and placed with random shape parameters relative lengths and or angles scaling rotation translation and grey-scale we noticed that for only one shape present in the image the task of recognizing it was too easy we therefore",
+          "next": "decided to sample also images with two objects with the constraint that the second object does not overlap with the first by more than fifty percent of its area to avoid hiding it entirely the task is to predict the objects present e g triangle ellipse parallelogram parallelogram triangle alone etc without having to distinguish between the foreground shape and the background shape when they overlap this therefore defines nine configuration classes the task is fairly difficult because we need"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6887,
+        "downstream_relevance_score": 0.5931,
+        "components": {
+          "bio_boundary_score": 0.8624,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "shape"
+        ],
+        "normalization": "shape",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "shape",
+          "canonical": "shape",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8624",
+        "structure model assigned role 'dataset' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched dataset, present",
+        "downstream relevance score is 0.5931"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "hyperbolic tangent",
+        "canonical": "hyperbolic tangent",
+        "normalized": "hyperbolic tangent",
+        "tokens": [
+          "hyperbolic",
+          "tangent"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 25,
+        "sentence": "of generalization then those found with symmetric activation functions as can be seen in figure experiments with the hyperbolic tangent as discussed above the hyperbolic tangent networks do not suffer from the kind of saturation behavior of the top hidden layer observed with sigmoid networks because of its symmetry around 0 however with our standard weight initialization u -1 n 1 n we observe a sequentially occurring saturation phenomenon starting with layer 1 and propagating up in the network as",
+        "context_window": {
+          "previous": "because it allows gradients to flow backwards however pushing the sigmoid outputs to 0 would bring them into a saturation regime which would prevent gradients to flow backward and prevent the lower layers from learning useful features eventually but slowly the lower layers move toward more useful features and the top hidden layer then moves out of the saturation regime note however that even after this the network moves into a solution that is of poorer quality also in terms",
+          "current": "of generalization then those found with symmetric activation functions as can be seen in figure experiments with the hyperbolic tangent as discussed above the hyperbolic tangent networks do not suffer from the kind of saturation behavior of the top hidden layer observed with sigmoid networks because of its symmetry around 0 however with our standard weight initialization u -1 n 1 n we observe a sequentially occurring saturation phenomenon starting with layer 1 and propagating up in the network as",
+          "next": "illustrated in figure why this is happening remains to be understood figure top 98 percentiles markers alone and standard deviation solid lines with markers of the distribution of the activation values for the hyperbolic tangent networks in the course of learning we see the first hidden layer saturating first then the second etc bottom 98 percentiles markers alone and standard deviation solid lines with markers of the distribution of activation values for the softsign during learning here the different layers"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7059,
+        "downstream_relevance_score": 0.5071,
+        "components": {
+          "bio_boundary_score": 0.8596,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "hyperbolic",
+          "tangent"
+        ],
+        "normalization": "hyperbolic tangent",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "hyperbolic tangent",
+          "canonical": "hyperbolic tangent",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8596",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5071"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "error curve",
+        "canonical": "error curve",
+        "normalized": "error curve",
+        "tokens": [
+          "error",
+          "curve"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 47,
+        "sentence": "28 70 66 ure 11 the error curve for the supervised fine-tuning from the initialization obtained after unsupervised pre-training with denoising auto-encoders for each network the learning rate is separately chosen to minimize error on the validation set we can remark that on shapeset-3 2 because of the task difficulty we observe important saturations during learning this might explain that the normalized initialization or the softsign effects are more visible several conclusions can be drawn from these error curves the",
+        "context_window": {
+          "previous": "layers n after the activation function name indicates the use of normalized initialization results in bold are statistically different from non-bold ones under the null hypothesis test with p 0 005 type shapeset mnist cifar-10 imagenet softsign 16 27 1 64 55 78 69 14 softsign n 16 06 1 72 53 8 68 13 tanh 27 15 1 76 55 9 70 58 tanh n 15 60 1 64 52 92 68 57 sigmoid 82 61 2 21 57",
+          "current": "28 70 66 ure 11 the error curve for the supervised fine-tuning from the initialization obtained after unsupervised pre-training with denoising auto-encoders for each network the learning rate is separately chosen to minimize error on the validation set we can remark that on shapeset-3 2 because of the task difficulty we observe important saturations during learning this might explain that the normalized initialization or the softsign effects are more visible several conclusions can be drawn from these error curves the",
+          "next": "more classical neural networks with sigmoid or hyperbolic tangent units and standard initialization fare rather poorly converging more slowly and apparently towards ultimately poorer local minima the softsign networks seem to be more robust to the initialization procedure than the tanh networks presumably because of their gentler non-linearity for tanh networks the proposed normalized initialization can be quite helpful presumably because the layer-to-layer transformations maintain magnitudes of others"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6376,
+        "downstream_relevance_score": 0.4844,
+        "components": {
+          "bio_boundary_score": 0.6062,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "error",
+          "curve"
+        ],
+        "normalization": "error curve",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "error curve",
+          "canonical": "error curve",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6062",
+        "structure model assigned role 'problem' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4844"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "nonlinearity",
+        "canonical": "nonlinearity",
+        "normalized": "nonlinearity",
+        "tokens": [
+          "nonlinearity"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 19,
+        "sentence": "results on the shapeset-3 2 data but similar behavior is observed with the other datasets figure shows the evolution of the activation values after the nonlinearity at each hidden layer during training of a deep architecture with sigmoid activation functions layer 1 refers to the output of first hidden layer and there are four hidden layers the graph shows the means and standard deviations of these activations these statistics along with histograms are computed at different times during learning by",
+        "context_window": {
+          "previous": "propagate well and overly linear units they will not compute something interesting experiments with the sigmoid the sigmoid non-linearity has been already shown to slow down learning because of its none-zero mean that induces important singular values in the hessian in this section we will see another symptomatic behavior due to this activation function in deep feedforward networks we want to study possible saturation by looking at the evolution of activations during training and the figures in this section show",
+          "current": "results on the shapeset-3 2 data but similar behavior is observed with the other datasets figure shows the evolution of the activation values after the nonlinearity at each hidden layer during training of a deep architecture with sigmoid activation functions layer 1 refers to the output of first hidden layer and there are four hidden layers the graph shows the means and standard deviations of these activations these statistics along with histograms are computed at different times during learning by",
+          "next": "looking at activation values for a fixed set of 300 test examples we see that very quickly at the beginning all the sigmoid activation values of the last hidden layer are pushed to their lower saturation value of 0 inversely the others layers have a mean activation value that is above 0 5 and decreasing as we go from the output layer to the input layer we have found that this kind of saturation can last very long in deeper"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5804,
+        "downstream_relevance_score": 0.4836,
+        "components": {
+          "bio_boundary_score": 0.5009,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "nonlinearity"
+        ],
+        "normalization": "nonlinearity",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "nonlinearity",
+          "canonical": "nonlinearity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5009",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.4836"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "apparent local minimum",
+        "canonical": "apparent local minimum",
+        "normalized": "apparent local minimum",
+        "tokens": [
+          "apparent",
+          "local",
+          "minimum"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 6,
+        "sentence": "a better basin of attraction of the optimization procedure corresponding to an apparent local minimum associated with better generalization but earlier work had shown that even a purely supervised but greedy layer-wise procedure would give better results so here instead of focusing on what unsupervised pre-training or semi-supervised criteria bring to deep architectures we focus on analyzing what may be going wrong with good old but deep multilayer neural networks our analysis is driven by investigative experiments to monitor activations",
+        "context_window": {
+          "previous": "results with deep architecture are obtained with models that can be turned into deep supervised neural networks but with initialization or training schemes different from the classical feedforward neural networks why are these new algorithms working so much better than the standard random initialization and gradient-based optimization of a supervised training criterion part of the answer may be found in recent analyses of the effect of unsupervised pretraining showing that it acts as a regularizer that initializes the parameters in",
+          "current": "a better basin of attraction of the optimization procedure corresponding to an apparent local minimum associated with better generalization but earlier work had shown that even a purely supervised but greedy layer-wise procedure would give better results so here instead of focusing on what unsupervised pre-training or semi-supervised criteria bring to deep architectures we focus on analyzing what may be going wrong with good old but deep multilayer neural networks our analysis is driven by investigative experiments to monitor activations",
+          "next": "watching for saturation of hidden units and gradients across layers and across training iterations we also evaluate the effects on these of choices of activation function with the idea that it might affect saturation and initialization procedure since unsupervised pretraining is a particular form of initialization and it has a drastic impact code to produce the new datasets introduced in this section is available from ca lisa twiki bin view cgi public deepgradientsaistats2010 online learning on an infinite dataset shapeset-3"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_objective",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6422,
+        "downstream_relevance_score": 0.4785,
+        "components": {
+          "bio_boundary_score": 0.6718,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "apparent",
+          "local",
+          "minimum"
+        ],
+        "normalization": "apparent local minimum",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "apparent local minimum",
+          "canonical": "apparent local minimum",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6718",
+        "structure model assigned role 'objective' with score 0.82",
+        "downstream relevance score is 0.4785"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "saturation regime",
+        "canonical": "saturation regime",
+        "normalized": "saturation regime",
+        "tokens": [
+          "saturation",
+          "regime"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 24,
+        "sentence": "because it allows gradients to flow backwards however pushing the sigmoid outputs to 0 would bring them into a saturation regime which would prevent gradients to flow backward and prevent the lower layers from learning useful features eventually but slowly the lower layers move toward more useful features and the top hidden layer then moves out of the saturation regime note however that even after this the network moves into a solution that is of poorer quality also in terms",
+        "context_window": {
+          "previous": "are learned very quickly than on the top hidden activations h derived from the input image because h would vary in ways that are not predictive of y maybe correlated mostly with other and possibly more dominant variations of x thus the error gradient would tend to push w h towards 0 which can be achieved by pushing h towards 0 in the case of symmetric activation functions like the hyperbolic tangent and the softsign sitting around 0 is good",
+          "current": "because it allows gradients to flow backwards however pushing the sigmoid outputs to 0 would bring them into a saturation regime which would prevent gradients to flow backward and prevent the lower layers from learning useful features eventually but slowly the lower layers move toward more useful features and the top hidden layer then moves out of the saturation regime note however that even after this the network moves into a solution that is of poorer quality also in terms",
+          "next": "of generalization then those found with symmetric activation functions as can be seen in figure experiments with the hyperbolic tangent as discussed above the hyperbolic tangent networks do not suffer from the kind of saturation behavior of the top hidden layer observed with sigmoid networks because of its symmetry around 0 however with our standard weight initialization u -1 n 1 n we observe a sequentially occurring saturation phenomenon starting with layer 1 and propagating up in the network as"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6442,
+        "downstream_relevance_score": 0.475,
+        "components": {
+          "bio_boundary_score": 0.7306,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "saturation",
+          "regime"
+        ],
+        "normalization": "saturation regime",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "saturation regime",
+          "canonical": "saturation regime",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7306",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.475"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "softsign",
+        "canonical": "softsign",
+        "normalized": "softsign",
+        "tokens": [
+          "softsign"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 26,
+        "sentence": "illustrated in figure why this is happening remains to be understood figure top 98 percentiles markers alone and standard deviation solid lines with markers of the distribution of the activation values for the hyperbolic tangent networks in the course of learning we see the first hidden layer saturating first then the second etc bottom 98 percentiles markers alone and standard deviation solid lines with markers of the distribution of activation values for the softsign during learning here the different layers",
+        "context_window": {
+          "previous": "of generalization then those found with symmetric activation functions as can be seen in figure experiments with the hyperbolic tangent as discussed above the hyperbolic tangent networks do not suffer from the kind of saturation behavior of the top hidden layer observed with sigmoid networks because of its symmetry around 0 however with our standard weight initialization u -1 n 1 n we observe a sequentially occurring saturation phenomenon starting with layer 1 and propagating up in the network as",
+          "current": "illustrated in figure why this is happening remains to be understood figure top 98 percentiles markers alone and standard deviation solid lines with markers of the distribution of the activation values for the hyperbolic tangent networks in the course of learning we see the first hidden layer saturating first then the second etc bottom 98 percentiles markers alone and standard deviation solid lines with markers of the distribution of activation values for the softsign during learning here the different layers",
+          "next": "saturate less and do so together experiments with the softsign the softsign x 1 x is similar to the hyperbolic tangent but might behave differently in terms of saturation because of its smoother asymptotes polynomial instead of exponential we see on figure that the saturation does not occur one layer after the other like for the hyperbolic tangent it is faster at the beginning and then slow and all layers move together towards larger weights we can also see at"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6817,
+        "downstream_relevance_score": 0.4621,
+        "components": {
+          "bio_boundary_score": 0.9341,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "softsign"
+        ],
+        "normalization": "softsign",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "softsign",
+          "canonical": "softsign",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9341",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4621"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "cost function",
+        "canonical": "cost function",
+        "normalized": "cost function",
+        "tokens": [
+          "cost",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 30,
+        "sentence": "this on figure which plots the training criterion as a function of two weights for a two-layer network one hidden layer with hyperbolic tangent units and a random input and target signal there are clearly more severe plateaus with the quadratic cost gradients at initialization 4 2 1 theoretical considerations and a new normalized initialization we study the back-propagated gradients or equivalently the gradient of the cost function on the inputs biases at each layer found that back-propagated gradients were",
+        "context_window": {
+          "previous": "well we have found that the logistic regression or conditional log-likelihood cost function -log p y x coupled with softmax outputs worked much better for classification problems than the quadratic cost which was traditionally used to train feedforward neural networks this is not a new observation but we find it important to stress here we found that the plateaus in the training criterion as a function of the parameters are less present with the log-likelihood cost function we can see",
+          "current": "this on figure which plots the training criterion as a function of two weights for a two-layer network one hidden layer with hyperbolic tangent units and a random input and target signal there are clearly more severe plateaus with the quadratic cost gradients at initialization 4 2 1 theoretical considerations and a new normalized initialization we study the back-propagated gradients or equivalently the gradient of the cost function on the inputs biases at each layer found that back-propagated gradients were",
+          "next": "smaller as one moves from the output layer towards the input layer just after initialization he studied networks with linear activation at each layer finding that the variance of the back-propagated gradients decreases as we go backwards in the network we will also start by studying the linear regime for a dense artificial neural network using symmetric activation function f with unit derivative at 0 i e f 1 if we write z i for the activation vector of layer"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_objective",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6111,
+        "downstream_relevance_score": 0.4524,
+        "components": {
+          "bio_boundary_score": 0.5648,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cost",
+          "function"
+        ],
+        "normalization": "cost function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cost function",
+          "canonical": "cost function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5648",
+        "structure model assigned role 'objective' with score 0.82",
+        "downstream relevance score is 0.4524"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "multiplicative effect",
+        "canonical": "multiplicative effect",
+        "normalized": "multiplicative effect",
+        "tokens": [
+          "multiplicative",
+          "effect"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 38,
+        "sentence": "variance of the back-propagated gradient to be dependent on the layer and decreasing the normalization factor may therefore be important when initializing deep networks because of the multiplicative effect through layers and we suggest the following initialization procedure to approximately satisfy our objectives of maintaining activation variances and back-propagated gradients variance as one moves up or down the network we call it the normalized initialization w u - 6 n j n j 1 6 n j n j 1",
+        "context_window": {
+          "previous": "the variance of the backpropagated gradient might still vanish or explode as we consider deeper networks note how this is reminiscent of issues raised when studying recurrent neural networks which can be seen as very deep networks when unfolded through time the standard initialization that we have used eq 1 gives rise to variance with the following property nv ar w 1 3 where n is the layer size assuming all layers of the same size this will cause the",
+          "current": "variance of the back-propagated gradient to be dependent on the layer and decreasing the normalization factor may therefore be important when initializing deep networks because of the multiplicative effect through layers and we suggest the following initialization procedure to approximately satisfy our objectives of maintaining activation variances and back-propagated gradients variance as one moves up or down the network we call it the normalized initialization w u - 6 n j n j 1 6 n j n j 1",
+          "next": "gradient propagation study to empirically validate the above theoretical ideas we have plotted some normalized histograms of activation values weight gradients and of the back-propagated gradients at initialization with the two different initialization methods the results displayed figures 6 7 and 8 are from experiments on shapeset-3 2 but qualitatively similar results were obtained with the other datasets we monitor the singular values of the jacobian matrix associated with layer i j i z i 1 z i when consecutive"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.573,
+        "downstream_relevance_score": 0.4508,
+        "components": {
+          "bio_boundary_score": 0.6216,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "multiplicative",
+          "effect"
+        ],
+        "normalization": "multiplicative effect",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "multiplicative effect",
+          "canonical": "multiplicative effect",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6216",
+        "structure model assigned role 'motivation' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4508"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "saturation",
+        "canonical": "saturation",
+        "normalized": "saturation",
+        "tokens": [
+          "saturation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 20,
+        "sentence": "looking at activation values for a fixed set of 300 test examples we see that very quickly at the beginning all the sigmoid activation values of the last hidden layer are pushed to their lower saturation value of 0 inversely the others layers have a mean activation value that is above 0 5 and decreasing as we go from the output layer to the input layer we have found that this kind of saturation can last very long in deeper",
+        "context_window": {
+          "previous": "results on the shapeset-3 2 data but similar behavior is observed with the other datasets figure shows the evolution of the activation values after the nonlinearity at each hidden layer during training of a deep architecture with sigmoid activation functions layer 1 refers to the output of first hidden layer and there are four hidden layers the graph shows the means and standard deviations of these activations these statistics along with histograms are computed at different times during learning by",
+          "current": "looking at activation values for a fixed set of 300 test examples we see that very quickly at the beginning all the sigmoid activation values of the last hidden layer are pushed to their lower saturation value of 0 inversely the others layers have a mean activation value that is above 0 5 and decreasing as we go from the output layer to the input layer we have found that this kind of saturation can last very long in deeper",
+          "next": "networks with sigmoid activations e g the depthfive model never escaped this regime during training the big surprise is that for intermediate number of hidden layers here four the saturation regime may be escaped at the same time that the top hidden layer moves out of saturation the first hidden layer begins to saturate and therefore to stabilize we hypothesize that this behavior is due to the combination of random initialization and the fact that an hidden unit output of"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6484,
+        "downstream_relevance_score": 0.4448,
+        "components": {
+          "bio_boundary_score": 0.8206,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "saturation"
+        ],
+        "normalization": "saturation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "saturation",
+          "canonical": "saturation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8206",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4448"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "gradient propagation",
+        "canonical": "gradient propagation",
+        "normalized": "gradient propagation",
+        "tokens": [
+          "gradient",
+          "propagation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 39,
+        "sentence": "gradient propagation study to empirically validate the above theoretical ideas we have plotted some normalized histograms of activation values weight gradients and of the back-propagated gradients at initialization with the two different initialization methods the results displayed figures 6 7 and 8 are from experiments on shapeset-3 2 but qualitatively similar results were obtained with the other datasets we monitor the singular values of the jacobian matrix associated with layer i j i z i 1 z i when consecutive",
+        "context_window": {
+          "previous": "variance of the back-propagated gradient to be dependent on the layer and decreasing the normalization factor may therefore be important when initializing deep networks because of the multiplicative effect through layers and we suggest the following initialization procedure to approximately satisfy our objectives of maintaining activation variances and back-propagated gradients variance as one moves up or down the network we call it the normalized initialization w u - 6 n j n j 1 6 n j n j 1",
+          "current": "gradient propagation study to empirically validate the above theoretical ideas we have plotted some normalized histograms of activation values weight gradients and of the back-propagated gradients at initialization with the two different initialization methods the results displayed figures 6 7 and 8 are from experiments on shapeset-3 2 but qualitatively similar results were obtained with the other datasets we monitor the singular values of the jacobian matrix associated with layer i j i z i 1 z i when consecutive",
+          "next": "layers have the same dimension the average singular value corresponds to the average ratio of infinitesimal volumes mapped from z i to z i 1 as well as to the ratio of average activation variance going from z i to z i 1 with our normalized initialization this ratio is around 0 8 whereas with the standard initialization it drops down to 0 5 back-propagated gradients during learning the dynamic of learning in such networks is complex and we would"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6088,
+        "downstream_relevance_score": 0.4342,
+        "components": {
+          "bio_boundary_score": 0.693,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gradient",
+          "propagation"
+        ],
+        "normalization": "gradient propagation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gradient propagation",
+          "canonical": "gradient propagation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.693",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4342"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "artificial neural network",
+        "canonical": "artificial neural network",
+        "normalized": "artificial neural network",
+        "tokens": [
+          "artificial",
+          "neural",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 31,
+        "sentence": "smaller as one moves from the output layer towards the input layer just after initialization he studied networks with linear activation at each layer finding that the variance of the back-propagated gradients decreases as we go backwards in the network we will also start by studying the linear regime for a dense artificial neural network using symmetric activation function f with unit derivative at 0 i e f 1 if we write z i for the activation vector of layer",
+        "context_window": {
+          "previous": "this on figure which plots the training criterion as a function of two weights for a two-layer network one hidden layer with hyperbolic tangent units and a random input and target signal there are clearly more severe plateaus with the quadratic cost gradients at initialization 4 2 1 theoretical considerations and a new normalized initialization we study the back-propagated gradients or equivalently the gradient of the cost function on the inputs biases at each layer found that back-propagated gradients were",
+          "current": "smaller as one moves from the output layer towards the input layer just after initialization he studied networks with linear activation at each layer finding that the variance of the back-propagated gradients decreases as we go backwards in the network we will also start by studying the linear regime for a dense artificial neural network using symmetric activation function f with unit derivative at 0 i e f 1 if we write z i for the activation vector of layer",
+          "next": "i and s i the argument vector of the activation function at layer i we have s i z i w i b i and z i 1 f s i from these definitions we obtain the following cost s i k f s i k w i 1 k cost s i 1 cost w i l k z i l cost s i k the variances will be expressed with respect to the input outpout and weight initialization"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5712,
+        "downstream_relevance_score": 0.4246,
+        "components": {
+          "bio_boundary_score": 0.5564,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "artificial",
+          "neural",
+          "network"
+        ],
+        "normalization": "artificial neural network",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "artificial neural network",
+          "canonical": "artificial neural network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5564",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4246"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "initialization",
+        "canonical": "initialization",
+        "normalized": "initialization",
+        "tokens": [
+          "initialization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 42,
+        "sentence": "reversed very quickly during learning using our normalized initialization we do not see such decreasing back-propagated gradients bottom of figure what was initially really surprising is that even when the back-propagated gradients become smaller standard initialization the variance of the weights gradients is roughly constant across layers as shown on figure however this is explained by our theoretical analysis above eq 14 interestingly as shown in figure these observations on the weight gradient of standard and normalized initialization change during",
+        "context_window": {
+          "previous": "like to develop better tools to analyze and track it in particular we cannot use simple variance calculations in our theoretical analysis because the weights values are not anymore independent of the activation values and the linearity hypothesis is also violated as first noted by we observe figure that at the beginning of training after the standard initialization eq 1 the variance of the back-propagated gradients gets smaller as it is propagated downwards however we find that this trend is",
+          "current": "reversed very quickly during learning using our normalized initialization we do not see such decreasing back-propagated gradients bottom of figure what was initially really surprising is that even when the back-propagated gradients become smaller standard initialization the variance of the weights gradients is roughly constant across layers as shown on figure however this is explained by our theoretical analysis above eq 14 interestingly as shown in figure these observations on the weight gradient of standard and normalized initialization change during",
+          "next": "training here for a tanh network indeed whereas the gradients have initially roughly the same magnitude they diverge from each other with larger gradients in the lower layers as training progresses especially with the standard initialization note that this might be one of the advantages of the normalized initialization since having gradients of very different magnitudes at different layers may yield to ill-conditioning and slower training finally we observe that the softsign networks share similarities with the tanh networks with"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6078,
+        "downstream_relevance_score": 0.4236,
+        "components": {
+          "bio_boundary_score": 0.6621,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "initialization"
+        ],
+        "normalization": "initialization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "initialization",
+          "canonical": "initialization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6621",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4236"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "activation value",
+        "canonical": "activation value",
+        "normalized": "activation value",
+        "tokens": [
+          "activation",
+          "value"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 20,
+        "sentence": "looking at activation values for a fixed set of 300 test examples we see that very quickly at the beginning all the sigmoid activation values of the last hidden layer are pushed to their lower saturation value of 0 inversely the others layers have a mean activation value that is above 0 5 and decreasing as we go from the output layer to the input layer we have found that this kind of saturation can last very long in deeper",
+        "context_window": {
+          "previous": "results on the shapeset-3 2 data but similar behavior is observed with the other datasets figure shows the evolution of the activation values after the nonlinearity at each hidden layer during training of a deep architecture with sigmoid activation functions layer 1 refers to the output of first hidden layer and there are four hidden layers the graph shows the means and standard deviations of these activations these statistics along with histograms are computed at different times during learning by",
+          "current": "looking at activation values for a fixed set of 300 test examples we see that very quickly at the beginning all the sigmoid activation values of the last hidden layer are pushed to their lower saturation value of 0 inversely the others layers have a mean activation value that is above 0 5 and decreasing as we go from the output layer to the input layer we have found that this kind of saturation can last very long in deeper",
+          "next": "networks with sigmoid activations e g the depthfive model never escaped this regime during training the big surprise is that for intermediate number of hidden layers here four the saturation regime may be escaped at the same time that the top hidden layer moves out of saturation the first hidden layer begins to saturate and therefore to stabilize we hypothesize that this behavior is due to the combination of random initialization and the fact that an hidden unit output of"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5817,
+        "downstream_relevance_score": 0.4201,
+        "components": {
+          "bio_boundary_score": 0.5927,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "activation",
+          "value"
+        ],
+        "normalization": "activation value",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "activation value",
+          "canonical": "activation value",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5927",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4201"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "jacobian matrix",
+        "canonical": "jacobian matrix",
+        "normalized": "jacobian matrix",
+        "tokens": [
+          "jacobian",
+          "matrix"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 39,
+        "sentence": "gradient propagation study to empirically validate the above theoretical ideas we have plotted some normalized histograms of activation values weight gradients and of the back-propagated gradients at initialization with the two different initialization methods the results displayed figures 6 7 and 8 are from experiments on shapeset-3 2 but qualitatively similar results were obtained with the other datasets we monitor the singular values of the jacobian matrix associated with layer i j i z i 1 z i when consecutive",
+        "context_window": {
+          "previous": "variance of the back-propagated gradient to be dependent on the layer and decreasing the normalization factor may therefore be important when initializing deep networks because of the multiplicative effect through layers and we suggest the following initialization procedure to approximately satisfy our objectives of maintaining activation variances and back-propagated gradients variance as one moves up or down the network we call it the normalized initialization w u - 6 n j n j 1 6 n j n j 1",
+          "current": "gradient propagation study to empirically validate the above theoretical ideas we have plotted some normalized histograms of activation values weight gradients and of the back-propagated gradients at initialization with the two different initialization methods the results displayed figures 6 7 and 8 are from experiments on shapeset-3 2 but qualitatively similar results were obtained with the other datasets we monitor the singular values of the jacobian matrix associated with layer i j i z i 1 z i when consecutive",
+          "next": "layers have the same dimension the average singular value corresponds to the average ratio of infinitesimal volumes mapped from z i to z i 1 as well as to the ratio of average activation variance going from z i to z i 1 with our normalized initialization this ratio is around 0 8 whereas with the standard initialization it drops down to 0 5 back-propagated gradients during learning the dynamic of learning in such networks is complex and we would"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.571,
+        "downstream_relevance_score": 0.4145,
+        "components": {
+          "bio_boundary_score": 0.5637,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "jacobian",
+          "matrix"
+        ],
+        "normalization": "jacobian matrix",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "jacobian matrix",
+          "canonical": "jacobian matrix",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5637",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4145"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "sigmoid",
+        "canonical": "sigmoid",
+        "normalized": "sigmoid",
+        "tokens": [
+          "sigmoid"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 20,
+        "sentence": "looking at activation values for a fixed set of 300 test examples we see that very quickly at the beginning all the sigmoid activation values of the last hidden layer are pushed to their lower saturation value of 0 inversely the others layers have a mean activation value that is above 0 5 and decreasing as we go from the output layer to the input layer we have found that this kind of saturation can last very long in deeper",
+        "context_window": {
+          "previous": "results on the shapeset-3 2 data but similar behavior is observed with the other datasets figure shows the evolution of the activation values after the nonlinearity at each hidden layer during training of a deep architecture with sigmoid activation functions layer 1 refers to the output of first hidden layer and there are four hidden layers the graph shows the means and standard deviations of these activations these statistics along with histograms are computed at different times during learning by",
+          "current": "looking at activation values for a fixed set of 300 test examples we see that very quickly at the beginning all the sigmoid activation values of the last hidden layer are pushed to their lower saturation value of 0 inversely the others layers have a mean activation value that is above 0 5 and decreasing as we go from the output layer to the input layer we have found that this kind of saturation can last very long in deeper",
+          "next": "networks with sigmoid activations e g the depthfive model never escaped this regime during training the big surprise is that for intermediate number of hidden layers here four the saturation regime may be escaped at the same time that the top hidden layer moves out of saturation the first hidden layer begins to saturate and therefore to stabilize we hypothesize that this behavior is due to the combination of random initialization and the fact that an hidden unit output of"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5776,
+        "downstream_relevance_score": 0.408,
+        "components": {
+          "bio_boundary_score": 0.5786,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sigmoid"
+        ],
+        "normalization": "sigmoid",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sigmoid",
+          "canonical": "sigmoid",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5786",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.408"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "test error",
+        "canonical": "test error",
+        "normalized": "test error",
+        "tokens": [
+          "test",
+          "error"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 44,
+        "sentence": "normalized initialization as can be seen by comparing the evolution of activations in both cases resp figure -bottom and figure error curves and conclusions the final consideration that we care for is the success of training with different strategies and this is best illustrated with error curves showing the evolution of test error as training progresses and asymptotes figure shows such curves with online training on shapeset-3 2 while table gives final test error for all the datasets studied shapeset-3",
+        "context_window": {
+          "previous": "training here for a tanh network indeed whereas the gradients have initially roughly the same magnitude they diverge from each other with larger gradients in the lower layers as training progresses especially with the standard initialization note that this might be one of the advantages of the normalized initialization since having gradients of very different magnitudes at different layers may yield to ill-conditioning and slower training finally we observe that the softsign networks share similarities with the tanh networks with",
+          "current": "normalized initialization as can be seen by comparing the evolution of activations in both cases resp figure -bottom and figure error curves and conclusions the final consideration that we care for is the success of training with different strategies and this is best illustrated with error curves showing the evolution of test error as training progresses and asymptotes figure shows such curves with online training on shapeset-3 2 while table gives final test error for all the datasets studied shapeset-3",
+          "next": "2 mnist cifar-10 and small-imagenet as a baseline we optimized rbf svm models on one hundred thousand shapeset examples and obtained 59 47 test error while on the same set we obtained 50 47 with a depth five hyperbolic tangent network with normalized initialization these results illustrate the effect of the choice of activation and initialization as a reference we include in fig- table 1 test error with different activation functions and initialization schemes for deep networks with 5 hidden"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4698,
+        "downstream_relevance_score": 0.3171,
+        "components": {
+          "bio_boundary_score": 0.6794,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "test",
+          "error"
+        ],
+        "normalization": "test error",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "test error",
+          "canonical": "test error",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6794",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3171"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "variance",
+        "canonical": "variance",
+        "normalized": "variance",
+        "tokens": [
+          "variance"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 36,
+        "sentence": "note how both constraints are satisfied when all layers have the same width if we also have the same initialization for the weights we could get the following interesting properties i v ar cost s i nv ar w d-i v ar x i v ar cost w i nv ar w d v ar x v ar cost s d we can see that the variance of the gradient on the weights is the same for all layers but",
+        "context_window": {
+          "previous": "that i i v ar z i v ar z i from a back-propagation point of view we would similarly like to have i i v ar cost s i v ar cost s i these two conditions transform to i n i v ar w i 1 i n i 1 v ar w i 1 as a compromise between these two constraints we might want to have i v ar w i 2 n i n i 1",
+          "current": "note how both constraints are satisfied when all layers have the same width if we also have the same initialization for the weights we could get the following interesting properties i v ar cost s i nv ar w d-i v ar x i v ar cost w i nv ar w d v ar x v ar cost s d we can see that the variance of the gradient on the weights is the same for all layers but",
+          "next": "the variance of the backpropagated gradient might still vanish or explode as we consider deeper networks note how this is reminiscent of issues raised when studying recurrent neural networks which can be seen as very deep networks when unfolded through time the standard initialization that we have used eq 1 gives rise to variance with the following property nv ar w 1 3 where n is the layer size assuming all layers of the same size this will cause the"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5121,
+        "downstream_relevance_score": 0.3123,
+        "components": {
+          "bio_boundary_score": 0.8228,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "variance"
+        ],
+        "normalization": "variance",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "variance",
+          "canonical": "variance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8228",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.3123"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "logistic layer",
+        "canonical": "logistic layer",
+        "normalized": "logistic layer",
+        "tokens": [
+          "logistic",
+          "layer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 22,
+        "sentence": "0 corresponds to a saturated sigmoid note that deep networks with sigmoids but initialized from unsupervised pre-training e g from rbms do not suffer from this saturation behavior our proposed explanation rests on the hypothesis that the transformation that the lower layers of the randomly initialized network computes initially is not useful to the classification task unlike the transformation obtained from unsupervised pre-training the logistic layer output softmax b w h might initially rely more on its biases b which",
+        "context_window": {
+          "previous": "networks with sigmoid activations e g the depthfive model never escaped this regime during training the big surprise is that for intermediate number of hidden layers here four the saturation regime may be escaped at the same time that the top hidden layer moves out of saturation the first hidden layer begins to saturate and therefore to stabilize we hypothesize that this behavior is due to the combination of random initialization and the fact that an hidden unit output of",
+          "current": "0 corresponds to a saturated sigmoid note that deep networks with sigmoids but initialized from unsupervised pre-training e g from rbms do not suffer from this saturation behavior our proposed explanation rests on the hypothesis that the transformation that the lower layers of the randomly initialized network computes initially is not useful to the classification task unlike the transformation obtained from unsupervised pre-training the logistic layer output softmax b w h might initially rely more on its biases b which",
+          "next": "are learned very quickly than on the top hidden activations h derived from the input image because h would vary in ways that are not predictive of y maybe correlated mostly with other and possibly more dominant variations of x thus the error gradient would tend to push w h towards 0 which can be achieved by pushing h towards 0 in the case of symmetric activation functions like the hyperbolic tangent and the softsign sitting around 0 is good"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4349,
+        "downstream_relevance_score": 0.2989,
+        "components": {
+          "bio_boundary_score": 0.5604,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "logistic",
+          "layer"
+        ],
+        "normalization": "logistic layer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "logistic layer",
+          "canonical": "logistic layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5604",
+        "structure model assigned role 'comparison' with score 0.66",
+        "downstream relevance score is 0.2989"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 13,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The online setting is also interesting because it focuses on the optimization issues rather than on the small-sample regularization effects, so we decided to include in our experiments a synthetic images dataset inspired from and , from which as many examples as needed could be sampled, for testing the online learning scenario.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We call this dataset the Shapeset-3 × 2 dataset, with example images in Figure (top).",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The MNIST digits , dataset has 50,000 training images, 10,000 validation images (for hyper-parameter selection), and 10,000 test images, each showing a 28×28 grey-scale pixel image of one of the 10 digits.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "CIFAR-10 (Krizhevsky & Hinton, 2009) is a labelled sub- set of the tiny-images dataset that contains 50,000 training examples (from which we extracted 10,000 as validation data) and 10,000 test examples.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Small-ImageNet which is a set of tiny 37×37 gray level images dataset computed from the higher-resolution and larger set at , with labels from the WordNet noun hierarchy.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our objective here is to understand better why standard gradient descent from random initialization is doing so poorly with deep neural networks, to better understand these recent relative successes and help design better algorithms in the future.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Based on these considerations, we propose a new initialization scheme that brings substantially faster convergence.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Most of the recent experimental results with deep architecture are obtained with models that can be turned into deep supervised neural networks, but with initialization or training schemes different from the classical feedforward neural networks .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We noticed that for only one shape present in the image the task of recognizing it was too easy.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The task is to predict the objects present (e.g. triangle + ellipse, parallelogram + parallelogram, triangle alone, etc.) without having to distinguish between the foreground shape and the background shape when they overlap.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In parallel we need to extract the factors of variability that predict which object shapes are present.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Figure shows the evolution of the activation values (after the nonlinearity) at each hidden layer during training of a deep architecture with sigmoid activation functions.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We found that the plateaus in the training criterion (as a function of the parameters) are less present with the log-likelihood cost function.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "activation function",
+        "section": "intro",
+        "role": "motivation",
+        "score": 0.6751
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "online machine learning",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.6643
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "Natural language processing",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6641
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "shape",
+        "section": "intro",
+        "role": "dataset",
+        "score": 0.5931
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "hyperbolic tangent",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.5071
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "error curve",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4844
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "nonlinearity",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.4836
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "apparent local minimum",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.4785
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "saturation regime",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.475
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "softsign",
+        "section": "intro",
+        "role": "component",
+        "score": 0.4621
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "cost function",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.4524
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "multiplicative effect",
+        "section": "intro",
+        "role": "motivation",
+        "score": 0.4508
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "saturation",
+        "section": "intro",
+        "role": "component",
+        "score": 0.4448
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "gradient propagation",
+        "section": "intro",
+        "role": "component",
+        "score": 0.4342
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "artificial neural network",
+        "section": "intro",
+        "role": "component",
+        "score": 0.4246
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "initialization",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.4236
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "activation value",
+        "section": "intro",
+        "role": "component",
+        "score": 0.4201
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "jacobian matrix",
+        "section": "intro",
+        "role": "component",
+        "score": 0.4145
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "sigmoid",
+        "section": "intro",
+        "role": "component",
+        "score": 0.408
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "test error",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3171
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "variance",
+        "section": "intro",
+        "role": "background",
+        "score": 0.3123
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "logistic layer",
+        "section": "intro",
+        "role": "comparison",
+        "score": 0.2989
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_013",
+        "target": "ecu_017",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_019",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_019",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_018",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

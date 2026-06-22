@@ -1,0 +1,2313 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2017_classical_ai_rainbow_combining_improvements_in_deep_reinforcement_learning",
+    "title": "2017_classical_ai_rainbow_combining_improvements_in_deep_reinforcement_learning",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2017_classical_ai_rainbow_combining_improvements_in_deep_reinforcement_learning.txt",
+    "sentence_count": 51,
+    "section_counts": {
+      "intro": 32,
+      "related_work": 2,
+      "method": 1,
+      "experiment": 8,
+      "conclusion": 8
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 3882,
+    "type_count": 920,
+    "type_token_ratio": 0.237,
+    "section_token_counts": {
+      "intro": 2476,
+      "related_work": 160,
+      "method": 35,
+      "experiment": 640,
+      "conclusion": 571
+    },
+    "top_unigrams": [
+      {
+        "term": "performance",
+        "count": 45
+      },
+      {
+        "term": "agent",
+        "count": 32
+      },
+      {
+        "term": "dqn",
+        "count": 29
+      },
+      {
+        "term": "action",
+        "count": 28
+      },
+      {
+        "term": "games",
+        "count": 26
+      },
+      {
+        "term": "learning",
+        "count": 25
+      },
+      {
+        "term": "distribution",
+        "count": 22
+      },
+      {
+        "term": "where",
+        "count": 21
+      },
+      {
+        "term": "rainbow",
+        "count": 18
+      },
+      {
+        "term": "each",
+        "count": 17
+      },
+      {
+        "term": "network",
+        "count": 17
+      },
+      {
+        "term": "noisy",
+        "count": 16
+      },
+      {
+        "term": "figure",
+        "count": 15
+      },
+      {
+        "term": "q-learning",
+        "count": 14
+      },
+      {
+        "term": "state",
+        "count": 14
+      },
+      {
+        "term": "median",
+        "count": 14
+      },
+      {
+        "term": "human",
+        "count": 14
+      },
+      {
+        "term": "can",
+        "count": 13
+      },
+      {
+        "term": "replay",
+        "count": 13
+      },
+      {
+        "term": "dueling",
+        "count": 13
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "final performance",
+        "count": 9
+      },
+      {
+        "term": "reinforcement learning",
+        "count": 8
+      },
+      {
+        "term": "target distribution",
+        "count": 7
+      },
+      {
+        "term": "experience replay",
+        "count": 6
+      },
+      {
+        "term": "double q-learning",
+        "count": 6
+      },
+      {
+        "term": "action values",
+        "count": 6
+      },
+      {
+        "term": "human normalized",
+        "count": 6
+      },
+      {
+        "term": "deep reinforcement",
+        "count": 4
+      },
+      {
+        "term": "data efficiency",
+        "count": 4
+      },
+      {
+        "term": "van hasselt",
+        "count": 4
+      },
+      {
+        "term": "dueling network",
+        "count": 4
+      },
+      {
+        "term": "network architecture",
+        "count": 4
+      },
+      {
+        "term": "noisy dqn",
+        "count": 4
+      },
+      {
+        "term": "dueling ddqn",
+        "count": 4
+      },
+      {
+        "term": "discounted return",
+        "count": 4
+      },
+      {
+        "term": "given state",
+        "count": 4
+      },
+      {
+        "term": "greedy action",
+        "count": 4
+      },
+      {
+        "term": "state action",
+        "count": 4
+      },
+      {
+        "term": "noisy nets",
+        "count": 4
+      },
+      {
+        "term": "normalized performance",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "deep reinforcement learning",
+        "count": 4
+      },
+      {
+        "term": "human normalized performance",
+        "count": 4
+      },
+      {
+        "term": "prioritized experience replay",
+        "count": 3
+      },
+      {
+        "term": "prioritized ddqn dueling",
+        "count": 3
+      },
+      {
+        "term": "ddqn dueling ddqn",
+        "count": 3
+      },
+      {
+        "term": "distributional dqn noisy",
+        "count": 3
+      },
+      {
+        "term": "dqn noisy dqn",
+        "count": 3
+      },
+      {
+        "term": "both terms data",
+        "count": 2
+      },
+      {
+        "term": "terms data efficiency",
+        "count": 2
+      },
+      {
+        "term": "data efficiency final",
+        "count": 2
+      },
+      {
+        "term": "efficiency final performance",
+        "count": 2
+      },
+      {
+        "term": "contribution each component",
+        "count": 2
+      },
+      {
+        "term": "many extensions proposed",
+        "count": 2
+      },
+      {
+        "term": "van hasselt guez",
+        "count": 2
+      },
+      {
+        "term": "hasselt guez silver",
+        "count": 2
+      },
+      {
+        "term": "guez silver 2016",
+        "count": 2
+      },
+      {
+        "term": "overestimation bias q-learning",
+        "count": 2
+      },
+      {
+        "term": "q-learning van hasselt",
+        "count": 2
+      },
+      {
+        "term": "van hasselt 2010",
+        "count": 2
+      },
+      {
+        "term": "transitions which there",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 17,
+    "nonzero_tfidf_features": 17,
+    "top_tfidf_features": [
+      {
+        "feature_name": "experiments__dqn",
+        "section": "experiment",
+        "term": "dqn",
+        "frequency": 17.0,
+        "tfidf": 0.997
+      },
+      {
+        "feature_name": "conclusion__dqn",
+        "section": "conclusion",
+        "term": "dqn",
+        "frequency": 11.0,
+        "tfidf": 0.9839
+      },
+      {
+        "feature_name": "introduction__dqn",
+        "section": "intro",
+        "term": "dqn",
+        "frequency": 10.0,
+        "tfidf": 0.8778
+      },
+      {
+        "feature_name": "abstract__dqn",
+        "section": "intro",
+        "term": "dqn",
+        "frequency": 2.0,
+        "tfidf": 0.8705
+      },
+      {
+        "feature_name": "abstract__deep reinforcement learning",
+        "section": "intro",
+        "term": "deep reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.4033
+      },
+      {
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 6.0,
+        "tfidf": 0.3502
+      },
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.2822
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 3.0,
+        "tfidf": 0.1843
+      },
+      {
+        "feature_name": "conclusion__learning algorithm",
+        "section": "conclusion",
+        "term": "learning algorithm",
+        "frequency": 2.0,
+        "tfidf": 0.1789
+      },
+      {
+        "feature_name": "introduction__deep reinforcement learning",
+        "section": "intro",
+        "term": "deep reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.17
+      },
+      {
+        "feature_name": "introduction__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.1413
+      },
+      {
+        "feature_name": "introduction__artificial intelligence",
+        "section": "intro",
+        "term": "artificial intelligence",
+        "frequency": 1.0,
+        "tfidf": 0.0878
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.0804
+      },
+      {
+        "feature_name": "introduction__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.0707
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.0694
+      },
+      {
+        "feature_name": "experiments__adam optimizer",
+        "section": "experiment",
+        "term": "adam optimizer",
+        "frequency": 1.0,
+        "tfidf": 0.064
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.0442
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 10.0,
+          "tfidf": 0.8778
+        },
+        {
+          "feature_name": "abstract__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 2.0,
+          "tfidf": 0.8705
+        },
+        {
+          "feature_name": "abstract__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4033
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 6.0,
+          "tfidf": 0.3502
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.2822
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 3.0,
+          "tfidf": 0.1843
+        },
+        {
+          "feature_name": "introduction__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.17
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.1413
+        },
+        {
+          "feature_name": "introduction__artificial intelligence",
+          "section": "intro",
+          "term": "artificial intelligence",
+          "frequency": 1.0,
+          "tfidf": 0.0878
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.0804
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.0707
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.0694
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__dqn",
+          "section": "experiment",
+          "term": "dqn",
+          "frequency": 17.0,
+          "tfidf": 0.997
+        },
+        {
+          "feature_name": "experiments__adam optimizer",
+          "section": "experiment",
+          "term": "adam optimizer",
+          "frequency": 1.0,
+          "tfidf": 0.064
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.0442
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__dqn",
+          "section": "conclusion",
+          "term": "dqn",
+          "frequency": 11.0,
+          "tfidf": 0.9839
+        },
+        {
+          "feature_name": "conclusion__learning algorithm",
+          "section": "conclusion",
+          "term": "learning algorithm",
+          "frequency": 2.0,
+          "tfidf": 0.1789
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 32,
+      "token_count": 2476,
+      "bow_hit_count": 100,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 38,
+          "section_prior": 0.2951,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 23,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 13,
+          "section_prior": 0.1776,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 9,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 8,
+          "section_prior": 0.3813,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 5,
+          "section_prior": 0.4722,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 2,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "artificial intelligence model",
+          "count": 1,
+          "section_prior": 0.6111,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 1,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 10.0,
+          "tfidf": 0.8778
+        },
+        {
+          "feature_name": "abstract__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 2.0,
+          "tfidf": 0.8705
+        },
+        {
+          "feature_name": "abstract__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4033
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 6.0,
+          "tfidf": 0.3502
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.2822
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 3.0,
+          "tfidf": 0.1843
+        },
+        {
+          "feature_name": "introduction__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.17
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.1413
+        },
+        {
+          "feature_name": "introduction__artificial intelligence",
+          "section": "intro",
+          "term": "artificial intelligence",
+          "frequency": 1.0,
+          "tfidf": 0.0878
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.0804
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.0707
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.0694
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 2,
+      "token_count": 160,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 1,
+      "token_count": 35,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 8,
+      "token_count": 640,
+      "bow_hit_count": 12,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 12,
+          "section_prior": 0.4672,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__dqn",
+          "section": "experiment",
+          "term": "dqn",
+          "frequency": 17.0,
+          "tfidf": 0.997
+        },
+        {
+          "feature_name": "experiments__adam optimizer",
+          "section": "experiment",
+          "term": "adam optimizer",
+          "frequency": 1.0,
+          "tfidf": 0.064
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.0442
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 8,
+      "token_count": 571,
+      "bow_hit_count": 5,
+      "top_bow_terms": [
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__dqn",
+          "section": "conclusion",
+          "term": "dqn",
+          "frequency": 11.0,
+          "tfidf": 0.9839
+        },
+        {
+          "feature_name": "conclusion__learning algorithm",
+          "section": "conclusion",
+          "term": "learning algorithm",
+          "frequency": 2.0,
+          "tfidf": 0.1789
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "dqn",
+        "canonical": "Deep Q-Network",
+        "normalized": "deep q-network",
+        "tokens": [
+          "dqn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep q network",
+          "Deep Q-Network",
+          "deep q-network",
+          "dqn"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 17,
+        "sentence": "several atari games extensions to dqn dqn has been an important milestone but several limitations of this algorithm are now known and many extensions have been proposed we propose a selection of six extensions that each have addressed a limitation and improved overall performance to keep the size of the selection manageable we picked a set of extensions that address distinct concerns e g just one of the many addressing exploration double q-learning conventional q-learning is affected by an overestimation",
+        "context_window": {
+          "previous": "a periodic copy of the online network which is not directly optimized the optimization is performed using rmsprop a variant of stochastic gradient descent on mini-batches sampled uniformly from the experience replay this means that in the loss above the time index t will be a random time index from the last million transitions rather than the current time the use of experience replay and target networks enables relatively stable learning of q values and led to superhuman performance on",
+          "current": "several atari games extensions to dqn dqn has been an important milestone but several limitations of this algorithm are now known and many extensions have been proposed we propose a selection of six extensions that each have addressed a limitation and improved overall performance to keep the size of the selection manageable we picked a set of extensions that address distinct concerns e g just one of the many addressing exploration double q-learning conventional q-learning is affected by an overestimation",
+          "next": "bias due to the maximization step in equation 1 and this can harm learning double q-learning van hasselt 2010 addresses this overestimation by decoupling in the maximization performed for the bootstrap target the selection of the action from its evaluation it is possible to effectively combine this with dqn van hasselt guez and silver 2016 using the loss r t 1 t 1 q s t 1 argmax a q s t 1 a -q s t a t 2"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "limitation",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "limitation cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          },
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7876,
+        "downstream_relevance_score": 0.8717,
+        "components": {
+          "bio_boundary_score": 0.9381,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2951,
+          "document_tfidf_score": 0.8805,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "dqn",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Deep Q-Network",
+        "display_term": "dqn",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "nan",
+        "wikidata_id": "Q20722857",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 6,
+        "total_frequency": 27,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__dqn",
+        "section": "intro",
+        "term": "dqn",
+        "frequency": 10.0,
+        "tfidf": 0.8778,
+        "normalized_frequency": 0.5882,
+        "normalized_tfidf": 0.8805
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dqn"
+        ],
+        "normalization": "dqn",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2951,
+        "canonicalization": {
+          "observed": "dqn",
+          "canonical": "Deep Q-Network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9381",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Deep Q-Network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__dqn' with tf-idf 0.8778",
+        "evidence cue lexicon matched limitation, algorithm, propose",
+        "downstream relevance score is 0.8717"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 13,
+        "sentence": "deep reinforcement learning and dqn large state and or action spaces make it intractable to learn q value estimates for each state and action pair independently in deep reinforcement learning we represent the various components of agents such as policies s a or values q s a with deep i e multi-layer neural networks the parameters of these networks are trained by gradient descent to minimize some suitable loss function in dqn deep networks and reinforcement learning were successfully combined",
+        "context_window": {
+          "previous": "value the greedy action with probability 1- and to otherwise act uniformly at random with probability policies of this kind are used to introduce a form of exploration by randomly selecting actions that are sub-optimal according to its current estimates the agent can discover and correct its estimates when appropriate the main limitation is that it is difficult to discover alternative courses of action that extend far into the future this has motivated research on more directed forms of exploration",
+          "current": "deep reinforcement learning and dqn large state and or action spaces make it intractable to learn q value estimates for each state and action pair independently in deep reinforcement learning we represent the various components of agents such as policies s a or values q s a with deep i e multi-layer neural networks the parameters of these networks are trained by gradient descent to minimize some suitable loss function in dqn deep networks and reinforcement learning were successfully combined",
+          "next": "by using a convolutional neural net to approximate the action values for a given state s t which is fed as input to the network in the form of a stack of raw pixel frames at each step based on the current state the agent selects an action -greedily with respect to the action values and adds a transition s t a t r t 1 t 1 s t 1 to a replay memory buffer that holds the last"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.668,
+        "downstream_relevance_score": 0.671,
+        "components": {
+          "bio_boundary_score": 0.8894,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5505,
+          "document_tfidf_score": 0.3512,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 28,
+        "total_frequency": 75,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 6.0,
+        "tfidf": 0.3502,
+        "normalized_frequency": 0.3529,
+        "normalized_tfidf": 0.3512
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5505,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8894",
+        "structure model assigned role 'component' with score 0.66",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__reinforcement learning' with tf-idf 0.3502",
+        "downstream relevance score is 0.671"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "network architecture",
+        "canonical": "network architecture",
+        "normalized": "network architecture",
+        "tokens": [
+          "network",
+          "architecture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 31,
+        "sentence": "experiments all distributional rainbow variants prioritize transitions by the kl loss since this is what the algorithm is minimizing p t d kl z d n t d t the kl loss as priority might be more robust to noisy stochastic environments because the loss can continue to decrease even when the returns are not deterministic the network architecture is a dueling network architecture adapted for use with return distributions the network has a shared representation f s which is",
+        "context_window": {
+          "previous": "d t where again z is the projection onto z we combine the multi-step distributional loss with double q-learning by using the greedy action in s t n selected according to the online network as the bootstrap action a t n and evaluating such action using the target network in standard proportional prioritized replay the absolute td error is used to prioritize the transitions this can be computed in the distributional setting using the mean action values however in our",
+          "current": "experiments all distributional rainbow variants prioritize transitions by the kl loss since this is what the algorithm is minimizing p t d kl z d n t d t the kl loss as priority might be more robust to noisy stochastic environments because the loss can continue to decrease even when the returns are not deterministic the network architecture is a dueling network architecture adapted for use with return distributions the network has a shared representation f s which is",
+          "next": "then fed into a value stream v with n atoms outputs and into an advantage stream a with n atoms n actions outputs where a i f s a will denote the output corresponding to atom i and action a for each atom z i the value and advantage streams are aggregated as in dueling dqn and then passed through a softmax layer to obtain the normalised parametric distributions used to estimate the returns distributions p i s a exp"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6752,
+        "downstream_relevance_score": 0.5961,
+        "components": {
+          "bio_boundary_score": 0.7187,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "network",
+          "architecture"
+        ],
+        "normalization": "network architecture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "network architecture",
+          "canonical": "network architecture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7187",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, algorithm",
+        "downstream relevance score is 0.5961"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 15,
+        "sentence": "million transitions the parameters of the neural network are optimized by using stochastic gradient descent to minimize the loss r t 1 t 1 max a q s t 1 a -q s t a t 2 where t is a time step randomly picked from the replay memory the gradient of the loss is back-propagated only into the parameters of the online network which is also used to select actions the term represents the parameters of a target network",
+        "context_window": {
+          "previous": "by using a convolutional neural net to approximate the action values for a given state s t which is fed as input to the network in the form of a stack of raw pixel frames at each step based on the current state the agent selects an action -greedily with respect to the action values and adds a transition s t a t r t 1 t 1 s t 1 to a replay memory buffer that holds the last",
+          "current": "million transitions the parameters of the neural network are optimized by using stochastic gradient descent to minimize the loss r t 1 t 1 max a q s t 1 a -q s t a t 2 where t is a time step randomly picked from the replay memory the gradient of the loss is back-propagated only into the parameters of the online network which is also used to select actions the term represents the parameters of a target network",
+          "next": "a periodic copy of the online network which is not directly optimized the optimization is performed using rmsprop a variant of stochastic gradient descent on mini-batches sampled uniformly from the experience replay this means that in the loss above the time index t will be a random time index from the last million transitions rather than the current time the use of experience replay and target networks enables relatively stable learning of q values and led to superhuman performance on"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5959,
+        "downstream_relevance_score": 0.5438,
+        "components": {
+          "bio_boundary_score": 0.9555,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4032,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 27,
+        "total_frequency": 54,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4032,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9555",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5438"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "experience replay",
+        "canonical": "experience replay",
+        "normalized": "experience replay",
+        "tokens": [
+          "experience",
+          "replay"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 3,
+        "sentence": "by decoupling selection and evaluation of the bootstrap action prioritized experience replay improves data efficiency by replaying more often transitions from which there is more to learn the dueling network architecture helps to generalize across actions by separately representing state values and action advantages learning from multi-step bootstrap targets as used in a3c shifts the bias-variance tradeoff and helps to propagate newly observed rewards faster to earlier visited states distributional q-learning learns a categorical distribution of discounted returns instead of",
+        "context_window": {
+          "previous": "the many recent successes in scaling reinforcement learning rl to complex sequential decision-making problems were kick-started by the deep q-networks algorithm dqn its combination of q-learning with convolutional neural networks and experience replay enabled it to learn from raw pixels how to play many atari games at human-level performance since then many extensions have been proposed that enhance its speed or stability double dqn ddqn van hasselt guez and silver 2016 addresses an overestimation bias of q-learning van hasselt 2010",
+          "current": "by decoupling selection and evaluation of the bootstrap action prioritized experience replay improves data efficiency by replaying more often transitions from which there is more to learn the dueling network architecture helps to generalize across actions by separately representing state values and action advantages learning from multi-step bootstrap targets as used in a3c shifts the bias-variance tradeoff and helps to propagate newly observed rewards faster to earlier visited states distributional q-learning learns a categorical distribution of discounted returns instead of",
+          "next": "estimating the mean noisy dqn uses stochastic network layers for exploration this list is of course far from exhaustive each of these algorithms enables substantial performance improvements in isolation since they do so by addressing copyright c 2018 association for the advancement of artificial intelligence all rights reserved 7 44 100 200 millions of frames 0 100 200 median human-normalized score dqn ddqn prioritized ddqn dueling ddqn a3c distributional dqn noisy dqn rainbow figure median human-normalized performance across 57 atari"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4418,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6338,
+        "downstream_relevance_score": 0.5201,
+        "components": {
+          "bio_boundary_score": 0.7529,
+          "sentence_evidence_score": 0.4418,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "experience",
+          "replay"
+        ],
+        "normalization": "experience replay",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "experience replay",
+          "canonical": "experience replay",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7529",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5201"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "greedy action",
+        "canonical": "greedy action",
+        "normalized": "greedy action",
+        "tokens": [
+          "greedy",
+          "action"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 30,
+        "sentence": "d t where again z is the projection onto z we combine the multi-step distributional loss with double q-learning by using the greedy action in s t n selected according to the online network as the bootstrap action a t n and evaluating such action using the target network in standard proportional prioritized replay the absolute td error is used to prioritize the transitions this can be computed in the distributional setting using the mean action values however in our",
+        "context_window": {
+          "previous": "single integrated agent which we call rainbow first we replace the 1-step distributional loss with a multi-step variant we construct the target distribution by contracting the value distribution in s t n according to the cumulative discount and shifting it by the truncated n-step discounted return this corresponds to defining the target distribution as d n t r n t n t z p s t n a t n the resulting loss is d kl z d n t",
+          "current": "d t where again z is the projection onto z we combine the multi-step distributional loss with double q-learning by using the greedy action in s t n selected according to the online network as the bootstrap action a t n and evaluating such action using the target network in standard proportional prioritized replay the absolute td error is used to prioritize the transitions this can be computed in the distributional setting using the mean action values however in our",
+          "next": "experiments all distributional rainbow variants prioritize transitions by the kl loss since this is what the algorithm is minimizing p t d kl z d n t d t the kl loss as priority might be more robust to noisy stochastic environments because the loss can continue to decrease even when the returns are not deterministic the network architecture is a dueling network architecture adapted for use with return distributions the network has a shared representation f s which is"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6326,
+        "downstream_relevance_score": 0.4594,
+        "components": {
+          "bio_boundary_score": 0.746,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "greedy",
+          "action"
+        ],
+        "normalization": "greedy action",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "greedy action",
+          "canonical": "greedy action",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.746",
+        "structure model assigned role 'gap' with score 0.82",
+        "downstream relevance score is 0.4594"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "markov decision process",
+        "canonical": "markov decision process",
+        "normalized": "markov decision process",
+        "tokens": [
+          "markov",
+          "decision",
+          "process"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 8,
+        "sentence": "t and then the environment provides the next reward r t 1 discount t 1 and state s t 1 this interaction is formalized as a markov decision process or mdp which is a tuple s a t r where s is a finite set of states a is a finite set of actions t s a s p s t 1 s s t s a t a is the stochastic transition function r s a e r t",
+        "context_window": {
+          "previous": "to help understand the contributions of the different components background reinforcement learning addresses the problem of an agent learning to act in an environment in order to maximize a scalar reward signal no direct supervision is provided to the agent for instance it is never directly told the best action agents and environments at each discrete time step t 0 1 2 the environment provides the agent with an observation s t the agent responds by selecting an action a",
+          "current": "t and then the environment provides the next reward r t 1 discount t 1 and state s t 1 this interaction is formalized as a markov decision process or mdp which is a tuple s a t r where s is a finite set of states a is a finite set of actions t s a s p s t 1 s s t s a t a is the stochastic transition function r s a e r t",
+          "next": "1 s t s a t a is the reward function and is a discount factor in our experiments mdps will be episodic with a constant t except on episode termination where t 0 but the algorithms are expressed in the general form on the agent side action selection is given by a policy that defines a probability distribution over actions for each state from the state s t encountered at time t we define the discounted return g t"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5237,
+        "downstream_relevance_score": 0.3383,
+        "components": {
+          "bio_boundary_score": 0.9445,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "markov",
+          "decision",
+          "process"
+        ],
+        "normalization": "markov decision process",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "markov decision process",
+          "canonical": "markov decision process",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9445",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.3383"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "average score",
+        "canonical": "average score",
+        "normalized": "average score",
+        "tokens": [
+          "average",
+          "score"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 35,
+        "sentence": "procedures of and the average scores of the agent are evaluated during training every 1m steps in the environment by suspending learning and evaluating the latest agent for 500k frames episodes are truncated at 108k frames or 30 minutes of simulated play as in van agents scores are normalized per game so that 0 corresponds to a random agent and 100 to the average score of a human expert normalized scores can be aggregated across all atari levels to compare",
+        "context_window": {
+          "previous": "we now describe the methods and setup used for configuring and evaluating the learning agents evaluation we evaluated all agents on 57 atari 2600 games from the arcade learning environment we follow the training and",
+          "current": "procedures of and the average scores of the agent are evaluated during training every 1m steps in the environment by suspending learning and evaluating the latest agent for 500k frames episodes are truncated at 108k frames or 30 minutes of simulated play as in van agents scores are normalized per game so that 0 corresponds to a random agent and 100 to the average score of a human expert normalized scores can be aggregated across all atari levels to compare",
+          "next": "the performance of different agents it is common to track the median human normalized performance across all games we also consider the number of games where the agent s performance is above some fraction of human performance to disentangle where improvements in the median come from the mean human normalized performance is potentially less informative as it is dominated by a few games e g atlantis where agents achieve scores orders of magnitude higher than humans do besides tracking the"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "evaluation_metric",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4764,
+        "downstream_relevance_score": 0.3333,
+        "components": {
+          "bio_boundary_score": 0.6711,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "average",
+          "score"
+        ],
+        "normalization": "average score",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "average score",
+          "canonical": "average score",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6711",
+        "structure model assigned role 'metric' with score 0.82",
+        "downstream relevance score is 0.3333"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "target distribution",
+        "canonical": "target distribution",
+        "normalized": "target distribution",
+        "tokens": [
+          "target",
+          "distribution"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 24,
+        "sentence": "t a t the goal is to update such that this distribution closely matches the actual distribution of returns to learn the probability masses the key insight is that return distributions satisfy a variant of bellman s equation for a given state s t and action a t the distribution of the returns under the optimal policy should match a target distribution defined by taking the distribution for the next state s t 1 and action a t 1 s",
+        "context_window": {
+          "previous": "returns instead of the expected return recently proposed to model such distributions with probability masses placed on a discrete support z where z is a vector with n atoms n atoms defined by z i v min i -1 vmax-vmin natoms-1 for i 1 n atoms the approximating distribution d t at time t is defined on this support with the probability mass p i s t a t on each atom i such that d t z p s",
+          "current": "t a t the goal is to update such that this distribution closely matches the actual distribution of returns to learn the probability masses the key insight is that return distributions satisfy a variant of bellman s equation for a given state s t and action a t the distribution of the returns under the optimal policy should match a target distribution defined by taking the distribution for the next state s t 1 and action a t 1 s",
+          "next": "t 1 contracting it towards zero according to the discount and shifting it by the reward or distribution of rewards in the stochastic case a distributional variant of q-learning is then derived by first constructing a new support for the target distribution and then minimizing the kullbeck-leibler divergence between the distribution d t and the target distribution d t r t 1 t 1 z p s t 1 a t 1 d kl z d t d t here"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4951,
+        "downstream_relevance_score": 0.3302,
+        "components": {
+          "bio_boundary_score": 0.6107,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "target",
+          "distribution"
+        ],
+        "normalization": "target distribution",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "target distribution",
+          "canonical": "target distribution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6107",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.3302"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "integrated agent",
+        "canonical": "integrated agent",
+        "normalized": "integrated agent",
+        "tokens": [
+          "integrated",
+          "agent"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 29,
+        "sentence": "single integrated agent which we call rainbow first we replace the 1-step distributional loss with a multi-step variant we construct the target distribution by contracting the value distribution in s t n according to the cumulative discount and shifting it by the truncated n-step discounted return this corresponds to defining the target distribution as d n t r n t n t z p s t n a t n the resulting loss is d kl z d n t",
+        "context_window": {
+          "previous": "noisy b w noisy w x where b and w are random variables and denotes the element-wise product this transformation can then be used in place of the standard linear y b wx over time the network can learn to ignore the noisy stream but will do so at different rates in different parts of the state space allowing state-conditional exploration with a form of self-annealing the integrated agent in this paper we integrate all the aforementioned components into a",
+          "current": "single integrated agent which we call rainbow first we replace the 1-step distributional loss with a multi-step variant we construct the target distribution by contracting the value distribution in s t n according to the cumulative discount and shifting it by the truncated n-step discounted return this corresponds to defining the target distribution as d n t r n t n t z p s t n a t n the resulting loss is d kl z d n t",
+          "next": "d t where again z is the projection onto z we combine the multi-step distributional loss with double q-learning by using the greedy action in s t n selected according to the online network as the bootstrap action a t n and evaluating such action using the target network in standard proportional prioritized replay the absolute td error is used to prioritize the transitions this can be computed in the distributional setting using the mean action values however in our"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4836,
+        "downstream_relevance_score": 0.3243,
+        "components": {
+          "bio_boundary_score": 0.7259,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "integrated",
+          "agent"
+        ],
+        "normalization": "integrated agent",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "integrated agent",
+          "canonical": "integrated agent",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7259",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3243"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "neural net",
+        "canonical": "neural net",
+        "normalized": "neural net",
+        "tokens": [
+          "neural",
+          "net"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 14,
+        "sentence": "by using a convolutional neural net to approximate the action values for a given state s t which is fed as input to the network in the form of a stack of raw pixel frames at each step based on the current state the agent selects an action -greedily with respect to the action values and adds a transition s t a t r t 1 t 1 s t 1 to a replay memory buffer that holds the last",
+        "context_window": {
+          "previous": "deep reinforcement learning and dqn large state and or action spaces make it intractable to learn q value estimates for each state and action pair independently in deep reinforcement learning we represent the various components of agents such as policies s a or values q s a with deep i e multi-layer neural networks the parameters of these networks are trained by gradient descent to minimize some suitable loss function in dqn deep networks and reinforcement learning were successfully combined",
+          "current": "by using a convolutional neural net to approximate the action values for a given state s t which is fed as input to the network in the form of a stack of raw pixel frames at each step based on the current state the agent selects an action -greedily with respect to the action values and adds a transition s t a t r t 1 t 1 s t 1 to a replay memory buffer that holds the last",
+          "next": "million transitions the parameters of the neural network are optimized by using stochastic gradient descent to minimize the loss r t 1 t 1 max a q s t 1 a -q s t a t 2 where t is a time step randomly picked from the replay memory the gradient of the loss is back-propagated only into the parameters of the online network which is also used to select actions the term represents the parameters of a target network"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.477,
+        "downstream_relevance_score": 0.3208,
+        "components": {
+          "bio_boundary_score": 0.7846,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "net"
+        ],
+        "normalization": "neural net",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "neural net",
+          "canonical": "neural net",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7846",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3208"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "probability mass",
+        "canonical": "probability mass",
+        "normalized": "probability mass",
+        "tokens": [
+          "probability",
+          "mass"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 23,
+        "sentence": "returns instead of the expected return recently proposed to model such distributions with probability masses placed on a discrete support z where z is a vector with n atoms n atoms defined by z i v min i -1 vmax-vmin natoms-1 for i 1 n atoms the approximating distribution d t at time t is defined on this support with the probability mass p i s t a t on each atom i such that d t z p s",
+        "context_window": {
+          "previous": "can be used we define the truncated n-step return from a given state s t as r n t n-1 k 0 k t r t k 1 a multi-step variant of dqn is then defined by minimizing the alternative loss r n t n t max a q s t n a -q s t a t 2 multi-step targets with suitably tuned n often lead to faster learning distributional rl we can learn to approximate the distribution of",
+          "current": "returns instead of the expected return recently proposed to model such distributions with probability masses placed on a discrete support z where z is a vector with n atoms n atoms defined by z i v min i -1 vmax-vmin natoms-1 for i 1 n atoms the approximating distribution d t at time t is defined on this support with the probability mass p i s t a t on each atom i such that d t z p s",
+          "next": "t a t the goal is to update such that this distribution closely matches the actual distribution of returns to learn the probability masses the key insight is that return distributions satisfy a variant of bellman s equation for a given state s t and action a t the distribution of the returns under the optimal policy should match a target distribution defined by taking the distribution for the next state s t 1 and action a t 1 s"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4667,
+        "downstream_relevance_score": 0.2987,
+        "components": {
+          "bio_boundary_score": 0.7498,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "probability",
+          "mass"
+        ],
+        "normalization": "probability mass",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "probability mass",
+          "canonical": "probability mass",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7498",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.2987"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 19,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In the final evaluations of the agent, after the end of training, Rainbow achieves a median score of 223% in the no-ops regime; in the human starts regime we measured a median score of 153%.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "The deep reinforcement learning community has made several independent improvements to the DQN algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "This paper examines six extensions to the DQN algorithm and empirically studies their combination.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our experiments show that the combination provides state-of-the-art performance on the Atari 2600 benchmark, both in terms of data efficiency and final performance.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our experiments show that the combination provides state-of-the-art performance on the Atari 2600 benchmark, both in terms of data efficiency and final performance.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The many recent successes in scaling reinforcement learning (RL) to complex sequential decision-making problems were kick-started by the Deep Q-Networks algorithm (DQN; .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The dueling network architecture helps to generalize across actions by separately representing state values and action advantages.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Curves are smoothed with a moving average over 5 points. radically different issues, and since they build on a shared framework, they could plausibly be combined.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this paper we propose to study an agent that combines all the aforementioned ingredients.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In fact, their combination results in new stateof-the-art results on the benchmark suite of 57 Atari 2600 games from the Arcade Learning Environment , both in terms of data efficiency and of final performance.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Policies of this kind are used to introduce a form of exploration: by randomly selecting actions that are sub-optimal according to its current estimates, the agent can discover and correct its estimates when appropriate.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The main limitation is that it is difficult to discover alternative courses of action that extend far into the future; this has motivated research on more directed forms of exploration.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The main limitation is that it is difficult to discover alternative courses of action that extend far into the future; this has motivated research on more directed forms of exploration.",
+        "evidence_type": "limitation",
+        "matched_cue": "difficult to",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While we consider them to be important and complementary, we leave questions of scalability and parallelism to future work.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We have demonstrated that several improvements to DQN can be successfully integrated into a single learning algorithm that achieves state-of-the-art performance.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We have demonstrated that several improvements to DQN can be successfully integrated into a single learning algorithm that achieves state-of-the-art performance.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We have demonstrated that several improvements to DQN can be successfully integrated into a single learning algorithm that achieves state-of-the-art performance.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Moreover, we have shown that within the integrated algorithm, all but one of the components provided clear performance benefits.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "To evaluate Rainbow fairly against the baselines, we have followed the common domain modifications of clipping rewards, fixed action-repetition, and frame-stacking, but these might be removed by other learning algorithm improvements.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Deep Q-Network",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.8717
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "reinforcement learning",
+        "section": "intro",
+        "role": "component",
+        "score": 0.671
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "network architecture",
+        "section": "related_work",
+        "role": "core_method",
+        "score": 0.5961
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "Convolutional neural network",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.5438
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "experience replay",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5201
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "greedy action",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.4594
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "markov decision process",
+        "section": "intro",
+        "role": "background",
+        "score": 0.3383
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "average score",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.3333
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "target distribution",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.3302
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "integrated agent",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3243
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "neural net",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3208
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "probability mass",
+        "section": "intro",
+        "role": "background",
+        "score": 0.2987
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_004",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

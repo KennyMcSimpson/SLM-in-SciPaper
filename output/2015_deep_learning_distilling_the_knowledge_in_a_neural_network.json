@@ -1,0 +1,4008 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2015_deep_learning_distilling_the_knowledge_in_a_neural_network",
+    "title": "2015_deep_learning_distilling_the_knowledge_in_a_neural_network",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2015_deep_learning_distilling_the_knowledge_in_a_neural_network.txt",
+    "sentence_count": 67,
+    "section_counts": {
+      "intro": 34,
+      "related_work": 1,
+      "method": 3,
+      "experiment": 26,
+      "conclusion": 3
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5136,
+    "type_count": 991,
+    "type_token_ratio": 0.193,
+    "section_token_counts": {
+      "intro": 2551,
+      "related_work": 80,
+      "method": 231,
+      "experiment": 2080,
+      "conclusion": 194
+    },
+    "top_unigrams": [
+      {
+        "term": "model",
+        "count": 94
+      },
+      {
+        "term": "training",
+        "count": 54
+      },
+      {
+        "term": "models",
+        "count": 44
+      },
+      {
+        "term": "set",
+        "count": 39
+      },
+      {
+        "term": "targets",
+        "count": 38
+      },
+      {
+        "term": "soft",
+        "count": 31
+      },
+      {
+        "term": "can",
+        "count": 30
+      },
+      {
+        "term": "classes",
+        "count": 30
+      },
+      {
+        "term": "trained",
+        "count": 30
+      },
+      {
+        "term": "using",
+        "count": 29
+      },
+      {
+        "term": "very",
+        "count": 28
+      },
+      {
+        "term": "specialist",
+        "count": 28
+      },
+      {
+        "term": "which",
+        "count": 27
+      },
+      {
+        "term": "each",
+        "count": 27
+      },
+      {
+        "term": "large",
+        "count": 25
+      },
+      {
+        "term": "all",
+        "count": 25
+      },
+      {
+        "term": "specialists",
+        "count": 25
+      },
+      {
+        "term": "ensemble",
+        "count": 24
+      },
+      {
+        "term": "cumbersome",
+        "count": 24
+      },
+      {
+        "term": "small",
+        "count": 23
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "soft targets",
+        "count": 28
+      },
+      {
+        "term": "cumbersome model",
+        "count": 21
+      },
+      {
+        "term": "training set",
+        "count": 18
+      },
+      {
+        "term": "distilled model",
+        "count": 18
+      },
+      {
+        "term": "specialist models",
+        "count": 15
+      },
+      {
+        "term": "small model",
+        "count": 15
+      },
+      {
+        "term": "transfer set",
+        "count": 10
+      },
+      {
+        "term": "model trained",
+        "count": 8
+      },
+      {
+        "term": "ensemble models",
+        "count": 7
+      },
+      {
+        "term": "into single",
+        "count": 7
+      },
+      {
+        "term": "generalist model",
+        "count": 7
+      },
+      {
+        "term": "objective function",
+        "count": 6
+      },
+      {
+        "term": "large number",
+        "count": 5
+      },
+      {
+        "term": "very large",
+        "count": 5
+      },
+      {
+        "term": "does not",
+        "count": 5
+      },
+      {
+        "term": "hard targets",
+        "count": 5
+      },
+      {
+        "term": "high temperature",
+        "count": 5
+      },
+      {
+        "term": "probability distribution",
+        "count": 5
+      },
+      {
+        "term": "distribution over",
+        "count": 5
+      },
+      {
+        "term": "test errors",
+        "count": 5
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "probability distribution over",
+        "count": 4
+      },
+      {
+        "term": "caruana his collaborators",
+        "count": 3
+      },
+      {
+        "term": "into single model",
+        "count": 3
+      },
+      {
+        "term": "same high temperature",
+        "count": 3
+      },
+      {
+        "term": "transferred distilled model",
+        "count": 3
+      },
+      {
+        "term": "two hidden layers",
+        "count": 3
+      },
+      {
+        "term": "specialist models each",
+        "count": 3
+      },
+      {
+        "term": "using soft targets",
+        "count": 3
+      },
+      {
+        "term": "single dustbin class",
+        "count": 3
+      },
+      {
+        "term": "61 specialist models",
+        "count": 3
+      },
+      {
+        "term": "very simple way",
+        "count": 2
+      },
+      {
+        "term": "deployment large number",
+        "count": 2
+      },
+      {
+        "term": "large number users",
+        "count": 2
+      },
+      {
+        "term": "if individual models",
+        "count": 2
+      },
+      {
+        "term": "individual models large",
+        "count": 2
+      },
+      {
+        "term": "models large neural",
+        "count": 2
+      },
+      {
+        "term": "ensemble models into",
+        "count": 2
+      },
+      {
+        "term": "models into single",
+        "count": 2
+      },
+      {
+        "term": "many specialist models",
+        "count": 2
+      },
+      {
+        "term": "very different requirements",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 15,
+    "nonzero_tfidf_features": 15,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__learning algorithm",
+        "section": "intro",
+        "term": "learning algorithm",
+        "frequency": 2.0,
+        "tfidf": 1.2035
+      },
+      {
+        "feature_name": "methods__training data",
+        "section": "method",
+        "term": "training data",
+        "frequency": 2.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "conclusion__distillation",
+        "section": "conclusion",
+        "term": "distillation",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 5.0,
+        "tfidf": 0.8253
+      },
+      {
+        "feature_name": "introduction__distillation",
+        "section": "intro",
+        "term": "distillation",
+        "frequency": 3.0,
+        "tfidf": 0.6868
+      },
+      {
+        "feature_name": "experiments__distillation",
+        "section": "experiment",
+        "term": "distillation",
+        "frequency": 6.0,
+        "tfidf": 0.6745
+      },
+      {
+        "feature_name": "experiments__deep networks",
+        "section": "experiment",
+        "term": "deep networks",
+        "frequency": 5.0,
+        "tfidf": 0.6248
+      },
+      {
+        "feature_name": "abstract__machine learning",
+        "section": "intro",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.515
+      },
+      {
+        "feature_name": "experiments__speech recognition",
+        "section": "experiment",
+        "term": "speech recognition",
+        "frequency": 4.0,
+        "tfidf": 0.4687
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 5.0,
+        "tfidf": 0.2906
+      },
+      {
+        "feature_name": "experiments__sgd",
+        "section": "experiment",
+        "term": "sgd",
+        "frequency": 2.0,
+        "tfidf": 0.2248
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 3.0,
+        "tfidf": 0.2158
+      },
+      {
+        "feature_name": "experiments__gradient descent",
+        "section": "experiment",
+        "term": "gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.2017
+      },
+      {
+        "feature_name": "experiments__convolutional neural networks",
+        "section": "experiment",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.125
+      },
+      {
+        "feature_name": "introduction__machine learning",
+        "section": "intro",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.1242
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 2.0,
+          "tfidf": 1.2035
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 5.0,
+          "tfidf": 0.8253
+        },
+        {
+          "feature_name": "introduction__distillation",
+          "section": "intro",
+          "term": "distillation",
+          "frequency": 3.0,
+          "tfidf": 0.6868
+        },
+        {
+          "feature_name": "abstract__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.515
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1242
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__distillation",
+          "section": "experiment",
+          "term": "distillation",
+          "frequency": 6.0,
+          "tfidf": 0.6745
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 5.0,
+          "tfidf": 0.6248
+        },
+        {
+          "feature_name": "experiments__speech recognition",
+          "section": "experiment",
+          "term": "speech recognition",
+          "frequency": 4.0,
+          "tfidf": 0.4687
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 5.0,
+          "tfidf": 0.2906
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 2.0,
+          "tfidf": 0.2248
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.2158
+        },
+        {
+          "feature_name": "experiments__gradient descent",
+          "section": "experiment",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.2017
+        },
+        {
+          "feature_name": "experiments__convolutional neural networks",
+          "section": "experiment",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.125
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__distillation",
+          "section": "conclusion",
+          "term": "distillation",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 34,
+      "token_count": 2551,
+      "bow_hit_count": 101,
+      "top_bow_terms": [
+        {
+          "canonical_term": "knowledge distillation",
+          "count": 35,
+          "section_prior": 0.1633,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 33,
+          "section_prior": 0.2786,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 9,
+          "section_prior": 0.5424,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 6,
+          "section_prior": 0.4861,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.1776,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 4,
+          "section_prior": 0.4805,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 4,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 2.0,
+          "tfidf": 1.2035
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 5.0,
+          "tfidf": 0.8253
+        },
+        {
+          "feature_name": "introduction__distillation",
+          "section": "intro",
+          "term": "distillation",
+          "frequency": 3.0,
+          "tfidf": 0.6868
+        },
+        {
+          "feature_name": "abstract__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.515
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1242
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 80,
+      "bow_hit_count": 3,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 3,
+          "section_prior": 0.1368,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 3,
+      "token_count": 231,
+      "bow_hit_count": 20,
+      "top_bow_terms": [
+        {
+          "canonical_term": "knowledge distillation",
+          "count": 7,
+          "section_prior": 0.0204,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.1542,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 4,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.268,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 26,
+      "token_count": 2080,
+      "bow_hit_count": 61,
+      "top_bow_terms": [
+        {
+          "canonical_term": "training set",
+          "count": 39,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "knowledge distillation",
+          "count": 8,
+          "section_prior": 0.2653,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 7,
+          "section_prior": 0.0928,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 2,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__distillation",
+          "section": "experiment",
+          "term": "distillation",
+          "frequency": 6.0,
+          "tfidf": 0.6745
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 5.0,
+          "tfidf": 0.6248
+        },
+        {
+          "feature_name": "experiments__speech recognition",
+          "section": "experiment",
+          "term": "speech recognition",
+          "frequency": 4.0,
+          "tfidf": 0.4687
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 5.0,
+          "tfidf": 0.2906
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 2.0,
+          "tfidf": 0.2248
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.2158
+        },
+        {
+          "feature_name": "experiments__gradient descent",
+          "section": "experiment",
+          "term": "gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.2017
+        },
+        {
+          "feature_name": "experiments__convolutional neural networks",
+          "section": "experiment",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.125
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 3,
+      "token_count": 194,
+      "bow_hit_count": 4,
+      "top_bow_terms": [
+        {
+          "canonical_term": "knowledge distillation",
+          "count": 4,
+          "section_prior": 0.2041,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__distillation",
+          "section": "conclusion",
+          "term": "distillation",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "automatic speech recognition",
+        "canonical": "speech recognition",
+        "normalized": "speech recognition",
+        "tokens": [
+          "automatic",
+          "speech",
+          "recognition"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "automatic speech recognition",
+          "speech recognition",
+          "asr"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 31,
+        "sentence": "acoustic models that are used in automatic speech recognition asr we show that the distillation strategy that we propose in this paper achieves the desired effect of distilling an ensemble of models into a single model that works significantly better than a model of the same size that is learned directly from the same training data state-of-the-art asr systems currently use dnns to map a short temporal context of features derived from the waveform to a probability distribution over the",
+        "context_window": {
+          "previous": "model gets 98 6 of the test 3s correct despite never having seen a 3 during training if the transfer set contains only the 7s and 8s from the training set the distilled model makes 47 3 test errors but when the biases for 7 and 8 are reduced by 7 6 to optimize test performance this falls to 13 2 test errors experiments on speech recognition in this section we investigate the effects of ensembling deep neural network dnn",
+          "current": "acoustic models that are used in automatic speech recognition asr we show that the distillation strategy that we propose in this paper achieves the desired effect of distilling an ensemble of models into a single model that works significantly better than a model of the same size that is learned directly from the same training data state-of-the-art asr systems currently use dnns to map a short temporal context of features derived from the waveform to a probability distribution over the",
+          "next": "discrete states of a hidden markov model hmm more specifically the dnn produces a probability distribution over clusters of tri-phone states at each time and a decoder then finds a path through the hmm states that is the best compromise between using high probability states and producing a transcription that is probable under the language model although it is possible and desirable to train the dnn in such a way that the decoder and thus the language model is taken"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7346,
+        "downstream_relevance_score": 0.8297,
+        "components": {
+          "bio_boundary_score": 0.7563,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.4861,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "automatic speech recognition",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "speech recognition",
+        "display_term": "speech recognition",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Speech_recognition",
+        "wikidata_id": "Q189436",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 21,
+        "total_frequency": 65,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "automatic",
+          "speech",
+          "recognition"
+        ],
+        "normalization": "automatic speech recognition",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4861,
+        "canonicalization": {
+          "observed": "automatic speech recognition",
+          "canonical": "speech recognition",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7563",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'speech recognition' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "evidence cue lexicon matched state-of-the-art, achieves, propose",
+        "downstream relevance score is 0.8297"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "speech recognition",
+        "canonical": "speech recognition",
+        "normalized": "speech recognition",
+        "tokens": [
+          "speech",
+          "recognition"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "automatic speech recognition",
+          "speech recognition",
+          "asr"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 30,
+        "sentence": "model gets 98 6 of the test 3s correct despite never having seen a 3 during training if the transfer set contains only the 7s and 8s from the training set the distilled model makes 47 3 test errors but when the biases for 7 and 8 are reduced by 7 6 to optimize test performance this falls to 13 2 test errors experiments on speech recognition in this section we investigate the effects of ensembling deep neural network dnn",
+        "context_window": {
+          "previous": "never seen despite this the distilled model only makes 206 test errors of which 133 are on the 1010 threes in the test set most of the errors are caused by the fact that the learned bias for the 3 class is much too low if this bias is increased by 3 5 which optimizes overall performance on the test set the distilled model makes 109 errors of which 14 are on 3s so with the right bias the distilled",
+          "current": "model gets 98 6 of the test 3s correct despite never having seen a 3 during training if the transfer set contains only the 7s and 8s from the training set the distilled model makes 47 3 test errors but when the biases for 7 and 8 are reduced by 7 6 to optimize test performance this falls to 13 2 test errors experiments on speech recognition in this section we investigate the effects of ensembling deep neural network dnn",
+          "next": "acoustic models that are used in automatic speech recognition asr we show that the distillation strategy that we propose in this paper achieves the desired effect of distilling an ensemble of models into a single model that works significantly better than a model of the same size that is learned directly from the same training data state-of-the-art asr systems currently use dnns to map a short temporal context of features derived from the waveform to a probability distribution over the"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_objective",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6675,
+        "downstream_relevance_score": 0.667,
+        "components": {
+          "bio_boundary_score": 0.7573,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.4861,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "speech recognition",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "speech recognition",
+        "display_term": "speech recognition",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Speech_recognition",
+        "wikidata_id": "Q189436",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 21,
+        "total_frequency": 65,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "speech",
+          "recognition"
+        ],
+        "normalization": "speech recognition",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4861,
+        "canonicalization": {
+          "observed": "speech recognition",
+          "canonical": "speech recognition",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7573",
+        "structure model assigned role 'objective' with score 0.82",
+        "section BoW matched canonical term 'speech recognition' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "downstream relevance score is 0.667"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "machine learning",
+        "canonical": "machine learning",
+        "normalized": "machine learning",
+        "tokens": [
+          "machine",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "statistical learning",
+          "machine learning",
+          "machine-learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "many insects have a larval form that is optimized for extracting energy and nutrients from the environment and a completely different adult form that is optimized for the very different requirements of traveling and reproduction in large-scale machine learning we typically use very similar models for the training stage and the deployment stage despite their very different requirements for tasks like speech and object recognition training must extract structure from very large highly redundant datasets but it does not need",
+        "context_window": {
+          "previous": "learn to distinguish fine-grained classes that the full models confuse unlike a mixture of experts these specialist models can be trained rapidly and in parallel also affiliated with the university of toronto and the canadian institute for advanced research body",
+          "current": "many insects have a larval form that is optimized for extracting energy and nutrients from the environment and a completely different adult form that is optimized for the very different requirements of traveling and reproduction in large-scale machine learning we typically use very similar models for the training stage and the deployment stage despite their very different requirements for tasks like speech and object recognition training must extract structure from very large highly redundant datasets but it does not need",
+          "next": "to operate in real time and it can use a huge amount of computation deployment to a large number of users however has much more stringent requirements on latency and computational resources the analogy with insects suggests that we should be willing to train very cumbersome models if that makes it easier to extract structure from the data the cumbersome model could be an ensemble of separately trained models or a single very large model trained with a very strong"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4418,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5782,
+        "downstream_relevance_score": 0.6658,
+        "components": {
+          "bio_boundary_score": 0.5767,
+          "sentence_evidence_score": 0.4418,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5424,
+          "document_tfidf_score": 0.4279,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "machine learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "machine learning",
+        "display_term": "machine learning",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Machine_learning",
+        "wikidata_id": "Q2539",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 36,
+        "total_frequency": 52,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__machine learning",
+        "section": "intro",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.515,
+        "normalized_frequency": 0.1667,
+        "normalized_tfidf": 0.4279
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "machine",
+          "learning"
+        ],
+        "normalization": "machine learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5424,
+        "canonicalization": {
+          "observed": "machine learning",
+          "canonical": "machine learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5767",
+        "structure model assigned role 'problem' with score 0.9218",
+        "section BoW matched canonical term 'machine learning' with confidence 0.91",
+        "BoW role prior suggests 'background'",
+        "document-term matrix links the phrase to feature 'abstract__machine learning' with tf-idf 0.515",
+        "downstream relevance score is 0.6658"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "distillation",
+        "canonical": "knowledge distillation",
+        "normalized": "knowledge distillation",
+        "tokens": [
+          "distillation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "knowledge distillation",
+          "distillation"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 37,
+        "sentence": "best value that was used for table table shows that indeed our distillation approach is able to extract more useful information from the training set than simply using the hard labels to train a single model more than 80 of the improvement in frame classification accuracy achieved by using an ensemble of 10 models is transferred to the distilled model which is similar to the improvement we observed in our preliminary",
+        "context_window": {
+          "previous": "in the trained models to allow the averaged predictions of the ensemble to significantly outperform the individual models we have explored adding diversity to the models by varying the sets of data that each model sees but we found this to not significantly change our results so we opted for the simpler approach for the distillation we tried temperatures of and used a relative weight of 0 5 on the cross-entropy for the hard targets where bold font indicates the",
+          "current": "best value that was used for table table shows that indeed our distillation approach is able to extract more useful information from the training set than simply using the hard labels to train a single model more than 80 of the improvement in frame classification accuracy achieved by using an ensemble of 10 models is transferred to the distilled model which is similar to the improvement we observed in our preliminary",
+          "next": "on mnist the ensemble gives a smaller improvement on the ultimate objective of wer on a 23k-word test set due to the mismatch in the objective function but again the improvement in wer achieved by the ensemble is transferred to the distilled model we have recently become aware of related work on learning a small acoustic model by matching the class probabilities of an already trained larger model however they do the distillation at a temperature of 1 using a"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6838,
+        "downstream_relevance_score": 0.6394,
+        "components": {
+          "bio_boundary_score": 0.9142,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0204,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "distillation",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "knowledge distillation",
+        "display_term": "distillation",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Knowledge_distillation",
+        "wikidata_id": "Q74253442",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 16,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "distillation"
+        ],
+        "normalization": "distillation",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0204,
+        "canonicalization": {
+          "observed": "distillation",
+          "canonical": "knowledge distillation",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9142",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'knowledge distillation' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.6394"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "jft dataset",
+        "canonical": "jft dataset",
+        "normalized": "jft dataset",
+        "tokens": [
+          "jft",
+          "dataset"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 54,
+        "sentence": "the specialists are not disjoint we often had multiple specialists covering a particular image class table shows the number of test set examples the change in the number of examples correct at position 1 when using the specialist s and the relative percentage improvement in top1 accuracy for the jft dataset broken down by the number of specialists covering the class we are encouraged by the general trend that accuracy improvements are larger when we have more specialists covering a",
+        "context_window": {
+          "previous": "accuracy for the baseline system and the baseline system combined with the specialist models with 61 specialist models there is a 4 4 relative improvement in test accuracy overall we also report conditional test accuracy which is the accuracy by only considering examples belonging to the specialist classes and restricting our predictions to that subset of classes for our jft specialist we trained 61 specialist models each with 300 classes plus the dustbin class because the sets of classes for",
+          "current": "the specialists are not disjoint we often had multiple specialists covering a particular image class table shows the number of test set examples the change in the number of examples correct at position 1 when using the specialist s and the relative percentage improvement in top1 accuracy for the jft dataset broken down by the number of specialists covering the class we are encouraged by the general trend that accuracy improvements are larger when we have more specialists covering a",
+          "next": "particular class since training independent specialist models is very easy to parallelize soft targets as regularizers one of our main claims about using soft targets instead of hard targets is that a lot of helpful information can be carried in soft targets that could not possibly be encoded with a single hard target in this section we demonstrate that this is a very large effect by using far less data to fit the 85m parameters of the baseline speech model"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6461,
+        "downstream_relevance_score": 0.6077,
+        "components": {
+          "bio_boundary_score": 0.6363,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "jft",
+          "dataset"
+        ],
+        "normalization": "jft dataset",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "jft dataset",
+          "canonical": "jft dataset",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6363",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy, dataset",
+        "downstream relevance score is 0.6077"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "residual neural network",
+        "normalized": "residual neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "residual neural network",
+          "ResNet",
+          "resnet"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 41,
+        "sentence": "required to learn an ensemble the main problem with specialists that focus on making fine-grained distinctions is that they overfit very easily and we describe how this overfitting may be prevented by using soft targets the jft dataset jft is an internal google dataset that has 100 million labeled images with 15 000 labels when we did this work google s baseline model for jft was a deep convolutional neural network that had been trained for about six months using",
+        "context_window": {
+          "previous": "dealt with by using distillation there is however another important objection to ensembles if the individual models are large neural networks and the dataset is very large the amount of computation required at training time is excessive even though it is easy to parallelize in this section we give an example of such a dataset and we show how learning specialist models that each focus on a different confusable subset of the classes can reduce the total amount of computation",
+          "current": "required to learn an ensemble the main problem with specialists that focus on making fine-grained distinctions is that they overfit very easily and we describe how this overfitting may be prevented by using soft targets the jft dataset jft is an internal google dataset that has 100 million labeled images with 15 000 labels when we did this work google s baseline model for jft was a deep convolutional neural network that had been trained for about six months using",
+          "next": "asynchronous stochastic gradient descent on a large number of cores this training used two types of parallelism first there were many replicas of the neural net running on different sets of cores and processing different mini-batches from the training set each replica computes the average gradient on its current mini-batch and sends this gradient to a sharded parameter server which sends back new values for the parameters these new values reflect all of the gradients received by the parameter server"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5068,
+        "downstream_relevance_score": 0.5821,
+        "components": {
+          "bio_boundary_score": 0.6513,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.44,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "residual neural network",
+        "match_quality": 0.78,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "residual neural network",
+        "display_term": "ResNet",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Residual_neural_network",
+        "wikidata_id": "Q43744058",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 32,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.44,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "residual neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6513",
+        "structure model assigned role 'dataset' with score 0.82",
+        "section BoW matched canonical term 'residual neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.5821"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "conditional test",
+        "canonical": "conditional test",
+        "normalized": "conditional test",
+        "tokens": [
+          "conditional",
+          "test"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 53,
+        "sentence": "accuracy for the baseline system and the baseline system combined with the specialist models with 61 specialist models there is a 4 4 relative improvement in test accuracy overall we also report conditional test accuracy which is the accuracy by only considering examples belonging to the specialist classes and restricting our predictions to that subset of classes for our jft specialist we trained 61 specialist models each with 300 classes plus the dustbin class because the sets of classes for",
+        "context_window": {
+          "previous": "whether we use kl p q or kl q p we parameterize q sof tmax z with t 1 and we use gradient descent to optimize the logits z w r t eq 5 note that this optimization must be carried out for each image results starting from the trained baseline full network the specialists train extremely fast a few days instead of many weeks for jft also all the specialists are trained completely independently table shows the absolute test",
+          "current": "accuracy for the baseline system and the baseline system combined with the specialist models with 61 specialist models there is a 4 4 relative improvement in test accuracy overall we also report conditional test accuracy which is the accuracy by only considering examples belonging to the specialist classes and restricting our predictions to that subset of classes for our jft specialist we trained 61 specialist models each with 300 classes plus the dustbin class because the sets of classes for",
+          "next": "the specialists are not disjoint we often had multiple specialists covering a particular image class table shows the number of test set examples the change in the number of examples correct at position 1 when using the specialist s and the relative percentage improvement in top1 accuracy for the jft dataset broken down by the number of specialists covering the class we are encouraged by the general trend that accuracy improvements are larger when we have more specialists covering a"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6466,
+        "downstream_relevance_score": 0.573,
+        "components": {
+          "bio_boundary_score": 0.674,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "conditional",
+          "test"
+        ],
+        "normalization": "conditional test",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "conditional test",
+          "canonical": "conditional test",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.674",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.573"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "dustbin system",
+        "canonical": "dustbin system",
+        "normalized": "dustbin system",
+        "tokens": [
+          "dustbin",
+          "system"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 51,
+        "sentence": "q distribution assigns to all the classes in m s dustbin system conditional test accuracy test accuracy baseline 43 1 25 0 61 specialist models 45 9 26 1 table 4 top 1 accuracy improvement by of specialist models covering correct class on the jft test set eq 5 does not have a general closed form solution though when all the models produce a single probability for each class the solution is either the arithmetic or geometric mean depending on",
+        "context_window": {
+          "previous": "over all the classes that minimizes kl p g q m a k kl p m q where kl denotes the kl divergence and p m p g denote the probability distribution of a specialist model or the generalist full model the distribution p m is a distribution over all the specialist classes of m plus a single dustbin class so when computing its kl divergence from the full q distribution we sum all of the probabilities that the full",
+          "current": "q distribution assigns to all the classes in m s dustbin system conditional test accuracy test accuracy baseline 43 1 25 0 61 specialist models 45 9 26 1 table 4 top 1 accuracy improvement by of specialist models covering correct class on the jft test set eq 5 does not have a general closed form solution though when all the models produce a single probability for each class the solution is either the arithmetic or geometric mean depending on",
+          "next": "whether we use kl p q or kl q p we parameterize q sof tmax z with t 1 and we use gradient descent to optimize the logits z w r t eq 5 note that this optimization must be carried out for each image results starting from the trained baseline full network the specialists train extremely fast a few days instead of many weeks for jft also all the specialists are trained completely independently table shows the absolute test"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6609,
+        "downstream_relevance_score": 0.5455,
+        "components": {
+          "bio_boundary_score": 0.7639,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dustbin",
+          "system"
+        ],
+        "normalization": "dustbin system",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dustbin system",
+          "canonical": "dustbin system",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7639",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5455"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "frame classification",
+        "canonical": "frame classification",
+        "normalized": "frame classification",
+        "tokens": [
+          "frame",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 37,
+        "sentence": "best value that was used for table table shows that indeed our distillation approach is able to extract more useful information from the training set than simply using the hard labels to train a single model more than 80 of the improvement in frame classification accuracy achieved by using an ensemble of 10 models is transferred to the distilled model which is similar to the improvement we observed in our preliminary",
+        "context_window": {
+          "previous": "in the trained models to allow the averaged predictions of the ensemble to significantly outperform the individual models we have explored adding diversity to the models by varying the sets of data that each model sees but we found this to not significantly change our results so we opted for the simpler approach for the distillation we tried temperatures of and used a relative weight of 0 5 on the cross-entropy for the hard targets where bold font indicates the",
+          "current": "best value that was used for table table shows that indeed our distillation approach is able to extract more useful information from the training set than simply using the hard labels to train a single model more than 80 of the improvement in frame classification accuracy achieved by using an ensemble of 10 models is transferred to the distilled model which is similar to the improvement we observed in our preliminary",
+          "next": "on mnist the ensemble gives a smaller improvement on the ultimate objective of wer on a 23k-word test set due to the mismatch in the objective function but again the improvement in wer achieved by the ensemble is transferred to the distilled model we have recently become aware of related work on learning a small acoustic model by matching the class probabilities of an already trained larger model however they do the distillation at a temperature of 1 using a"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.604,
+        "downstream_relevance_score": 0.5159,
+        "components": {
+          "bio_boundary_score": 0.6416,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "frame",
+          "classification"
+        ],
+        "normalization": "frame classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "frame classification",
+          "canonical": "frame classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6416",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5159"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "cumbersome model",
+        "canonical": "cumbersome model",
+        "normalized": "cumbersome model",
+        "tokens": [
+          "cumbersome",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 25,
+        "sentence": "the very negative logits may convey useful information about the knowledge acquired by the cumbersome model which of these effects dominates is an empirical question we show that when the distilled model is much too small to capture all of the knowledege in the cumbersome model intermediate temperatures work best which strongly suggests that ignoring the large negative logits can be helpful preliminary experiments on mnist to see how well distillation works we trained a single large neural net with",
+        "context_window": {
+          "previous": "-v i so in the high temperature limit distillation is equivalent to minimizing 1 2 z i -v i 2 provided the logits are zero-meaned separately for each transfer case at lower temperatures distillation pays much less attention to matching logits that are much more negative than the average this is potentially advantageous because these logits are almost completely unconstrained by the cost function used for training the cumbersome model so they could be very noisy on the other hand",
+          "current": "the very negative logits may convey useful information about the knowledge acquired by the cumbersome model which of these effects dominates is an empirical question we show that when the distilled model is much too small to capture all of the knowledege in the cumbersome model intermediate temperatures work best which strongly suggests that ignoring the large negative logits can be helpful preliminary experiments on mnist to see how well distillation works we trained a single large neural net with",
+          "next": "two hidden layers of 1200 rectified linear hidden units on all 60 000 training cases the net was strongly regularized using dropout and weight-constraints as described in dropout can be viewed as a way of training an exponentially large ensemble of models that share weights in addition the input images were jittered by up to two pixels in any direction this net achieved 67 test errors whereas a smaller net with two hidden layers of 800 rectified linear hidden units"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7184,
+        "downstream_relevance_score": 0.5136,
+        "components": {
+          "bio_boundary_score": 0.8006,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cumbersome",
+          "model"
+        ],
+        "normalization": "cumbersome model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cumbersome model",
+          "canonical": "cumbersome model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8006",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5136"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "gating network",
+        "canonical": "gating network",
+        "normalized": "gating network",
+        "tokens": [
+          "gating",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 61,
+        "sentence": "which use a gating network to compute the probability of assigning each example to each expert at the same time as the experts are learning to deal with the examples assigned to them the gating network is learning to choose which experts to assign each example to based on the relative discriminative performance of the experts for that example using the discriminative performance of the experts to determine the learned assignments is much better than simply clustering the input vectors",
+        "context_window": {
+          "previous": "specialist is initialized with the weights of the generalist we can make it retain nearly all of its knowledge about the non-special classes by training it with soft targets for the non-special classes in addition to training it with hard targets the soft targets can be provided by the generalist we are currently exploring this approach relationship to mixtures of experts the use of specialists that are trained on subsets of the data has some resemblance to mixtures of experts",
+          "current": "which use a gating network to compute the probability of assigning each example to each expert at the same time as the experts are learning to deal with the examples assigned to them the gating network is learning to choose which experts to assign each example to based on the relative discriminative performance of the experts for that example using the discriminative performance of the experts to determine the learned assignments is much better than simply clustering the input vectors",
+          "next": "and assigning an expert to each cluster but it makes the training hard to parallelize first the weighted training set for each expert keeps changing in a way that depends on all the other experts and second the gating network needs to compare the performance of different experts on the same example to know how to revise its assignment probabilities these difficulties have meant that mixtures of experts are rarely used in the regime where they might be most beneficial"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7111,
+        "downstream_relevance_score": 0.5044,
+        "components": {
+          "bio_boundary_score": 0.9273,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gating",
+          "network"
+        ],
+        "normalization": "gating network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gating network",
+          "canonical": "gating network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9273",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5044"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "probability distribution",
+        "canonical": "probability distribution",
+        "normalized": "probability distribution",
+        "tokens": [
+          "probability",
+          "distribution"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 49,
+        "sentence": "step 1 for each test case we find the n most probable classes according to the generalist model call this set of classes k in our experiments we used n 1 step 2 we then take all the specialist models m whose special subset of confusable classes s m has a non-empty intersection with k and call this the active set of specialists a k note that this set may be empty we then find the full probability distribution q",
+        "context_window": {
+          "previous": "tried several clustering algorithms which produced similar results performing inference with ensembles of specialists before investigating what happens when specialist models are distilled we wanted to see how well ensembles containing specialists performed in addition to the specialist models we always have a generalist model so that we can deal with classes for which we have no specialists and so that we can decide which specialists to use given an input image x we do top-one classification in two steps",
+          "current": "step 1 for each test case we find the n most probable classes according to the generalist model call this set of classes k in our experiments we used n 1 step 2 we then take all the specialist models m whose special subset of confusable classes s m has a non-empty intersection with k and call this the active set of specialists a k note that this set may be empty we then find the full probability distribution q",
+          "next": "over all the classes that minimizes kl p g q m a k kl p m q where kl denotes the kl divergence and p m p g denote the probability distribution of a specialist model or the generalist full model the distribution p m is a distribution over all the specialist classes of m plus a single dustbin class so when computing its kl divergence from the full q distribution we sum all of the probabilities that the full"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.547,
+        "downstream_relevance_score": 0.4244,
+        "components": {
+          "bio_boundary_score": 0.5329,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "probability",
+          "distribution"
+        ],
+        "normalization": "probability distribution",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "probability distribution",
+          "canonical": "probability distribution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5329",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4244"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "specialist class",
+        "canonical": "specialist class",
+        "normalized": "specialist class",
+        "tokens": [
+          "specialist",
+          "class"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 46,
+        "sentence": "training we can correct for the biased training set by incrementing the logit of the dustbin class by the log of the proportion by which the specialist class is oversampled assigning classes to specialists in order to derive groupings of object categories for the specialists we decided to focus on categories that our full network often confuses even though we could have computed the confusion matrix and used it as a way to find such clusters we opted for a",
+        "context_window": {
+          "previous": "of specialist can be made much smaller by combining all of the classes it does not care about into a single dustbin class to reduce overfitting and share the work of learning lower level feature detectors each specialist model is initialized with the weights of the generalist model these weights are then slightly modified by training the specialist with half its examples coming from its special subset and half sampled at random from the remainder of the training set after",
+          "current": "training we can correct for the biased training set by incrementing the logit of the dustbin class by the log of the proportion by which the specialist class is oversampled assigning classes to specialists in order to derive groupings of object categories for the specialists we decided to focus on categories that our full network often confuses even though we could have computed the confusion matrix and used it as a way to find such clusters we opted for a",
+          "next": "simpler approach that does not require the true labels to construct the clusters in particular we apply a clustering algorithm to the covariance matrix of the predictions of our generalist model so that a set of classes s m that are often predicted together will be used as targets for one of our specialist models m we applied an on-line version of the k-means algorithm to the columns of the covariance matrix and obtained reasonable clusters shown in table we"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5553,
+        "downstream_relevance_score": 0.3743,
+        "components": {
+          "bio_boundary_score": 0.8165,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "specialist",
+          "class"
+        ],
+        "normalization": "specialist class",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "specialist class",
+          "canonical": "specialist class",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8165",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.3743"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "covariance matrix",
+        "canonical": "covariance matrix",
+        "normalized": "covariance matrix",
+        "tokens": [
+          "covariance",
+          "matrix"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 43,
+        "sentence": "since the last time it sent parameters to the replica second each replica is spread over multiple cores by putting different subsets of the neurons on each core ensemble training is yet a third type of parallelism that can be wrapped table 2 example classes from clusters computed by our covariance matrix clustering algorithm around the other two types but only if a lot more cores are available waiting for several years to train an ensemble of models was not",
+        "context_window": {
+          "previous": "asynchronous stochastic gradient descent on a large number of cores this training used two types of parallelism first there were many replicas of the neural net running on different sets of cores and processing different mini-batches from the training set each replica computes the average gradient on its current mini-batch and sends this gradient to a sharded parameter server which sends back new values for the parameters these new values reflect all of the gradients received by the parameter server",
+          "current": "since the last time it sent parameters to the replica second each replica is spread over multiple cores by putting different subsets of the neurons on each core ensemble training is yet a third type of parallelism that can be wrapped table 2 example classes from clusters computed by our covariance matrix clustering algorithm around the other two types but only if a lot more cores are available waiting for several years to train an ensemble of models was not",
+          "next": "an option so we needed a much faster way to improve the baseline model specialist models when the number of classes is very large it makes sense for the cumbersome model to be an ensemble that contains one generalist model trained on all the data and many specialist models each of which is trained on data that is highly enriched in examples from a very confusable subset of the classes like different types of mushroom the softmax of this type"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4915,
+        "downstream_relevance_score": 0.3634,
+        "components": {
+          "bio_boundary_score": 0.7526,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "covariance",
+          "matrix"
+        ],
+        "normalization": "covariance matrix",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "covariance matrix",
+          "canonical": "covariance matrix",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7526",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3634"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "dustbin class",
+        "canonical": "dustbin class",
+        "normalized": "dustbin class",
+        "tokens": [
+          "dustbin",
+          "class"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 46,
+        "sentence": "training we can correct for the biased training set by incrementing the logit of the dustbin class by the log of the proportion by which the specialist class is oversampled assigning classes to specialists in order to derive groupings of object categories for the specialists we decided to focus on categories that our full network often confuses even though we could have computed the confusion matrix and used it as a way to find such clusters we opted for a",
+        "context_window": {
+          "previous": "of specialist can be made much smaller by combining all of the classes it does not care about into a single dustbin class to reduce overfitting and share the work of learning lower level feature detectors each specialist model is initialized with the weights of the generalist model these weights are then slightly modified by training the specialist with half its examples coming from its special subset and half sampled at random from the remainder of the training set after",
+          "current": "training we can correct for the biased training set by incrementing the logit of the dustbin class by the log of the proportion by which the specialist class is oversampled assigning classes to specialists in order to derive groupings of object categories for the specialists we decided to focus on categories that our full network often confuses even though we could have computed the confusion matrix and used it as a way to find such clusters we opted for a",
+          "next": "simpler approach that does not require the true labels to construct the clusters in particular we apply a clustering algorithm to the covariance matrix of the predictions of our generalist model so that a set of classes s m that are often predicted together will be used as targets for one of our specialist models m we applied an on-line version of the k-means algorithm to the columns of the covariance matrix and obtained reasonable clusters shown in table we"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5118,
+        "downstream_relevance_score": 0.3518,
+        "components": {
+          "bio_boundary_score": 0.668,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dustbin",
+          "class"
+        ],
+        "normalization": "dustbin class",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dustbin class",
+          "canonical": "dustbin class",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.668",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.3518"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "generalist model",
+        "canonical": "generalist model",
+        "normalized": "generalist model",
+        "tokens": [
+          "generalist",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 48,
+        "sentence": "tried several clustering algorithms which produced similar results performing inference with ensembles of specialists before investigating what happens when specialist models are distilled we wanted to see how well ensembles containing specialists performed in addition to the specialist models we always have a generalist model so that we can deal with classes for which we have no specialists and so that we can decide which specialists to use given an input image x we do top-one classification in two steps",
+        "context_window": {
+          "previous": "simpler approach that does not require the true labels to construct the clusters in particular we apply a clustering algorithm to the covariance matrix of the predictions of our generalist model so that a set of classes s m that are often predicted together will be used as targets for one of our specialist models m we applied an on-line version of the k-means algorithm to the columns of the covariance matrix and obtained reasonable clusters shown in table we",
+          "current": "tried several clustering algorithms which produced similar results performing inference with ensembles of specialists before investigating what happens when specialist models are distilled we wanted to see how well ensembles containing specialists performed in addition to the specialist models we always have a generalist model so that we can deal with classes for which we have no specialists and so that we can decide which specialists to use given an input image x we do top-one classification in two steps",
+          "next": "step 1 for each test case we find the n most probable classes according to the generalist model call this set of classes k in our experiments we used n 1 step 2 we then take all the specialist models m whose special subset of confusable classes s m has a non-empty intersection with k and call this the active set of specialists a k note that this set may be empty we then find the full probability distribution q"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5686,
+        "downstream_relevance_score": 0.3517,
+        "components": {
+          "bio_boundary_score": 0.8621,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generalist",
+          "model"
+        ],
+        "normalization": "generalist model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "generalist model",
+          "canonical": "generalist model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8621",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3517"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "distilled model",
+        "canonical": "distilled model",
+        "normalized": "distilled model",
+        "tokens": [
+          "distilled",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 28,
+        "sentence": "the distilled net had 300 or more units in each of its two hidden layers all temperatures above 8 gave fairly similar results but when this was radically reduced to 30 units per layer temperatures in the range 2 5 to 4 worked significantly better than higher or lower temperatures we then tried omitting all examples of the digit 3 from the transfer set so from the perspective of the distilled model 3 is a mythical digit that it has",
+        "context_window": {
+          "previous": "and no regularization achieved 146 errors but if the smaller net was regularized solely by adding the additional task of matching the soft targets produced by the large net at a temperature of 20 it achieved 74 test errors this shows that soft targets can transfer a great deal of knowledge to the distilled model including the knowledge about how to generalize that is learned from translated training data even though the transfer set does not contain any translations when",
+          "current": "the distilled net had 300 or more units in each of its two hidden layers all temperatures above 8 gave fairly similar results but when this was radically reduced to 30 units per layer temperatures in the range 2 5 to 4 worked significantly better than higher or lower temperatures we then tried omitting all examples of the digit 3 from the transfer set so from the perspective of the distilled model 3 is a mythical digit that it has",
+          "next": "never seen despite this the distilled model only makes 206 test errors of which 133 are on the 1010 threes in the test set most of the errors are caused by the fact that the learned bias for the 3 class is much too low if this bias is increased by 3 5 which optimizes overall performance on the test set the distilled model makes 109 errors of which 14 are on 3s so with the right bias the distilled"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5306,
+        "downstream_relevance_score": 0.3487,
+        "components": {
+          "bio_boundary_score": 0.888,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "distilled",
+          "model"
+        ],
+        "normalization": "distilled model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "distilled model",
+          "canonical": "distilled model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.888",
+        "structure model assigned role 'comparison' with score 0.66",
+        "downstream relevance score is 0.3487"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "trained model",
+        "canonical": "trained model",
+        "normalized": "trained model",
+        "tokens": [
+          "trained",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 8,
+        "sentence": "vectors for cumbersome models that learn to discriminate between a large number of classes the normal training objective is to maximize the average log probability of the correct answer but a side-effect of the learning is that the trained model assigns probabilities to all of the incorrect answers and even when these probabilities are very small some of them are much larger than others the relative probabilities of incorrect answers tell us a lot about how the cumbersome model tends",
+        "context_window": {
+          "previous": "small model a conceptual block that may have prevented more investigation of this very promising approach is that we tend to identify the knowledge in a trained model with the learned parameter values and this makes it hard to see how we can change the form of the model but keep the same knowledge a more abstract view of the knowledge that frees it from any particular instantiation is that it is a learned mapping from input vectors to output",
+          "current": "vectors for cumbersome models that learn to discriminate between a large number of classes the normal training objective is to maximize the average log probability of the correct answer but a side-effect of the learning is that the trained model assigns probabilities to all of the incorrect answers and even when these probabilities are very small some of them are much larger than others the relative probabilities of incorrect answers tell us a lot about how the cumbersome model tends",
+          "next": "to generalize an image of a bmw for example may only have a very small chance of being mistaken for a garbage truck but that mistake is still many times more probable than mistaking it for a carrot it is generally accepted that the objective function used for training should reflect the true objective of the user as closely as possible despite this models are usually trained to optimize performance on the training data when the real objective is to"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5216,
+        "downstream_relevance_score": 0.344,
+        "components": {
+          "bio_boundary_score": 0.702,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "trained",
+          "model"
+        ],
+        "normalization": "trained model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "trained model",
+          "canonical": "trained model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.702",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.344"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "neural net",
+        "canonical": "neural net",
+        "normalized": "neural net",
+        "tokens": [
+          "neural",
+          "net"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 42,
+        "sentence": "asynchronous stochastic gradient descent on a large number of cores this training used two types of parallelism first there were many replicas of the neural net running on different sets of cores and processing different mini-batches from the training set each replica computes the average gradient on its current mini-batch and sends this gradient to a sharded parameter server which sends back new values for the parameters these new values reflect all of the gradients received by the parameter server",
+        "context_window": {
+          "previous": "required to learn an ensemble the main problem with specialists that focus on making fine-grained distinctions is that they overfit very easily and we describe how this overfitting may be prevented by using soft targets the jft dataset jft is an internal google dataset that has 100 million labeled images with 15 000 labels when we did this work google s baseline model for jft was a deep convolutional neural network that had been trained for about six months using",
+          "current": "asynchronous stochastic gradient descent on a large number of cores this training used two types of parallelism first there were many replicas of the neural net running on different sets of cores and processing different mini-batches from the training set each replica computes the average gradient on its current mini-batch and sends this gradient to a sharded parameter server which sends back new values for the parameters these new values reflect all of the gradients received by the parameter server",
+          "next": "since the last time it sent parameters to the replica second each replica is spread over multiple cores by putting different subsets of the neurons on each core ensemble training is yet a third type of parallelism that can be wrapped table 2 example classes from clusters computed by our covariance matrix clustering algorithm around the other two types but only if a lot more cores are available waiting for several years to train an ensemble of models was not"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4957,
+        "downstream_relevance_score": 0.3433,
+        "components": {
+          "bio_boundary_score": 0.695,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "net"
+        ],
+        "normalization": "neural net",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "neural net",
+          "canonical": "neural net",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.695",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.3433"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "specialist model",
+        "canonical": "specialist model",
+        "normalized": "specialist model",
+        "tokens": [
+          "specialist",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 50,
+        "sentence": "over all the classes that minimizes kl p g q m a k kl p m q where kl denotes the kl divergence and p m p g denote the probability distribution of a specialist model or the generalist full model the distribution p m is a distribution over all the specialist classes of m plus a single dustbin class so when computing its kl divergence from the full q distribution we sum all of the probabilities that the full",
+        "context_window": {
+          "previous": "step 1 for each test case we find the n most probable classes according to the generalist model call this set of classes k in our experiments we used n 1 step 2 we then take all the specialist models m whose special subset of confusable classes s m has a non-empty intersection with k and call this the active set of specialists a k note that this set may be empty we then find the full probability distribution q",
+          "current": "over all the classes that minimizes kl p g q m a k kl p m q where kl denotes the kl divergence and p m p g denote the probability distribution of a specialist model or the generalist full model the distribution p m is a distribution over all the specialist classes of m plus a single dustbin class so when computing its kl divergence from the full q distribution we sum all of the probabilities that the full",
+          "next": "q distribution assigns to all the classes in m s dustbin system conditional test accuracy test accuracy baseline 43 1 25 0 61 specialist models 45 9 26 1 table 4 top 1 accuracy improvement by of specialist models covering correct class on the jft test set eq 5 does not have a general closed form solution though when all the models produce a single probability for each class the solution is either the arithmetic or geometric mean depending on"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5504,
+        "downstream_relevance_score": 0.3422,
+        "components": {
+          "bio_boundary_score": 0.7999,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "specialist",
+          "model"
+        ],
+        "normalization": "specialist model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "specialist model",
+          "canonical": "specialist model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7999",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3422"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "clustering algorithm",
+        "canonical": "clustering algorithm",
+        "normalized": "clustering algorithm",
+        "tokens": [
+          "clustering",
+          "algorithm"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 47,
+        "sentence": "simpler approach that does not require the true labels to construct the clusters in particular we apply a clustering algorithm to the covariance matrix of the predictions of our generalist model so that a set of classes s m that are often predicted together will be used as targets for one of our specialist models m we applied an on-line version of the k-means algorithm to the columns of the covariance matrix and obtained reasonable clusters shown in table we",
+        "context_window": {
+          "previous": "training we can correct for the biased training set by incrementing the logit of the dustbin class by the log of the proportion by which the specialist class is oversampled assigning classes to specialists in order to derive groupings of object categories for the specialists we decided to focus on categories that our full network often confuses even though we could have computed the confusion matrix and used it as a way to find such clusters we opted for a",
+          "current": "simpler approach that does not require the true labels to construct the clusters in particular we apply a clustering algorithm to the covariance matrix of the predictions of our generalist model so that a set of classes s m that are often predicted together will be used as targets for one of our specialist models m we applied an on-line version of the k-means algorithm to the columns of the covariance matrix and obtained reasonable clusters shown in table we",
+          "next": "tried several clustering algorithms which produced similar results performing inference with ensembles of specialists before investigating what happens when specialist models are distilled we wanted to see how well ensembles containing specialists performed in addition to the specialist models we always have a generalist model so that we can deal with classes for which we have no specialists and so that we can decide which specialists to use given an input image x we do top-one classification in two steps"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.446,
+        "downstream_relevance_score": 0.3397,
+        "components": {
+          "bio_boundary_score": 0.5966,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "clustering",
+          "algorithm"
+        ],
+        "normalization": "clustering algorithm",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "clustering algorithm",
+          "canonical": "clustering algorithm",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5966",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3397"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "generalist",
+        "canonical": "generalist",
+        "normalized": "generalist",
+        "tokens": [
+          "generalist"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 63,
+        "sentence": "tasks with huge datasets that contain distinctly different subsets it is much easier to parallelize the training of multiple specialists we first train a generalist model and then use the confusion matrix to define the subsets that the specialists are trained on once these subsets have been defined the specialists can be trained entirely independently at test time we can use the predictions from the generalist model to decide which specialists are relevant and only these specialists need to be",
+        "context_window": {
+          "previous": "and assigning an expert to each cluster but it makes the training hard to parallelize first the weighted training set for each expert keeps changing in a way that depends on all the other experts and second the gating network needs to compare the performance of different experts on the same example to know how to revise its assignment probabilities these difficulties have meant that mixtures of experts are rarely used in the regime where they might be most beneficial",
+          "current": "tasks with huge datasets that contain distinctly different subsets it is much easier to parallelize the training of multiple specialists we first train a generalist model and then use the confusion matrix to define the subsets that the specialists are trained on once these subsets have been defined the specialists can be trained entirely independently at test time we can use the predictions from the generalist model to decide which specialists are relevant and only these specialists need to be",
+          "next": "run discussion we have shown that distilling works very well for transferring knowledge from an ensemble or from a large highly regularized model into a smaller distilled model on mnist distillation works remarkably well even when the transfer set that is used to train the distilled model lacks any examples of one or more of the classes for a deep acoustic model that is version of the one used by android voice search we have shown that nearly all of"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4614,
+        "downstream_relevance_score": 0.3377,
+        "components": {
+          "bio_boundary_score": 0.6495,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generalist"
+        ],
+        "normalization": "generalist",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "generalist",
+          "canonical": "generalist",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6495",
+        "structure model assigned role 'motivation' with score 0.66",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.3377"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "hidden markov model",
+        "canonical": "hidden markov model",
+        "normalized": "hidden markov model",
+        "tokens": [
+          "hidden",
+          "markov",
+          "model"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 32,
+        "sentence": "discrete states of a hidden markov model hmm more specifically the dnn produces a probability distribution over clusters of tri-phone states at each time and a decoder then finds a path through the hmm states that is the best compromise between using high probability states and producing a transcription that is probable under the language model although it is possible and desirable to train the dnn in such a way that the decoder and thus the language model is taken",
+        "context_window": {
+          "previous": "acoustic models that are used in automatic speech recognition asr we show that the distillation strategy that we propose in this paper achieves the desired effect of distilling an ensemble of models into a single model that works significantly better than a model of the same size that is learned directly from the same training data state-of-the-art asr systems currently use dnns to map a short temporal context of features derived from the waveform to a probability distribution over the",
+          "current": "discrete states of a hidden markov model hmm more specifically the dnn produces a probability distribution over clusters of tri-phone states at each time and a decoder then finds a path through the hmm states that is the best compromise between using high probability states and producing a transcription that is probable under the language model although it is possible and desirable to train the dnn in such a way that the decoder and thus the language model is taken",
+          "next": "into account by marginalizing over all possible paths it is common to train the dnn to perform frame-by-frame classification by locally minimizing the cross entropy between the predictions made by the net and the labels given by a forced alignment with the ground truth sequence of states for each observation arg max p h t s t where are the parameters of our acoustic model p which maps acoustic observations at time t s t to a probability p h"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4587,
+        "downstream_relevance_score": 0.3213,
+        "components": {
+          "bio_boundary_score": 0.7243,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "hidden",
+          "markov",
+          "model"
+        ],
+        "normalization": "hidden markov model",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "hidden markov model",
+          "canonical": "hidden markov model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7243",
+        "structure model assigned role 'motivation' with score 0.66",
+        "downstream relevance score is 0.3213"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "objective function",
+        "canonical": "objective function",
+        "normalized": "objective function",
+        "tokens": [
+          "objective",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 9,
+        "sentence": "to generalize an image of a bmw for example may only have a very small chance of being mistaken for a garbage truck but that mistake is still many times more probable than mistaking it for a carrot it is generally accepted that the objective function used for training should reflect the true objective of the user as closely as possible despite this models are usually trained to optimize performance on the training data when the real objective is to",
+        "context_window": {
+          "previous": "vectors for cumbersome models that learn to discriminate between a large number of classes the normal training objective is to maximize the average log probability of the correct answer but a side-effect of the learning is that the trained model assigns probabilities to all of the incorrect answers and even when these probabilities are very small some of them are much larger than others the relative probabilities of incorrect answers tell us a lot about how the cumbersome model tends",
+          "current": "to generalize an image of a bmw for example may only have a very small chance of being mistaken for a garbage truck but that mistake is still many times more probable than mistaking it for a carrot it is generally accepted that the objective function used for training should reflect the true objective of the user as closely as possible despite this models are usually trained to optimize performance on the training data when the real objective is to",
+          "next": "generalize well to new data it would clearly be better to train models to generalize well but this requires information about the correct way to generalize and this information is not normally available when we are distilling the knowledge from a large model into a small one however we can train the small model to generalize in the same way as the large model if the cumbersome model generalizes well because for example it is the average of a large"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4721,
+        "downstream_relevance_score": 0.3183,
+        "components": {
+          "bio_boundary_score": 0.5545,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "objective",
+          "function"
+        ],
+        "normalization": "objective function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "objective function",
+          "canonical": "objective function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5545",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3183"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "cross entropy",
+        "canonical": "cross entropy",
+        "normalized": "cross entropy",
+        "tokens": [
+          "cross",
+          "entropy"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 33,
+        "sentence": "into account by marginalizing over all possible paths it is common to train the dnn to perform frame-by-frame classification by locally minimizing the cross entropy between the predictions made by the net and the labels given by a forced alignment with the ground truth sequence of states for each observation arg max p h t s t where are the parameters of our acoustic model p which maps acoustic observations at time t s t to a probability p h",
+        "context_window": {
+          "previous": "discrete states of a hidden markov model hmm more specifically the dnn produces a probability distribution over clusters of tri-phone states at each time and a decoder then finds a path through the hmm states that is the best compromise between using high probability states and producing a transcription that is probable under the language model although it is possible and desirable to train the dnn in such a way that the decoder and thus the language model is taken",
+          "current": "into account by marginalizing over all possible paths it is common to train the dnn to perform frame-by-frame classification by locally minimizing the cross entropy between the predictions made by the net and the labels given by a forced alignment with the ground truth sequence of states for each observation arg max p h t s t where are the parameters of our acoustic model p which maps acoustic observations at time t s t to a probability p h",
+          "next": "t s t of the correct hmm state h t which is determined by a forced alignment with the correct sequence of words"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4689,
+        "downstream_relevance_score": 0.3166,
+        "components": {
+          "bio_boundary_score": 0.6757,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cross",
+          "entropy"
+        ],
+        "normalization": "cross entropy",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cross entropy",
+          "canonical": "cross entropy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6757",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3166"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "distilled net",
+        "canonical": "distilled net",
+        "normalized": "distilled net",
+        "tokens": [
+          "distilled",
+          "net"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 28,
+        "sentence": "the distilled net had 300 or more units in each of its two hidden layers all temperatures above 8 gave fairly similar results but when this was radically reduced to 30 units per layer temperatures in the range 2 5 to 4 worked significantly better than higher or lower temperatures we then tried omitting all examples of the digit 3 from the transfer set so from the perspective of the distilled model 3 is a mythical digit that it has",
+        "context_window": {
+          "previous": "and no regularization achieved 146 errors but if the smaller net was regularized solely by adding the additional task of matching the soft targets produced by the large net at a temperature of 20 it achieved 74 test errors this shows that soft targets can transfer a great deal of knowledge to the distilled model including the knowledge about how to generalize that is learned from translated training data even though the transfer set does not contain any translations when",
+          "current": "the distilled net had 300 or more units in each of its two hidden layers all temperatures above 8 gave fairly similar results but when this was radically reduced to 30 units per layer temperatures in the range 2 5 to 4 worked significantly better than higher or lower temperatures we then tried omitting all examples of the digit 3 from the transfer set so from the perspective of the distilled model 3 is a mythical digit that it has",
+          "next": "never seen despite this the distilled model only makes 206 test errors of which 133 are on the 1010 threes in the test set most of the errors are caused by the fact that the learned bias for the 3 class is much too low if this bias is increased by 3 5 which optimizes overall performance on the test set the distilled model makes 109 errors of which 14 are on 3s so with the right bias the distilled"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4519,
+        "downstream_relevance_score": 0.3078,
+        "components": {
+          "bio_boundary_score": 0.6187,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "distilled",
+          "net"
+        ],
+        "normalization": "distilled net",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "distilled net",
+          "canonical": "distilled net",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6187",
+        "structure model assigned role 'comparison' with score 0.66",
+        "downstream relevance score is 0.3078"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "forced alignment",
+        "canonical": "forced alignment",
+        "normalized": "forced alignment",
+        "tokens": [
+          "forced",
+          "alignment"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 34,
+        "sentence": "t s t of the correct hmm state h t which is determined by a forced alignment with the correct sequence of words",
+        "context_window": {
+          "previous": "into account by marginalizing over all possible paths it is common to train the dnn to perform frame-by-frame classification by locally minimizing the cross entropy between the predictions made by the net and the labels given by a forced alignment with the ground truth sequence of states for each observation arg max p h t s t where are the parameters of our acoustic model p which maps acoustic observations at time t s t to a probability p h",
+          "current": "t s t of the correct hmm state h t which is determined by a forced alignment with the correct sequence of words",
+          "next": "the model is trained with a distributed stochastic gradient descent approach we use an architecture with 8 hidden layers each containing 2560 rectified linear units and a final softmax layer with 14 000 labels hmm targets h t results we trained 10 separate models to predict p h t s t using exactly the same architecture and training procedure as the baseline the models are randomly initialized with different initial parameter values and we find that this creates sufficient diversity"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4784,
+        "downstream_relevance_score": 0.3048,
+        "components": {
+          "bio_boundary_score": 0.7925,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "forced",
+          "alignment"
+        ],
+        "normalization": "forced alignment",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "forced alignment",
+          "canonical": "forced alignment",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7925",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.3048"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "distilled",
+        "canonical": "distilled",
+        "normalized": "distilled",
+        "tokens": [
+          "distilled"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 29,
+        "sentence": "never seen despite this the distilled model only makes 206 test errors of which 133 are on the 1010 threes in the test set most of the errors are caused by the fact that the learned bias for the 3 class is much too low if this bias is increased by 3 5 which optimizes overall performance on the test set the distilled model makes 109 errors of which 14 are on 3s so with the right bias the distilled",
+        "context_window": {
+          "previous": "the distilled net had 300 or more units in each of its two hidden layers all temperatures above 8 gave fairly similar results but when this was radically reduced to 30 units per layer temperatures in the range 2 5 to 4 worked significantly better than higher or lower temperatures we then tried omitting all examples of the digit 3 from the transfer set so from the perspective of the distilled model 3 is a mythical digit that it has",
+          "current": "never seen despite this the distilled model only makes 206 test errors of which 133 are on the 1010 threes in the test set most of the errors are caused by the fact that the learned bias for the 3 class is much too low if this bias is increased by 3 5 which optimizes overall performance on the test set the distilled model makes 109 errors of which 14 are on 3s so with the right bias the distilled",
+          "next": "model gets 98 6 of the test 3s correct despite never having seen a 3 during training if the transfer set contains only the 7s and 8s from the training set the distilled model makes 47 3 test errors but when the biases for 7 and 8 are reduced by 7 6 to optimize test performance this falls to 13 2 test errors experiments on speech recognition in this section we investigate the effects of ensembling deep neural network dnn"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4621,
+        "downstream_relevance_score": 0.3031,
+        "components": {
+          "bio_boundary_score": 0.5807,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "distilled"
+        ],
+        "normalization": "distilled",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "distilled",
+          "canonical": "distilled",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5807",
+        "structure model assigned role 'dataset' with score 0.66",
+        "downstream relevance score is 0.3031"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 23,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We show that the distillation strategy that we propose in this paper achieves the desired effect of distilling an ensemble of models into a single model that works significantly better than a model of the same size that is learned directly from the same training data.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "State-of-the-art ASR systems currently use DNNs to map a (short) temporal context of features derived from the waveform to a probability distribution over the discrete states of a Hidden Markov Model (HMM) .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The models are randomly initialized with different initial parameter values and we find that this creates sufficient diversity in the trained models to allow the averaged predictions of the ensemble to significantly outperform the individual models.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "When the number of classes is very large, it makes sense for the cumbersome model to be an ensemble that contains one generalist model trained on all the data and many \"specialist\" models, each of which is trained on data that is highly enriched in examples from a very confusable subset of the classes (like different types of mushroom).",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "More than 80% of the improvement in frame classification accuracy achieved by using an ensemble of 10 models is transferred to the distilled model which is similar to the improvement we observed in our preliminary experiments on MNIST.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "However, they do the distillation at a temperature of 1 using a large unlabeled dataset and their best distilled model only reduces the error rate of the small model by 28% of the gap between the error rates of the large and small models when they are both trained with hard labels.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "There is, however, another important objection to ensembles: If the individual models are large neural networks and the dataset is very large, the amount of computation required at training time is excessive, even though it is easy to parallelize.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In this section we give an example of such a dataset and we show how learning specialist models that each focus on a different confusable subset of the classes can reduce the total amount of computation required to learn an ensemble.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "JFT is an internal Google dataset that has 100 million labeled images with 15,000 labels.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table shows the absolute test accuracy for the baseline system and the baseline system combined with the specialist models.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "With 61 specialist models, there is a 4.4% relative improvement in test accuracy overall.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We also report conditional test accuracy, which is the accuracy by only considering examples belonging to the specialist classes, and restricting our predictions to that subset of classes.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table shows the number of test set examples, the change in the number of examples correct at position 1 when using the specialist(s), and the relative percentage improvement in top1 accuracy for the JFT dataset broken down by the number of specialists covering the class.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table shows the number of test set examples, the change in the number of examples correct at position 1 when using the specialist(s), and the relative percentage improvement in top1 accuracy for the JFT dataset broken down by the number of specialists covering the class.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We are encouraged by the general trend that accuracy improvements are larger when we have more specialists covering a particular class, since training independent specialist models is very easy to parallelize.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "A very simple way to improve the performance of almost any machine learning algorithm is to train many different models on the same data and then to average their predictions .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We also introduce a new type of ensemble composed of one or more full models and many specialist models which learn to distinguish fine-grained classes that the full models confuse.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "When the soft targets have high entropy, they provide much more information per training case than hard targets and much less variance in the gradient between training cases, so the small model can often be trained on much less data than the original cumbersome model and using a much higher learning rate.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Typically, the small model cannot exactly match the soft targets and erring in the direction of the correct answer turns out to be helpful.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We show that the distillation strategy that we propose in this paper achieves the desired effect of distilling an ensemble of models into a single model that works significantly better than a model of the same size that is learned directly from the same training data.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We use an architecture with 8 hidden layers each containing 2560 rectified linear units and a final softmax layer with 14,000 labels (HMM targets h t ).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We trained 10 separate models to predict P (h t |s t ; θ), using exactly the same architecture and training procedure as the baseline.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Ensemble training is yet a third type of parallelism that can be wrapped Table 2: Example classes from clusters computed by our covariance matrix clustering algorithm around the other two types, but only if a lot more cores are available.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "speech recognition",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.8297
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "speech recognition",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.667
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "machine learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6658
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "knowledge distillation",
+        "section": "method",
+        "role": "process",
+        "score": 0.6394
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "jft dataset",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6077
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "residual neural network",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5821
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "conditional test",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.573
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "dustbin system",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5455
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "frame classification",
+        "section": "method",
+        "role": "process",
+        "score": 0.5159
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "cumbersome model",
+        "section": "intro",
+        "role": "contribution",
+        "score": 0.5136
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "gating network",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5044
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "probability distribution",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.4244
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "specialist class",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3743
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "covariance matrix",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.3634
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "dustbin class",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3518
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "generalist model",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3517
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "distilled model",
+        "section": "intro",
+        "role": "comparison",
+        "score": 0.3487
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "trained model",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.344
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "neural net",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3433
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "specialist model",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3422
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "clustering algorithm",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.3397
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "generalist",
+        "section": "experiment",
+        "role": "motivation",
+        "score": 0.3377
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "hidden markov model",
+        "section": "related_work",
+        "role": "motivation",
+        "score": 0.3213
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "objective function",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.3183
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "cross entropy",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3166
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "distilled net",
+        "section": "intro",
+        "role": "comparison",
+        "score": 0.3078
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "forced alignment",
+        "section": "intro",
+        "role": "background",
+        "score": 0.3048
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "distilled",
+        "section": "intro",
+        "role": "dataset",
+        "score": 0.3031
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_004",
+        "target": "ecu_009",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_015",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_026",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

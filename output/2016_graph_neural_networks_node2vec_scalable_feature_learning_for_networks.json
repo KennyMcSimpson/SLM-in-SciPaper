@@ -1,0 +1,4455 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_graph_neural_networks_node2vec_scalable_feature_learning_for_networks",
+    "title": "2016_graph_neural_networks_node2vec_scalable_feature_learning_for_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_graph_neural_networks_node2vec_scalable_feature_learning_for_networks.txt",
+    "sentence_count": 103,
+    "section_counts": {
+      "intro": 14,
+      "related_work": 4,
+      "experiment": 80,
+      "conclusion": 5
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 7941,
+    "type_count": 1508,
+    "type_token_ratio": 0.1899,
+    "section_token_counts": {
+      "intro": 977,
+      "related_work": 286,
+      "method": 0,
+      "experiment": 6332,
+      "conclusion": 346
+    },
+    "top_unigrams": [
+      {
+        "term": "nodes",
+        "count": 114
+      },
+      {
+        "term": "network",
+        "count": 83
+      },
+      {
+        "term": "node2vec",
+        "count": 70
+      },
+      {
+        "term": "networks",
+        "count": 60
+      },
+      {
+        "term": "feature",
+        "count": 58
+      },
+      {
+        "term": "node",
+        "count": 58
+      },
+      {
+        "term": "representations",
+        "count": 42
+      },
+      {
+        "term": "walk",
+        "count": 41
+      },
+      {
+        "term": "learning",
+        "count": 40
+      },
+      {
+        "term": "can",
+        "count": 40
+      },
+      {
+        "term": "prediction",
+        "count": 37
+      },
+      {
+        "term": "random",
+        "count": 36
+      },
+      {
+        "term": "which",
+        "count": 36
+      },
+      {
+        "term": "sampling",
+        "count": 36
+      },
+      {
+        "term": "edges",
+        "count": 35
+      },
+      {
+        "term": "over",
+        "count": 34
+      },
+      {
+        "term": "neighborhood",
+        "count": 30
+      },
+      {
+        "term": "walks",
+        "count": 28
+      },
+      {
+        "term": "performance",
+        "count": 27
+      },
+      {
+        "term": "based",
+        "count": 26
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "feature learning",
+        "count": 23
+      },
+      {
+        "term": "feature representations",
+        "count": 19
+      },
+      {
+        "term": "random walks",
+        "count": 19
+      },
+      {
+        "term": "random walk",
+        "count": 15
+      },
+      {
+        "term": "link prediction",
+        "count": 15
+      },
+      {
+        "term": "structural equivalence",
+        "count": 15
+      },
+      {
+        "term": "prediction tasks",
+        "count": 13
+      },
+      {
+        "term": "source node",
+        "count": 10
+      },
+      {
+        "term": "learning algorithms",
+        "count": 8
+      },
+      {
+        "term": "network neighborhoods",
+        "count": 8
+      },
+      {
+        "term": "real-world networks",
+        "count": 8
+      },
+      {
+        "term": "prediction task",
+        "count": 8
+      },
+      {
+        "term": "labeled data",
+        "count": 8
+      },
+      {
+        "term": "learning networks",
+        "count": 7
+      },
+      {
+        "term": "nodes network",
+        "count": 7
+      },
+      {
+        "term": "every node",
+        "count": 7
+      },
+      {
+        "term": "missing edges",
+        "count": 7
+      },
+      {
+        "term": "nodes edges",
+        "count": 6
+      },
+      {
+        "term": "multi-label classification",
+        "count": 6
+      },
+      {
+        "term": "performance node2vec",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "feature learning networks",
+        "count": 7
+      },
+      {
+        "term": "feature learning algorithms",
+        "count": 6
+      },
+      {
+        "term": "15 20 25",
+        "count": 5
+      },
+      {
+        "term": "20 25 30",
+        "count": 5
+      },
+      {
+        "term": "downstream prediction task",
+        "count": 4
+      },
+      {
+        "term": "learned feature representations",
+        "count": 4
+      },
+      {
+        "term": "homophily structural equivalence",
+        "count": 4
+      },
+      {
+        "term": "given source node",
+        "count": 4
+      },
+      {
+        "term": "s4 s5 s6",
+        "count": 4
+      },
+      {
+        "term": "00 05 10",
+        "count": 4
+      },
+      {
+        "term": "05 10 15",
+        "count": 4
+      },
+      {
+        "term": "10 15 20",
+        "count": 4
+      },
+      {
+        "term": "prediction tasks over",
+        "count": 3
+      },
+      {
+        "term": "over nodes edges",
+        "count": 3
+      },
+      {
+        "term": "continuous feature representations",
+        "count": 3
+      },
+      {
+        "term": "network neighborhoods nodes",
+        "count": 3
+      },
+      {
+        "term": "dimensionality reduction techniques",
+        "count": 3
+      },
+      {
+        "term": "networks commonly exhibit",
+        "count": 3
+      },
+      {
+        "term": "nd order random",
+        "count": 3
+      },
+      {
+        "term": "feature representations individual",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 31,
+    "nonzero_tfidf_features": 31,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 2.0,
+        "tfidf": 1.152
+      },
+      {
+        "feature_name": "related_work__representation learning",
+        "section": "related_work",
+        "term": "representation learning",
+        "frequency": 4.0,
+        "tfidf": 1.0092
+      },
+      {
+        "feature_name": "methods__representation learning",
+        "section": "method",
+        "term": "representation learning",
+        "frequency": 2.0,
+        "tfidf": 0.8475
+      },
+      {
+        "feature_name": "introduction__learning algorithms",
+        "section": "intro",
+        "term": "learning algorithms",
+        "frequency": 3.0,
+        "tfidf": 0.7048
+      },
+      {
+        "feature_name": "introduction__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 3.0,
+        "tfidf": 0.6977
+      },
+      {
+        "feature_name": "experiments__feature learning",
+        "section": "experiment",
+        "term": "feature learning",
+        "frequency": 3.0,
+        "tfidf": 0.6254
+      },
+      {
+        "feature_name": "conclusion__deep learning",
+        "section": "conclusion",
+        "term": "deep learning",
+        "frequency": 2.0,
+        "tfidf": 0.6201
+      },
+      {
+        "feature_name": "abstract__learning algorithm",
+        "section": "intro",
+        "term": "learning algorithm",
+        "frequency": 1.0,
+        "tfidf": 0.5735
+      },
+      {
+        "feature_name": "experiments__learning algorithms",
+        "section": "experiment",
+        "term": "learning algorithms",
+        "frequency": 3.0,
+        "tfidf": 0.5213
+      },
+      {
+        "feature_name": "conclusion__representation learning",
+        "section": "conclusion",
+        "term": "representation learning",
+        "frequency": 1.0,
+        "tfidf": 0.462
+      },
+      {
+        "feature_name": "methods__bias",
+        "section": "method",
+        "term": "bias",
+        "frequency": 2.0,
+        "tfidf": 0.4579
+      },
+      {
+        "feature_name": "conclusion__learning algorithm",
+        "section": "conclusion",
+        "term": "learning algorithm",
+        "frequency": 1.0,
+        "tfidf": 0.3991
+      },
+      {
+        "feature_name": "experiments__auc",
+        "section": "experiment",
+        "term": "auc",
+        "frequency": 2.0,
+        "tfidf": 0.3934
+      },
+      {
+        "feature_name": "introduction__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.3812
+      },
+      {
+        "feature_name": "conclusion__end-to-end",
+        "section": "conclusion",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.3527
+      },
+      {
+        "feature_name": "conclusion__embeddings",
+        "section": "conclusion",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.3441
+      },
+      {
+        "feature_name": "experiments__epoch",
+        "section": "experiment",
+        "term": "epoch",
+        "frequency": 2.0,
+        "tfidf": 0.3105
+      },
+      {
+        "feature_name": "related_work__deep neural networks",
+        "section": "related_work",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3076
+      },
+      {
+        "feature_name": "introduction__supervised learning",
+        "section": "intro",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.2907
+      },
+      {
+        "feature_name": "related_work__natural language processing",
+        "section": "related_work",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.2849
+      },
+      {
+        "feature_name": "related_work__sgd",
+        "section": "related_work",
+        "term": "sgd",
+        "frequency": 1.0,
+        "tfidf": 0.2688
+      },
+      {
+        "feature_name": "methods__sgd",
+        "section": "method",
+        "term": "sgd",
+        "frequency": 1.0,
+        "tfidf": 0.2684
+      },
+      {
+        "feature_name": "introduction__feature engineering",
+        "section": "intro",
+        "term": "feature engineering",
+        "frequency": 1.0,
+        "tfidf": 0.254
+      },
+      {
+        "feature_name": "related_work__machine learning",
+        "section": "related_work",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.2461
+      },
+      {
+        "feature_name": "introduction__feedforward neural networks",
+        "section": "intro",
+        "term": "feedforward neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.2326
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 2.0,
+          "tfidf": 1.152
+        },
+        {
+          "feature_name": "introduction__learning algorithms",
+          "section": "intro",
+          "term": "learning algorithms",
+          "frequency": 3.0,
+          "tfidf": 0.7048
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 3.0,
+          "tfidf": 0.6977
+        },
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.5735
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.3812
+        },
+        {
+          "feature_name": "introduction__supervised learning",
+          "section": "intro",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.2907
+        },
+        {
+          "feature_name": "introduction__feature engineering",
+          "section": "intro",
+          "term": "feature engineering",
+          "frequency": 1.0,
+          "tfidf": 0.254
+        },
+        {
+          "feature_name": "introduction__feedforward neural networks",
+          "section": "intro",
+          "term": "feedforward neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2326
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1615
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1571
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1378
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__representation learning",
+          "section": "related_work",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 1.0092
+        },
+        {
+          "feature_name": "related_work__deep neural networks",
+          "section": "related_work",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3076
+        },
+        {
+          "feature_name": "related_work__natural language processing",
+          "section": "related_work",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.2849
+        },
+        {
+          "feature_name": "related_work__sgd",
+          "section": "related_work",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.2688
+        },
+        {
+          "feature_name": "related_work__machine learning",
+          "section": "related_work",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.2461
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__representation learning",
+          "section": "method",
+          "term": "representation learning",
+          "frequency": 2.0,
+          "tfidf": 0.8475
+        },
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.4579
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.2684
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__feature learning",
+          "section": "experiment",
+          "term": "feature learning",
+          "frequency": 3.0,
+          "tfidf": 0.6254
+        },
+        {
+          "feature_name": "experiments__learning algorithms",
+          "section": "experiment",
+          "term": "learning algorithms",
+          "frequency": 3.0,
+          "tfidf": 0.5213
+        },
+        {
+          "feature_name": "experiments__auc",
+          "section": "experiment",
+          "term": "auc",
+          "frequency": 2.0,
+          "tfidf": 0.3934
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 2.0,
+          "tfidf": 0.3105
+        },
+        {
+          "feature_name": "experiments__supervised learning",
+          "section": "experiment",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.1875
+        },
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1635
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.1552
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 2.0,
+          "tfidf": 0.6201
+        },
+        {
+          "feature_name": "conclusion__representation learning",
+          "section": "conclusion",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.462
+        },
+        {
+          "feature_name": "conclusion__learning algorithm",
+          "section": "conclusion",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.3991
+        },
+        {
+          "feature_name": "conclusion__end-to-end",
+          "section": "conclusion",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3527
+        },
+        {
+          "feature_name": "conclusion__embeddings",
+          "section": "conclusion",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.3441
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 14,
+      "token_count": 977,
+      "bow_hit_count": 50,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 21,
+          "section_prior": 0.4804,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 7,
+          "section_prior": 0.4805,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 6,
+          "section_prior": 0.3813,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 4,
+          "section_prior": 0.5424,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.233,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "feedforward neural network",
+          "count": 2,
+          "section_prior": 0.3182,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 1,
+          "section_prior": 0.4667,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "feature engineering",
+          "count": 1,
+          "section_prior": 0.5,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 2.0,
+          "tfidf": 1.152
+        },
+        {
+          "feature_name": "introduction__learning algorithms",
+          "section": "intro",
+          "term": "learning algorithms",
+          "frequency": 3.0,
+          "tfidf": 0.7048
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 3.0,
+          "tfidf": 0.6977
+        },
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.5735
+        },
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 2.0,
+          "tfidf": 0.3812
+        },
+        {
+          "feature_name": "introduction__supervised learning",
+          "section": "intro",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.2907
+        },
+        {
+          "feature_name": "introduction__feature engineering",
+          "section": "intro",
+          "term": "feature engineering",
+          "frequency": 1.0,
+          "tfidf": 0.254
+        },
+        {
+          "feature_name": "introduction__feedforward neural networks",
+          "section": "intro",
+          "term": "feedforward neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2326
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1615
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1571
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1378
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 4,
+      "token_count": 286,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.0467,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 4,
+          "section_prior": 0.2451,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 4,
+          "section_prior": 0.0909,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__representation learning",
+          "section": "related_work",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 1.0092
+        },
+        {
+          "feature_name": "related_work__deep neural networks",
+          "section": "related_work",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3076
+        },
+        {
+          "feature_name": "related_work__natural language processing",
+          "section": "related_work",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.2849
+        },
+        {
+          "feature_name": "related_work__sgd",
+          "section": "related_work",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.2688
+        },
+        {
+          "feature_name": "related_work__machine learning",
+          "section": "related_work",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.2461
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__representation learning",
+          "section": "method",
+          "term": "representation learning",
+          "frequency": 2.0,
+          "tfidf": 0.8475
+        },
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.4579
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.2684
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 80,
+      "token_count": 6332,
+      "bow_hit_count": 135,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 49,
+          "section_prior": 0.098,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 23,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 15,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 12,
+          "section_prior": 0.1688,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 10,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 5,
+          "section_prior": 0.1441,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.1179,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 4,
+          "section_prior": 0.4412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "heuristic",
+          "count": 4,
+          "section_prior": 0.48,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 3,
+          "section_prior": 0.1197,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 2,
+          "section_prior": 0.1,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "receiver operating characteristic",
+          "count": 2,
+          "section_prior": 0.7333,
+          "confidence_score": 0.85,
+          "wiki_category": "metric"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__feature learning",
+          "section": "experiment",
+          "term": "feature learning",
+          "frequency": 3.0,
+          "tfidf": 0.6254
+        },
+        {
+          "feature_name": "experiments__learning algorithms",
+          "section": "experiment",
+          "term": "learning algorithms",
+          "frequency": 3.0,
+          "tfidf": 0.5213
+        },
+        {
+          "feature_name": "experiments__auc",
+          "section": "experiment",
+          "term": "auc",
+          "frequency": 2.0,
+          "tfidf": 0.3934
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 2.0,
+          "tfidf": 0.3105
+        },
+        {
+          "feature_name": "experiments__supervised learning",
+          "section": "experiment",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.1875
+        },
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1635
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.1552
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 5,
+      "token_count": 346,
+      "bow_hit_count": 21,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 5,
+          "section_prior": 0.0784,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.0493,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 4,
+          "section_prior": 0.1224,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "heuristic",
+          "count": 3,
+          "section_prior": 0.04,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 2,
+          "section_prior": 0.2131,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 2,
+          "section_prior": 0.1818,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 2.0,
+          "tfidf": 0.6201
+        },
+        {
+          "feature_name": "conclusion__representation learning",
+          "section": "conclusion",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.462
+        },
+        {
+          "feature_name": "conclusion__learning algorithm",
+          "section": "conclusion",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.3991
+        },
+        {
+          "feature_name": "conclusion__end-to-end",
+          "section": "conclusion",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3527
+        },
+        {
+          "feature_name": "conclusion__embeddings",
+          "section": "conclusion",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.3441
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "stochastic gradient descent",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 10,
+        "sentence": "extensions optimize an objective that transforms a representative data matrix of the network such that it maximizes the variance of the data representation consequently these approaches invariably involve eigendecomposition of the appropriate data matrix which is expensive for large real-world networks moreover the resulting latent representations give poor performance on various prediction tasks over networks alternatively we can design an objective that seeks to preserve local neighborhoods of nodes the objective can be efficiently optimized using stochastic gradient descent sgd",
+        "context_window": {
+          "previous": "of the downstream prediction task and the representations can be learned in a purely unsupervised way this makes the optimization computationally efficient and with a carefully designed objective it results in task-independent features that closely match task-specific approaches in predictive accuracy however current techniques fail to satisfactorily define and optimize a reasonable objective required for scalable unsupervised feature learning in networks classic approaches based on linear and non-linear dimensionality reduction techniques such as principal component analysis multi-dimensional scaling and their",
+          "current": "extensions optimize an objective that transforms a representative data matrix of the network such that it maximizes the variance of the data representation consequently these approaches invariably involve eigendecomposition of the appropriate data matrix which is expensive for large real-world networks moreover the resulting latent representations give poor performance on various prediction tasks over networks alternatively we can design an objective that seeks to preserve local neighborhoods of nodes the objective can be efficiently optimized using stochastic gradient descent sgd",
+          "next": "akin to backpropogation on just single hidden-layer feedforward neural networks recent attempts in this direction propose efficient algorithms but rely on a rigid notion of a network neighborhood which results in these approaches being largely insensitive to connectivity patterns unique to networks specifically nodes in networks could be organized based on communities they belong to i e homophily in other cases the organization could be based on the structural roles of nodes in the network i e structural equivalence for"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6381,
+        "downstream_relevance_score": 0.691,
+        "components": {
+          "bio_boundary_score": 0.7455,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3813,
+          "document_tfidf_score": 0.3309,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "stochastic gradient descent",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "stochastic gradient descent",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 18,
+        "total_frequency": 46,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 2.0,
+        "tfidf": 0.3812,
+        "normalized_frequency": 0.5,
+        "normalized_tfidf": 0.3309
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient",
+          "descent"
+        ],
+        "normalization": "stochastic gradient descent",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.3813,
+        "canonicalization": {
+          "observed": "stochastic gradient descent",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7455",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__stochastic gradient descent' with tf-idf 0.3812",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.691"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "source node",
+        "canonical": "source node",
+        "normalized": "source node",
+        "tokens": [
+          "source",
+          "node"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 33,
+        "sentence": "methods based on the skip-gram architecture have been originally developed in the context of natural language given the linear nature of text the notion of a neighborhood can be naturally defined using a sliding window over consecutive words networks however are not linear and thus a richer notion of a neighborhood is needed to resolve this issue we propose a randomized procedure that samples many different neighborhoods of a given source node u the neighborhoods ns u are not restricted",
+        "context_window": {
+          "previous": "ni f u v v exp f v f u with the above assumptions the objective in eq 1 simplifies to max f u v -log zu n i n s u f ni f u the per-node partition function zu v v exp f u f v is expensive to compute for large networks and we approximate it using negative sampling we optimize eq 2 using stochastic gradient ascent over the model parameters defining the features f feature learning",
+          "current": "methods based on the skip-gram architecture have been originally developed in the context of natural language given the linear nature of text the notion of a neighborhood can be naturally defined using a sliding window over consecutive words networks however are not linear and thus a richer notion of a neighborhood is needed to resolve this issue we propose a randomized procedure that samples many different neighborhoods of a given source node u the neighborhoods ns u are not restricted",
+          "next": "to just immediate neighbors but can have vastly different structures depending on the sampling strategy s classic search strategies we view the problem of sampling neighborhoods of a source node as a form of local search figure shows a graph where given a source node u we aim to generate sample its neighborhood ns u importantly to be able to fairly compare different sampling strategies s we shall constrain the size of the neighborhood set ns to k nodes and"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7807,
+        "downstream_relevance_score": 0.6356,
+        "components": {
+          "bio_boundary_score": 0.9144,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "source",
+          "node"
+        ],
+        "normalization": "source node",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "source node",
+          "canonical": "source node",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9144",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, propose",
+        "downstream relevance score is 0.6356"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "logistic regression",
+        "canonical": "logistic regression",
+        "normalized": "logistic regression",
+        "tokens": [
+          "logistic",
+          "regression"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 78,
+        "sentence": "best in the pos tags due to syntactic grammar patterns such as nouns following determiners punctuations succeeding nouns etc experimental results the node feature representations are input to a one-vs-rest logistic regression classifier with l2 regularization the train and test data is split equally over 10 random instances we use the macro-f1 scores for comparing performance in table and the relative performance gain is over the closest benchmark the trends are similar for micro-f1 and accuracy and are not shown",
+        "context_window": {
+          "previous": "0 00 0 05 0 10 0 15 0 20 0 25 0 30 spectral clustering deepwalk line node2vec figure performance of different benchmarks on varying the amount of labeled data used for training the x axis denotes the fraction of labeled data whereas the y axis in the top and bottom rows denote the micro-f1 and macro-f1 scores respectively deepwalk and node2vec give comparable performance on ppi in all other networks across all fractions of labeled data node2vec performs",
+          "current": "best in the pos tags due to syntactic grammar patterns such as nouns following determiners punctuations succeeding nouns etc experimental results the node feature representations are input to a one-vs-rest logistic regression classifier with l2 regularization the train and test data is split equally over 10 random instances we use the macro-f1 scores for comparing performance in table and the relative performance gain is over the closest benchmark the trends are similar for micro-f1 and accuracy and are not shown",
+          "next": "from the results it is evident we can see how the added flexibility in exploring neighborhoods allows node2vec to outperform the other benchmark algorithms in blogcatalog we can discover the right mix of homophily and structural equivalence by setting parameters p and q to low values giving us 22 3 gain over deep-walk and 229 2 gain over line in macro-f1 scores line showed worse performance than expected which can be explained by its inability to reuse samples a feat"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "performance gain",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "improvement cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6577,
+        "downstream_relevance_score": 0.6238,
+        "components": {
+          "bio_boundary_score": 0.6737,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "logistic",
+          "regression"
+        ],
+        "normalization": "logistic regression",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "logistic regression",
+          "canonical": "logistic regression",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6737",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched performance gain, benchmark, accuracy",
+        "downstream relevance score is 0.6238"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "blogcatalog",
+        "canonical": "blogcatalog",
+        "normalized": "blogcatalog",
+        "tokens": [
+          "blogcatalog"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 84,
+        "sentence": "and in figure we examine how the different choices of parameters affect the performance of node2vec on the blogcatalog dataset using a 50-50 split between labeled and unlabeled data except for the parameter being tested all other parameters assume default values the default values for p and q are set to unity we measure the macro-f1 score as a function of parameters p and q the performance of node2vec improves as the in-out parameter p and the return parameter q",
+        "context_window": {
+          "previous": "7 on blogcatalog at 70 labeled data in the worst case the search phase has little bearing on learned representations in which case node2vec is equivalent to deepwalk similarly the improvements are even more striking when compared to line where in addition to drastic gain over 200 on blogcatalog we observe high magnitude improvements upto 41 1 on other datasets such as ppi while training on just 10 labeled data parameter sensitivity the node2vec algorithm involves a number of parameters",
+          "current": "and in figure we examine how the different choices of parameters affect the performance of node2vec on the blogcatalog dataset using a 50-50 split between labeled and unlabeled data except for the parameter being tested all other parameters assume default values the default values for p and q are set to unity we measure the macro-f1 score as a function of parameters p and q the performance of node2vec improves as the in-out parameter p and the return parameter q",
+          "next": "decrease this increase in performance can be based on the homophilic and structural equivalences we expect to see in blogcatalog while a low q encourages outward exploration it is balanced by a low p which ensures that the walk does not go too far from the start node we also examine how the number of features d and the node s neighborhood parameters number of walks r walk length l and neighborhood size k affect the performance we observe that"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7405,
+        "downstream_relevance_score": 0.6118,
+        "components": {
+          "bio_boundary_score": 0.9544,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "blogcatalog"
+        ],
+        "normalization": "blogcatalog",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "blogcatalog",
+          "canonical": "blogcatalog",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9544",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.6118"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "deepwalk",
+        "canonical": "deepwalk",
+        "normalized": "deepwalk",
+        "tokens": [
+          "deepwalk"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 82,
+        "sentence": "fine-grained analysis we also compare performance while varying the train-test split from 10 to 90 while learning parameters p and q on 10 of the data as before for brevity we summarize the results for the micro-f1 and macro-f1 scores graphically in figure here we make similar observations all methods significantly outperform spectral clustering deepwalk outperforms line node2vec consistently outperforms line and achieves large improvement over deepwalk across domains for example we achieve the biggest improvement over deepwalk of 26",
+        "context_window": {
+          "previous": "avoiding redudancy in already visited nodes through a high p value but a convincing 23 8 gain over line in macro-f1 scores however in general the uniform random walks can be much worse than the exploration strategy learned by node2vec as we can see in the wikipedia word cooccurrence network uniform walks cannot guide the search procedure towards the best samples and hence we achieve a gain of 21 8 over deepwalk and 33 2 over line for a more",
+          "current": "fine-grained analysis we also compare performance while varying the train-test split from 10 to 90 while learning parameters p and q on 10 of the data as before for brevity we summarize the results for the micro-f1 and macro-f1 scores graphically in figure here we make similar observations all methods significantly outperform spectral clustering deepwalk outperforms line node2vec consistently outperforms line and achieves large improvement over deepwalk across domains for example we achieve the biggest improvement over deepwalk of 26",
+          "next": "7 on blogcatalog at 70 labeled data in the worst case the search phase has little bearing on learned representations in which case node2vec is equivalent to deepwalk similarly the improvements are even more striking when compared to line where in addition to drastic gain over 200 on blogcatalog we observe high magnitude improvements upto 41 1 on other datasets such as ppi while training on just 10 labeled data parameter sensitivity the node2vec algorithm involves a number of parameters"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "outperform",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7122,
+        "downstream_relevance_score": 0.6072,
+        "components": {
+          "bio_boundary_score": 0.8987,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deepwalk"
+        ],
+        "normalization": "deepwalk",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "deepwalk",
+          "canonical": "deepwalk",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8987",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms, outperform, achieves",
+        "downstream relevance score is 0.6072"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "feature",
+        "canonical": "feature",
+        "normalized": "feature",
+        "tokens": [
+          "feature"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 13,
+        "sentence": "well as to learn representations where nodes that share similar roles have similar embeddings this would allow feature learning algorithms to generalize across a wide variety of domains and prediction tasks present work we propose node2vec a semi-supervised algorithm for scalable feature learning in networks we optimize a custom graph-based objective function using sgd motivated by",
+        "context_window": {
+          "previous": "instance in figure we observe nodes u and s1 belonging to the same tightly knit community of nodes while the nodes u and s6 in the two distinct communities share the same structural role of a hub node real-world networks commonly exhibit a mixture of such equivalences thus it is essential to allow for a flexible algorithm that can learn node representations obeying both principles ability to learn representations that embed nodes from the same network community closely together as",
+          "current": "well as to learn representations where nodes that share similar roles have similar embeddings this would allow feature learning algorithms to generalize across a wide variety of domains and prediction tasks present work we propose node2vec a semi-supervised algorithm for scalable feature learning in networks we optimize a custom graph-based objective function using sgd motivated by",
+          "next": "on natural language processing intuitively our approach returns feature representations that maximize the likelihood of preserving network neighborhoods of nodes in a d-dimensional feature space we use a 2 nd order random walk approach to generate sample network neighborhoods for nodes our key contribution is in defining a flexible notion of a node s network neighborhood by choosing an appropriate notion of a neighborhood node2vec can learn representations that organize nodes based on their network roles and or communities they"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          },
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6976,
+        "downstream_relevance_score": 0.6052,
+        "components": {
+          "bio_boundary_score": 0.631,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature"
+        ],
+        "normalization": "feature",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature",
+          "canonical": "feature",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.631",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched algorithm, propose, present",
+        "downstream relevance score is 0.6052"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "prediction",
+        "canonical": "prediction",
+        "normalized": "prediction",
+        "tokens": [
+          "prediction"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 67,
+        "sentence": "equal number of samples for each method and then evaluate the quality of the obtained features on the prediction task in doing so we discount for performance gain observed purely because of the implementation language c c python since it is secondary to the algorithm thus in the sampling phase the parameters for deepwalk line and node2vec are set such that they generate equal number of samples at runtime as an example if k is the overall sampling budget then",
+        "context_window": {
+          "previous": "it learns the next d 2 dimensions by sampling nodes strictly at a 2-hop distance from the source nodes we exclude other matrix factorization approaches which have already been shown to be inferior to deepwalk we also exclude a recent approach grarep that generalizes line to incorporate information from network neighborhoods beyond 2-hops but is unable to efficiently scale to large networks in contrast to the setup used in prior work for evaluating samplingbased feature learning algorithms we generate an",
+          "current": "equal number of samples for each method and then evaluate the quality of the obtained features on the prediction task in doing so we discount for performance gain observed purely because of the implementation language c c python since it is secondary to the algorithm thus in the sampling phase the parameters for deepwalk line and node2vec are set such that they generate equal number of samples at runtime as an example if k is the overall sampling budget then",
+          "next": "the node2vec parameters satisfy k r l v in the optimization phase all these benchmarks optimize using sgd with two key differences that we correct for first deepwalk uses hierarchical sampling to approximate the softmax probabilities with an objective similar to the one use by node2vec however hierarchical softmax is inefficient when compared with negative sampling hence keeping everything else the same we switch to negative sampling in deepwalk which is also the de facto approximation in node2vec and line"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "performance gain",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "improvement cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6496,
+        "downstream_relevance_score": 0.5856,
+        "components": {
+          "bio_boundary_score": 0.5239,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "prediction"
+        ],
+        "normalization": "prediction",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "prediction",
+          "canonical": "prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5239",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched performance gain, algorithm",
+        "downstream relevance score is 0.5856"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "node",
+        "canonical": "node",
+        "normalized": "node",
+        "tokens": [
+          "node"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 20,
+        "sentence": "to pairs of nodes for edge-based prediction tasks 4 we empirically evaluate node2vec for multi-label classification and link prediction on several real-world datasets the rest of the paper is structured as follows in section 2 we briefly survey related work in feature learning for networks we present the technical details for feature learning using node2vec in section 3 in section 4 we empirically evaluate node2vec on prediction tasks over nodes and edges on various real-world networks and assess the parameter",
+        "context_window": {
+          "previous": "large networks with millions of nodes in a few hours overall our paper makes the following contributions 1 we propose node2vec an efficient scalable algorithm for feature learning in networks that efficiently optimizes a novel network-aware neighborhood preserving objective using sgd 2 we show how node2vec is in accordance with established principles in network science providing flexibility in discovering representations conforming to different equivalences 3 we extend node2vec and other feature learning methods based on neighborhood preserving objectives from nodes",
+          "current": "to pairs of nodes for edge-based prediction tasks 4 we empirically evaluate node2vec for multi-label classification and link prediction on several real-world datasets the rest of the paper is structured as follows in section 2 we briefly survey related work in feature learning for networks we present the technical details for feature learning using node2vec in section 3 in section 4 we empirically evaluate node2vec on prediction tasks over nodes and edges on various real-world networks and assess the parameter",
+          "next": "sensitivity perturbation analysis and scalability aspects of our algorithm we conclude with a discussion of the node2vec framework and highlight some promising directions for future work in section 5 datasets and a reference implementation of node2vec are available on the project page related work feature engineering has been extensively studied by the machine learning community under various headings in networks the conventional paradigm for generating features for nodes is based on feature extraction techniques which typically involve some seed hand-crafted"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6753,
+        "downstream_relevance_score": 0.5707,
+        "components": {
+          "bio_boundary_score": 0.5126,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "node"
+        ],
+        "normalization": "node",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "node",
+          "canonical": "node",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5126",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched present",
+        "downstream relevance score is 0.5707"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "feature learning",
+        "canonical": "feature learning",
+        "normalized": "feature learning",
+        "tokens": [
+          "feature",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "representation learning",
+          "feature learning"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 17,
+        "sentence": "in networks a multi-label classification task where every node is assigned one or more class labels and a link prediction task where we predict the existence of an edge given a pair of nodes we contrast the performance of node2vec with state-of-the-art feature learning algorithms we",
+        "context_window": {
+          "previous": "these parameters can also be learned directly using a tiny fraction of labeled data in a semisupervised fashion we also show how feature representations of individual nodes can be extended to pairs of nodes i e edges in order to generate feature representations of edges we compose the learned feature representations of the individual nodes using simple binary operators this compositionality lends node2vec to prediction tasks involving nodes as well as edges our experiments focus on two common prediction tasks",
+          "current": "in networks a multi-label classification task where every node is assigned one or more class labels and a link prediction task where we predict the existence of an edge given a pair of nodes we contrast the performance of node2vec with state-of-the-art feature learning algorithms we",
+          "next": "with several real-world networks from diverse domains such as social networks information networks as well as networks from systems biology demonstrate that node2vec outperforms state-of-the-art methods by up to 26 7 on multi-label classification and up to 12 6 on link prediction the algorithm shows competitive performance with even 10 labeled data and is also robust to perturbations in the form of noisy or missing edges computationally the major phases of node2vec are trivially parallelizable and it can scale to"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4685,
+        "downstream_relevance_score": 0.5375,
+        "components": {
+          "bio_boundary_score": 0.6743,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2451,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "feature learning",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "feature learning",
+        "display_term": "representation learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Feature_learning",
+        "wikidata_id": "Q17013334",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 12,
+        "total_frequency": 24,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "learning"
+        ],
+        "normalization": "feature learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2451,
+        "canonicalization": {
+          "observed": "feature learning",
+          "canonical": "feature learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6743",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "section BoW matched canonical term 'feature learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.5375"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "dimensionality reduction",
+        "canonical": "nonlinear dimensionality reduction",
+        "normalized": "nonlinear dimensionality reduction",
+        "tokens": [
+          "dimensionality",
+          "reduction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "nonlinear dimensionality reduction",
+          "manifold learning"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 23,
+        "sentence": "dimensionality reduction techniques have been proposed these methods suffer from both computational and statistical performance drawbacks in terms of computational efficiency eigendecomposition of a data matrix is expensive unless the solution quality is significantly compromised with approximations and hence these methods are hard to scale to large networks secondly these methods optimize for objectives that are not robust to the diverse patterns observed in networks such as homophily and structural equivalence and make assumptions about the relationship between the underlying",
+        "context_window": {
+          "previous": "features based on network properties in contrast our goal is to automate the whole process by casting feature extraction as a representation learning problem in which case we do not require any hand-engineered features unsupervised feature learning approaches typically exploit the spectral properties of various matrix representations of graphs especially the laplacian and the adjacency matrices under this linear algebra perspective these methods can be viewed as dimensionality reduction techniques several linear e g pca and non-linear e g isomap",
+          "current": "dimensionality reduction techniques have been proposed these methods suffer from both computational and statistical performance drawbacks in terms of computational efficiency eigendecomposition of a data matrix is expensive unless the solution quality is significantly compromised with approximations and hence these methods are hard to scale to large networks secondly these methods optimize for objectives that are not robust to the diverse patterns observed in networks such as homophily and structural equivalence and make assumptions about the relationship between the underlying",
+          "next": "network structure and the prediction task for instance spectral clustering makes a strong homophily assumption that graph cuts will be useful for classification such assumptions are reasonable in many scenarios but unsatisfactory in effectively generalizing across diverse networks recent advancements in representational learning for natural language processing opened new ways for feature learning of discrete objects such as words in particular the skip-gram model aims to learn continuous feature representations for words by optimizing a neighborhood preserving likelihood objective the"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.636,
+        "downstream_relevance_score": 0.5372,
+        "components": {
+          "bio_boundary_score": 0.6738,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.663,
+          "laplace_section_prior": 0.1111,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "nonlinear dimensionality reduction",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "nonlinear dimensionality reduction",
+        "display_term": "manifold learning",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction",
+        "wikidata_id": "Q7049464",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 2,
+        "total_frequency": 4,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dimensionality",
+          "reduction"
+        ],
+        "normalization": "dimensionality reduction",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1111,
+        "canonicalization": {
+          "observed": "dimensionality reduction",
+          "canonical": "nonlinear dimensionality reduction",
+          "channel_score": 0.663
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6738",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'nonlinear dimensionality reduction' with confidence 0.663",
+        "BoW role prior suggests 'background'",
+        "downstream relevance score is 0.5372"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "feature representation",
+        "canonical": "feature representation",
+        "normalized": "feature representation",
+        "tokens": [
+          "feature",
+          "representation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 30,
+        "sentence": "proceed by extending the skip-gram architecture to networks we seek to optimize the following objective function which maximizes the log-probability of observing a network neighborhood ns u for a node u conditioned on its feature representation given by f max f u v log p r ns u f u in order to make the optimization problem tractable we make two standard assumptions conditional independence we factorize the likelihood by assuming that the likelihood of observing a neighborhood node is",
+        "context_window": {
+          "previous": "to any un directed un weighted network let f v r d be the mapping function from nodes to feature representaions we aim to learn for a downstream prediction task here d is a parameter specifying the number of dimensions of our feature representation equivalently f is a matrix of size v d parameters for every source node u v we define ns u v as a network neighborhood of node u generated through a neighborhood sampling strategy s we",
+          "current": "proceed by extending the skip-gram architecture to networks we seek to optimize the following objective function which maximizes the log-probability of observing a network neighborhood ns u for a node u conditioned on its feature representation given by f max f u v log p r ns u f u in order to make the optimization problem tractable we make two standard assumptions conditional independence we factorize the likelihood by assuming that the likelihood of observing a neighborhood node is",
+          "next": "independent of observing any other neighborhood node given the feature representation of the source p r ns u f u n i n s u p r ni f u symmetry in feature space a source node and neighborhood node have a symmetric effect over each other in feature space accordingly we model the conditional likeli-hood of every source-neighborhood node pair as a softmax unit parametrized by a dot product of their features p r ni f u exp f"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7255,
+        "downstream_relevance_score": 0.5341,
+        "components": {
+          "bio_boundary_score": 0.9558,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "representation"
+        ],
+        "normalization": "feature representation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature representation",
+          "canonical": "feature representation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9558",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5341"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "link prediction",
+        "canonical": "link prediction",
+        "normalized": "link prediction",
+        "tokens": [
+          "link",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "many important tasks in network analysis involve predictions over nodes and edges in a typical node classification task we are interested in predicting the most probable labels of nodes in a network for example in a social network we might be interested in predicting interests of users or in a protein-protein interaction network we might be interested in predicting functional labels of proteins similarly in link prediction we wish to permission to make digital or hard copies of all or",
+        "context_window": {
+          "previous": "existing state-ofthe-art techniques on multi-label classification and link prediction in several real-world networks from diverse domains taken together our work represents a new way for efficiently learning stateof-the-art task-independent representations in complex networks body",
+          "current": "many important tasks in network analysis involve predictions over nodes and edges in a typical node classification task we are interested in predicting the most probable labels of nodes in a network for example in a social network we might be interested in predicting interests of users or in a protein-protein interaction network we might be interested in predicting functional labels of proteins similarly in link prediction we wish to permission to make digital or hard copies of all or",
+          "next": "part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page copyrights for components of this work owned by others than the author s must be honored abstracting with credit is permitted to copy otherwise or republish to post on servers or to redistribute to lists requires prior specific permission and"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4418,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7056,
+        "downstream_relevance_score": 0.5225,
+        "components": {
+          "bio_boundary_score": 0.9982,
+          "sentence_evidence_score": 0.4418,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "link",
+          "prediction"
+        ],
+        "normalization": "link prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "link prediction",
+          "canonical": "link prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9982",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.5225"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "random walk",
+        "canonical": "random walk",
+        "normalized": "random walk",
+        "tokens": [
+          "random",
+          "walk"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 55,
+        "sentence": "g s aliassample vcurr append s to walk return walk the pseudocode for node2vec is given in algorithm 1 in any random walk there is an implicit bias due to the choice of the start node u since we learn representations for all nodes we offset this bias by simulating r random walks of fixed length l starting from every node at every step of the walk sampling is done based on the transition probabilities vx the transition probabilities vx",
+        "context_window": {
+          "previous": "walks per node r walk length l context size k return p in-out q preprocessmodifiedweights g p q g v e initialize walks to empty for iter 1 to r do for all nodes u v do walk node2vecwalk g u l append walk to walks f stochasticgradientdescent k d walks return f node2vecwalk graph g v e start node u length l inititalize walk to u for walk iter 1 to l do curr walk -1 vcurr getneighbors curr",
+          "current": "g s aliassample vcurr append s to walk return walk the pseudocode for node2vec is given in algorithm 1 in any random walk there is an implicit bias due to the choice of the start node u since we learn representations for all nodes we offset this bias by simulating r random walks of fixed length l starting from every node at every step of the walk sampling is done based on the transition probabilities vx the transition probabilities vx",
+          "next": "for the 2 nd order markov chain can be precomputed and hence sampling of nodes while simulating the random walk can be done efficiently in o time using alias sampling the three phases of node2vec i e preprocessing to compute transition probabilities random walk simulations and optimization using sgd are executed sequentially each phase is parallelizable and executed asynchronously contributing to the overall scalability of node2vec node2vec is available at learning edge features the node2vec algorithm provides a semi-supervised method"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7035,
+        "downstream_relevance_score": 0.5184,
+        "components": {
+          "bio_boundary_score": 0.9687,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "random",
+          "walk"
+        ],
+        "normalization": "random walk",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "random walk",
+          "canonical": "random walk",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9687",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.5184"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "sampling strategy",
+        "canonical": "sampling strategy",
+        "normalized": "sampling strategy",
+        "tokens": [
+          "sampling",
+          "strategy"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 27,
+        "sentence": "no clear winning sampling strategy that works across all networks and all prediction tasks this is a major shortcoming of prior work which fail to offer any flexibility in sampling of nodes from a network our algorithm node2vec overcomes this limitation by designing a flexible objective that is not tied to a particular sampling strategy and provides parameters to tune the explored search space see section 3 finally for both node and edge based prediction tasks there is a body",
+        "context_window": {
+          "previous": "to appear in similar word neighborhoods inspired by the skip-gram model recent research established an analogy for networks by representing a network as a document the same way as a document is an ordered sequence of words one could sample sequences of nodes from the underlying network and turn a network into a ordered sequence of nodes however there are many possible sampling strategies for nodes resulting in different learned feature representations in fact as we shall show there is",
+          "current": "no clear winning sampling strategy that works across all networks and all prediction tasks this is a major shortcoming of prior work which fail to offer any flexibility in sampling of nodes from a network our algorithm node2vec overcomes this limitation by designing a flexible objective that is not tied to a particular sampling strategy and provides parameters to tune the explored search space see section 3 finally for both node and edge based prediction tasks there is a body",
+          "next": "of recent work for supervised feature learning based on existing and novel graph-specific deep network architectures these architectures directly minimize the loss function for a downstream prediction task using several layers of non-linear transformations which results in high accuracy but at the cost of scalability due to high training time requirements feature learning framework we formulate feature learning in networks as a maximum likelihood optimization problem let g v e be a given network our analysis is general and applies"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "limitation",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "limitation cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6105,
+        "downstream_relevance_score": 0.5051,
+        "components": {
+          "bio_boundary_score": 0.6498,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sampling",
+          "strategy"
+        ],
+        "normalization": "sampling strategy",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sampling strategy",
+          "canonical": "sampling strategy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6498",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence cue lexicon matched limitation, algorithm",
+        "downstream relevance score is 0.5051"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "spectral clustering",
+        "canonical": "spectral clustering",
+        "normalized": "spectral clustering",
+        "tokens": [
+          "spectral",
+          "clustering"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 77,
+        "sentence": "0 00 0 05 0 10 0 15 0 20 0 25 0 30 spectral clustering deepwalk line node2vec figure performance of different benchmarks on varying the amount of labeled data used for training the x axis denotes the fraction of labeled data whereas the y axis in the top and bottom rows denote the micro-f1 and macro-f1 scores respectively deepwalk and node2vec give comparable performance on ppi in all other networks across all fractions of labeled data node2vec performs",
+        "context_window": {
+          "previous": "0 00 0 05 0 10 0 15 0 20 0 25 0 30 ppi homo sapiens 0 0 0 2 0 4 0 6 0 8 1 0 0 00 0 05 0 10 0 15 0 20 0 25 0 30 0 0 0 2 0 4 0 6 0 8 1 0 0 35 0 40 0 45 0 50 0 55 0 60 wikipedia 0 0 0 2 0 4 0 6 0 8 1 0",
+          "current": "0 00 0 05 0 10 0 15 0 20 0 25 0 30 spectral clustering deepwalk line node2vec figure performance of different benchmarks on varying the amount of labeled data used for training the x axis denotes the fraction of labeled data whereas the y axis in the top and bottom rows denote the micro-f1 and macro-f1 scores respectively deepwalk and node2vec give comparable performance on ppi in all other networks across all fractions of labeled data node2vec performs",
+          "next": "best in the pos tags due to syntactic grammar patterns such as nouns following determiners punctuations succeeding nouns etc experimental results the node feature representations are input to a one-vs-rest logistic regression classifier with l2 regularization the train and test data is split equally over 10 random instances we use the macro-f1 scores for comparing performance in table and the relative performance gain is over the closest benchmark the trends are similar for micro-f1 and accuracy and are not shown"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "evaluation_metric",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6436,
+        "downstream_relevance_score": 0.5015,
+        "components": {
+          "bio_boundary_score": 0.7481,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "spectral",
+          "clustering"
+        ],
+        "normalization": "spectral clustering",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "spectral clustering",
+          "canonical": "spectral clustering",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7481",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5015"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "single epoch",
+        "canonical": "single epoch",
+        "normalized": "single epoch",
+        "tokens": [
+          "single",
+          "epoch"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 70,
+        "sentence": "l 80 k 10 and the optimization is run for a single epoch we repeat our experiments for 10 random seed initializations and our results are statistically significant with a p-value of less than 0 01 the best in-out and return hyperparameters were learned using 10-fold cross-validation on 10 labeled data with a grid search over p q 0 25 0 50 1 2 4 multi-label classification in the multi-label classification setting every node is assigned one or more labels",
+        "context_window": {
+          "previous": "second both node2vec and deepwalk have a parameter for the number of context neighborhood nodes to optimize for and the greater the number the more rounds of optimization are required this parameter is set to unity for line but since line completes a single epoch quicker than other approaches we let it run for k epochs the parameter settings used for node2vec are in line with typical values used for deepwalk and line specifically we set d 128 r 10",
+          "current": "l 80 k 10 and the optimization is run for a single epoch we repeat our experiments for 10 random seed initializations and our results are statistically significant with a p-value of less than 0 01 the best in-out and return hyperparameters were learned using 10-fold cross-validation on 10 labeled data with a grid search over p q 0 25 0 50 1 2 4 multi-label classification in the multi-label classification setting every node is assigned one or more labels",
+          "next": "from a finite set l during the training phase we observe a certain fraction of nodes and all their labels the task is to predict the labels for the remaining nodes this is a challenging task especially if l is large we utilize the following datasets blogcatalog this is a network of social relationships of the bloggers listed on the blogcatalog website the labels represent blogger interests inferred through the metadata provided by the bloggers the network has 10 312"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6958,
+        "downstream_relevance_score": 0.4964,
+        "components": {
+          "bio_boundary_score": 0.7946,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "single",
+          "epoch"
+        ],
+        "normalization": "single epoch",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "single epoch",
+          "canonical": "single epoch",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7946",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4964"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "sample",
+        "canonical": "sample",
+        "normalized": "sample",
+        "tokens": [
+          "sample"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 41,
+        "sentence": "is hard given we have a constrain on the sample size and a large neighborhood to explore resulting in high variance secondly moving to much greater depths leads to complex dependencies since a sampled node may be far from the source and potentially less representative node2vec building on the above observations we design a flexible neighborhood sampling strategy which allows us to smoothly interpolate between bfs and dfs we achieve this by developing a flexible biased random walk procedure that",
+        "context_window": {
+          "previous": "dfs which can explore larger parts of the network as it can move further away from the source node u with sample size k being fixed in dfs the sampled nodes more accurately reflect a macro-view of the neighborhood which is essential in inferring communities based on homophily however the issue with dfs is that it is important to not only infer which node-to-node dependencies exist in a network but also to characterize the exact nature of these dependencies this",
+          "current": "is hard given we have a constrain on the sample size and a large neighborhood to explore resulting in high variance secondly moving to much greater depths leads to complex dependencies since a sampled node may be far from the source and potentially less representative node2vec building on the above observations we design a flexible neighborhood sampling strategy which allows us to smoothly interpolate between bfs and dfs we achieve this by developing a flexible biased random walk procedure that",
+          "next": "can explore neighborhoods in a bfs as well as dfs fashion random walks formally given a source node u we simulate a random walk of fixed length l let ci denote the ith node in the walk starting with c0 u nodes ci are generated by the following distribution p ci x ci-1 v vx z if v x e 0 otherwise where vx is the unnormalized transition probability between nodes v and x and z is the normalizing constant"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6188,
+        "downstream_relevance_score": 0.4814,
+        "components": {
+          "bio_boundary_score": 0.5292,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sample"
+        ],
+        "normalization": "sample",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sample",
+          "canonical": "sample",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5292",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.4814"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "feature extraction",
+        "canonical": "feature extraction",
+        "normalized": "feature extraction",
+        "tokens": [
+          "feature",
+          "extraction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 22,
+        "sentence": "features based on network properties in contrast our goal is to automate the whole process by casting feature extraction as a representation learning problem in which case we do not require any hand-engineered features unsupervised feature learning approaches typically exploit the spectral properties of various matrix representations of graphs especially the laplacian and the adjacency matrices under this linear algebra perspective these methods can be viewed as dimensionality reduction techniques several linear e g pca and non-linear e g isomap",
+        "context_window": {
+          "previous": "sensitivity perturbation analysis and scalability aspects of our algorithm we conclude with a discussion of the node2vec framework and highlight some promising directions for future work in section 5 datasets and a reference implementation of node2vec are available on the project page related work feature engineering has been extensively studied by the machine learning community under various headings in networks the conventional paradigm for generating features for nodes is based on feature extraction techniques which typically involve some seed hand-crafted",
+          "current": "features based on network properties in contrast our goal is to automate the whole process by casting feature extraction as a representation learning problem in which case we do not require any hand-engineered features unsupervised feature learning approaches typically exploit the spectral properties of various matrix representations of graphs especially the laplacian and the adjacency matrices under this linear algebra perspective these methods can be viewed as dimensionality reduction techniques several linear e g pca and non-linear e g isomap",
+          "next": "dimensionality reduction techniques have been proposed these methods suffer from both computational and statistical performance drawbacks in terms of computational efficiency eigendecomposition of a data matrix is expensive unless the solution quality is significantly compromised with approximations and hence these methods are hard to scale to large networks secondly these methods optimize for objectives that are not robust to the diverse patterns observed in networks such as homophily and structural equivalence and make assumptions about the relationship between the underlying"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.692,
+        "downstream_relevance_score": 0.4774,
+        "components": {
+          "bio_boundary_score": 0.9287,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "extraction"
+        ],
+        "normalization": "feature extraction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature extraction",
+          "canonical": "feature extraction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9287",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4774"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "matrix factorization",
+        "canonical": "matrix factorization",
+        "normalized": "matrix factorization",
+        "tokens": [
+          "matrix",
+          "factorization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 64,
+        "sentence": "our experiments these equivalence notions are commonly exhibited in most real-world networks and have a significant impact on the performance of the learned representations for prediction tasks our experiments evaluate the feature representations obtained through node2vec on standard supervised learning tasks multilabel classification for nodes and link prediction for edges for both tasks we evaluate the performance of node2vec against the following feature learning algorithms spectral clustering this is a matrix factorization approach in which we take the top d",
+        "context_window": {
+          "previous": "the colors correspond to structural equivalence as illustrated in figure bottom for instance node2vec embeds blue-colored nodes close together these nodes represent characters that act as bridges between different sub-plots of the novel similarly the yellow nodes mostly represent characters that are at the periphery and have limited interactions one could assign alternate semantic interpretations to these clusters of nodes but the key takeaway is that node2vec is not tied to a particular notion of equivalence as we show through",
+          "current": "our experiments these equivalence notions are commonly exhibited in most real-world networks and have a significant impact on the performance of the learned representations for prediction tasks our experiments evaluate the feature representations obtained through node2vec on standard supervised learning tasks multilabel classification for nodes and link prediction for edges for both tasks we evaluate the performance of node2vec against the following feature learning algorithms spectral clustering this is a matrix factorization approach in which we take the top d",
+          "next": "eigenvectors of the normalized laplacian matrix of graph g as the feature vector representations for nodes deepwalk this approach learns d-dimensional feature representations by simulating uniform random walks the sampling strategy in deepwalk can be seen as a special case of node2vec with p 1 and q 1 line this approach learns d-dimensional feature representations in two separate phases in the first phase it learns d 2 dimensions by bfs-style simulations over immediate neighbors of nodes in the second phase"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6425,
+        "downstream_relevance_score": 0.4687,
+        "components": {
+          "bio_boundary_score": 0.6108,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "matrix",
+          "factorization"
+        ],
+        "normalization": "matrix factorization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "matrix factorization",
+          "canonical": "matrix factorization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6108",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4687"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "structural equivalence",
+        "canonical": "structural equivalence",
+        "normalized": "structural equivalence",
+        "tokens": [
+          "structural",
+          "equivalence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 63,
+        "sentence": "the colors correspond to structural equivalence as illustrated in figure bottom for instance node2vec embeds blue-colored nodes close together these nodes represent characters that act as bridges between different sub-plots of the novel similarly the yellow nodes mostly represent characters that are at the periphery and have limited interactions one could assign alternate semantic interpretations to these clusters of nodes but the key takeaway is that node2vec is not tied to a particular notion of equivalence as we show through",
+        "context_window": {
+          "previous": "frequently interact with each other in the major sub-plots of the novel since the edges between characters are based on coappearances we can conclude this characterization closely relates with homophily in order to discover which nodes have the same structural roles we use the same network but set p 1 q 2 use node2vec to get node features and then cluster the nodes based on the obtained features here node2vec obtains a complementary assignment of node to clusters such that",
+          "current": "the colors correspond to structural equivalence as illustrated in figure bottom for instance node2vec embeds blue-colored nodes close together these nodes represent characters that act as bridges between different sub-plots of the novel similarly the yellow nodes mostly represent characters that are at the periphery and have limited interactions one could assign alternate semantic interpretations to these clusters of nodes but the key takeaway is that node2vec is not tied to a particular notion of equivalence as we show through",
+          "next": "our experiments these equivalence notions are commonly exhibited in most real-world networks and have a significant impact on the performance of the learned representations for prediction tasks our experiments evaluate the feature representations obtained through node2vec on standard supervised learning tasks multilabel classification for nodes and link prediction for edges for both tasks we evaluate the performance of node2vec against the following feature learning algorithms spectral clustering this is a matrix factorization approach in which we take the top d"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6225,
+        "downstream_relevance_score": 0.4637,
+        "components": {
+          "bio_boundary_score": 0.5788,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "structural",
+          "equivalence"
+        ],
+        "normalization": "structural equivalence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "structural equivalence",
+          "canonical": "structural equivalence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5788",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4637"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "network community",
+        "canonical": "network community",
+        "normalized": "network community",
+        "tokens": [
+          "network",
+          "community"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 12,
+        "sentence": "instance in figure we observe nodes u and s1 belonging to the same tightly knit community of nodes while the nodes u and s6 in the two distinct communities share the same structural role of a hub node real-world networks commonly exhibit a mixture of such equivalences thus it is essential to allow for a flexible algorithm that can learn node representations obeying both principles ability to learn representations that embed nodes from the same network community closely together as",
+        "context_window": {
+          "previous": "akin to backpropogation on just single hidden-layer feedforward neural networks recent attempts in this direction propose efficient algorithms but rely on a rigid notion of a network neighborhood which results in these approaches being largely insensitive to connectivity patterns unique to networks specifically nodes in networks could be organized based on communities they belong to i e homophily in other cases the organization could be based on the structural roles of nodes in the network i e structural equivalence for",
+          "current": "instance in figure we observe nodes u and s1 belonging to the same tightly knit community of nodes while the nodes u and s6 in the two distinct communities share the same structural role of a hub node real-world networks commonly exhibit a mixture of such equivalences thus it is essential to allow for a flexible algorithm that can learn node representations obeying both principles ability to learn representations that embed nodes from the same network community closely together as",
+          "next": "well as to learn representations where nodes that share similar roles have similar embeddings this would allow feature learning algorithms to generalize across a wide variety of domains and prediction tasks present work we propose node2vec a semi-supervised algorithm for scalable feature learning in networks we optimize a custom graph-based objective function using sgd motivated by"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5903,
+        "downstream_relevance_score": 0.4595,
+        "components": {
+          "bio_boundary_score": 0.586,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "network",
+          "community"
+        ],
+        "normalization": "network community",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "network community",
+          "canonical": "network community",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.586",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.4595"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "best performance",
+        "canonical": "best performance",
+        "normalized": "best performance",
+        "tokens": [
+          "best",
+          "performance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 97,
+        "sentence": "and gives the best performance on average across all networks discussion and",
+        "context_window": {
+          "previous": "adamic-adar amongst the feature learning algorithms node2vec outperforms both deepwalk and line in all networks with gain up to 3 8 and 6 5 respectively in the auc scores for the best possible choices of the binary operator for each algorithm when we look at operators individually table node2vec outperforms deepwalk and line barring a couple of cases involving the weighted-l1 and weighted-l2 operators in which line performs better overall the hadamard operator when used with node2vec is highly stable",
+          "current": "and gives the best performance on average across all networks discussion and",
+          "next": "in this paper we studied feature learning in networks as a searchbased optimization problem this perspective gives us multiple advantages the exploration-exploitation trade-off additionally it provides a degree of interpretability to the learned representations when applied for a prediction task for instance we observed that bfs can explore only limited neighborhoods this makes bfs suitable for characterizing structural equivalences in network that rely on the immediate local structure of nodes on the other hand dfs can freely explore network neighborhoods"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6221,
+        "downstream_relevance_score": 0.4581,
+        "components": {
+          "bio_boundary_score": 0.6542,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "best",
+          "performance"
+        ],
+        "normalization": "best performance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "best performance",
+          "canonical": "best performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6542",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4581"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "node2vec",
+        "canonical": "node2vec",
+        "normalized": "node2vec",
+        "tokens": [
+          "node2vec"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 16,
+        "sentence": "these parameters can also be learned directly using a tiny fraction of labeled data in a semisupervised fashion we also show how feature representations of individual nodes can be extended to pairs of nodes i e edges in order to generate feature representations of edges we compose the learned feature representations of the individual nodes using simple binary operators this compositionality lends node2vec to prediction tasks involving nodes as well as edges our experiments focus on two common prediction tasks",
+        "context_window": {
+          "previous": "belong to we achieve this by developing a family of biased random walks which efficiently explore diverse neighborhoods of a given node the resulting algorithm is flexible giving us control over the search space through tunable parameters in contrast to rigid search procedures in prior work consequently our method generalizes and can model the full spectrum of equivalences observed in networks the parameters governing our search strategy have an intuitive interpretation and bias the walk towards different network exploration strategies",
+          "current": "these parameters can also be learned directly using a tiny fraction of labeled data in a semisupervised fashion we also show how feature representations of individual nodes can be extended to pairs of nodes i e edges in order to generate feature representations of edges we compose the learned feature representations of the individual nodes using simple binary operators this compositionality lends node2vec to prediction tasks involving nodes as well as edges our experiments focus on two common prediction tasks",
+          "next": "in networks a multi-label classification task where every node is assigned one or more class labels and a link prediction task where we predict the existence of an edge given a pair of nodes we contrast the performance of node2vec with state-of-the-art feature learning algorithms we"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6683,
+        "downstream_relevance_score": 0.4551,
+        "components": {
+          "bio_boundary_score": 0.8503,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "node2vec"
+        ],
+        "normalization": "node2vec",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "node2vec",
+          "canonical": "node2vec",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8503",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.4551"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "social network",
+        "canonical": "social network",
+        "normalized": "social network",
+        "tokens": [
+          "social",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 73,
+        "sentence": "the part-of-speech pos tags inferred using the stanford pos-tagger the network has 4 777 nodes 184 812 edges and 40 different labels all these networks exhibit a fair mix of homophilic and structural equivalences for example we expect the social network of bloggers to exhibit strong homophily-based relationships however there might also be some familiar strangers i e bloggers that do not interact but share interests and hence are structurally equivalent nodes the biological states of proteins in a protein-protein",
+        "context_window": {
+          "previous": "nodes 333 983 edges and 39 different labels protein-protein interactions ppi we use a subgraph of the ppi network for homo sapiens the subgraph corresponds to the graph induced by nodes for which we could obtain labels from the hallmark gene sets and represent biological states the network has 3 890 nodes 76 584 edges and 50 different labels wikipedia this is a cooccurrence network of words appearing in the first million bytes of the wikipedia dump the labels represent",
+          "current": "the part-of-speech pos tags inferred using the stanford pos-tagger the network has 4 777 nodes 184 812 edges and 40 different labels all these networks exhibit a fair mix of homophilic and structural equivalences for example we expect the social network of bloggers to exhibit strong homophily-based relationships however there might also be some familiar strangers i e bloggers that do not interact but share interests and hence are structurally equivalent nodes the biological states of proteins in a protein-protein",
+          "next": "interaction network also exhibit both types of equivalences for example they exhibit structural equivalence when proteins perform functions complementary to those of neighboring proteins and at other times they organize based on homophily in assisting neighboring proteins in performing similar functions the word cooccurence network is fairly dense since edges exist between words cooccuring in a 2length window in the wikipedia corpus hence words having the same pos tags are not hard to find lending a high degree of homophily"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6264,
+        "downstream_relevance_score": 0.4434,
+        "components": {
+          "bio_boundary_score": 0.7446,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "social",
+          "network"
+        ],
+        "normalization": "social network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "social network",
+          "canonical": "social network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7446",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4434"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "network structure",
+        "canonical": "network structure",
+        "normalized": "network structure",
+        "tokens": [
+          "network",
+          "structure"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 43,
+        "sentence": "search bias the simplest way to bias our random walks would be to sample the next node based on the static edge weights wvx i e vx wvx in case of unweighted graphs wvx 1 however this does not allow us to account for the network structure and guide our search procedure to explore different types of network neighborhoods additionally unlike bfs and dfs which are extreme sampling paradigms suited for structural equivalence and homophily respectively our random walks should",
+        "context_window": {
+          "previous": "can explore neighborhoods in a bfs as well as dfs fashion random walks formally given a source node u we simulate a random walk of fixed length l let ci denote the ith node in the walk starting with c0 u nodes ci are generated by the following distribution p ci x ci-1 v vx z if v x e 0 otherwise where vx is the unnormalized transition probability between nodes v and x and z is the normalizing constant",
+          "current": "search bias the simplest way to bias our random walks would be to sample the next node based on the static edge weights wvx i e vx wvx in case of unweighted graphs wvx 1 however this does not allow us to account for the network structure and guide our search procedure to explore different types of network neighborhoods additionally unlike bfs and dfs which are extreme sampling paradigms suited for structural equivalence and homophily respectively our random walks should",
+          "next": "accommodate for the fact that these notions of equivalence are not competing or exclusive and real-world networks commonly exhibit a mixture of both we define a 2 nd order random walk with two parameters p and q which guide the walk consider a random walk that just traversed edge t v and now resides at node v figure the walk now needs to decide on the next step so it evaluates the transition probabilities vx on edges v x leading"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6123,
+        "downstream_relevance_score": 0.436,
+        "components": {
+          "bio_boundary_score": 0.6767,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "network",
+          "structure"
+        ],
+        "normalization": "network structure",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "network structure",
+          "canonical": "network structure",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6767",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.436"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "local search",
+        "canonical": "local search",
+        "normalized": "local search",
+        "tokens": [
+          "local",
+          "search"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 34,
+        "sentence": "to just immediate neighbors but can have vastly different structures depending on the sampling strategy s classic search strategies we view the problem of sampling neighborhoods of a source node as a form of local search figure shows a graph where given a source node u we aim to generate sample its neighborhood ns u importantly to be able to fairly compare different sampling strategies s we shall constrain the size of the neighborhood set ns to k nodes and",
+        "context_window": {
+          "previous": "methods based on the skip-gram architecture have been originally developed in the context of natural language given the linear nature of text the notion of a neighborhood can be naturally defined using a sliding window over consecutive words networks however are not linear and thus a richer notion of a neighborhood is needed to resolve this issue we propose a randomized procedure that samples many different neighborhoods of a given source node u the neighborhoods ns u are not restricted",
+          "current": "to just immediate neighbors but can have vastly different structures depending on the sampling strategy s classic search strategies we view the problem of sampling neighborhoods of a source node as a form of local search figure shows a graph where given a source node u we aim to generate sample its neighborhood ns u importantly to be able to fairly compare different sampling strategies s we shall constrain the size of the neighborhood set ns to k nodes and",
+          "next": "then sample multiple sets for a single node u generally there are two extreme sampling strategies for generating neighborhood set s ns of k nodes breadth-first sampling bfs the neighborhood ns is restricted to nodes which are immediate neighbors of the source for example in figure for a neighborhood of size k 3 bfs samples nodes s1 s2 s3 depth-first sampling dfs the neighborhood consists of nodes sequentially sampled at increasing distances from the source node in figure dfs samples"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_objective",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6013,
+        "downstream_relevance_score": 0.4345,
+        "components": {
+          "bio_boundary_score": 0.5314,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "local",
+          "search"
+        ],
+        "normalization": "local search",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "local search",
+          "canonical": "local search",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5314",
+        "structure model assigned role 'objective' with score 0.66",
+        "downstream relevance score is 0.4345"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "search bias",
+        "canonical": "search bias",
+        "normalized": "search bias",
+        "tokens": [
+          "search",
+          "bias"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 43,
+        "sentence": "search bias the simplest way to bias our random walks would be to sample the next node based on the static edge weights wvx i e vx wvx in case of unweighted graphs wvx 1 however this does not allow us to account for the network structure and guide our search procedure to explore different types of network neighborhoods additionally unlike bfs and dfs which are extreme sampling paradigms suited for structural equivalence and homophily respectively our random walks should",
+        "context_window": {
+          "previous": "can explore neighborhoods in a bfs as well as dfs fashion random walks formally given a source node u we simulate a random walk of fixed length l let ci denote the ith node in the walk starting with c0 u nodes ci are generated by the following distribution p ci x ci-1 v vx z if v x e 0 otherwise where vx is the unnormalized transition probability between nodes v and x and z is the normalizing constant",
+          "current": "search bias the simplest way to bias our random walks would be to sample the next node based on the static edge weights wvx i e vx wvx in case of unweighted graphs wvx 1 however this does not allow us to account for the network structure and guide our search procedure to explore different types of network neighborhoods additionally unlike bfs and dfs which are extreme sampling paradigms suited for structural equivalence and homophily respectively our random walks should",
+          "next": "accommodate for the fact that these notions of equivalence are not competing or exclusive and real-world networks commonly exhibit a mixture of both we define a 2 nd order random walk with two parameters p and q which guide the walk consider a random walk that just traversed edge t v and now resides at node v figure the walk now needs to decide on the next step so it evaluates the transition probabilities vx on edges v x leading"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5997,
+        "downstream_relevance_score": 0.4295,
+        "components": {
+          "bio_boundary_score": 0.6336,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "search",
+          "bias"
+        ],
+        "normalization": "search bias",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "search bias",
+          "canonical": "search bias",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6336",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4295"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "search",
+        "canonical": "search",
+        "normalized": "search",
+        "tokens": [
+          "search"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 43,
+        "sentence": "search bias the simplest way to bias our random walks would be to sample the next node based on the static edge weights wvx i e vx wvx in case of unweighted graphs wvx 1 however this does not allow us to account for the network structure and guide our search procedure to explore different types of network neighborhoods additionally unlike bfs and dfs which are extreme sampling paradigms suited for structural equivalence and homophily respectively our random walks should",
+        "context_window": {
+          "previous": "can explore neighborhoods in a bfs as well as dfs fashion random walks formally given a source node u we simulate a random walk of fixed length l let ci denote the ith node in the walk starting with c0 u nodes ci are generated by the following distribution p ci x ci-1 v vx z if v x e 0 otherwise where vx is the unnormalized transition probability between nodes v and x and z is the normalizing constant",
+          "current": "search bias the simplest way to bias our random walks would be to sample the next node based on the static edge weights wvx i e vx wvx in case of unweighted graphs wvx 1 however this does not allow us to account for the network structure and guide our search procedure to explore different types of network neighborhoods additionally unlike bfs and dfs which are extreme sampling paradigms suited for structural equivalence and homophily respectively our random walks should",
+          "next": "accommodate for the fact that these notions of equivalence are not competing or exclusive and real-world networks commonly exhibit a mixture of both we define a 2 nd order random walk with two parameters p and q which guide the walk consider a random walk that just traversed edge t v and now resides at node v figure the walk now needs to decide on the next step so it evaluates the transition probabilities vx on edges v x leading"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5815,
+        "downstream_relevance_score": 0.41,
+        "components": {
+          "bio_boundary_score": 0.5713,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "search"
+        ],
+        "normalization": "search",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "search",
+          "canonical": "search",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5713",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.41"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 37,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In doing so, we discount for performance gain observed purely because of the implementation language (C/C++/Python) since it is secondary to the algorithm.",
+        "evidence_type": "result",
+        "matched_cue": "performance gain",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "A general observation we can draw from the results is that the learned feature representations for node pairs significantly outperform the heuristic benchmark scores with node2vec achieving the best AUC improvement on 12.6% on the arXiv dataset over the best performing baseline (Adamic-Adar ).",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Amongst the feature learning algorithms, node2vec outperforms both DeepWalk and LINE in all networks with gain up to 3.8% and 6.5% respectively in the AUC scores for the best possible choices of the binary operator for each algorithm.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "When we look at operators individually (Table ), node2vec outperforms DeepWalk and LINE barring a couple of cases involving the Weighted-L1 and Weighted-L2 operators in which LINE performs better.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "The obvious limitation with such a strategy is that it gives us no control over the explored neighborhoods.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "As a future work, we would like to explore the reasons behind the success of Hadamard operator over others, as well as establish interpretable equivalence notions for edges based on the search parameters.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Feature learning methods based on the Skip-gram architecture have been originally developed in the context of natural language .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "To resolve this issue, we propose a randomized procedure that samples many different neighborhoods of a given source node u.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "As we can see in Figure (top), the decrease in Macro-F1 score as the fraction of missing edges increases is roughly linear with a small slope.",
+        "evidence_type": "metric",
+        "matched_cue": "F1",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "As shown in Figure (bottom), the performance of node2vec declines slightly faster initially when compared with the setting of missing edges, however, the rate of decrease in Macro-F1 score gradually slows down over time.",
+        "evidence_type": "metric",
+        "matched_cue": "F1",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "A general observation we can draw from the results is that the learned feature representations for node pairs significantly outperform the heuristic benchmark scores with node2vec achieving the best AUC improvement on 12.6% on the arXiv dataset over the best performing baseline (Adamic-Adar ).",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "A general observation we can draw from the results is that the learned feature representations for node pairs significantly outperform the heuristic benchmark scores with node2vec achieving the best AUC improvement on 12.6% on the arXiv dataset over the best performing baseline (Adamic-Adar ).",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "A general observation we can draw from the results is that the learned feature representations for node pairs significantly outperform the heuristic benchmark scores with node2vec achieving the best AUC improvement on 12.6% on the arXiv dataset over the best performing baseline (Adamic-Adar ).",
+        "evidence_type": "metric",
+        "matched_cue": "AUC",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Amongst the feature learning algorithms, node2vec outperforms both DeepWalk and LINE in all networks with gain up to 3.8% and 6.5% respectively in the AUC scores for the best possible choices of the binary operator for each algorithm.",
+        "evidence_type": "metric",
+        "matched_cue": "AUC",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "We proceed by extending the Skip-gram architecture to networks .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.87
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Algorithm 1 The node2vec algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.87
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The pseudocode for node2vec, is given in Algorithm 1.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "However, present feature learning approaches are not expressive enough to capture the diversity of connectivity patterns observed in networks.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Here we propose node2vec, an algorithmic framework for learning continuous feature representations for nodes in networks.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Here we propose node2vec, an algorithmic framework for learning continuous feature representations for nodes in networks.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We define a flexible notion of a node's network neighborhood and design a biased random walk procedure, which efficiently explores diverse neighborhoods.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our algorithm generalizes prior work which is based on rigid notions of network neighborhoods, and we argue that the added flexibility in exploring neighborhoods is the key to learning richer representations.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Any supervised machine learning algorithm requires a set of informative, discriminating, and independent features.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The challenge in feature learning is defining an objective function, which involves a trade-off in balancing computational efficiency and predictive accuracy.",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The challenge in feature learning is defining an objective function, which involves a trade-off in balancing computational efficiency and predictive accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "stochastic gradient descent",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.691
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "source node",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.6356
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "logistic regression",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6238
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "blogcatalog",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6118
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "deepwalk",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6072
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "feature",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.6052
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "prediction",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5856
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "node",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.5707
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "feature learning",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.5375
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "nonlinear dimensionality reduction",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5372
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "feature representation",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.5341
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "link prediction",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5225
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "random walk",
+        "section": "experiment",
+        "role": "mechanism",
+        "score": 0.5184
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "sampling strategy",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.5051
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "spectral clustering",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5015
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "single epoch",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4964
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "sample",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4814
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "feature extraction",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.4774
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "matrix factorization",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4687
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "structural equivalence",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.4637
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "network community",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.4595
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "best performance",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4581
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "node2vec",
+        "section": "related_work",
+        "role": "mechanism",
+        "score": 0.4551
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "social network",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.4434
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "network structure",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.436
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "local search",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.4345
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "search bias",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.4295
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "search",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.41
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_025",
+        "target": "ecu_027",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_025",
+        "target": "ecu_028",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_027",
+        "target": "ecu_028",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_020",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_020",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_020",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_024",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_024",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_025",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

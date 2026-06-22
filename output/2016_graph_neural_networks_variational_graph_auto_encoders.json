@@ -1,0 +1,2126 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_graph_neural_networks_variational_graph_auto_encoders",
+    "title": "2016_graph_neural_networks_variational_graph_auto_encoders",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_graph_neural_networks_variational_graph_auto_encoders.txt",
+    "sentence_count": 15,
+    "section_counts": {
+      "intro": 7,
+      "related_work": 3,
+      "method": 1,
+      "experiment": 3,
+      "conclusion": 1
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 1124,
+    "type_count": 383,
+    "type_token_ratio": 0.3407,
+    "section_token_counts": {
+      "intro": 492,
+      "related_work": 240,
+      "method": 87,
+      "experiment": 240,
+      "conclusion": 65
+    },
+    "top_unigrams": [
+      {
+        "term": "model",
+        "count": 14
+      },
+      {
+        "term": "01",
+        "count": 14
+      },
+      {
+        "term": "02",
+        "count": 12
+      },
+      {
+        "term": "vgae",
+        "count": 11
+      },
+      {
+        "term": "gcn",
+        "count": 10
+      },
+      {
+        "term": "matrix",
+        "count": 9
+      },
+      {
+        "term": "latent",
+        "count": 8
+      },
+      {
+        "term": "citation",
+        "count": 8
+      },
+      {
+        "term": "gae",
+        "count": 8
+      },
+      {
+        "term": "84",
+        "count": 8
+      },
+      {
+        "term": "use",
+        "count": 7
+      },
+      {
+        "term": "features",
+        "count": 7
+      },
+      {
+        "term": "00",
+        "count": 7
+      },
+      {
+        "term": "link",
+        "count": 6
+      },
+      {
+        "term": "prediction",
+        "count": 6
+      },
+      {
+        "term": "node",
+        "count": 6
+      },
+      {
+        "term": "dw",
+        "count": 6
+      },
+      {
+        "term": "learning",
+        "count": 5
+      },
+      {
+        "term": "task",
+        "count": 5
+      },
+      {
+        "term": "models",
+        "count": 5
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "link prediction",
+        "count": 6
+      },
+      {
+        "term": "84 02",
+        "count": 5
+      },
+      {
+        "term": "latent variables",
+        "count": 4
+      },
+      {
+        "term": "prediction task",
+        "count": 4
+      },
+      {
+        "term": "adjacency matrix",
+        "count": 4
+      },
+      {
+        "term": "input features",
+        "count": 4
+      },
+      {
+        "term": "graph-structured data",
+        "count": 3
+      },
+      {
+        "term": "vgae model",
+        "count": 3
+      },
+      {
+        "term": "citation links",
+        "count": 3
+      },
+      {
+        "term": "inner product",
+        "count": 3
+      },
+      {
+        "term": "task citation",
+        "count": 3
+      },
+      {
+        "term": "citation networks",
+        "count": 3
+      },
+      {
+        "term": "node features",
+        "count": 3
+      },
+      {
+        "term": "predictive performance",
+        "count": 3
+      },
+      {
+        "term": "vgae gae",
+        "count": 3
+      },
+      {
+        "term": "auc ap",
+        "count": 3
+      },
+      {
+        "term": "87 01",
+        "count": 3
+      },
+      {
+        "term": "citation network",
+        "count": 2
+      },
+      {
+        "term": "unsupervised learning",
+        "count": 2
+      },
+      {
+        "term": "learning graph-structured",
+        "count": 2
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "link prediction task",
+        "count": 4
+      },
+      {
+        "term": "prediction task citation",
+        "count": 3
+      },
+      {
+        "term": "task citation networks",
+        "count": 3
+      },
+      {
+        "term": "unsupervised learning graph-structured",
+        "count": 2
+      },
+      {
+        "term": "learning graph-structured data",
+        "count": 2
+      },
+      {
+        "term": "inner product decoder",
+        "count": 2
+      },
+      {
+        "term": "results link prediction",
+        "count": 2
+      },
+      {
+        "term": "significantly improves predictive",
+        "count": 2
+      },
+      {
+        "term": "improves predictive performance",
+        "count": 2
+      },
+      {
+        "term": "reconstructed adjacency matrix",
+        "count": 2
+      },
+      {
+        "term": "validation test sets",
+        "count": 2
+      },
+      {
+        "term": "both sc dw",
+        "count": 2
+      },
+      {
+        "term": "embedding dimension 128",
+        "count": 2
+      },
+      {
+        "term": "auc ap auc",
+        "count": 2
+      },
+      {
+        "term": "ap auc ap",
+        "count": 2
+      },
+      {
+        "term": "84 02 87",
+        "count": 2
+      },
+      {
+        "term": "02 87 01",
+        "count": 2
+      },
+      {
+        "term": "84 02 82",
+        "count": 2
+      },
+      {
+        "term": "02 82 01",
+        "count": 2
+      },
+      {
+        "term": "82 01 87",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 8,
+    "nonzero_tfidf_features": 8,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__gcn",
+        "section": "intro",
+        "term": "gcn",
+        "frequency": 4.0,
+        "tfidf": 0.9055
+      },
+      {
+        "feature_name": "introduction__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 5.0,
+        "tfidf": 0.7699
+      },
+      {
+        "feature_name": "methods__sgd",
+        "section": "method",
+        "term": "sgd",
+        "frequency": 1.0,
+        "tfidf": 0.655
+      },
+      {
+        "feature_name": "methods__gradient descent",
+        "section": "method",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.5986
+      },
+      {
+        "feature_name": "methods__embeddings",
+        "section": "method",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.4612
+      },
+      {
+        "feature_name": "introduction__unsupervised learning",
+        "section": "intro",
+        "term": "unsupervised learning",
+        "frequency": 2.0,
+        "tfidf": 0.3669
+      },
+      {
+        "feature_name": "introduction__autoencoders",
+        "section": "intro",
+        "term": "autoencoders",
+        "frequency": 1.0,
+        "tfidf": 0.2178
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.1471
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__gcn",
+          "section": "intro",
+          "term": "gcn",
+          "frequency": 4.0,
+          "tfidf": 0.9055
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 5.0,
+          "tfidf": 0.7699
+        },
+        {
+          "feature_name": "introduction__unsupervised learning",
+          "section": "intro",
+          "term": "unsupervised learning",
+          "frequency": 2.0,
+          "tfidf": 0.3669
+        },
+        {
+          "feature_name": "introduction__autoencoders",
+          "section": "intro",
+          "term": "autoencoders",
+          "frequency": 1.0,
+          "tfidf": 0.2178
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1471
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.655
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.5986
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.4612
+        }
+      ],
+      "experiment": [],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 7,
+      "token_count": 492,
+      "bow_hit_count": 29,
+      "top_bow_terms": [
+        {
+          "canonical_term": "graph convolutional network",
+          "count": 12,
+          "section_prior": 0.2708,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 8,
+          "section_prior": 0.6591,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.233,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "autoencoder",
+          "count": 4,
+          "section_prior": 0.3191,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__gcn",
+          "section": "intro",
+          "term": "gcn",
+          "frequency": 4.0,
+          "tfidf": 0.9055
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 5.0,
+          "tfidf": 0.7699
+        },
+        {
+          "feature_name": "introduction__unsupervised learning",
+          "section": "intro",
+          "term": "unsupervised learning",
+          "frequency": 2.0,
+          "tfidf": 0.3669
+        },
+        {
+          "feature_name": "introduction__autoencoders",
+          "section": "intro",
+          "term": "autoencoders",
+          "frequency": 1.0,
+          "tfidf": 0.2178
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1471
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 3,
+      "token_count": 240,
+      "bow_hit_count": 10,
+      "top_bow_terms": [
+        {
+          "canonical_term": "gradient descent",
+          "count": 5,
+          "section_prior": 0.0619,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 1,
+      "token_count": 87,
+      "bow_hit_count": 7,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4706,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.655
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.5986
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.4612
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 3,
+      "token_count": 240,
+      "bow_hit_count": 1,
+      "top_bow_terms": [
+        {
+          "canonical_term": "receiver operating characteristic",
+          "count": 1,
+          "section_prior": 0.7333,
+          "confidence_score": 0.85,
+          "wiki_category": "metric"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "conclusion": {
+      "sentence_count": 1,
+      "token_count": 65,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.0493,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 3,
+          "section_prior": 0.0576,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 1,
+          "section_prior": 0.0722,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "unsupervised learning",
+        "canonical": "unsupervised learning",
+        "normalized": "unsupervised learning",
+        "tokens": [
+          "unsupervised",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "unsupervised learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 0,
+        "sentence": "body 1 a latent variable model for graph-structured data figure latent space of unsupervised vgae model trained on cora citation network dataset grey lines denote citation links colors denote document class not provided during training best viewed on screen we introduce the variational graph autoencoder vgae a framework for unsupervised learning on graph-structured data based on the variational auto-encoder vae this model makes use of latent variables and is capable of learning interpretable latent representations for undirected graphs see figure",
+        "context_window": {
+          "previous": "",
+          "current": "body 1 a latent variable model for graph-structured data figure latent space of unsupervised vgae model trained on cora citation network dataset grey lines denote citation links colors denote document class not provided during training best viewed on screen we introduce the variational graph autoencoder vgae a framework for unsupervised learning on graph-structured data based on the variational auto-encoder vae this model makes use of latent variables and is capable of learning interpretable latent representations for undirected graphs see figure",
+          "next": "we demonstrate this model using a graph convolutional network gcn encoder and a simple inner product decoder our model achieves competitive results on a link prediction task in citation networks in contrast to most existing models for unsupervised learning on graph-structured data and link prediction our model can naturally incorporate node features which significantly improves predictive performance on a number of benchmark datasets definitions we are given an undirected unweighted graph g v e with n v nodes we introduce"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5918,
+        "downstream_relevance_score": 0.7608,
+        "components": {
+          "bio_boundary_score": 0.59,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.6591,
+          "document_tfidf_score": 0.4052,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "unsupervised learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "unsupervised learning",
+        "display_term": "unsupervised learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Unsupervised_learning",
+        "wikidata_id": "Q1152135",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 11,
+        "total_frequency": 22,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__unsupervised learning",
+        "section": "intro",
+        "term": "unsupervised learning",
+        "frequency": 2.0,
+        "tfidf": 0.3669,
+        "normalized_frequency": 0.4,
+        "normalized_tfidf": 0.4052
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "unsupervised",
+          "learning"
+        ],
+        "normalization": "unsupervised learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.6591,
+        "canonicalization": {
+          "observed": "unsupervised learning",
+          "canonical": "unsupervised learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.59",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'unsupervised learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__unsupervised learning' with tf-idf 0.3669",
+        "evidence cue lexicon matched trained on, introduce, framework",
+        "downstream relevance score is 0.7608"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "inner product",
+        "canonical": "inner product",
+        "normalized": "inner product",
+        "tokens": [
+          "inner",
+          "product"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "we demonstrate this model using a graph convolutional network gcn encoder and a simple inner product decoder our model achieves competitive results on a link prediction task in citation networks in contrast to most existing models for unsupervised learning on graph-structured data and link prediction our model can naturally incorporate node features which significantly improves predictive performance on a number of benchmark datasets definitions we are given an undirected unweighted graph g v e with n v nodes we introduce",
+        "context_window": {
+          "previous": "body 1 a latent variable model for graph-structured data figure latent space of unsupervised vgae model trained on cora citation network dataset grey lines denote citation links colors denote document class not provided during training best viewed on screen we introduce the variational graph autoencoder vgae a framework for unsupervised learning on graph-structured data based on the variational auto-encoder vae this model makes use of latent variables and is capable of learning interpretable latent representations for undirected graphs see figure",
+          "current": "we demonstrate this model using a graph convolutional network gcn encoder and a simple inner product decoder our model achieves competitive results on a link prediction task in citation networks in contrast to most existing models for unsupervised learning on graph-structured data and link prediction our model can naturally incorporate node features which significantly improves predictive performance on a number of benchmark datasets definitions we are given an undirected unweighted graph g v e with n v nodes we introduce",
+          "next": "an adjacency matrix a of g we assume diagonal elements set to 1 i e every node is connected to itself and its degree matrix d we further introduce stochastic latent variables z i summarized in an n f matrix z node features are summarized in an n d matrix x inference model we take a simple inference model parameterized by a two-layer gcn q z x a n i 1 q z i x a with q z i"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "significantly improves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong improvement cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6706,
+        "downstream_relevance_score": 0.5876,
+        "components": {
+          "bio_boundary_score": 0.8594,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "inner",
+          "product"
+        ],
+        "normalization": "inner product",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "inner product",
+          "canonical": "inner product",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8594",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched significantly improves, benchmark, introduce",
+        "downstream relevance score is 0.5876"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "citation network",
+        "canonical": "citation network",
+        "normalized": "citation network",
+        "tokens": [
+          "citation",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 0,
+        "sentence": "body 1 a latent variable model for graph-structured data figure latent space of unsupervised vgae model trained on cora citation network dataset grey lines denote citation links colors denote document class not provided during training best viewed on screen we introduce the variational graph autoencoder vgae a framework for unsupervised learning on graph-structured data based on the variational auto-encoder vae this model makes use of latent variables and is capable of learning interpretable latent representations for undirected graphs see figure",
+        "context_window": {
+          "previous": "",
+          "current": "body 1 a latent variable model for graph-structured data figure latent space of unsupervised vgae model trained on cora citation network dataset grey lines denote citation links colors denote document class not provided during training best viewed on screen we introduce the variational graph autoencoder vgae a framework for unsupervised learning on graph-structured data based on the variational auto-encoder vae this model makes use of latent variables and is capable of learning interpretable latent representations for undirected graphs see figure",
+          "next": "we demonstrate this model using a graph convolutional network gcn encoder and a simple inner product decoder our model achieves competitive results on a link prediction task in citation networks in contrast to most existing models for unsupervised learning on graph-structured data and link prediction our model can naturally incorporate node features which significantly improves predictive performance on a number of benchmark datasets definitions we are given an undirected unweighted graph g v e with n v nodes we introduce"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6558,
+        "downstream_relevance_score": 0.5798,
+        "components": {
+          "bio_boundary_score": 0.8085,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "citation",
+          "network"
+        ],
+        "normalization": "citation network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "citation network",
+          "canonical": "citation network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8085",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched trained on, introduce, framework",
+        "downstream relevance score is 0.5798"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "latent variable",
+        "canonical": "latent variable",
+        "normalized": "latent variable",
+        "tokens": [
+          "latent",
+          "variable"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 0,
+        "sentence": "body 1 a latent variable model for graph-structured data figure latent space of unsupervised vgae model trained on cora citation network dataset grey lines denote citation links colors denote document class not provided during training best viewed on screen we introduce the variational graph autoencoder vgae a framework for unsupervised learning on graph-structured data based on the variational auto-encoder vae this model makes use of latent variables and is capable of learning interpretable latent representations for undirected graphs see figure",
+        "context_window": {
+          "previous": "",
+          "current": "body 1 a latent variable model for graph-structured data figure latent space of unsupervised vgae model trained on cora citation network dataset grey lines denote citation links colors denote document class not provided during training best viewed on screen we introduce the variational graph autoencoder vgae a framework for unsupervised learning on graph-structured data based on the variational auto-encoder vae this model makes use of latent variables and is capable of learning interpretable latent representations for undirected graphs see figure",
+          "next": "we demonstrate this model using a graph convolutional network gcn encoder and a simple inner product decoder our model achieves competitive results on a link prediction task in citation networks in contrast to most existing models for unsupervised learning on graph-structured data and link prediction our model can naturally incorporate node features which significantly improves predictive performance on a number of benchmark datasets definitions we are given an undirected unweighted graph g v e with n v nodes we introduce"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6227,
+        "downstream_relevance_score": 0.5626,
+        "components": {
+          "bio_boundary_score": 0.6955,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "latent",
+          "variable"
+        ],
+        "normalization": "latent variable",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "latent variable",
+          "canonical": "latent variable",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6955",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched trained on, introduce, framework",
+        "downstream relevance score is 0.5626"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "degree matrix",
+        "canonical": "degree matrix",
+        "normalized": "degree matrix",
+        "tokens": [
+          "degree",
+          "matrix"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "an adjacency matrix a of g we assume diagonal elements set to 1 i e every node is connected to itself and its degree matrix d we further introduce stochastic latent variables z i summarized in an n f matrix z node features are summarized in an n d matrix x inference model we take a simple inference model parameterized by a two-layer gcn q z x a n i 1 q z i x a with q z i",
+        "context_window": {
+          "previous": "we demonstrate this model using a graph convolutional network gcn encoder and a simple inner product decoder our model achieves competitive results on a link prediction task in citation networks in contrast to most existing models for unsupervised learning on graph-structured data and link prediction our model can naturally incorporate node features which significantly improves predictive performance on a number of benchmark datasets definitions we are given an undirected unweighted graph g v e with n v nodes we introduce",
+          "current": "an adjacency matrix a of g we assume diagonal elements set to 1 i e every node is connected to itself and its degree matrix d we further introduce stochastic latent variables z i summarized in an n f matrix z node features are summarized in an n d matrix x inference model we take a simple inference model parameterized by a two-layer gcn q z x a n i 1 q z i x a with q z i",
+          "next": "x a n z i i diag 2 i here gcn x a is the matrix of mean vectors i similarly log gcn x a the two-layer gcn is defined as gcn x a relu xw 0 w 1 with weight matrices w i gcn x a and gcn x a share first-layer parameters w 0 relu max 0 and d -1 2 ad -1 2 is the symmetrically normalized adjacency matrix generative model our generative model is given by"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6221,
+        "downstream_relevance_score": 0.5141,
+        "components": {
+          "bio_boundary_score": 0.7156,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "degree",
+          "matrix"
+        ],
+        "normalization": "degree matrix",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "degree matrix",
+          "canonical": "degree matrix",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7156",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence cue lexicon matched introduce",
+        "downstream relevance score is 0.5141"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "adjacency matrix",
+        "canonical": "adjacency matrix",
+        "normalized": "adjacency matrix",
+        "tokens": [
+          "adjacency",
+          "matrix"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 3,
+        "sentence": "x a n z i i diag 2 i here gcn x a is the matrix of mean vectors i similarly log gcn x a the two-layer gcn is defined as gcn x a relu xw 0 w 1 with weight matrices w i gcn x a and gcn x a share first-layer parameters w 0 relu max 0 and d -1 2 ad -1 2 is the symmetrically normalized adjacency matrix generative model our generative model is given by",
+        "context_window": {
+          "previous": "an adjacency matrix a of g we assume diagonal elements set to 1 i e every node is connected to itself and its degree matrix d we further introduce stochastic latent variables z i summarized in an n f matrix z node features are summarized in an n d matrix x inference model we take a simple inference model parameterized by a two-layer gcn q z x a n i 1 q z i x a with q z i",
+          "current": "x a n z i i diag 2 i here gcn x a is the matrix of mean vectors i similarly log gcn x a the two-layer gcn is defined as gcn x a relu xw 0 w 1 with weight matrices w i gcn x a and gcn x a share first-layer parameters w 0 relu max 0 and d -1 2 ad -1 2 is the symmetrically normalized adjacency matrix generative model our generative model is given by",
+          "next": "an inner product between latent variables p a z n i 1 n j 1 p a ij z i z j with p a ij 1 z i z j z i z j where a ij are the elements of a and is the logistic sigmoid function learning we optimize the variational lower bound l w r t the variational parameters w i l e q z x a log p a z -kl q z x a"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6447,
+        "downstream_relevance_score": 0.4908,
+        "components": {
+          "bio_boundary_score": 0.7907,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adjacency",
+          "matrix"
+        ],
+        "normalization": "adjacency matrix",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adjacency matrix",
+          "canonical": "adjacency matrix",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7907",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.4908"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "link prediction task",
+        "canonical": "link prediction task",
+        "normalized": "link prediction task",
+        "tokens": [
+          "link",
+          "prediction",
+          "task"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 10,
+        "sentence": "we use a 32-dim hidden layer and 16-dim latent variables in all experiments for sc we use the implementation from with an embedding dimension of 128 for dw we use the implementation provided by the authors of with standard settings used in their paper i e embedding dimension of 128 10 random walks of length 80 per node and a context size of 10 trained for a single epoch discussion results for the link prediction task in citation networks are summarized in table gae and vgae denote",
+        "context_window": {
+          "previous": "for 200 iterations using adam with a learning rate of 0 01",
+          "current": "we use a 32-dim hidden layer and 16-dim latent variables in all experiments for sc we use the implementation from with an embedding dimension of 128 for dw we use the implementation provided by the authors of with standard settings used in their paper i e embedding dimension of 128 10 random walks of length 80 per node and a context size of 10 trained for a single epoch discussion results for the link prediction task in citation networks are summarized in table gae and vgae denote",
+          "next": "without using input features gae and vgae use input features we report area under the roc curve auc and average precision ap scores for each model on the test set numbers show mean results and standard error for 10 runs with random initializations on fixed dataset splits table link prediction task in citation networks see for dataset details method cora citeseer pubmed auc ap auc ap auc ap sc 84 6 0 01 88 5 0 00 80 5 0"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6528,
+        "downstream_relevance_score": 0.4798,
+        "components": {
+          "bio_boundary_score": 0.8352,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "link",
+          "prediction",
+          "task"
+        ],
+        "normalization": "link prediction task",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "link prediction task",
+          "canonical": "link prediction task",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8352",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4798"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "adam",
+        "canonical": "adam",
+        "normalized": "adam",
+        "tokens": [
+          "adam"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 9,
+        "sentence": "for 200 iterations using adam with a learning rate of 0 01",
+        "context_window": {
+          "previous": "of citation links respectively the validation set is used for optimization of hyperparameters we compare against two popular baselines spectral clustering sc and deepwalk dw both sc and dw provide node embeddings z we use eq 4 left side to calculate scores for elements of the reconstructed adjacency matrix we omit recent variants of dw due to comparable performance both sc and dw do not support input features for vgae and gae we initialize weights as described in we train",
+          "current": "for 200 iterations using adam with a learning rate of 0 01",
+          "next": "we use a 32-dim hidden layer and 16-dim latent variables in all experiments for sc we use the implementation from with an embedding dimension of 128 for dw we use the implementation provided by the authors of with standard settings used in their paper i e embedding dimension of 128 10 random walks of length 80 per node and a context size of 10 trained for a single epoch discussion results for the link prediction task in citation networks are summarized in table gae and vgae denote"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6198,
+        "downstream_relevance_score": 0.4679,
+        "components": {
+          "bio_boundary_score": 0.7116,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adam"
+        ],
+        "normalization": "adam",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "adam",
+          "canonical": "adam",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7116",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.4679"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "gae",
+        "canonical": "gae",
+        "normalized": "gae",
+        "tokens": [
+          "gae"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 11,
+        "sentence": "without using input features gae and vgae use input features we report area under the roc curve auc and average precision ap scores for each model on the test set numbers show mean results and standard error for 10 runs with random initializations on fixed dataset splits table link prediction task in citation networks see for dataset details method cora citeseer pubmed auc ap auc ap auc ap sc 84 6 0 01 88 5 0 00 80 5 0",
+        "context_window": {
+          "previous": "we use a 32-dim hidden layer and 16-dim latent variables in all experiments for sc we use the implementation from with an embedding dimension of 128 for dw we use the implementation provided by the authors of with standard settings used in their paper i e embedding dimension of 128 10 random walks of length 80 per node and a context size of 10 trained for a single epoch discussion results for the link prediction task in citation networks are summarized in table gae and vgae denote",
+          "current": "without using input features gae and vgae use input features we report area under the roc curve auc and average precision ap scores for each model on the test set numbers show mean results and standard error for 10 runs with random initializations on fixed dataset splits table link prediction task in citation networks see for dataset details method cora citeseer pubmed auc ap auc ap auc ap sc 84 6 0 01 88 5 0 00 80 5 0",
+          "next": "01 85 0 0 01 84 2 0 02 87 8 0 01 dw 83 1 0 01 85 0 0 00 80 5 0 02 83 6 0 01 84 4 0 00 84 1 0 00 gae 84 3 0 02 88 1 0 01 78 7 0 02 84 1 0 02 82 2 0 01 87 4 0 00 vgae 84 0 0 02 87 7 0 01 78 9 0 03 84 1 0 02"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "precision",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          },
+          {
+            "cue_phrase": "AUC",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5322,
+        "downstream_relevance_score": 0.4673,
+        "components": {
+          "bio_boundary_score": 0.739,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gae"
+        ],
+        "normalization": "gae",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gae",
+          "canonical": "gae",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.739",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched precision, dataset, AUC",
+        "downstream relevance score is 0.4673"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "link prediction",
+        "canonical": "link prediction",
+        "normalized": "link prediction",
+        "tokens": [
+          "link",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 7,
+        "sentence": "link prediction task on several popular citation network datastets the models are trained on an incomplete version of these datasets where parts of the citation links edges have been removed while all node features are kept we form validation and test sets from previously removed edges and the same number of randomly sampled pairs of unconnected nodes non-edges we compare models based on their ability to correctly classify edges and non-edges the validation and test sets contain 5 and 10",
+        "context_window": {
+          "previous": "use of the reparameterization trick for training for a featureless approach we simply drop the dependence on x and replace x with the identity matrix in the gcn non-probabilistic graph auto-encoder gae model for a non-probabilistic variant of the vgae model we calculate embeddings z and the reconstructed adjacency matrix as follows zz with z gcn x a 2 experiments on link prediction we demonstrate the ability of the vgae and gae models to learn meaningful latent embeddings on a",
+          "current": "link prediction task on several popular citation network datastets the models are trained on an incomplete version of these datasets where parts of the citation links edges have been removed while all node features are kept we form validation and test sets from previously removed edges and the same number of randomly sampled pairs of unconnected nodes non-edges we compare models based on their ability to correctly classify edges and non-edges the validation and test sets contain 5 and 10",
+          "next": "of citation links respectively the validation set is used for optimization of hyperparameters we compare against two popular baselines spectral clustering sc and deepwalk dw both sc and dw provide node embeddings z we use eq 4 left side to calculate scores for elements of the reconstructed adjacency matrix we omit recent variants of dw due to comparable performance both sc and dw do not support input features for vgae and gae we initialize weights as described in we train"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5613,
+        "downstream_relevance_score": 0.4125,
+        "components": {
+          "bio_boundary_score": 0.9908,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "link",
+          "prediction"
+        ],
+        "normalization": "link prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "link prediction",
+          "canonical": "link prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9908",
+        "structure model assigned role 'comparison' with score 0.82",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.4125"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "vgae",
+        "canonical": "vgae",
+        "normalized": "vgae",
+        "tokens": [
+          "vgae"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 12,
+        "sentence": "01 85 0 0 01 84 2 0 02 87 8 0 01 dw 83 1 0 01 85 0 0 00 80 5 0 02 83 6 0 01 84 4 0 00 84 1 0 00 gae 84 3 0 02 88 1 0 01 78 7 0 02 84 1 0 02 82 2 0 01 87 4 0 00 vgae 84 0 0 02 87 7 0 01 78 9 0 03 84 1 0 02",
+        "context_window": {
+          "previous": "without using input features gae and vgae use input features we report area under the roc curve auc and average precision ap scores for each model on the test set numbers show mean results and standard error for 10 runs with random initializations on fixed dataset splits table link prediction task in citation networks see for dataset details method cora citeseer pubmed auc ap auc ap auc ap sc 84 6 0 01 88 5 0 00 80 5 0",
+          "current": "01 85 0 0 01 84 2 0 02 87 8 0 01 dw 83 1 0 01 85 0 0 00 80 5 0 02 83 6 0 01 84 4 0 00 84 1 0 00 gae 84 3 0 02 88 1 0 01 78 7 0 02 84 1 0 02 82 2 0 01 87 4 0 00 vgae 84 0 0 02 87 7 0 01 78 9 0 03 84 1 0 02",
+          "next": "82 7 0 01 87 5 0 01 gae 91 0 0 02 92 0 0 03 89 5 0 04 89 9 0 05 96 4 0 00 96 5 0 00 vgae 91 4 0 01 92 6 0 01 90 8 0 02 92 0 0 02 94 4 0 02 94 7 0 02 both vgae and gae achieve competitive results on the featureless task adding input features significantly improves predictive performance across datasets a gaussian"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5461,
+        "downstream_relevance_score": 0.33,
+        "components": {
+          "bio_boundary_score": 0.8705,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "vgae"
+        ],
+        "normalization": "vgae",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "vgae",
+          "canonical": "vgae",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8705",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.33"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 19,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Future work will investigate better-suited prior distributions, more flexible generative models and the application of a stochastic gradient descent algorithm for improved scalability.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "1 A latent variable model for graph-structured data Figure : Latent space of unsupervised VGAE model trained on Cora citation network dataset .",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "1 A latent variable model for graph-structured data Figure : Latent space of unsupervised VGAE model trained on Cora citation network dataset .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We introduce the variational graph autoencoder (VGAE), a framework for unsupervised learning on graph-structured data based on the variational auto-encoder (VAE) .",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We introduce the variational graph autoencoder (VGAE), a framework for unsupervised learning on graph-structured data based on the variational auto-encoder (VAE) .",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Our model achieves competitive results on a link prediction task in citation networks.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In contrast to most existing models for unsupervised learning on graph-structured data and link prediction , our model can naturally incorporate node features, which significantly improves predictive performance on a number of benchmark datasets.",
+        "evidence_type": "result",
+        "matched_cue": "significantly improves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In contrast to most existing models for unsupervised learning on graph-structured data and link prediction , our model can naturally incorporate node features, which significantly improves predictive performance on a number of benchmark datasets.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We introduce an adjacency matrix A of G (we assume diagonal elements set to 1, i.e. every node is connected to itself) and its degree matrix D.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We further introduce stochastic latent variables z i , summarized in an N × F matrix Z.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The models are trained on an incomplete version of these datasets where parts of the citation links (edges) have been removed, while all node features are kept.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Cora Citeseer Pubmed AUC AP AUC AP AUC AP SC 84.6 ± 0.01 88.5 ± 0.00 80.5 ± 0.01 85.0 ± 0.01 84.2 ± 0.02 87.8 ± 0.01 DW 83.1 ± 0.01 85.0 ± 0.00 80.5 ± 0.02 83.6 ± 0.01 84.4 ± 0.00 84.1 ± 0.00 GAE* 84.3 ± 0.02 88.1 ± 0.01 78.7 ± 0.02 84.1 ± 0.02 82.2 ± 0.01 87.4 ± 0.00 VGAE* 84.0 ± 0.02 87.7 ± 0.01 78.9 ± 0.03 84.1 ± 0.02 82.7 ± 0.01 87.5 ± 0.01 GAE 91.0 ± 0.02 92.0 ± 0.03 89.5 ± 0.04 89.9 ± 0.05 96.4 ± 0.00 96.5 ± 0.00 VGAE 91.4 ± 0.01 92.6 ± 0.01 90.8 ± 0.02 92.0 ± 0.02 94.4 ± 0.02 94.7 ± 0.02 Both VGAE and GAE achieve competitive results on the featureless task.",
+        "evidence_type": "metric",
+        "matched_cue": "AUC",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Nevertheless, the VGAE model achieves higher predictive performance on both the Cora and the Citeseer dataset.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Nevertheless, the VGAE model achieves higher predictive performance on both the Cora and the Citeseer dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Future work will investigate better-suited prior distributions, more flexible generative models and the application of a stochastic gradient descent algorithm for improved scalability.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We report area under the ROC curve (AUC) and average precision (AP) scores for each model on the test set.",
+        "evidence_type": "metric",
+        "matched_cue": "precision",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We report area under the ROC curve (AUC) and average precision (AP) scores for each model on the test set.",
+        "evidence_type": "metric",
+        "matched_cue": "AUC",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Numbers show mean results and standard error for 10 runs with random initializations on fixed dataset splits.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Adding input features significantly improves predictive performance across datasets.",
+        "evidence_type": "result",
+        "matched_cue": "significantly improves",
+        "role_prior": "result",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "unsupervised learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.7608
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "inner product",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5876
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "citation network",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5798
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "latent variable",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5626
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "degree matrix",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5141
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "adjacency matrix",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4908
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "link prediction task",
+        "section": "method",
+        "role": "component",
+        "score": 0.4798
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "adam",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4679
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "gae",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4673
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "link prediction",
+        "section": "related_work",
+        "role": "comparison",
+        "score": 0.4125
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "vgae",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.33
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_004",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_004",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

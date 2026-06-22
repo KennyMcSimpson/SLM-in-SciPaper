@@ -1,0 +1,3169 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2015_deep_learning_batch_normalization_accelerating_deep_network_training_by_reducing_internal_covariate_shift",
+    "title": "2015_deep_learning_batch_normalization_accelerating_deep_network_training_by_reducing_internal_covariate_shift",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2015_deep_learning_batch_normalization_accelerating_deep_network_training_by_reducing_internal_covariate_shift.txt",
+    "sentence_count": 67,
+    "section_counts": {
+      "intro": 34,
+      "related_work": 2,
+      "method": 16,
+      "experiment": 5,
+      "conclusion": 10
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5162,
+    "type_count": 995,
+    "type_token_ratio": 0.1928,
+    "section_token_counts": {
+      "intro": 2594,
+      "related_work": 160,
+      "method": 1247,
+      "experiment": 379,
+      "conclusion": 782
+    },
+    "top_unigrams": [
+      {
+        "term": "training",
+        "count": 78
+      },
+      {
+        "term": "network",
+        "count": 60
+      },
+      {
+        "term": "normalization",
+        "count": 58
+      },
+      {
+        "term": "layer",
+        "count": 41
+      },
+      {
+        "term": "batch",
+        "count": 40
+      },
+      {
+        "term": "bn",
+        "count": 38
+      },
+      {
+        "term": "parameters",
+        "count": 37
+      },
+      {
+        "term": "each",
+        "count": 31
+      },
+      {
+        "term": "activations",
+        "count": 28
+      },
+      {
+        "term": "inputs",
+        "count": 25
+      },
+      {
+        "term": "layers",
+        "count": 25
+      },
+      {
+        "term": "mini-batch",
+        "count": 25
+      },
+      {
+        "term": "gradient",
+        "count": 25
+      },
+      {
+        "term": "can",
+        "count": 23
+      },
+      {
+        "term": "model",
+        "count": 21
+      },
+      {
+        "term": "transform",
+        "count": 21
+      },
+      {
+        "term": "shift",
+        "count": 20
+      },
+      {
+        "term": "distribution",
+        "count": 20
+      },
+      {
+        "term": "over",
+        "count": 19
+      },
+      {
+        "term": "values",
+        "count": 18
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "batch normalization",
+        "count": 33
+      },
+      {
+        "term": "covariate shift",
+        "count": 15
+      },
+      {
+        "term": "internal covariate",
+        "count": 11
+      },
+      {
+        "term": "bn transform",
+        "count": 11
+      },
+      {
+        "term": "layer inputs",
+        "count": 8
+      },
+      {
+        "term": "gradient descent",
+        "count": 8
+      },
+      {
+        "term": "each layer",
+        "count": 7
+      },
+      {
+        "term": "learning rates",
+        "count": 7
+      },
+      {
+        "term": "does not",
+        "count": 7
+      },
+      {
+        "term": "training example",
+        "count": 7
+      },
+      {
+        "term": "during training",
+        "count": 6
+      },
+      {
+        "term": "state art",
+        "count": 6
+      },
+      {
+        "term": "over training",
+        "count": 6
+      },
+      {
+        "term": "tr bn",
+        "count": 6
+      },
+      {
+        "term": "imagenet classification",
+        "count": 5
+      },
+      {
+        "term": "training data",
+        "count": 5
+      },
+      {
+        "term": "model parameters",
+        "count": 5
+      },
+      {
+        "term": "parameters learned",
+        "count": 5
+      },
+      {
+        "term": "normalization can",
+        "count": 5
+      },
+      {
+        "term": "each activation",
+        "count": 5
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "internal covariate shift",
+        "count": 11
+      },
+      {
+        "term": "gradient descent step",
+        "count": 4
+      },
+      {
+        "term": "reducing internal covariate",
+        "count": 3
+      },
+      {
+        "term": "higher learning rates",
+        "count": 3
+      },
+      {
+        "term": "training data set",
+        "count": 3
+      },
+      {
+        "term": "inputs each layer",
+        "count": 3
+      },
+      {
+        "term": "over training data",
+        "count": 3
+      },
+      {
+        "term": "batch normalization can",
+        "count": 3
+      },
+      {
+        "term": "bn tr bn",
+        "count": 3
+      },
+      {
+        "term": "deep network training",
+        "count": 2
+      },
+      {
+        "term": "covariate shift training",
+        "count": 2
+      },
+      {
+        "term": "training deep neural",
+        "count": 2
+      },
+      {
+        "term": "each layer inputs",
+        "count": 2
+      },
+      {
+        "term": "allows us use",
+        "count": 2
+      },
+      {
+        "term": "us use much",
+        "count": 2
+      },
+      {
+        "term": "use much higher",
+        "count": 2
+      },
+      {
+        "term": "much higher learning",
+        "count": 2
+      },
+      {
+        "term": "image classification model",
+        "count": 2
+      },
+      {
+        "term": "margin using ensemble",
+        "count": 2
+      },
+      {
+        "term": "stochastic gradient descent",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 10,
+    "nonzero_tfidf_features": 10,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 5.0,
+        "tfidf": 1.1096
+      },
+      {
+        "feature_name": "abstract__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "conclusion__optimization methods",
+        "section": "conclusion",
+        "term": "optimization methods",
+        "frequency": 2.0,
+        "tfidf": 0.8864
+      },
+      {
+        "feature_name": "conclusion__deep neural networks",
+        "section": "conclusion",
+        "term": "deep neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.8436
+      },
+      {
+        "feature_name": "conclusion__recurrent neural networks",
+        "section": "conclusion",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3834
+      },
+      {
+        "feature_name": "conclusion__machine learning",
+        "section": "conclusion",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.3174
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.2321
+      },
+      {
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.1774
+      },
+      {
+        "feature_name": "introduction__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.175
+      },
+      {
+        "feature_name": "introduction__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 0.1493
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 5.0,
+          "tfidf": 1.1096
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2321
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1774
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.175
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1493
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__optimization methods",
+          "section": "conclusion",
+          "term": "optimization methods",
+          "frequency": 2.0,
+          "tfidf": 0.8864
+        },
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.8436
+        },
+        {
+          "feature_name": "conclusion__recurrent neural networks",
+          "section": "conclusion",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3834
+        },
+        {
+          "feature_name": "conclusion__machine learning",
+          "section": "conclusion",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.3174
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 34,
+      "token_count": 2594,
+      "bow_hit_count": 94,
+      "top_bow_terms": [
+        {
+          "canonical_term": "training set",
+          "count": 34,
+          "section_prior": 0.2786,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 16,
+          "section_prior": 0.5052,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 14,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 9,
+          "section_prior": 0.525,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 8,
+          "section_prior": 0.3813,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 8,
+          "section_prior": 0.1776,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "activation function",
+          "count": 3,
+          "section_prior": 0.3704,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 2,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__stochastic gradient descent",
+          "section": "intro",
+          "term": "stochastic gradient descent",
+          "frequency": 5.0,
+          "tfidf": 1.1096
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2321
+        },
+        {
+          "feature_name": "introduction__gradient descent",
+          "section": "intro",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1774
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.175
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1493
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 2,
+      "token_count": 160,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 16,
+      "token_count": 1247,
+      "bow_hit_count": 29,
+      "top_bow_terms": [
+        {
+          "canonical_term": "prediction bias",
+          "count": 10,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 6,
+          "section_prior": 0.3,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.0598,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 4,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.268,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 5,
+      "token_count": 379,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "conclusion": {
+      "sentence_count": 10,
+      "token_count": 782,
+      "bow_hit_count": 19,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 8,
+          "section_prior": 0.1538,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 5,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 4,
+          "section_prior": 0.1186,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "optimization method",
+          "count": 2,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__optimization methods",
+          "section": "conclusion",
+          "term": "optimization methods",
+          "frequency": 2.0,
+          "tfidf": 0.8864
+        },
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.8436
+        },
+        {
+          "feature_name": "conclusion__recurrent neural networks",
+          "section": "conclusion",
+          "term": "recurrent neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3834
+        },
+        {
+          "feature_name": "conclusion__machine learning",
+          "section": "conclusion",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.3174
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "gradient descent",
+        "canonical": "gradient descent",
+        "normalized": "gradient descent",
+        "tokens": [
+          "gradient",
+          "descent"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "gradient descent"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 20,
+        "sentence": "layer nor consequently the loss as the training continues b will grow indefinitely while the loss remains fixed this problem can get worse if the normalization not only centers but also scales the activations we have observed this empirically in initial experiments where the model blows up when the normalization parameters are computed outside the gradient descent step the issue with the above approach is that the gradient descent optimization does not take into account the fact that the normalization",
+        "context_window": {
+          "previous": "the set of values of x over the training set and e x 1 n n i 1 x i if a gradient descent step ignores the dependence of e x on b then it will update b b b where b - l x then u b b -e u b b u b -e u b thus the combination of the update to b and subsequent change in normalization led to no change in the output of the",
+          "current": "layer nor consequently the loss as the training continues b will grow indefinitely while the loss remains fixed this problem can get worse if the normalization not only centers but also scales the activations we have observed this empirically in initial experiments where the model blows up when the normalization parameters are computed outside the gradient descent step the issue with the above approach is that the gradient descent optimization does not take into account the fact that the normalization",
+          "next": "takes place to address this issue we would like to ensure that for any parameter values the network always produces activations with the desired distribution doing so would allow the gradient of the loss with respect to the model parameters to account for the normalization and for its dependence on the model parameters let again x be a layer input treated as a vector and x be the set of these inputs over the training data set the normalization can"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.698,
+        "downstream_relevance_score": 0.6876,
+        "components": {
+          "bio_boundary_score": 0.9488,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5052,
+          "document_tfidf_score": 0.1598,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "gradient descent",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "gradient descent",
+        "display_term": "gradient descent",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Gradient_descent",
+        "wikidata_id": "Q1199743",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 24,
+        "total_frequency": 38,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.1774,
+        "normalized_frequency": 0.2,
+        "normalized_tfidf": 0.1598
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gradient",
+          "descent"
+        ],
+        "normalization": "gradient descent",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5052,
+        "canonicalization": {
+          "observed": "gradient descent",
+          "canonical": "gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9488",
+        "structure model assigned role 'problem' with score 0.82",
+        "section BoW matched canonical term 'gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__gradient descent' with tf-idf 0.1774",
+        "downstream relevance score is 0.6876"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "gradient descent step",
+        "canonical": "gradient descent",
+        "normalized": "gradient descent",
+        "tokens": [
+          "gradient",
+          "descent",
+          "step"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "gradient descent"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 20,
+        "sentence": "layer nor consequently the loss as the training continues b will grow indefinitely while the loss remains fixed this problem can get worse if the normalization not only centers but also scales the activations we have observed this empirically in initial experiments where the model blows up when the normalization parameters are computed outside the gradient descent step the issue with the above approach is that the gradient descent optimization does not take into account the fact that the normalization",
+        "context_window": {
+          "previous": "the set of values of x over the training set and e x 1 n n i 1 x i if a gradient descent step ignores the dependence of e x on b then it will update b b b where b - l x then u b b -e u b b u b -e u b thus the combination of the update to b and subsequent change in normalization led to no change in the output of the",
+          "current": "layer nor consequently the loss as the training continues b will grow indefinitely while the loss remains fixed this problem can get worse if the normalization not only centers but also scales the activations we have observed this empirically in initial experiments where the model blows up when the normalization parameters are computed outside the gradient descent step the issue with the above approach is that the gradient descent optimization does not take into account the fact that the normalization",
+          "next": "takes place to address this issue we would like to ensure that for any parameter values the network always produces activations with the desired distribution doing so would allow the gradient of the loss with respect to the model parameters to account for the normalization and for its dependence on the model parameters let again x be a layer input treated as a vector and x be the set of these inputs over the training data set the normalization can"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.694,
+        "downstream_relevance_score": 0.681,
+        "components": {
+          "bio_boundary_score": 0.9354,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7644,
+          "laplace_section_prior": 0.5052,
+          "document_tfidf_score": 0.1598,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "gradient descent",
+        "match_quality": 0.84,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "gradient descent",
+        "display_term": "gradient descent",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Gradient_descent",
+        "wikidata_id": "Q1199743",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 24,
+        "total_frequency": 38,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__gradient descent",
+        "section": "intro",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.1774,
+        "normalized_frequency": 0.2,
+        "normalized_tfidf": 0.1598
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gradient",
+          "descent",
+          "step"
+        ],
+        "normalization": "gradient descent step",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5052,
+        "canonicalization": {
+          "observed": "gradient descent step",
+          "canonical": "gradient descent",
+          "channel_score": 0.7644
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9354",
+        "structure model assigned role 'problem' with score 0.82",
+        "section BoW matched canonical term 'gradient descent' with confidence 0.7644",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__gradient descent' with tf-idf 0.1774",
+        "downstream relevance score is 0.681"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "stochastic gradient",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "stochastic",
+          "gradient"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 28,
+        "sentence": "the whole set to normalize activations however this is impractical when using stochastic optimization therefore we make the second simplification since we use mini-batches in stochastic gradient training each mini-batch produces estimates of the mean and variance of each activation this way the statistics used for normalization can fully participate in the gradient backpropagation note that the use of minibatches is enabled by computation of per-dimension variances rather than joint covariances in the joint case regularization would be required since",
+        "context_window": {
+          "previous": "pair of parameters k k which scale and shift the normalized value y k k x k k these parameters are learned along with the original model parameters and restore the representation power of the network indeed by setting k var x k and k e x k we could recover the original activations if that were the optimal thing to do in the batch setting where each training step is based on the entire training set we would use",
+          "current": "the whole set to normalize activations however this is impractical when using stochastic optimization therefore we make the second simplification since we use mini-batches in stochastic gradient training each mini-batch produces estimates of the mean and variance of each activation this way the statistics used for normalization can fully participate in the gradient backpropagation note that the use of minibatches is enabled by computation of per-dimension variances rather than joint covariances in the joint case regularization would be required since",
+          "next": "the mini-batch size is likely to be smaller than the number of activations being whitened resulting in singular covariance matrices consider a mini-batch b of size m since the normalization is applied to each activation independently let us focus on a particular activation x k and omit k for clarity we have m values of this activation in the mini-batch b x 1 m let the normalized values be x 1 m and their linear transformations be y 1 m"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6182,
+        "downstream_relevance_score": 0.6715,
+        "components": {
+          "bio_boundary_score": 0.5604,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.3813,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "stochastic gradient descent",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "stochastic gradient descent",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 18,
+        "total_frequency": 46,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__stochastic gradient descent",
+        "section": "intro",
+        "term": "stochastic gradient descent",
+        "frequency": 5.0,
+        "tfidf": 1.1096,
+        "normalized_frequency": 1.0,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient"
+        ],
+        "normalization": "stochastic gradient",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.3813,
+        "canonicalization": {
+          "observed": "stochastic gradient",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5604",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__stochastic gradient descent' with tf-idf 1.1096",
+        "downstream relevance score is 0.6715"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "internal covariate shift",
+        "canonical": "internal covariate shift",
+        "normalized": "internal covariate shift",
+        "tokens": [
+          "internal",
+          "covariate",
+          "shift"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 13,
+        "sentence": "in the distributions of internal nodes of a deep network in the course of training as internal covariate shift eliminating it offers a promise of faster training we propose a new mechanism which we call batch normalization that takes a step towards reducing internal covariate shift and in doing so dramatically accelerates the training of deep neural nets it accomplishes this via a normalization step that fixes the means and variances of layer inputs batch normalization also has a beneficial",
+        "context_window": {
+          "previous": "this effect is amplified as the network depth increases in practice the saturation problem and the resulting vanishing gradients are usually addressed by using rectified linear units relu x max x 0 careful initialization and small learning rates if however we could ensure that the distribution of nonlinearity inputs remains more stable as the network trains then the optimizer would be less likely to get stuck in the saturated regime and the training would accelerate we refer to the change",
+          "current": "in the distributions of internal nodes of a deep network in the course of training as internal covariate shift eliminating it offers a promise of faster training we propose a new mechanism which we call batch normalization that takes a step towards reducing internal covariate shift and in doing so dramatically accelerates the training of deep neural nets it accomplishes this via a normalization step that fixes the means and variances of layer inputs batch normalization also has a beneficial",
+          "next": "effect on the gradient flow through the network by reducing the dependence of gradients on the scale of the parameters or of their initial values this allows us to use much higher learning rates without the risk of divergence furthermore batch normalization regularizes the model and reduces the need for dropout finally batch normalization makes it possible to use saturating nonlinearities by preventing the network from getting stuck in the saturated modes in sec 4 2 we apply batch normalization"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7837,
+        "downstream_relevance_score": 0.6249,
+        "components": {
+          "bio_boundary_score": 0.924,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "internal",
+          "covariate",
+          "shift"
+        ],
+        "normalization": "internal covariate shift",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "internal covariate shift",
+          "canonical": "internal covariate shift",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.924",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6249"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "numerical stability",
+        "canonical": "numerical stability",
+        "normalized": "numerical stability",
+        "tokens": [
+          "numerical",
+          "stability"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 30,
+        "sentence": "we refer to the transform bn x 1 m y 1 m as the batch normalizing transform we present the bn transform in algorithm 1 in the algorithm is a constant added to the mini-batch variance for numerical stability input values of x over a mini-batch b x 1 m parameters to be learned output y i bn x i b 1 m m i 1 x i mini-batch mean 2 b 1 m m i 1 x i -",
+        "context_window": {
+          "previous": "the mini-batch size is likely to be smaller than the number of activations being whitened resulting in singular covariance matrices consider a mini-batch b of size m since the normalization is applied to each activation independently let us focus on a particular activation x k and omit k for clarity we have m values of this activation in the mini-batch b x 1 m let the normalized values be x 1 m and their linear transformations be y 1 m",
+          "current": "we refer to the transform bn x 1 m y 1 m as the batch normalizing transform we present the bn transform in algorithm 1 in the algorithm is a constant added to the mini-batch variance for numerical stability input values of x over a mini-batch b x 1 m parameters to be learned output y i bn x i b 1 m m i 1 x i mini-batch mean 2 b 1 m m i 1 x i -",
+          "next": "b 2 mini-batch variance x i x i - b 2 b normalize y i x i bn x i scale and shift algorithm 1 batch normalizing transform applied to activation x over a mini-batch the bn transform can be added to a network to manipulate any activation in the notation y bn x we indicate that the parameters and are to be learned but it should be noted that the bn transform does not independently process the activation in"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6725,
+        "downstream_relevance_score": 0.6143,
+        "components": {
+          "bio_boundary_score": 0.5032,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "numerical",
+          "stability"
+        ],
+        "normalization": "numerical stability",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "numerical stability",
+          "canonical": "numerical stability",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5032",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched algorithm, present",
+        "downstream relevance score is 0.6143"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "normalization",
+        "canonical": "normalization",
+        "normalized": "normalization",
+        "tokens": [
+          "normalization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 38,
+        "sentence": "normalization x x -e x var x using the population rather than mini-batch statistics neglecting these normalized activations have the same mean 0 and variance 1 as during training we use the unbiased variance estimate var x m m-1 e b 2 b where the expectation is over training mini-batches of size m and 2 b are their sample variances using moving averages instead we can track the accuracy of a model as it trains since the means and variances",
+        "context_window": {
+          "previous": "as the input now receives bn x a model employing batch normalization can be trained using batch gradient descent or stochastic gradient descent with a mini-batch size m 1 or with any of its variants such as adagrad the normalization of activations that depends on the mini-batch allows efficient training but is neither necessary nor desirable during inference we want the output to depend only on the input deterministically for this once the network has been trained we use the",
+          "current": "normalization x x -e x var x using the population rather than mini-batch statistics neglecting these normalized activations have the same mean 0 and variance 1 as during training we use the unbiased variance estimate var x m m-1 e b 2 b where the expectation is over training mini-batches of size m and 2 b are their sample variances using moving averages instead we can track the accuracy of a model as it trains since the means and variances",
+          "next": "are fixed during inference the normalization is simply a linear transform applied to each activation it may further be composed with the scaling by and shift by to yield a single linear transform that replaces bn x algorithm 2 summarizes the procedure for training batch-normalized networks input network n with trainable parameters subset of activations x k k k 1 output batch-normalized network for inference n inf bn 1 n tr bn n training bn network 2 for k 1"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7005,
+        "downstream_relevance_score": 0.5561,
+        "components": {
+          "bio_boundary_score": 0.9711,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "normalization"
+        ],
+        "normalization": "normalization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "normalization",
+          "canonical": "normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9711",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5561"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "backpropagation",
+        "canonical": "backpropagation",
+        "normalized": "backpropagation",
+        "tokens": [
+          "backpropagation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "back-propagation",
+          "backpropagation"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 23,
+        "sentence": "covariance matrix cov x e x x xx t -e x e x t and its inverse square root to produce the whitened activations cov x -1 2 x -e x as well as the derivatives of these transforms for backpropagation this motivates us to seek an alternative that performs input normalization in a way that is differentiable and does not require the analysis of the entire training set after every parameter update some of the previous approaches e g",
+        "context_window": {
+          "previous": "then be written as a transformation x norm x x which depends not only on the given training example x but on all examples x -each of which depends on if x is generated by another layer for backpropagation we would need to compute the jacobians norm x x x and norm x x x ignoring the latter term would lead to the explosion described above within this framework whitening the layer inputs is expensive as it requires computing the",
+          "current": "covariance matrix cov x e x x xx t -e x e x t and its inverse square root to produce the whitened activations cov x -1 2 x -e x as well as the derivatives of these transforms for backpropagation this motivates us to seek an alternative that performs input normalization in a way that is differentiable and does not require the analysis of the entire training set after every parameter update some of the previous approaches e g",
+          "next": "use statistics computed over a single training example or in the case of image networks over different feature maps at a given location however this changes the representation ability of a network by discarding the absolute scale of activations we want to a preserve the information in the network by normalizing the activations in a training example relative to the statistics of the entire training data normalization via mini-batch statistics since the full whitening of each layer s inputs is"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5262,
+        "downstream_relevance_score": 0.5237,
+        "components": {
+          "bio_boundary_score": 0.9529,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.525,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "backpropagation",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "backpropagation",
+        "display_term": "backpropagation",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Backpropagation",
+        "wikidata_id": "Q798503",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 12,
+        "total_frequency": 20,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "backpropagation"
+        ],
+        "normalization": "backpropagation",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.525,
+        "canonicalization": {
+          "observed": "backpropagation",
+          "canonical": "backpropagation",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9529",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "section BoW matched canonical term 'backpropagation' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5237"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "computational cost",
+        "canonical": "computational cost",
+        "normalized": "computational cost",
+        "tokens": [
+          "computational",
+          "cost"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 66,
+        "sentence": "the pooling layers of the table there are no across the board pooling layers between any two inception modules but stride-2 convolution pooling layers are employed before the filter concatenation in the modules 3c 4e our model employed separable convolution with depth multiplier 8 on the first convolutional layer this reduces the computational cost while increasing the memory consumption at training time",
+        "context_window": {
+          "previous": "distributions perhaps with just a recomputation of the population means and variances alg 2 finally we believe that further theoretical analysis of the algorithm would allow still more improvements and applications weight layers also it increases the number of parameters by 25 and the computational cost is increased by about 30 the number 28 28 inception modules is increased from 2 to 3 inside the modules sometimes average sometimes maximum-pooling is employed this is indicated in the entries corresponding to",
+          "current": "the pooling layers of the table there are no across the board pooling layers between any two inception modules but stride-2 convolution pooling layers are employed before the filter concatenation in the modules 3c 4e our model employed separable convolution with depth multiplier 8 on the first convolutional layer this reduces the computational cost while increasing the memory consumption at training time",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6756,
+        "downstream_relevance_score": 0.5109,
+        "components": {
+          "bio_boundary_score": 0.5286,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational",
+          "cost"
+        ],
+        "normalization": "computational cost",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational cost",
+          "canonical": "computational cost",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5286",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5109"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "imagenet classification",
+        "canonical": "imagenet classification",
+        "normalized": "imagenet classification",
+        "tokens": [
+          "imagenet",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 3,
+        "sentence": "best published result on imagenet classification reaching 4 9 top-5 validation error and 4 8 test error exceeding the accuracy of human raters body",
+        "context_window": {
+          "previous": "of the model architecture and performing the normalization for each training mini-batch batch normalization allows us to use much higher learning rates and be less careful about initialization it also acts as a regularizer in some cases eliminating the need for dropout applied to a state-of-the-art image classification model batch normalization achieves the same accuracy with 14 times fewer training steps and beats the original model by a significant margin using an ensemble of batchnormalized networks we improve upon the",
+          "current": "best published result on imagenet classification reaching 4 9 top-5 validation error and 4 8 test error exceeding the accuracy of human raters body",
+          "next": "deep learning has dramatically advanced the state of the art in vision speech and many other areas stochastic gradient descent sgd has proved to be an effective way of training deep networks and sgd variants such as momentum and adagrad have been used to achieve state of the art performance sgd optimizes the parameters of the network so as to minimize the loss arg min 1 n n i 1 l x i where x 1 n is the training"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7,
+          "evidence_type": "metric",
+          "matched_cue": "accuracy",
+          "role_prior": "metric",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6024,
+        "downstream_relevance_score": 0.5038,
+        "components": {
+          "bio_boundary_score": 0.6494,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imagenet",
+          "classification"
+        ],
+        "normalization": "imagenet classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "imagenet classification",
+          "canonical": "imagenet classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6494",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5038"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "feature map",
+        "canonical": "feature map",
+        "normalized": "feature map",
+        "tokens": [
+          "feature",
+          "map"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 45,
+        "sentence": "we jointly normalize all the activations in a minibatch over all locations in alg 1 we let b be the set of all values in a feature map across both the elements of a mini-batch and spatial locations -so for a mini-batch of size m and feature maps of size p q we use the effective mini-batch of size m b m p q we learn a pair of parameters k and k per feature map rather than per activation",
+        "context_window": {
+          "previous": "bias is subsumed by in alg 1 thus z g w u b is replaced with z g bn w u where the bn transform is applied independently to each dimension of x w u with a separate pair of learned parameters k k per dimension for convolutional layers we additionally want the normalization to obey the convolutional property -so that different elements of the same feature map at different locations are normalized in the same way to achieve this",
+          "current": "we jointly normalize all the activations in a minibatch over all locations in alg 1 we let b be the set of all values in a feature map across both the elements of a mini-batch and spatial locations -so for a mini-batch of size m and feature maps of size p q we use the effective mini-batch of size m b m p q we learn a pair of parameters k and k per feature map rather than per activation",
+          "next": "alg 2 is modified similarly so that during inference the bn transform applies the same linear transformation to each activation in a given feature map batch normalization enables higher learning rates in traditional deep networks too-high learning rate may result in the gradients that explode or vanish as well as getting stuck in poor local minima batch normalization helps address these issues by normalizing activations throughout the network it prevents small changes to the parameters from amplifying into larger and"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7093,
+        "downstream_relevance_score": 0.4992,
+        "components": {
+          "bio_boundary_score": 0.9885,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "map"
+        ],
+        "normalization": "feature map",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature map",
+          "canonical": "feature map",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9885",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.4992"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "batch normalization",
+        "canonical": "batch normalization",
+        "normalized": "batch normalization",
+        "tokens": [
+          "batch",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 52,
+        "sentence": "activations over time to verify the effects of internal covariate shift on training and the ability of batch normalization to combat it we considered the problem of predicting the digit class on the mnist dataset we used a very simple network with a 28x28 binary image as input and 3 fully-connected hidden layers with 100 activations each each hidden layer computes y g w u b with sigmoid nonlinearity and the weights w initialized to small random gaussian values the",
+        "context_window": {
+          "previous": "deterministic values for a given training example in our experiments we found this effect to be advantageous to the generalization of the network whereas dropout is typically used to reduce overfitting in a batch-normalized network we found that it can be either removed or reduced in strength",
+          "current": "activations over time to verify the effects of internal covariate shift on training and the ability of batch normalization to combat it we considered the problem of predicting the digit class on the mnist dataset we used a very simple network with a 28x28 binary image as input and 3 fully-connected hidden layers with 100 activations each each hidden layer computes y g w u b with sigmoid nonlinearity and the weights w initialized to small random gaussian values the",
+          "next": "last hidden layer is followed by a fully-connected layer with 10 activations one per class and cross-entropy loss we trained the network for 50000 steps with 60 examples per mini-batch we added batch normalization to each hidden layer of the network as in sec 3 1 we were interested in the comparison between the baseline and batch-normalized networks rather than achieving the state of the art performance on mnist which the described architecture does not figure a shows the fraction"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5847,
+        "downstream_relevance_score": 0.4596,
+        "components": {
+          "bio_boundary_score": 0.917,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "normalization"
+        ],
+        "normalization": "batch normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch normalization",
+          "canonical": "batch normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.917",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.4596"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "covariate",
+        "canonical": "covariate",
+        "normalized": "covariate",
+        "tokens": [
+          "covariate"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 7,
+        "sentence": "each layer are affected by the parameters of all preceding layers -so that small changes to the network parameters amplify as the network becomes deeper the change in the distributions of layers inputs presents a problem because the layers need to continuously adapt to the new distribution when the input distribution to a learning system changes it is said to experience covariate shift this is typically handled via domain adaptation however the notion of covariate shift can be extended beyond",
+        "context_window": {
+          "previous": "the training set whose quality improves as the batch size increases second computation over a batch can be much more efficient than m computations for individual examples due to the parallelism afforded by the modern computing platforms while stochastic gradient is simple and effective it requires careful tuning of the model hyper-parameters specifically the learning rate used in optimization as well as the initial values for the model parameters the training is complicated by the fact that the inputs to",
+          "current": "each layer are affected by the parameters of all preceding layers -so that small changes to the network parameters amplify as the network becomes deeper the change in the distributions of layers inputs presents a problem because the layers need to continuously adapt to the new distribution when the input distribution to a learning system changes it is said to experience covariate shift this is typically handled via domain adaptation however the notion of covariate shift can be extended beyond",
+          "next": "the learning system as a whole to apply to its parts such as a sub-network or a layer consider a network computing l f 2 f 1 u 1 2 where f 1 and f 2 are arbitrary transformations and the parameters 1 2 are to be learned so as to minimize the loss l learning 2 can be viewed as if the inputs x f 1 u 1 are fed into the sub-network l f 2 x 2 for"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5832,
+        "downstream_relevance_score": 0.4461,
+        "components": {
+          "bio_boundary_score": 0.5032,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "covariate"
+        ],
+        "normalization": "covariate",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "covariate",
+          "canonical": "covariate",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5032",
+        "structure model assigned role 'problem' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4461"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "saturation problem",
+        "canonical": "saturation problem",
+        "normalized": "saturation problem",
+        "tokens": [
+          "saturation",
+          "problem"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 12,
+        "sentence": "this effect is amplified as the network depth increases in practice the saturation problem and the resulting vanishing gradients are usually addressed by using rectified linear units relu x max x 0 careful initialization and small learning rates if however we could ensure that the distribution of nonlinearity inputs remains more stable as the network trains then the optimizer would be less likely to get stuck in the saturated regime and the training would accelerate we refer to the change",
+        "context_window": {
+          "previous": "as x increases g x tends to zero this means that for all dimensions of x w u b except those with small absolute values the gradient flowing down to u will vanish and the model will train slowly however since x is affected by w b and the parameters of all the layers below changes to those parameters during training will likely move many dimensions of x into the saturated regime of the nonlinearity and slow down the convergence",
+          "current": "this effect is amplified as the network depth increases in practice the saturation problem and the resulting vanishing gradients are usually addressed by using rectified linear units relu x max x 0 careful initialization and small learning rates if however we could ensure that the distribution of nonlinearity inputs remains more stable as the network trains then the optimizer would be less likely to get stuck in the saturated regime and the training would accelerate we refer to the change",
+          "next": "in the distributions of internal nodes of a deep network in the course of training as internal covariate shift eliminating it offers a promise of faster training we propose a new mechanism which we call batch normalization that takes a step towards reducing internal covariate shift and in doing so dramatically accelerates the training of deep neural nets it accomplishes this via a normalization step that fixes the means and variances of layer inputs batch normalization also has a beneficial"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5989,
+        "downstream_relevance_score": 0.4418,
+        "components": {
+          "bio_boundary_score": 0.6099,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "saturation",
+          "problem"
+        ],
+        "normalization": "saturation problem",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "saturation problem",
+          "canonical": "saturation problem",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6099",
+        "structure model assigned role 'problem' with score 0.82",
+        "downstream relevance score is 0.4418"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "linear transformation",
+        "canonical": "linear transformation",
+        "normalized": "linear transformation",
+        "tokens": [
+          "linear",
+          "transformation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 49,
+        "sentence": "consider two consecutive layers with normalized inputs and the transformation between these normalized vectors z f x if we assume that x and z are gaussian and uncorrelated and that f x j x is a linear transformation for the given model parameters then both x and z have unit covariances and i cov z jcov x j t jj t thus jj t i and so all singular values of j are equal to 1 which preserves the gradient",
+        "context_window": {
+          "previous": "bn aw u and we can show that bn aw u u bn w u u bn aw u aw 1 a bn w u w the scale does not affect the layer jacobian nor consequently the gradient propagation moreover larger weights lead to smaller gradients and batch normalization will stabilize the parameter growth we further conjecture that batch normalization may lead the layer jacobians to have singular values close to 1 which is known to be beneficial for training",
+          "current": "consider two consecutive layers with normalized inputs and the transformation between these normalized vectors z f x if we assume that x and z are gaussian and uncorrelated and that f x j x is a linear transformation for the given model parameters then both x and z have unit covariances and i cov z jcov x j t jj t thus jj t i and so all singular values of j are equal to 1 which preserves the gradient",
+          "next": "magnitudes during backpropagation in reality the transformation is not linear and the normalized values are not guaranteed to be gaussian nor independent but we nevertheless expect batch normalization to help make gradient propagation better behaved the precise effect of batch normalization on gradient propagation remains an area of further study batch normalization regularizes the model when training with batch normalization a training example is seen in conjunction with other examples in the mini-batch and the training network no longer producing"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6308,
+        "downstream_relevance_score": 0.433,
+        "components": {
+          "bio_boundary_score": 0.6067,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "transformation"
+        ],
+        "normalization": "linear transformation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear transformation",
+          "canonical": "linear transformation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6067",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.433"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "softmax",
+        "canonical": "softmax",
+        "normalized": "softmax",
+        "tokens": [
+          "softmax"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 55,
+        "sentence": "in their mean and the variance which complicates the training of the subsequent layers in contrast the distributions in the batchnormalized network are much more stable as training progresses which aids the training imagenet classification we applied batch normalization to a new variant of the inception network trained on the imagenet classification task the network has a large number of convolutional and pooling layers with a softmax layer to predict the image class out of 1000 possibilities convolutional layers use",
+        "context_window": {
+          "previous": "of correct predictions by the two networks on held-out test data as training progresses the batch-normalized network enjoys the higher test accuracy to investigate why we studied inputs to the sigmoid in the original network n and batchnormalized network n tr bn alg 2 over the course of training in fig we show for one typical activation from the last hidden layer of each network how its distribution evolves the distributions in the original network change significantly over time both",
+          "current": "in their mean and the variance which complicates the training of the subsequent layers in contrast the distributions in the batchnormalized network are much more stable as training progresses which aids the training imagenet classification we applied batch normalization to a new variant of the inception network trained on the imagenet classification task the network has a large number of convolutional and pooling layers with a softmax layer to predict the image class out of 1000 possibilities convolutional layers use",
+          "next": "relu as the nonlinearity the main difference to the network described in is that the 5 5 convolutional layers are replaced by two consecutive layers of 3 3 convolutions with up to 128 filters the network contains 13 6 10 6 parameters and other than the top softmax layer has no fully-connected layers more details are given in the"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4879,
+        "downstream_relevance_score": 0.3643,
+        "components": {
+          "bio_boundary_score": 0.7405,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "softmax"
+        ],
+        "normalization": "softmax",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "softmax",
+          "canonical": "softmax",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7405",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.3643"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "nonlinearity",
+        "canonical": "nonlinearity",
+        "normalized": "nonlinearity",
+        "tokens": [
+          "nonlinearity"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 11,
+        "sentence": "as x increases g x tends to zero this means that for all dimensions of x w u b except those with small absolute values the gradient flowing down to u will vanish and the model will train slowly however since x is affected by w b and the parameters of all the layers below changes to those parameters during training will likely move many dimensions of x into the saturated regime of the nonlinearity and slow down the convergence",
+        "context_window": {
+          "previous": "fixed over time then 2 does not have to readjust to compensate for the change in the distribution of x fixed distribution of inputs to a sub-network would have positive consequences for the layers outside the subnetwork as well consider a layer with a sigmoid activation function z g w u b where u is the layer input the weight matrix w and bias vector b are the layer parameters to be learned and g x 1 1 exp -x",
+          "current": "as x increases g x tends to zero this means that for all dimensions of x w u b except those with small absolute values the gradient flowing down to u will vanish and the model will train slowly however since x is affected by w b and the parameters of all the layers below changes to those parameters during training will likely move many dimensions of x into the saturated regime of the nonlinearity and slow down the convergence",
+          "next": "this effect is amplified as the network depth increases in practice the saturation problem and the resulting vanishing gradients are usually addressed by using rectified linear units relu x max x 0 careful initialization and small learning rates if however we could ensure that the distribution of nonlinearity inputs remains more stable as the network trains then the optimizer would be less likely to get stuck in the saturated regime and the training would accelerate we refer to the change"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5747,
+        "downstream_relevance_score": 0.3617,
+        "components": {
+          "bio_boundary_score": 0.9036,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "nonlinearity"
+        ],
+        "normalization": "nonlinearity",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "nonlinearity",
+          "canonical": "nonlinearity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9036",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3617"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "covariate shift",
+        "canonical": "covariate shift",
+        "normalized": "covariate shift",
+        "tokens": [
+          "covariate",
+          "shift"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 43,
+        "sentence": "of its distribution is likely to change during training and constraining its first and second moments would not eliminate the covariate shift in contrast w u b is more likely to have a symmetric non-sparse distribution that is more gaussian normalizing it is likely to produce activations with a stable distribution note that since we normalize w u b the bias b can be ignored since its effect will be canceled by the subsequent mean subtraction the role of the",
+        "context_window": {
+          "previous": "that consist of an affine transformation followed by an element-wise nonlinearity z g w u b where w and b are learned parameters of the model and g is the nonlinearity such as sigmoid or relu this formulation covers both fully-connected and convolutional layers we add the bn transform immediately before the nonlinearity by normalizing x w u b we could have also normalized the layer inputs u but since u is likely the output of another nonlinearity the shape",
+          "current": "of its distribution is likely to change during training and constraining its first and second moments would not eliminate the covariate shift in contrast w u b is more likely to have a symmetric non-sparse distribution that is more gaussian normalizing it is likely to produce activations with a stable distribution note that since we normalize w u b the bias b can be ignored since its effect will be canceled by the subsequent mean subtraction the role of the",
+          "next": "bias is subsumed by in alg 1 thus z g w u b is replaced with z g bn w u where the bn transform is applied independently to each dimension of x w u with a separate pair of learned parameters k k per dimension for convolutional layers we additionally want the normalization to obey the convolutional property -so that different elements of the same feature map at different locations are normalized in the same way to achieve this"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4958,
+        "downstream_relevance_score": 0.3434,
+        "components": {
+          "bio_boundary_score": 0.7673,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "covariate",
+          "shift"
+        ],
+        "normalization": "covariate shift",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "covariate shift",
+          "canonical": "covariate shift",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7673",
+        "structure model assigned role 'process' with score 0.82",
+        "downstream relevance score is 0.3434"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "bn transform",
+        "canonical": "bn transform",
+        "normalized": "bn transform",
+        "tokens": [
+          "bn",
+          "transform"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 35,
+        "sentence": "- b -1 2 2 b -3 2 l b m i 1 l xi -1 2 b l 2 b m i 1 -2 xi- b m l xi l xi 1 2 b l 2 b 2 xi- b m l b 1 m l m i 1 l yi x i l m i 1 l yi thus bn transform is a differentiable transformation that introduces normalized activations into the network this ensures that as",
+        "context_window": {
+          "previous": "k can change over the course of training we expect that the introduction of normalized inputs accelerates the training of the sub-network and consequently the network as a whole during training we need to backpropagate the gradient of loss l through this transformation as well as compute the gradients with respect to the parameters of the bn transform we use chain rule as follows before simplification l xi l yi l 2 b m i 1 l xi x i",
+          "current": "- b -1 2 2 b -3 2 l b m i 1 l xi -1 2 b l 2 b m i 1 -2 xi- b m l xi l xi 1 2 b l 2 b 2 xi- b m l b 1 m l m i 1 l yi x i l m i 1 l yi thus bn transform is a differentiable transformation that introduces normalized activations into the network this ensures that as",
+          "next": "the model is training layers can continue learning on input distributions that exhibit less internal covariate shift thus accelerating the training furthermore the learned affine transform applied to these normalized activations allows the bn transform to represent the identity transformation and preserves the network capacity training and inference with batch-normalized networks to batch-normalize a network we specify a subset of activations and insert the bn transform for each of them according to alg 1 any layer that previously received x"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5393,
+        "downstream_relevance_score": 0.3364,
+        "components": {
+          "bio_boundary_score": 0.9979,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bn",
+          "transform"
+        ],
+        "normalization": "bn transform",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bn transform",
+          "canonical": "bn transform",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9979",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.3364"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "computational",
+        "canonical": "computational",
+        "normalized": "computational",
+        "tokens": [
+          "computational"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 65,
+        "sentence": "distributions perhaps with just a recomputation of the population means and variances alg 2 finally we believe that further theoretical analysis of the algorithm would allow still more improvements and applications weight layers also it increases the number of parameters by 25 and the computational cost is increased by about 30 the number 28 28 inception modules is increased from 2 to 3 inside the modules sometimes average sometimes maximum-pooling is employed this is indicated in the entries corresponding to",
+        "context_window": {
+          "previous": "future work includes applications of our method to recurrent neural networks where the internal covariate shift and the vanishing or exploding gradients may be especially severe and which would allow us to more thoroughly test the hypothesis that normalization improves gradient propagation sec 3 3 we plan to investigate whether batch normalization can help with domain adaptation in its traditional sense -i e whether the normalization performed by the network would allow it to more easily generalize to new data",
+          "current": "distributions perhaps with just a recomputation of the population means and variances alg 2 finally we believe that further theoretical analysis of the algorithm would allow still more improvements and applications weight layers also it increases the number of parameters by 25 and the computational cost is increased by about 30 the number 28 28 inception modules is increased from 2 to 3 inside the modules sometimes average sometimes maximum-pooling is employed this is indicated in the entries corresponding to",
+          "next": "the pooling layers of the table there are no across the board pooling layers between any two inception modules but stride-2 convolution pooling layers are employed before the filter concatenation in the modules 3c 4e our model employed separable convolution with depth multiplier 8 on the first convolutional layer this reduces the computational cost while increasing the memory consumption at training time"
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4311,
+        "downstream_relevance_score": 0.3348,
+        "components": {
+          "bio_boundary_score": 0.5126,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational"
+        ],
+        "normalization": "computational",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational",
+          "canonical": "computational",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5126",
+        "structure model assigned role 'future_work' with score 0.82",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3348"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "whitening",
+        "canonical": "whitening",
+        "normalized": "whitening",
+        "tokens": [
+          "whitening"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 25,
+        "sentence": "costly and not everywhere differentiable we make two necessary simplifications the first is that instead of whitening the features in layer inputs and outputs jointly we will normalize each scalar feature independently by making it have the mean of zero and the variance of 1 for a layer with d-dimensional input x x x d we will normalize each dimension x k x k -e x k var x k where the expectation and variance are computed over the training",
+        "context_window": {
+          "previous": "use statistics computed over a single training example or in the case of image networks over different feature maps at a given location however this changes the representation ability of a network by discarding the absolute scale of activations we want to a preserve the information in the network by normalizing the activations in a training example relative to the statistics of the entire training data normalization via mini-batch statistics since the full whitening of each layer s inputs is",
+          "current": "costly and not everywhere differentiable we make two necessary simplifications the first is that instead of whitening the features in layer inputs and outputs jointly we will normalize each scalar feature independently by making it have the mean of zero and the variance of 1 for a layer with d-dimensional input x x x d we will normalize each dimension x k x k -e x k var x k where the expectation and variance are computed over the training",
+          "next": "data set as shown in such normalization speeds up convergence even when the features are not decorrelated note that simply normalizing each input of a layer may change what the layer can represent for instance normalizing the inputs of a sigmoid would constrain them to the linear regime of the nonlinearity to address this we make sure that the transformation inserted in the network can represent the identity transform to accomplish this we introduce for each activation x k a"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4802,
+        "downstream_relevance_score": 0.3253,
+        "components": {
+          "bio_boundary_score": 0.7224,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "whitening"
+        ],
+        "normalization": "whitening",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "whitening",
+          "canonical": "whitening",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7224",
+        "structure model assigned role 'motivation' with score 0.82",
+        "downstream relevance score is 0.3253"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "training bn",
+        "canonical": "training bn",
+        "normalized": "training bn",
+        "tokens": [
+          "training",
+          "bn"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 39,
+        "sentence": "are fixed during inference the normalization is simply a linear transform applied to each activation it may further be composed with the scaling by and shift by to yield a single linear transform that replaces bn x algorithm 2 summarizes the procedure for training batch-normalized networks input network n with trainable parameters subset of activations x k k k 1 output batch-normalized network for inference n inf bn 1 n tr bn n training bn network 2 for k 1",
+        "context_window": {
+          "previous": "normalization x x -e x var x using the population rather than mini-batch statistics neglecting these normalized activations have the same mean 0 and variance 1 as during training we use the unbiased variance estimate var x m m-1 e b 2 b where the expectation is over training mini-batches of size m and 2 b are their sample variances using moving averages instead we can track the accuracy of a model as it trains since the means and variances",
+          "current": "are fixed during inference the normalization is simply a linear transform applied to each activation it may further be composed with the scaling by and shift by to yield a single linear transform that replaces bn x algorithm 2 summarizes the procedure for training batch-normalized networks input network n with trainable parameters subset of activations x k k k 1 output batch-normalized network for inference n inf bn 1 n tr bn n training bn network 2 for k 1",
+          "next": "k do 3 add transformation y k bn k k x k to n tr bn alg 1 4 modify each layer in n tr bn with input x k to take y k instead 5 end for 6 train n tr bn to optimize the parameters k k k k 1 7 n inf bn n tr bn inference bn network with frozen parameters 8 for k 1 k do 9 for clarity x x k k b k"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.3933,
+        "downstream_relevance_score": 0.3251,
+        "components": {
+          "bio_boundary_score": 0.4991,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "training",
+          "bn"
+        ],
+        "normalization": "training bn",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "training bn",
+          "canonical": "training bn",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.4991",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3251"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "linear transform",
+        "canonical": "linear transform",
+        "normalized": "linear transform",
+        "tokens": [
+          "linear",
+          "transform"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 33,
+        "sentence": "neglect this can be seen by observing that m i 1 x i 0 and 1 m m i 1 x 2 i 1 and taking expectations each normalized activation x k can be viewed as an input to a sub-network composed of the linear transform y k k x k k followed by the other processing done by the original network these sub-network inputs all have fixed means and variances and although the joint distribution of these normalized x",
+        "context_window": {
+          "previous": "each training example rather bn x depends both on the training example and the other examples in the mini-batch the scaled and shifted values y are passed to other network layers the normalized activations x are internal to our transformation but their presence is crucial the distributions of values of any x has the expected value of 0 and the variance of 1 as long as the elements of each mini-batch are sampled from the same distribution and if we",
+          "current": "neglect this can be seen by observing that m i 1 x i 0 and 1 m m i 1 x 2 i 1 and taking expectations each normalized activation x k can be viewed as an input to a sub-network composed of the linear transform y k k x k k followed by the other processing done by the original network these sub-network inputs all have fixed means and variances and although the joint distribution of these normalized x",
+          "next": "k can change over the course of training we expect that the introduction of normalized inputs accelerates the training of the sub-network and consequently the network as a whole during training we need to backpropagate the gradient of loss l through this transformation as well as compute the gradients with respect to the parameters of the bn transform we use chain rule as follows before simplification l xi l yi l 2 b m i 1 l xi x i"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.515,
+        "downstream_relevance_score": 0.3238,
+        "components": {
+          "bio_boundary_score": 0.9148,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "transform"
+        ],
+        "normalization": "linear transform",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear transform",
+          "canonical": "linear transform",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9148",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.3238"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 13,
+    "top_candidates": [
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Our future work includes applications of our method to Recurrent Neural Networks , where the internal covariate shift and the vanishing or exploding gradients may be especially severe, and which would allow us to more thoroughly test the hypothesis that normalization improves gradient propagation (Sec.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Applied to a state-of-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Applied to a state-of-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Applied to a state-of-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Using an ensemble of batchnormalized networks, we improve upon the best published result on ImageNet classification: reaching 4.9% top-5 validation error (and 4.8% test error), exceeding the accuracy of human raters.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Deep learning has dramatically advanced the state of the art in vision, speech, and many other areas.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Stochastic gradient descent (SGD) has proved to be an effective way of training deep networks, and SGD variants such as momentum and Adagrad have been used to achieve state of the art performance.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "It is based on the premise that covariate shift, which is known to complicate the training of machine learning systems, also ap- Model Resolution Crops Models Top-1 error Top-5 error GoogLeNet ensemble 224 144 7 -6.67% Deep Image low-res 256 -1 -7.96% Deep Image high-res 512 -1 24.88 7.42% Deep Image ensemble variable ---5.98% BN-Inception single crop 224 1 1 25.2% 7.82% BN-Inception multicrop 224 144 1 21.99% 5.82% BN-Inception ensemble 224 144 6 20.1% 4.9%* Figure 4: Batch-Normalized Inception comparison with previous state of the art on the provided validation set comprising 50000 images. *BN-Inception ensemble has reached 4.82% top-5 error on the 100000 images of the test set of the ImageNet as reported by the test server. plies to sub-networks and layers, and removing it from internal activations of the network may aid in training.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Our proposed method draws its power from normalizing activations, and from incorporating this normalization in the network architecture itself.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We presented an algorithm for constructing, training, and performing inference with batch-normalized networks.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "By further increasing the learning rates, removing Dropout, and applying other modifications afforded by Batch Normalization, we reach the previous state of the art with only a small fraction of training steps -and then beat the state of the art in single-network image classification.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Finally, we believe that further theoretical analysis of the algorithm would allow still more improvements and applications. weight layers.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "gradient descent",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6876
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "gradient descent",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.681
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "stochastic gradient descent",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.6715
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "internal covariate shift",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.6249
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "numerical stability",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.6143
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "normalization",
+        "section": "method",
+        "role": "process",
+        "score": 0.5561
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "backpropagation",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.5237
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "computational cost",
+        "section": "conclusion",
+        "role": "core_method",
+        "score": 0.5109
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "imagenet classification",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5038
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "feature map",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.4992
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "batch normalization",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4596
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "covariate",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4461
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "saturation problem",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4418
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "linear transformation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.433
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "softmax",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.3643
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "nonlinearity",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.3617
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "covariate shift",
+        "section": "method",
+        "role": "process",
+        "score": 0.3434
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "bn transform",
+        "section": "intro",
+        "role": "background",
+        "score": 0.3364
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "computational",
+        "section": "conclusion",
+        "role": "future_work",
+        "score": 0.3348
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "whitening",
+        "section": "intro",
+        "role": "motivation",
+        "score": 0.3253
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "training bn",
+        "section": "method",
+        "role": "process",
+        "score": 0.3251
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "linear transform",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3238
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

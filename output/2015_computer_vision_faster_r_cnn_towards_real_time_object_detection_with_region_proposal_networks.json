@@ -1,0 +1,3329 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2015_computer_vision_faster_r_cnn_towards_real_time_object_detection_with_region_proposal_networks",
+    "title": "2015_computer_vision_faster_r_cnn_towards_real_time_object_detection_with_region_proposal_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2015_computer_vision_faster_r_cnn_towards_real_time_object_detection_with_region_proposal_networks.txt",
+    "sentence_count": 74,
+    "section_counts": {
+      "intro": 3,
+      "related_work": 2,
+      "method": 28,
+      "experiment": 41
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5626,
+    "type_count": 1131,
+    "type_token_ratio": 0.201,
+    "section_token_counts": {
+      "intro": 133,
+      "related_work": 93,
+      "method": 2193,
+      "experiment": 3207,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "rpn",
+        "count": 56
+      },
+      {
+        "term": "detection",
+        "count": 54
+      },
+      {
+        "term": "proposals",
+        "count": 52
+      },
+      {
+        "term": "proposal",
+        "count": 51
+      },
+      {
+        "term": "r-cnn",
+        "count": 47
+      },
+      {
+        "term": "convolutional",
+        "count": 47
+      },
+      {
+        "term": "object",
+        "count": 46
+      },
+      {
+        "term": "fast",
+        "count": 42
+      },
+      {
+        "term": "network",
+        "count": 38
+      },
+      {
+        "term": "layers",
+        "count": 36
+      },
+      {
+        "term": "region",
+        "count": 31
+      },
+      {
+        "term": "anchors",
+        "count": 31
+      },
+      {
+        "term": "training",
+        "count": 30
+      },
+      {
+        "term": "image",
+        "count": 28
+      },
+      {
+        "term": "networks",
+        "count": 27
+      },
+      {
+        "term": "using",
+        "count": 27
+      },
+      {
+        "term": "features",
+        "count": 24
+      },
+      {
+        "term": "anchor",
+        "count": 22
+      },
+      {
+        "term": "not",
+        "count": 22
+      },
+      {
+        "term": "layer",
+        "count": 22
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "fast r-cnn",
+        "count": 36
+      },
+      {
+        "term": "object detection",
+        "count": 20
+      },
+      {
+        "term": "region proposal",
+        "count": 18
+      },
+      {
+        "term": "convolutional layers",
+        "count": 18
+      },
+      {
+        "term": "aspect ratios",
+        "count": 13
+      },
+      {
+        "term": "detection network",
+        "count": 11
+      },
+      {
+        "term": "pascal voc",
+        "count": 11
+      },
+      {
+        "term": "scales aspect",
+        "count": 11
+      },
+      {
+        "term": "multiple scales",
+        "count": 10
+      },
+      {
+        "term": "convolutional features",
+        "count": 9
+      },
+      {
+        "term": "region proposals",
+        "count": 9
+      },
+      {
+        "term": "voc 2007",
+        "count": 8
+      },
+      {
+        "term": "does not",
+        "count": 8
+      },
+      {
+        "term": "shared convolutional",
+        "count": 8
+      },
+      {
+        "term": "faster r-cnn",
+        "count": 7
+      },
+      {
+        "term": "detection networks",
+        "count": 7
+      },
+      {
+        "term": "rpn fast",
+        "count": 7
+      },
+      {
+        "term": "per image",
+        "count": 7
+      },
+      {
+        "term": "selective search",
+        "count": 7
+      },
+      {
+        "term": "zf net",
+        "count": 7
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "scales aspect ratios",
+        "count": 10
+      },
+      {
+        "term": "rpn fast r-cnn",
+        "count": 7
+      },
+      {
+        "term": "multiple scales aspect",
+        "count": 6
+      },
+      {
+        "term": "object detection networks",
+        "count": 4
+      },
+      {
+        "term": "fully convolutional network",
+        "count": 4
+      },
+      {
+        "term": "pascal voc 2007",
+        "count": 4
+      },
+      {
+        "term": "object detection system",
+        "count": 4
+      },
+      {
+        "term": "shared convolutional layers",
+        "count": 4
+      },
+      {
+        "term": "voc 2007 trainval",
+        "count": 4
+      },
+      {
+        "term": "region proposal networks",
+        "count": 3
+      },
+      {
+        "term": "state-of-the-art object detection",
+        "count": 3
+      },
+      {
+        "term": "fast r-cnn detection",
+        "count": 3
+      },
+      {
+        "term": "faster r-cnn rpn",
+        "count": 3
+      },
+      {
+        "term": "region proposal methods",
+        "count": 3
+      },
+      {
+        "term": "share convolutional layers",
+        "count": 3
+      },
+      {
+        "term": "r-cnn object detection",
+        "count": 3
+      },
+      {
+        "term": "object proposal methods",
+        "count": 3
+      },
+      {
+        "term": "fast r-cnn detector",
+        "count": 3
+      },
+      {
+        "term": "convolutional feature map",
+        "count": 3
+      },
+      {
+        "term": "train fast r-cnn",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 10,
+    "nonzero_tfidf_features": 10,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 8.0,
+        "tfidf": 0.9556
+      },
+      {
+        "feature_name": "experiments__object detection",
+        "section": "experiment",
+        "term": "object detection",
+        "frequency": 3.0,
+        "tfidf": 0.7482
+      },
+      {
+        "feature_name": "abstract__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.6098
+      },
+      {
+        "feature_name": "experiments__svm",
+        "section": "experiment",
+        "term": "svm",
+        "frequency": 2.0,
+        "tfidf": 0.583
+      },
+      {
+        "feature_name": "abstract__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.571
+      },
+      {
+        "feature_name": "abstract__end-to-end",
+        "section": "intro",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.5495
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 3.0,
+        "tfidf": 0.4289
+      },
+      {
+        "feature_name": "introduction__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 2.0,
+        "tfidf": 0.231
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1384
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1195
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 8.0,
+          "tfidf": 0.9556
+        },
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.6098
+        },
+        {
+          "feature_name": "abstract__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.571
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.5495
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 2.0,
+          "tfidf": 0.231
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1384
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1195
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__object detection",
+          "section": "experiment",
+          "term": "object detection",
+          "frequency": 3.0,
+          "tfidf": 0.7482
+        },
+        {
+          "feature_name": "experiments__svm",
+          "section": "experiment",
+          "term": "svm",
+          "frequency": 2.0,
+          "tfidf": 0.583
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 3.0,
+          "tfidf": 0.4289
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 3,
+      "token_count": 133,
+      "bow_hit_count": 10,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 10,
+          "section_prior": 0.5495,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 8.0,
+          "tfidf": 0.9556
+        },
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.6098
+        },
+        {
+          "feature_name": "abstract__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.571
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.5495
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 2.0,
+          "tfidf": 0.231
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1384
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1195
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 2,
+      "token_count": 93,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 6,
+          "section_prior": 0.1261,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.0898,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 2,
+          "section_prior": 0.1497,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 28,
+      "token_count": 2193,
+      "bow_hit_count": 81,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 33,
+          "section_prior": 0.036,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 16,
+          "section_prior": 0.0443,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 10,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 8,
+          "section_prior": 0.1088,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 7,
+          "section_prior": 0.0598,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 4,
+          "section_prior": 0.2204,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "referring expression generation",
+          "count": 3,
+          "section_prior": 0.4286,
+          "confidence_score": 0.85,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 41,
+      "token_count": 3207,
+      "bow_hit_count": 60,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 18,
+          "section_prior": 0.1622,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 8,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 7,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "referring expression generation",
+          "count": 6,
+          "section_prior": 0.1429,
+          "confidence_score": 0.85,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 4,
+          "section_prior": 0.025,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 2,
+          "section_prior": 0.0928,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__object detection",
+          "section": "experiment",
+          "term": "object detection",
+          "frequency": 3.0,
+          "tfidf": 0.7482
+        },
+        {
+          "feature_name": "experiments__svm",
+          "section": "experiment",
+          "term": "svm",
+          "frequency": 2.0,
+          "tfidf": 0.583
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 3.0,
+          "tfidf": 0.4289
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "convolutional network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "convolutional",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 9,
+        "sentence": "convolutional layers that simultaneously regress region bounds and objectness scores at each location on a regular grid the rpn is thus a kind of fully convolutional network fcn and can be trained end-toend specifically for the task for generating detection proposals rpns are designed to efficiently predict region proposals with a wide range of scales and aspect ratios in contrast to prevalent that use pyramids of images figure a or pyramids of filters figure b we introduce novel anchor boxes",
+        "context_window": {
+          "previous": "the detection network s computation to this end we introduce novel region proposal networks rpns that share convolutional layers with state-of-the-art object detection networks by sharing convolutions at test-time the marginal cost for computing proposals is small e g 10ms per image our observation is that the convolutional feature maps used by region-based detectors like fast r-cnn can also be used for generating region proposals on top of these convolutional features we construct an rpn by adding a few additional",
+          "current": "convolutional layers that simultaneously regress region bounds and objectness scores at each location on a regular grid the rpn is thus a kind of fully convolutional network fcn and can be trained end-toend specifically for the task for generating detection proposals rpns are designed to efficiently predict region proposals with a wide range of scales and aspect ratios in contrast to prevalent that use pyramids of images figure a or pyramids of filters figure b we introduce novel anchor boxes",
+          "next": "that serve as references at multiple scales and aspect ratios our scheme can be thought of as a pyramid of regression references figure which avoids enumerating images or filters of multiple scales or aspect ratios this model performs well when trained and tested using single-scale images and thus benefits running speed to unify rpns with fast r-cnn object detection networks we propose a training scheme that alternates between fine-tuning for the region proposal task and then fine-tuning for object detection"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7544,
+        "downstream_relevance_score": 0.8317,
+        "components": {
+          "bio_boundary_score": 0.7833,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.2204,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 0.78,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 17,
+        "total_frequency": 40,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "network"
+        ],
+        "normalization": "convolutional network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2204,
+        "canonicalization": {
+          "observed": "convolutional network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7833",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched introduce",
+        "downstream relevance score is 0.8317"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "object detection",
+        "canonical": "object detection",
+        "normalized": "object detection",
+        "tokens": [
+          "object",
+          "detection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "object detection"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 4,
+        "sentence": "recent advances in object detection are driven by the success of region proposal",
+        "context_window": {
+          "previous": "pascal voc 2007 2012 and ms coco datasets with only 300 proposals per image in ilsvrc and coco 2015 competitions faster r-cnn and rpn are the foundations of the 1st-place winning entries in several tracks code has been made publicly available body",
+          "current": "recent advances in object detection are driven by the success of region proposal",
+          "next": "e g and region-based convolutional neural networks r-cnns although region-based cnns were computationally expensive as originally developed in their cost has been drastically reduced thanks to sharing convolutions across proposals the latest incarnation fast r-cnn achieves near real-time rates using very deep networks when ignoring the time spent on region proposals now proposals are the test-time computational bottleneck in state-of-the-art detection systems region proposal methods typically rely on inexpensive features and economical inference schemes selective search one of the most"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.3988
+      },
+      "evidence": {
+        "score": 0.8662,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7012,
+        "downstream_relevance_score": 0.6991,
+        "components": {
+          "bio_boundary_score": 0.8341,
+          "sentence_evidence_score": 0.8662,
+          "sentence_role_score": 0.3988,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.1261,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "object detection",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "object detection",
+        "display_term": "object detection",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Object_detection",
+        "wikidata_id": "Q3045304",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 11,
+        "total_frequency": 13,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "object",
+          "detection"
+        ],
+        "normalization": "object detection",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1261,
+        "canonicalization": {
+          "observed": "object detection",
+          "canonical": "object detection",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8341",
+        "structure model assigned role 'core_method' with score 0.3988",
+        "evidence score 0.8662 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'object detection' with confidence 0.85",
+        "BoW role prior suggests 'task'",
+        "downstream relevance score is 0.6991"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "region proposal network",
+        "canonical": "region proposal network",
+        "normalized": "region proposal network",
+        "tokens": [
+          "region",
+          "proposal",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 20,
+        "sentence": "is a single unified network for object detection figure using the recently popular terminology of neural networks with attention mechanisms the rpn module tells the fast r-cnn module where to look in section 3 1 we introduce the designs and properties of the network for region proposal in section 3 2 we develop algorithms for training both modules with features shared region proposal networks a region proposal network rpn takes an image of any size as input and outputs a",
+        "context_window": {
+          "previous": "localization and detection adaptively-sized pooling spp on shared convolutional feature maps is developed for efficient region-based object detection and semantic segmentation fast r-cnn enables end-to-end detector training on shared convolutional features and shows compelling accuracy and speed faster r-cnn our object detection system called faster r-cnn is composed of two modules the first module is a deep fully convolutional network that proposes regions and the second module is the fast r-cnn detector that uses the proposed regions the entire system",
+          "current": "is a single unified network for object detection figure using the recently popular terminology of neural networks with attention mechanisms the rpn module tells the fast r-cnn module where to look in section 3 1 we introduce the designs and properties of the network for region proposal in section 3 2 we develop algorithms for training both modules with features shared region proposal networks a region proposal network rpn takes an image of any size as input and outputs a",
+          "next": "set of rectangular object proposals each with an objectness score 3 we model this process with a fully convolutional network which we describe in this section because our ultimate goal is to share computation with a fast r-cnn object detection network we assume that both nets share a common set of convolutional layers in our experiments we investigate the zeiler and fergus model zf which has 5 shareable convolutional layers and the simonyan and zisserman model vgg-16 which has 13"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7171,
+        "downstream_relevance_score": 0.6253,
+        "components": {
+          "bio_boundary_score": 0.6553,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "region",
+          "proposal",
+          "network"
+        ],
+        "normalization": "region proposal network",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "region proposal network",
+          "canonical": "region proposal network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6553",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce",
+        "downstream relevance score is 0.6253"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "image pyramid",
+        "canonical": "image pyramid",
+        "normalized": "image pyramid",
+        "tokens": [
+          "image",
+          "pyramid"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 53,
+        "sentence": "both networks share the same convolutional layers and form a unified network a similar alternating training can be run for more iterations but we have observed negligible improvements implementation details we train and test both region proposal and object detection networks on images of a single scale we re-scale the images such that their shorter side is s 600 pixels multi-scale feature extraction using an image pyramid may improve accuracy but does not exhibit a good speed-accuracy trade-off on the",
+        "context_window": {
+          "previous": "the proposals generated by the step-1 rpn this detection network is also initialized by the imagenet-pre-trained model at this point the two networks do not share convolutional layers in the third step we use the detector network to initialize rpn training but we fix the shared convolutional layers and only fine-tune the layers unique to rpn now the two networks share convolutional layers finally keeping the shared convolutional layers fixed we fine-tune the unique layers of fast r-cnn as such",
+          "current": "both networks share the same convolutional layers and form a unified network a similar alternating training can be run for more iterations but we have observed negligible improvements implementation details we train and test both region proposal and object detection networks on images of a single scale we re-scale the images such that their shorter side is s 600 pixels multi-scale feature extraction using an image pyramid may improve accuracy but does not exhibit a good speed-accuracy trade-off on the",
+          "next": "re-scaled images the total stride for both zf and vgg nets on the last convolutional layer is 16 pixels and thus is 10 pixels on a typical pascal image before resizing 500 375 even such a large stride provides good results though accuracy may be further improved with a smaller stride for anchors we use 3 scales with box areas of 128 2 256 2 and 512 2 pixels and 3 aspect ratios of 1 1 1 2 and 2"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7271,
+        "downstream_relevance_score": 0.6149,
+        "components": {
+          "bio_boundary_score": 0.9501,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "pyramid"
+        ],
+        "normalization": "image pyramid",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image pyramid",
+          "canonical": "image pyramid",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9501",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.6149"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "stochastic gradient",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "stochastic",
+          "gradient"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd optimizer",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 42,
+        "sentence": "scale and one aspect ratio and the k regressors do not share weights as such it is still possible to predict boxes of various sizes even though the features are of a fixed size scale thanks to the design of anchors training rpns the rpn can be trained end-to-end by backpropagation and stochastic gradient descent sgd we follow the image-centric sampling strategy from to train this network each mini-batch arises from a single image that contains many positive and negative",
+        "context_window": {
+          "previous": "ground-truth box nevertheless our method achieves bounding-box regression by a different manner from previous roibased region of interest methods in bounding-box regression is performed on features pooled from arbitrarily sized rois and the regression weights are shared by all region sizes in our formulation the features used for regression are of the same spatial size 3 3 on the feature maps to account for varying sizes a set of k bounding-box regressors are learned each regressor is responsible for one",
+          "current": "scale and one aspect ratio and the k regressors do not share weights as such it is still possible to predict boxes of various sizes even though the features are of a fixed size scale thanks to the design of anchors training rpns the rpn can be trained end-to-end by backpropagation and stochastic gradient descent sgd we follow the image-centric sampling strategy from to train this network each mini-batch arises from a single image that contains many positive and negative",
+          "next": "example anchors it is possible to optimize for the loss functions of all anchors but this will bias towards negative samples as they are dominate instead we randomly sample 256 anchors in an image to compute the loss function of a mini-batch where the sampled positive and negative anchors have a ratio of up to 1 1 if there are fewer than 128 positive samples in an image we pad the mini-batch with negative ones we randomly initialize all new"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5875,
+        "downstream_relevance_score": 0.6099,
+        "components": {
+          "bio_boundary_score": 0.5917,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.2158,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "stochastic gradient descent",
+        "match_quality": 0.78,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "sgd",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 14,
+        "total_frequency": 29,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient"
+        ],
+        "normalization": "stochastic gradient",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2158,
+        "canonicalization": {
+          "observed": "stochastic gradient",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5917",
+        "structure model assigned role 'gap' with score 0.66",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.6099"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "convolutional layer",
+        "canonical": "convolutional layer",
+        "normalized": "convolutional layer",
+        "tokens": [
+          "convolutional",
+          "layer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 54,
+        "sentence": "re-scaled images the total stride for both zf and vgg nets on the last convolutional layer is 16 pixels and thus is 10 pixels on a typical pascal image before resizing 500 375 even such a large stride provides good results though accuracy may be further improved with a smaller stride for anchors we use 3 scales with box areas of 128 2 256 2 and 512 2 pixels and 3 aspect ratios of 1 1 1 2 and 2",
+        "context_window": {
+          "previous": "both networks share the same convolutional layers and form a unified network a similar alternating training can be run for more iterations but we have observed negligible improvements implementation details we train and test both region proposal and object detection networks on images of a single scale we re-scale the images such that their shorter side is s 600 pixels multi-scale feature extraction using an image pyramid may improve accuracy but does not exhibit a good speed-accuracy trade-off on the",
+          "current": "re-scaled images the total stride for both zf and vgg nets on the last convolutional layer is 16 pixels and thus is 10 pixels on a typical pascal image before resizing 500 375 even such a large stride provides good results though accuracy may be further improved with a smaller stride for anchors we use 3 scales with box areas of 128 2 256 2 and 512 2 pixels and 3 aspect ratios of 1 1 1 2 and 2",
+          "next": "1 these hyper-parameters are not carefully chosen for a particular dataset and we provide ablation on their effects in the next section as discussed our solution does not need an image pyramid or filter pyramid to predict regions of multiple scales saving considerable running time figure shows the capability of our method for a wide range of scales and aspect ratios table shows the learned average proposal size for each anchor using the zf net we note that our algorithm"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6727,
+        "downstream_relevance_score": 0.5866,
+        "components": {
+          "bio_boundary_score": 0.7664,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "layer"
+        ],
+        "normalization": "convolutional layer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convolutional layer",
+          "canonical": "convolutional layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7664",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5866"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "fast r",
+        "canonical": "fast r",
+        "normalized": "fast r",
+        "tokens": [
+          "fast",
+          "r"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 2,
+        "sentence": "is trained end-to-end to generate high-quality region proposals which are used by fast r-cnn for detection we further merge rpn and fast r-cnn into a single network by sharing their convolutional features-using the recently popular terminology of neural networks with attention mechanisms the rpn component tells the unified network where to look for the very deep vgg-16 model our detection system has a frame rate of 5fps including all steps on a gpu while achieving state-of-the-art object detection accuracy on",
+        "context_window": {
+          "previous": "state-of-the-art object detection networks depend on region proposal algorithms to hypothesize object locations advances like sppnet and fast r-cnn have reduced the running time of these detection networks exposing region proposal computation as a bottleneck in this work we introduce a region proposal network rpn that shares full-image convolutional features with the detection network thus enabling nearly cost-free region proposals an rpn is a fully convolutional network that simultaneously predicts object bounds and objectness scores at each position the rpn",
+          "current": "is trained end-to-end to generate high-quality region proposals which are used by fast r-cnn for detection we further merge rpn and fast r-cnn into a single network by sharing their convolutional features-using the recently popular terminology of neural networks with attention mechanisms the rpn component tells the unified network where to look for the very deep vgg-16 model our detection system has a frame rate of 5fps including all steps on a gpu while achieving state-of-the-art object detection accuracy on",
+          "next": "pascal voc 2007 2012 and ms coco datasets with only 300 proposals per image in ilsvrc and coco 2015 competitions faster r-cnn and rpn are the foundations of the 1st-place winning entries in several tracks code has been made publicly available body"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.3992
+      },
+      "evidence": {
+        "score": 0.8662,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6242,
+        "downstream_relevance_score": 0.5678,
+        "components": {
+          "bio_boundary_score": 0.5696,
+          "sentence_evidence_score": 0.8662,
+          "sentence_role_score": 0.3992,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fast",
+          "r"
+        ],
+        "normalization": "fast r",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "fast r",
+          "canonical": "fast r",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5696",
+        "structure model assigned role 'core_method' with score 0.3992",
+        "evidence score 0.8662 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, accuracy",
+        "downstream relevance score is 0.5678"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "receptive field",
+        "canonical": "receptive field",
+        "normalized": "receptive field",
+        "tokens": [
+          "receptive",
+          "field"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 23,
+        "sentence": "3 in this paper noting that the effective receptive field on the input image is large 171 and 228 pixels for zf and vgg respectively this mini-network is illustrated at a single position in figure left note that because the mini-network operates in a sliding-window fashion the fully-connected layers are shared across all spatial locations this architecture is naturally implemented with an n n convolutional layer followed by two sibling 1 1 convolutional layers for reg and cls respectively anchors",
+        "context_window": {
+          "previous": "shareable convolutional layers to generate region proposals we slide a small network over the convolutional feature map output by the last shared convolutional layer this small network takes as input an n n spatial window of the input convolutional feature map each sliding window is mapped to a lower-dimensional feature 256-d for zf and 512-d for vgg with relu following this feature is fed into two sibling fullyconnected layers-a box-regression layer reg and a box-classification layer cls we use n",
+          "current": "3 in this paper noting that the effective receptive field on the input image is large 171 and 228 pixels for zf and vgg respectively this mini-network is illustrated at a single position in figure left note that because the mini-network operates in a sliding-window fashion the fully-connected layers are shared across all spatial locations this architecture is naturally implemented with an n n convolutional layer followed by two sibling 1 1 convolutional layers for reg and cls respectively anchors",
+          "next": "at each sliding-window location we simultaneously predict multiple region proposals where the number of maximum possible proposals for each location is denoted as k so the reg layer has 4k outputs encoding the coordinates of k boxes and the cls layer outputs 2k scores that estimate probability of object or not object for each proposal 4 the k proposals are parameterized relative to k reference boxes which we call 3 region is a generic term and in this paper we"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6626,
+        "downstream_relevance_score": 0.5674,
+        "components": {
+          "bio_boundary_score": 0.671,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "receptive",
+          "field"
+        ],
+        "normalization": "receptive field",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "receptive field",
+          "canonical": "receptive field",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.671",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5674"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "object proposal",
+        "canonical": "object proposal",
+        "normalized": "object proposal",
+        "tokens": [
+          "object",
+          "proposal"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 15,
+        "sentence": "cost-efficient solution for practical usage but also an effective way of improving object detection accuracy related work object proposals there is a large literature on object proposal methods comprehensive surveys and comparisons of object proposal methods can be found in widely used object proposal methods include those based on grouping super-pixels e g selective search cpmc mcg and those based on sliding windows e g objectness in windows edgeboxes object proposal were adopted as external modules independent of the detectors",
+        "context_window": {
+          "previous": "coco 2015 competitions faster r-cnn and rpn are the basis of several 1st-place entries in the tracks of imagenet detection ima-genet localization coco detection and coco segmentation rpns completely learn to propose regions from data and thus can easily benefit from deeper and more expressive features such as the 101-layer residual nets adopted in faster r-cnn and rpn are also used by several other leading entries in these competitions 2 these results suggest that our method is not only a",
+          "current": "cost-efficient solution for practical usage but also an effective way of improving object detection accuracy related work object proposals there is a large literature on object proposal methods comprehensive surveys and comparisons of object proposal methods can be found in widely used object proposal methods include those based on grouping super-pixels e g selective search cpmc mcg and those based on sliding windows e g objectness in windows edgeboxes object proposal were adopted as external modules independent of the detectors",
+          "next": "e g selective search object detectors r-cnn and fast r-cnn deep networks for object detection the r-cnn method trains cnns end-to-end to classify the proposal regions into object categories or background r-cnn mainly plays as a classifier and it does not predict object bounds except for refining by bounding box regression its accuracy depends on the performance of the region proposal module see comparisons in several papers have proposed ways of using deep networks for predicting object bounding boxes in"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6587,
+        "downstream_relevance_score": 0.5665,
+        "components": {
+          "bio_boundary_score": 0.7975,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "object",
+          "proposal"
+        ],
+        "normalization": "object proposal",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "object proposal",
+          "canonical": "object proposal",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7975",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5665"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "rpn",
+        "canonical": "rpn",
+        "normalized": "rpn",
+        "tokens": [
+          "rpn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 14,
+        "sentence": "coco 2015 competitions faster r-cnn and rpn are the basis of several 1st-place entries in the tracks of imagenet detection ima-genet localization coco detection and coco segmentation rpns completely learn to propose regions from data and thus can easily benefit from deeper and more expressive features such as the 101-layer residual nets adopted in faster r-cnn and rpn are also used by several other leading entries in these competitions 2 these results suggest that our method is not only a",
+        "context_window": {
+          "previous": "rpn and faster r-cnn have been adopted and generalized to other methods such as 3d object detection part-based detection instance segmentation and image captioning our fast and effective object detection system has also been built in com-1 since the publication of the conference version of this paper we have also found that rpns can be trained jointly with fast r-cnn networks leading to less training time mercial systems such as at pinterests with user engagement improvements reported in ilsvrc and",
+          "current": "coco 2015 competitions faster r-cnn and rpn are the basis of several 1st-place entries in the tracks of imagenet detection ima-genet localization coco detection and coco segmentation rpns completely learn to propose regions from data and thus can easily benefit from deeper and more expressive features such as the 101-layer residual nets adopted in faster r-cnn and rpn are also used by several other leading entries in these competitions 2 these results suggest that our method is not only a",
+          "next": "cost-efficient solution for practical usage but also an effective way of improving object detection accuracy related work object proposals there is a large literature on object proposal methods comprehensive surveys and comparisons of object proposal methods can be found in widely used object proposal methods include those based on grouping super-pixels e g selective search cpmc mcg and those based on sliding windows e g objectness in windows edgeboxes object proposal were adopted as external modules independent of the detectors"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7145,
+        "downstream_relevance_score": 0.5661,
+        "components": {
+          "bio_boundary_score": 0.8776,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "rpn"
+        ],
+        "normalization": "rpn",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "rpn",
+          "canonical": "rpn",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8776",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5661"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "region proposal",
+        "canonical": "region proposal",
+        "normalized": "region proposal",
+        "tokens": [
+          "region",
+          "proposal"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 4,
+        "sentence": "recent advances in object detection are driven by the success of region proposal",
+        "context_window": {
+          "previous": "pascal voc 2007 2012 and ms coco datasets with only 300 proposals per image in ilsvrc and coco 2015 competitions faster r-cnn and rpn are the foundations of the 1st-place winning entries in several tracks code has been made publicly available body",
+          "current": "recent advances in object detection are driven by the success of region proposal",
+          "next": "e g and region-based convolutional neural networks r-cnns although region-based cnns were computationally expensive as originally developed in their cost has been drastically reduced thanks to sharing convolutions across proposals the latest incarnation fast r-cnn achieves near real-time rates using very deep networks when ignoring the time spent on region proposals now proposals are the test-time computational bottleneck in state-of-the-art detection systems region proposal methods typically rely on inexpensive features and economical inference schemes selective search one of the most"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.3988
+      },
+      "evidence": {
+        "score": 0.8662,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7449,
+        "downstream_relevance_score": 0.5605,
+        "components": {
+          "bio_boundary_score": 0.9833,
+          "sentence_evidence_score": 0.8662,
+          "sentence_role_score": 0.3988,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "region",
+          "proposal"
+        ],
+        "normalization": "region proposal",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "region proposal",
+          "canonical": "region proposal",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9833",
+        "structure model assigned role 'core_method' with score 0.3988",
+        "evidence score 0.8662 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5605"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "bounding-box regression",
+        "canonical": "bounding-box regression",
+        "normalized": "bounding-box regression",
+        "tokens": [
+          "bounding-box",
+          "regression"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 41,
+        "sentence": "ground-truth box nevertheless our method achieves bounding-box regression by a different manner from previous roibased region of interest methods in bounding-box regression is performed on features pooled from arbitrarily sized rois and the regression weights are shared by all region sizes in our formulation the features used for regression are of the same spatial size 3 3 on the feature maps to account for varying sizes a set of k bounding-box regressors are learned each regressor is responsible for one",
+        "context_window": {
+          "previous": "t x x -x a w a t y y -y a h a t w log w w a t h log h h a where x y w and h denote the box s center coordinates and its width and height variables x x a and x are for the predicted box anchor box and groundtruth box respectively likewise for y w h this can be thought of as bounding-box regression from an anchor box to a nearby",
+          "current": "ground-truth box nevertheless our method achieves bounding-box regression by a different manner from previous roibased region of interest methods in bounding-box regression is performed on features pooled from arbitrarily sized rois and the regression weights are shared by all region sizes in our formulation the features used for regression are of the same spatial size 3 3 on the feature maps to account for varying sizes a set of k bounding-box regressors are learned each regressor is responsible for one",
+          "next": "scale and one aspect ratio and the k regressors do not share weights as such it is still possible to predict boxes of various sizes even though the features are of a fixed size scale thanks to the design of anchors training rpns the rpn can be trained end-to-end by backpropagation and stochastic gradient descent sgd we follow the image-centric sampling strategy from to train this network each mini-batch arises from a single image that contains many positive and negative"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6977,
+        "downstream_relevance_score": 0.5518,
+        "components": {
+          "bio_boundary_score": 0.9617,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bounding-box",
+          "regression"
+        ],
+        "normalization": "bounding-box regression",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bounding-box regression",
+          "canonical": "bounding-box regression",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9617",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5518"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "bounding box regression",
+        "canonical": "bounding box regression",
+        "normalized": "bounding box regression",
+        "tokens": [
+          "bounding",
+          "box",
+          "regression"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 39,
+        "sentence": "both cls and reg terms are roughly equally weighted we show by that the results are insensitive to the values of in a wide range table we also note that the normalization as above is not required and could be simplified for bounding box regression we adopt the parameterizations of the 4 coordinates following t x x -x a w a t y y -y a h a t w log w w a t h log h h a",
+        "context_window": {
+          "previous": "the cls and reg layers consist of p i and t i respectively the two terms are normalized by n cls and n reg and weighted by a balancing parameter in our current implementation as in the released code the cls term in eqn is normalized by the mini-batch size i e n cls 256 and the reg term is normalized by the number of anchor locations i e n reg 2 400 by default we set 10 and thus",
+          "current": "both cls and reg terms are roughly equally weighted we show by that the results are insensitive to the values of in a wide range table we also note that the normalization as above is not required and could be simplified for bounding box regression we adopt the parameterizations of the 4 coordinates following t x x -x a w a t y y -y a h a t w log w w a t h log h h a",
+          "next": "t x x -x a w a t y y -y a h a t w log w w a t h log h h a where x y w and h denote the box s center coordinates and its width and height variables x x a and x are for the predicted box anchor box and groundtruth box respectively likewise for y w h this can be thought of as bounding-box regression from an anchor box to a nearby"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7619,
+        "downstream_relevance_score": 0.5462,
+        "components": {
+          "bio_boundary_score": 0.9488,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bounding",
+          "box",
+          "regression"
+        ],
+        "normalization": "bounding box regression",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bounding box regression",
+          "canonical": "bounding box regression",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9488",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5462"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "convolutional feature map",
+        "canonical": "convolutional feature map",
+        "normalized": "convolutional feature map",
+        "tokens": [
+          "convolutional",
+          "feature",
+          "map"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 22,
+        "sentence": "shareable convolutional layers to generate region proposals we slide a small network over the convolutional feature map output by the last shared convolutional layer this small network takes as input an n n spatial window of the input convolutional feature map each sliding window is mapped to a lower-dimensional feature 256-d for zf and 512-d for vgg with relu following this feature is fed into two sibling fullyconnected layers-a box-regression layer reg and a box-classification layer cls we use n",
+        "context_window": {
+          "previous": "set of rectangular object proposals each with an objectness score 3 we model this process with a fully convolutional network which we describe in this section because our ultimate goal is to share computation with a fast r-cnn object detection network we assume that both nets share a common set of convolutional layers in our experiments we investigate the zeiler and fergus model zf which has 5 shareable convolutional layers and the simonyan and zisserman model vgg-16 which has 13",
+          "current": "shareable convolutional layers to generate region proposals we slide a small network over the convolutional feature map output by the last shared convolutional layer this small network takes as input an n n spatial window of the input convolutional feature map each sliding window is mapped to a lower-dimensional feature 256-d for zf and 512-d for vgg with relu following this feature is fed into two sibling fullyconnected layers-a box-regression layer reg and a box-classification layer cls we use n",
+          "next": "3 in this paper noting that the effective receptive field on the input image is large 171 and 228 pixels for zf and vgg respectively this mini-network is illustrated at a single position in figure left note that because the mini-network operates in a sliding-window fashion the fully-connected layers are shared across all spatial locations this architecture is naturally implemented with an n n convolutional layer followed by two sibling 1 1 convolutional layers for reg and cls respectively anchors"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6861,
+        "downstream_relevance_score": 0.4972,
+        "components": {
+          "bio_boundary_score": 0.9494,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "feature",
+          "map"
+        ],
+        "normalization": "convolutional feature map",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convolutional feature map",
+          "canonical": "convolutional feature map",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9494",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4972"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "binary class label",
+        "canonical": "binary class label",
+        "normalized": "binary class label",
+        "tokens": [
+          "binary",
+          "class",
+          "label"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 33,
+        "sentence": "the effects of this scheme for addressing multiple scales and sizes table because of this multi-scale design based on anchors we can simply use the convolutional features computed on a single-scale image as is also done by the fast r-cnn detector the design of multiscale anchors is a key component for sharing features without extra cost for addressing scales loss function for training rpns we assign a binary class label of being an object or not to each anchor we",
+        "context_window": {
+          "previous": "multiple scales and aspect ratios it only relies on images and feature maps of a single scale and uses filters sliding windows on the feature map of a single size we show by",
+          "current": "the effects of this scheme for addressing multiple scales and sizes table because of this multi-scale design based on anchors we can simply use the convolutional features computed on a single-scale image as is also done by the fast r-cnn detector the design of multiscale anchors is a key component for sharing features without extra cost for addressing scales loss function for training rpns we assign a binary class label of being an object or not to each anchor we",
+          "next": "assign a positive label to two kinds of anchors i the anchor anchors with the highest intersection-over-union iou overlap with a ground-truth box or ii an anchor that has an iou overlap higher than 0 7 with any ground-truth box note that a single ground-truth box may assign positive labels to multiple anchors usually the second condition is sufficient to determine the positive samples but we still adopt the first condition for the reason that in some rare cases the"
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5695,
+        "downstream_relevance_score": 0.4939,
+        "components": {
+          "bio_boundary_score": 0.6109,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "binary",
+          "class",
+          "label"
+        ],
+        "normalization": "binary class label",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "binary class label",
+          "canonical": "binary class label",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6109",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.4939"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "feature map",
+        "canonical": "feature map",
+        "normalized": "feature map",
+        "tokens": [
+          "feature",
+          "map"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 32,
+        "sentence": "multiple scales and aspect ratios it only relies on images and feature maps of a single scale and uses filters sliding windows on the feature map of a single size we show by",
+        "context_window": {
+          "previous": "models of different aspect ratios are trained separately using different filter sizes such as 5 7 and 7 5 if this way is used to address multiple scales it can be thought of as a pyramid of filters figure the second way is usually adopted jointly with the first way as a comparison our anchor-based method is built on a pyramid of anchors which is more cost-efficient our method classifies and regresses bounding boxes with reference to anchor boxes of",
+          "current": "multiple scales and aspect ratios it only relies on images and feature maps of a single scale and uses filters sliding windows on the feature map of a single size we show by",
+          "next": "the effects of this scheme for addressing multiple scales and sizes table because of this multi-scale design based on anchors we can simply use the convolutional features computed on a single-scale image as is also done by the fast r-cnn detector the design of multiscale anchors is a key component for sharing features without extra cost for addressing scales loss function for training rpns we assign a binary class label of being an object or not to each anchor we"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.668,
+        "downstream_relevance_score": 0.4874,
+        "components": {
+          "bio_boundary_score": 0.6278,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "map"
+        ],
+        "normalization": "feature map",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature map",
+          "canonical": "feature map",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6278",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4874"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "aspect ratio",
+        "canonical": "aspect ratio",
+        "normalized": "aspect ratio",
+        "tokens": [
+          "aspect",
+          "ratio"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 72,
+        "sentence": "300 per image our system has a frame-rate of 17 fps with the zf net sensitivities to hyper-parameters in table we investigate the settings of anchors by default we use 3 scales and 3 aspect ratios 69 9 map in table if using just one anchor at each position the map drops by a considerable margin of 3-4 the map is higher if using 3 scales with 1 aspect ratio or 3 aspect ratios with 1 scale demonstrating that using",
+        "context_window": {
+          "previous": "we summarize the running time of the entire object detection system ss takes 1-2 seconds depending on content on average about 1 5s and fast r-cnn with vgg-16 takes 320ms on 2000 ss proposals or 223ms if using svd on fully-connected layers our system with vgg-16 takes in total 198ms for both proposal and detection with the convolutional features shared the rpn alone only takes 10ms computing the additional layers our regionwise computation is also lower thanks to fewer proposals",
+          "current": "300 per image our system has a frame-rate of 17 fps with the zf net sensitivities to hyper-parameters in table we investigate the settings of anchors by default we use 3 scales and 3 aspect ratios 69 9 map in table if using just one anchor at each position the map drops by a considerable margin of 3-4 the map is higher if using 3 scales with 1 aspect ratio or 3 aspect ratios with 1 scale demonstrating that using",
+          "next": "anchors of multiple sizes as the regression"
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_objective",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6993,
+        "downstream_relevance_score": 0.4855,
+        "components": {
+          "bio_boundary_score": 0.8668,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "aspect",
+          "ratio"
+        ],
+        "normalization": "aspect ratio",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "aspect ratio",
+          "canonical": "aspect ratio",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8668",
+        "structure model assigned role 'objective' with score 0.66",
+        "downstream relevance score is 0.4855"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "feature projection",
+        "canonical": "feature projection",
+        "normalized": "feature projection",
+        "tokens": [
+          "feature",
+          "projection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 28,
+        "sentence": "result our output layer has 2 8 10 4 parameters 512 4 2 9 for vgg-16 two orders of magnitude fewer than multibox s output layer that has 6 1 10 6 parameters 1536 4 1 800 for googlenet in multibox if considering the feature projection layers our proposal layers still have an order of magnitude fewer parameters than multibox 6 we expect our method to have less risk of overfitting on small datasets like pascal voc 5 as is",
+        "context_window": {
+          "previous": "location this translation-invariant property is guaranteed by our method 5 as a comparison the multibox method uses k-means to generate 800 anchors which are not translation invariant so multibox does not guarantee that the same proposal is generated if an object is translated the translation-invariant property also reduces the model size multibox has a 4 1 800-dimensional fully-connected output layer whereas our method has a 4 2 9-dimensional convolutional output layer in the case of k 9 anchors as a",
+          "current": "result our output layer has 2 8 10 4 parameters 512 4 2 9 for vgg-16 two orders of magnitude fewer than multibox s output layer that has 6 1 10 6 parameters 1536 4 1 800 for googlenet in multibox if considering the feature projection layers our proposal layers still have an order of magnitude fewer parameters than multibox 6 we expect our method to have less risk of overfitting on small datasets like pascal voc 5 as is",
+          "next": "the case of fcns our network is translation invariant up to the network s total stride 6 considering the feature projection layers our proposal layers parameter count is 3 3 512 512 512 6 9 2 4 10 6 multibox s proposal layers parameter count is 7 7 64 96 64 64 1536 1536 5 800 27 10 6 multi-scale anchors as regression references our design of anchors presents a novel scheme for addressing multiple scales and aspect ratios as"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6702,
+        "downstream_relevance_score": 0.4831,
+        "components": {
+          "bio_boundary_score": 0.7275,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "projection"
+        ],
+        "normalization": "feature projection",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature projection",
+          "canonical": "feature projection",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7275",
+        "structure model assigned role 'core_method' with score 0.82",
+        "downstream relevance score is 0.4831"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "mini-batch",
+        "canonical": "mini-batch",
+        "normalized": "mini-batch",
+        "tokens": [
+          "mini-batch"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 42,
+        "sentence": "scale and one aspect ratio and the k regressors do not share weights as such it is still possible to predict boxes of various sizes even though the features are of a fixed size scale thanks to the design of anchors training rpns the rpn can be trained end-to-end by backpropagation and stochastic gradient descent sgd we follow the image-centric sampling strategy from to train this network each mini-batch arises from a single image that contains many positive and negative",
+        "context_window": {
+          "previous": "ground-truth box nevertheless our method achieves bounding-box regression by a different manner from previous roibased region of interest methods in bounding-box regression is performed on features pooled from arbitrarily sized rois and the regression weights are shared by all region sizes in our formulation the features used for regression are of the same spatial size 3 3 on the feature maps to account for varying sizes a set of k bounding-box regressors are learned each regressor is responsible for one",
+          "current": "scale and one aspect ratio and the k regressors do not share weights as such it is still possible to predict boxes of various sizes even though the features are of a fixed size scale thanks to the design of anchors training rpns the rpn can be trained end-to-end by backpropagation and stochastic gradient descent sgd we follow the image-centric sampling strategy from to train this network each mini-batch arises from a single image that contains many positive and negative",
+          "next": "example anchors it is possible to optimize for the loss functions of all anchors but this will bias towards negative samples as they are dominate instead we randomly sample 256 anchors in an image to compute the loss function of a mini-batch where the sampled positive and negative anchors have a ratio of up to 1 1 if there are fewer than 128 positive samples in an image we pad the mini-batch with negative ones we randomly initialize all new"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6192,
+        "downstream_relevance_score": 0.4646,
+        "components": {
+          "bio_boundary_score": 0.7,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mini-batch"
+        ],
+        "normalization": "mini-batch",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mini-batch",
+          "canonical": "mini-batch",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.4646"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "roi pooling layer",
+        "canonical": "roi pooling layer",
+        "normalized": "roi pooling layer",
+        "tokens": [
+          "roi",
+          "pooling",
+          "layer"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 50,
+        "sentence": "the input the roi pooling layer in fast r-cnn accepts the convolutional features and also the predicted bounding boxes as input so a theoretically valid backpropagation solver should also involve gradients w r t the box coordinates these gradients are ignored in the above approximate joint training in a non-approximate joint training solution we need an roi pooling layer that is differentiable w r t the box coordinates this is a nontrivial problem and a solution can be given by",
+        "context_window": {
+          "previous": "loss are combined this solution is easy to implement but this solution ignores the derivative w r t the proposal boxes coordinates that are also network responses so is approximate in our experiments we have empirically found this solver produces close results yet reduces the training time by about 25-50 comparing with alternating training this solver is included in our released python code iii non-approximate joint training as discussed above the bounding boxes predicted by rpn are also functions of",
+          "current": "the input the roi pooling layer in fast r-cnn accepts the convolutional features and also the predicted bounding boxes as input so a theoretically valid backpropagation solver should also involve gradients w r t the box coordinates these gradients are ignored in the above approximate joint training in a non-approximate joint training solution we need an roi pooling layer that is differentiable w r t the box coordinates this is a nontrivial problem and a solution can be given by",
+          "next": "an roi warping layer as developed in which is beyond the scope of this paper 4-step alternating training in this paper we adopt a pragmatic 4-step training algorithm to learn shared features via alternating optimization in the first step we train the rpn as described in section 3 1 3 this network is initialized with an imagenet-pre-trained model and fine-tuned end-to-end for the region proposal task in the second step we train a separate detection network by fast r-cnn using"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6286,
+        "downstream_relevance_score": 0.4545,
+        "components": {
+          "bio_boundary_score": 0.7121,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "roi",
+          "pooling",
+          "layer"
+        ],
+        "normalization": "roi pooling layer",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "roi pooling layer",
+          "canonical": "roi pooling layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7121",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4545"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "aspect",
+        "canonical": "aspect",
+        "normalized": "aspect",
+        "tokens": [
+          "aspect"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 32,
+        "sentence": "multiple scales and aspect ratios it only relies on images and feature maps of a single scale and uses filters sliding windows on the feature map of a single size we show by",
+        "context_window": {
+          "previous": "models of different aspect ratios are trained separately using different filter sizes such as 5 7 and 7 5 if this way is used to address multiple scales it can be thought of as a pyramid of filters figure the second way is usually adopted jointly with the first way as a comparison our anchor-based method is built on a pyramid of anchors which is more cost-efficient our method classifies and regresses bounding boxes with reference to anchor boxes of",
+          "current": "multiple scales and aspect ratios it only relies on images and feature maps of a single scale and uses filters sliding windows on the feature map of a single size we show by",
+          "next": "the effects of this scheme for addressing multiple scales and sizes table because of this multi-scale design based on anchors we can simply use the convolutional features computed on a single-scale image as is also done by the fast r-cnn detector the design of multiscale anchors is a key component for sharing features without extra cost for addressing scales loss function for training rpns we assign a binary class label of being an object or not to each anchor we"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.612,
+        "downstream_relevance_score": 0.4482,
+        "components": {
+          "bio_boundary_score": 0.4362,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "aspect"
+        ],
+        "normalization": "aspect",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "aspect",
+          "canonical": "aspect",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.4362",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4482"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "loss function",
+        "canonical": "loss function",
+        "normalized": "loss function",
+        "tokens": [
+          "loss",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 43,
+        "sentence": "example anchors it is possible to optimize for the loss functions of all anchors but this will bias towards negative samples as they are dominate instead we randomly sample 256 anchors in an image to compute the loss function of a mini-batch where the sampled positive and negative anchors have a ratio of up to 1 1 if there are fewer than 128 positive samples in an image we pad the mini-batch with negative ones we randomly initialize all new",
+        "context_window": {
+          "previous": "scale and one aspect ratio and the k regressors do not share weights as such it is still possible to predict boxes of various sizes even though the features are of a fixed size scale thanks to the design of anchors training rpns the rpn can be trained end-to-end by backpropagation and stochastic gradient descent sgd we follow the image-centric sampling strategy from to train this network each mini-batch arises from a single image that contains many positive and negative",
+          "current": "example anchors it is possible to optimize for the loss functions of all anchors but this will bias towards negative samples as they are dominate instead we randomly sample 256 anchors in an image to compute the loss function of a mini-batch where the sampled positive and negative anchors have a ratio of up to 1 1 if there are fewer than 128 positive samples in an image we pad the mini-batch with negative ones we randomly initialize all new",
+          "next": "layers by drawing weights from a zero-mean gaussian distribution with standard deviation 0 01 all other layers i e the shared convolutional layers are initialized by pretraining a model for imagenet classification as is standard practice we tune all layers of the zf net and conv3 1 and up for the vgg net to conserve memory we use a learning rate of 0 001 for 60k mini-batches and 0 0001 for the next 20k mini-batches on the pascal voc dataset"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6092,
+        "downstream_relevance_score": 0.4344,
+        "components": {
+          "bio_boundary_score": 0.6502,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "loss",
+          "function"
+        ],
+        "normalization": "loss function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "loss function",
+          "canonical": "loss function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6502",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.4344"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 40,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "RPN with Fast R-CNN achieves competitive results, with an mAP of 59.9% while using up to 300 proposals 8 .",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Multi-scale feature extraction (using an image pyramid) may improve accuracy but does not exhibit a good speed-accuracy trade-off .",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Even such a large stride provides good results, though accuracy may be further improved with a smaller stride.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "These hyper-parameters are not carefully chosen for a particular dataset, and we provide ablation experiments on their effects in the next section.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "As we will show, NMS does not harm the ultimate detection accuracy, but substantially reduces the number of proposals.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We comprehensively evaluate our method on the PASCAL VOC 2007 detection benchmark .",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This dataset consists of about 5k trainval images and 5k test images over 20 object categories.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We also provide results on the PASCAL VOC 2012 benchmark for a few models.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We primarily evaluate detection mean Average Precision (mAP), because this is the actual metric for object detection (rather than focusing on object proposal proxy metrics).",
+        "evidence_type": "metric",
+        "matched_cue": "precision",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This shows that the cls scores account for the accuracy of the highest ranked proposals.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Next we compute the recall of proposals at different IoU ratios with groundtruth boxes.",
+        "evidence_type": "metric",
+        "matched_cue": "recall",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "It is noteworthy that the Recall-to-IoU metric is just loosely , , related to the ultimate detection accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "It is noteworthy that the Recall-to-IoU metric is just loosely , , related to the ultimate detection accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "recall",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The recall of SS and EB drops more quickly than RPN when the proposals are fewer. Ϭ͘ϱ Ϭ͘ϲ Ϭ͘ϳ Ϭ͘ϴ Ϭ͘ϵ ϭ Ϭ Ϭ͘Ϯ Ϭ͘ϰ Ϭ͘ϲ Ϭ͘ϴ ϭ /Žh ZĞĐĂůů ϯϬϬ ƉƌŽƉŽƐĂůƐ ^ ZWE & ZWE s'' Ϭ͘ϱ Ϭ͘ϲ Ϭ͘ϳ Ϭ͘ϴ Ϭ͘ϵ ϭ Ϭ Ϭ͘Ϯ Ϭ͘ϰ Ϭ͘ϲ Ϭ͘ϴ ϭ /Žh ϭϬϬϬ ƉƌŽƉŽƐĂůƐ ^ ZWE & ZWE s'' Ϭ͘ϱ Ϭ͘ϲ Ϭ͘ϳ Ϭ͘ϴ Ϭ͘ϵ ϭ Ϭ Ϭ͘Ϯ Ϭ͘ϰ Ϭ͘ϲ Ϭ͘ϴ ϭ /Žh ϮϬϬϬ ƉƌŽƉŽƐĂůƐ ^ ZWE & ZWE s'' We present more results on the Microsoft COCO object detection dataset .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The recall of SS and EB drops more quickly than RPN when the proposals are fewer. Ϭ͘ϱ Ϭ͘ϲ Ϭ͘ϳ Ϭ͘ϴ Ϭ͘ϵ ϭ Ϭ Ϭ͘Ϯ Ϭ͘ϰ Ϭ͘ϲ Ϭ͘ϴ ϭ /Žh ZĞĐĂůů ϯϬϬ ƉƌŽƉŽƐĂůƐ ^ ZWE & ZWE s'' Ϭ͘ϱ Ϭ͘ϲ Ϭ͘ϳ Ϭ͘ϴ Ϭ͘ϵ ϭ Ϭ Ϭ͘Ϯ Ϭ͘ϰ Ϭ͘ϲ Ϭ͘ϴ ϭ /Žh ϭϬϬϬ ƉƌŽƉŽƐĂůƐ ^ ZWE & ZWE s'' Ϭ͘ϱ Ϭ͘ϲ Ϭ͘ϳ Ϭ͘ϴ Ϭ͘ϵ ϭ Ϭ Ϭ͘Ϯ Ϭ͘ϰ Ϭ͘ϲ Ϭ͘ϴ ϭ /Žh ϮϬϬϬ ƉƌŽƉŽƐĂůƐ ^ ZWE & ZWE s'' We present more results on the Microsoft COCO object detection dataset .",
+        "evidence_type": "metric",
+        "matched_cue": "recall",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "There are a few minor changes of our system made for this dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the anchors, we use 3 aspect ratios and 4 scales (adding 64 2 ), mainly motivated by handling small objects on this dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Including these [0, 0.1) samples improves mAP@0.5 on the COCO dataset for both Fast R-CNN and Faster R-CNN systems (but the impact is negligible on PASCAL VOC).",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The testing time is still about 200ms per image on the COCO dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This indicates that RPN performs excellent for improving the localization accuracy at higher IoU thresholds.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This dataset involves 80 object categories.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this work, we introduce a Region Proposal Network (RPN) that shares full-image convolutional features with the detection network, thus enabling nearly cost-free region proposals.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "For the very deep VGG-16 model [3], our detection system has a frame rate of 5fps (including all steps) on a GPU, while achieving state-of-the-art object detection accuracy on PASCAL VOC 2007, 2012, and MS COCO datasets with only 300 proposals per image.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "For the very deep VGG-16 model [3], our detection system has a frame rate of 5fps (including all steps) on a GPU, while achieving state-of-the-art object detection accuracy on PASCAL VOC 2007, 2012, and MS COCO datasets with only 300 proposals per image.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The latest incarnation, Fast R-CNN , achieves near real-time rates using very deep networks , when ignoring the time spent on region proposals.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Convolutional neural network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.8317
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "object detection",
+        "section": "related_work",
+        "role": "core_method",
+        "score": 0.6991
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "region proposal network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6253
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "image pyramid",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6149
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "stochastic gradient descent",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.6099
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "convolutional layer",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5866
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "fast r",
+        "section": "related_work",
+        "role": "core_method",
+        "score": 0.5678
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "receptive field",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5674
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "object proposal",
+        "section": "method",
+        "role": "metric",
+        "score": 0.5665
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "rpn",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5661
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "region proposal",
+        "section": "related_work",
+        "role": "core_method",
+        "score": 0.5605
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "bounding-box regression",
+        "section": "experiment",
+        "role": "prior_work",
+        "score": 0.5518
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "bounding box regression",
+        "section": "experiment",
+        "role": "contribution",
+        "score": 0.5462
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "convolutional feature map",
+        "section": "method",
+        "role": "component",
+        "score": 0.4972
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "binary class label",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.4939
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "feature map",
+        "section": "method",
+        "role": "contribution",
+        "score": 0.4874
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "aspect ratio",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.4855
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "feature projection",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4831
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "mini-batch",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.4646
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "roi pooling layer",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.4545
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "aspect",
+        "section": "method",
+        "role": "contribution",
+        "score": 0.4482
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "loss function",
+        "section": "experiment",
+        "role": "mechanism",
+        "score": 0.4344
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_011",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_019",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_021",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

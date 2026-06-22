@@ -1,0 +1,3978 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2015_classical_ai_prioritized_experience_replay",
+    "title": "2015_classical_ai_prioritized_experience_replay",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2015_classical_ai_prioritized_experience_replay.txt",
+    "sentence_count": 62,
+    "section_counts": {
+      "intro": 4,
+      "related_work": 4,
+      "method": 26,
+      "experiment": 6,
+      "conclusion": 22
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4816,
+    "type_count": 1252,
+    "type_token_ratio": 0.26,
+    "section_token_counts": {
+      "intro": 350,
+      "related_work": 246,
+      "method": 2041,
+      "experiment": 446,
+      "conclusion": 1733
+    },
+    "top_unigrams": [
+      {
+        "term": "replay",
+        "count": 53
+      },
+      {
+        "term": "transitions",
+        "count": 39
+      },
+      {
+        "term": "transition",
+        "count": 32
+      },
+      {
+        "term": "more",
+        "count": 29
+      },
+      {
+        "term": "learning",
+        "count": 28
+      },
+      {
+        "term": "which",
+        "count": 28
+      },
+      {
+        "term": "prioritization",
+        "count": 28
+      },
+      {
+        "term": "experience",
+        "count": 27
+      },
+      {
+        "term": "can",
+        "count": 25
+      },
+      {
+        "term": "memory",
+        "count": 24
+      },
+      {
+        "term": "prioritized",
+        "count": 18
+      },
+      {
+        "term": "dqn",
+        "count": 18
+      },
+      {
+        "term": "sampling",
+        "count": 17
+      },
+      {
+        "term": "one",
+        "count": 17
+      },
+      {
+        "term": "algorithm",
+        "count": 16
+      },
+      {
+        "term": "update",
+        "count": 16
+      },
+      {
+        "term": "value",
+        "count": 15
+      },
+      {
+        "term": "all",
+        "count": 15
+      },
+      {
+        "term": "when",
+        "count": 15
+      },
+      {
+        "term": "where",
+        "count": 15
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "replay memory",
+        "count": 16
+      },
+      {
+        "term": "experience replay",
+        "count": 13
+      },
+      {
+        "term": "prioritized replay",
+        "count": 10
+      },
+      {
+        "term": "td error",
+        "count": 9
+      },
+      {
+        "term": "double dqn",
+        "count": 7
+      },
+      {
+        "term": "reinforcement learning",
+        "count": 6
+      },
+      {
+        "term": "dqn algorithm",
+        "count": 5
+      },
+      {
+        "term": "more efficient",
+        "count": 5
+      },
+      {
+        "term": "stochastic prioritization",
+        "count": 5
+      },
+      {
+        "term": "importance sampling",
+        "count": 5
+      },
+      {
+        "term": "blind cliffwalk",
+        "count": 5
+      },
+      {
+        "term": "proportional prioritization",
+        "count": 5
+      },
+      {
+        "term": "each transition",
+        "count": 4
+      },
+      {
+        "term": "expected learning",
+        "count": 4
+      },
+      {
+        "term": "learning progress",
+        "count": 4
+      },
+      {
+        "term": "see appendix",
+        "count": 4
+      },
+      {
+        "term": "binary heap",
+        "count": 4
+      },
+      {
+        "term": "data structure",
+        "count": 4
+      },
+      {
+        "term": "rank-based prioritization",
+        "count": 4
+      },
+      {
+        "term": "rank-based proportional",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "expected learning progress",
+        "count": 4
+      },
+      {
+        "term": "human starts evaluation",
+        "count": 4
+      },
+      {
+        "term": "experience replay more",
+        "count": 3
+      },
+      {
+        "term": "replay more efficient",
+        "count": 3
+      },
+      {
+        "term": "double dqn algorithm",
+        "count": 3
+      },
+      {
+        "term": "online reinforcement learning",
+        "count": 2
+      },
+      {
+        "term": "transitions same frequency",
+        "count": 2
+      },
+      {
+        "term": "same frequency they",
+        "count": 2
+      },
+      {
+        "term": "prioritized experience replay",
+        "count": 2
+      },
+      {
+        "term": "deep q-networks dqn",
+        "count": 2
+      },
+      {
+        "term": "dqn algorithm which",
+        "count": 2
+      },
+      {
+        "term": "sliding window replay",
+        "count": 2
+      },
+      {
+        "term": "window replay memory",
+        "count": 2
+      },
+      {
+        "term": "rl agent can",
+        "count": 2
+      },
+      {
+        "term": "agent can learn",
+        "count": 2
+      },
+      {
+        "term": "appear replayed more",
+        "count": 2
+      },
+      {
+        "term": "mnist digit classification",
+        "count": 2
+      },
+      {
+        "term": "using replay memory",
+        "count": 2
+      },
+      {
+        "term": "speed-ups over uniform",
+        "count": 2
+      },
+      {
+        "term": "learning progress while",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 17,
+    "nonzero_tfidf_features": 17,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__dqn",
+        "section": "intro",
+        "term": "dqn",
+        "frequency": 5.0,
+        "tfidf": 1.0563
+      },
+      {
+        "feature_name": "conclusion__supervised learning",
+        "section": "conclusion",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "experiments__dqn",
+        "section": "experiment",
+        "term": "dqn",
+        "frequency": 10.0,
+        "tfidf": 0.9696
+      },
+      {
+        "feature_name": "abstract__dqn",
+        "section": "intro",
+        "term": "dqn",
+        "frequency": 3.0,
+        "tfidf": 0.8869
+      },
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.3834
+      },
+      {
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.2653
+      },
+      {
+        "feature_name": "abstract__learning algorithm",
+        "section": "intro",
+        "term": "learning algorithm",
+        "frequency": 1.0,
+        "tfidf": 0.2577
+      },
+      {
+        "feature_name": "introduction__adaptive learning",
+        "section": "intro",
+        "term": "adaptive learning",
+        "frequency": 1.0,
+        "tfidf": 0.2393
+      },
+      {
+        "feature_name": "introduction__end-to-end",
+        "section": "intro",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.2067
+      },
+      {
+        "feature_name": "introduction__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1932
+      },
+      {
+        "feature_name": "introduction__deep reinforcement learning",
+        "section": "intro",
+        "term": "deep reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.1932
+      },
+      {
+        "feature_name": "introduction__supervised learning",
+        "section": "intro",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.1606
+      },
+      {
+        "feature_name": "introduction__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.1606
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 2.0,
+        "tfidf": 0.1462
+      },
+      {
+        "feature_name": "experiments__deep networks",
+        "section": "experiment",
+        "term": "deep networks",
+        "frequency": 1.0,
+        "tfidf": 0.127
+      },
+      {
+        "feature_name": "experiments__learning algorithms",
+        "section": "experiment",
+        "term": "learning algorithms",
+        "frequency": 1.0,
+        "tfidf": 0.1143
+      },
+      {
+        "feature_name": "experiments__end-to-end",
+        "section": "experiment",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.097
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 5.0,
+          "tfidf": 1.0563
+        },
+        {
+          "feature_name": "abstract__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 3.0,
+          "tfidf": 0.8869
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.3834
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.2653
+        },
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.2577
+        },
+        {
+          "feature_name": "introduction__adaptive learning",
+          "section": "intro",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.2393
+        },
+        {
+          "feature_name": "introduction__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.2067
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1932
+        },
+        {
+          "feature_name": "introduction__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.1932
+        },
+        {
+          "feature_name": "introduction__supervised learning",
+          "section": "intro",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.1606
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.1606
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__dqn",
+          "section": "experiment",
+          "term": "dqn",
+          "frequency": 10.0,
+          "tfidf": 0.9696
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.1462
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 1.0,
+          "tfidf": 0.127
+        },
+        {
+          "feature_name": "experiments__learning algorithms",
+          "section": "experiment",
+          "term": "learning algorithms",
+          "frequency": 1.0,
+          "tfidf": 0.1143
+        },
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.097
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__supervised learning",
+          "section": "conclusion",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 4,
+      "token_count": 350,
+      "bow_hit_count": 23,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 8,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 7,
+          "section_prior": 0.2951,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 4,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 2,
+          "section_prior": 0.4805,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "online machine learning",
+          "count": 2,
+          "section_prior": 0.2778,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 5.0,
+          "tfidf": 1.0563
+        },
+        {
+          "feature_name": "abstract__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 3.0,
+          "tfidf": 0.8869
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.3834
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.2653
+        },
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.2577
+        },
+        {
+          "feature_name": "introduction__adaptive learning",
+          "section": "intro",
+          "term": "adaptive learning",
+          "frequency": 1.0,
+          "tfidf": 0.2393
+        },
+        {
+          "feature_name": "introduction__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.2067
+        },
+        {
+          "feature_name": "introduction__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1932
+        },
+        {
+          "feature_name": "introduction__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.1932
+        },
+        {
+          "feature_name": "introduction__supervised learning",
+          "section": "intro",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.1606
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.1606
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 4,
+      "token_count": 246,
+      "bow_hit_count": 5,
+      "top_bow_terms": [
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.0467,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 26,
+      "token_count": 2041,
+      "bow_hit_count": 72,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 17,
+          "section_prior": 0.0656,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 15,
+          "section_prior": 0.0455,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 15,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 5,
+          "section_prior": 0.1667,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1088,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 5,
+          "section_prior": 0.0779,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.0598,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 5,
+          "section_prior": 0.202,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 6,
+      "token_count": 446,
+      "bow_hit_count": 23,
+      "top_bow_terms": [
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 5,
+          "section_prior": 0.1688,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 3,
+          "section_prior": 0.4672,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__dqn",
+          "section": "experiment",
+          "term": "dqn",
+          "frequency": 10.0,
+          "tfidf": 0.9696
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.1462
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 1.0,
+          "tfidf": 0.127
+        },
+        {
+          "feature_name": "experiments__learning algorithms",
+          "section": "experiment",
+          "term": "learning algorithms",
+          "frequency": 1.0,
+          "tfidf": 0.1143
+        },
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.097
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 22,
+      "token_count": 1733,
+      "bow_hit_count": 22,
+      "top_bow_terms": [
+        {
+          "canonical_term": "prediction bias",
+          "count": 10,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 7,
+          "section_prior": 0.1639,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 5,
+          "section_prior": 0.15,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__supervised learning",
+          "section": "conclusion",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 0,
+        "sentence": "experience replay lets online reinforcement learning agents remember and reuse experiences from the past in prior work experience transitions were uniformly sampled from a replay memory however this approach simply replays transitions at the same frequency that they were originally experienced regardless of their significance in this paper we develop a framework for prioritizing experience so as to replay important transitions more frequently and therefore learn more efficiently we use prioritized experience replay in deep q-networks dqn a reinforcement learning algorithm that achieved human-level performance across many atari games dqn with prioritized experience replay achieves a new stateof-the-art outperforming dqn with uniform replay on 41 out of 49 games body",
+        "context_window": {
+          "previous": "",
+          "current": "experience replay lets online reinforcement learning agents remember and reuse experiences from the past in prior work experience transitions were uniformly sampled from a replay memory however this approach simply replays transitions at the same frequency that they were originally experienced regardless of their significance in this paper we develop a framework for prioritizing experience so as to replay important transitions more frequently and therefore learn more efficiently we use prioritized experience replay in deep q-networks dqn a reinforcement learning algorithm that achieved human-level performance across many atari games dqn with prioritized experience replay achieves a new stateof-the-art outperforming dqn with uniform replay on 41 out of 49 games body",
+          "next": "online reinforcement learning rl agents incrementally update their parameters of the policy value function or model while they observe a stream of experience in their simplest form they discard incoming data immediately after a single update two issues with this are a strongly correlated updates that break the i i d assumption of many popular stochastic gradient-based algorithms and b the rapid forgetting of possibly rare experiences that would be useful later on experience replay addresses both of these issues"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9273
+      },
+      "evidence": {
+        "score": 0.435,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5844,
+        "downstream_relevance_score": 0.7457,
+        "components": {
+          "bio_boundary_score": 0.5869,
+          "sentence_evidence_score": 0.435,
+          "sentence_role_score": 0.9273,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5505,
+          "document_tfidf_score": 0.363,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 28,
+        "total_frequency": 75,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.3834,
+        "normalized_frequency": 0.2,
+        "normalized_tfidf": 0.363
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.5505,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5869",
+        "structure model assigned role 'problem' with score 0.9273",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'abstract__reinforcement learning' with tf-idf 0.3834",
+        "evidence cue lexicon matched framework, algorithm, achieves",
+        "downstream relevance score is 0.7457"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "stochastic sampling",
+        "canonical": "stochastic sampling",
+        "normalized": "stochastic sampling",
+        "tokens": [
+          "stochastic",
+          "sampling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 19,
+        "sentence": "replay memory further it is sensitive to noise spikes e g when rewards are stochastic which can be exacerbated by bootstrapping where approximation errors appear as another source of noise finally greedy prioritization focuses on a small subset of the experience errors shrink slowly especially when using function approximation meaning that the initially high error transitions get replayed frequently this lack of diversity that makes the system prone to over-fitting to overcome these issues we introduce a stochastic sampling that",
+        "context_window": {
+          "previous": "with the new td-error after a learning step is o log n see appendix b 2 1 for more details stochastic prioritization however greedy td-error prioritization has several issues first to avoid expensive sweeps over the entire replay memory td errors are only updated for the transitions that are replayed one consequence is that transitions that have a low td error on first visit may not be replayed for a long time which means effectively never with a sliding window",
+          "current": "replay memory further it is sensitive to noise spikes e g when rewards are stochastic which can be exacerbated by bootstrapping where approximation errors appear as another source of noise finally greedy prioritization focuses on a small subset of the experience errors shrink slowly especially when using function approximation meaning that the initially high error transitions get replayed frequently this lack of diversity that makes the system prone to over-fitting to overcome these issues we introduce a stochastic sampling that",
+          "next": "interpolates between pure greedy prioritization and uniform random sampling we ensure that the probability of being sampled is monotonic in a transition s priority while guaranteeing a non-zero probability even for the lowest-priority transition concretely we define the probability of sampling transition i as p i p i k p k where p i 0 is the priority of transition i the exponent determines how much prioritization is used with 0 corresponding to the uniform case the first variant we"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6791,
+        "downstream_relevance_score": 0.5955,
+        "components": {
+          "bio_boundary_score": 0.5269,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "sampling"
+        ],
+        "normalization": "stochastic sampling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic sampling",
+          "canonical": "stochastic sampling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5269",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce",
+        "downstream relevance score is 0.5955"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "experience replay",
+        "canonical": "experience replay",
+        "normalized": "experience replay",
+        "tokens": [
+          "experience",
+          "replay"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "more effectively from some transitions than from others transitions may be more or less surprising redundant or task-relevant some transitions may not be immediately useful to the agent but might become so when the agent competence increases experience replay liberates online learning agents from processing transitions in the exact order they are experienced prioritized replay further liberates agents from considering transitions with the same frequency that they are experienced in particular we propose to more frequently replay transitions with high",
+        "context_window": {
+          "previous": "and revisited each transition eight times on average in general experience replay can reduce the amount of experience required to learn and replace it with more computation and more memory -which are often cheaper resources than the rl agent s interactions with its environment in this paper we investigate how prioritizing which transitions are replayed can make experience replay more efficient and effective than if all transitions are replayed uniformly the key idea is that an rl agent can learn",
+          "current": "more effectively from some transitions than from others transitions may be more or less surprising redundant or task-relevant some transitions may not be immediately useful to the agent but might become so when the agent competence increases experience replay liberates online learning agents from processing transitions in the exact order they are experienced prioritized replay further liberates agents from considering transitions with the same frequency that they are experienced in particular we propose to more frequently replay transitions with high",
+          "next": "expected learning progress as measured by the magnitude of their temporal-difference td error this prioritization can lead to a loss of diversity which we alleviate with stochastic prioritization and introduce bias which we correct with importance sampling our resulting algorithms are robust and scalable which we demonstrate on the atari 2600 benchmark suite where we obtain faster learning and state-of-the-art performance 2 background numerous neuroscience studies have identified evidence of experience replay in the hippocampus of rodents suggesting that sequences"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9273
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7075,
+        "downstream_relevance_score": 0.5622,
+        "components": {
+          "bio_boundary_score": 0.9824,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9273,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "experience",
+          "replay"
+        ],
+        "normalization": "experience replay",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "experience replay",
+          "canonical": "experience replay",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9824",
+        "structure model assigned role 'problem' with score 0.9273",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5622"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "residual neural network",
+        "normalized": "residual neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "residual neural network",
+          "ResNet",
+          "resnet"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 36,
+        "sentence": "sliding window memory that retains the last 10 6 transitions the algorithm processes minibatches of 32 transitions sampled uniformly from the memory one minibatch update is done for each 4 new transitions entering the memory so all experience is replayed 8 times on average rewards and td-errors are clipped to fall within -1 1 for stability reasons we use the identical neural network architecture learning algorithm replay memory and evaluation setup as for the baselines see metric is the quality",
+        "context_window": {
+          "previous": "without requiring careful problem-specific hyperparameter tuning we consider two baseline algorithms that use uniform experience replay namely the version of the dqn algorithm from the nature paper and its recent extension double dqn that substantially improved the state-of-the-art by reducing the overestimation bias with double q-learning throughout this paper we use the tuned version of the double dqn algorithm for this paper the most relevant component of these baselines is the replay mechanism all experienced transitions are stored in a",
+          "current": "sliding window memory that retains the last 10 6 transitions the algorithm processes minibatches of 32 transitions sampled uniformly from the memory one minibatch update is done for each 4 new transitions entering the memory so all experience is replayed 8 times on average rewards and td-errors are clipped to fall within -1 1 for stability reasons we use the identical neural network architecture learning algorithm replay memory and evaluation setup as for the baselines see metric is the quality",
+          "next": "of the best policy for rank-based and proportional prioritization these are at 47 and 38 of total training time right similar to the left but using the mean instead of maximum which captures cumulative performance rather than peak performance here rank-based and proportional prioritization reach the equivalence points at 41 and 43 of total training time respectively for the detailed learning curves that these plots summarize see figure in terms of average score per episode given start states sampled from"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4661,
+        "downstream_relevance_score": 0.561,
+        "components": {
+          "bio_boundary_score": 0.5559,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.44,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "residual neural network",
+        "match_quality": 0.78,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "residual neural network",
+        "display_term": "ResNet",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Residual_neural_network",
+        "wikidata_id": "Q43744058",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 32,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.44,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "residual neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5559",
+        "structure model assigned role 'metric' with score 0.82",
+        "section BoW matched canonical term 'residual neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched architecture, algorithm",
+        "downstream relevance score is 0.561"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "prioritization",
+        "canonical": "prioritization",
+        "normalized": "prioritization",
+        "tokens": [
+          "prioritization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 43,
+        "sentence": "distinguishing between learnable and unlearnable transitions on the optimizer it is possible to modulate prioritization by not treating positive td-errors the same than negative ones we can for example invoke the anna karenina principle interpreted to mean that there are many ways in which a transition can be less good than expected but only one in which can be better to introduce an asymmetry and prioritize positive td-errors more than negative ones of equal magnitude because the former are more",
+        "context_window": {
+          "previous": "however and is influenced by whatever was replayed in the meanwhile which increases its variance in preliminary experiments we found it did not outperform but this may say more about the class of near-deterministic environments we investigated than about the measure itself an orthogonal variant is to consider the norm of the weight-change induced by replaying a transition -this can be effective if the underlying optimizer employs adaptive step-sizes that reduce gradients in high-noise directions thus placing the burden of",
+          "current": "distinguishing between learnable and unlearnable transitions on the optimizer it is possible to modulate prioritization by not treating positive td-errors the same than negative ones we can for example invoke the anna karenina principle interpreted to mean that there are many ways in which a transition can be less good than expected but only one in which can be better to introduce an asymmetry and prioritize positive td-errors more than negative ones of equal magnitude because the former are more",
+          "next": "likely to be informative such an asymmetry in replay frequency was also observed in rat studies again our preliminary experiments with such variants were inconclusive the evidence from neuroscience suggest that a prioritization based on episodic return rather than expected learning progress may be useful too for this case we could boost the replay probabilities of entire episodes instead of transitions or boost individual transitions by their observed return-to-go or even their value estimates for the issue of preserving sufficient"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7349,
+        "downstream_relevance_score": 0.5303,
+        "components": {
+          "bio_boundary_score": 0.8639,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "prioritization"
+        ],
+        "normalization": "prioritization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "prioritization",
+          "canonical": "prioritization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8639",
+        "structure model assigned role 'contribution' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce",
+        "downstream relevance score is 0.5303"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "anna karenina principle",
+        "canonical": "anna karenina principle",
+        "normalized": "anna karenina principle",
+        "tokens": [
+          "anna",
+          "karenina",
+          "principle"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 43,
+        "sentence": "distinguishing between learnable and unlearnable transitions on the optimizer it is possible to modulate prioritization by not treating positive td-errors the same than negative ones we can for example invoke the anna karenina principle interpreted to mean that there are many ways in which a transition can be less good than expected but only one in which can be better to introduce an asymmetry and prioritize positive td-errors more than negative ones of equal magnitude because the former are more",
+        "context_window": {
+          "previous": "however and is influenced by whatever was replayed in the meanwhile which increases its variance in preliminary experiments we found it did not outperform but this may say more about the class of near-deterministic environments we investigated than about the measure itself an orthogonal variant is to consider the norm of the weight-change induced by replaying a transition -this can be effective if the underlying optimizer employs adaptive step-sizes that reduce gradients in high-noise directions thus placing the burden of",
+          "current": "distinguishing between learnable and unlearnable transitions on the optimizer it is possible to modulate prioritization by not treating positive td-errors the same than negative ones we can for example invoke the anna karenina principle interpreted to mean that there are many ways in which a transition can be less good than expected but only one in which can be better to introduce an asymmetry and prioritize positive td-errors more than negative ones of equal magnitude because the former are more",
+          "next": "likely to be informative such an asymmetry in replay frequency was also observed in rat studies again our preliminary experiments with such variants were inconclusive the evidence from neuroscience suggest that a prioritization based on episodic return rather than expected learning progress may be useful too for this case we could boost the replay probabilities of entire episodes instead of transitions or boost individual transitions by their observed return-to-go or even their value estimates for the issue of preserving sufficient"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6551,
+        "downstream_relevance_score": 0.5089,
+        "components": {
+          "bio_boundary_score": 0.5913,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "anna",
+          "karenina",
+          "principle"
+        ],
+        "normalization": "anna karenina principle",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "anna karenina principle",
+          "canonical": "anna karenina principle",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5913",
+        "structure model assigned role 'contribution' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce",
+        "downstream relevance score is 0.5089"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "human starts",
+        "canonical": "human starts",
+        "normalized": "human starts",
+        "tokens": [
+          "human",
+          "starts"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 59,
+        "sentence": "4 baseline 8 table 3 chosen hyperparameters for prioritized variants of dqn arrows indicate linear annealing where the limiting value is reached at the end of training note the rank-based variant with dqn as the baseline is an early version without is here the bias introduced by prioritized replay was instead corrected by annealing to zero b 2 3 evaluation we evaluate our agents using the human starts evaluation method described in human starts evaluation uses start states sampled randomly",
+        "context_window": {
+          "previous": "range avoiding the possibility of extremely large updates it is worth mentioning that this normalization interacts with annealing on as approaches 1 the normalization constant grows which reduces the effective average update in a similar way to annealing the step-size table 2 lists the values tried and table 3 lists the chosen parameters hyperparameter range of values 0 0 4 0 5 0 6 0 7 0 8 0 0 4 0 5 0 6 1 baseline baseline 2 baseline",
+          "current": "4 baseline 8 table 3 chosen hyperparameters for prioritized variants of dqn arrows indicate linear annealing where the limiting value is reached at the end of training note the rank-based variant with dqn as the baseline is an early version without is here the bias introduced by prioritized replay was instead corrected by annealing to zero b 2 3 evaluation we evaluate our agents using the human starts evaluation method described in human starts evaluation uses start states sampled randomly",
+          "next": "from human traces the test evaluation that agents periodically undergo during training uses start states that are randomized by doing a random number of no-ops at the beginning of each episode human starts evaluation averages the score over 100 evaluations of 30 minutes of game time all learning curve plots show scores under the test evaluation and were generated using the same code base with the same random seed initializations table and table show evaluation method differences and the used"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7124,
+        "downstream_relevance_score": 0.505,
+        "components": {
+          "bio_boundary_score": 0.9107,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "human",
+          "starts"
+        ],
+        "normalization": "human starts",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "human starts",
+          "canonical": "human starts",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9107",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.505"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "importance sampling",
+        "canonical": "importance sampling",
+        "normalized": "importance sampling",
+        "tokens": [
+          "importance",
+          "sampling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 30,
+        "sentence": "choice of this hyperparameter interacts with choice of prioritization exponent increasing both simultaneously prioritizes sampling more aggressively at the same time as correcting for it more strongly importance sampling has another benefit when combined with prioritized replay in the context of non-linear function approximation e g deep neural networks here large steps can be very disruptive because the first-order approximation of the gradient is only reliable locally and have to be prevented with a smaller global step-size in our approach",
+        "context_window": {
+          "previous": "changing policies state distributions and bootstrap targets we hypothesize that a small bias can be ignored in this context see also figure in the appendix for a case study of full is correction on atari we therefore exploit the flexibility of annealing the amount of importance-sampling correction over time by defining a schedule on the exponent that reaches 1 only at the end of learning in practice we linearly anneal from its initial value 0 to 1 note that the",
+          "current": "choice of this hyperparameter interacts with choice of prioritization exponent increasing both simultaneously prioritizes sampling more aggressively at the same time as correcting for it more strongly importance sampling has another benefit when combined with prioritized replay in the context of non-linear function approximation e g deep neural networks here large steps can be very disruptive because the first-order approximation of the gradient is only reliable locally and have to be prevented with a smaller global step-size in our approach",
+          "next": "instead prioritization makes sure high-error transitions are seen many times while the is correction reduces the gradient magnitudes and thus the effective step size in parameter space and allowing the algorithm follow the curvature of highly non-linear optimization landscapes because the taylor expansion is constantly re-approximated we combine our prioritized replay algorithm into a full-scale reinforcement learning agent based on the state-of-the-art double dqn algorithm our principal modification is to replace the uniform random sampling used by double dqn with"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6414,
+        "downstream_relevance_score": 0.4864,
+        "components": {
+          "bio_boundary_score": 0.8551,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "importance",
+          "sampling"
+        ],
+        "normalization": "importance sampling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "importance sampling",
+          "canonical": "importance sampling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8551",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4864"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "binary heap",
+        "canonical": "binary heap",
+        "normalized": "binary heap",
+        "tokens": [
+          "binary",
+          "heap"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 53,
+        "sentence": "performance challenges here we describe a number of things we did to minimize additional run-time and memory overhead extending the discussion in section 3 rank-based prioritization early experiments with atari showed that maintaining a sorted data structure of 10 6 transitions with constantly changing td-errors dominated running time our final solution was to store transitions in a priority queue implemented with an array-based binary heap the heap array was then directly used as an approximation of a sorted array which",
+        "context_window": {
+          "previous": "of transitions is 2 n 1 -2 at the frequency that it would be encountered when acting online with a random behavior policy given this we can in principle learn until convergence by just increasing the amount of computation here convergence is defined as a mean-squared error mse between the q-value estimates and the ground truth below 10 -3 b 2 atari experiments b 2 1 implementation details prioritizing using a replay memory with n 10 6 transitions introduced some",
+          "current": "performance challenges here we describe a number of things we did to minimize additional run-time and memory overhead extending the discussion in section 3 rank-based prioritization early experiments with atari showed that maintaining a sorted data structure of 10 6 transitions with constantly changing td-errors dominated running time our final solution was to store transitions in a priority queue implemented with an array-based binary heap the heap array was then directly used as an approximation of a sorted array which",
+          "next": "is infrequently sorted once every 10 6 steps to prevent the heap becoming too unbalanced this is an unconventional use of a binary heap however our tests on smaller environments showed learning was unaffected compared to using a perfectly sorted array this is likely due to the last-seen td-error only being a proxy for the usefulness of a transition and our use of stochastic prioritized sampling a small improvement in running time came from avoiding excessive recalculation of partitions for"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.668,
+        "downstream_relevance_score": 0.4692,
+        "components": {
+          "bio_boundary_score": 0.6982,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "binary",
+          "heap"
+        ],
+        "normalization": "binary heap",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "binary heap",
+          "canonical": "binary heap",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6982",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4692"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "replay",
+        "canonical": "replay",
+        "normalized": "replay",
+        "tokens": [
+          "replay"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 44,
+        "sentence": "likely to be informative such an asymmetry in replay frequency was also observed in rat studies again our preliminary experiments with such variants were inconclusive the evidence from neuroscience suggest that a prioritization based on episodic return rather than expected learning progress may be useful too for this case we could boost the replay probabilities of entire episodes instead of transitions or boost individual transitions by their observed return-to-go or even their value estimates for the issue of preserving sufficient",
+        "context_window": {
+          "previous": "distinguishing between learnable and unlearnable transitions on the optimizer it is possible to modulate prioritization by not treating positive td-errors the same than negative ones we can for example invoke the anna karenina principle interpreted to mean that there are many ways in which a transition can be less good than expected but only one in which can be better to introduce an asymmetry and prioritize positive td-errors more than negative ones of equal magnitude because the former are more",
+          "current": "likely to be informative such an asymmetry in replay frequency was also observed in rat studies again our preliminary experiments with such variants were inconclusive the evidence from neuroscience suggest that a prioritization based on episodic return rather than expected learning progress may be useful too for this case we could boost the replay probabilities of entire episodes instead of transitions or boost individual transitions by their observed return-to-go or even their value estimates for the issue of preserving sufficient",
+          "next": "diversity to prevent overfitting premature convergence or impoverished representations there are alternative solutions to our choice of introducing stochasticity for example the priorities could be modulated by a novelty measure in observation space nothing prevents a hybrid approach where some fraction of the elements of each minibatch are sampled according to one priority measure and the rest according to another one introducing additional diversity an orthogonal idea is to increase priorities of transitions that have not been replayed for a"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6601,
+        "downstream_relevance_score": 0.4679,
+        "components": {
+          "bio_boundary_score": 0.7381,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "replay"
+        ],
+        "normalization": "replay",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "replay",
+          "canonical": "replay",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7381",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.4679"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "priority queue",
+        "canonical": "priority queue",
+        "normalized": "priority queue",
+        "tokens": [
+          "priority",
+          "queue"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 53,
+        "sentence": "performance challenges here we describe a number of things we did to minimize additional run-time and memory overhead extending the discussion in section 3 rank-based prioritization early experiments with atari showed that maintaining a sorted data structure of 10 6 transitions with constantly changing td-errors dominated running time our final solution was to store transitions in a priority queue implemented with an array-based binary heap the heap array was then directly used as an approximation of a sorted array which",
+        "context_window": {
+          "previous": "of transitions is 2 n 1 -2 at the frequency that it would be encountered when acting online with a random behavior policy given this we can in principle learn until convergence by just increasing the amount of computation here convergence is defined as a mean-squared error mse between the q-value estimates and the ground truth below 10 -3 b 2 atari experiments b 2 1 implementation details prioritizing using a replay memory with n 10 6 transitions introduced some",
+          "current": "performance challenges here we describe a number of things we did to minimize additional run-time and memory overhead extending the discussion in section 3 rank-based prioritization early experiments with atari showed that maintaining a sorted data structure of 10 6 transitions with constantly changing td-errors dominated running time our final solution was to store transitions in a priority queue implemented with an array-based binary heap the heap array was then directly used as an approximation of a sorted array which",
+          "next": "is infrequently sorted once every 10 6 steps to prevent the heap becoming too unbalanced this is an unconventional use of a binary heap however our tests on smaller environments showed learning was unaffected compared to using a perfectly sorted array this is likely due to the last-seen td-error only being a proxy for the usefulness of a transition and our use of stochastic prioritized sampling a small improvement in running time came from avoiding excessive recalculation of partitions for"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6308,
+        "downstream_relevance_score": 0.4498,
+        "components": {
+          "bio_boundary_score": 0.5707,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "priority",
+          "queue"
+        ],
+        "normalization": "priority queue",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "priority queue",
+          "canonical": "priority queue",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5707",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4498"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "stochastic gradient ascent",
+        "canonical": "stochastic gradient ascent",
+        "normalized": "stochastic gradient ascent",
+        "tokens": [
+          "stochastic",
+          "gradient",
+          "ascent"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 49,
+        "sentence": "section 3 1 and following we use a straight-forward qlearning setup the q-values are represented using either a tabular look-up table or a linear function approximator in both cases represented q s a s a for each transition we compute its td-error using t r t t max a q s t a -q s t-1 a t-1 and update the parameters using stochastic gradient ascent t q st-1 at-1 t s t-1 a t-1 for the linear fa case",
+        "context_window": {
+          "previous": "similarly to eligibility traces this lets information trickle backward from a future outcome to the value estimates of the actions and states that led to it in practice we add of the current transition to predecessor transition s priority but only if the predecessor transition is not a terminal one this idea is related to reverse replay observed in rodents and to a recent extension of prioritized sweeping b experimental details b 1 blind cliffwalk for the blind cliffwalk experiments",
+          "current": "section 3 1 and following we use a straight-forward qlearning setup the q-values are represented using either a tabular look-up table or a linear function approximator in both cases represented q s a s a for each transition we compute its td-error using t r t t max a q s t a -q s t-1 a t-1 and update the parameters using stochastic gradient ascent t q st-1 at-1 t s t-1 a t-1 for the linear fa case",
+          "next": "we use a very simple encoding of state as a 1-hot vector as for tabular but concatenated with a constant bias feature of value 1 to make generalization across actions impossible we alternate which action is right and which one is wrong for each state all elements are initialized with small values near zero i n 0 0 1 we vary the size of the problem number of states n from 2 to 16 the discount factor is set to"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6116,
+        "downstream_relevance_score": 0.4457,
+        "components": {
+          "bio_boundary_score": 0.6536,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient",
+          "ascent"
+        ],
+        "normalization": "stochastic gradient ascent",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic gradient ascent",
+          "canonical": "stochastic gradient ascent",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6536",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.4457"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "discount factor",
+        "canonical": "discount factor",
+        "normalized": "discount factor",
+        "tokens": [
+          "discount",
+          "factor"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 50,
+        "sentence": "we use a very simple encoding of state as a 1-hot vector as for tabular but concatenated with a constant bias feature of value 1 to make generalization across actions impossible we alternate which action is right and which one is wrong for each state all elements are initialized with small values near zero i n 0 0 1 we vary the size of the problem number of states n from 2 to 16 the discount factor is set to",
+        "context_window": {
+          "previous": "section 3 1 and following we use a straight-forward qlearning setup the q-values are represented using either a tabular look-up table or a linear function approximator in both cases represented q s a s a for each transition we compute its td-error using t r t t max a q s t a -q s t-1 a t-1 and update the parameters using stochastic gradient ascent t q st-1 at-1 t s t-1 a t-1 for the linear fa case",
+          "current": "we use a very simple encoding of state as a 1-hot vector as for tabular but concatenated with a constant bias feature of value 1 to make generalization across actions impossible we alternate which action is right and which one is wrong for each state all elements are initialized with small values near zero i n 0 0 1 we vary the size of the problem number of states n from 2 to 16 the discount factor is set to",
+          "next": "1 -1 n which keeps values on approximately the same scale independently of n this allows us to used a fixed step-size of 1 4 in all experiments the replay memory is filled by exhaustively executing all 2 n possible sequences of actions until termination in random order this guarantees that exactly one sequence will succeed and hit the final reward and all others will fail with zero reward the replay memory contains all the relevant experience the total number"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6189,
+        "downstream_relevance_score": 0.4394,
+        "components": {
+          "bio_boundary_score": 0.6786,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "discount",
+          "factor"
+        ],
+        "normalization": "discount factor",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "discount factor",
+          "canonical": "discount factor",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6786",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4394"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "prioritized replay",
+        "canonical": "prioritized replay",
+        "normalized": "prioritized replay",
+        "tokens": [
+          "prioritized",
+          "replay"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 40,
+        "sentence": "this paper introduced prioritized replay a method that can make learning from experience replay more efficient we studied a couple of variants devised implementations that scale to large replay memories and found that prioritized replay speeds up learning by a factor 2 and leads to a new state-of-the-art of performance on the atari benchmark we laid out further variants and extensions that hold promise namely for class-imbalanced supervised learning a prioritization variants the absolute td-error is only one possible proxy",
+        "context_window": {
+          "previous": "i e those retain class balance we compare two scenarios in the informed case we reweight the errors of the impoverished classes artificially by a factor 100 in the uninformed scenario we provide no hint that the test distribution will differ from the training distribution see",
+          "current": "this paper introduced prioritized replay a method that can make learning from experience replay more efficient we studied a couple of variants devised implementations that scale to large replay memories and found that prioritized replay speeds up learning by a factor 2 and leads to a new state-of-the-art of performance on the atari benchmark we laid out further variants and extensions that hold promise namely for class-imbalanced supervised learning a prioritization variants the absolute td-error is only one possible proxy",
+          "next": "for the ideal priority measure of expected learning progress while it captures the scale of potential improvement it ignores inherent stochasticity in rewards or transitions as well as possible limitations from partial observability or fa capacity in other words it is problematic when there are unlearnable transitions in that case its derivativewhich could be approximated by the difference between a transition s current and the when it was last replayed -may be more useful this measure is less immediately available"
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5336,
+        "downstream_relevance_score": 0.4331,
+        "components": {
+          "bio_boundary_score": 0.848,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "prioritized",
+          "replay"
+        ],
+        "normalization": "prioritized replay",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "prioritized replay",
+          "canonical": "prioritized replay",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.848",
+        "structure model assigned role 'future_work' with score 0.82",
+        "evidence cue lexicon matched state-of-the-art, benchmark",
+        "downstream relevance score is 0.4331"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "novelty measure",
+        "canonical": "novelty measure",
+        "normalized": "novelty measure",
+        "tokens": [
+          "novelty",
+          "measure"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 45,
+        "sentence": "diversity to prevent overfitting premature convergence or impoverished representations there are alternative solutions to our choice of introducing stochasticity for example the priorities could be modulated by a novelty measure in observation space nothing prevents a hybrid approach where some fraction of the elements of each minibatch are sampled according to one priority measure and the rest according to another one introducing additional diversity an orthogonal idea is to increase priorities of transitions that have not been replayed for a",
+        "context_window": {
+          "previous": "likely to be informative such an asymmetry in replay frequency was also observed in rat studies again our preliminary experiments with such variants were inconclusive the evidence from neuroscience suggest that a prioritization based on episodic return rather than expected learning progress may be useful too for this case we could boost the replay probabilities of entire episodes instead of transitions or boost individual transitions by their observed return-to-go or even their value estimates for the issue of preserving sufficient",
+          "current": "diversity to prevent overfitting premature convergence or impoverished representations there are alternative solutions to our choice of introducing stochasticity for example the priorities could be modulated by a novelty measure in observation space nothing prevents a hybrid approach where some fraction of the elements of each minibatch are sampled according to one priority measure and the rest according to another one introducing additional diversity an orthogonal idea is to increase priorities of transitions that have not been replayed for a",
+          "next": "while by introducing an explicit staleness bonus that guarantees that every transition is revisited from time to time with that chance increasing at the same rate as its last-seen td-error becomes stale in the simple case where this bonus grows linearly with time this can be implemented at no additional cost by subtracting a quantity proportional to the global step-count from the new priority on any update in the particular case of rl with bootstrapping from value functions it is"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6226,
+        "downstream_relevance_score": 0.4245,
+        "components": {
+          "bio_boundary_score": 0.6095,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "novelty",
+          "measure"
+        ],
+        "normalization": "novelty measure",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "novelty measure",
+          "canonical": "novelty measure",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6095",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4245"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "prioritized",
+        "canonical": "prioritized",
+        "normalized": "prioritized",
+        "tokens": [
+          "prioritized"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 30,
+        "sentence": "choice of this hyperparameter interacts with choice of prioritization exponent increasing both simultaneously prioritizes sampling more aggressively at the same time as correcting for it more strongly importance sampling has another benefit when combined with prioritized replay in the context of non-linear function approximation e g deep neural networks here large steps can be very disruptive because the first-order approximation of the gradient is only reliable locally and have to be prevented with a smaller global step-size in our approach",
+        "context_window": {
+          "previous": "changing policies state distributions and bootstrap targets we hypothesize that a small bias can be ignored in this context see also figure in the appendix for a case study of full is correction on atari we therefore exploit the flexibility of annealing the amount of importance-sampling correction over time by defining a schedule on the exponent that reaches 1 only at the end of learning in practice we linearly anneal from its initial value 0 to 1 note that the",
+          "current": "choice of this hyperparameter interacts with choice of prioritization exponent increasing both simultaneously prioritizes sampling more aggressively at the same time as correcting for it more strongly importance sampling has another benefit when combined with prioritized replay in the context of non-linear function approximation e g deep neural networks here large steps can be very disruptive because the first-order approximation of the gradient is only reliable locally and have to be prevented with a smaller global step-size in our approach",
+          "next": "instead prioritization makes sure high-error transitions are seen many times while the is correction reduces the gradient magnitudes and thus the effective step size in parameter space and allowing the algorithm follow the curvature of highly non-linear optimization landscapes because the taylor expansion is constantly re-approximated we combine our prioritized replay algorithm into a full-scale reinforcement learning agent based on the state-of-the-art double dqn algorithm our principal modification is to replace the uniform random sampling used by double dqn with"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5391,
+        "downstream_relevance_score": 0.4231,
+        "components": {
+          "bio_boundary_score": 0.5051,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "prioritized"
+        ],
+        "normalization": "prioritized",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "prioritized",
+          "canonical": "prioritized",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5051",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4231"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "priority measure",
+        "canonical": "priority measure",
+        "normalized": "priority measure",
+        "tokens": [
+          "priority",
+          "measure"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 45,
+        "sentence": "diversity to prevent overfitting premature convergence or impoverished representations there are alternative solutions to our choice of introducing stochasticity for example the priorities could be modulated by a novelty measure in observation space nothing prevents a hybrid approach where some fraction of the elements of each minibatch are sampled according to one priority measure and the rest according to another one introducing additional diversity an orthogonal idea is to increase priorities of transitions that have not been replayed for a",
+        "context_window": {
+          "previous": "likely to be informative such an asymmetry in replay frequency was also observed in rat studies again our preliminary experiments with such variants were inconclusive the evidence from neuroscience suggest that a prioritization based on episodic return rather than expected learning progress may be useful too for this case we could boost the replay probabilities of entire episodes instead of transitions or boost individual transitions by their observed return-to-go or even their value estimates for the issue of preserving sufficient",
+          "current": "diversity to prevent overfitting premature convergence or impoverished representations there are alternative solutions to our choice of introducing stochasticity for example the priorities could be modulated by a novelty measure in observation space nothing prevents a hybrid approach where some fraction of the elements of each minibatch are sampled according to one priority measure and the rest according to another one introducing additional diversity an orthogonal idea is to increase priorities of transitions that have not been replayed for a",
+          "next": "while by introducing an explicit staleness bonus that guarantees that every transition is revisited from time to time with that chance increasing at the same rate as its last-seen td-error becomes stale in the simple case where this bonus grows linearly with time this can be implemented at no additional cost by subtracting a quantity proportional to the global step-count from the new priority on any update in the particular case of rl with bootstrapping from value functions it is"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6126,
+        "downstream_relevance_score": 0.4194,
+        "components": {
+          "bio_boundary_score": 0.5756,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "priority",
+          "measure"
+        ],
+        "normalization": "priority measure",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "priority measure",
+          "canonical": "priority measure",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5756",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4194"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "experience repl",
+        "canonical": "experience repl",
+        "normalized": "experience repl",
+        "tokens": [
+          "experience",
+          "repl"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 5,
+        "sentence": "expected learning progress as measured by the magnitude of their temporal-difference td error this prioritization can lead to a loss of diversity which we alleviate with stochastic prioritization and introduce bias which we correct with importance sampling our resulting algorithms are robust and scalable which we demonstrate on the atari 2600 benchmark suite where we obtain faster learning and state-of-the-art performance 2 background numerous neuroscience studies have identified evidence of experience replay in the hippocampus of rodents suggesting that sequences",
+        "context_window": {
+          "previous": "more effectively from some transitions than from others transitions may be more or less surprising redundant or task-relevant some transitions may not be immediately useful to the agent but might become so when the agent competence increases experience replay liberates online learning agents from processing transitions in the exact order they are experienced prioritized replay further liberates agents from considering transitions with the same frequency that they are experienced in particular we propose to more frequently replay transitions with high",
+          "current": "expected learning progress as measured by the magnitude of their temporal-difference td error this prioritization can lead to a loss of diversity which we alleviate with stochastic prioritization and introduce bias which we correct with importance sampling our resulting algorithms are robust and scalable which we demonstrate on the atari 2600 benchmark suite where we obtain faster learning and state-of-the-art performance 2 background numerous neuroscience studies have identified evidence of experience replay in the hippocampus of rodents suggesting that sequences",
+          "next": "of prior experience are replayed either during awake resting or sleep sequences associated with rewards appear to be replayed more frequently experiences with high magnitude td error also appear to be replayed more often it is well-known that planning algorithms such as value iteration can be made more efficient by prioritizing updates in an appropriate order prioritized sweeping selects which state to update next prioritized according to the change in value if that update was executed the td error provides"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "measured by",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          },
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4531,
+        "downstream_relevance_score": 0.4012,
+        "components": {
+          "bio_boundary_score": 0.6224,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "experience",
+          "repl"
+        ],
+        "normalization": "experience repl",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "experience repl",
+          "canonical": "experience repl",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6224",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "evidence cue lexicon matched state-of-the-art, measured by, benchmark",
+        "downstream relevance score is 0.4012"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "predecessor transition",
+        "canonical": "predecessor transition",
+        "normalized": "predecessor transition",
+        "tokens": [
+          "predecessor",
+          "transition"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 48,
+        "sentence": "similarly to eligibility traces this lets information trickle backward from a future outcome to the value estimates of the actions and states that led to it in practice we add of the current transition to predecessor transition s priority but only if the predecessor transition is not a terminal one this idea is related to reverse replay observed in rodents and to a recent extension of prioritized sweeping b experimental details b 1 blind cliffwalk for the blind cliffwalk experiments",
+        "context_window": {
+          "previous": "possible to exploit the sequential structure of the replay memory using the following intuition a transition that led to a large amount of learning about its outgoing state has the potential to change the bootstrapping target for all transitions leading into that state and thus there is more to be learned about these of course we know at least one of these namely the historic predecessor transition and so boosting its priority makes it more likely to be revisited soon",
+          "current": "similarly to eligibility traces this lets information trickle backward from a future outcome to the value estimates of the actions and states that led to it in practice we add of the current transition to predecessor transition s priority but only if the predecessor transition is not a terminal one this idea is related to reverse replay observed in rodents and to a recent extension of prioritized sweeping b experimental details b 1 blind cliffwalk for the blind cliffwalk experiments",
+          "next": "section 3 1 and following we use a straight-forward qlearning setup the q-values are represented using either a tabular look-up table or a linear function approximator in both cases represented q s a s a for each transition we compute its td-error using t r t t max a q s t a -q s t-1 a t-1 and update the parameters using stochastic gradient ascent t q st-1 at-1 t s t-1 a t-1 for the linear fa case"
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "future_work",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5743,
+        "downstream_relevance_score": 0.3843,
+        "components": {
+          "bio_boundary_score": 0.9842,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "predecessor",
+          "transition"
+        ],
+        "normalization": "predecessor transition",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "predecessor transition",
+          "canonical": "predecessor transition",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9842",
+        "structure model assigned role 'future_work' with score 0.82",
+        "downstream relevance score is 0.3843"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "stratified sampling",
+        "canonical": "stratified sampling",
+        "normalized": "stratified sampling",
+        "tokens": [
+          "stratified",
+          "sampling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 23,
+        "sentence": "change at runtime we sample a segment and then sample uniformly among the transitions within it this works particularly well in conjunction with a minibatchbased learning algorithm choose k to be the size of the minibatch and sample exactly one transition from each segment -this is a form of stratified sampling that has the added advantage of balancing out the minibatch there will always be exactly one transition with high magnitude one with medium magnitude etc the proportional variant is",
+        "context_window": {
+          "previous": "is likely to be more robust as it is insensitive to outliers both variants of stochastic prioritization lead to large speed-ups over the uniform baseline on the cliffwalk task as shown on figure right implementation to efficiently sample from distribution the complexity cannot depend on n for the rank-based variant we can approximate the cumulative density function with a piecewise linear function with k segments of equal probability the segment boundaries can be precomputed they change only when n or",
+          "current": "change at runtime we sample a segment and then sample uniformly among the transitions within it this works particularly well in conjunction with a minibatchbased learning algorithm choose k to be the size of the minibatch and sample exactly one transition from each segment -this is a form of stratified sampling that has the added advantage of balancing out the minibatch there will always be exactly one transition with high magnitude one with medium magnitude etc the proportional variant is",
+          "next": "different also admits an efficient implementation based on a sum-tree data structure where every node is the sum of its children with the priorities as the leaf nodes which can be efficiently updated and sampled from see appendix b 2 1 for more additional details algorithm 1 double dqn with proportional prioritization 1 input minibatch k step-size replay period k and size n exponents and budget t 2 initialize replay memory h 0 p 1 1 3 observe s 0"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4749,
+        "downstream_relevance_score": 0.3676,
+        "components": {
+          "bio_boundary_score": 0.6961,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stratified",
+          "sampling"
+        ],
+        "normalization": "stratified sampling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stratified sampling",
+          "canonical": "stratified sampling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6961",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3676"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "generalization",
+        "canonical": "generalization",
+        "normalized": "generalization",
+        "tokens": [
+          "generalization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 38,
+        "sentence": "human traces as introduced in which requires more robustness and generalization as the agent cannot rely on repeating a single memorized trajectory these results are summarized in table and figure but full results and raw scores can be found in tables and in the on a class-imbalanced variant of the classical mnist digit classification problem where we removed 99 of the samples for digits 0 1 2 3 4 in the training set while leaving the test validation sets untouched",
+        "context_window": {
+          "previous": "of the best policy for rank-based and proportional prioritization these are at 47 and 38 of total training time right similar to the left but using the mean instead of maximum which captures cumulative performance rather than peak performance here rank-based and proportional prioritization reach the equivalence points at 41 and 43 of total training time respectively for the detailed learning curves that these plots summarize see figure in terms of average score per episode given start states sampled from",
+          "current": "human traces as introduced in which requires more robustness and generalization as the agent cannot rely on repeating a single memorized trajectory these results are summarized in table and figure but full results and raw scores can be found in tables and in the on a class-imbalanced variant of the classical mnist digit classification problem where we removed 99 of the samples for digits 0 1 2 3 4 in the training set while leaving the test validation sets untouched",
+          "next": "i e those retain class balance we compare two scenarios in the informed case we reweight the errors of the impoverished classes artificially by a factor 100 in the uninformed scenario we provide no hint that the test distribution will differ from the training distribution see"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "cannot",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "negative capability cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4934,
+        "downstream_relevance_score": 0.3671,
+        "components": {
+          "bio_boundary_score": 0.6074,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generalization"
+        ],
+        "normalization": "generalization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "generalization",
+          "canonical": "generalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6074",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched cannot",
+        "downstream relevance score is 0.3671"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "robustness",
+        "canonical": "robustness",
+        "normalized": "robustness",
+        "tokens": [
+          "robustness"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 38,
+        "sentence": "human traces as introduced in which requires more robustness and generalization as the agent cannot rely on repeating a single memorized trajectory these results are summarized in table and figure but full results and raw scores can be found in tables and in the on a class-imbalanced variant of the classical mnist digit classification problem where we removed 99 of the samples for digits 0 1 2 3 4 in the training set while leaving the test validation sets untouched",
+        "context_window": {
+          "previous": "of the best policy for rank-based and proportional prioritization these are at 47 and 38 of total training time right similar to the left but using the mean instead of maximum which captures cumulative performance rather than peak performance here rank-based and proportional prioritization reach the equivalence points at 41 and 43 of total training time respectively for the detailed learning curves that these plots summarize see figure in terms of average score per episode given start states sampled from",
+          "current": "human traces as introduced in which requires more robustness and generalization as the agent cannot rely on repeating a single memorized trajectory these results are summarized in table and figure but full results and raw scores can be found in tables and in the on a class-imbalanced variant of the classical mnist digit classification problem where we removed 99 of the samples for digits 0 1 2 3 4 in the training set while leaving the test validation sets untouched",
+          "next": "i e those retain class balance we compare two scenarios in the informed case we reweight the errors of the impoverished classes artificially by a factor 100 in the uninformed scenario we provide no hint that the test distribution will differ from the training distribution see"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "cannot",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "negative capability cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4915,
+        "downstream_relevance_score": 0.3662,
+        "components": {
+          "bio_boundary_score": 0.6009,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "robustness"
+        ],
+        "normalization": "robustness",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "robustness",
+          "canonical": "robustness",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6009",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched cannot",
+        "downstream relevance score is 0.3662"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "replay memory",
+        "canonical": "replay memory",
+        "normalized": "replay memory",
+        "tokens": [
+          "replay",
+          "memory"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 51,
+        "sentence": "1 -1 n which keeps values on approximately the same scale independently of n this allows us to used a fixed step-size of 1 4 in all experiments the replay memory is filled by exhaustively executing all 2 n possible sequences of actions until termination in random order this guarantees that exactly one sequence will succeed and hit the final reward and all others will fail with zero reward the replay memory contains all the relevant experience the total number",
+        "context_window": {
+          "previous": "we use a very simple encoding of state as a 1-hot vector as for tabular but concatenated with a constant bias feature of value 1 to make generalization across actions impossible we alternate which action is right and which one is wrong for each state all elements are initialized with small values near zero i n 0 0 1 we vary the size of the problem number of states n from 2 to 16 the discount factor is set to",
+          "current": "1 -1 n which keeps values on approximately the same scale independently of n this allows us to used a fixed step-size of 1 4 in all experiments the replay memory is filled by exhaustively executing all 2 n possible sequences of actions until termination in random order this guarantees that exactly one sequence will succeed and hit the final reward and all others will fail with zero reward the replay memory contains all the relevant experience the total number",
+          "next": "of transitions is 2 n 1 -2 at the frequency that it would be encountered when acting online with a random behavior policy given this we can in principle learn until convergence by just increasing the amount of computation here convergence is defined as a mean-squared error mse between the q-value estimates and the ground truth below 10 -3 b 2 atari experiments b 2 1 implementation details prioritizing using a replay memory with n 10 6 transitions introduced some"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5508,
+        "downstream_relevance_score": 0.3592,
+        "components": {
+          "bio_boundary_score": 0.8038,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "replay",
+          "memory"
+        ],
+        "normalization": "replay memory",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "replay memory",
+          "canonical": "replay memory",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8038",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.3592"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "update transition priority",
+        "canonical": "update transition priority",
+        "normalized": "update transition priority",
+        "tokens": [
+          "update",
+          "transition",
+          "priority"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 26,
+        "sentence": "i w i 11 compute td-error j r j j q target s j arg max a q s j a -q s j-1 a j-1 12 update transition priority p j j 13 accumulate weight-change w j j q s j-1 a j-1 14 end for 15 update weights reset 0 16 from time to time copy weights into target network target 17 end if 18 choose action a t s t 19 end for annealing the bias the",
+        "context_window": {
+          "previous": "and choose a 0 s 0 4 for t 1 to t do 5 observe s t r t t 6 store transition s t-1 a t-1 r t t s t in h with maximal priority p t max i t p i 7 if t 0 mod k then 8 for j 1 to k do 9 sample transition j p j p j i p i 10 compute importance-sampling weight w j n p j - max",
+          "current": "i w i 11 compute td-error j r j j q target s j arg max a q s j a -q s j-1 a j-1 12 update transition priority p j j 13 accumulate weight-change w j j q s j-1 a j-1 14 end for 15 update weights reset 0 16 from time to time copy weights into target network target 17 end if 18 choose action a t s t 19 end for annealing the bias the",
+          "next": "estimation of the expected value with stochastic updates relies on those updates corresponding to the same distribution as its expectation prioritized replay introduces bias because it changes this distribution in an uncontrolled fashion and therefore changes the solution that the estimates will converge to even if the policy and state distribution are fixed we can correct this bias by using importance-sampling is weights w i 1 n 1 p i that fully compensates for the non-uniform probabilities p i if"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4878,
+        "downstream_relevance_score": 0.3492,
+        "components": {
+          "bio_boundary_score": 0.5918,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "update",
+          "transition",
+          "priority"
+        ],
+        "normalization": "update transition priority",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "update transition priority",
+          "canonical": "update transition priority",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5918",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.3492"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "sample transition",
+        "canonical": "sample transition",
+        "normalized": "sample transition",
+        "tokens": [
+          "sample",
+          "transition"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 25,
+        "sentence": "and choose a 0 s 0 4 for t 1 to t do 5 observe s t r t t 6 store transition s t-1 a t-1 r t t s t in h with maximal priority p t max i t p i 7 if t 0 mod k then 8 for j 1 to k do 9 sample transition j p j p j i p i 10 compute importance-sampling weight w j n p j - max",
+        "context_window": {
+          "previous": "different also admits an efficient implementation based on a sum-tree data structure where every node is the sum of its children with the priorities as the leaf nodes which can be efficiently updated and sampled from see appendix b 2 1 for more additional details algorithm 1 double dqn with proportional prioritization 1 input minibatch k step-size replay period k and size n exponents and budget t 2 initialize replay memory h 0 p 1 1 3 observe s 0",
+          "current": "and choose a 0 s 0 4 for t 1 to t do 5 observe s t r t t 6 store transition s t-1 a t-1 r t t s t in h with maximal priority p t max i t p i 7 if t 0 mod k then 8 for j 1 to k do 9 sample transition j p j p j i p i 10 compute importance-sampling weight w j n p j - max",
+          "next": "i w i 11 compute td-error j r j j q target s j arg max a q s j a -q s j-1 a j-1 12 update transition priority p j j 13 accumulate weight-change w j j q s j-1 a j-1 14 end for 15 update weights reset 0 16 from time to time copy weights into target network target 17 end if 18 choose action a t s t 19 end for annealing the bias the"
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4683,
+        "downstream_relevance_score": 0.3291,
+        "components": {
+          "bio_boundary_score": 0.5193,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sample",
+          "transition"
+        ],
+        "normalization": "sample transition",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sample transition",
+          "canonical": "sample transition",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5193",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.3291"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "class balance",
+        "canonical": "class balance",
+        "normalized": "class balance",
+        "tokens": [
+          "class",
+          "balance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 39,
+        "sentence": "i e those retain class balance we compare two scenarios in the informed case we reweight the errors of the impoverished classes artificially by a factor 100 in the uninformed scenario we provide no hint that the test distribution will differ from the training distribution see",
+        "context_window": {
+          "previous": "human traces as introduced in which requires more robustness and generalization as the agent cannot rely on repeating a single memorized trajectory these results are summarized in table and figure but full results and raw scores can be found in tables and in the on a class-imbalanced variant of the classical mnist digit classification problem where we removed 99 of the samples for digits 0 1 2 3 4 in the training set while leaving the test validation sets untouched",
+          "current": "i e those retain class balance we compare two scenarios in the informed case we reweight the errors of the impoverished classes artificially by a factor 100 in the uninformed scenario we provide no hint that the test distribution will differ from the training distribution see",
+          "next": "this paper introduced prioritized replay a method that can make learning from experience replay more efficient we studied a couple of variants devised implementations that scale to large replay memories and found that prioritized replay speeds up learning by a factor 2 and leads to a new state-of-the-art of performance on the atari benchmark we laid out further variants and extensions that hold promise namely for class-imbalanced supervised learning a prioritization variants the absolute td-error is only one possible proxy"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4587,
+        "downstream_relevance_score": 0.3113,
+        "components": {
+          "bio_boundary_score": 0.6457,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "class",
+          "balance"
+        ],
+        "normalization": "class balance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "class balance",
+          "canonical": "class balance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6457",
+        "structure model assigned role 'comparison' with score 0.66",
+        "downstream relevance score is 0.3113"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "baseline",
+        "canonical": "baseline",
+        "normalized": "baseline",
+        "tokens": [
+          "baseline"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 58,
+        "sentence": "range avoiding the possibility of extremely large updates it is worth mentioning that this normalization interacts with annealing on as approaches 1 the normalization constant grows which reduces the effective average update in a similar way to annealing the step-size table 2 lists the values tried and table 3 lists the chosen parameters hyperparameter range of values 0 0 4 0 5 0 6 0 7 0 8 0 0 4 0 5 0 6 1 baseline baseline 2 baseline",
+        "context_window": {
+          "previous": "0 p total is divided equally into k ranges next a value is uniformly sampled from each range finally the transitions that correspond to each of these sampled values are retrieved from the tree overhead is similar to rank-based prioritization as mentioned in section 3 4 whenever importance sampling is used all weights w i were scaled so that max i w i 1 we found that this worked better in practice as it kept all weights within a reasonable",
+          "current": "range avoiding the possibility of extremely large updates it is worth mentioning that this normalization interacts with annealing on as approaches 1 the normalization constant grows which reduces the effective average update in a similar way to annealing the step-size table 2 lists the values tried and table 3 lists the chosen parameters hyperparameter range of values 0 0 4 0 5 0 6 0 7 0 8 0 0 4 0 5 0 6 1 baseline baseline 2 baseline",
+          "next": "4 baseline 8 table 3 chosen hyperparameters for prioritized variants of dqn arrows indicate linear annealing where the limiting value is reached at the end of training note the rank-based variant with dqn as the baseline is an early version without is here the bias introduced by prioritized replay was instead corrected by annealing to zero b 2 3 evaluation we evaluate our agents using the human starts evaluation method described in human starts evaluation uses start states sampled randomly"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4111,
+        "downstream_relevance_score": 0.2766,
+        "components": {
+          "bio_boundary_score": 0.5652,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "baseline"
+        ],
+        "normalization": "baseline",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "baseline",
+          "canonical": "baseline",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5652",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "downstream relevance score is 0.2766"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 27,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We consider two baseline algorithms that use uniform experience replay, namely the version of the DQN algorithm from the Nature paper , and its recent extension Double DQN that substantially improved the state-of-the-art by reducing the overestimation bias with Double Q-learning .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Furthermore, we find that the boost from prioritized experience replay is complementary to the one from introducing Double Q-learning into DQN: performance increases another notch, leading to the current state-of-the-art on the Atari benchmark (see Figure ).",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the α and β 0 hyperparameters that are introduced by prioritization, we did a coarse grid search (evaluated on a subset of 8 games), and found the sweet spot to be α = 0.7, β 0 = 0.5 for the rank-based variant and α = 0.6, β 0 = 0.4 for the proportional variant.",
+        "evidence_type": "dataset",
+        "matched_cue": "evaluated on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Furthermore, we find that the boost from prioritized experience replay is complementary to the one from introducing Double Q-learning into DQN: performance increases another notch, leading to the current state-of-the-art on the Atari benchmark (see Figure ).",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper we develop a framework for prioritizing experience, so as to replay important transitions more frequently, and therefore learn more efficiently.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We use prioritized experience replay in Deep Q-Networks (DQN), a reinforcement learning algorithm that achieved human-level performance across many Atari games.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "DQN with prioritized experience replay achieves a new stateof-the-art, outperforming DQN with uniform replay on 41 out of 49 games.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This was demonstrated in the Deep Q-Network (DQN) algorithm , which stabilized the training of a value function, represented by a deep neural network, by using experience replay.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In particular, we propose to more frequently replay transitions with high expected learning progress, as measured by the magnitude of their temporal-difference (TD) error.",
+        "evidence_type": "metric",
+        "matched_cue": "measured by",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In particular, we propose to more frequently replay transitions with high expected learning progress, as measured by the magnitude of their temporal-difference (TD) error.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This prioritization can lead to a loss of diversity, which we alleviate with stochastic prioritization, and introduce bias, which we correct with importance sampling.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Our resulting algorithms are robust and scalable, which we demonstrate on the Atari 2600 benchmark suite, where we obtain faster learning and state-of-the-art performance.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Our resulting algorithms are robust and scalable, which we demonstrate on the Atari 2600 benchmark suite, where we obtain faster learning and state-of-the-art performance.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "There have been several proposed methods for playing Atari with deep reinforcement learning, including deep Q-networks (DQN) , and the Double DQN algorithm , which is the current published state-of-the-art.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "There have been several proposed methods for playing Atari with deep reinforcement learning, including deep Q-networks (DQN) , and the Double DQN algorithm , which is the current published state-of-the-art.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Simultaneously with our work, an architectural innovation that separates advantages from the value function (see the co-submission by has also led to substantial improvements on the Atari benchmark.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We consider two baseline algorithms that use uniform experience replay, namely the version of the DQN algorithm from the Nature paper , and its recent extension Double DQN that substantially improved the state-of-the-art by reducing the overestimation bias with Double Q-learning .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Throughout this paper we use the tuned version of the Double DQN algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The algorithm processes minibatches of 32 transitions sampled uniformly from the memory.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We use the identical neural network architecture, learning algorithm, replay memory and evaluation setup as for the baselines (see Appendix B.2).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We use the identical neural network architecture, learning algorithm, replay memory and evaluation setup as for the baselines (see Appendix B.2).",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The only difference is the mechanism for sampling transitions from the replay memory, with is now done according to Algorithm 1 instead of uniformly.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the detailed learning curves that these plots summarize, see Figure . in terms of average score per episode, given start states sampled from human traces (as introduced in , which requires more robustness and generalization as the agent cannot rely on repeating a single memorized trajectory).",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "On the other hand, the ranks make the algorithm blind to the relative error scales, which could incur a performance drop when there is structure in the distribution of errors to be exploited, such as in sparse reward scenarios.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Perhaps surprisingly, both variants perform similarly in practice; we suspect this is due to the heavy use of clipping (of rewards and TD-errors) in the DQN algorithm, which removes outliers.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "reinforcement learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.7457
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "stochastic sampling",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5955
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "experience replay",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5622
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "residual neural network",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.561
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "prioritization",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.5303
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "anna karenina principle",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.5089
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "human starts",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.505
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "importance sampling",
+        "section": "method",
+        "role": "process",
+        "score": 0.4864
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "binary heap",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.4692
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "replay",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.4679
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "priority queue",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.4498
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "stochastic gradient ascent",
+        "section": "conclusion",
+        "role": "mechanism",
+        "score": 0.4457
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "discount factor",
+        "section": "conclusion",
+        "role": "problem",
+        "score": 0.4394
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "prioritized replay",
+        "section": "conclusion",
+        "role": "future_work",
+        "score": 0.4331
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "novelty measure",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4245
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "prioritized",
+        "section": "method",
+        "role": "process",
+        "score": 0.4231
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "priority measure",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4194
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "experience repl",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.4012
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "predecessor transition",
+        "section": "conclusion",
+        "role": "future_work",
+        "score": 0.3843
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "stratified sampling",
+        "section": "method",
+        "role": "process",
+        "score": 0.3676
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "generalization",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3671
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "robustness",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3662
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "replay memory",
+        "section": "conclusion",
+        "role": "problem",
+        "score": 0.3592
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "update transition priority",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.3492
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "sample transition",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.3291
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "class balance",
+        "section": "experiment",
+        "role": "comparison",
+        "score": 0.3113
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "baseline",
+        "section": "conclusion",
+        "role": "prior_work",
+        "score": 0.2766
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_016",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_011",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_017",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_021",
+        "target": "ecu_022",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_021",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_024",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

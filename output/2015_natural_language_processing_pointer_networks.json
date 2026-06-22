@@ -1,0 +1,2494 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2015_natural_language_processing_pointer_networks",
+    "title": "2015_natural_language_processing_pointer_networks",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2015_natural_language_processing_pointer_networks.txt",
+    "sentence_count": 44,
+    "section_counts": {
+      "intro": 3,
+      "related_work": 1,
+      "method": 40
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 3493,
+    "type_count": 792,
+    "type_token_ratio": 0.2267,
+    "section_token_counts": {
+      "intro": 239,
+      "related_work": 133,
+      "method": 3121,
+      "experiment": 0,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "model",
+        "count": 45
+      },
+      {
+        "term": "output",
+        "count": 34
+      },
+      {
+        "term": "sequence",
+        "count": 31
+      },
+      {
+        "term": "input",
+        "count": 29
+      },
+      {
+        "term": "problems",
+        "count": 25
+      },
+      {
+        "term": "attention",
+        "count": 22
+      },
+      {
+        "term": "convex",
+        "count": 20
+      },
+      {
+        "term": "which",
+        "count": 18
+      },
+      {
+        "term": "problem",
+        "count": 18
+      },
+      {
+        "term": "used",
+        "count": 16
+      },
+      {
+        "term": "hull",
+        "count": 16
+      },
+      {
+        "term": "each",
+        "count": 15
+      },
+      {
+        "term": "training",
+        "count": 15
+      },
+      {
+        "term": "sequence-to-sequence",
+        "count": 14
+      },
+      {
+        "term": "size",
+        "count": 12
+      },
+      {
+        "term": "where",
+        "count": 12
+      },
+      {
+        "term": "rnn",
+        "count": 12
+      },
+      {
+        "term": "length",
+        "count": 11
+      },
+      {
+        "term": "using",
+        "count": 11
+      },
+      {
+        "term": "solutions",
+        "count": 11
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "convex hull",
+        "count": 16
+      },
+      {
+        "term": "input sequence",
+        "count": 12
+      },
+      {
+        "term": "output dictionary",
+        "count": 8
+      },
+      {
+        "term": "output sequence",
+        "count": 7
+      },
+      {
+        "term": "attention mechanism",
+        "count": 7
+      },
+      {
+        "term": "travelling salesman",
+        "count": 6
+      },
+      {
+        "term": "salesman problem",
+        "count": 6
+      },
+      {
+        "term": "sequence-to-sequence model",
+        "count": 6
+      },
+      {
+        "term": "delaunay triangulation",
+        "count": 6
+      },
+      {
+        "term": "size output",
+        "count": 5
+      },
+      {
+        "term": "dictionary size",
+        "count": 5
+      },
+      {
+        "term": "length input",
+        "count": 4
+      },
+      {
+        "term": "pointer net",
+        "count": 4
+      },
+      {
+        "term": "approximate solutions",
+        "count": 4
+      },
+      {
+        "term": "convex hulls",
+        "count": 4
+      },
+      {
+        "term": "more than",
+        "count": 4
+      },
+      {
+        "term": "problems where",
+        "count": 4
+      },
+      {
+        "term": "data driven",
+        "count": 4
+      },
+      {
+        "term": "see figure",
+        "count": 4
+      },
+      {
+        "term": "attention model",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "travelling salesman problem",
+        "count": 6
+      },
+      {
+        "term": "output dictionary size",
+        "count": 4
+      },
+      {
+        "term": "combinatorial optimization problems",
+        "count": 3
+      },
+      {
+        "term": "size output dictionary",
+        "count": 3
+      },
+      {
+        "term": "salesman problem tsp",
+        "count": 3
+      },
+      {
+        "term": "purely data driven",
+        "count": 3
+      },
+      {
+        "term": "dictionary size depends",
+        "count": 3
+      },
+      {
+        "term": "convex hull problem",
+        "count": 3
+      },
+      {
+        "term": "true convex hull",
+        "count": 3
+      },
+      {
+        "term": "depends length input",
+        "count": 2
+      },
+      {
+        "term": "variable size output",
+        "count": 2
+      },
+      {
+        "term": "size output dictionaries",
+        "count": 2
+      },
+      {
+        "term": "learn approximate solutions",
+        "count": 2
+      },
+      {
+        "term": "planar convex hulls",
+        "count": 2
+      },
+      {
+        "term": "planar travelling salesman",
+        "count": 2
+      },
+      {
+        "term": "problems where size",
+        "count": 2
+      },
+      {
+        "term": "where size output",
+        "count": 2
+      },
+      {
+        "term": "length input sequence",
+        "count": 2
+      },
+      {
+        "term": "pointers input elements",
+        "count": 2
+      },
+      {
+        "term": "probability chain rule",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 13,
+    "nonzero_tfidf_features": 13,
+    "top_tfidf_features": [
+      {
+        "feature_name": "conclusion__attention",
+        "section": "conclusion",
+        "term": "attention",
+        "frequency": 4.0,
+        "tfidf": 1.3097
+      },
+      {
+        "feature_name": "abstract__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 5.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "methods__recurrent neural networks",
+        "section": "method",
+        "term": "recurrent neural networks",
+        "frequency": 4.0,
+        "tfidf": 0.9
+      },
+      {
+        "feature_name": "introduction__recurrent neural networks",
+        "section": "intro",
+        "term": "recurrent neural networks",
+        "frequency": 6.0,
+        "tfidf": 0.8949
+      },
+      {
+        "feature_name": "introduction__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 6.0,
+        "tfidf": 0.7819
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.4016
+      },
+      {
+        "feature_name": "introduction__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.2307
+      },
+      {
+        "feature_name": "methods__sgd",
+        "section": "method",
+        "term": "sgd",
+        "frequency": 1.0,
+        "tfidf": 0.1944
+      },
+      {
+        "feature_name": "methods__training data",
+        "section": "method",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 0.187
+      },
+      {
+        "feature_name": "methods__gradient descent",
+        "section": "method",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.1776
+      },
+      {
+        "feature_name": "introduction__parsing",
+        "section": "intro",
+        "term": "parsing",
+        "frequency": 1.0,
+        "tfidf": 0.137
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.0931
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 6.0,
+          "tfidf": 0.8949
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 6.0,
+          "tfidf": 0.7819
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2307
+        },
+        {
+          "feature_name": "introduction__parsing",
+          "section": "intro",
+          "term": "parsing",
+          "frequency": 1.0,
+          "tfidf": 0.137
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.0931
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__recurrent neural networks",
+          "section": "method",
+          "term": "recurrent neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.9
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.4016
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.1944
+        },
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.187
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1776
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 1.3097
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 3,
+      "token_count": 239,
+      "bow_hit_count": 10,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 10,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 6.0,
+          "tfidf": 0.8949
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 6.0,
+          "tfidf": 0.7819
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2307
+        },
+        {
+          "feature_name": "introduction__parsing",
+          "section": "intro",
+          "term": "parsing",
+          "frequency": 1.0,
+          "tfidf": 0.137
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.0931
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 133,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 2,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 2,
+          "section_prior": 0.1167,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 40,
+      "token_count": 3121,
+      "bow_hit_count": 113,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 55,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 30,
+          "section_prior": 0.4417,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 20,
+          "section_prior": 0.1542,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 4,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.268,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__recurrent neural networks",
+          "section": "method",
+          "term": "recurrent neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.9
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.4016
+        },
+        {
+          "feature_name": "methods__sgd",
+          "section": "method",
+          "term": "sgd",
+          "frequency": 1.0,
+          "tfidf": 0.1944
+        },
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.187
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.1776
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 1.3097
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "attention",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 37,
+        "sentence": "2 which allows the decoder to look at the whole input at any time this modification boosted the model performance significantly we inspected what attention was focusing on and we observed that it was pointing at the correct answer on the input side this inspired us to create the ptr-net model described in section 2 3 more than outperforming both the lstm and the lstm with attention our model has the key advantage of being inherently variable length the bottom",
+        "context_window": {
+          "previous": "convex hull it was seen that the order in which the inputs are presented to the encoder during inference affects its performance when the points on the true convex hull are seen late in the input sequence the accuracy is lower this is possibly the network does not have enough processing steps to update the convex hull it computed until the latest points were seen in order to overcome this problem we used the attention mechanism described in section 2",
+          "current": "2 which allows the decoder to look at the whole input at any time this modification boosted the model performance significantly we inspected what attention was focusing on and we observed that it was pointing at the correct answer on the input side this inspired us to create the ptr-net model described in section 2 3 more than outperforming both the lstm and the lstm with attention our model has the key advantage of being inherently variable length the bottom",
+          "next": "half of table shows that when training our model on a variety of lengths ranging from 5 to 50 uniformly sampled as we found other forms of curriculum learning to not be effective a single model is able to perform quite well on all lengths it has been trained on but some degradation for n 50 can be observed w r t the model trained only on length 50 instances more impressive is the fact that the model does extrapolate"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7031,
+        "downstream_relevance_score": 0.7667,
+        "components": {
+          "bio_boundary_score": 0.6078,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3475,
+          "document_tfidf_score": 0.3066,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 30,
+        "total_frequency": 146,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.4016,
+        "normalized_frequency": 0.3333,
+        "normalized_tfidf": 0.3066
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention"
+        ],
+        "normalization": "attention",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.3475,
+        "canonicalization": {
+          "observed": "attention",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6078",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'methods__attention' with tf-idf 0.4016",
+        "downstream relevance score is 0.7667"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "attention mechanism",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention",
+          "mechanism"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 19,
+        "sentence": "1 uses a softmax distribution over a fixed sized output dictionary to compute p c i c 1 c i-1 p in equation thus it cannot be used for our problems where the size of the output dictionary is equal to the length of the input sequence to solve this problem we model p c i c 1 c i-1 p using the attention mechanism of equation 3 as follows u i j v t tanh w 1 e j",
+        "context_window": {
+          "previous": "hull problem but it is not applicable to problems where the output dictionary size depends on the input nevertheless a very simple extension or rather reduction of the model allows us to do this easily ptr-net we now describe a very simple modification of the attention model that allows us to apply the method to solve combinatorial optimization problems where the output dictionary size depends on the number of elements in the input sequence the sequence-to-sequence model of section 2",
+          "current": "1 uses a softmax distribution over a fixed sized output dictionary to compute p c i c 1 c i-1 p in equation thus it cannot be used for our problems where the size of the output dictionary is equal to the length of the input sequence to solve this problem we model p c i c 1 c i-1 p using the attention mechanism of equation 3 as follows u i j v t tanh w 1 e j",
+          "next": "w 2 d i j 1 n p c i c 1 c i-1 p softmax u i where softmax normalizes the vector u i of length n to be an output distribution over the dictionary of inputs and v w 1 and w 2 are learnable parameters of the output model here we do not blend the encoder state e j to propagate extra information to the decoder but instead use u i j as pointers to the input"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "cannot",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "negative capability cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6813,
+        "downstream_relevance_score": 0.6981,
+        "components": {
+          "bio_boundary_score": 0.9334,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3475,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention mechanism",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 30,
+        "total_frequency": 146,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "mechanism"
+        ],
+        "normalization": "attention mechanism",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.3475,
+        "canonicalization": {
+          "observed": "attention mechanism",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9334",
+        "structure model assigned role 'component' with score 0.82",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched cannot",
+        "downstream relevance score is 0.6981"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "convex hull",
+        "canonical": "convex hull",
+        "normalized": "convex hull",
+        "tokens": [
+          "convex",
+          "hull"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 29,
+        "sentence": "that visits each city exactly once and returns to the starting point additionally we assume the distance between two cities is the same in each opposite direction this is an np-hard problem which allows us to test the capabilities and limitations of our model the input output pairs p c p have a similar format as in the convex hull problem described in section 3 1 p will be the cartesian coordinates representing the cities which are chosen randomly in",
+        "context_window": {
+          "previous": "order and choose the increasing triangle representation without ordering the models learned were not as good and finding a better ordering that the ptr-net could better exploit is part of future work travelling salesman problem tsp tsp arises in many areas of theoretical computer science and is an important algorithm used for microchip design or dna sequencing in our work we focused on the planar symmetric tsp given a list of cities we wish to find the shortest possible route",
+          "current": "that visits each city exactly once and returns to the starting point additionally we assume the distance between two cities is the same in each opposite direction this is an np-hard problem which allows us to test the capabilities and limitations of our model the input output pairs p c p have a similar format as in the convex hull problem described in section 3 1 p will be the cartesian coordinates representing the cities which are chosen randomly in",
+          "next": "the square c p c 1 c n will be a permutation of integers from 1 to n representing the optimal path or tour for consistency in the training dataset we always start in the first city without loss of generality to generate exact data we implemented the held-karp algorithm which finds the optimal solution in o 2 n n 2 we used it up to n 20 for larger n producing exact solutions is extremely costly therefore we also"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.8159,
+        "downstream_relevance_score": 0.5966,
+        "components": {
+          "bio_boundary_score": 0.9936,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convex",
+          "hull"
+        ],
+        "normalization": "convex hull",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convex hull",
+          "canonical": "convex hull",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9936",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5966"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "pointer net model",
+        "canonical": "pointer net model",
+        "normalized": "pointer net model",
+        "tokens": [
+          "pointer",
+          "net",
+          "model"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "training problems our pointer net model learns a competitive small scale n 50 tsp approximate solver our results demonstrate that a purely data driven approach can learn approximate solutions to problems that are computationally intractable models we review the sequence-to-sequence and input-attention models that are the baselines for this work in sections 2 1 and 2 2 we then describe our model -ptr-net in section 2 3 sequence-to-sequence model given a training pair p c p the sequence-to-sequence model computes",
+        "context_window": {
+          "previous": "the proposed approach is depicted in figure the main contributions of our work are as follows we propose a new architecture that we call pointer net which is simple and effective it deals with the fundamental problem of representing variable length dictionaries by using a softmax probability distribution as a pointer we apply the pointer net model to three distinct non-trivial algorithmic problems involving geometry we show that the learned model generalizes to test problems with more points than the",
+          "current": "training problems our pointer net model learns a competitive small scale n 50 tsp approximate solver our results demonstrate that a purely data driven approach can learn approximate solutions to problems that are computationally intractable models we review the sequence-to-sequence and input-attention models that are the baselines for this work in sections 2 1 and 2 2 we then describe our model -ptr-net in section 2 3 sequence-to-sequence model given a training pair p c p the sequence-to-sequence model computes",
+          "next": "the conditional probability p c p p using a parametric model an rnn with parameters to estimate the terms of the probability chain rule also see figure i e p c p p m p i 1 p c i c 1 c i-1 p here p p 1 p n is a sequence of n vectors and c p c 1 c m p is a sequence of m p indices each between 1 and n the parameters of"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7868,
+        "downstream_relevance_score": 0.5915,
+        "components": {
+          "bio_boundary_score": 0.8934,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pointer",
+          "net",
+          "model"
+        ],
+        "normalization": "pointer net model",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pointer net model",
+          "canonical": "pointer net model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8934",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5915"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "travelling salesman problem",
+        "canonical": "travelling salesman problem",
+        "normalized": "travelling salesman problem",
+        "tokens": [
+          "travelling",
+          "salesman",
+          "problem"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 41,
+        "sentence": "n 10 the accuracy was 22 6 and the triangle coverage 81 3 for n 50 we did not produce any precisely correct triangulation but obtained 52 8 triangle coverage see the middle column of figure for an example for n 50 ground truth predictions travelling salesman problem we considered the planar symmetric travelling salesman problem tsp which is np-hard as the third problem similarly to finding convex hulls it also has sequential outputs given that the ptr-net implements an",
+        "context_window": {
+          "previous": "triangulates the convex hull of these points we reported two metrics accuracy and triangle coverage in percentage the percentage of triangles the model predicted correctly note that in this case for an input point set p the output sequence c p is in fact a set as a consequence any permutation of its elements will represent the same triangulation using the ptr-net model for n 5 we obtained an accuracy of 80 7 and triangle coverage of 93 0 for",
+          "current": "n 10 the accuracy was 22 6 and the triangle coverage 81 3 for n 50 we did not produce any precisely correct triangulation but obtained 52 8 triangle coverage see the middle column of figure for an example for n 50 ground truth predictions travelling salesman problem we considered the planar symmetric travelling salesman problem tsp which is np-hard as the third problem similarly to finding convex hulls it also has sequential outputs given that the ptr-net implements an",
+          "next": "o n 2 algorithm it was unclear if it would have enough capacity to learn a useful algorithm solely from data as discussed in section 3 3 it is feasible to generate exact solutions for relatively small values of n to be used as training data for larger n due to the importance of tsp good and efficient algorithms providing reasonable approximate solutions exist we used three different algorithms in our experiments -a1 a2 and a3 see section 3 3"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.749,
+        "downstream_relevance_score": 0.5885,
+        "components": {
+          "bio_boundary_score": 0.9013,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "travelling",
+          "salesman",
+          "problem"
+        ],
+        "normalization": "travelling salesman problem",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "travelling salesman problem",
+          "canonical": "travelling salesman problem",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9013",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5885"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "curriculum learning",
+        "canonical": "curriculum learning",
+        "normalized": "curriculum learning",
+        "tokens": [
+          "curriculum",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 38,
+        "sentence": "half of table shows that when training our model on a variety of lengths ranging from 5 to 50 uniformly sampled as we found other forms of curriculum learning to not be effective a single model is able to perform quite well on all lengths it has been trained on but some degradation for n 50 can be observed w r t the model trained only on length 50 instances more impressive is the fact that the model does extrapolate",
+        "context_window": {
+          "previous": "2 which allows the decoder to look at the whole input at any time this modification boosted the model performance significantly we inspected what attention was focusing on and we observed that it was pointing at the correct answer on the input side this inspired us to create the ptr-net model described in section 2 3 more than outperforming both the lstm and the lstm with attention our model has the key advantage of being inherently variable length the bottom",
+          "current": "half of table shows that when training our model on a variety of lengths ranging from 5 to 50 uniformly sampled as we found other forms of curriculum learning to not be effective a single model is able to perform quite well on all lengths it has been trained on but some degradation for n 50 can be observed w r t the model trained only on length 50 instances more impressive is the fact that the model does extrapolate",
+          "next": "to lengths that it has never seen during training even for n 500 our results are satisfactory and indirectly indicate that the model has learned more than a simple lookup neither lstm or lstm with attention can be used for any given n n without training a new model on n delaunay triangulation the delaunay triangulation test case is connected to our first problem of finding the convex hull in fact the delaunay triangulation for a given set of points"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7213,
+        "downstream_relevance_score": 0.5825,
+        "components": {
+          "bio_boundary_score": 0.6711,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "curriculum",
+          "learning"
+        ],
+        "normalization": "curriculum learning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "curriculum learning",
+          "canonical": "curriculum learning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6711",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.5825"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "attention model",
+        "canonical": "attention model",
+        "normalized": "attention model",
+        "tokens": [
+          "attention",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 21,
+        "sentence": "elements in a similar way to condition on c i-1 as in equation 1 we simply copy the corresponding p ci-1 as the input both our method and the attention model can be seen as an application of content-based attention mechanisms proposed in we also note that our approach specifically targets problems whose outputs are discrete and correspond to positions in the input such problems may be addressed artificially -for example we could learn to output the coordinates of the",
+        "context_window": {
+          "previous": "w 2 d i j 1 n p c i c 1 c i-1 p softmax u i where softmax normalizes the vector u i of length n to be an output distribution over the dictionary of inputs and v w 1 and w 2 are learnable parameters of the output model here we do not blend the encoder state e j to propagate extra information to the decoder but instead use u i j as pointers to the input",
+          "current": "elements in a similar way to condition on c i-1 as in equation 1 we simply copy the corresponding p ci-1 as the input both our method and the attention model can be seen as an application of content-based attention mechanisms proposed in we also note that our approach specifically targets problems whose outputs are discrete and correspond to positions in the input such problems may be addressed artificially -for example we could learn to output the coordinates of the",
+          "next": "target point directly using an rnn however at inference this solution does not respect the constraint that the outputs map back to the inputs exactly without the constraints the predictions are bound to become blurry over longer sequences as shown in sequence-to-sequence models for videos motivation and datasets structure in the following sections we review each of the three problems we considered as well as our data generation protocol in the training data the inputs are planar point sets p"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7331,
+        "downstream_relevance_score": 0.5158,
+        "components": {
+          "bio_boundary_score": 0.942,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "model"
+        ],
+        "normalization": "attention model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "attention model",
+          "canonical": "attention model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.942",
+        "structure model assigned role 'core_method' with score 0.82",
+        "downstream relevance score is 0.5158"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "input attention",
+        "canonical": "input attention",
+        "normalized": "input attention",
+        "tokens": [
+          "input",
+          "attention"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "learn approximate solutions to three challenging geometric problems -finding planar convex hulls computing delaunay triangulations and the planar travelling salesman problem -using training examples alone ptr-nets not only improve over sequence-to-sequence with input attention but also allow us to generalize to variable size output dictionaries we show that the learnt models generalize beyond the maximum lengths they were trained on we hope our results on these tasks will encourage a broader exploration of neural learning for discrete problems body",
+        "context_window": {
+          "previous": "this class our model solves the problem of variable size output dictionaries using a recently proposed mechanism of neural attention it differs from the previous attention attempts in that instead of using attention to blend hidden units of an encoder to a context vector at each decoder step it uses attention as a pointer to select a member of the input sequence as the output we call this architecture a pointer net ptr-net we show ptr-nets can be used to",
+          "current": "learn approximate solutions to three challenging geometric problems -finding planar convex hulls computing delaunay triangulations and the planar travelling salesman problem -using training examples alone ptr-nets not only improve over sequence-to-sequence with input attention but also allow us to generalize to variable size output dictionaries we show that the learnt models generalize beyond the maximum lengths they were trained on we hope our results on these tasks will encourage a broader exploration of neural learning for discrete problems body",
+          "next": "recurrent neural networks rnns have been used for learning functions over sequences from examples for more than three decades however their architecture limited them to settings where the inputs and outputs were available at a fixed frame rate e g the recently introduced sequence-to-sequence paradigm removed these constraints by using one rnn to map an input sequence to an embedding and another possibly the same rnn to map the embedding to an output sequence bahdanau et al augmented the decoder by propagating extra contextual information from the input using a content-based attentional mechanism these developments have made it possible to apply rnns to new domains achieving state-of-the-art results in core problems in natural language processing such as translation and parsing image and video captioning and even learning to execute small programs nonetheless these"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.4921
+      },
+      "evidence": {
+        "score": 0.5302,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6345,
+        "downstream_relevance_score": 0.4985,
+        "components": {
+          "bio_boundary_score": 0.6171,
+          "sentence_evidence_score": 0.5302,
+          "sentence_role_score": 0.4921,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "input",
+          "attention"
+        ],
+        "normalization": "input attention",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "input attention",
+          "canonical": "input attention",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6171",
+        "structure model assigned role 'problem' with score 0.4921",
+        "evidence score 0.5302 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.4985"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "output dictionary",
+        "canonical": "output dictionary",
+        "normalized": "output dictionary",
+        "tokens": [
+          "output",
+          "dictionary"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 13,
+        "sentence": "the outputs are chosen from the input thus we need to train a separate model for each n this prevents us from learning solutions to problems that have an output dictionary with a size that depends on the input sequence length under the assumption that the number of outputs is o n this model has computational complexity of o n however exact algorithms for the problems we are dealing with are more costly for example the convex hull problem has",
+        "context_window": {
+          "previous": "sequence p the learnt parameters are used to select the sequence p with the highest probability i e p arg max c p p c p p finding the optimal sequence is computationally impractical because of the combinatorial number of possible output sequences instead we use a beam search procedure to find the best possible sequence given a beam size in this sequence-to-sequence model the output dictionary size for all symbols c i is fixed and equal to n since",
+          "current": "the outputs are chosen from the input thus we need to train a separate model for each n this prevents us from learning solutions to problems that have an output dictionary with a size that depends on the input sequence length under the assumption that the number of outputs is o n this model has computational complexity of o n however exact algorithms for the problems we are dealing with are more costly for example the convex hull problem has",
+          "next": "complexity o n log n the attention mechanism see section 2 2 adds more computational capacity to this model content based input attention the vanilla sequence-to-sequence model produces the entire output sequence c p using the fixed dimensional state of the recognition rnn at the end of the input sequence p this constrains the amount of information and computation that can flow through to the generative model the attention model of ameliorates this problem by augmenting the encoder and decoder"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.5774
+      },
+      "evidence": {
+        "score": 0.8294,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5812,
+        "downstream_relevance_score": 0.4845,
+        "components": {
+          "bio_boundary_score": 0.77,
+          "sentence_evidence_score": 0.8294,
+          "sentence_role_score": 0.5774,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "output",
+          "dictionary"
+        ],
+        "normalization": "output dictionary",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "output dictionary",
+          "canonical": "output dictionary",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.77",
+        "structure model assigned role 'core_method' with score 0.5774",
+        "evidence score 0.8294 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4845"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "delaunay triangulation",
+        "canonical": "delaunay triangulation",
+        "normalized": "delaunay triangulation",
+        "tokens": [
+          "delaunay",
+          "triangulation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 23,
+        "sentence": "p 1 p n with n elements each where p j x j y j are the cartesian coordinates of the points over which we find the convex hull the delaunay triangulation or the solution to the corresponding travelling salesman problem in all cases we sample from a uniform distribution in the outputs c p c 1 c m p are sequences representing the solution associated to the point set p in figure we find an illustration of an input",
+        "context_window": {
+          "previous": "target point directly using an rnn however at inference this solution does not respect the constraint that the outputs map back to the inputs exactly without the constraints the predictions are bound to become blurry over longer sequences as shown in sequence-to-sequence models for videos motivation and datasets structure in the following sections we review each of the three problems we considered as well as our data generation protocol in the training data the inputs are planar point sets p",
+          "current": "p 1 p n with n elements each where p j x j y j are the cartesian coordinates of the points over which we find the convex hull the delaunay triangulation or the solution to the corresponding travelling salesman problem in all cases we sample from a uniform distribution in the outputs c p c 1 c m p are sequences representing the solution associated to the point set p in figure we find an illustration of an input",
+          "next": "output pair p c p for the convex hull and the delaunay problems convex hull we used this example as a baseline to develop our models and to understand the difficulty of solving combinatorial problems with data driven approaches finding the convex hull of a finite number of points is a well understood task in computational geometry and there are several exact solutions available see in general finding the generally unique solution has complexity o n log n where n"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6373,
+        "downstream_relevance_score": 0.4714,
+        "components": {
+          "bio_boundary_score": 0.6047,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "delaunay",
+          "triangulation"
+        ],
+        "normalization": "delaunay triangulation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "delaunay triangulation",
+          "canonical": "delaunay triangulation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6047",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4714"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "output model",
+        "canonical": "output model",
+        "normalized": "output model",
+        "tokens": [
+          "output",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 20,
+        "sentence": "w 2 d i j 1 n p c i c 1 c i-1 p softmax u i where softmax normalizes the vector u i of length n to be an output distribution over the dictionary of inputs and v w 1 and w 2 are learnable parameters of the output model here we do not blend the encoder state e j to propagate extra information to the decoder but instead use u i j as pointers to the input",
+        "context_window": {
+          "previous": "1 uses a softmax distribution over a fixed sized output dictionary to compute p c i c 1 c i-1 p in equation thus it cannot be used for our problems where the size of the output dictionary is equal to the length of the input sequence to solve this problem we model p c i c 1 c i-1 p using the attention mechanism of equation 3 as follows u i j v t tanh w 1 e j",
+          "current": "w 2 d i j 1 n p c i c 1 c i-1 p softmax u i where softmax normalizes the vector u i of length n to be an output distribution over the dictionary of inputs and v w 1 and w 2 are learnable parameters of the output model here we do not blend the encoder state e j to propagate extra information to the decoder but instead use u i j as pointers to the input",
+          "next": "elements in a similar way to condition on c i-1 as in equation 1 we simply copy the corresponding p ci-1 as the input both our method and the attention model can be seen as an application of content-based attention mechanisms proposed in we also note that our approach specifically targets problems whose outputs are discrete and correspond to positions in the input such problems may be addressed artificially -for example we could learn to output the coordinates of the"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6242,
+        "downstream_relevance_score": 0.455,
+        "components": {
+          "bio_boundary_score": 0.7388,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "output",
+          "model"
+        ],
+        "normalization": "output model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "output model",
+          "canonical": "output model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7388",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.455"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "encoder and decoder",
+        "canonical": "encoder and decoder",
+        "normalized": "encoder and decoder",
+        "tokens": [
+          "encoder",
+          "and",
+          "decoder"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 16,
+        "sentence": "tanh w 1 e j w 2 d i j 1 n a i j softmax u i j j 1 n d i n j 1 a i j e j where softmax normalizes the vector u i of length n to be the attention mask over the inputs and v w 1 and w 2 are learnable parameters of the model in all our experiments we use the same hidden dimensionality at the encoder and decoder typically 512",
+        "context_window": {
+          "previous": "rnns with an additional neural network that uses an attention mechanism over the entire sequence of encoder rnn states for notation purposes let us define the encoder and decoder hidden states as e 1 e n and d 1 d m p respectively for the lstm rnns we use the state after the output gate has been component-wise multiplied by the cell activations we compute the attention vector at each output time i as follows u i j v t",
+          "current": "tanh w 1 e j w 2 d i j 1 n a i j softmax u i j j 1 n d i n j 1 a i j e j where softmax normalizes the vector u i of length n to be the attention mask over the inputs and v w 1 and w 2 are learnable parameters of the model in all our experiments we use the same hidden dimensionality at the encoder and decoder typically 512",
+          "next": "so v is a vector and w 1 and w 2 are square matrices lastly d i and d i are concatenated and used as the hidden states from which we make predictions and which we feed to the next time step in the recurrent model note that for each output we have to perform n operations so the computational complexity at inference time becomes o n 2 this model performs significantly better than the sequence-to-sequence model on the convex"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5644,
+        "downstream_relevance_score": 0.4339,
+        "components": {
+          "bio_boundary_score": 0.5345,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "encoder",
+          "and",
+          "decoder"
+        ],
+        "normalization": "encoder and decoder",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "encoder and decoder",
+          "canonical": "encoder and decoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5345",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4339"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "triangulation",
+        "canonical": "triangulation",
+        "normalized": "triangulation",
+        "tokens": [
+          "triangulation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 26,
+        "sentence": "triangulation for a set p of points in a plane is a triangulation such that each circumcircle of every triangle is empty that is there is no point from p in its interior exact o n log n solutions are available where n is the number of points in p in this example the outputs c p c 1 c m p are the corresponding sequences representing the triangulation of the point set p each c i is a triple",
+        "context_window": {
+          "previous": "is the number of points considered the vectors p j are uniformly sampled from the elements c i are indices between 1 and n corresponding to positions in the sequence p or special tokens representing beginning or end of sequence see figure a for an illustration to represent the output as a sequence we start from the point with the lowest index and go counter-clockwise -this is an arbitrary choice but helps reducing ambiguities during training delaunay triangulation a delaunay",
+          "current": "triangulation for a set p of points in a plane is a triangulation such that each circumcircle of every triangle is empty that is there is no point from p in its interior exact o n log n solutions are available where n is the number of points in p in this example the outputs c p c 1 c m p are the corresponding sequences representing the triangulation of the point set p each c i is a triple",
+          "next": "of integers from 1 to n corresponding to the position of triangle vertices in p or the beginning end of sequence tokens see figure we note that any permutation of the sequence c p represents the same triangulation for p additionally each triangle representation c i of three integers can also be permuted without loss of generality and similarly to what we did for convex hulls at training time we order the triangles c i by their incenter coordinates lexicographic"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6032,
+        "downstream_relevance_score": 0.4086,
+        "components": {
+          "bio_boundary_score": 0.5853,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "triangulation"
+        ],
+        "normalization": "triangulation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "triangulation",
+          "canonical": "triangulation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5853",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4086"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "encoder",
+        "canonical": "encoder",
+        "normalized": "encoder",
+        "tokens": [
+          "encoder"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 14,
+        "sentence": "complexity o n log n the attention mechanism see section 2 2 adds more computational capacity to this model content based input attention the vanilla sequence-to-sequence model produces the entire output sequence c p using the fixed dimensional state of the recognition rnn at the end of the input sequence p this constrains the amount of information and computation that can flow through to the generative model the attention model of ameliorates this problem by augmenting the encoder and decoder",
+        "context_window": {
+          "previous": "the outputs are chosen from the input thus we need to train a separate model for each n this prevents us from learning solutions to problems that have an output dictionary with a size that depends on the input sequence length under the assumption that the number of outputs is o n this model has computational complexity of o n however exact algorithms for the problems we are dealing with are more costly for example the convex hull problem has",
+          "current": "complexity o n log n the attention mechanism see section 2 2 adds more computational capacity to this model content based input attention the vanilla sequence-to-sequence model produces the entire output sequence c p using the fixed dimensional state of the recognition rnn at the end of the input sequence p this constrains the amount of information and computation that can flow through to the generative model the attention model of ameliorates this problem by augmenting the encoder and decoder",
+          "next": "rnns with an additional neural network that uses an attention mechanism over the entire sequence of encoder rnn states for notation purposes let us define the encoder and decoder hidden states as e 1 e n and d 1 d m p respectively for the lstm rnns we use the state after the output gate has been component-wise multiplied by the cell activations we compute the attention vector at each output time i as follows u i j v t"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5249,
+        "downstream_relevance_score": 0.3486,
+        "components": {
+          "bio_boundary_score": 0.7553,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "encoder"
+        ],
+        "normalization": "encoder",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "encoder",
+          "canonical": "encoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7553",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.3486"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "computational complexity",
+        "canonical": "computational complexity",
+        "normalized": "computational complexity",
+        "tokens": [
+          "computational",
+          "complexity"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 17,
+        "sentence": "so v is a vector and w 1 and w 2 are square matrices lastly d i and d i are concatenated and used as the hidden states from which we make predictions and which we feed to the next time step in the recurrent model note that for each output we have to perform n operations so the computational complexity at inference time becomes o n 2 this model performs significantly better than the sequence-to-sequence model on the convex",
+        "context_window": {
+          "previous": "tanh w 1 e j w 2 d i j 1 n a i j softmax u i j j 1 n d i n j 1 a i j e j where softmax normalizes the vector u i of length n to be the attention mask over the inputs and v w 1 and w 2 are learnable parameters of the model in all our experiments we use the same hidden dimensionality at the encoder and decoder typically 512",
+          "current": "so v is a vector and w 1 and w 2 are square matrices lastly d i and d i are concatenated and used as the hidden states from which we make predictions and which we feed to the next time step in the recurrent model note that for each output we have to perform n operations so the computational complexity at inference time becomes o n 2 this model performs significantly better than the sequence-to-sequence model on the convex",
+          "next": "hull problem but it is not applicable to problems where the output dictionary size depends on the input nevertheless a very simple extension or rather reduction of the model allows us to do this easily ptr-net we now describe a very simple modification of the attention model that allows us to apply the method to solve combinatorial optimization problems where the output dictionary size depends on the number of elements in the input sequence the sequence-to-sequence model of section 2"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4897,
+        "downstream_relevance_score": 0.3403,
+        "components": {
+          "bio_boundary_score": 0.7477,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational",
+          "complexity"
+        ],
+        "normalization": "computational complexity",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational complexity",
+          "canonical": "computational complexity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7477",
+        "structure model assigned role 'process' with score 0.82",
+        "downstream relevance score is 0.3403"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 18,
+    "top_candidates": [
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Our method works on variable sized inputs (yielding variable sized output dictionaries), something the baseline models (sequence-to-sequence with or without attention) cannot do directly.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Future work will try and show its applicability to other problems such as sorting where the outputs are chosen from the inputs.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "No extensive architecture or hyperparameter search of the Ptr-Net was done in the work presented here, and we used virtually the same architecture throughout all the experiments and datasets.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We introduce a new neural architecture to learn the conditional probability of an output sequence with elements that are discrete tokens corresponding to positions in an input sequence.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We introduce a new neural architecture to learn the conditional probability of an output sequence with elements that are discrete tokens corresponding to positions in an input sequence.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Such problems cannot be trivially addressed by existent approaches such as sequence-to-sequence [1] and Neural Turing Machines [2], because the number of target classes in each step of the output depends on the length of the input, which is variable.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We show that the learnt models generalize beyond the maximum lengths they were trained on.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "However, their architecture limited them to settings where the inputs and outputs were available at a fixed frame rate (e.g. ).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "These developments have made it possible to apply RNNs to new domains, achieving state-of-the-art results in core problems in natural language processing such as translation and parsing , image and video captioning , and even learning to execute small programs .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Because of this constraint we cannot directly apply this framework to combinatorial problems where the size of the output dictionary depends on the length of the input sequence.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Because of this constraint we cannot directly apply this framework to combinatorial problems where the size of the output dictionary depends on the length of the input sequence.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this paper, we address this limitation by repurposing the attention mechanism of to create pointers to input elements.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We show that the resulting architecture, which we name Pointer Networks (Ptr-Nets), can be trained to output satisfactory solutions to three combinatorial optimization problems -computing planar convex hulls, Delaunay triangulations and the symmetric planar Travelling Salesman Problem (TSP).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The main contributions of our work are as follows: • We propose a new architecture, that we call Pointer Net, which is simple and effective.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The main contributions of our work are as follows: • We propose a new architecture, that we call Pointer Net, which is simple and effective.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In this paper we described Ptr-Net, a new architecture that allows us to learn a conditional probability of one sequence C P given another sequence P, where C P is a sequence of discrete tokens corresponding to positions in P.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Even more impressively, they outperform the baselines on fixed input size problems -to which both the models can be applied.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We call this architecture a Pointer Net (Ptr-Net).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "attention",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.7667
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "attention",
+        "section": "method",
+        "role": "component",
+        "score": 0.6981
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "convex hull",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5966
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "pointer net model",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5915
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "travelling salesman problem",
+        "section": "method",
+        "role": "problem",
+        "score": 0.5885
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "curriculum learning",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5825
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "attention model",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5158
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "input attention",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4985
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "output dictionary",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4845
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "delaunay triangulation",
+        "section": "method",
+        "role": "problem",
+        "score": 0.4714
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "output model",
+        "section": "method",
+        "role": "component",
+        "score": 0.455
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "encoder and decoder",
+        "section": "method",
+        "role": "component",
+        "score": 0.4339
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "triangulation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4086
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "encoder",
+        "section": "method",
+        "role": "component",
+        "score": 0.3486
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "computational complexity",
+        "section": "method",
+        "role": "process",
+        "score": 0.3403
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

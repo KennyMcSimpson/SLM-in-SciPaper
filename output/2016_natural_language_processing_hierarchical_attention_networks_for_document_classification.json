@@ -1,0 +1,3113 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_natural_language_processing_hierarchical_attention_networks_for_document_classification",
+    "title": "2016_natural_language_processing_hierarchical_attention_networks_for_document_classification",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_natural_language_processing_hierarchical_attention_networks_for_document_classification.txt",
+    "sentence_count": 57,
+    "section_counts": {
+      "intro": 5,
+      "related_work": 1,
+      "method": 23,
+      "experiment": 21,
+      "conclusion": 7
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4321,
+    "type_count": 933,
+    "type_token_ratio": 0.2159,
+    "section_token_counts": {
+      "intro": 322,
+      "related_work": 80,
+      "method": 1813,
+      "experiment": 1615,
+      "conclusion": 491
+    },
+    "top_unigrams": [
+      {
+        "term": "attention",
+        "count": 147
+      },
+      {
+        "term": "feature",
+        "count": 43
+      },
+      {
+        "term": "layers",
+        "count": 38
+      },
+      {
+        "term": "models",
+        "count": 33
+      },
+      {
+        "term": "network",
+        "count": 30
+      },
+      {
+        "term": "layer",
+        "count": 29
+      },
+      {
+        "term": "progressive",
+        "count": 26
+      },
+      {
+        "term": "local",
+        "count": 25
+      },
+      {
+        "term": "att",
+        "count": 24
+      },
+      {
+        "term": "model",
+        "count": 23
+      },
+      {
+        "term": "image",
+        "count": 23
+      },
+      {
+        "term": "hard",
+        "count": 23
+      },
+      {
+        "term": "cnn",
+        "count": 22
+      },
+      {
+        "term": "map",
+        "count": 20
+      },
+      {
+        "term": "target",
+        "count": 19
+      },
+      {
+        "term": "query",
+        "count": 18
+      },
+      {
+        "term": "networks",
+        "count": 17
+      },
+      {
+        "term": "proposed",
+        "count": 17
+      },
+      {
+        "term": "object",
+        "count": 17
+      },
+      {
+        "term": "soft",
+        "count": 17
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "progressive attention",
+        "count": 22
+      },
+      {
+        "term": "hard attention",
+        "count": 18
+      },
+      {
+        "term": "local context",
+        "count": 16
+      },
+      {
+        "term": "feature map",
+        "count": 13
+      },
+      {
+        "term": "attention model",
+        "count": 12
+      },
+      {
+        "term": "attended feature",
+        "count": 11
+      },
+      {
+        "term": "attention models",
+        "count": 9
+      },
+      {
+        "term": "soft attention",
+        "count": 9
+      },
+      {
+        "term": "attention network",
+        "count": 9
+      },
+      {
+        "term": "attribute prediction",
+        "count": 8
+      },
+      {
+        "term": "multiple layers",
+        "count": 8
+      },
+      {
+        "term": "local contexts",
+        "count": 8
+      },
+      {
+        "term": "attention probability",
+        "count": 8
+      },
+      {
+        "term": "pooling layers",
+        "count": 8
+      },
+      {
+        "term": "attention mechanism",
+        "count": 7
+      },
+      {
+        "term": "layers cnn",
+        "count": 7
+      },
+      {
+        "term": "attention networks",
+        "count": 6
+      },
+      {
+        "term": "target objects",
+        "count": 6
+      },
+      {
+        "term": "proposed network",
+        "count": 6
+      },
+      {
+        "term": "att stn",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "progressive attention networks",
+        "count": 5
+      },
+      {
+        "term": "multiple layers cnn",
+        "count": 4
+      },
+      {
+        "term": "attended feature map",
+        "count": 4
+      },
+      {
+        "term": "attended feature att",
+        "count": 4
+      },
+      {
+        "term": "visual attribute prediction",
+        "count": 3
+      },
+      {
+        "term": "over multiple layers",
+        "count": 3
+      },
+      {
+        "term": "proposed progressive attention",
+        "count": 3
+      },
+      {
+        "term": "attention probability map",
+        "count": 3
+      },
+      {
+        "term": "computer vision tasks",
+        "count": 3
+      },
+      {
+        "term": "visual question answering",
+        "count": 3
+      },
+      {
+        "term": "progressive attention model",
+        "count": 3
+      },
+      {
+        "term": "final attended feature",
+        "count": 3
+      },
+      {
+        "term": "soft hard attention",
+        "count": 3
+      },
+      {
+        "term": "att stn att",
+        "count": 3
+      },
+      {
+        "term": "stn att stn",
+        "count": 3
+      },
+      {
+        "term": "attend target objects",
+        "count": 3
+      },
+      {
+        "term": "object class conditional",
+        "count": 3
+      },
+      {
+        "term": "query target feature",
+        "count": 3
+      },
+      {
+        "term": "two fully connected",
+        "count": 3
+      },
+      {
+        "term": "fully connected layers",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 33,
+    "nonzero_tfidf_features": 33,
+    "top_tfidf_features": [
+      {
+        "feature_name": "related_work__attention",
+        "section": "related_work",
+        "term": "attention",
+        "frequency": 7.0,
+        "tfidf": 1.1794
+      },
+      {
+        "feature_name": "abstract__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 7.0,
+        "tfidf": 1.1474
+      },
+      {
+        "feature_name": "experiments__attention",
+        "section": "experiment",
+        "term": "attention",
+        "frequency": 20.0,
+        "tfidf": 1.0274
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 41.0,
+        "tfidf": 1.0221
+      },
+      {
+        "feature_name": "introduction__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 23.0,
+        "tfidf": 0.9827
+      },
+      {
+        "feature_name": "conclusion__attention",
+        "section": "conclusion",
+        "term": "attention",
+        "frequency": 4.0,
+        "tfidf": 0.799
+      },
+      {
+        "feature_name": "conclusion__convolutional neural networks",
+        "section": "conclusion",
+        "term": "convolutional neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.5256
+      },
+      {
+        "feature_name": "conclusion__shapes",
+        "section": "conclusion",
+        "term": "shapes",
+        "frequency": 1.0,
+        "tfidf": 0.2921
+      },
+      {
+        "feature_name": "related_work__neural machine translation",
+        "section": "related_work",
+        "term": "neural machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.2348
+      },
+      {
+        "feature_name": "related_work__visual question answering",
+        "section": "related_work",
+        "term": "visual question answering",
+        "frequency": 1.0,
+        "tfidf": 0.2215
+      },
+      {
+        "feature_name": "abstract__shapes",
+        "section": "intro",
+        "term": "shapes",
+        "frequency": 1.0,
+        "tfidf": 0.2098
+      },
+      {
+        "feature_name": "related_work__speech recognition",
+        "section": "related_work",
+        "term": "speech recognition",
+        "frequency": 1.0,
+        "tfidf": 0.1957
+      },
+      {
+        "feature_name": "related_work__convolutional neural networks",
+        "section": "related_work",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1895
+      },
+      {
+        "feature_name": "abstract__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1813
+      },
+      {
+        "feature_name": "related_work__machine translation",
+        "section": "related_work",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.1708
+      },
+      {
+        "feature_name": "related_work__question answering",
+        "section": "related_work",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.1708
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 3.0,
+        "tfidf": 0.1676
+      },
+      {
+        "feature_name": "experiments__transformer",
+        "section": "experiment",
+        "term": "transformer",
+        "frequency": 3.0,
+        "tfidf": 0.156
+      },
+      {
+        "feature_name": "methods__end-to-end",
+        "section": "method",
+        "term": "end-to-end",
+        "frequency": 4.0,
+        "tfidf": 0.1556
+      },
+      {
+        "feature_name": "experiments__convolutional neural networks",
+        "section": "experiment",
+        "term": "convolutional neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.132
+      },
+      {
+        "feature_name": "experiments__epoch",
+        "section": "experiment",
+        "term": "epoch",
+        "frequency": 2.0,
+        "tfidf": 0.1254
+      },
+      {
+        "feature_name": "methods__convolutional neural networks",
+        "section": "method",
+        "term": "convolutional neural networks",
+        "frequency": 4.0,
+        "tfidf": 0.1217
+      },
+      {
+        "feature_name": "experiments__segmentation",
+        "section": "experiment",
+        "term": "segmentation",
+        "frequency": 2.0,
+        "tfidf": 0.1151
+      },
+      {
+        "feature_name": "methods__backpropagation",
+        "section": "method",
+        "term": "backpropagation",
+        "frequency": 2.0,
+        "tfidf": 0.0692
+      },
+      {
+        "feature_name": "introduction__aggregation",
+        "section": "intro",
+        "term": "aggregation",
+        "frequency": 1.0,
+        "tfidf": 0.0659
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 7.0,
+          "tfidf": 1.1474
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 23.0,
+          "tfidf": 0.9827
+        },
+        {
+          "feature_name": "abstract__shapes",
+          "section": "intro",
+          "term": "shapes",
+          "frequency": 1.0,
+          "tfidf": 0.2098
+        },
+        {
+          "feature_name": "abstract__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1813
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.1676
+        },
+        {
+          "feature_name": "introduction__aggregation",
+          "section": "intro",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.0659
+        },
+        {
+          "feature_name": "introduction__visual question answering",
+          "section": "intro",
+          "term": "visual question answering",
+          "frequency": 1.0,
+          "tfidf": 0.0659
+        },
+        {
+          "feature_name": "introduction__shapes",
+          "section": "intro",
+          "term": "shapes",
+          "frequency": 1.0,
+          "tfidf": 0.0633
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.0545
+        },
+        {
+          "feature_name": "introduction__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.0446
+        },
+        {
+          "feature_name": "introduction__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.0396
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 7.0,
+          "tfidf": 1.1794
+        },
+        {
+          "feature_name": "related_work__neural machine translation",
+          "section": "related_work",
+          "term": "neural machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.2348
+        },
+        {
+          "feature_name": "related_work__visual question answering",
+          "section": "related_work",
+          "term": "visual question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2215
+        },
+        {
+          "feature_name": "related_work__speech recognition",
+          "section": "related_work",
+          "term": "speech recognition",
+          "frequency": 1.0,
+          "tfidf": 0.1957
+        },
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1895
+        },
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.1708
+        },
+        {
+          "feature_name": "related_work__question answering",
+          "section": "related_work",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1708
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 41.0,
+          "tfidf": 1.0221
+        },
+        {
+          "feature_name": "methods__end-to-end",
+          "section": "method",
+          "term": "end-to-end",
+          "frequency": 4.0,
+          "tfidf": 0.1556
+        },
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.1217
+        },
+        {
+          "feature_name": "methods__backpropagation",
+          "section": "method",
+          "term": "backpropagation",
+          "frequency": 2.0,
+          "tfidf": 0.0692
+        },
+        {
+          "feature_name": "methods__segmentation",
+          "section": "method",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.0392
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.023
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 20.0,
+          "tfidf": 1.0274
+        },
+        {
+          "feature_name": "experiments__transformer",
+          "section": "experiment",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.156
+        },
+        {
+          "feature_name": "experiments__convolutional neural networks",
+          "section": "experiment",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.132
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 2.0,
+          "tfidf": 0.1254
+        },
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 2.0,
+          "tfidf": 0.1151
+        },
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.0643
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 0.799
+        },
+        {
+          "feature_name": "conclusion__convolutional neural networks",
+          "section": "conclusion",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.5256
+        },
+        {
+          "feature_name": "conclusion__shapes",
+          "section": "conclusion",
+          "term": "shapes",
+          "frequency": 1.0,
+          "tfidf": 0.2921
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 5,
+      "token_count": 322,
+      "bow_hit_count": 28,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 24,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 3,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Shapes, Inc.",
+          "count": 1,
+          "section_prior": 0.4762,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 7.0,
+          "tfidf": 1.1474
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 23.0,
+          "tfidf": 0.9827
+        },
+        {
+          "feature_name": "abstract__shapes",
+          "section": "intro",
+          "term": "shapes",
+          "frequency": 1.0,
+          "tfidf": 0.2098
+        },
+        {
+          "feature_name": "abstract__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1813
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 3.0,
+          "tfidf": 0.1676
+        },
+        {
+          "feature_name": "introduction__aggregation",
+          "section": "intro",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.0659
+        },
+        {
+          "feature_name": "introduction__visual question answering",
+          "section": "intro",
+          "term": "visual question answering",
+          "frequency": 1.0,
+          "tfidf": 0.0659
+        },
+        {
+          "feature_name": "introduction__shapes",
+          "section": "intro",
+          "term": "shapes",
+          "frequency": 1.0,
+          "tfidf": 0.0633
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.0545
+        },
+        {
+          "feature_name": "introduction__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.0446
+        },
+        {
+          "feature_name": "introduction__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.0396
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 1,
+      "token_count": 80,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 4,
+          "section_prior": 0.0898,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 3,
+          "section_prior": 0.0932,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "visual question answering",
+          "count": 1,
+          "section_prior": 0.129,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 7.0,
+          "tfidf": 1.1794
+        },
+        {
+          "feature_name": "related_work__neural machine translation",
+          "section": "related_work",
+          "term": "neural machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.2348
+        },
+        {
+          "feature_name": "related_work__visual question answering",
+          "section": "related_work",
+          "term": "visual question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2215
+        },
+        {
+          "feature_name": "related_work__speech recognition",
+          "section": "related_work",
+          "term": "speech recognition",
+          "frequency": 1.0,
+          "tfidf": 0.1957
+        },
+        {
+          "feature_name": "related_work__convolutional neural networks",
+          "section": "related_work",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1895
+        },
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.1708
+        },
+        {
+          "feature_name": "related_work__question answering",
+          "section": "related_work",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1708
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 23,
+      "token_count": 1813,
+      "bow_hit_count": 152,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 98,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 20,
+          "section_prior": 0.2204,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 8,
+          "section_prior": 0.3709,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 6,
+          "section_prior": 0.1088,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 4,
+          "section_prior": 0.3,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 4,
+          "section_prior": 0.0932,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "aggregation",
+          "count": 3,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Shapes, Inc.",
+          "count": 3,
+          "section_prior": 0.0476,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "visual question answering",
+          "count": 2,
+          "section_prior": 0.1613,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 1,
+          "section_prior": 0.1042,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 1,
+          "section_prior": 0.0792,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "neural machine translation",
+          "count": 1,
+          "section_prior": 0.075,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 41.0,
+          "tfidf": 1.0221
+        },
+        {
+          "feature_name": "methods__end-to-end",
+          "section": "method",
+          "term": "end-to-end",
+          "frequency": 4.0,
+          "tfidf": 0.1556
+        },
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 4.0,
+          "tfidf": 0.1217
+        },
+        {
+          "feature_name": "methods__backpropagation",
+          "section": "method",
+          "term": "backpropagation",
+          "frequency": 2.0,
+          "tfidf": 0.0692
+        },
+        {
+          "feature_name": "methods__segmentation",
+          "section": "method",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.0392
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.023
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 21,
+      "token_count": 1615,
+      "bow_hit_count": 108,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 79,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 9,
+          "section_prior": 0.3671,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Shapes, Inc.",
+          "count": 6,
+          "section_prior": 0.2857,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 4,
+          "section_prior": 0.18,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 3,
+          "section_prior": 0.172,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 20.0,
+          "tfidf": 1.0274
+        },
+        {
+          "feature_name": "experiments__transformer",
+          "section": "experiment",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.156
+        },
+        {
+          "feature_name": "experiments__convolutional neural networks",
+          "section": "experiment",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.132
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 2.0,
+          "tfidf": 0.1254
+        },
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 2.0,
+          "tfidf": 0.1151
+        },
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.0643
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 7,
+      "token_count": 491,
+      "bow_hit_count": 39,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 27,
+          "section_prior": 0.0757,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 7,
+          "section_prior": 0.0699,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 4,
+          "section_prior": 0.0493,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Shapes, Inc.",
+          "count": 1,
+          "section_prior": 0.1429,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 0.799
+        },
+        {
+          "feature_name": "conclusion__convolutional neural networks",
+          "section": "conclusion",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.5256
+        },
+        {
+          "feature_name": "conclusion__shapes",
+          "section": "conclusion",
+          "term": "shapes",
+          "frequency": 1.0,
+          "tfidf": 0.2921
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "attention",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 3,
+        "sentence": "often pays attention to a region of interest instead of processing an entire scene likewise in a neural attention model we can focus only on attended areas of the input image this is beneficial in terms of computational cost the number of hidden units may be reduced since the hidden activations only need to encode the region with attention another important motivation is that various high-level computer vision tasks should identify a particular region for accurate attribute prediction figure illustrates",
+        "context_window": {
+          "previous": "attentive mechanisms often play important roles in modern neural networks nns especially in computer vision tasks many visual attention models have been introduced in the previous literature and they have shown that attaching an attention to nns improves the accuracy in various tasks such as image classification image generation image caption generation and visual question answering there are several motivations for incorporating attentive mechanisms in nns one of them is analogy to the human perceptual process the human visual system",
+          "current": "often pays attention to a region of interest instead of processing an entire scene likewise in a neural attention model we can focus only on attended areas of the input image this is beneficial in terms of computational cost the number of hidden units may be reduced since the hidden activations only need to encode the region with attention another important motivation is that various high-level computer vision tasks should identify a particular region for accurate attribute prediction figure illustrates",
+          "next": "an example c 2018 the copyright of this document resides with its authors it may be distributed unchanged freely in print or electronic forms task to predict the color answer of a given input number query the query specifies a particular object in the input image 7 in this example for answering its attribute red to address this type of tasks the network architecture should incorporate an attentive mechanism either explicitly or implicitly one of the most popular attention mechanisms"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.739
+      },
+      "evidence": {
+        "score": 0.3525,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5933,
+        "downstream_relevance_score": 0.6494,
+        "components": {
+          "bio_boundary_score": 0.587,
+          "sentence_evidence_score": 0.3525,
+          "sentence_role_score": 0.739,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2553,
+          "document_tfidf_score": 0.9729,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 24,
+        "total_frequency": 83,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 7.0,
+        "tfidf": 1.1474,
+        "normalized_frequency": 0.1707,
+        "normalized_tfidf": 0.9729
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention"
+        ],
+        "normalization": "attention",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2553,
+        "canonicalization": {
+          "observed": "attention",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.587",
+        "structure model assigned role 'problem' with score 0.739",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'abstract__attention' with tf-idf 1.1474",
+        "downstream relevance score is 0.6494"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "convolutional neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "convolutional",
+          "neural",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 7,
+        "sentence": "objects of different scales and shapes by attaching attentive mechanisms to multiple layers within a convolutional neural network cnn more specifically the proposed network predicts attentions on intermediate feature maps and forwards the attended feature maps in each layer to the subsequent layers in cnn moreover we improve the proposed progressive attention by replacing feature aggregation which may distort the original feature semantics with hard attention via likelihood marginalization the contribution of this work is four-fold a novel attention model",
+        "context_window": {
+          "previous": "is fully differentiable the entire network can be trained end-to-end using a standard backpropagation however it can only model attention to local regions with a fixed size depending on the receptive field of the layer chosen for attention this makes the soft attention method inappropriate for complicated cases where objects involve significant variations in their scale and shape to overcome this limitation we propose a novel attention network referred to as progressive attention network pan which enables precise attention over",
+          "current": "objects of different scales and shapes by attaching attentive mechanisms to multiple layers within a convolutional neural network cnn more specifically the proposed network predicts attentions on intermediate feature maps and forwards the attended feature maps in each layer to the subsequent layers in cnn moreover we improve the proposed progressive attention by replacing feature aggregation which may distort the original feature semantics with hard attention via likelihood marginalization the contribution of this work is four-fold a novel attention model",
+          "next": "progressive attention network learned to handle accurate scale and shape of attentions for a target object integration of hard attention with likelihood marginalization into the proposed progressive attention networks use of local contexts to improve stability of the progressive attention model significant performance improvement over traditional single-step attention models in query-specific visual attribute prediction tasks the rest of this paper is organized as follows we first review related work in section 2 section 3 describes the proposed model with local"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5769,
+        "downstream_relevance_score": 0.6124,
+        "components": {
+          "bio_boundary_score": 0.5776,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2204,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 17,
+        "total_frequency": 40,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "neural",
+          "network"
+        ],
+        "normalization": "convolutional neural network",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2204,
+        "canonicalization": {
+          "observed": "convolutional neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5776",
+        "structure model assigned role 'component' with score 0.82",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6124"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "progressive attention",
+        "canonical": "progressive attention",
+        "normalized": "progressive attention",
+        "tokens": [
+          "progressive",
+          "attention"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 42,
+        "sentence": "figure illustrates qualitative results of the two proposed methods and two baselines on mbg dataset our models yield accurate attended regions by gradually augmenting attention and suppressing irrelevant regions in the image we observe that the proposed models maintain high attention resolution through the progressive attention process in contrast the baseline models attend to target regions only once at the top layer resulting in coarse attention attribute prediction on visual genome dataset visual genome vg is an image dataset containing",
+        "context_window": {
+          "previous": "and local contexts are incorporated the tendencies on mref and mdist are also similar an important observation regarding to stns is that these models actually do not attend to target objects instead stns generate almost identical transformation regardless of input images and pass the filtering process to next layers as the results the transformed images are padded ones containing the entire original image with different affine transformations consequently these models show very low tprs even lower than the uniform attention",
+          "current": "figure illustrates qualitative results of the two proposed methods and two baselines on mbg dataset our models yield accurate attended regions by gradually augmenting attention and suppressing irrelevant regions in the image we observe that the proposed models maintain high attention resolution through the progressive attention process in contrast the baseline models attend to target regions only once at the top layer resulting in coarse attention attribute prediction on visual genome dataset visual genome vg is an image dataset containing",
+          "next": "several types of annotations question answer pairs image captions objects object attributes and object relationship we formulate object attribute prediction as a multi-label classification task with reference given an input image and a query i e an object category we predict binary attributes of individual objects specified by the query we used 827 object classes and 749 attribute classes that appear more than 100 times a total of 86 674 images with 667 882 object attribute labels are used for"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6681,
+        "downstream_relevance_score": 0.5898,
+        "components": {
+          "bio_boundary_score": 0.6726,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "progressive",
+          "attention"
+        ],
+        "normalization": "progressive attention",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "progressive attention",
+          "canonical": "progressive attention",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6726",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.5898"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "color prediction",
+        "canonical": "color prediction",
+        "normalized": "color prediction",
+        "tokens": [
+          "color",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 37,
+        "sentence": "i j containing spatially adjacent features with 1 every model is trained end-to-end from scratch by rmsprop until the models show no improvement for 50 epochs we exponentially decay the initial learning rate by 0 9 at every 30 epoch after the 50th epoch and grid-search the best initial learning rate for each model in 0 001 0 005 results table 1 left presents color prediction accuracy of all compared algorithms pan clearly outperforms other approaches with significant margins and",
+        "context_window": {
+          "previous": "classifier because the task requires simple color prediction the attention functions g l att for all models are given by multi-layer perceptrons with two layers figure the function takes the concatenation of a query vector q and a feature vector f l i j and outputs an attention score s l i j where the query vector q is a one-hot vector representing a target object in the proposed models the intermediate attention functions additionally take local context f l",
+          "current": "i j containing spatially adjacent features with 1 every model is trained end-to-end from scratch by rmsprop until the models show no improvement for 50 epochs we exponentially decay the initial learning rate by 0 9 at every 30 epoch after the 50th epoch and grid-search the best initial learning rate for each model in 0 001 0 005 results table 1 left presents color prediction accuracy of all compared algorithms pan clearly outperforms other approaches with significant margins and",
+          "next": "pan ctx further improves performance by exploiting local context for attention estimation our progressive attention model with the hard attention process and local context achieves the best performance in most cases note that the attention capability of the baseline models is restricted to either rhombic or coarsely shaped regions in contrast the proposed networks predict attention maps with arbitrary shapes by capturing spatial support of target area better we also present the attention quality of the models using true-positive ratio"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6045,
+        "downstream_relevance_score": 0.5862,
+        "components": {
+          "bio_boundary_score": 0.5307,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "color",
+          "prediction"
+        ],
+        "normalization": "color prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "color prediction",
+          "canonical": "color prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5307",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms, accuracy",
+        "downstream relevance score is 0.5862"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "attention function",
+        "canonical": "attention function",
+        "normalized": "attention function",
+        "tokens": [
+          "attention",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 33,
+        "sentence": "architecture of attention function g l att local contexts f l i j are used only in pan ctx of mbg are filled with natural scene images randomly chosen from the sun database the training validation and test sets contain 30k 10k and 10k images respectively experimental setting we implement two variants of the proposed network with soft and hard attention at its final layer denoted by pan s and pan h respectively each of them is implemented with and",
+        "context_window": {
+          "previous": "a network architectures of models on mref arrows represents direct connection to next layer without attention conv1 3 3 32 pool1 2 2 conv2 3 3 32 pool2 2 2 conv3 3 3 32 pool3 2 2 att stn fc classification layer stn att soft soft att hard hard att1 att2 att3 soft hattnet q f i j l f i j l fc layer fusion layer 32 activations fc layer estimation layer 1 activation s i j l b",
+          "current": "architecture of attention function g l att local contexts f l i j are used only in pan ctx of mbg are filled with natural scene images randomly chosen from the sun database the training validation and test sets contain 30k 10k and 10k images respectively experimental setting we implement two variants of the proposed network with soft and hard attention at its final layer denoted by pan s and pan h respectively each of them is implemented with and",
+          "next": "without the local context observation the networks with local context observation are denoted by ctx in our results in addition soft attention network san hard attention network han and two variants of spatial transformer network stn-s and stn-m are used as baseline models for comparisons while stn-s is the model with a single transformer layer stn-m contains multiple transformer layers in the network we reimplemented san and stns following the descriptions in and respectively and trained han by optimizing the"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6245,
+        "downstream_relevance_score": 0.4773,
+        "components": {
+          "bio_boundary_score": 0.6992,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "function"
+        ],
+        "normalization": "attention function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "attention function",
+          "canonical": "attention function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6992",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.4773"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "local context",
+        "canonical": "local context",
+        "normalized": "local context",
+        "tokens": [
+          "local",
+          "context"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 40,
+        "sentence": "constructs more accurate shapes of attended regions than all other attention models integrating hard attention and local context further improves overall performance in most cases to evaluate scale sensitivity we divide test sets into five subsets based on target object scales with uniform intervals and computed accuracies of the models in table right the results on mbg show that the models with progressive attention are robust to scale variations due to their multi-scale attention mechanism especially when the hard attention",
+        "context_window": {
+          "previous": "tpr in table left tpr measures how strong attention is given to proper location by computing the ratio of the aggregated attention probability within the desired area i e ground-truth segmentation to the attention probability in the whole image to calculate tpr of stn baselines we assigned the uniform attention probabilities to the attended rhombic regions the models with progressive attention give the best results with significant margins compared to all the other methods these results suggest that progressive attention",
+          "current": "constructs more accurate shapes of attended regions than all other attention models integrating hard attention and local context further improves overall performance in most cases to evaluate scale sensitivity we divide test sets into five subsets based on target object scales with uniform intervals and computed accuracies of the models in table right the results on mbg show that the models with progressive attention are robust to scale variations due to their multi-scale attention mechanism especially when the hard attention",
+          "next": "and local contexts are incorporated the tendencies on mref and mdist are also similar an important observation regarding to stns is that these models actually do not attend to target objects instead stns generate almost identical transformation regardless of input images and pass the filtering process to next layers as the results the transformed images are padded ones containing the entire original image with different affine transformations consequently these models show very low tprs even lower than the uniform attention"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6367,
+        "downstream_relevance_score": 0.4657,
+        "components": {
+          "bio_boundary_score": 0.5918,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "local",
+          "context"
+        ],
+        "normalization": "local context",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "local context",
+          "canonical": "local context",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5918",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4657"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "progressive attention model",
+        "canonical": "progressive attention model",
+        "normalized": "progressive attention model",
+        "tokens": [
+          "progressive",
+          "attention",
+          "model"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "progressive attention network learned to handle accurate scale and shape of attentions for a target object integration of hard attention with likelihood marginalization into the proposed progressive attention networks use of local contexts to improve stability of the progressive attention model significant performance improvement over traditional single-step attention models in query-specific visual attribute prediction tasks the rest of this paper is organized as follows we first review related work in section 2 section 3 describes the proposed model with local",
+        "context_window": {
+          "previous": "objects of different scales and shapes by attaching attentive mechanisms to multiple layers within a convolutional neural network cnn more specifically the proposed network predicts attentions on intermediate feature maps and forwards the attended feature maps in each layer to the subsequent layers in cnn moreover we improve the proposed progressive attention by replacing feature aggregation which may distort the original feature semantics with hard attention via likelihood marginalization the contribution of this work is four-fold a novel attention model",
+          "current": "progressive attention network learned to handle accurate scale and shape of attentions for a target object integration of hard attention with likelihood marginalization into the proposed progressive attention networks use of local contexts to improve stability of the progressive attention model significant performance improvement over traditional single-step attention models in query-specific visual attribute prediction tasks the rest of this paper is organized as follows we first review related work in section 2 section 3 describes the proposed model with local",
+          "next": "context information we then present our experimental results on several datasets in section 4 and conclude the paper in section 5 related work attention on features the most straightforward attention mechanism is a feature based which selects a subset of features by explicitly attaching an attention model to nn architectures this approach has improved performance in many tasks for example it has been used to handle sequences of variable lengths in neural machine translation models speech recognition and handwriting generation"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6198,
+        "downstream_relevance_score": 0.4627,
+        "components": {
+          "bio_boundary_score": 0.7232,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "progressive",
+          "attention",
+          "model"
+        ],
+        "normalization": "progressive attention model",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "progressive attention model",
+          "canonical": "progressive attention model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7232",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4627"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "progressive attention network",
+        "canonical": "progressive attention network",
+        "normalized": "progressive attention network",
+        "tokens": [
+          "progressive",
+          "attention",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "progressive attention network learned to handle accurate scale and shape of attentions for a target object integration of hard attention with likelihood marginalization into the proposed progressive attention networks use of local contexts to improve stability of the progressive attention model significant performance improvement over traditional single-step attention models in query-specific visual attribute prediction tasks the rest of this paper is organized as follows we first review related work in section 2 section 3 describes the proposed model with local",
+        "context_window": {
+          "previous": "objects of different scales and shapes by attaching attentive mechanisms to multiple layers within a convolutional neural network cnn more specifically the proposed network predicts attentions on intermediate feature maps and forwards the attended feature maps in each layer to the subsequent layers in cnn moreover we improve the proposed progressive attention by replacing feature aggregation which may distort the original feature semantics with hard attention via likelihood marginalization the contribution of this work is four-fold a novel attention model",
+          "current": "progressive attention network learned to handle accurate scale and shape of attentions for a target object integration of hard attention with likelihood marginalization into the proposed progressive attention networks use of local contexts to improve stability of the progressive attention model significant performance improvement over traditional single-step attention models in query-specific visual attribute prediction tasks the rest of this paper is organized as follows we first review related work in section 2 section 3 describes the proposed model with local",
+          "next": "context information we then present our experimental results on several datasets in section 4 and conclude the paper in section 5 related work attention on features the most straightforward attention mechanism is a feature based which selects a subset of features by explicitly attaching an attention model to nn architectures this approach has improved performance in many tasks for example it has been used to handle sequences of variable lengths in neural machine translation models speech recognition and handwriting generation"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6163,
+        "downstream_relevance_score": 0.4609,
+        "components": {
+          "bio_boundary_score": 0.7113,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "progressive",
+          "attention",
+          "network"
+        ],
+        "normalization": "progressive attention network",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "progressive attention network",
+          "canonical": "progressive attention network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7113",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4609"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "pooling",
+        "canonical": "pooling",
+        "normalized": "pooling",
+        "tokens": [
+          "pooling"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 44,
+        "sentence": "our experiment and they are split into training validation and test sets which contain 43 337 8 667 and 34 670 images respectively the task is challenging because appearances and semantics of objects largely vary experimental settings and results all networks share vgg-16 network pretrained on imagenet and is further fine-tuned for attribute prediction for san and han an attention layer is attached to the last pooling layer of vgg-16 while pan s ctx and pan h ctx stack an",
+        "context_window": {
+          "previous": "several types of annotations question answer pairs image captions objects object attributes and object relationship we formulate object attribute prediction as a multi-label classification task with reference given an input image and a query i e an object category we predict binary attributes of individual objects specified by the query we used 827 object classes and 749 attribute classes that appear more than 100 times a total of 86 674 images with 667 882 object attribute labels are used for",
+          "current": "our experiment and they are split into training validation and test sets which contain 43 337 8 667 and 34 670 images respectively the task is challenging because appearances and semantics of objects largely vary experimental settings and results all networks share vgg-16 network pretrained on imagenet and is further fine-tuned for attribute prediction for san and han an attention layer is attached to the last pooling layer of vgg-16 while pan s ctx and pan h ctx stack an",
+          "next": "additional attention layer with local contexts f l i j with 2 on top of the last three pooling layers in vgg-16 we skip the first two pooling layers pool1 and pool2 for placing attention because the features in those layers are not discriminative enough to filter out we also test the models with object class conditional prior for the purpose the final attended feature is fused with the query once more using a fully connected layer which allows the"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6102,
+        "downstream_relevance_score": 0.4473,
+        "components": {
+          "bio_boundary_score": 0.5538,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pooling"
+        ],
+        "normalization": "pooling",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pooling",
+          "canonical": "pooling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5538",
+        "structure model assigned role 'component' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4473"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "feature map",
+        "canonical": "feature map",
+        "normalized": "feature map",
+        "tokens": [
+          "feature",
+          "map"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 18,
+        "sentence": "probabilities between 0 and 1 for the last layer of attention we use a softmax function over the entire spatial region for later feature aggregation unlike the soft attention model the attended feature map f f f l in the intermediate attention layers is not summed up to generate a single vector representation of the attended regions instead the attended feature map is forwarded to the next layer as an input to compute the next feature map which is given",
+        "context_window": {
+          "previous": "att f l i j q l att and l i j softmax i j s s s l if l l s l i j otherwise where g l att denotes the attention function with a set of parameters l att s l i j is the attention score at i j and is a sigmoid function the attention probability at each location is estimated independently in the same feature map a sigmoid function is employed to constrain attention",
+          "current": "probabilities between 0 and 1 for the last layer of attention we use a softmax function over the entire spatial region for later feature aggregation unlike the soft attention model the attended feature map f f f l in the intermediate attention layers is not summed up to generate a single vector representation of the attended regions instead the attended feature map is forwarded to the next layer as an input to compute the next feature map which is given",
+          "next": "by f f f l 1 g l 1 cnn f f f l l 1 cnn f att h i w j f l i j h i w j l i j f l i j the attended feature f att obtained by this process is then used as the input to visual attribute classifier as shown in figure in our models we place the attention layers to the output of max pooling layers instead of every layer"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5939,
+        "downstream_relevance_score": 0.4392,
+        "components": {
+          "bio_boundary_score": 0.6357,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "map"
+        ],
+        "normalization": "feature map",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature map",
+          "canonical": "feature map",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6357",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4392"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "mnist",
+        "canonical": "mnist",
+        "normalized": "mnist",
+        "tokens": [
+          "mnist"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 29,
+        "sentence": "this section discusses experimental results on two datasets note that our experiments focus on the tasks directly related to visual attention to minimize any artifacts caused by irrelevant components the codes are available at mnist reference datasets we conduct on synthetic datasets created from mnist the first synthetic dataset is referred to as mnist reference mref figure where each training example is a triple of an image a query number and its color label the task on this dataset is",
+        "context_window": {
+          "previous": "soft and hard attention is trained end-to-end by the standard backpropagation minimizing the cross entropy of the object-specific visual attributes when we train it from a pretrained cnn the cnn part should always be fine-tuned together since the intermediate attention maps may change the input distributions of their associated layers in the cnn",
+          "current": "this section discusses experimental results on two datasets note that our experiments focus on the tasks directly related to visual attention to minimize any artifacts caused by irrelevant components the codes are available at mnist reference datasets we conduct on synthetic datasets created from mnist the first synthetic dataset is referred to as mnist reference mref figure where each training example is a triple of an image a query number and its color label the task on this dataset is",
+          "next": "to predict the color of the number given by a query five to nine distinct mnist digits with different colors out of green yellow white red blue and scales in 0 5 3 0 are randomly sampled and located within a 100 100 empty image with black background when coloring numbers gaussian noise is added to the reference color value to simulate more realistic situations we made two variants of mref by adding distractors mdist figure or replacing background with"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5213,
+        "downstream_relevance_score": 0.4167,
+        "components": {
+          "bio_boundary_score": 0.7007,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mnist"
+        ],
+        "normalization": "mnist",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mnist",
+          "canonical": "mnist",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7007",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.4167"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "classification layer",
+        "canonical": "classification layer",
+        "normalized": "classification layer",
+        "tokens": [
+          "classification",
+          "layer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 56,
+        "sentence": "input of the classification layer table 7 more visualizations of attentions",
+        "context_window": {
+          "previous": "pure strength of the attention models however the target object class represented by the query gives much more information than just attetion it confines possible attributes and filters irrelevant attributes for these reasons we additionally experiment on a set of models that incorporate the target object class conditional prior for the attribute prediction in these models the query is fused with the attended feature f att by an additional fully connected layer and the fused feature is used as the",
+          "current": "input of the classification layer table 7 more visualizations of attentions",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5211,
+        "downstream_relevance_score": 0.3438,
+        "components": {
+          "bio_boundary_score": 0.7841,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "classification",
+          "layer"
+        ],
+        "normalization": "classification layer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "classification layer",
+          "canonical": "classification layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7841",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3438"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "mdist",
+        "canonical": "mdist",
+        "normalized": "mdist",
+        "tokens": [
+          "mdist"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 30,
+        "sentence": "to predict the color of the number given by a query five to nine distinct mnist digits with different colors out of green yellow white red blue and scales in 0 5 3 0 are randomly sampled and located within a 100 100 empty image with black background when coloring numbers gaussian noise is added to the reference color value to simulate more realistic situations we made two variants of mref by adding distractors mdist figure or replacing background with",
+        "context_window": {
+          "previous": "this section discusses experimental results on two datasets note that our experiments focus on the tasks directly related to visual attention to minimize any artifacts caused by irrelevant components the codes are available at mnist reference datasets we conduct on synthetic datasets created from mnist the first synthetic dataset is referred to as mnist reference mref figure where each training example is a triple of an image a query number and its color label the task on this dataset is",
+          "current": "to predict the color of the number given by a query five to nine distinct mnist digits with different colors out of green yellow white red blue and scales in 0 5 3 0 are randomly sampled and located within a 100 100 empty image with black background when coloring numbers gaussian noise is added to the reference color value to simulate more realistic situations we made two variants of mref by adding distractors mdist figure or replacing background with",
+          "next": "natural images mbg figure distractors in mdist are constructed with randomly cropped 5 5 patches of mnist images whereas backgrounds conv1 3 3 32 pool1 2 2 conv2 3 3 32 pool2 2 2 conv3 3 3 32 pool3 2 2 att stn stn-m att soft san att hard han att1 att2 att4 soft pan s conv4 3 3 32 pool4 2 2 att3 stn-s att stn att stn att stn att stn att1 att2 att4 hard pan h att3"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5606,
+        "downstream_relevance_score": 0.3375,
+        "components": {
+          "bio_boundary_score": 0.8357,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mdist"
+        ],
+        "normalization": "mdist",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mdist",
+          "canonical": "mdist",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8357",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3375"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "mref",
+        "canonical": "mref",
+        "normalized": "mref",
+        "tokens": [
+          "mref"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 30,
+        "sentence": "to predict the color of the number given by a query five to nine distinct mnist digits with different colors out of green yellow white red blue and scales in 0 5 3 0 are randomly sampled and located within a 100 100 empty image with black background when coloring numbers gaussian noise is added to the reference color value to simulate more realistic situations we made two variants of mref by adding distractors mdist figure or replacing background with",
+        "context_window": {
+          "previous": "this section discusses experimental results on two datasets note that our experiments focus on the tasks directly related to visual attention to minimize any artifacts caused by irrelevant components the codes are available at mnist reference datasets we conduct on synthetic datasets created from mnist the first synthetic dataset is referred to as mnist reference mref figure where each training example is a triple of an image a query number and its color label the task on this dataset is",
+          "current": "to predict the color of the number given by a query five to nine distinct mnist digits with different colors out of green yellow white red blue and scales in 0 5 3 0 are randomly sampled and located within a 100 100 empty image with black background when coloring numbers gaussian noise is added to the reference color value to simulate more realistic situations we made two variants of mref by adding distractors mdist figure or replacing background with",
+          "next": "natural images mbg figure distractors in mdist are constructed with randomly cropped 5 5 patches of mnist images whereas backgrounds conv1 3 3 32 pool1 2 2 conv2 3 3 32 pool2 2 2 conv3 3 3 32 pool3 2 2 att stn stn-m att soft san att hard han att1 att2 att4 soft pan s conv4 3 3 32 pool4 2 2 att3 stn-s att stn att stn att stn att stn att1 att2 att4 hard pan h att3"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5329,
+        "downstream_relevance_score": 0.3231,
+        "components": {
+          "bio_boundary_score": 0.7409,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mref"
+        ],
+        "normalization": "mref",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mref",
+          "canonical": "mref",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7409",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3231"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "target object class",
+        "canonical": "target object class",
+        "normalized": "target object class",
+        "tokens": [
+          "target",
+          "object",
+          "class"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 55,
+        "sentence": "pure strength of the attention models however the target object class represented by the query gives much more information than just attetion it confines possible attributes and filters irrelevant attributes for these reasons we additionally experiment on a set of models that incorporate the target object class conditional prior for the attribute prediction in these models the query is fused with the attended feature f att by an additional fully connected layer and the fused feature is used as the",
+        "context_window": {
+          "previous": "of cnn of vgg-16 network as in pan figure the soft attention and the hard attention is attached to the top of cnn instead in san and han respectively the attention functions in the baselines consist of two fully connected layers taking the concatenation of the query and the target feature as in the attention function of att3 in pan the proposed network and the baselines described above use the query for obtaining the attention probabilities and give us the",
+          "current": "pure strength of the attention models however the target object class represented by the query gives much more information than just attetion it confines possible attributes and filters irrelevant attributes for these reasons we additionally experiment on a set of models that incorporate the target object class conditional prior for the attribute prediction in these models the query is fused with the attended feature f att by an additional fully connected layer and the fused feature is used as the",
+          "next": "input of the classification layer table 7 more visualizations of attentions"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4494,
+        "downstream_relevance_score": 0.3165,
+        "components": {
+          "bio_boundary_score": 0.6084,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "target",
+          "object",
+          "class"
+        ],
+        "normalization": "target object class",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "target object class",
+          "canonical": "target object class",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6084",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "downstream relevance score is 0.3165"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "uniform attention",
+        "canonical": "uniform attention",
+        "normalized": "uniform attention",
+        "tokens": [
+          "uniform",
+          "attention"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 41,
+        "sentence": "and local contexts are incorporated the tendencies on mref and mdist are also similar an important observation regarding to stns is that these models actually do not attend to target objects instead stns generate almost identical transformation regardless of input images and pass the filtering process to next layers as the results the transformed images are padded ones containing the entire original image with different affine transformations consequently these models show very low tprs even lower than the uniform attention",
+        "context_window": {
+          "previous": "constructs more accurate shapes of attended regions than all other attention models integrating hard attention and local context further improves overall performance in most cases to evaluate scale sensitivity we divide test sets into five subsets based on target object scales with uniform intervals and computed accuracies of the models in table right the results on mbg show that the models with progressive attention are robust to scale variations due to their multi-scale attention mechanism especially when the hard attention",
+          "current": "and local contexts are incorporated the tendencies on mref and mdist are also similar an important observation regarding to stns is that these models actually do not attend to target objects instead stns generate almost identical transformation regardless of input images and pass the filtering process to next layers as the results the transformed images are padded ones containing the entire original image with different affine transformations consequently these models show very low tprs even lower than the uniform attention",
+          "next": "figure illustrates qualitative results of the two proposed methods and two baselines on mbg dataset our models yield accurate attended regions by gradually augmenting attention and suppressing irrelevant regions in the image we observe that the proposed models maintain high attention resolution through the progressive attention process in contrast the baseline models attend to target regions only once at the top layer resulting in coarse attention attribute prediction on visual genome dataset visual genome vg is an image dataset containing"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.44,
+        "downstream_relevance_score": 0.3016,
+        "components": {
+          "bio_boundary_score": 0.5767,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "uniform",
+          "attention"
+        ],
+        "normalization": "uniform attention",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "uniform attention",
+          "canonical": "uniform attention",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5767",
+        "structure model assigned role 'motivation' with score 0.66",
+        "downstream relevance score is 0.3016"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 19,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Our progressive attention process with local context and hard attention mechanism consistently achieves the best weighted mAP scores in both experimental settings as shown in Table (left).",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We observe that our progressive attention models outperform the baselines and become stronger when incoporated with hard attention.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "We also present the attention quality of the models using true-positive ratio (TPR) in Table (left).",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The baseline networks also share the same architecture of CNN of VGG-16 network as in PAN (Figure ).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "All models are evaluated via mean average precision (mAP) weighted by the frequencies of the attribute labels in test set, where the computation of mAP follows PASCAL VOC protocol .",
+        "evidence_type": "metric",
+        "matched_cue": "precision",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Figure presents qualitative results on VG dataset, which show that the progressive attention models gradually attend to target objects.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We propose a novel attention model that can accurately attends to target objects of various scales and shapes in images.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "The experiments on synthetic and real datasets show that the proposed attention networks outperform traditional attention methods in visual attribute prediction tasks.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Many visual attention models have been introduced in the previous literature, and they have shown that attaching an attention to NNs improves the accuracy in various tasks such as image classification , image generation , image caption generation and visual question answering .",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To address this type of tasks, the network architecture should incorporate an attentive mechanism either explicitly or implicitly.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To overcome this limitation, we propose a novel attention network, referred to as progressive attention network (PAN), which enables precise attention over objects of different scales and shapes by attaching attentive mechanisms to multiple layers within a convolutional neural network (CNN).",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To overcome this limitation, we propose a novel attention network, referred to as progressive attention network (PAN), which enables precise attention over objects of different scales and shapes by attaching attentive mechanisms to multiple layers within a convolutional neural network (CNN).",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We then present our experimental results on several datasets in Section 4 and conclude the paper in Section 5.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The proposed network has advantage of end-to-end trainability by a standard backpropagation without any extra technique. clearly outperforms other approaches with significant margins and PAN[ * ]+CTX further improves performance by exploiting local context for attention estimation.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Our progressive attention model with the hard attention process and local context achieves the best performance in most cases.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Figure illustrates qualitative results of the two proposed methods and two baselines on MBG dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The architecture of image encoding networks in SAN and HAN, and localization networks in STNs are all identical for fair comparisons.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The CNN in the proposed network also has the same architecture except for the additional layers for progressive attention.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "While progressive attention networks can be implemented with either soft or hard attention, we demonstrated that both versions of the model substantially outperform existing methods on both synthetic and real datasets.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "attention",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6494
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "Convolutional neural network",
+        "section": "method",
+        "role": "component",
+        "score": 0.6124
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "progressive attention",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5898
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "color prediction",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5862
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "attention function",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.4773
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "local context",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4657
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "progressive attention model",
+        "section": "method",
+        "role": "component",
+        "score": 0.4627
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "progressive attention network",
+        "section": "method",
+        "role": "component",
+        "score": 0.4609
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "pooling",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4473
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "feature map",
+        "section": "method",
+        "role": "component",
+        "score": 0.4392
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "mnist",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4167
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "classification layer",
+        "section": "conclusion",
+        "role": "component",
+        "score": 0.3438
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "mdist",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3375
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "mref",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3231
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "target object class",
+        "section": "conclusion",
+        "role": "prior_work",
+        "score": 0.3165
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "uniform attention",
+        "section": "experiment",
+        "role": "motivation",
+        "score": 0.3016
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_014",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

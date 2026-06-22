@@ -1,0 +1,3774 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2015_computer_vision_rethinking_the_inception_architecture_for_computer_vision",
+    "title": "2015_computer_vision_rethinking_the_inception_architecture_for_computer_vision",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2015_computer_vision_rethinking_the_inception_architecture_for_computer_vision.txt",
+    "sentence_count": 57,
+    "section_counts": {
+      "intro": 7,
+      "related_work": 2,
+      "method": 18,
+      "experiment": 26,
+      "conclusion": 4
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4232,
+    "type_count": 1052,
+    "type_token_ratio": 0.2486,
+    "section_token_counts": {
+      "intro": 434,
+      "related_work": 101,
+      "method": 1406,
+      "experiment": 2019,
+      "conclusion": 272
+    },
+    "top_unigrams": [
+      {
+        "term": "network",
+        "count": 42
+      },
+      {
+        "term": "networks",
+        "count": 31
+      },
+      {
+        "term": "can",
+        "count": 31
+      },
+      {
+        "term": "computational",
+        "count": 25
+      },
+      {
+        "term": "convolution",
+        "count": 22
+      },
+      {
+        "term": "layer",
+        "count": 22
+      },
+      {
+        "term": "cost",
+        "count": 21
+      },
+      {
+        "term": "inception",
+        "count": 18
+      },
+      {
+        "term": "using",
+        "count": 18
+      },
+      {
+        "term": "convolutional",
+        "count": 17
+      },
+      {
+        "term": "quality",
+        "count": 16
+      },
+      {
+        "term": "convolutions",
+        "count": 16
+      },
+      {
+        "term": "if",
+        "count": 16
+      },
+      {
+        "term": "results",
+        "count": 16
+      },
+      {
+        "term": "filters",
+        "count": 16
+      },
+      {
+        "term": "one",
+        "count": 15
+      },
+      {
+        "term": "grid",
+        "count": 15
+      },
+      {
+        "term": "figure",
+        "count": 14
+      },
+      {
+        "term": "computation",
+        "count": 13
+      },
+      {
+        "term": "reduction",
+        "count": 13
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "computational cost",
+        "count": 15
+      },
+      {
+        "term": "receptive field",
+        "count": 8
+      },
+      {
+        "term": "see figure",
+        "count": 7
+      },
+      {
+        "term": "first layer",
+        "count": 7
+      },
+      {
+        "term": "convolutional networks",
+        "count": 6
+      },
+      {
+        "term": "top-5 error",
+        "count": 6
+      },
+      {
+        "term": "auxiliary classifiers",
+        "count": 6
+      },
+      {
+        "term": "inception architecture",
+        "count": 5
+      },
+      {
+        "term": "ilsvrc 2012",
+        "count": 5
+      },
+      {
+        "term": "2012 classification",
+        "count": 5
+      },
+      {
+        "term": "high quality",
+        "count": 5
+      },
+      {
+        "term": "inception modules",
+        "count": 5
+      },
+      {
+        "term": "one can",
+        "count": 5
+      },
+      {
+        "term": "network can",
+        "count": 5
+      },
+      {
+        "term": "computer vision",
+        "count": 4
+      },
+      {
+        "term": "parameter count",
+        "count": 4
+      },
+      {
+        "term": "validation set",
+        "count": 4
+      },
+      {
+        "term": "top-1 error",
+        "count": 4
+      },
+      {
+        "term": "et al",
+        "count": 4
+      },
+      {
+        "term": "quality networks",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "ilsvrc 2012 classification",
+        "count": 4
+      },
+      {
+        "term": "2012 classification benchmark",
+        "count": 3
+      },
+      {
+        "term": "lower resolution input",
+        "count": 3
+      },
+      {
+        "term": "receptive field stride",
+        "count": 3
+      },
+      {
+        "term": "pooling after first",
+        "count": 3
+      },
+      {
+        "term": "after first layer",
+        "count": 3
+      },
+      {
+        "term": "21 top-1 top-5",
+        "count": 2
+      },
+      {
+        "term": "top-1 top-5 error",
+        "count": 2
+      },
+      {
+        "term": "top-5 error single",
+        "count": 2
+      },
+      {
+        "term": "computer vision tasks",
+        "count": 2
+      },
+      {
+        "term": "width depth network",
+        "count": 2
+      },
+      {
+        "term": "fully connected layer",
+        "count": 2
+      },
+      {
+        "term": "between adjacent tiles",
+        "count": 2
+      },
+      {
+        "term": "increase computational cost",
+        "count": 2
+      },
+      {
+        "term": "into sequence convolutional",
+        "count": 2
+      },
+      {
+        "term": "base filter concat",
+        "count": 2
+      },
+      {
+        "term": "filter concat 1x1",
+        "count": 2
+      },
+      {
+        "term": "very good results",
+        "count": 2
+      },
+      {
+        "term": "very deep networks",
+        "count": 2
+      },
+      {
+        "term": "1x1 3x3 stride",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 9,
+    "nonzero_tfidf_features": 9,
+    "top_tfidf_features": [
+      {
+        "feature_name": "experiments__label smoothing",
+        "section": "experiment",
+        "term": "label smoothing",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__alexnet",
+        "section": "intro",
+        "term": "alexnet",
+        "frequency": 4.0,
+        "tfidf": 0.9021
+      },
+      {
+        "feature_name": "methods__label smoothing",
+        "section": "method",
+        "term": "label smoothing",
+        "frequency": 1.0,
+        "tfidf": 0.7114
+      },
+      {
+        "feature_name": "methods__machine learning",
+        "section": "method",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.503
+      },
+      {
+        "feature_name": "methods__epoch",
+        "section": "method",
+        "term": "epoch",
+        "frequency": 1.0,
+        "tfidf": 0.4907
+      },
+      {
+        "feature_name": "introduction__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.2611
+      },
+      {
+        "feature_name": "introduction__pose estimation",
+        "section": "intro",
+        "term": "pose estimation",
+        "frequency": 1.0,
+        "tfidf": 0.2463
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1721
+      },
+      {
+        "feature_name": "introduction__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 1.0,
+        "tfidf": 0.1664
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__alexnet",
+          "section": "intro",
+          "term": "alexnet",
+          "frequency": 4.0,
+          "tfidf": 0.9021
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.2611
+        },
+        {
+          "feature_name": "introduction__pose estimation",
+          "section": "intro",
+          "term": "pose estimation",
+          "frequency": 1.0,
+          "tfidf": 0.2463
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1721
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1664
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__label smoothing",
+          "section": "method",
+          "term": "label smoothing",
+          "frequency": 1.0,
+          "tfidf": 0.7114
+        },
+        {
+          "feature_name": "methods__machine learning",
+          "section": "method",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.503
+        },
+        {
+          "feature_name": "methods__epoch",
+          "section": "method",
+          "term": "epoch",
+          "frequency": 1.0,
+          "tfidf": 0.4907
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__label smoothing",
+          "section": "experiment",
+          "term": "label smoothing",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 7,
+      "token_count": 434,
+      "bow_hit_count": 16,
+      "top_bow_terms": [
+        {
+          "canonical_term": "AlexNet",
+          "count": 9,
+          "section_prior": 0.3438,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 3,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 2,
+          "section_prior": 0.4177,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 1,
+          "section_prior": 0.5495,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "pose estimation",
+          "count": 1,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__alexnet",
+          "section": "intro",
+          "term": "alexnet",
+          "frequency": 4.0,
+          "tfidf": 0.9021
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.2611
+        },
+        {
+          "feature_name": "introduction__pose estimation",
+          "section": "intro",
+          "term": "pose estimation",
+          "frequency": 1.0,
+          "tfidf": 0.2463
+        },
+        {
+          "feature_name": "introduction__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1721
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1664
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 2,
+      "token_count": 101,
+      "bow_hit_count": 4,
+      "top_bow_terms": [
+        {
+          "canonical_term": "AlexNet",
+          "count": 4,
+          "section_prior": 0.1875,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 18,
+      "token_count": 1406,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "aggregation",
+          "count": 13,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__label smoothing",
+          "section": "method",
+          "term": "label smoothing",
+          "frequency": 1.0,
+          "tfidf": 0.7114
+        },
+        {
+          "feature_name": "methods__machine learning",
+          "section": "method",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.503
+        },
+        {
+          "feature_name": "methods__epoch",
+          "section": "method",
+          "term": "epoch",
+          "frequency": 1.0,
+          "tfidf": 0.4907
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 26,
+      "token_count": 2019,
+      "bow_hit_count": 19,
+      "top_bow_terms": [
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.1197,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "aggregation",
+          "count": 5,
+          "section_prior": 0.1277,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 5,
+          "section_prior": 0.1441,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "label smoothing",
+          "count": 2,
+          "section_prior": 0.4615,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__label smoothing",
+          "section": "experiment",
+          "term": "label smoothing",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 4,
+      "token_count": 272,
+      "bow_hit_count": 1,
+      "top_bow_terms": [
+        {
+          "canonical_term": "label smoothing",
+          "count": 1,
+          "section_prior": 0.0769,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "inception architecture",
+        "canonical": "inception architecture",
+        "normalized": "inception architecture",
+        "tokens": [
+          "inception",
+          "architecture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 9,
+        "sentence": "add extra complexity furthermore these methods could be applied to optimize the inception architecture as well widening the efficiency gap again still the complexity of the inception architecture makes it more difficult to make changes to the network if the architecture is scaled up naively large parts of the computational gains can be immediately lost also does not provide a clear description about the contributing factors that lead to the various design decisions of the googlenet architecture this makes it",
+        "context_window": {
+          "previous": "by applying specialized solutions to target memory use or by optimizing the execution of certain operations via computational tricks however these",
+          "current": "add extra complexity furthermore these methods could be applied to optimize the inception architecture as well widening the efficiency gap again still the complexity of the inception architecture makes it more difficult to make changes to the network if the architecture is scaled up naively large parts of the computational gains can be immediately lost also does not provide a clear description about the contributing factors that lead to the various design decisions of the googlenet architecture this makes it",
+          "next": "much harder to adapt it to new use-cases while maintaining its efficiency for example if it is deemed necessary to increase the capacity of some inception-style model the simple transformation of just doubling the number of all filter bank sizes will lead to a 4x increase in both computational cost and number of parameters this might prove prohibitive or unreasonable in a lot of practical scenarios especially if the associated gains are modest in this paper we start with describing"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          },
+          {
+            "cue_phrase": "difficult to",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "difficulty cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6888,
+        "downstream_relevance_score": 0.6078,
+        "components": {
+          "bio_boundary_score": 0.8745,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "inception",
+          "architecture"
+        ],
+        "normalization": "inception architecture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "inception architecture",
+          "canonical": "inception architecture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8745",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture, design, difficult to",
+        "downstream relevance score is 0.6078"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "representational bottleneck",
+        "canonical": "representational bottleneck",
+        "normalized": "representational bottleneck",
+        "tokens": [
+          "representational",
+          "bottleneck"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 38,
+        "sentence": "1 1x1 3x3 stride 2 35x35x320 17x17x320 17x17x320 17x17x640 pool conv concat figure 10 inception module that reduces the grid-size while expands the filter banks it is both cheap and avoids the representational bottleneck as is suggested by principle 1 the diagram on the right represents the same solution but from the perspective of grid sizes rather than the operations inception-v2 here we are connecting the dots from above and propose a new architecture with improved performance on the ilsvrc",
+        "context_window": {
+          "previous": "resulting in less expressive networks see figure instead of doing so we suggest another variant the reduces the computational cost even further while removing the representational bottleneck see figure we can use two parallel stride 2 blocks p and c p is a pooling layer either average or maximum pooling the activation both of them are stride 2 the filter banks of which are concatenated as in figure pool stride 2 base filter concat 1x1 3x3 stride 2 3x3 stride",
+          "current": "1 1x1 3x3 stride 2 35x35x320 17x17x320 17x17x320 17x17x640 pool conv concat figure 10 inception module that reduces the grid-size while expands the filter banks it is both cheap and avoids the representational bottleneck as is suggested by principle 1 the diagram on the right represents the same solution but from the perspective of grid sizes rather than the operations inception-v2 here we are connecting the dots from above and propose a new architecture with improved performance on the ilsvrc",
+          "next": "2012 classification benchmark the layout of our network is given in table 1 note that we have factorized the traditional 7 7 convolution into three 3 3 convolutions based on the same ideas as described in section 3 1 for the inception part of the network we have 3 traditional inception modules at the 35 35 with 288 filters each this is reduced to a 17 17 grid with 768 filters using the grid reduction technique described in section 5"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7548,
+        "downstream_relevance_score": 0.5971,
+        "components": {
+          "bio_boundary_score": 0.9942,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "representational",
+          "bottleneck"
+        ],
+        "normalization": "representational bottleneck",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "representational bottleneck",
+          "canonical": "representational bottleneck",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9942",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence cue lexicon matched architecture, propose",
+        "downstream relevance score is 0.5971"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "deep neural network",
+        "normalized": "deep neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep neural networks",
+          "deep neural network",
+          "deep networks",
+          "deep network"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 55,
+        "sentence": "top-5 error which represents an over 25 reduction to the best published results and is almost half of the error of ilsvrc 2014 winining googlenet ensemble we have also demonstrated that high quality results can be reached with receptive field resolution as low as 79 79 this might prove to be helpful in systems for detecting relatively small objects we have studied how factorizing convolutions and aggressive dimension reductions inside neural network can result in networks with relatively low computational",
+        "context_window": {
+          "previous": "2 5 increase in computational cost compared to the network described in ioffe et al still our solution uses much less computation than the best published results based on denser networks our model outperforms the results of he et al -cutting the top-5 top-1 error by 25 14 relative respectively -while being six times cheaper computationally and using at least five times less parameters estimated our ensemble of four inception-v3 models reaches 3 5 with multi-crop evaluation reaches 3 5",
+          "current": "top-5 error which represents an over 25 reduction to the best published results and is almost half of the error of ilsvrc 2014 winining googlenet ensemble we have also demonstrated that high quality results can be reached with receptive field resolution as low as 79 79 this might prove to be helpful in systems for detecting relatively small objects we have studied how factorizing convolutions and aggressive dimension reductions inside neural network can result in networks with relatively low computational",
+          "next": "cost while maintaining high quality the combination of lower parameter count and additional regularization with batch-normalized auxiliary classifiers and label-smoothing allows for training high quality networks on relatively modest sized training sets"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6246,
+        "downstream_relevance_score": 0.5952,
+        "components": {
+          "bio_boundary_score": 0.5536,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.1538,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep neural network",
+        "match_quality": 0.78,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "deep neural network",
+        "display_term": "deep neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Deep_neural_network",
+        "wikidata_id": "Q51289900",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 14,
+        "total_frequency": 17,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1538,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "deep neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5536",
+        "structure model assigned role 'result' with score 0.66",
+        "section BoW matched canonical term 'deep neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5952"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "ilsvr 2012",
+        "canonical": "ilsvr 2012",
+        "normalized": "ilsvr 2012",
+        "tokens": [
+          "ilsvr",
+          "2012"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 53,
+        "sentence": "we have provided several design principles to scale up convolutional networks and studied them in the context of the inception architecture this guidance can lead to high performance vision networks that have a relatively modest computation cost compared to simpler more monolithic architectures our highest quality version of inception-v3 reaches 21 2 top-1 and 5 6 top-5 error for single crop evaluation on the ilsvr 2012 classification setting a new state of the art this is achieved with relatively modest",
+        "context_window": {
+          "previous": "our last of bn-inception in spring indicates that the test and validation set error tends to correlate very well",
+          "current": "we have provided several design principles to scale up convolutional networks and studied them in the context of the inception architecture this guidance can lead to high performance vision networks that have a relatively modest computation cost compared to simpler more monolithic architectures our highest quality version of inception-v3 reaches 21 2 top-1 and 5 6 top-5 error for single crop evaluation on the ilsvr 2012 classification setting a new state of the art this is achieved with relatively modest",
+          "next": "2 5 increase in computational cost compared to the network described in ioffe et al still our solution uses much less computation than the best published results based on denser networks our model outperforms the results of he et al -cutting the top-5 top-1 error by 25 14 relative respectively -while being six times cheaper computationally and using at least five times less parameters estimated our ensemble of four inception-v3 models reaches 3 5 with multi-crop evaluation reaches 3 5"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6876,
+        "downstream_relevance_score": 0.5843,
+        "components": {
+          "bio_boundary_score": 0.7861,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ilsvr",
+          "2012"
+        ],
+        "normalization": "ilsvr 2012",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ilsvr 2012",
+          "canonical": "ilsvr 2012",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7861",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture, design",
+        "downstream relevance score is 0.5843"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "side head",
+        "canonical": "side head",
+        "normalized": "side head",
+        "tokens": [
+          "side",
+          "head"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 32,
+        "sentence": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect",
+        "context_window": {
+          "previous": "convolutions followed by 7 1 convolutions utility of auxiliary classifiers has introduced the notion of auxiliary classifiers to improve the convergence of very deep networks the original motivation was to push useful gradients to the lower layers to make them immediately useful and improve the convergence during training by combating the vanishing gradient problem in very deep networks also lee et al argues that auxiliary classifiers promote more stable learning and better convergence interestingly we found that auxiliary classifiers did",
+          "current": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect",
+          "next": "on the final quality of the network together with the earlier observation in the previous para- graph this means that original the hypothesis of that these branches help evolving the low-level features is most likely misplaced instead we argue that the auxiliary classifiers act as regularizer this is supported by the fact that the main classifier of the network performs better if the side branch is batch-normalized or has a dropout layer this also gives a weak supporting evidence for"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6359,
+        "downstream_relevance_score": 0.5675,
+        "components": {
+          "bio_boundary_score": 0.6377,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "side",
+          "head"
+        ],
+        "normalization": "side head",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "side head",
+          "canonical": "side head",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6377",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5675"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "auxiliary branch",
+        "canonical": "auxiliary branch",
+        "normalized": "auxiliary branch",
+        "tokens": [
+          "auxiliary",
+          "branch"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 32,
+        "sentence": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect",
+        "context_window": {
+          "previous": "convolutions followed by 7 1 convolutions utility of auxiliary classifiers has introduced the notion of auxiliary classifiers to improve the convergence of very deep networks the original motivation was to push useful gradients to the lower layers to make them immediately useful and improve the convergence during training by combating the vanishing gradient problem in very deep networks also lee et al argues that auxiliary classifiers promote more stable learning and better convergence interestingly we found that auxiliary classifiers did",
+          "current": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect",
+          "next": "on the final quality of the network together with the earlier observation in the previous para- graph this means that original the hypothesis of that these branches help evolving the low-level features is most likely misplaced instead we argue that the auxiliary classifiers act as regularizer this is supported by the fact that the main classifier of the network performs better if the side branch is batch-normalized or has a dropout layer this also gives a weak supporting evidence for"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.608,
+        "downstream_relevance_score": 0.553,
+        "components": {
+          "bio_boundary_score": 0.5422,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "auxiliary",
+          "branch"
+        ],
+        "normalization": "auxiliary branch",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "auxiliary branch",
+          "canonical": "auxiliary branch",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5422",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.553"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "auxiliary",
+        "canonical": "auxiliary",
+        "normalized": "auxiliary",
+        "tokens": [
+          "auxiliary"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 32,
+        "sentence": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect",
+        "context_window": {
+          "previous": "convolutions followed by 7 1 convolutions utility of auxiliary classifiers has introduced the notion of auxiliary classifiers to improve the convergence of very deep networks the original motivation was to push useful gradients to the lower layers to make them immediately useful and improve the convergence during training by combating the vanishing gradient problem in very deep networks also lee et al argues that auxiliary classifiers promote more stable learning and better convergence interestingly we found that auxiliary classifiers did",
+          "current": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect",
+          "next": "on the final quality of the network together with the earlier observation in the previous para- graph this means that original the hypothesis of that these branches help evolving the low-level features is most likely misplaced instead we argue that the auxiliary classifiers act as regularizer this is supported by the fact that the main classifier of the network performs better if the side branch is batch-normalized or has a dropout layer this also gives a weak supporting evidence for"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5986,
+        "downstream_relevance_score": 0.5381,
+        "components": {
+          "bio_boundary_score": 0.5102,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "auxiliary"
+        ],
+        "normalization": "auxiliary",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "auxiliary",
+          "canonical": "auxiliary",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5102",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5381"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "domain of validity",
+        "canonical": "domain of validity",
+        "normalized": "domain of validity",
+        "tokens": [
+          "domain",
+          "of",
+          "validity"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 12,
+        "sentence": "structural changes on nearby components still one needs to be cautious about doing so as some guiding principles should be observed to maintain high quality of the models general design principles here we will describe a few design principles based on large-scale experimentation with various architectural choices with convolutional networks at this point the utility of the principles below are speculative and additional future experimental evidence will be necessary to assess their accuracy and domain of validity still grave deviations",
+        "context_window": {
+          "previous": "a few general principles and optimization ideas that that proved to be useful for scaling up convolution networks in efficient ways although our principles are not limited to inceptiontype networks they are easier to observe in that context as the generic structure of the inception style building blocks is flexible enough to incorporate those constraints naturally this is enabled by the generous use of dimensional reduction and parallel structures of the inception modules which allows for mitigating the impact of",
+          "current": "structural changes on nearby components still one needs to be cautious about doing so as some guiding principles should be observed to maintain high quality of the models general design principles here we will describe a few design principles based on large-scale experimentation with various architectural choices with convolutional networks at this point the utility of the principles below are speculative and additional future experimental evidence will be necessary to assess their accuracy and domain of validity still grave deviations",
+          "next": "from these principles tended to result in deterioration in the quality of the networks and fixing situations where those deviations were detected resulted in improved architectures in general 1 avoid representational bottlenecks especially early in the network feed-forward networks can be represented by an acyclic graph from the input layer s to the classifier or regressor this defines a clear direction for the information flow for any cut separating the inputs from the outputs one can access the amount of"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5742,
+        "downstream_relevance_score": 0.5326,
+        "components": {
+          "bio_boundary_score": 0.5404,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "domain",
+          "of",
+          "validity"
+        ],
+        "normalization": "domain of validity",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "domain of validity",
+          "canonical": "domain of validity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5404",
+        "structure model assigned role 'motivation' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched design, accuracy",
+        "downstream relevance score is 0.5326"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "computational cost",
+        "canonical": "computational cost",
+        "normalized": "computational cost",
+        "tokens": [
+          "computational",
+          "cost"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "big-data scenarios here we are exploring ways to scale up networks in ways that aim at utilizing the added computation as efficiently as possible by suitably factorized convolutions and aggressive regularization we benchmark our methods on the ilsvrc 2012 classification challenge validation set demonstrate substantial gains over the state of the art 21 2 top-1 and 5 6 top-5 error for single frame evaluation using a network with a computational cost of 5 billion multiply-adds per inference and with using",
+        "context_window": {
+          "previous": "convolutional networks are at the core of most stateof-the-art computer vision solutions for a wide variety of tasks since 2014 very deep convolutional networks started to become mainstream yielding substantial gains in various benchmarks although increased model size and computational cost tend to translate to immediate quality gains for most tasks as long as enough labeled data is provided for training computational efficiency and low parameter count are still enabling factors for various use cases such as mobile vision and",
+          "current": "big-data scenarios here we are exploring ways to scale up networks in ways that aim at utilizing the added computation as efficiently as possible by suitably factorized convolutions and aggressive regularization we benchmark our methods on the ilsvrc 2012 classification challenge validation set demonstrate substantial gains over the state of the art 21 2 top-1 and 5 6 top-5 error for single frame evaluation using a network with a computational cost of 5 billion multiply-adds per inference and with using",
+          "next": "less than 25 million parameters with an ensemble of 4 models and multi-crop evaluation we report 3 5 top-5 error and 17 3 top-1 error body"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9255
+      },
+      "evidence": {
+        "score": 0.3481,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5894,
+        "downstream_relevance_score": 0.5192,
+        "components": {
+          "bio_boundary_score": 0.7022,
+          "sentence_evidence_score": 0.3481,
+          "sentence_role_score": 0.9255,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational",
+          "cost"
+        ],
+        "normalization": "computational cost",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational cost",
+          "canonical": "computational cost",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7022",
+        "structure model assigned role 'problem' with score 0.9255",
+        "evidence cue lexicon matched challenge, benchmark",
+        "downstream relevance score is 0.5192"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "convergence",
+        "canonical": "convergence",
+        "normalized": "convergence",
+        "tokens": [
+          "convergence"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 31,
+        "sentence": "convolutions followed by 7 1 convolutions utility of auxiliary classifiers has introduced the notion of auxiliary classifiers to improve the convergence of very deep networks the original motivation was to push useful gradients to the lower layers to make them immediately useful and improve the convergence during training by combating the vanishing gradient problem in very deep networks also lee et al argues that auxiliary classifiers promote more stable learning and better convergence interestingly we found that auxiliary classifiers did",
+        "context_window": {
+          "previous": "can replace any n n convolution by a 1 n convolu- tion followed by a n 1 convolution and the computational cost saving increases dramatically as n grows see figure in practice we have found that employing this factorization does not work well on early layers but it gives very good results on medium grid-sizes on m m feature maps where m ranges between 12 and 20 on that level very good results can be achieved by using 1 7",
+          "current": "convolutions followed by 7 1 convolutions utility of auxiliary classifiers has introduced the notion of auxiliary classifiers to improve the convergence of very deep networks the original motivation was to push useful gradients to the lower layers to make them immediately useful and improve the convergence during training by combating the vanishing gradient problem in very deep networks also lee et al argues that auxiliary classifiers promote more stable learning and better convergence interestingly we found that auxiliary classifiers did",
+          "next": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.727,
+        "downstream_relevance_score": 0.5027,
+        "components": {
+          "bio_boundary_score": 0.9004,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convergence"
+        ],
+        "normalization": "convergence",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convergence",
+          "canonical": "convergence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9004",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5027"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "computer vision",
+        "canonical": "computer vision",
+        "normalized": "computer vision",
+        "tokens": [
+          "computer",
+          "vision"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "since the 2012 imagenet competition winning entry by krizhevsky et al their network alexnet has been successfully applied to a larger variety of computer vision tasks for example to object-detection segmentation human pose estimation video classification object tracking and superresolution these successes spurred a new line of research that focused on finding higher performing convolutional neural networks starting in 2014 the quality of network architectures significantly improved by utilizing deeper and wider networks vggnet and googlenet yielded simi-larly high performance",
+        "context_window": {
+          "previous": "less than 25 million parameters with an ensemble of 4 models and multi-crop evaluation we report 3 5 top-5 error and 17 3 top-1 error body",
+          "current": "since the 2012 imagenet competition winning entry by krizhevsky et al their network alexnet has been successfully applied to a larger variety of computer vision tasks for example to object-detection segmentation human pose estimation video classification object tracking and superresolution these successes spurred a new line of research that focused on finding higher performing convolutional neural networks starting in 2014 the quality of network architectures significantly improved by utilizing deeper and wider networks vggnet and googlenet yielded simi-larly high performance",
+          "next": "in the 2014 ilsvrc classification challenge one interesting observation was that gains in the classification performance tend to transfer to significant quality gains in a wide variety of application domains this means that architectural improvements in deep convolutional architecture can be utilized for improving performance for most other computer vision tasks that are increasingly reliant on high quality learned visual features also improvements in the network quality resulted in new application domains for convolutional networks in cases where alexnet features"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9255
+      },
+      "evidence": {
+        "score": 0.3481,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6665,
+        "downstream_relevance_score": 0.4893,
+        "components": {
+          "bio_boundary_score": 0.9622,
+          "sentence_evidence_score": 0.3481,
+          "sentence_role_score": 0.9255,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computer",
+          "vision"
+        ],
+        "normalization": "computer vision",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computer vision",
+          "canonical": "computer vision",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9622",
+        "structure model assigned role 'problem' with score 0.9255",
+        "downstream relevance score is 0.4893"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "convolution",
+        "canonical": "convolution",
+        "normalized": "convolution",
+        "tokens": [
+          "convolution"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 21,
+        "sentence": "a 3 3 convolution with the same number of filters of course a 5 5 filter can capture dependencies between signals between activations of units further away in the earlier layers so a reduction of the geometric size of the filters comes at a large cost of expressiveness however we can ask whether a 5 5 convolution could be replaced by a multi-layer network with less parameters with the same input size and output depth if we zoom into the",
+        "context_window": {
+          "previous": "also we can use the computational and memory savings to increase the filter-bank sizes of our network while maintaining our ability to train each model replica on a single computer factorization into smaller convolutions convolutions with larger spatial filters e g 5 5 or 7 7 tend to be disproportionally expensive in terms of computation for example a 5 5 convolution with n filters over a grid with m filters is 25 9 2 78 times more computationally expensive than",
+          "current": "a 3 3 convolution with the same number of filters of course a 5 5 filter can capture dependencies between signals between activations of units further away in the earlier layers so a reduction of the geometric size of the filters comes at a large cost of expressiveness however we can ask whether a 5 5 convolution could be replaced by a multi-layer network with less parameters with the same input size and output depth if we zoom into the",
+          "next": "computation graph of the 5 5 convolution we see that each output looks like a small fully-connected network sliding over 5 5 tiles over its input see figure since we are constructing a vision network it seems natural to exploit translation invariance again and replace the fully connected component by a two layer convolutional architecture the first layer is a 3 3 convolution the second is a fully connected layer on top of the 3 3 output grid of the"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7,
+        "downstream_relevance_score": 0.4844,
+        "components": {
+          "bio_boundary_score": 0.9968,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolution"
+        ],
+        "normalization": "convolution",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convolution",
+          "canonical": "convolution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9968",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4844"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "receptive field",
+        "canonical": "receptive field",
+        "normalized": "receptive field",
+        "tokens": [
+          "receptive",
+          "field"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 46,
+        "sentence": "varies but the computational cost is constant does higher input resolution helps if the computational effort is kept constant one simple way to ensure constant effort is to reduce the strides of the first two layer in the case of lower resolution input or by simply removing the first pooling layer of the network for this purpose we have performed the following three 1 299 299 receptive field with stride 2 and maximum pooling after the first layer 2 151",
+        "context_window": {
+          "previous": "is natural that these solutions loose out already because of the reduced computational effort in order to make an accurate assessment the model needs to analyze vague hints in order to be able to hallucinate the fine details this is computationally costly the question remains therefore how much receptive field size top-1 accuracy single frame 79 79 75 2 151 151 76 4 299 299 76 6 table 2 comparison of recognition performance when the size of the receptive field",
+          "current": "varies but the computational cost is constant does higher input resolution helps if the computational effort is kept constant one simple way to ensure constant effort is to reduce the strides of the first two layer in the case of lower resolution input or by simply removing the first pooling layer of the network for this purpose we have performed the following three 1 299 299 receptive field with stride 2 and maximum pooling after the first layer 2 151",
+          "next": "151 receptive field with stride 1 and maximum pooling after the first layer 3 79 79 receptive field with stride 1 and without pooling after the first layer all three networks have almost identical computational cost although the third network is slightly cheaper the cost of the pooling layer is marginal and within 1 of the total cost of the network in each case the networks were trained until convergence and their quality was measured on the validation set of"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6677,
+        "downstream_relevance_score": 0.4648,
+        "components": {
+          "bio_boundary_score": 0.8871,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "receptive",
+          "field"
+        ],
+        "normalization": "receptive field",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "receptive field",
+          "canonical": "receptive field",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8871",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4648"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "dimension reduction",
+        "canonical": "dimension reduction",
+        "normalized": "dimension reduction",
+        "tokens": [
+          "dimension",
+          "reduction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 16,
+        "sentence": "correlation between adjacent unit results in much less loss of information during dimension reduction if the outputs are used in a spatial aggregation context given that these signals should be easily compressible the dimension reduction even promotes faster learning 4 balance the width and depth of the network optimal performance of the network can be reached by balancing the number of filters per stage and the depth of the network increasing both the width and the depth of the network",
+        "context_window": {
+          "previous": "network increasing the activations per tile in a convolutional network allows for more disentangled features the resulting networks will train faster 3 spatial aggregation can be done over lower dimensional embeddings without much or any loss in representational power for example before performing a more spread out e g 3 3 convolution one can reduce the dimension of the input representation before the spatial aggregation without expecting serious adverse effects we hypothesize that the reason for that is the strong",
+          "current": "correlation between adjacent unit results in much less loss of information during dimension reduction if the outputs are used in a spatial aggregation context given that these signals should be easily compressible the dimension reduction even promotes faster learning 4 balance the width and depth of the network optimal performance of the network can be reached by balancing the number of filters per stage and the depth of the network increasing both the width and the depth of the network",
+          "next": "can contribute to higher quality networks however the optimal improvement for a constant amount of computation can be reached if both are increased in parallel the computational budget should therefore be distributed in a balanced way between the depth and width of the network although these principles might make sense it is not straightforward to use them to improve the quality of networks out of box the idea is to use them judiciously in ambiguous situations only factorizing convolutions with"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6554,
+        "downstream_relevance_score": 0.4626,
+        "components": {
+          "bio_boundary_score": 0.7377,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dimension",
+          "reduction"
+        ],
+        "normalization": "dimension reduction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dimension reduction",
+          "canonical": "dimension reduction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7377",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4626"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "information flow",
+        "canonical": "information flow",
+        "normalized": "information flow",
+        "tokens": [
+          "information",
+          "flow"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 13,
+        "sentence": "from these principles tended to result in deterioration in the quality of the networks and fixing situations where those deviations were detected resulted in improved architectures in general 1 avoid representational bottlenecks especially early in the network feed-forward networks can be represented by an acyclic graph from the input layer s to the classifier or regressor this defines a clear direction for the information flow for any cut separating the inputs from the outputs one can access the amount of",
+        "context_window": {
+          "previous": "structural changes on nearby components still one needs to be cautious about doing so as some guiding principles should be observed to maintain high quality of the models general design principles here we will describe a few design principles based on large-scale experimentation with various architectural choices with convolutional networks at this point the utility of the principles below are speculative and additional future experimental evidence will be necessary to assess their accuracy and domain of validity still grave deviations",
+          "current": "from these principles tended to result in deterioration in the quality of the networks and fixing situations where those deviations were detected resulted in improved architectures in general 1 avoid representational bottlenecks especially early in the network feed-forward networks can be represented by an acyclic graph from the input layer s to the classifier or regressor this defines a clear direction for the information flow for any cut separating the inputs from the outputs one can access the amount of",
+          "next": "information passing though the cut one should avoid bottlenecks with extreme compression in general the representation size should gently decrease from the inputs to the outputs before reaching the final representation used for the task at hand theoretically information content can not be assessed merely by the dimensionality of the representation as it discards important factors like correlation structure the dimensional-ity merely provides a rough estimate of information content 2 higher dimensional representations are easier to process locally within a"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6284,
+        "downstream_relevance_score": 0.4572,
+        "components": {
+          "bio_boundary_score": 0.7574,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "information",
+          "flow"
+        ],
+        "normalization": "information flow",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "information flow",
+          "canonical": "information flow",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7574",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4572"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "stochastic gradient",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "stochastic",
+          "gradient"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd optimizer",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 41,
+        "sentence": "with k 1000 classes we used u k 1 1000 and 0 1 for ilsvrc 2012 we have found a consistent improvement of about 0 2 absolute both for top-1 error and the top-5 error cf table training methodology we have trained our networks with stochastic gradient utilizing the tensorflow distributed machine learning system using 50 replicas running each on a nvidia kepler gpu with batch size 32 for 100 epochs our earlier used momentum with a decay of 0",
+        "context_window": {
+          "previous": "this is is followed by 5 instances of the factorized inception modules as depicted in figure this is reduced to a 8 8 1280 grid with the grid reduction technique depicted in figure at the coarsest 8 8 level we have two inception modules as depicted in figure with a concatenated output filter bank size of 2048 for each tile the detailed structure of the network including the sizes of filter banks inside the inception modules is given in the",
+          "current": "with k 1000 classes we used u k 1 1000 and 0 1 for ilsvrc 2012 we have found a consistent improvement of about 0 2 absolute both for top-1 error and the top-5 error cf table training methodology we have trained our networks with stochastic gradient utilizing the tensorflow distributed machine learning system using 50 replicas running each on a nvidia kepler gpu with batch size 32 for 100 epochs our earlier used momentum with a decay of 0",
+          "next": "9 while our best models were achieved using rmsprop with decay of 0 9 and 1 0 we used a learning rate of 0 045 decayed every two epoch using an exponential rate of 0 94 in addition gradient clipping with threshold 2 0 was found to be useful to stabilize the training model evaluations are performed using a running average of the parameters computed over time performance on lower resolution input a typical use-case of vision networks is for"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4275,
+        "downstream_relevance_score": 0.4469,
+        "components": {
+          "bio_boundary_score": 0.5344,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.2158,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "stochastic gradient descent",
+        "match_quality": 0.78,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "sgd",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 14,
+        "total_frequency": 29,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "gradient"
+        ],
+        "normalization": "stochastic gradient",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2158,
+        "canonicalization": {
+          "observed": "stochastic gradient",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5344",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.4469"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "ilsvrc",
+        "canonical": "ilsvrc",
+        "normalized": "ilsvrc",
+        "tokens": [
+          "ilsvrc"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 50,
+        "sentence": "that factorizes the first 7 7 convolutional layer into a sequence of 3 3 convolutional layers bn-auxiliary refers to the version in which table 4 single-model multi-crop experimental results comparing the cumulative effects on the various contributing factors we compare our numbers with the best published single-model inference results on the ilsvrc 2012 classification benchmark the fully connected layer of the auxiliary classifier is also batch-normalized not just the convolutions we are referring to the model in last row of",
+        "context_window": {
+          "previous": "also these results of table suggest one might consider using dedicated high-cost low resolution networks for smaller objects in the r-cnn context experimental results and comparisons table shows the experimental results about the recognition performance of our proposed architecture inception-v2 as described in section 6 each inception-v2 line shows the result of the cumulative changes including the highlighted new modification plus all the earlier ones label smoothing refers to method described in section 7 factorized 7 7 includes a change",
+          "current": "that factorizes the first 7 7 convolutional layer into a sequence of 3 3 convolutional layers bn-auxiliary refers to the version in which table 4 single-model multi-crop experimental results comparing the cumulative effects on the various contributing factors we compare our numbers with the best published single-model inference results on the ilsvrc 2012 classification benchmark the fully connected layer of the auxiliary classifier is also batch-normalized not just the convolutions we are referring to the model in last row of",
+          "next": "table as inception-v3 and evaluate its performance in the multi-crop and ensemble settings all our evaluations are done on the 48238 nonblacklisted examples on the ilsvrc-2012 validation set as suggested by we have evaluated all the 50000 examples as well and the results were roughly 0 1 worse in top-5 error and around 0 2 in top-1 error in the upcoming version of this paper we will verify our ensemble result on the test set but at the time of"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.54,
+        "downstream_relevance_score": 0.4264,
+        "components": {
+          "bio_boundary_score": 0.7665,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ilsvrc"
+        ],
+        "normalization": "ilsvrc",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ilsvrc",
+          "canonical": "ilsvrc",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7665",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.4264"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "dimensional reduction",
+        "canonical": "dimensional reduction",
+        "normalized": "dimensional reduction",
+        "tokens": [
+          "dimensional",
+          "reduction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 11,
+        "sentence": "a few general principles and optimization ideas that that proved to be useful for scaling up convolution networks in efficient ways although our principles are not limited to inceptiontype networks they are easier to observe in that context as the generic structure of the inception style building blocks is flexible enough to incorporate those constraints naturally this is enabled by the generous use of dimensional reduction and parallel structures of the inception modules which allows for mitigating the impact of",
+        "context_window": {
+          "previous": "much harder to adapt it to new use-cases while maintaining its efficiency for example if it is deemed necessary to increase the capacity of some inception-style model the simple transformation of just doubling the number of all filter bank sizes will lead to a 4x increase in both computational cost and number of parameters this might prove prohibitive or unreasonable in a lot of practical scenarios especially if the associated gains are modest in this paper we start with describing",
+          "current": "a few general principles and optimization ideas that that proved to be useful for scaling up convolution networks in efficient ways although our principles are not limited to inceptiontype networks they are easier to observe in that context as the generic structure of the inception style building blocks is flexible enough to incorporate those constraints naturally this is enabled by the generous use of dimensional reduction and parallel structures of the inception modules which allows for mitigating the impact of",
+          "next": "structural changes on nearby components still one needs to be cautious about doing so as some guiding principles should be observed to maintain high quality of the models general design principles here we will describe a few design principles based on large-scale experimentation with various architectural choices with convolutional networks at this point the utility of the principles below are speculative and additional future experimental evidence will be necessary to assess their accuracy and domain of validity still grave deviations"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5898,
+        "downstream_relevance_score": 0.4243,
+        "components": {
+          "bio_boundary_score": 0.6023,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dimensional",
+          "reduction"
+        ],
+        "normalization": "dimensional reduction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dimensional reduction",
+          "canonical": "dimensional reduction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6023",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4243"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "computational",
+        "canonical": "computational",
+        "normalized": "computational",
+        "tokens": [
+          "computational"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 19,
+        "sentence": "reduced before aggregation and that this should result in similarly expressive local representations here we explore other ways of factorizing convolutions in various settings especially in order to increase the computational efficiency of the solution since inception networks are fully convolutional each weight corresponds to one multiplication per activation therefore any reduction in computational cost results in reduced number of parameters this means that with suitable factorization we can end up with more disentangled parameters and therefore with faster training",
+        "context_window": {
+          "previous": "large filter size much of the original gains of the googlenet network arise from a very generous use of dimension reduction this can be viewed as a special case of factorizing convolutions in a computationally efficient manner consider for example the case of a 1 1 convolutional layer followed by a 3 3 convolutional layer in a vision network it is expected that the outputs of near-by activations are highly correlated therefore we can expect that their activations can be",
+          "current": "reduced before aggregation and that this should result in similarly expressive local representations here we explore other ways of factorizing convolutions in various settings especially in order to increase the computational efficiency of the solution since inception networks are fully convolutional each weight corresponds to one multiplication per activation therefore any reduction in computational cost results in reduced number of parameters this means that with suitable factorization we can end up with more disentangled parameters and therefore with faster training",
+          "next": "also we can use the computational and memory savings to increase the filter-bank sizes of our network while maintaining our ability to train each model replica on a single computer factorization into smaller convolutions convolutions with larger spatial filters e g 5 5 or 7 7 tend to be disproportionally expensive in terms of computation for example a 5 5 convolution with n filters over a grid with m filters is 25 9 2 78 times more computationally expensive than"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5407,
+        "downstream_relevance_score": 0.424,
+        "components": {
+          "bio_boundary_score": 0.5117,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational"
+        ],
+        "normalization": "computational",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational",
+          "canonical": "computational",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5117",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.424"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "first",
+        "canonical": "first",
+        "normalized": "first",
+        "tokens": [
+          "first"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 26,
+        "sentence": "still this setup raises two general questions does this replacement result in any loss of expressiveness if our main goal is to factorize the linear part of the computation would it not suggest to keep linear activations in the first layer we have ran several control",
+        "context_window": {
+          "previous": "the computation between neighboring grid tiles we would increase the computational cost sliding this network can be represented by two 3 3 convolutional layers which reuses the activations between adjacent tiles this way we end up with a net 9 9 25 reduction of computation resulting in a relative gain of 28 by this factorization the exact same saving holds for the parameter count as each parameter is used exactly once in the computation of the activation of each unit",
+          "current": "still this setup raises two general questions does this replacement result in any loss of expressiveness if our main goal is to factorize the linear part of the computation would it not suggest to keep linear activations in the first layer we have ran several control",
+          "next": "for example see figure and using linear activation was always inferior to using rectified linear units in all stages of the factorization we attribute this gain to the enhanced space of variations that the network can learn especially if we batchnormalize the output activations one can see similar effects when using linear activations for the dimension reduction components spatial factorization into asymmetric convolutions the above results suggest that convolutions with filters larger 3 3 a might not be generally useful"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.562,
+        "downstream_relevance_score": 0.4126,
+        "components": {
+          "bio_boundary_score": 0.5267,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "first"
+        ],
+        "normalization": "first",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "first",
+          "canonical": "first",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5267",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4126"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "cheaper model",
+        "canonical": "cheaper model",
+        "normalized": "cheaper model",
+        "tokens": [
+          "cheaper",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 48,
+        "sentence": "the imagenet ilsvrc 2012 classification benchmark the results can be seen in table although the lower-resolution networks take longer to train the quality of the final result is quite close to that of their higher resolution counterparts however if one would just naively reduce the network size according to the input resolution then network would perform much more poorly however this would an unfair comparison as we would are comparing a 16 times cheaper model on a more difficult task",
+        "context_window": {
+          "previous": "151 receptive field with stride 1 and maximum pooling after the first layer 3 79 79 receptive field with stride 1 and without pooling after the first layer all three networks have almost identical computational cost although the third network is slightly cheaper the cost of the pooling layer is marginal and within 1 of the total cost of the network in each case the networks were trained until convergence and their quality was measured on the validation set of",
+          "current": "the imagenet ilsvrc 2012 classification benchmark the results can be seen in table although the lower-resolution networks take longer to train the quality of the final result is quite close to that of their higher resolution counterparts however if one would just naively reduce the network size according to the input resolution then network would perform much more poorly however this would an unfair comparison as we would are comparing a 16 times cheaper model on a more difficult task",
+          "next": "also these results of table suggest one might consider using dedicated high-cost low resolution networks for smaller objects in the r-cnn context experimental results and comparisons table shows the experimental results about the recognition performance of our proposed architecture inception-v2 as described in section 6 each inception-v2 line shows the result of the cumulative changes including the highlighted new modification plus all the earlier ones label smoothing refers to method described in section 7 factorized 7 7 includes a change"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4824,
+        "downstream_relevance_score": 0.4064,
+        "components": {
+          "bio_boundary_score": 0.5682,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cheaper",
+          "model"
+        ],
+        "normalization": "cheaper model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cheaper model",
+          "canonical": "cheaper model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5682",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.4064"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "grid reduction",
+        "canonical": "grid reduction",
+        "normalized": "grid reduction",
+        "tokens": [
+          "grid",
+          "reduction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 40,
+        "sentence": "this is is followed by 5 instances of the factorized inception modules as depicted in figure this is reduced to a 8 8 1280 grid with the grid reduction technique depicted in figure at the coarsest 8 8 level we have two inception modules as depicted in figure with a concatenated output filter bank size of 2048 for each tile the detailed structure of the network including the sizes of filter banks inside the inception modules is given in the",
+        "context_window": {
+          "previous": "2012 classification benchmark the layout of our network is given in table 1 note that we have factorized the traditional 7 7 convolution into three 3 3 convolutions based on the same ideas as described in section 3 1 for the inception part of the network we have 3 traditional inception modules at the 35 35 with 288 filters each this is reduced to a 17 17 grid with 768 filters using the grid reduction technique described in section 5",
+          "current": "this is is followed by 5 instances of the factorized inception modules as depicted in figure this is reduced to a 8 8 1280 grid with the grid reduction technique depicted in figure at the coarsest 8 8 level we have two inception modules as depicted in figure with a concatenated output filter bank size of 2048 for each tile the detailed structure of the network including the sizes of filter banks inside the inception modules is given in the",
+          "next": "with k 1000 classes we used u k 1 1000 and 0 1 for ilsvrc 2012 we have found a consistent improvement of about 0 2 absolute both for top-1 error and the top-5 error cf table training methodology we have trained our networks with stochastic gradient utilizing the tensorflow distributed machine learning system using 50 replicas running each on a nvidia kepler gpu with batch size 32 for 100 epochs our earlier used momentum with a decay of 0"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5328,
+        "downstream_relevance_score": 0.3331,
+        "components": {
+          "bio_boundary_score": 0.7408,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "grid",
+          "reduction"
+        ],
+        "normalization": "grid reduction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "grid reduction",
+          "canonical": "grid reduction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7408",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3331"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "ensemble",
+        "canonical": "ensemble",
+        "normalized": "ensemble",
+        "tokens": [
+          "ensemble"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 51,
+        "sentence": "table as inception-v3 and evaluate its performance in the multi-crop and ensemble settings all our evaluations are done on the 48238 nonblacklisted examples on the ilsvrc-2012 validation set as suggested by we have evaluated all the 50000 examples as well and the results were roughly 0 1 worse in top-5 error and around 0 2 in top-1 error in the upcoming version of this paper we will verify our ensemble result on the test set but at the time of",
+        "context_window": {
+          "previous": "that factorizes the first 7 7 convolutional layer into a sequence of 3 3 convolutional layers bn-auxiliary refers to the version in which table 4 single-model multi-crop experimental results comparing the cumulative effects on the various contributing factors we compare our numbers with the best published single-model inference results on the ilsvrc 2012 classification benchmark the fully connected layer of the auxiliary classifier is also batch-normalized not just the convolutions we are referring to the model in last row of",
+          "current": "table as inception-v3 and evaluate its performance in the multi-crop and ensemble settings all our evaluations are done on the 48238 nonblacklisted examples on the ilsvrc-2012 validation set as suggested by we have evaluated all the 50000 examples as well and the results were roughly 0 1 worse in top-5 error and around 0 2 in top-1 error in the upcoming version of this paper we will verify our ensemble result on the test set but at the time of",
+          "next": "our last of bn-inception in spring indicates that the test and validation set error tends to correlate very well"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4795,
+        "downstream_relevance_score": 0.325,
+        "components": {
+          "bio_boundary_score": 0.5628,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ensemble"
+        ],
+        "normalization": "ensemble",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ensemble",
+          "canonical": "ensemble",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5628",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.325"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "maximum pooling",
+        "canonical": "maximum pooling",
+        "normalized": "maximum pooling",
+        "tokens": [
+          "maximum",
+          "pooling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 47,
+        "sentence": "151 receptive field with stride 1 and maximum pooling after the first layer 3 79 79 receptive field with stride 1 and without pooling after the first layer all three networks have almost identical computational cost although the third network is slightly cheaper the cost of the pooling layer is marginal and within 1 of the total cost of the network in each case the networks were trained until convergence and their quality was measured on the validation set of",
+        "context_window": {
+          "previous": "varies but the computational cost is constant does higher input resolution helps if the computational effort is kept constant one simple way to ensure constant effort is to reduce the strides of the first two layer in the case of lower resolution input or by simply removing the first pooling layer of the network for this purpose we have performed the following three 1 299 299 receptive field with stride 2 and maximum pooling after the first layer 2 151",
+          "current": "151 receptive field with stride 1 and maximum pooling after the first layer 3 79 79 receptive field with stride 1 and without pooling after the first layer all three networks have almost identical computational cost although the third network is slightly cheaper the cost of the pooling layer is marginal and within 1 of the total cost of the network in each case the networks were trained until convergence and their quality was measured on the validation set of",
+          "next": "the imagenet ilsvrc 2012 classification benchmark the results can be seen in table although the lower-resolution networks take longer to train the quality of the final result is quite close to that of their higher resolution counterparts however if one would just naively reduce the network size according to the input resolution then network would perform much more poorly however this would an unfair comparison as we would are comparing a 16 times cheaper model on a more difficult task"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4605,
+        "downstream_relevance_score": 0.325,
+        "components": {
+          "bio_boundary_score": 0.5748,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "maximum",
+          "pooling"
+        ],
+        "normalization": "maximum pooling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "maximum pooling",
+          "canonical": "maximum pooling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5748",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.325"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "side branch",
+        "canonical": "side branch",
+        "normalized": "side branch",
+        "tokens": [
+          "side",
+          "branch"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 33,
+        "sentence": "on the final quality of the network together with the earlier observation in the previous para- graph this means that original the hypothesis of that these branches help evolving the low-level features is most likely misplaced instead we argue that the auxiliary classifiers act as regularizer this is supported by the fact that the main classifier of the network performs better if the side branch is batch-normalized or has a dropout layer this also gives a weak supporting evidence for",
+        "context_window": {
+          "previous": "not result in improved convergence early in the training the training progression of network with and without side head looks virtually identical before both models reach high accuracy near the end of training the network with the auxiliary branches starts to overtake the accuracy of the network without any auxiliary branch and reaches a slightly higher plateau also used two side-heads at different stages in the network the removal of the lower auxiliary branch did not have any adverse effect",
+          "current": "on the final quality of the network together with the earlier observation in the previous para- graph this means that original the hypothesis of that these branches help evolving the low-level features is most likely misplaced instead we argue that the auxiliary classifiers act as regularizer this is supported by the fact that the main classifier of the network performs better if the side branch is batch-normalized or has a dropout layer this also gives a weak supporting evidence for",
+          "next": "the conjecture that batch normalization acts as a regularizer efficient grid size reduction traditionally convolutional networks used some pooling operation to decrease the grid size of the feature maps in order to avoid a representational bottleneck before applying maximum or average pooling the activation dimension of the network filters is expanded for example starting a d d grid with k filters if we would like to arrive at a d 2 d 2 grid with 2k filters we first need"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4717,
+        "downstream_relevance_score": 0.3181,
+        "components": {
+          "bio_boundary_score": 0.6849,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "side",
+          "branch"
+        ],
+        "normalization": "side branch",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "side branch",
+          "canonical": "side branch",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6849",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "downstream relevance score is 0.3181"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "test",
+        "canonical": "test",
+        "normalized": "test",
+        "tokens": [
+          "test"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 52,
+        "sentence": "our last of bn-inception in spring indicates that the test and validation set error tends to correlate very well",
+        "context_window": {
+          "previous": "table as inception-v3 and evaluate its performance in the multi-crop and ensemble settings all our evaluations are done on the 48238 nonblacklisted examples on the ilsvrc-2012 validation set as suggested by we have evaluated all the 50000 examples as well and the results were roughly 0 1 worse in top-5 error and around 0 2 in top-1 error in the upcoming version of this paper we will verify our ensemble result on the test set but at the time of",
+          "current": "our last of bn-inception in spring indicates that the test and validation set error tends to correlate very well",
+          "next": "we have provided several design principles to scale up convolutional networks and studied them in the context of the inception architecture this guidance can lead to high performance vision networks that have a relatively modest computation cost compared to simpler more monolithic architectures our highest quality version of inception-v3 reaches 21 2 top-1 and 5 6 top-5 error for single crop evaluation on the ilsvr 2012 classification setting a new state of the art this is achieved with relatively modest"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4648,
+        "downstream_relevance_score": 0.3173,
+        "components": {
+          "bio_boundary_score": 0.5135,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "test"
+        ],
+        "normalization": "test",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "test",
+          "canonical": "test",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5135",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.3173"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "information content",
+        "canonical": "information content",
+        "normalized": "information content",
+        "tokens": [
+          "information",
+          "content"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 14,
+        "sentence": "information passing though the cut one should avoid bottlenecks with extreme compression in general the representation size should gently decrease from the inputs to the outputs before reaching the final representation used for the task at hand theoretically information content can not be assessed merely by the dimensionality of the representation as it discards important factors like correlation structure the dimensional-ity merely provides a rough estimate of information content 2 higher dimensional representations are easier to process locally within a",
+        "context_window": {
+          "previous": "from these principles tended to result in deterioration in the quality of the networks and fixing situations where those deviations were detected resulted in improved architectures in general 1 avoid representational bottlenecks especially early in the network feed-forward networks can be represented by an acyclic graph from the input layer s to the classifier or regressor this defines a clear direction for the information flow for any cut separating the inputs from the outputs one can access the amount of",
+          "current": "information passing though the cut one should avoid bottlenecks with extreme compression in general the representation size should gently decrease from the inputs to the outputs before reaching the final representation used for the task at hand theoretically information content can not be assessed merely by the dimensionality of the representation as it discards important factors like correlation structure the dimensional-ity merely provides a rough estimate of information content 2 higher dimensional representations are easier to process locally within a",
+          "next": "network increasing the activations per tile in a convolutional network allows for more disentangled features the resulting networks will train faster 3 spatial aggregation can be done over lower dimensional embeddings without much or any loss in representational power for example before performing a more spread out e g 3 3 convolution one can reduce the dimension of the input representation before the spatial aggregation without expecting serious adverse effects we hypothesize that the reason for that is the strong"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4355,
+        "downstream_relevance_score": 0.2993,
+        "components": {
+          "bio_boundary_score": 0.6513,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "information",
+          "content"
+        ],
+        "normalization": "information content",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "information content",
+          "canonical": "information content",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6513",
+        "structure model assigned role 'motivation' with score 0.66",
+        "downstream relevance score is 0.2993"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "regularization",
+        "canonical": "regularization",
+        "normalized": "regularization",
+        "tokens": [
+          "regularization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 56,
+        "sentence": "cost while maintaining high quality the combination of lower parameter count and additional regularization with batch-normalized auxiliary classifiers and label-smoothing allows for training high quality networks on relatively modest sized training sets",
+        "context_window": {
+          "previous": "top-5 error which represents an over 25 reduction to the best published results and is almost half of the error of ilsvrc 2014 winining googlenet ensemble we have also demonstrated that high quality results can be reached with receptive field resolution as low as 79 79 this might prove to be helpful in systems for detecting relatively small objects we have studied how factorizing convolutions and aggressive dimension reductions inside neural network can result in networks with relatively low computational",
+          "current": "cost while maintaining high quality the combination of lower parameter count and additional regularization with batch-normalized auxiliary classifiers and label-smoothing allows for training high quality networks on relatively modest sized training sets",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.3962,
+        "downstream_relevance_score": 0.2688,
+        "components": {
+          "bio_boundary_score": 0.5279,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "regularization"
+        ],
+        "normalization": "regularization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "regularization",
+          "canonical": "regularization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5279",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.2688"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 22,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Here we propose a mechanism to regularize the classifier layer by estimating the marginalized effect of label-dropout during training.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "We propose a mechanism for encouraging the model to be less confident.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We compare our numbers with the best published single-model inference results on the ILSVRC 2012 classification benchmark. the fully connected layer of the auxiliary classifier is also batch-normalized, not just the convolutions.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "We propose to use the prior distribution over labels as u(k).",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We benchmark our methods on the ILSVRC 2012 classification challenge validation set demonstrate substantial gains over the state of the art: 21.2% top-1 and 5.6% top-5 error for single frame evaluation using a network with a computational cost of 5 billion multiply-adds per inference and with using less than 25 million parameters.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We benchmark our methods on the ILSVRC 2012 classification challenge validation set demonstrate substantial gains over the state of the art: 21.2% top-1 and 5.6% top-5 error for single frame evaluation using a network with a computational cost of 5 billion multiply-adds per inference and with using less than 25 million parameters.",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We benchmark our methods on the ILSVRC 2012 classification challenge validation set demonstrate substantial gains over the state of the art: 21.2% top-1 and 5.6% top-5 error for single frame evaluation using a network with a computational cost of 5 billion multiply-adds per inference and with using less than 25 million parameters.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "VGGNet and GoogLeNet yielded simi-larly high performance in the 2014 ILSVRC classification challenge.",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This means that architectural improvements in deep convolutional architecture can be utilized for improving performance for most other computer vision tasks that are increasingly reliant on high quality, learned visual features.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "On the other hand, the Inception architecture of GoogLeNet was also designed to perform well even under strict constraints on memory and computational budget.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Furthermore, these methods could be applied to optimize the Inception architecture as well, widening the efficiency gap again.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Still, the complexity of the Inception architecture makes it more difficult to make changes to the network.",
+        "evidence_type": "limitation",
+        "matched_cue": "difficult to",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Still, the complexity of the Inception architecture makes it more difficult to make changes to the network.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "If the architecture is scaled up naively, large parts of the computational gains can be immediately lost.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Also, does not provide a clear description about the contributing factors that lead to the various design decisions of the GoogLeNet architecture.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Also, does not provide a clear description about the contributing factors that lead to the various design decisions of the GoogLeNet architecture.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Note that LSR achieves the desired goal of preventing the largest logit from becoming much larger than all others.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table shows the experimental results about the recognition performance of our proposed architecture (Inception-v2) as described in Section 6.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We have provided several design principles to scale up convolutional networks and studied them in the context of the Inception architecture.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We have provided several design principles to scale up convolutional networks and studied them in the context of the Inception architecture.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Our highest quality version of Inception-v3 reaches 21.2%, top-1 and 5.6% top-5 error for single crop evaluation on the ILSVR 2012 classification, setting a new state of the art.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Still our solution uses much less computation than the best published results based on denser networks: our model outperforms the results of He et al -cutting the top-5 (top-1) error by 25% (14%) relative, respectively -while being six times cheaper computationally and using at least five times less parameters (estimated).",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "inception architecture",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6078
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "representational bottleneck",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5971
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "deep neural network",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.5952
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "ilsvr 2012",
+        "section": "conclusion",
+        "role": "core_method",
+        "score": 0.5843
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "side head",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5675
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "auxiliary branch",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.553
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "auxiliary",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5381
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "domain of validity",
+        "section": "method",
+        "role": "motivation",
+        "score": 0.5326
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "computational cost",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5192
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "convergence",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5027
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "computer vision",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4893
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "convolution",
+        "section": "method",
+        "role": "component",
+        "score": 0.4844
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "receptive field",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4648
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "dimension reduction",
+        "section": "method",
+        "role": "result",
+        "score": 0.4626
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "information flow",
+        "section": "method",
+        "role": "component",
+        "score": 0.4572
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "stochastic gradient descent",
+        "section": "experiment",
+        "role": "prior_work",
+        "score": 0.4469
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "ilsvrc",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4264
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "dimensional reduction",
+        "section": "method",
+        "role": "gap",
+        "score": 0.4243
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "computational",
+        "section": "method",
+        "role": "process",
+        "score": 0.424
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "first",
+        "section": "method",
+        "role": "component",
+        "score": 0.4126
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "cheaper model",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4064
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "grid reduction",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3331
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "ensemble",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.325
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "maximum pooling",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.325
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "side branch",
+        "section": "experiment",
+        "role": "prior_work",
+        "score": 0.3181
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "test",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3173
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "information content",
+        "section": "method",
+        "role": "motivation",
+        "score": 0.2993
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "regularization",
+        "section": "conclusion",
+        "role": "process",
+        "score": 0.2688
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_007",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_007",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_015",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_021",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_021",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_022",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

@@ -1,0 +1,2728 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2015_classical_ai_dueling_network_architectures_for_deep_reinforcement_learning",
+    "title": "2015_classical_ai_dueling_network_architectures_for_deep_reinforcement_learning",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2015_classical_ai_dueling_network_architectures_for_deep_reinforcement_learning.txt",
+    "sentence_count": 33,
+    "section_counts": {
+      "intro": 3,
+      "method": 6,
+      "experiment": 24
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 2547,
+    "type_count": 698,
+    "type_token_ratio": 0.274,
+    "section_token_counts": {
+      "intro": 265,
+      "related_work": 0,
+      "method": 436,
+      "experiment": 1846,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "network",
+        "count": 29
+      },
+      {
+        "term": "dueling",
+        "count": 25
+      },
+      {
+        "term": "value",
+        "count": 24
+      },
+      {
+        "term": "advantage",
+        "count": 23
+      },
+      {
+        "term": "architecture",
+        "count": 20
+      },
+      {
+        "term": "learning",
+        "count": 18
+      },
+      {
+        "term": "function",
+        "count": 17
+      },
+      {
+        "term": "policy",
+        "count": 17
+      },
+      {
+        "term": "action",
+        "count": 16
+      },
+      {
+        "term": "actions",
+        "count": 13
+      },
+      {
+        "term": "dqn",
+        "count": 12
+      },
+      {
+        "term": "environment",
+        "count": 12
+      },
+      {
+        "term": "deep",
+        "count": 11
+      },
+      {
+        "term": "two",
+        "count": 11
+      },
+      {
+        "term": "state",
+        "count": 10
+      },
+      {
+        "term": "et",
+        "count": 10
+      },
+      {
+        "term": "al",
+        "count": 10
+      },
+      {
+        "term": "results",
+        "count": 9
+      },
+      {
+        "term": "rl",
+        "count": 9
+      },
+      {
+        "term": "agent",
+        "count": 9
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "dueling architecture",
+        "count": 13
+      },
+      {
+        "term": "dueling network",
+        "count": 11
+      },
+      {
+        "term": "et al",
+        "count": 10
+      },
+      {
+        "term": "value advantage",
+        "count": 8
+      },
+      {
+        "term": "reinforcement learning",
+        "count": 6
+      },
+      {
+        "term": "value function",
+        "count": 6
+      },
+      {
+        "term": "advantage function",
+        "count": 6
+      },
+      {
+        "term": "two streams",
+        "count": 5
+      },
+      {
+        "term": "advantage functions",
+        "count": 4
+      },
+      {
+        "term": "each action",
+        "count": 4
+      },
+      {
+        "term": "state-action value",
+        "count": 4
+      },
+      {
+        "term": "behavior policy",
+        "count": 4
+      },
+      {
+        "term": "network architectures",
+        "count": 3
+      },
+      {
+        "term": "neural network",
+        "count": 3
+      },
+      {
+        "term": "network architecture",
+        "count": 3
+      },
+      {
+        "term": "state value",
+        "count": 3
+      },
+      {
+        "term": "learning algorithm",
+        "count": 3
+      },
+      {
+        "term": "shown figure",
+        "count": 3
+      },
+      {
+        "term": "deep q-networks",
+        "count": 3
+      },
+      {
+        "term": "architecture can",
+        "count": 3
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "state value function",
+        "count": 3
+      },
+      {
+        "term": "value advantage functions",
+        "count": 3
+      },
+      {
+        "term": "dueling architecture can",
+        "count": 3
+      },
+      {
+        "term": "deep reinforcement learning",
+        "count": 2
+      },
+      {
+        "term": "such convolutional networks",
+        "count": 2
+      },
+      {
+        "term": "neural network architecture",
+        "count": 2
+      },
+      {
+        "term": "one state value",
+        "count": 2
+      },
+      {
+        "term": "value function one",
+        "count": 2
+      },
+      {
+        "term": "network two streams",
+        "count": 2
+      },
+      {
+        "term": "estimate state-action value",
+        "count": 2
+      },
+      {
+        "term": "state-action value function",
+        "count": 2
+      },
+      {
+        "term": "value advantage saliency",
+        "count": 2
+      },
+      {
+        "term": "advantage saliency maps",
+        "count": 2
+      },
+      {
+        "term": "stream pays attention",
+        "count": 2
+      },
+      {
+        "term": "dueling network results",
+        "count": 2
+      },
+      {
+        "term": "stream learns pay",
+        "count": 2
+      },
+      {
+        "term": "learns pay attention",
+        "count": 2
+      },
+      {
+        "term": "mnih et al",
+        "count": 2
+      },
+      {
+        "term": "schaul et al",
+        "count": 2
+      },
+      {
+        "term": "general atari game-playing",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 23,
+    "nonzero_tfidf_features": 23,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 3.0,
+        "tfidf": 0.9126
+      },
+      {
+        "feature_name": "introduction__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 5.0,
+        "tfidf": 0.8483
+      },
+      {
+        "feature_name": "experiments__MLP",
+        "section": "experiment",
+        "term": "MLP",
+        "frequency": 2.0,
+        "tfidf": 0.7943
+      },
+      {
+        "feature_name": "conclusion__representation learning",
+        "section": "conclusion",
+        "term": "representation learning",
+        "frequency": 1.0,
+        "tfidf": 0.6738
+      },
+      {
+        "feature_name": "experiments__attention",
+        "section": "experiment",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.6075
+      },
+      {
+        "feature_name": "conclusion__end-to-end",
+        "section": "conclusion",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.6062
+      },
+      {
+        "feature_name": "related_work__attention",
+        "section": "related_work",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.6023
+      },
+      {
+        "feature_name": "methods__dqn",
+        "section": "method",
+        "term": "dqn",
+        "frequency": 1.0,
+        "tfidf": 0.5915
+      },
+      {
+        "feature_name": "methods__backpropagation",
+        "section": "method",
+        "term": "backpropagation",
+        "frequency": 1.0,
+        "tfidf": 0.5915
+      },
+      {
+        "feature_name": "methods__learning algorithm",
+        "section": "method",
+        "term": "learning algorithm",
+        "frequency": 1.0,
+        "tfidf": 0.5479
+      },
+      {
+        "feature_name": "related_work__learning algorithms",
+        "section": "related_work",
+        "term": "learning algorithms",
+        "frequency": 1.0,
+        "tfidf": 0.4569
+      },
+      {
+        "feature_name": "related_work__deep reinforcement learning",
+        "section": "related_work",
+        "term": "deep reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.4311
+      },
+      {
+        "feature_name": "conclusion__reinforcement learning",
+        "section": "conclusion",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.4226
+      },
+      {
+        "feature_name": "abstract__learning algorithm",
+        "section": "intro",
+        "term": "learning algorithm",
+        "frequency": 1.0,
+        "tfidf": 0.4089
+      },
+      {
+        "feature_name": "related_work__policy gradient",
+        "section": "related_work",
+        "term": "policy gradient",
+        "frequency": 1.0,
+        "tfidf": 0.3808
+      },
+      {
+        "feature_name": "related_work__reinforcement learning",
+        "section": "related_work",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.3124
+      },
+      {
+        "feature_name": "introduction__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 1.0,
+        "tfidf": 0.2512
+      },
+      {
+        "feature_name": "introduction__dqn",
+        "section": "intro",
+        "term": "dqn",
+        "frequency": 1.0,
+        "tfidf": 0.2424
+      },
+      {
+        "feature_name": "introduction__autoencoders",
+        "section": "intro",
+        "term": "autoencoders",
+        "frequency": 1.0,
+        "tfidf": 0.228
+      },
+      {
+        "feature_name": "introduction__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.1744
+      },
+      {
+        "feature_name": "introduction__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.1674
+      },
+      {
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.1612
+      },
+      {
+        "feature_name": "introduction__machine learning",
+        "section": "intro",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.1488
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 3.0,
+          "tfidf": 0.9126
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 0.8483
+        },
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.4089
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.2512
+        },
+        {
+          "feature_name": "introduction__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 1.0,
+          "tfidf": 0.2424
+        },
+        {
+          "feature_name": "introduction__autoencoders",
+          "section": "intro",
+          "term": "autoencoders",
+          "frequency": 1.0,
+          "tfidf": 0.228
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1744
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1674
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.1612
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1488
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.6023
+        },
+        {
+          "feature_name": "related_work__learning algorithms",
+          "section": "related_work",
+          "term": "learning algorithms",
+          "frequency": 1.0,
+          "tfidf": 0.4569
+        },
+        {
+          "feature_name": "related_work__deep reinforcement learning",
+          "section": "related_work",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4311
+        },
+        {
+          "feature_name": "related_work__policy gradient",
+          "section": "related_work",
+          "term": "policy gradient",
+          "frequency": 1.0,
+          "tfidf": 0.3808
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.3124
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__dqn",
+          "section": "method",
+          "term": "dqn",
+          "frequency": 1.0,
+          "tfidf": 0.5915
+        },
+        {
+          "feature_name": "methods__backpropagation",
+          "section": "method",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.5915
+        },
+        {
+          "feature_name": "methods__learning algorithm",
+          "section": "method",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.5479
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__MLP",
+          "section": "experiment",
+          "term": "MLP",
+          "frequency": 2.0,
+          "tfidf": 0.7943
+        },
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.6075
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__representation learning",
+          "section": "conclusion",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.6738
+        },
+        {
+          "feature_name": "conclusion__end-to-end",
+          "section": "conclusion",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.6062
+        },
+        {
+          "feature_name": "conclusion__reinforcement learning",
+          "section": "conclusion",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4226
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 3,
+      "token_count": 265,
+      "bow_hit_count": 24,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 11,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 3,
+          "section_prior": 0.4722,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 3,
+          "section_prior": 0.4805,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 2,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 2,
+          "section_prior": 0.233,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "autoencoder",
+          "count": 1,
+          "section_prior": 0.3191,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 1,
+          "section_prior": 0.5424,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 1,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 3.0,
+          "tfidf": 0.9126
+        },
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 0.8483
+        },
+        {
+          "feature_name": "abstract__learning algorithm",
+          "section": "intro",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.4089
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.2512
+        },
+        {
+          "feature_name": "introduction__dqn",
+          "section": "intro",
+          "term": "dqn",
+          "frequency": 1.0,
+          "tfidf": 0.2424
+        },
+        {
+          "feature_name": "introduction__autoencoders",
+          "section": "intro",
+          "term": "autoencoders",
+          "frequency": 1.0,
+          "tfidf": 0.228
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1744
+        },
+        {
+          "feature_name": "introduction__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1674
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.1612
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1488
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.6023
+        },
+        {
+          "feature_name": "related_work__learning algorithms",
+          "section": "related_work",
+          "term": "learning algorithms",
+          "frequency": 1.0,
+          "tfidf": 0.4569
+        },
+        {
+          "feature_name": "related_work__deep reinforcement learning",
+          "section": "related_work",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4311
+        },
+        {
+          "feature_name": "related_work__policy gradient",
+          "section": "related_work",
+          "term": "policy gradient",
+          "frequency": 1.0,
+          "tfidf": 0.3808
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.3124
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 6,
+      "token_count": 436,
+      "bow_hit_count": 19,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 10,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 5,
+          "section_prior": 0.098,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 4,
+          "section_prior": 0.0656,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__dqn",
+          "section": "method",
+          "term": "dqn",
+          "frequency": 1.0,
+          "tfidf": 0.5915
+        },
+        {
+          "feature_name": "methods__backpropagation",
+          "section": "method",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.5915
+        },
+        {
+          "feature_name": "methods__learning algorithm",
+          "section": "method",
+          "term": "learning algorithm",
+          "frequency": 1.0,
+          "tfidf": 0.5479
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 24,
+      "token_count": 1846,
+      "bow_hit_count": 58,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 24,
+          "section_prior": 0.4672,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 9,
+          "section_prior": 0.1688,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "policy-gradient method",
+          "count": 5,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.0928,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 3,
+          "section_prior": 0.1389,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 3,
+          "section_prior": 0.3898,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__MLP",
+          "section": "experiment",
+          "term": "MLP",
+          "frequency": 2.0,
+          "tfidf": 0.7943
+        },
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.6075
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__representation learning",
+          "section": "conclusion",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.6738
+        },
+        {
+          "feature_name": "conclusion__end-to-end",
+          "section": "conclusion",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.6062
+        },
+        {
+          "feature_name": "conclusion__reinforcement learning",
+          "section": "conclusion",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4226
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "in recent years there have been many successes of using deep representations in reinforcement learning still many of these applications use conventional architectures such as convolutional networks lstms or auto-encoders in this paper we present a new neural network architecture for model-free reinforcement learning our dueling network represents two separate estimators one for the state value function and one for the state-dependent action advantage function the main benefit of this factoring is to generalize learning across actions without imposing any change to the underlying reinforcement learning algorithm our results show that this architecture leads to better policy evaluation in the presence of many similar-valued actions moreover the dueling architecture enables our rl agent to outperform the state-of-the-art on the atari 2600 domain body",
+        "context_window": {
+          "previous": "title dueling network architectures for deep reinforcement learning",
+          "current": "in recent years there have been many successes of using deep representations in reinforcement learning still many of these applications use conventional architectures such as convolutional networks lstms or auto-encoders in this paper we present a new neural network architecture for model-free reinforcement learning our dueling network represents two separate estimators one for the state value function and one for the state-dependent action advantage function the main benefit of this factoring is to generalize learning across actions without imposing any change to the underlying reinforcement learning algorithm our results show that this architecture leads to better policy evaluation in the presence of many similar-valued actions moreover the dueling architecture enables our rl agent to outperform the state-of-the-art on the atari 2600 domain body",
+          "next": "over the past years deep learning has contributed to dramatic advances in scalability and performance of machine learning one exciting application is the sequential decision-making setting of reinforcement learning rl and control notable examples include deep q-learning deep visuomotor policies attention with recurrent networks and model predictive control with embeddings other recent successes include massively parallel frameworks and expert move prediction in the game of go which produced policies matching those of monte carlo tree search programs and squarely beaten a professional player when combined with search in spite of this most of the approaches for rl use standard neural networks such as convolutional networks mlps lstms and autoencoders the focus in these recent advances has been on designing improved control and rl algorithms or simply on incorporating existing neural network architectures into rl"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.8547
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "outperform",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6721,
+        "downstream_relevance_score": 0.8215,
+        "components": {
+          "bio_boundary_score": 0.8471,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.8547,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5505,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 28,
+        "total_frequency": 75,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 3.0,
+        "tfidf": 0.9126,
+        "normalized_frequency": 0.6,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.5505,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8471",
+        "structure model assigned role 'background' with score 0.8547",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'abstract__reinforcement learning' with tf-idf 0.9126",
+        "evidence cue lexicon matched state-of-the-art, architecture, outperform",
+        "downstream relevance score is 0.8215"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "convolutional neural network",
+          "Convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "in recent years there have been many successes of using deep representations in reinforcement learning still many of these applications use conventional architectures such as convolutional networks lstms or auto-encoders in this paper we present a new neural network architecture for model-free reinforcement learning our dueling network represents two separate estimators one for the state value function and one for the state-dependent action advantage function the main benefit of this factoring is to generalize learning across actions without imposing any change to the underlying reinforcement learning algorithm our results show that this architecture leads to better policy evaluation in the presence of many similar-valued actions moreover the dueling architecture enables our rl agent to outperform the state-of-the-art on the atari 2600 domain body",
+        "context_window": {
+          "previous": "title dueling network architectures for deep reinforcement learning",
+          "current": "in recent years there have been many successes of using deep representations in reinforcement learning still many of these applications use conventional architectures such as convolutional networks lstms or auto-encoders in this paper we present a new neural network architecture for model-free reinforcement learning our dueling network represents two separate estimators one for the state value function and one for the state-dependent action advantage function the main benefit of this factoring is to generalize learning across actions without imposing any change to the underlying reinforcement learning algorithm our results show that this architecture leads to better policy evaluation in the presence of many similar-valued actions moreover the dueling architecture enables our rl agent to outperform the state-of-the-art on the atari 2600 domain body",
+          "next": "over the past years deep learning has contributed to dramatic advances in scalability and performance of machine learning one exciting application is the sequential decision-making setting of reinforcement learning rl and control notable examples include deep q-learning deep visuomotor policies attention with recurrent networks and model predictive control with embeddings other recent successes include massively parallel frameworks and expert move prediction in the game of go which produced policies matching those of monte carlo tree search programs and squarely beaten a professional player when combined with search in spite of this most of the approaches for rl use standard neural networks such as convolutional networks mlps lstms and autoencoders the focus in these recent advances has been on designing improved control and rl algorithms or simply on incorporating existing neural network architectures into rl"
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.8547
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "outperform",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7015,
+        "downstream_relevance_score": 0.7594,
+        "components": {
+          "bio_boundary_score": 0.9478,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.8547,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4032,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 27,
+        "total_frequency": 54,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.4032,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9478",
+        "structure model assigned role 'background' with score 0.8547",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched state-of-the-art, architecture, outperform",
+        "downstream relevance score is 0.7594"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "attention",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 10,
+        "sentence": "for this popular domain related work the notion of maintaining separate value and advantage functions goes back to in baird s original 1 plvfxycsfs2pau0gbh0mwtxdmutywwyfbp value advantage value advantage figure 2 see attend and drive value and advantage saliency maps red-tinted overlay on the atari game enduro for a trained dueling architecture the value stream learns to pay attention to the road the advantage stream learns to pay attention only when there are cars immediately in front so as to avoid",
+        "context_window": {
+          "previous": "as redundant or similar actions are added to the learning problem we also evaluate the gains brought in by the dueling architecture on the challenging atari 2600 testbed here an rl agent with the same structure and hyper-parameters must be able to play 57 different games by observing image pixels and game scores only the results illustrate vast improvements over the single-stream baselines of and the combination of prioritized replay with the proposed dueling network results in the new state-of-the-art",
+          "current": "for this popular domain related work the notion of maintaining separate value and advantage functions goes back to in baird s original 1 plvfxycsfs2pau0gbh0mwtxdmutywwyfbp value advantage value advantage figure 2 see attend and drive value and advantage saliency maps red-tinted overlay on the atari game enduro for a trained dueling architecture the value stream learns to pay attention to the road the advantage stream learns to pay attention only when there are cars immediately in front so as to avoid",
+          "next": "collisions advantage updating algorithm the shared bellman residual update equation is decomposed into two updates one for a state value function and one for its associated advantage function advantage updating was shown to converge faster than q-learning in simple continuous time domains in its successor the advantage learning algorithm represents only a single advantage function the dueling architecture represents both the value v s and advantage a s a functions with a single deep model whose output combines the two"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.61,
+        "downstream_relevance_score": 0.7499,
+        "components": {
+          "bio_boundary_score": 0.6019,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2317,
+          "document_tfidf_score": 0.6657,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 22,
+        "total_frequency": 97,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__attention",
+        "section": "experiment",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.6075,
+        "normalized_frequency": 0.4,
+        "normalized_tfidf": 0.6657
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention"
+        ],
+        "normalization": "attention",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2317,
+        "canonicalization": {
+          "observed": "attention",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6019",
+        "structure model assigned role 'core_method' with score 0.66",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'experiments__attention' with tf-idf 0.6075",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.7499"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "dueling network",
+        "canonical": "dueling network",
+        "normalized": "dueling network",
+        "tokens": [
+          "dueling",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 4,
+        "sentence": "dueling architecture consists of two streams that represent the value and advantage functions while sharing a common figure a popular single stream q-network top and the dueling q-network bottom the dueling network has two streams to separately estimate scalar state-value and the advantages for each action the green output module implements equation to combine them both networks output q-values for each action convolutional feature learning module the two streams are combined via a special aggregating layer to produce an estimate",
+        "context_window": {
+          "previous": "here we take an alternative but complementary approach of focusing primarily on innovating a neural network architecture that is better suited for model-free rl this approach has the benefit that the new network can be easily combined with existing and future algorithms for rl that is this paper advances a new network figure but uses already published algorithms the proposed network architecture which we name the dueling architecture explicitly separates the representation of state values and state-dependent action advantages the",
+          "current": "dueling architecture consists of two streams that represent the value and advantage functions while sharing a common figure a popular single stream q-network top and the dueling q-network bottom the dueling network has two streams to separately estimate scalar state-value and the advantages for each action the green output module implements equation to combine them both networks output q-values for each action convolutional feature learning module the two streams are combined via a special aggregating layer to produce an estimate",
+          "next": "of the state-action value function q as shown in figure this dueling network should be understood as a single q network with two streams that replaces the popular single-stream q network in existing algorithms such as deep q-networks dqn the dueling network automatically produces separate estimates of the state value function and advantage function without any extra supervision intuitively the dueling architecture can learn which states are or are not valuable without having to learn the effect of each action"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.9887
+      },
+      "evidence": {
+        "score": 0.5405,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.739,
+        "downstream_relevance_score": 0.594,
+        "components": {
+          "bio_boundary_score": 0.9299,
+          "sentence_evidence_score": 0.5405,
+          "sentence_role_score": 0.9887,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dueling",
+          "network"
+        ],
+        "normalization": "dueling network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dueling network",
+          "canonical": "dueling network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9299",
+        "structure model assigned role 'process' with score 0.9887",
+        "evidence score 0.5405 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.594"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "dueling architecture",
+        "canonical": "dueling architecture",
+        "normalized": "dueling architecture",
+        "tokens": [
+          "dueling",
+          "architecture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "stream pays attention as there is a car immediately in front making its choice of action very relevant in the experiments we demonstrate that the dueling architecture can more quickly identify the correct action during policy",
+        "context_window": {
+          "previous": "steps in one time step leftmost pair of images we see that the value network stream pays attention to the road and in particular to the horizon where new cars appear it also pays attention to the score the advantage stream on the other hand does not pay much attention to the visual input because its action choice is practically irrelevant when there are no cars in front however in the second time step rightmost pair of images the advantage",
+          "current": "stream pays attention as there is a car immediately in front making its choice of action very relevant in the experiments we demonstrate that the dueling architecture can more quickly identify the correct action during policy",
+          "next": "as redundant or similar actions are added to the learning problem we also evaluate the gains brought in by the dueling architecture on the challenging atari 2600 testbed here an rl agent with the same structure and hyper-parameters must be able to play 57 different games by observing image pixels and game scores only the results illustrate vast improvements over the single-stream baselines of and the combination of prioritized replay with the proposed dueling network results in the new state-of-the-art"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7454,
+        "downstream_relevance_score": 0.5922,
+        "components": {
+          "bio_boundary_score": 0.9827,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dueling",
+          "architecture"
+        ],
+        "normalization": "dueling architecture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dueling architecture",
+          "canonical": "dueling architecture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9827",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5922"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "dueling",
+        "canonical": "dueling",
+        "normalized": "dueling",
+        "tokens": [
+          "dueling"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 5,
+        "sentence": "of the state-action value function q as shown in figure this dueling network should be understood as a single q network with two streams that replaces the popular single-stream q network in existing algorithms such as deep q-networks dqn the dueling network automatically produces separate estimates of the state value function and advantage function without any extra supervision intuitively the dueling architecture can learn which states are or are not valuable without having to learn the effect of each action",
+        "context_window": {
+          "previous": "dueling architecture consists of two streams that represent the value and advantage functions while sharing a common figure a popular single stream q-network top and the dueling q-network bottom the dueling network has two streams to separately estimate scalar state-value and the advantages for each action the green output module implements equation to combine them both networks output q-values for each action convolutional feature learning module the two streams are combined via a special aggregating layer to produce an estimate",
+          "current": "of the state-action value function q as shown in figure this dueling network should be understood as a single q network with two streams that replaces the popular single-stream q network in existing algorithms such as deep q-networks dqn the dueling network automatically produces separate estimates of the state value function and advantage function without any extra supervision intuitively the dueling architecture can learn which states are or are not valuable without having to learn the effect of each action",
+          "next": "for each state this is particularly useful in states where its actions do not affect the environment in any relevant way to illustrate this consider the saliency maps shown in figure 1 these maps were generated by computing the jacobians of the trained value and advantage streams with respect to the input video following the method proposed by the experimental section describes this methodology in more detail the figure shows the value and advantage saliency maps for two different time"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6271,
+        "downstream_relevance_score": 0.5207,
+        "components": {
+          "bio_boundary_score": 0.6616,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dueling"
+        ],
+        "normalization": "dueling",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dueling",
+          "canonical": "dueling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6616",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5207"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "advantage value",
+        "canonical": "advantage value",
+        "normalized": "advantage value",
+        "tokens": [
+          "advantage",
+          "value"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 10,
+        "sentence": "for this popular domain related work the notion of maintaining separate value and advantage functions goes back to in baird s original 1 plvfxycsfs2pau0gbh0mwtxdmutywwyfbp value advantage value advantage figure 2 see attend and drive value and advantage saliency maps red-tinted overlay on the atari game enduro for a trained dueling architecture the value stream learns to pay attention to the road the advantage stream learns to pay attention only when there are cars immediately in front so as to avoid",
+        "context_window": {
+          "previous": "as redundant or similar actions are added to the learning problem we also evaluate the gains brought in by the dueling architecture on the challenging atari 2600 testbed here an rl agent with the same structure and hyper-parameters must be able to play 57 different games by observing image pixels and game scores only the results illustrate vast improvements over the single-stream baselines of and the combination of prioritized replay with the proposed dueling network results in the new state-of-the-art",
+          "current": "for this popular domain related work the notion of maintaining separate value and advantage functions goes back to in baird s original 1 plvfxycsfs2pau0gbh0mwtxdmutywwyfbp value advantage value advantage figure 2 see attend and drive value and advantage saliency maps red-tinted overlay on the atari game enduro for a trained dueling architecture the value stream learns to pay attention to the road the advantage stream learns to pay attention only when there are cars immediately in front so as to avoid",
+          "next": "collisions advantage updating algorithm the shared bellman residual update equation is decomposed into two updates one for a state value function and one for its associated advantage function advantage updating was shown to converge faster than q-learning in simple continuous time domains in its successor the advantage learning algorithm represents only a single advantage function the dueling architecture represents both the value v s and advantage a s a functions with a single deep model whose output combines the two"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5843,
+        "downstream_relevance_score": 0.4956,
+        "components": {
+          "bio_boundary_score": 0.514,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "advantage",
+          "value"
+        ],
+        "normalization": "advantage value",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "advantage value",
+          "canonical": "advantage value",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.514",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.4956"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "advantage stream",
+        "canonical": "advantage stream",
+        "normalized": "advantage stream",
+        "tokens": [
+          "advantage",
+          "stream"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 7,
+        "sentence": "steps in one time step leftmost pair of images we see that the value network stream pays attention to the road and in particular to the horizon where new cars appear it also pays attention to the score the advantage stream on the other hand does not pay much attention to the visual input because its action choice is practically irrelevant when there are no cars in front however in the second time step rightmost pair of images the advantage",
+        "context_window": {
+          "previous": "for each state this is particularly useful in states where its actions do not affect the environment in any relevant way to illustrate this consider the saliency maps shown in figure 1 these maps were generated by computing the jacobians of the trained value and advantage streams with respect to the input video following the method proposed by the experimental section describes this methodology in more detail the figure shows the value and advantage saliency maps for two different time",
+          "current": "steps in one time step leftmost pair of images we see that the value network stream pays attention to the road and in particular to the horizon where new cars appear it also pays attention to the score the advantage stream on the other hand does not pay much attention to the visual input because its action choice is practically irrelevant when there are no cars in front however in the second time step rightmost pair of images the advantage",
+          "next": "stream pays attention as there is a car immediately in front making its choice of action very relevant in the experiments we demonstrate that the dueling architecture can more quickly identify the correct action during policy"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.613,
+        "downstream_relevance_score": 0.4716,
+        "components": {
+          "bio_boundary_score": 0.5638,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "advantage",
+          "stream"
+        ],
+        "normalization": "advantage stream",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "advantage stream",
+          "canonical": "advantage stream",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5638",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4716"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "policy",
+        "canonical": "policy",
+        "normalized": "policy",
+        "tokens": [
+          "policy"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 23,
+        "sentence": "problem ddqn uses the following target y ddqn i r q s arg max a q s a i - ddqn is the same as for dqn see mnih et al but with the target y dqn i replaced by y ddqn i the pseudocode for ddqn is presented in we now show the practical performance of the dueling network we start with a simple policy task and then show larger scale results for learning policies for general atari game-playing",
+        "context_window": {
+          "previous": "it reduces variance as uniform sampling from the replay buffer reduces the correlation among the samples used in the update double deep q-networks the previous section described the main components of dqn as presented in in this paper we use the improved double dqn ddqn learning algorithm of in q-learning and dqn the max operator uses the same values to both select and evaluate an action this can therefore lead to overoptimistic value estimates van hasselt 2010 to mitigate this",
+          "current": "problem ddqn uses the following target y ddqn i r q s arg max a q s a i - ddqn is the same as for dqn see mnih et al but with the target y dqn i replaced by y ddqn i the pseudocode for ddqn is presented in we now show the practical performance of the dueling network we start with a simple policy task and then show larger scale results for learning policies for general atari game-playing",
+          "next": "policy we start by measuring the performance of the dueling architecture on a policy task we choose this par-ticular task because it is very useful for evaluating network architectures as it is devoid of confounding factors such as the choice of exploration strategy and the interaction between policy improvement and policy in this experiment we employ temporal difference learning without eligibility traces i e 0 to learn q values more specifically given a behavior policy we seek to estimate the"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6074,
+        "downstream_relevance_score": 0.4405,
+        "components": {
+          "bio_boundary_score": 0.4915,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "policy"
+        ],
+        "normalization": "policy",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "policy",
+          "canonical": "policy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.4915",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4405"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "corridor environment",
+        "canonical": "corridor environment",
+        "normalized": "corridor environment",
+        "tokens": [
+          "corridor",
+          "environment"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 27,
+        "sentence": "while the horizontal section has 50 we use an -greedy policy as the behavior policy which chooses a random action with probability or an action according to the optimal q function arg max a a q s a with probability 1 - in our experiments is chosen to be 0 001 we compare a single-stream q architecture with the dueling architecture on three variants of the corridor environment with 5 10 and 20 actions respectively the 10 and 20 action",
+        "context_window": {
+          "previous": "the corridor is composed of three connected corridors a schematic drawing of the corridor environment is shown in figure the agent starts from the bottom left corner of the environment and must move to the top right to get the largest reward a total of 5 actions are available go up down left right and no-op we also have the freedom of adding an arbitrary number of no-op actions in our setup the two vertical sections both have 10 states",
+          "current": "while the horizontal section has 50 we use an -greedy policy as the behavior policy which chooses a random action with probability or an action according to the optimal q function arg max a a q s a with probability 1 - in our experiments is chosen to be 0 001 we compare a single-stream q architecture with the dueling architecture on three variants of the corridor environment with 5 10 and 20 actions respectively the 10 and 20 action",
+          "next": "variants are formed by adding no-ops to the original environment we measure performance by squared error se against the true state values s s a a q s a -q s a 2 the single-stream architecture is a three layer mlp with 50 units on each hidden layer the dueling architecture is also composed of three layers after the first hidden layer of 50 units however the network branches off into two streams each of them a two layer mlp"
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5148,
+        "downstream_relevance_score": 0.3755,
+        "components": {
+          "bio_boundary_score": 0.8325,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "corridor",
+          "environment"
+        ],
+        "normalization": "corridor environment",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "corridor environment",
+          "canonical": "corridor environment",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8325",
+        "structure model assigned role 'comparison' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.3755"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "dynamic programming",
+        "canonical": "dynamic programming",
+        "normalized": "dynamic programming",
+        "tokens": [
+          "dynamic",
+          "programming"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 15,
+        "sentence": "an agent behaving according to a stochastic policy the values of the state-action pair s a and the state s are defined as follows q s a e r t s t s a t a and v s e a s q s a the preceding state-action value function q function for short can be computed recursively with dynamic programming q s a e s r e a s q s a s a we define the optimal q",
+        "context_window": {
+          "previous": "of m image frames s t x t-m 1 x t s at time step t the agent then chooses an action from a discrete set a t a 1 a and observes a reward signal r t produced by the game emulator the agent seeks maximize the expected discounted return where we define the discounted return as r t t -t r in this formulation is a discount factor that trades-off the importance of immediate and future rewards for",
+          "current": "an agent behaving according to a stochastic policy the values of the state-action pair s a and the state s are defined as follows q s a e r t s t s a t a and v s e a s q s a the preceding state-action value function q function for short can be computed recursively with dynamic programming q s a e s r e a s q s a s a we define the optimal q",
+          "next": "s a max q s a under the deterministic policy a arg max a a q s a it follows that v s max a q s a from this it also follows that the optimal q function satisfies the bellman equation q s a e s r max a q s a s a we define another important quantity the advantage function relating the value and q functions a s a q s a -v s note that e"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5525,
+        "downstream_relevance_score": 0.3433,
+        "components": {
+          "bio_boundary_score": 0.8074,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dynamic",
+          "programming"
+        ],
+        "normalization": "dynamic programming",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dynamic programming",
+          "canonical": "dynamic programming",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8074",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3433"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "advantage function",
+        "canonical": "advantage function",
+        "normalized": "advantage function",
+        "tokens": [
+          "advantage",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 16,
+        "sentence": "s a max q s a under the deterministic policy a arg max a a q s a it follows that v s max a q s a from this it also follows that the optimal q function satisfies the bellman equation q s a e s r max a q s a s a we define another important quantity the advantage function relating the value and q functions a s a q s a -v s note that e",
+        "context_window": {
+          "previous": "an agent behaving according to a stochastic policy the values of the state-action pair s a and the state s are defined as follows q s a e r t s t s a t a and v s e a s q s a the preceding state-action value function q function for short can be computed recursively with dynamic programming q s a e s r e a s q s a s a we define the optimal q",
+          "current": "s a max q s a under the deterministic policy a arg max a a q s a it follows that v s max a q s a from this it also follows that the optimal q function satisfies the bellman equation q s a e s r max a q s a s a we define another important quantity the advantage function relating the value and q functions a s a q s a -v s note that e",
+          "next": "a s a s a 0 intuitively the value function v measures the how good it is to be in a particular state s the q function however measures the the value of choosing a particular action when in this state the advantage function subtracts the value of the state from the q function to obtain a relative measure of the importance of each action deep q-networks the value functions as described in the preceding section are high dimensional objects"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4217,
+        "downstream_relevance_score": 0.2921,
+        "components": {
+          "bio_boundary_score": 0.5306,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "advantage",
+          "function"
+        ],
+        "normalization": "advantage function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "advantage function",
+          "canonical": "advantage function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5306",
+        "structure model assigned role 'motivation' with score 0.66",
+        "downstream relevance score is 0.2921"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "experience replay",
+        "canonical": "experience replay",
+        "normalized": "experience replay",
+        "tokens": [
+          "experience",
+          "replay"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 21,
+        "sentence": "t r t s t 1 from many episodes when training the q-network instead only using the current experience as prescribed by standard temporaldifference learning the network is trained by sampling mini-batches of experiences from d uniformly at random the sequence of losses thus takes the form l i i e s a r s u d y dqn i -q s a i 2 experience replay increases data efficiency through re-use of experience samples in multiple updates and importantly",
+        "context_window": {
+          "previous": "i this approach is model free in the sense that the states and rewards are produced by the environment it is also offpolicy because these states and rewards are obtained with a behavior policy epsilon greedy in dqn different from the online policy that is being learned another key ingredient behind the success of dqn is experience replay during learning the agent accumulates a dataset d t e 1 e 2 e t of experiences e t s t a",
+          "current": "t r t s t 1 from many episodes when training the q-network instead only using the current experience as prescribed by standard temporaldifference learning the network is trained by sampling mini-batches of experiences from d uniformly at random the sequence of losses thus takes the form l i i e s a r s u d y dqn i -q s a i 2 experience replay increases data efficiency through re-use of experience samples in multiple updates and importantly",
+          "next": "it reduces variance as uniform sampling from the replay buffer reduces the correlation among the samples used in the update double deep q-networks the previous section described the main components of dqn as presented in in this paper we use the improved double dqn ddqn learning algorithm of in q-learning and dqn the max operator uses the same values to both select and evaluate an action this can therefore lead to overoptimistic value estimates van hasselt 2010 to mitigate this"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4134,
+        "downstream_relevance_score": 0.2878,
+        "components": {
+          "bio_boundary_score": 0.5706,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "experience",
+          "replay"
+        ],
+        "normalization": "experience replay",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "experience replay",
+          "canonical": "experience replay",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5706",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.2878"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 37,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The key insight behind our new architecture, as illustrated in Figure , is that for many states, it is unnecessary to estimate the value of each action choice.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "To bring this insight to fruition, we design a single Qnetwork architecture, as illustrated in Figure , which we refer to as the dueling network.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "To bring this insight to fruition, we design a single Qnetwork architecture, as illustrated in Figure , which we refer to as the dueling network.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The module that combines the two streams of fullyconnected layers to output a Q estimate requires very thoughtful design.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "As the dueling architecture shares the same input-output interface with standard Q networks, we can recycle all learning algorithms with Q networks (e.g., DDQN and SARSA) to train the dueling architecture.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper, we present a new neural network architecture for model-free reinforcement learning.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper, we present a new neural network architecture for model-free reinforcement learning.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "The main benefit of this factoring is to generalize learning across actions without imposing any change to the underlying reinforcement learning algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our results show that this architecture leads to better policy evaluation in the presence of many similar-valued actions.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Moreover, the dueling architecture enables our RL agent to outperform the state-of-the-art on the Atari 2600 domain.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Moreover, the dueling architecture enables our RL agent to outperform the state-of-the-art on the Atari 2600 domain.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Moreover, the dueling architecture enables our RL agent to outperform the state-of-the-art on the Atari 2600 domain.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Here, we take an alternative but complementary approach of focusing primarily on innovating a neural network architecture that is better suited for model-free RL.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The proposed network architecture, which we name the dueling architecture, explicitly separates the representation of state values and (state-dependent) action advantages.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The dueling architecture consists of two streams that represent the value and advantage functions, while sharing a common Figure .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Intuitively, the dueling architecture can learn which states are (or are not) valuable, without having to learn the effect of each action for each state.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In the experiments, we demonstrate that the dueling architecture can more quickly identify the correct action during policy evaluation as redundant or similar actions are added to the learning problem.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We also evaluate the gains brought in by the dueling architecture on the challenging Atari 2600 testbed.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The combination of prioritized replay with the proposed dueling network results in the new state-of-the-art for this popular domain.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "See, attend and drive: Value and advantage saliency maps (red-tinted overlay) on the Atari game Enduro, for a trained dueling architecture.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "The advantage stream learns to pay attention only when there are cars immediately in front, so as to avoid collisions. advantage updating algorithm, the shared Bellman residual update equation is decomposed into two updates: one for a state value function, and one for its associated advantage function.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Its successor, the advantage learning algorithm, represents only a single advantage function .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "The dueling architecture represents both the value V (s) and advantage A(s, a) functions with a single deep model whose output combines the two to produce a state-action value Q(s, a).",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Unlike in advantage updating, the representation and algorithm are decoupled by construction.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Consequently, the dueling architecture can be used in combination with a myriad of model free RL algorithms.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "reinforcement learning",
+        "section": "intro",
+        "role": "background",
+        "score": 0.8215
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "Convolutional neural network",
+        "section": "intro",
+        "role": "background",
+        "score": 0.7594
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "attention",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.7499
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "dueling network",
+        "section": "method",
+        "role": "process",
+        "score": 0.594
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "dueling architecture",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5922
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "dueling",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5207
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "advantage value",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.4956
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "advantage stream",
+        "section": "method",
+        "role": "component",
+        "score": 0.4716
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "policy",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4405
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "corridor environment",
+        "section": "experiment",
+        "role": "comparison",
+        "score": 0.3755
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "dynamic programming",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3433
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "advantage function",
+        "section": "experiment",
+        "role": "motivation",
+        "score": 0.2921
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "experience replay",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.2878
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_007",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

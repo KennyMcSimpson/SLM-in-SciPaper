@@ -1,0 +1,3585 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2016_speech_and_multimodal_learning_wavenet_a_generative_model_for_raw_audio",
+    "title": "2016_speech_and_multimodal_learning_wavenet_a_generative_model_for_raw_audio",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2016_speech_and_multimodal_learning_wavenet_a_generative_model_for_raw_audio.txt",
+    "sentence_count": 58,
+    "section_counts": {
+      "intro": 4,
+      "related_work": 3,
+      "method": 11,
+      "experiment": 19,
+      "conclusion": 21
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4531,
+    "type_count": 1189,
+    "type_token_ratio": 0.2624,
+    "section_token_counts": {
+      "intro": 294,
+      "related_work": 240,
+      "method": 817,
+      "experiment": 1520,
+      "conclusion": 1660
+    },
+    "top_unigrams": [
+      {
+        "term": "speech",
+        "count": 65
+      },
+      {
+        "term": "model",
+        "count": 54
+      },
+      {
+        "term": "audio",
+        "count": 36
+      },
+      {
+        "term": "can",
+        "count": 30
+      },
+      {
+        "term": "signals",
+        "count": 27
+      },
+      {
+        "term": "generative",
+        "count": 22
+      },
+      {
+        "term": "models",
+        "count": 22
+      },
+      {
+        "term": "were",
+        "count": 22
+      },
+      {
+        "term": "which",
+        "count": 20
+      },
+      {
+        "term": "wavenet",
+        "count": 18
+      },
+      {
+        "term": "tts",
+        "count": 18
+      },
+      {
+        "term": "wavenets",
+        "count": 17
+      },
+      {
+        "term": "receptive",
+        "count": 17
+      },
+      {
+        "term": "such",
+        "count": 16
+      },
+      {
+        "term": "convolution",
+        "count": 16
+      },
+      {
+        "term": "was",
+        "count": 16
+      },
+      {
+        "term": "samples",
+        "count": 15
+      },
+      {
+        "term": "these",
+        "count": 15
+      },
+      {
+        "term": "convolutions",
+        "count": 15
+      },
+      {
+        "term": "each",
+        "count": 14
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "speech signals",
+        "count": 15
+      },
+      {
+        "term": "receptive field",
+        "count": 13
+      },
+      {
+        "term": "generative model",
+        "count": 12
+      },
+      {
+        "term": "statistical parametric",
+        "count": 11
+      },
+      {
+        "term": "raw audio",
+        "count": 10
+      },
+      {
+        "term": "generative models",
+        "count": 10
+      },
+      {
+        "term": "linguistic features",
+        "count": 10
+      },
+      {
+        "term": "speech synthesis",
+        "count": 8
+      },
+      {
+        "term": "causal convolutions",
+        "count": 7
+      },
+      {
+        "term": "speech recognition",
+        "count": 6
+      },
+      {
+        "term": "dilated convolutions",
+        "count": 6
+      },
+      {
+        "term": "audio signals",
+        "count": 6
+      },
+      {
+        "term": "parametric speech",
+        "count": 6
+      },
+      {
+        "term": "vocoder parameters",
+        "count": 6
+      },
+      {
+        "term": "model speech",
+        "count": 5
+      },
+      {
+        "term": "paired comparison",
+        "count": 5
+      },
+      {
+        "term": "when applied",
+        "count": 4
+      },
+      {
+        "term": "speaker identity",
+        "count": 4
+      },
+      {
+        "term": "subjective naturalness",
+        "count": 4
+      },
+      {
+        "term": "dilated causal",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "statistical parametric speech",
+        "count": 6
+      },
+      {
+        "term": "receptive field size",
+        "count": 4
+      },
+      {
+        "term": "vocal source excitation",
+        "count": 4
+      },
+      {
+        "term": "statistical parametric approach",
+        "count": 4
+      },
+      {
+        "term": "dilated causal convolutions",
+        "count": 3
+      },
+      {
+        "term": "increase receptive field",
+        "count": 3
+      },
+      {
+        "term": "hidden layer dilation",
+        "count": 3
+      },
+      {
+        "term": "not conditioned text",
+        "count": 3
+      },
+      {
+        "term": "north american english",
+        "count": 3
+      },
+      {
+        "term": "parametric speech synthesis",
+        "count": 3
+      },
+      {
+        "term": "source excitation signals",
+        "count": 3
+      },
+      {
+        "term": "generative model speech",
+        "count": 3
+      },
+      {
+        "term": "model speech signals",
+        "count": 3
+      },
+      {
+        "term": "these generative models",
+        "count": 3
+      },
+      {
+        "term": "paired comparison test",
+        "count": 3
+      },
+      {
+        "term": "raw audio waveforms",
+        "count": 2
+      },
+      {
+        "term": "each audio sample",
+        "count": 2
+      },
+      {
+        "term": "samples per second",
+        "count": 2
+      },
+      {
+        "term": "raw audio generation",
+        "count": 2
+      },
+      {
+        "term": "long-range temporal dependencies",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 20,
+    "nonzero_tfidf_features": 20,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__tts",
+        "section": "intro",
+        "term": "tts",
+        "frequency": 12.0,
+        "tfidf": 1.3943
+      },
+      {
+        "feature_name": "conclusion__speech synthesis",
+        "section": "conclusion",
+        "term": "speech synthesis",
+        "frequency": 4.0,
+        "tfidf": 1.2367
+      },
+      {
+        "feature_name": "experiments__wavenet",
+        "section": "experiment",
+        "term": "wavenet",
+        "frequency": 3.0,
+        "tfidf": 0.9871
+      },
+      {
+        "feature_name": "abstract__wavenet",
+        "section": "intro",
+        "term": "wavenet",
+        "frequency": 2.0,
+        "tfidf": 0.8298
+      },
+      {
+        "feature_name": "abstract__text-to-speech",
+        "section": "intro",
+        "term": "text-to-speech",
+        "frequency": 1.0,
+        "tfidf": 0.4149
+      },
+      {
+        "feature_name": "abstract__deep neural networks",
+        "section": "intro",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3732
+      },
+      {
+        "feature_name": "conclusion__wavenet",
+        "section": "conclusion",
+        "term": "wavenet",
+        "frequency": 1.0,
+        "tfidf": 0.3092
+      },
+      {
+        "feature_name": "conclusion__speech recognition",
+        "section": "conclusion",
+        "term": "speech recognition",
+        "frequency": 1.0,
+        "tfidf": 0.2781
+      },
+      {
+        "feature_name": "conclusion__deep neural networks",
+        "section": "conclusion",
+        "term": "deep neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.2496
+      },
+      {
+        "feature_name": "introduction__text analysis",
+        "section": "intro",
+        "term": "text analysis",
+        "frequency": 2.0,
+        "tfidf": 0.2324
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 1.0,
+        "tfidf": 0.16
+      },
+      {
+        "feature_name": "introduction__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 2.0,
+        "tfidf": 0.1481
+      },
+      {
+        "feature_name": "introduction__aggregation",
+        "section": "intro",
+        "term": "aggregation",
+        "frequency": 1.0,
+        "tfidf": 0.1255
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 2.0,
+        "tfidf": 0.1196
+      },
+      {
+        "feature_name": "introduction__part-of-speech tagging",
+        "section": "intro",
+        "term": "part-of-speech tagging",
+        "frequency": 1.0,
+        "tfidf": 0.1162
+      },
+      {
+        "feature_name": "introduction__word segmentation",
+        "section": "intro",
+        "term": "word segmentation",
+        "frequency": 1.0,
+        "tfidf": 0.1162
+      },
+      {
+        "feature_name": "introduction__wavenet",
+        "section": "intro",
+        "term": "wavenet",
+        "frequency": 1.0,
+        "tfidf": 0.1162
+      },
+      {
+        "feature_name": "introduction__backpropagation",
+        "section": "intro",
+        "term": "backpropagation",
+        "frequency": 1.0,
+        "tfidf": 0.1096
+      },
+      {
+        "feature_name": "introduction__recurrent neural networks",
+        "section": "intro",
+        "term": "recurrent neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.081
+      },
+      {
+        "feature_name": "introduction__speech recognition",
+        "section": "intro",
+        "term": "speech recognition",
+        "frequency": 1.0,
+        "tfidf": 0.0707
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__tts",
+          "section": "intro",
+          "term": "tts",
+          "frequency": 12.0,
+          "tfidf": 1.3943
+        },
+        {
+          "feature_name": "abstract__wavenet",
+          "section": "intro",
+          "term": "wavenet",
+          "frequency": 2.0,
+          "tfidf": 0.8298
+        },
+        {
+          "feature_name": "abstract__text-to-speech",
+          "section": "intro",
+          "term": "text-to-speech",
+          "frequency": 1.0,
+          "tfidf": 0.4149
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3732
+        },
+        {
+          "feature_name": "introduction__text analysis",
+          "section": "intro",
+          "term": "text analysis",
+          "frequency": 2.0,
+          "tfidf": 0.2324
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 2.0,
+          "tfidf": 0.1481
+        },
+        {
+          "feature_name": "introduction__aggregation",
+          "section": "intro",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.1255
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 2.0,
+          "tfidf": 0.1196
+        },
+        {
+          "feature_name": "introduction__part-of-speech tagging",
+          "section": "intro",
+          "term": "part-of-speech tagging",
+          "frequency": 1.0,
+          "tfidf": 0.1162
+        },
+        {
+          "feature_name": "introduction__word segmentation",
+          "section": "intro",
+          "term": "word segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1162
+        },
+        {
+          "feature_name": "introduction__wavenet",
+          "section": "intro",
+          "term": "wavenet",
+          "frequency": 1.0,
+          "tfidf": 0.1162
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.1096
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__wavenet",
+          "section": "experiment",
+          "term": "wavenet",
+          "frequency": 3.0,
+          "tfidf": 0.9871
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.16
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__speech synthesis",
+          "section": "conclusion",
+          "term": "speech synthesis",
+          "frequency": 4.0,
+          "tfidf": 1.2367
+        },
+        {
+          "feature_name": "conclusion__wavenet",
+          "section": "conclusion",
+          "term": "wavenet",
+          "frequency": 1.0,
+          "tfidf": 0.3092
+        },
+        {
+          "feature_name": "conclusion__speech recognition",
+          "section": "conclusion",
+          "term": "speech recognition",
+          "frequency": 1.0,
+          "tfidf": 0.2781
+        },
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2496
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 4,
+      "token_count": 294,
+      "bow_hit_count": 19,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Google Wavenet",
+          "count": 7,
+          "section_prior": 0.2857,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.5299,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 4,
+          "section_prior": 0.4861,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "speech synthesis",
+          "count": 3,
+          "section_prior": 0.7143,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__tts",
+          "section": "intro",
+          "term": "tts",
+          "frequency": 12.0,
+          "tfidf": 1.3943
+        },
+        {
+          "feature_name": "abstract__wavenet",
+          "section": "intro",
+          "term": "wavenet",
+          "frequency": 2.0,
+          "tfidf": 0.8298
+        },
+        {
+          "feature_name": "abstract__text-to-speech",
+          "section": "intro",
+          "term": "text-to-speech",
+          "frequency": 1.0,
+          "tfidf": 0.4149
+        },
+        {
+          "feature_name": "abstract__deep neural networks",
+          "section": "intro",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3732
+        },
+        {
+          "feature_name": "introduction__text analysis",
+          "section": "intro",
+          "term": "text analysis",
+          "frequency": 2.0,
+          "tfidf": 0.2324
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 2.0,
+          "tfidf": 0.1481
+        },
+        {
+          "feature_name": "introduction__aggregation",
+          "section": "intro",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.1255
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 2.0,
+          "tfidf": 0.1196
+        },
+        {
+          "feature_name": "introduction__part-of-speech tagging",
+          "section": "intro",
+          "term": "part-of-speech tagging",
+          "frequency": 1.0,
+          "tfidf": 0.1162
+        },
+        {
+          "feature_name": "introduction__word segmentation",
+          "section": "intro",
+          "term": "word segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1162
+        },
+        {
+          "feature_name": "introduction__wavenet",
+          "section": "intro",
+          "term": "wavenet",
+          "frequency": 1.0,
+          "tfidf": 0.1162
+        },
+        {
+          "feature_name": "introduction__backpropagation",
+          "section": "intro",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.1096
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 3,
+      "token_count": 240,
+      "bow_hit_count": 2,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech synthesis",
+          "count": 2,
+          "section_prior": 0.0286,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 11,
+      "token_count": 817,
+      "bow_hit_count": 9,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 5,
+          "section_prior": 0.0443,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Google Wavenet",
+          "count": 3,
+          "section_prior": 0.0286,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "image segmentation",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 19,
+      "token_count": 1520,
+      "bow_hit_count": 66,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Google Wavenet",
+          "count": 24,
+          "section_prior": 0.5429,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "speech synthesis",
+          "count": 13,
+          "section_prior": 0.0286,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 9,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 9,
+          "section_prior": 0.1736,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "activation function",
+          "count": 5,
+          "section_prior": 0.2593,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "browsing",
+          "count": 1,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__wavenet",
+          "section": "experiment",
+          "term": "wavenet",
+          "frequency": 3.0,
+          "tfidf": 0.9871
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.16
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 21,
+      "token_count": 1660,
+      "bow_hit_count": 61,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech synthesis",
+          "count": 15,
+          "section_prior": 0.2,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Google Wavenet",
+          "count": 9,
+          "section_prior": 0.1143,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "speech recognition",
+          "count": 5,
+          "section_prior": 0.0833,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 5,
+          "section_prior": 0.1538,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.1057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 5,
+          "section_prior": 0.0949,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 5,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.097,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 3,
+          "section_prior": 0.025,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep generative model",
+          "count": 1,
+          "section_prior": 0.0909,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "text mining",
+          "count": 1,
+          "section_prior": 0.1111,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "aggregation",
+          "count": 1,
+          "section_prior": 0.1702,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__speech synthesis",
+          "section": "conclusion",
+          "term": "speech synthesis",
+          "frequency": 4.0,
+          "tfidf": 1.2367
+        },
+        {
+          "feature_name": "conclusion__wavenet",
+          "section": "conclusion",
+          "term": "wavenet",
+          "frequency": 1.0,
+          "tfidf": 0.3092
+        },
+        {
+          "feature_name": "conclusion__speech recognition",
+          "section": "conclusion",
+          "term": "speech recognition",
+          "frequency": 1.0,
+          "tfidf": 0.2781
+        },
+        {
+          "feature_name": "conclusion__deep neural networks",
+          "section": "conclusion",
+          "term": "deep neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.2496
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "wavenet",
+        "canonical": "Google Wavenet",
+        "normalized": "google wavenet",
+        "tokens": [
+          "wavenet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "google wavenet",
+          "Google Wavenet",
+          "wavenet"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 28,
+        "sentence": "a single speaker this suggests that wavenet s internal representation was shared among multiple speakers finally we observed that the model also picked up on other characteristics in the audio apart from the voice itself for instance it also mimicked the acoustics and recording quality as well as the breathing and mouth movements of the speakers text-to-speech for the second we looked at tts we used the same single-speaker speech databases from which google s north american english and mandarin",
+        "context_window": {
+          "previous": "model s receptive field about 300 milliseconds which means it can only remember the last 2-3 phonemes it produced a single wavenet was able to model speech from any of the speakers by conditioning it on a onehot encoding of a speaker this confirms that it is powerful enough to capture the characteristics of all 109 speakers from the dataset in a single model we observed that adding speakers resulted in better validation set performance compared to training solely on",
+          "current": "a single speaker this suggests that wavenet s internal representation was shared among multiple speakers finally we observed that the model also picked up on other characteristics in the audio apart from the voice itself for instance it also mimicked the acoustics and recording quality as well as the breathing and mouth movements of the speakers text-to-speech for the second we looked at tts we used the same single-speaker speech databases from which google s north american english and mandarin",
+          "next": "chinese tts systems are built the north american english dataset contains 24 6 hours of speech data and the mandarin chinese dataset contains 34 8 hours both were spoken by professional female speakers wavenets for the tts task were locally conditioned on linguistic features which were derived from input texts we also trained wavenets conditioned on the logarithmic fundamental frequency log f 0 values in addition to the linguistic features external models predicting log f 0 values and phone durations"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6679,
+        "downstream_relevance_score": 0.678,
+        "components": {
+          "bio_boundary_score": 0.7946,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.5429,
+          "document_tfidf_score": 0.7079,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "wavenet",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "Google Wavenet",
+        "display_term": "wavenet",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "round2_corpus",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/WaveNet",
+        "wikidata_id": "Q30315025",
+        "source": "round2_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 2,
+        "total_frequency": 18,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__wavenet",
+        "section": "experiment",
+        "term": "wavenet",
+        "frequency": 3.0,
+        "tfidf": 0.9871,
+        "normalized_frequency": 0.25,
+        "normalized_tfidf": 0.7079
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "wavenet"
+        ],
+        "normalization": "wavenet",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5429,
+        "canonicalization": {
+          "observed": "wavenet",
+          "canonical": "Google Wavenet",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7946",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Google Wavenet' with confidence 0.85",
+        "BoW role prior suggests 'other'",
+        "document-term matrix links the phrase to feature 'experiments__wavenet' with tf-idf 0.9871",
+        "downstream relevance score is 0.678"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "generative model",
+        "canonical": "deep generative model",
+        "normalized": "deep generative model",
+        "tokens": [
+          "generative",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep generative models",
+          "deep generative model"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 0,
+        "sentence": "title wavenet a generative model for raw audio a ron van den oord",
+        "context_window": {
+          "previous": "",
+          "current": "title wavenet a generative model for raw audio a ron van den oord",
+          "next": "this paper introduces wavenet a deep neural network for generating raw audio waveforms the model is fully probabilistic and autoregressive with the predictive distribution for each audio sample conditioned on all previous ones nonetheless we show that it can be efficiently trained on data with tens of thousands of samples per second of audio when applied to text-to-speech it yields state-ofthe-art performance with human listeners rating it as significantly more natural sounding than the best parametric and concatenative systems for both english and mandarin a single wavenet can capture the characteristics of many different speakers with equal fidelity and can switch between them by conditioning on the speaker identity when trained to model music we find that it generates novel and often highly realistic musical fragments we also show that it can be employed as a discriminative model returning promising results for phoneme recognition body"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8995
+      },
+      "evidence": {
+        "score": 0.3025,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6636,
+        "downstream_relevance_score": 0.6522,
+        "components": {
+          "bio_boundary_score": 0.919,
+          "sentence_evidence_score": 0.3025,
+          "sentence_role_score": 0.8995,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.6364,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep generative model",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "deep generative model",
+        "display_term": "deep generative models",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "nan",
+        "wikidata_id": "Q105342324",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 6,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generative",
+          "model"
+        ],
+        "normalization": "generative model",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.6364,
+        "canonicalization": {
+          "observed": "generative model",
+          "canonical": "deep generative model",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.919",
+        "structure model assigned role 'problem' with score 0.8995",
+        "section BoW matched canonical term 'deep generative model' with confidence 0.7098",
+        "BoW role prior suggests 'background'",
+        "downstream relevance score is 0.6522"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "speech recognition",
+        "canonical": "speech recognition",
+        "normalized": "speech recognition",
+        "tokens": [
+          "speech",
+          "recognition"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "automatic speech recognition",
+          "speech recognition",
+          "asr"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 34,
+        "sentence": "bundled with the dataset was relatively noisy and had many omissions after cleaning it up by merging similar tags and removing those with too few associated clips we found this approach to work reasonably well speech recognition although wavenet was designed as a generative model it can straightforwardly be adapted to discriminative audio tasks such as speech recognition traditionally speech recognition research has largely focused on using log mel-filterbank energies or mel-frequency cepstral coefficients mfccs but has been moving to",
+        "context_window": {
+          "previous": "can generate music given a set of tags specifying e g genre or instruments similarly to conditional speech models we insert biases that depend on a binary vector representation of the tags associated with each training clip this makes it possible to control various aspects of the output of the model when sampling by feeding in a binary vector that encodes the desired properties of the samples we have trained such models on the magnatagatune dataset although the tag data",
+          "current": "bundled with the dataset was relatively noisy and had many omissions after cleaning it up by merging similar tags and removing those with too few associated clips we found this approach to work reasonably well speech recognition although wavenet was designed as a generative model it can straightforwardly be adapted to discriminative audio tasks such as speech recognition traditionally speech recognition research has largely focused on using log mel-filterbank energies or mel-frequency cepstral coefficients mfccs but has been moving to",
+          "next": "raw audio recently recurrent neural networks such as lstm-rnns have been a key component in these new speech classification pipelines because they allow for building models with long range contexts with wavenets we have shown that layers of dilated convolutions allow the receptive field to grow longer in a much cheaper way than using lstm units as a last we looked at speech recognition with wavenets on the timit dataset for this task we added a mean-pooling layer after the"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5847,
+        "downstream_relevance_score": 0.6293,
+        "components": {
+          "bio_boundary_score": 0.918,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1736,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "speech recognition",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "speech recognition",
+        "display_term": "speech recognition",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Speech_recognition",
+        "wikidata_id": "Q189436",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 6,
+        "total_frequency": 24,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "speech",
+          "recognition"
+        ],
+        "normalization": "speech recognition",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.1736,
+        "canonicalization": {
+          "observed": "speech recognition",
+          "canonical": "speech recognition",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.918",
+        "structure model assigned role 'dataset' with score 0.82",
+        "section BoW matched canonical term 'speech recognition' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.6293"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "speech synthesis",
+        "canonical": "speech synthesis",
+        "normalized": "speech synthesis",
+        "tokens": [
+          "speech",
+          "synthesis"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "speech synthesis",
+          "text-to-speech",
+          "tts"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 30,
+        "sentence": "from linguistic features were also trained for each language the receptive field size of the wavenets was 240 milliseconds as example-based and model-based speech synthesis baselines hidden markov model hmm -driven unit selection concatenative and long short-term memory recurrent neural network lstm-rnn -based statistical parametric speech synthesizers were built since the same datasets and linguistic features were used to train both the baselines and wavenets these speech synthesizers could be fairly compared to evaluate the performance of wavenets for the",
+        "context_window": {
+          "previous": "chinese tts systems are built the north american english dataset contains 24 6 hours of speech data and the mandarin chinese dataset contains 34 8 hours both were spoken by professional female speakers wavenets for the tts task were locally conditioned on linguistic features which were derived from input texts we also trained wavenets conditioned on the logarithmic fundamental frequency log f 0 values in addition to the linguistic features external models predicting log f 0 values and phone durations",
+          "current": "from linguistic features were also trained for each language the receptive field size of the wavenets was 240 milliseconds as example-based and model-based speech synthesis baselines hidden markov model hmm -driven unit selection concatenative and long short-term memory recurrent neural network lstm-rnn -based statistical parametric speech synthesizers were built since the same datasets and linguistic features were used to train both the baselines and wavenets these speech synthesizers could be fairly compared to evaluate the performance of wavenets for the",
+          "next": "tts task subjective paired comparison tests and mean opinion score mos tests were conducted in the paired comparison tests after listening to each pair of samples the subjects were asked to choose which they preferred though they could choose neutral if they did not have any preference in the mos tests after listening to each stimulus the subjects were asked to rate the naturalness of the stimulus in a five-point likert scale score 1 bad 2 poor 3 fair 4"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6084,
+        "downstream_relevance_score": 0.5374,
+        "components": {
+          "bio_boundary_score": 0.5761,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.0286,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "speech synthesis",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "speech synthesis",
+        "display_term": "tts",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "round2_corpus",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Speech_synthesis",
+        "wikidata_id": "Q16346",
+        "source": "round2_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 21,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "speech",
+          "synthesis"
+        ],
+        "normalization": "speech synthesis",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0286,
+        "canonicalization": {
+          "observed": "speech synthesis",
+          "canonical": "speech synthesis",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5761",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'speech synthesis' with confidence 0.85",
+        "BoW role prior suggests 'background'",
+        "downstream relevance score is 0.5374"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "softmax layer",
+        "canonical": "softmax layer",
+        "normalized": "softmax layer",
+        "tokens": [
+          "softmax",
+          "layer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 15,
+        "sentence": "distributions because it makes no assumptions about their shape because raw audio is typically stored as a sequence of 16-bit integer values one per timestep a softmax layer would need to output 65 536 probabilities per timestep to model all possible values to make this more tractable we first apply a -law companding transformation to the data and then quantize it to 256 possible values f x t sign x t ln 1 x t ln 1 where -1 x",
+        "context_window": {
+          "previous": "p x t x 1 x t-1 over the individual audio samples would be to use a mixture model such as a mixture density network or mixture of conditional gaussian scale mixtures mcgsm however showed that a softmax distribution tends to work better even when the data is implicitly continuous as is the case for image pixel intensities or audio sample values one of the reasons is that a categorical distribution is more flexible and can more easily model arbitrary",
+          "current": "distributions because it makes no assumptions about their shape because raw audio is typically stored as a sequence of 16-bit integer values one per timestep a softmax layer would need to output 65 536 probabilities per timestep to model all possible values to make this more tractable we first apply a -law companding transformation to the data and then quantize it to 256 possible values f x t sign x t ln 1 x t ln 1 where -1 x",
+          "next": "t 1 and 255 this non-linear quantization produces a significantly better reconstruction than a simple linear quantization scheme especially for speech we found that the reconstructed signal after quantization sounded very similar to the original gated activation units we use the same gated activation unit as used in the gated z tanh w f k x w g k x where denotes a convolution operator denotes an element-wise multiplication operator is a sigmoid function k is the layer index f"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7047,
+        "downstream_relevance_score": 0.5192,
+        "components": {
+          "bio_boundary_score": 0.8761,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "softmax",
+          "layer"
+        ],
+        "normalization": "softmax layer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "softmax layer",
+          "canonical": "softmax layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8761",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5192"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "discriminative model",
+        "canonical": "discriminative model",
+        "normalized": "discriminative model",
+        "tokens": [
+          "discriminative",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "this paper introduces wavenet a deep neural network for generating raw audio waveforms the model is fully probabilistic and autoregressive with the predictive distribution for each audio sample conditioned on all previous ones nonetheless we show that it can be efficiently trained on data with tens of thousands of samples per second of audio when applied to text-to-speech it yields state-ofthe-art performance with human listeners rating it as significantly more natural sounding than the best parametric and concatenative systems for both english and mandarin a single wavenet can capture the characteristics of many different speakers with equal fidelity and can switch between them by conditioning on the speaker identity when trained to model music we find that it generates novel and often highly realistic musical fragments we also show that it can be employed as a discriminative model returning promising results for phoneme recognition body",
+        "context_window": {
+          "previous": "title wavenet a generative model for raw audio a ron van den oord",
+          "current": "this paper introduces wavenet a deep neural network for generating raw audio waveforms the model is fully probabilistic and autoregressive with the predictive distribution for each audio sample conditioned on all previous ones nonetheless we show that it can be efficiently trained on data with tens of thousands of samples per second of audio when applied to text-to-speech it yields state-ofthe-art performance with human listeners rating it as significantly more natural sounding than the best parametric and concatenative systems for both english and mandarin a single wavenet can capture the characteristics of many different speakers with equal fidelity and can switch between them by conditioning on the speaker identity when trained to model music we find that it generates novel and often highly realistic musical fragments we also show that it can be employed as a discriminative model returning promising results for phoneme recognition body",
+          "next": "this work explores raw audio generation techniques inspired by recent advances in neural autoregressive generative models that model complex distributions such as images and text modeling joint probabilities over pixels or words using neural architectures as products of conditional distributions yields state-of-the-art generation remarkably these architectures are able to model distributions over thousands of random variables e g 64 64 pixels as in the question this paper addresses is whether similar approaches can succeed in generating wideband raw audio waveforms"
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8995
+      },
+      "evidence": {
+        "score": 0.36,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.652,
+        "downstream_relevance_score": 0.5164,
+        "components": {
+          "bio_boundary_score": 0.8304,
+          "sentence_evidence_score": 0.36,
+          "sentence_role_score": 0.8995,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "discriminative",
+          "model"
+        ],
+        "normalization": "discriminative model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "discriminative model",
+          "canonical": "discriminative model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8304",
+        "structure model assigned role 'problem' with score 0.8995",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.5164"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "paired comparison test",
+        "canonical": "paired comparison test",
+        "normalized": "paired comparison test",
+        "tokens": [
+          "paired",
+          "comparison",
+          "test"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 57,
+        "sentence": "subjects in the paired comparison test and each stimulus was evaluated by eight subjects in the mos test the subjects were paid and native speakers performing the task those ratings about 40 where headphones were not used were excluded when computing the preference and mean opinion scores table shows the full details of the paired comparison test shown in fig",
+        "context_window": {
+          "previous": "blind and crowdsourced 100 sentences not included in the training data were used for evaluation each subject could evaluate up to 8 and 63 stimuli for north american english and mandarin chinese respectively test stimuli were randomly chosen and presented for each subject in the paired comparison test each pair of speech samples was the same text synthesized by the different models in the mos test each stimulus was presented to subjects in isolation each pair was evaluated by eight",
+          "current": "subjects in the paired comparison test and each stimulus was evaluated by eight subjects in the mos test the subjects were paid and native speakers performing the task those ratings about 40 where headphones were not used were excluded when computing the preference and mean opinion scores table shows the full details of the paired comparison test shown in fig",
+          "next": ""
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6936,
+        "downstream_relevance_score": 0.5052,
+        "components": {
+          "bio_boundary_score": 0.9294,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "paired",
+          "comparison",
+          "test"
+        ],
+        "normalization": "paired comparison test",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "paired comparison test",
+          "canonical": "paired comparison test",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9294",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.5052"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "tts",
+        "canonical": "speech synthesis",
+        "normalized": "speech synthesis",
+        "tokens": [
+          "tts"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "speech synthesis",
+          "text-to-speech",
+          "tts"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 29,
+        "sentence": "chinese tts systems are built the north american english dataset contains 24 6 hours of speech data and the mandarin chinese dataset contains 34 8 hours both were spoken by professional female speakers wavenets for the tts task were locally conditioned on linguistic features which were derived from input texts we also trained wavenets conditioned on the logarithmic fundamental frequency log f 0 values in addition to the linguistic features external models predicting log f 0 values and phone durations",
+        "context_window": {
+          "previous": "a single speaker this suggests that wavenet s internal representation was shared among multiple speakers finally we observed that the model also picked up on other characteristics in the audio apart from the voice itself for instance it also mimicked the acoustics and recording quality as well as the breathing and mouth movements of the speakers text-to-speech for the second we looked at tts we used the same single-speaker speech databases from which google s north american english and mandarin",
+          "current": "chinese tts systems are built the north american english dataset contains 24 6 hours of speech data and the mandarin chinese dataset contains 34 8 hours both were spoken by professional female speakers wavenets for the tts task were locally conditioned on linguistic features which were derived from input texts we also trained wavenets conditioned on the logarithmic fundamental frequency log f 0 values in addition to the linguistic features external models predicting log f 0 values and phone durations",
+          "next": "from linguistic features were also trained for each language the receptive field size of the wavenets was 240 milliseconds as example-based and model-based speech synthesis baselines hidden markov model hmm -driven unit selection concatenative and long short-term memory recurrent neural network lstm-rnn -based statistical parametric speech synthesizers were built since the same datasets and linguistic features were used to train both the baselines and wavenets these speech synthesizers could be fairly compared to evaluate the performance of wavenets for the"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5193,
+        "downstream_relevance_score": 0.5021,
+        "components": {
+          "bio_boundary_score": 0.6944,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.0286,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "tts",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "speech synthesis",
+        "display_term": "tts",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "round2_corpus",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Speech_synthesis",
+        "wikidata_id": "Q16346",
+        "source": "round2_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 21,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "tts"
+        ],
+        "normalization": "tts",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0286,
+        "canonicalization": {
+          "observed": "tts",
+          "canonical": "speech synthesis",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6944",
+        "structure model assigned role 'dataset' with score 0.82",
+        "section BoW matched canonical term 'speech synthesis' with confidence 0.85",
+        "BoW role prior suggests 'background'",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.5021"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "companding",
+        "canonical": "companding",
+        "normalized": "companding",
+        "tokens": [
+          "companding"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 15,
+        "sentence": "distributions because it makes no assumptions about their shape because raw audio is typically stored as a sequence of 16-bit integer values one per timestep a softmax layer would need to output 65 536 probabilities per timestep to model all possible values to make this more tractable we first apply a -law companding transformation to the data and then quantize it to 256 possible values f x t sign x t ln 1 x t ln 1 where -1 x",
+        "context_window": {
+          "previous": "p x t x 1 x t-1 over the individual audio samples would be to use a mixture model such as a mixture density network or mixture of conditional gaussian scale mixtures mcgsm however showed that a softmax distribution tends to work better even when the data is implicitly continuous as is the case for image pixel intensities or audio sample values one of the reasons is that a categorical distribution is more flexible and can more easily model arbitrary",
+          "current": "distributions because it makes no assumptions about their shape because raw audio is typically stored as a sequence of 16-bit integer values one per timestep a softmax layer would need to output 65 536 probabilities per timestep to model all possible values to make this more tractable we first apply a -law companding transformation to the data and then quantize it to 256 possible values f x t sign x t ln 1 x t ln 1 where -1 x",
+          "next": "t 1 and 255 this non-linear quantization produces a significantly better reconstruction than a simple linear quantization scheme especially for speech we found that the reconstructed signal after quantization sounded very similar to the original gated activation units we use the same gated activation unit as used in the gated z tanh w f k x w g k x where denotes a convolution operator denotes an element-wise multiplication operator is a sigmoid function k is the layer index f"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.632,
+        "downstream_relevance_score": 0.4714,
+        "components": {
+          "bio_boundary_score": 0.6276,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "companding"
+        ],
+        "normalization": "companding",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "companding",
+          "canonical": "companding",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6276",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4714"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "single speaker",
+        "canonical": "single speaker",
+        "normalized": "single speaker",
+        "tokens": [
+          "single",
+          "speaker"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 28,
+        "sentence": "a single speaker this suggests that wavenet s internal representation was shared among multiple speakers finally we observed that the model also picked up on other characteristics in the audio apart from the voice itself for instance it also mimicked the acoustics and recording quality as well as the breathing and mouth movements of the speakers text-to-speech for the second we looked at tts we used the same single-speaker speech databases from which google s north american english and mandarin",
+        "context_window": {
+          "previous": "model s receptive field about 300 milliseconds which means it can only remember the last 2-3 phonemes it produced a single wavenet was able to model speech from any of the speakers by conditioning it on a onehot encoding of a speaker this confirms that it is powerful enough to capture the characteristics of all 109 speakers from the dataset in a single model we observed that adding speakers resulted in better validation set performance compared to training solely on",
+          "current": "a single speaker this suggests that wavenet s internal representation was shared among multiple speakers finally we observed that the model also picked up on other characteristics in the audio apart from the voice itself for instance it also mimicked the acoustics and recording quality as well as the breathing and mouth movements of the speakers text-to-speech for the second we looked at tts we used the same single-speaker speech databases from which google s north american english and mandarin",
+          "next": "chinese tts systems are built the north american english dataset contains 24 6 hours of speech data and the mandarin chinese dataset contains 34 8 hours both were spoken by professional female speakers wavenets for the tts task were locally conditioned on linguistic features which were derived from input texts we also trained wavenets conditioned on the logarithmic fundamental frequency log f 0 values in addition to the linguistic features external models predicting log f 0 values and phone durations"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6321,
+        "downstream_relevance_score": 0.4519,
+        "components": {
+          "bio_boundary_score": 0.6721,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "single",
+          "speaker"
+        ],
+        "normalization": "single speaker",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "single speaker",
+          "canonical": "single speaker",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6721",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4519"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "gaussian process",
+        "canonical": "gaussian process",
+        "normalized": "gaussian process",
+        "tokens": [
+          "gaussian",
+          "process"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 51,
+        "sentence": "milliseconds therefore using such fixed-size analysis window has limitations linear filter these generative models are typically realized as a linear time-invariant filter within a windowed frame however the relationship between successive audio samples can be highly non-linear gaussian process assumption the conventional generative models are based on gaussian process from the source-filter model of speech production point of view this is equivalent to assuming that a vocal source excitation signal is a sample from a gaussian distribution together with the",
+        "context_window": {
+          "previous": "have a number of assumptions which are inspired from the speech production such as use of fixed-length analysis window they are typically based on a stationary stochastic process to model time-varying speech signals by a stationary stochastic process parameters of these generative models are estimated within a fixed-length overlapping and shifting analysis window typically its length is 20 to 30 milliseconds and shift is 5 to 10 milliseconds however some phones such as stops are time-limited by less than 20",
+          "current": "milliseconds therefore using such fixed-size analysis window has limitations linear filter these generative models are typically realized as a linear time-invariant filter within a windowed frame however the relationship between successive audio samples can be highly non-linear gaussian process assumption the conventional generative models are based on gaussian process from the source-filter model of speech production point of view this is equivalent to assuming that a vocal source excitation signal is a sample from a gaussian distribution together with the",
+          "next": "linear assumption above it results in assuming that speech signals are normally distributed however distributions of real speech signals can be significantly different from gaussian although these assumptions are convenient samples from these generative models tend to be noisy and lose important details to make these audio signals sounding natural wavenet which was described in section 2 has none of the above-mentioned assumptions it incorporates almost no prior knowledge about audio signals except the choice of the receptive field and"
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "future_work",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5693,
+        "downstream_relevance_score": 0.4488,
+        "components": {
+          "bio_boundary_score": 0.6387,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gaussian",
+          "process"
+        ],
+        "normalization": "gaussian process",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gaussian process",
+          "canonical": "gaussian process",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6387",
+        "structure model assigned role 'future_work' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4488"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "speech production",
+        "canonical": "speech production",
+        "normalized": "speech production",
+        "tokens": [
+          "speech",
+          "production"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 51,
+        "sentence": "milliseconds therefore using such fixed-size analysis window has limitations linear filter these generative models are typically realized as a linear time-invariant filter within a windowed frame however the relationship between successive audio samples can be highly non-linear gaussian process assumption the conventional generative models are based on gaussian process from the source-filter model of speech production point of view this is equivalent to assuming that a vocal source excitation signal is a sample from a gaussian distribution together with the",
+        "context_window": {
+          "previous": "have a number of assumptions which are inspired from the speech production such as use of fixed-length analysis window they are typically based on a stationary stochastic process to model time-varying speech signals by a stationary stochastic process parameters of these generative models are estimated within a fixed-length overlapping and shifting analysis window typically its length is 20 to 30 milliseconds and shift is 5 to 10 milliseconds however some phones such as stops are time-limited by less than 20",
+          "current": "milliseconds therefore using such fixed-size analysis window has limitations linear filter these generative models are typically realized as a linear time-invariant filter within a windowed frame however the relationship between successive audio samples can be highly non-linear gaussian process assumption the conventional generative models are based on gaussian process from the source-filter model of speech production point of view this is equivalent to assuming that a vocal source excitation signal is a sample from a gaussian distribution together with the",
+          "next": "linear assumption above it results in assuming that speech signals are normally distributed however distributions of real speech signals can be significantly different from gaussian although these assumptions are convenient samples from these generative models tend to be noisy and lose important details to make these audio signals sounding natural wavenet which was described in section 2 has none of the above-mentioned assumptions it incorporates almost no prior knowledge about audio signals except the choice of the receptive field and"
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "future_work",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5584,
+        "downstream_relevance_score": 0.4432,
+        "components": {
+          "bio_boundary_score": 0.6015,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "speech",
+          "production"
+        ],
+        "normalization": "speech production",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "speech production",
+          "canonical": "speech production",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6015",
+        "structure model assigned role 'future_work' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4432"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "vocoder",
+        "canonical": "vocoder",
+        "normalized": "vocoder",
+        "tokens": [
+          "vocoder"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 44,
+        "sentence": "signals typically a vocoder parameter vector o n is extracted at every 5 milliseconds it often includes cepstra or line spectral pairs which represent vocal tract transfer function and fundamental frequency f 0 and aperiodicity which represent characteristics of vocal source excitation signals then a set of generative models such as hidden markov models hmms feed-forward neural networks and recurrent neural networks is trained from the extracted vocoder parameters and linguistic features as arg max p o l where denotes",
+        "context_window": {
+          "previous": "parametric model-based approach known as statistical parametric speech synthesis the concatenative approach builds up the utterance from units of recorded speech whereas the statistical parametric approach uses a generative model to synthesize the speech the statistical parametric approach first extracts a sequence of vocoder parameters o o 1 o n from speech signals x x 1 x t and linguistic features l from the text w where n and t correspond to the numbers of vocoder parameter vectors and speech",
+          "current": "signals typically a vocoder parameter vector o n is extracted at every 5 milliseconds it often includes cepstra or line spectral pairs which represent vocal tract transfer function and fundamental frequency f 0 and aperiodicity which represent characteristics of vocal source excitation signals then a set of generative models such as hidden markov models hmms feed-forward neural networks and recurrent neural networks is trained from the extracted vocoder parameters and linguistic features as arg max p o l where denotes",
+          "next": "the set of parameters of the generative model at the synthesis stage the most probable vocoder parameters are generated given linguistic features extracted from a text to be synthesized as arg max o p o l then a speech waveform is reconstructed from using a vocoder the statistical parametric approach offers various advantages over the concatenative one such as small footprint and flexibility to change its voice characteristics however its subjective naturalness is often significantly worse than that of the"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6772,
+        "downstream_relevance_score": 0.443,
+        "components": {
+          "bio_boundary_score": 0.8787,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "vocoder"
+        ],
+        "normalization": "vocoder",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "vocoder",
+          "canonical": "vocoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8787",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.443"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "convolution",
+        "canonical": "convolution",
+        "normalized": "convolution",
+        "tokens": [
+          "convolution"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 8,
+        "sentence": "masked convolution which can be implemented by constructing a mask tensor and doing an elementwise multiplication of this mask with the convolution kernel before applying it for 1-d data such as audio one can more easily implement this by shifting the output of a normal convolution by a few timesteps dilated causal convolutions at training time the conditional predictions for all timesteps can be made in parallel because all timesteps of ground truth x are known when generating with the",
+        "context_window": {
+          "previous": "the model is overfitting or underfitting the main ingredient of wavenet are causal convolutions by using causal convolutions we make sure the model cannot violate the ordering in which we model the data the prediction p x t 1 x 1 x t emitted by the model at timestep t cannot depend on any of the future timesteps x t 1 x t 2 x t as shown in fig for images the equivalent of a causal convolution is a",
+          "current": "masked convolution which can be implemented by constructing a mask tensor and doing an elementwise multiplication of this mask with the convolution kernel before applying it for 1-d data such as audio one can more easily implement this by shifting the output of a normal convolution by a few timesteps dilated causal convolutions at training time the conditional predictions for all timesteps can be made in parallel because all timesteps of ground truth x are known when generating with the",
+          "next": "model the predictions are sequential after each sample is predicted it is fed back into the network to predict the next sample because models with causal convolutions do not have recurrent connections they are typically faster to train than rnns especially when applied to very long sequences one of the problems of causal convolutions is that they require many layers or large filters to increase the receptive field for example in fig the receptive field is only 5 layers filter"
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5653,
+        "downstream_relevance_score": 0.4368,
+        "components": {
+          "bio_boundary_score": 0.6765,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolution"
+        ],
+        "normalization": "convolution",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convolution",
+          "canonical": "convolution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6765",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4368"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "speech generation",
+        "canonical": "speech generation",
+        "normalized": "speech generation",
+        "tokens": [
+          "speech",
+          "generation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 25,
+        "sentence": "performance we evaluate it on three different tasks multispeaker speech generation not conditioned on text tts and music audio modelling we provide samples drawn from wavenet for these on the accompanying webpage multi-speaker speech generation for the first we looked at free-form speech generation not conditioned on text we used the english multi-speaker corpus from cstr voice cloning toolkit vctk and conditioned wavenet only on the speaker the conditioning was applied by feeding the speaker id to the model in",
+        "context_window": {
+          "previous": "smaller part of the audio signal cropped at the end one can use multiple context stacks with varying lengths and numbers of hidden units stacks with larger receptive fields have fewer units per layer context stacks can also have pooling layers to run at a lower frequency this keeps the computational requirements at a reasonable level and is consistent with the intuition that less capacity is required to model temporal correlations at longer timescales to measure wavenet s audio modelling",
+          "current": "performance we evaluate it on three different tasks multispeaker speech generation not conditioned on text tts and music audio modelling we provide samples drawn from wavenet for these on the accompanying webpage multi-speaker speech generation for the first we looked at free-form speech generation not conditioned on text we used the english multi-speaker corpus from cstr voice cloning toolkit vctk and conditioned wavenet only on the speaker the conditioning was applied by feeding the speaker id to the model in",
+          "next": "the form of a one-hot vector the dataset consisted of 44 hours of data from 109 different speakers because the model is not conditioned on text it generates non-existent but human language-like words in a smooth way with realistic sounding intonations this is similar to generative models of language or images where samples look realistic at first glance but are clearly unnatural upon closer inspection the lack of long range coherence is partly due to the limited size of the"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "corpus",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "corpus mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5156,
+        "downstream_relevance_score": 0.4237,
+        "components": {
+          "bio_boundary_score": 0.681,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "speech",
+          "generation"
+        ],
+        "normalization": "speech generation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "speech generation",
+          "canonical": "speech generation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.681",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched corpus",
+        "downstream relevance score is 0.4237"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "raw audio generation",
+        "canonical": "raw audio generation",
+        "normalized": "raw audio generation",
+        "tokens": [
+          "raw",
+          "audio",
+          "generation"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 2,
+        "sentence": "this work explores raw audio generation techniques inspired by recent advances in neural autoregressive generative models that model complex distributions such as images and text modeling joint probabilities over pixels or words using neural architectures as products of conditional distributions yields state-of-the-art generation remarkably these architectures are able to model distributions over thousands of random variables e g 64 64 pixels as in the question this paper addresses is whether similar approaches can succeed in generating wideband raw audio waveforms",
+        "context_window": {
+          "previous": "this paper introduces wavenet a deep neural network for generating raw audio waveforms the model is fully probabilistic and autoregressive with the predictive distribution for each audio sample conditioned on all previous ones nonetheless we show that it can be efficiently trained on data with tens of thousands of samples per second of audio when applied to text-to-speech it yields state-ofthe-art performance with human listeners rating it as significantly more natural sounding than the best parametric and concatenative systems for both english and mandarin a single wavenet can capture the characteristics of many different speakers with equal fidelity and can switch between them by conditioning on the speaker identity when trained to model music we find that it generates novel and often highly realistic musical fragments we also show that it can be employed as a discriminative model returning promising results for phoneme recognition body",
+          "current": "this work explores raw audio generation techniques inspired by recent advances in neural autoregressive generative models that model complex distributions such as images and text modeling joint probabilities over pixels or words using neural architectures as products of conditional distributions yields state-of-the-art generation remarkably these architectures are able to model distributions over thousands of random variables e g 64 64 pixels as in the question this paper addresses is whether similar approaches can succeed in generating wideband raw audio waveforms",
+          "next": "which are signals with very high temporal resolution at least 16 000 samples per second see fig we show that wavenets can generate raw speech signals with subjective naturalness never before reported in the field of text-to-speech tts as assessed by human raters in order to deal with long-range temporal dependencies needed for raw audio generation we develop new architectures based on dilated causal convolutions which exhibit very large receptive fields we show that when conditioned on a speaker identity"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.805
+      },
+      "evidence": {
+        "score": 0.3343,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4657,
+        "downstream_relevance_score": 0.4184,
+        "components": {
+          "bio_boundary_score": 0.7694,
+          "sentence_evidence_score": 0.3343,
+          "sentence_role_score": 0.805,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "raw",
+          "audio",
+          "generation"
+        ],
+        "normalization": "raw audio generation",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "raw audio generation",
+          "canonical": "raw audio generation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7694",
+        "structure model assigned role 'gap' with score 0.805",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.4184"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "softmax distribution",
+        "canonical": "softmax distribution",
+        "normalized": "softmax distribution",
+        "tokens": [
+          "softmax",
+          "distribution"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 14,
+        "sentence": "p x t x 1 x t-1 over the individual audio samples would be to use a mixture model such as a mixture density network or mixture of conditional gaussian scale mixtures mcgsm however showed that a softmax distribution tends to work better even when the data is implicitly continuous as is the case for image pixel intensities or audio sample values one of the reasons is that a categorical distribution is more flexible and can more easily model arbitrary",
+        "context_window": {
+          "previous": "512 1 2 4 512 the intuition behind this configuration is two-fold first exponentially increasing the dilation factor results in exponential receptive field growth with depth for example each 1 2 4 512 block has receptive field of size 1024 and can be seen as a more efficient and discriminative non-linear counterpart of a 1 1024 convolution second stacking these blocks further increases the model capacity and the receptive field size softmax distributions one approach to modeling the conditional distributions",
+          "current": "p x t x 1 x t-1 over the individual audio samples would be to use a mixture model such as a mixture density network or mixture of conditional gaussian scale mixtures mcgsm however showed that a softmax distribution tends to work better even when the data is implicitly continuous as is the case for image pixel intensities or audio sample values one of the reasons is that a categorical distribution is more flexible and can more easily model arbitrary",
+          "next": "distributions because it makes no assumptions about their shape because raw audio is typically stored as a sequence of 16-bit integer values one per timestep a softmax layer would need to output 65 536 probabilities per timestep to model all possible values to make this more tractable we first apply a -law companding transformation to the data and then quantize it to 256 possible values f x t sign x t ln 1 x t ln 1 where -1 x"
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5696,
+        "downstream_relevance_score": 0.369,
+        "components": {
+          "bio_boundary_score": 0.8862,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "softmax",
+          "distribution"
+        ],
+        "normalization": "softmax distribution",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "softmax distribution",
+          "canonical": "softmax distribution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8862",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.369"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "hidden layer dilation",
+        "canonical": "hidden layer dilation",
+        "normalized": "hidden layer dilation",
+        "tokens": [
+          "hidden",
+          "layer",
+          "dilation"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 12,
+        "sentence": "hidden layer dilation 1 hidden layer dilation 2 hidden layer dilation 4 output dilation 8 figure visualization of a stack of dilated causal convolutional layers stacked dilated convolutions enable networks to have very large receptive fields with just a few layers while preserving the input resolution throughout the network as well as computational efficiency in this paper the dilation is doubled for every layer up to a limit and then repeated e g 1 2 4 512 1 2 4",
+        "context_window": {
+          "previous": "efficient a dilated convolution effectively allows the network to operate on a coarser scale than with a normal convolution this is similar to pooling or strided convolutions but here the output has the same size as the input as a special case dilated convolution with dilation 1 yields the standard convolution fig depicts dilated causal convolutions for dilations 1 2 4 and 8 dilated convolutions have previously been used in various contexts e g signal processing and image segmentation input",
+          "current": "hidden layer dilation 1 hidden layer dilation 2 hidden layer dilation 4 output dilation 8 figure visualization of a stack of dilated causal convolutional layers stacked dilated convolutions enable networks to have very large receptive fields with just a few layers while preserving the input resolution throughout the network as well as computational efficiency in this paper the dilation is doubled for every layer up to a limit and then repeated e g 1 2 4 512 1 2 4",
+          "next": "512 1 2 4 512 the intuition behind this configuration is two-fold first exponentially increasing the dilation factor results in exponential receptive field growth with depth for example each 1 2 4 512 block has receptive field of size 1024 and can be seen as a more efficient and discriminative non-linear counterpart of a 1 1024 convolution second stacking these blocks further increases the model capacity and the receptive field size softmax distributions one approach to modeling the conditional distributions"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4964,
+        "downstream_relevance_score": 0.3537,
+        "components": {
+          "bio_boundary_score": 0.662,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "hidden",
+          "layer",
+          "dilation"
+        ],
+        "normalization": "hidden layer dilation",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "hidden layer dilation",
+          "canonical": "hidden layer dilation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.662",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.3537"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "mean opinion score",
+        "canonical": "mean opinion score",
+        "normalized": "mean opinion score",
+        "tokens": [
+          "mean",
+          "opinion",
+          "score"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 31,
+        "sentence": "tts task subjective paired comparison tests and mean opinion score mos tests were conducted in the paired comparison tests after listening to each pair of samples the subjects were asked to choose which they preferred though they could choose neutral if they did not have any preference in the mos tests after listening to each stimulus the subjects were asked to rate the naturalness of the stimulus in a five-point likert scale score 1 bad 2 poor 3 fair 4",
+        "context_window": {
+          "previous": "from linguistic features were also trained for each language the receptive field size of the wavenets was 240 milliseconds as example-based and model-based speech synthesis baselines hidden markov model hmm -driven unit selection concatenative and long short-term memory recurrent neural network lstm-rnn -based statistical parametric speech synthesizers were built since the same datasets and linguistic features were used to train both the baselines and wavenets these speech synthesizers could be fairly compared to evaluate the performance of wavenets for the",
+          "current": "tts task subjective paired comparison tests and mean opinion score mos tests were conducted in the paired comparison tests after listening to each pair of samples the subjects were asked to choose which they preferred though they could choose neutral if they did not have any preference in the mos tests after listening to each stimulus the subjects were asked to rate the naturalness of the stimulus in a five-point likert scale score 1 bad 2 poor 3 fair 4",
+          "next": "good 5 excellent please refer to is possible by listening to the samples they produce we found that enlarging the receptive field was crucial to obtain samples that sounded musical even with a receptive field of several seconds the models did not enforce long-range consistency which resulted in second-to-second variations in genre instrumentation volume and sound quality nevertheless the samples were often harmonic and aesthetically pleasing even when produced by unconditional models of particular interest are conditional music models which"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "evaluation_metric",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4924,
+        "downstream_relevance_score": 0.3517,
+        "components": {
+          "bio_boundary_score": 0.725,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mean",
+          "opinion",
+          "score"
+        ],
+        "normalization": "mean opinion score",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mean opinion score",
+          "canonical": "mean opinion score",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.725",
+        "structure model assigned role 'metric' with score 0.82",
+        "downstream relevance score is 0.3517"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "local conditioning",
+        "canonical": "local conditioning",
+        "normalized": "local conditioning",
+        "tokens": [
+          "local",
+          "conditioning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 21,
+        "sentence": "z tanh w f k x v t f k h w g k x v t g k h where v k is a learnable linear projection and the vector v t k h is broadcast over the time dimension for local conditioning we have a second timeseries h t possibly with a lower sampling frequency than the audio signal e g linguistic features in a tts model we first transform this time series using a transposed convolutional network",
+        "context_window": {
+          "previous": "choose the speaker by feeding the speaker identity to the model as an extra input similarly for tts we need to feed information about the text as an extra input we condition the model on other inputs in two different ways global conditioning and local conditioning global conditioning is characterised by a single latent representation h that influences the output distribution across all timesteps e g a speaker embedding in a tts model the activation function from eq now becomes",
+          "current": "z tanh w f k x v t f k h w g k x v t g k h where v k is a learnable linear projection and the vector v t k h is broadcast over the time dimension for local conditioning we have a second timeseries h t possibly with a lower sampling frequency than the audio signal e g linguistic features in a tts model we first transform this time series using a transposed convolutional network",
+          "next": "learned upsampling that maps it to a new time series y f h with the same resolution as the audio signal which is then used in the activation unit as follows z tanh w f k x v f k y w g k x v g k y where v f k y is now a 1 1 convolution as an alternative to the transposed convolutional network it is also possible to use v f k h and repeat"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5596,
+        "downstream_relevance_score": 0.347,
+        "components": {
+          "bio_boundary_score": 0.8315,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "local",
+          "conditioning"
+        ],
+        "normalization": "local conditioning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "local conditioning",
+          "canonical": "local conditioning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8315",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.347"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "receptive field",
+        "canonical": "receptive field",
+        "normalized": "receptive field",
+        "tokens": [
+          "receptive",
+          "field"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 23,
+        "sentence": "these values across time we saw that this worked slightly worse in our experiments context stacks we have already mentioned several different ways to increase the receptive field size of a wavenet increasing the number of dilation stages using more layers larger filters greater dilation factors or a combination thereof a complementary approach is to use a separate smaller context stack that processes a long part of the audio signal and locally conditions a larger wavenet that processes only a",
+        "context_window": {
+          "previous": "learned upsampling that maps it to a new time series y f h with the same resolution as the audio signal which is then used in the activation unit as follows z tanh w f k x v f k y w g k x v g k y where v f k y is now a 1 1 convolution as an alternative to the transposed convolutional network it is also possible to use v f k h and repeat",
+          "current": "these values across time we saw that this worked slightly worse in our experiments context stacks we have already mentioned several different ways to increase the receptive field size of a wavenet increasing the number of dilation stages using more layers larger filters greater dilation factors or a combination thereof a complementary approach is to use a separate smaller context stack that processes a long part of the audio signal and locally conditions a larger wavenet that processes only a",
+          "next": "smaller part of the audio signal cropped at the end one can use multiple context stacks with varying lengths and numbers of hidden units stacks with larger receptive fields have fewer units per layer context stacks can also have pooling layers to run at a lower frequency this keeps the computational requirements at a reasonable level and is consistent with the intuition that less capacity is required to model temporal correlations at longer timescales to measure wavenet s audio modelling"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5564,
+        "downstream_relevance_score": 0.3453,
+        "components": {
+          "bio_boundary_score": 0.822,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "receptive",
+          "field"
+        ],
+        "normalization": "receptive field",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "receptive field",
+          "canonical": "receptive field",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.822",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3453"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "global conditioning",
+        "canonical": "global conditioning",
+        "normalized": "global conditioning",
+        "tokens": [
+          "global",
+          "conditioning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 20,
+        "sentence": "choose the speaker by feeding the speaker identity to the model as an extra input similarly for tts we need to feed information about the text as an extra input we condition the model on other inputs in two different ways global conditioning and local conditioning global conditioning is characterised by a single latent representation h that influences the output distribution across all timesteps e g a speaker embedding in a tts model the activation function from eq now becomes",
+        "context_window": {
+          "previous": "block of our model which is stacked many times in the network conditional wavenets given an additional input h wavenets can model the conditional distribution p x h of the audio given this input eq now becomes p x h t t 1 p x t x 1 x t-1 h by conditioning the model on other input variables we can guide wavenet s generation to produce audio with the required characteristics for example in a multi-speaker setting we can",
+          "current": "choose the speaker by feeding the speaker identity to the model as an extra input similarly for tts we need to feed information about the text as an extra input we condition the model on other inputs in two different ways global conditioning and local conditioning global conditioning is characterised by a single latent representation h that influences the output distribution across all timesteps e g a speaker embedding in a tts model the activation function from eq now becomes",
+          "next": "z tanh w f k x v t f k h w g k x v t g k h where v k is a learnable linear projection and the vector v t k h is broadcast over the time dimension for local conditioning we have a second timeseries h t possibly with a lower sampling frequency than the audio signal e g linguistic features in a tts model we first transform this time series using a transposed convolutional network"
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.521,
+        "downstream_relevance_score": 0.3437,
+        "components": {
+          "bio_boundary_score": 0.8537,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "global",
+          "conditioning"
+        ],
+        "normalization": "global conditioning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "global conditioning",
+          "canonical": "global conditioning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8537",
+        "structure model assigned role 'motivation' with score 0.66",
+        "downstream relevance score is 0.3437"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "pooling layer",
+        "canonical": "pooling layer",
+        "normalized": "pooling layer",
+        "tokens": [
+          "pooling",
+          "layer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 36,
+        "sentence": "dilated convolutions that aggregated the activations to coarser frames spanning 10 milliseconds 160 downsampling the pooling layer was followed by a few non-causal convolutions we trained wavenet with two loss terms one to predict the next sample and one to classify the frame the model generalized better than with a single loss and achieved 18 8 per on the test set which is to our knowledge the best score obtained from a model trained directly on raw audio on timit",
+        "context_window": {
+          "previous": "raw audio recently recurrent neural networks such as lstm-rnns have been a key component in these new speech classification pipelines because they allow for building models with long range contexts with wavenets we have shown that layers of dilated convolutions allow the receptive field to grow longer in a much cheaper way than using lstm units as a last we looked at speech recognition with wavenets on the timit dataset for this task we added a mean-pooling layer after the",
+          "current": "dilated convolutions that aggregated the activations to coarser frames spanning 10 milliseconds 160 downsampling the pooling layer was followed by a few non-causal convolutions we trained wavenet with two loss terms one to predict the next sample and one to classify the frame the model generalized better than with a single loss and achieved 18 8 per on the test set which is to our knowledge the best score obtained from a model trained directly on raw audio on timit",
+          "next": "this paper has presented wavenet a deep generative model of audio data that operates directly at the waveform level wavenets are autoregressive and combine causal filters with dilated convolutions to allow their receptive fields to grow exponentially with depth which is important to model the long-range temporal dependencies in audio signals we have shown how wavenets can be conditioned on other inputs in a global e g speaker identity or local way e g linguistic features when applied to tts"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4961,
+        "downstream_relevance_score": 0.3436,
+        "components": {
+          "bio_boundary_score": 0.6144,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pooling",
+          "layer"
+        ],
+        "normalization": "pooling layer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pooling layer",
+          "canonical": "pooling layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6144",
+        "structure model assigned role 'dataset' with score 0.82",
+        "downstream relevance score is 0.3436"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "audio modelling",
+        "canonical": "audio modelling",
+        "normalized": "audio modelling",
+        "tokens": [
+          "audio",
+          "modelling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 24,
+        "sentence": "smaller part of the audio signal cropped at the end one can use multiple context stacks with varying lengths and numbers of hidden units stacks with larger receptive fields have fewer units per layer context stacks can also have pooling layers to run at a lower frequency this keeps the computational requirements at a reasonable level and is consistent with the intuition that less capacity is required to model temporal correlations at longer timescales to measure wavenet s audio modelling",
+        "context_window": {
+          "previous": "these values across time we saw that this worked slightly worse in our experiments context stacks we have already mentioned several different ways to increase the receptive field size of a wavenet increasing the number of dilation stages using more layers larger filters greater dilation factors or a combination thereof a complementary approach is to use a separate smaller context stack that processes a long part of the audio signal and locally conditions a larger wavenet that processes only a",
+          "current": "smaller part of the audio signal cropped at the end one can use multiple context stacks with varying lengths and numbers of hidden units stacks with larger receptive fields have fewer units per layer context stacks can also have pooling layers to run at a lower frequency this keeps the computational requirements at a reasonable level and is consistent with the intuition that less capacity is required to model temporal correlations at longer timescales to measure wavenet s audio modelling",
+          "next": "performance we evaluate it on three different tasks multispeaker speech generation not conditioned on text tts and music audio modelling we provide samples drawn from wavenet for these on the accompanying webpage multi-speaker speech generation for the first we looked at free-form speech generation not conditioned on text we used the english multi-speaker corpus from cstr voice cloning toolkit vctk and conditioned wavenet only on the speaker the conditioning was applied by feeding the speaker id to the model in"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5107,
+        "downstream_relevance_score": 0.3383,
+        "components": {
+          "bio_boundary_score": 0.7056,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "audio",
+          "modelling"
+        ],
+        "normalization": "audio modelling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "audio modelling",
+          "canonical": "audio modelling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7056",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3383"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 10,
+    "top_candidates": [
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "The model is fully probabilistic and autoregressive, with the predictive distribution for each audio sample conditioned on all previous ones; nonetheless we show that it can be efficiently trained on data with tens of thousands of samples per second of audio.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Modeling joint probabilities over pixels or words using neural architectures as products of conditional distributions yields state-of-the-art generation.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The question this paper addresses is whether similar approaches can succeed in generating wideband raw audio waveforms, which are signals with very high temporal resolution, at least 16,000 samples per second (see Fig. ). • We show that WaveNets can generate raw speech signals with subjective naturalness never before reported in the field of text-to-speech (TTS), as assessed by human raters. • In order to deal with long-range temporal dependencies needed for raw audio generation, we develop new architectures based on dilated causal convolutions, which exhibit very large receptive fields. • We show that when conditioned on a speaker identity, a single model can be used to generate different voices. • The same architecture shows strong results when tested on a small speech recognition dataset, and is promising when used to generate other audio modalities such as music.",
+        "evidence_type": "dataset",
+        "matched_cue": "tested on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The question this paper addresses is whether similar approaches can succeed in generating wideband raw audio waveforms, which are signals with very high temporal resolution, at least 16,000 samples per second (see Fig. ). • We show that WaveNets can generate raw speech signals with subjective naturalness never before reported in the field of text-to-speech (TTS), as assessed by human raters. • In order to deal with long-range temporal dependencies needed for raw audio generation, we develop new architectures based on dilated causal convolutions, which exhibit very large receptive fields. • We show that when conditioned on a speaker identity, a single model can be used to generate different voices. • The same architecture shows strong results when tested on a small speech recognition dataset, and is promising when used to generate other audio modalities such as music.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The question this paper addresses is whether similar approaches can succeed in generating wideband raw audio waveforms, which are signals with very high temporal resolution, at least 16,000 samples per second (see Fig. ). • We show that WaveNets can generate raw speech signals with subjective naturalness never before reported in the field of text-to-speech (TTS), as assessed by human raters. • In order to deal with long-range temporal dependencies needed for raw audio generation, we develop new architectures based on dilated causal convolutions, which exhibit very large receptive fields. • We show that when conditioned on a speaker identity, a single model can be used to generate different voices. • The same architecture shows strong results when tested on a small speech recognition dataset, and is promising when used to generate other audio modalities such as music.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We believe that WaveNets provide a generic and flexible framework for tackling many applications that rely on audio generation (e.g.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "However, its subjective naturalness is often significantly worse than that of the concatenative approach; synthesized speech often sounds muffled and has artifacts. reported three major factors that can degrade the subjective naturalness; quality of vocoders, accuracy of generative models, and effect of oversmoothing.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "There have been a number of attempts to address these issues individually, such as developing high-quality vocoders , improving the accuracy of generative models , and compensating the oversmoothing effect . showed that state-of-the-art statistical parametric speech syntheziers matched state-of-the-art concatenative ones in some languages.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "There have been a number of attempts to address these issues individually, such as developing high-quality vocoders , improving the accuracy of generative models , and compensating the oversmoothing effect . showed that state-of-the-art statistical parametric speech syntheziers matched state-of-the-art concatenative ones in some languages.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "When applied to TTS, WaveNets produced samples that outperform the current best TTS systems in subjective naturalness.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Google Wavenet",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.678
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "deep generative model",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6522
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "speech recognition",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6293
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "speech synthesis",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5374
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "softmax layer",
+        "section": "method",
+        "role": "component",
+        "score": 0.5192
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "discriminative model",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5164
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "paired comparison test",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.5052
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "speech synthesis",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5021
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "companding",
+        "section": "method",
+        "role": "component",
+        "score": 0.4714
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "single speaker",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4519
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "gaussian process",
+        "section": "conclusion",
+        "role": "future_work",
+        "score": 0.4488
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "speech production",
+        "section": "conclusion",
+        "role": "future_work",
+        "score": 0.4432
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "vocoder",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.443
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "convolution",
+        "section": "method",
+        "role": "process",
+        "score": 0.4368
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "speech generation",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4237
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "raw audio generation",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.4184
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "softmax distribution",
+        "section": "method",
+        "role": "gap",
+        "score": 0.369
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "hidden layer dilation",
+        "section": "method",
+        "role": "component",
+        "score": 0.3537
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "mean opinion score",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.3517
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "local conditioning",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.347
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "receptive field",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3453
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "global conditioning",
+        "section": "experiment",
+        "role": "motivation",
+        "score": 0.3437
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "pooling layer",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3436
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "audio modelling",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.3383
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_010",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}
