@@ -1,0 +1,2835 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2017_transformer_and_large_language_models_attention_is_all_you_need",
+    "title": "2017_transformer_and_large_language_models_attention_is_all_you_need",
+    "source_path": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\03_demo_txt\\full_library\\2017_transformer_and_large_language_models_attention_is_all_you_need.txt",
+    "sentence_count": 53,
+    "section_counts": {
+      "intro": 8,
+      "related_work": 4,
+      "method": 26,
+      "experiment": 14,
+      "conclusion": 1
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": ".\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": ".\\models\\checkpoints\\structure_v2_scibert_evidencefix",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4028,
+    "type_count": 974,
+    "type_token_ratio": 0.2418,
+    "section_token_counts": {
+      "intro": 567,
+      "related_work": 247,
+      "method": 2008,
+      "experiment": 1051,
+      "conclusion": 155
+    },
+    "top_unigrams": [
+      {
+        "term": "attention",
+        "count": 48
+      },
+      {
+        "term": "model",
+        "count": 45
+      },
+      {
+        "term": "models",
+        "count": 34
+      },
+      {
+        "term": "output",
+        "count": 28
+      },
+      {
+        "term": "sequence",
+        "count": 25
+      },
+      {
+        "term": "input",
+        "count": 24
+      },
+      {
+        "term": "self-attention",
+        "count": 22
+      },
+      {
+        "term": "positions",
+        "count": 22
+      },
+      {
+        "term": "layer",
+        "count": 22
+      },
+      {
+        "term": "training",
+        "count": 21
+      },
+      {
+        "term": "decoder",
+        "count": 20
+      },
+      {
+        "term": "transformer",
+        "count": 20
+      },
+      {
+        "term": "each",
+        "count": 20
+      },
+      {
+        "term": "layers",
+        "count": 20
+      },
+      {
+        "term": "encoder",
+        "count": 19
+      },
+      {
+        "term": "all",
+        "count": 18
+      },
+      {
+        "term": "used",
+        "count": 18
+      },
+      {
+        "term": "values",
+        "count": 16
+      },
+      {
+        "term": "recurrent",
+        "count": 15
+      },
+      {
+        "term": "two",
+        "count": 15
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "input output",
+        "count": 11
+      },
+      {
+        "term": "encoder decoder",
+        "count": 8
+      },
+      {
+        "term": "wmt 2014",
+        "count": 8
+      },
+      {
+        "term": "keys values",
+        "count": 7
+      },
+      {
+        "term": "sequence transduction",
+        "count": 6
+      },
+      {
+        "term": "dot-product attention",
+        "count": 6
+      },
+      {
+        "term": "multi-head attention",
+        "count": 6
+      },
+      {
+        "term": "attention mechanisms",
+        "count": 5
+      },
+      {
+        "term": "transduction models",
+        "count": 4
+      },
+      {
+        "term": "recurrent convolutional",
+        "count": 4
+      },
+      {
+        "term": "neural networks",
+        "count": 4
+      },
+      {
+        "term": "attention mechanism",
+        "count": 4
+      },
+      {
+        "term": "translation task",
+        "count": 4
+      },
+      {
+        "term": "bleu score",
+        "count": 4
+      },
+      {
+        "term": "scaled dot-product",
+        "count": 4
+      },
+      {
+        "term": "output positions",
+        "count": 4
+      },
+      {
+        "term": "attention function",
+        "count": 4
+      },
+      {
+        "term": "all positions",
+        "count": 4
+      },
+      {
+        "term": "self-attention layers",
+        "count": 4
+      },
+      {
+        "term": "self-attention layer",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "scaled dot-product attention",
+        "count": 4
+      },
+      {
+        "term": "input output positions",
+        "count": 4
+      },
+      {
+        "term": "sequence transduction models",
+        "count": 3
+      },
+      {
+        "term": "wmt 2014 english-to-french",
+        "count": 3
+      },
+      {
+        "term": "2014 english-to-french translation",
+        "count": 3
+      },
+      {
+        "term": "english constituency parsing",
+        "count": 3
+      },
+      {
+        "term": "input output sequences",
+        "count": 3
+      },
+      {
+        "term": "encoder decoder stacks",
+        "count": 3
+      },
+      {
+        "term": "maximum path length",
+        "count": 3
+      },
+      {
+        "term": "convolutional neural networks",
+        "count": 2
+      },
+      {
+        "term": "bleu wmt 2014",
+        "count": 2
+      },
+      {
+        "term": "english-to-french translation task",
+        "count": 2
+      },
+      {
+        "term": "state-of-the-art bleu score",
+        "count": 2
+      },
+      {
+        "term": "bleu score 41",
+        "count": 2
+      },
+      {
+        "term": "recurrent neural networks",
+        "count": 2
+      },
+      {
+        "term": "sequence modeling transduction",
+        "count": 2
+      },
+      {
+        "term": "positions input output",
+        "count": 2
+      },
+      {
+        "term": "new state art",
+        "count": 2
+      },
+      {
+        "term": "different positions single",
+        "count": 2
+      },
+      {
+        "term": "sequence symbol representations",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 26,
+    "nonzero_tfidf_features": 26,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 9.0,
+        "tfidf": 0.9338
+      },
+      {
+        "feature_name": "abstract__attention",
+        "section": "intro",
+        "term": "attention",
+        "frequency": 5.0,
+        "tfidf": 0.8049
+      },
+      {
+        "feature_name": "conclusion__transformer",
+        "section": "conclusion",
+        "term": "transformer",
+        "frequency": 3.0,
+        "tfidf": 0.8
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 8.0,
+        "tfidf": 0.7999
+      },
+      {
+        "feature_name": "abstract__transformer",
+        "section": "intro",
+        "term": "transformer",
+        "frequency": 4.0,
+        "tfidf": 0.6257
+      },
+      {
+        "feature_name": "abstract__bleu",
+        "section": "intro",
+        "term": "bleu",
+        "frequency": 3.0,
+        "tfidf": 0.5242
+      },
+      {
+        "feature_name": "conclusion__attention",
+        "section": "conclusion",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.5012
+      },
+      {
+        "feature_name": "methods__self-attention",
+        "section": "method",
+        "term": "self-attention",
+        "frequency": 4.0,
+        "tfidf": 0.4872
+      },
+      {
+        "feature_name": "introduction__self-attention",
+        "section": "intro",
+        "term": "self-attention",
+        "frequency": 4.0,
+        "tfidf": 0.4635
+      },
+      {
+        "feature_name": "introduction__transformer",
+        "section": "intro",
+        "term": "transformer",
+        "frequency": 5.0,
+        "tfidf": 0.4479
+      },
+      {
+        "feature_name": "conclusion__self-attention",
+        "section": "conclusion",
+        "term": "self-attention",
+        "frequency": 1.0,
+        "tfidf": 0.3297
+      },
+      {
+        "feature_name": "methods__transformer",
+        "section": "method",
+        "term": "transformer",
+        "frequency": 3.0,
+        "tfidf": 0.2899
+      },
+      {
+        "feature_name": "introduction__recurrent neural networks",
+        "section": "intro",
+        "term": "recurrent neural networks",
+        "frequency": 2.0,
+        "tfidf": 0.217
+      },
+      {
+        "feature_name": "abstract__self-attention",
+        "section": "intro",
+        "term": "self-attention",
+        "frequency": 1.0,
+        "tfidf": 0.1909
+      },
+      {
+        "feature_name": "methods__bleu",
+        "section": "method",
+        "term": "bleu",
+        "frequency": 1.0,
+        "tfidf": 0.1744
+      },
+      {
+        "feature_name": "abstract__machine translation",
+        "section": "intro",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.1633
+      },
+      {
+        "feature_name": "abstract__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1633
+      },
+      {
+        "feature_name": "introduction__multi-head attention",
+        "section": "intro",
+        "term": "multi-head attention",
+        "frequency": 1.0,
+        "tfidf": 0.1556
+      },
+      {
+        "feature_name": "abstract__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 0.1333
+      },
+      {
+        "feature_name": "introduction__textual entailment",
+        "section": "intro",
+        "term": "textual entailment",
+        "frequency": 1.0,
+        "tfidf": 0.1297
+      },
+      {
+        "feature_name": "introduction__summarization",
+        "section": "intro",
+        "term": "summarization",
+        "frequency": 1.0,
+        "tfidf": 0.1132
+      },
+      {
+        "feature_name": "introduction__convolutional neural networks",
+        "section": "intro",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.1026
+      },
+      {
+        "feature_name": "introduction__end-to-end",
+        "section": "intro",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.0947
+      },
+      {
+        "feature_name": "introduction__machine translation",
+        "section": "intro",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.0947
+      },
+      {
+        "feature_name": "methods__embeddings",
+        "section": "method",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.0907
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 9.0,
+          "tfidf": 0.9338
+        },
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 0.8049
+        },
+        {
+          "feature_name": "abstract__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 4.0,
+          "tfidf": 0.6257
+        },
+        {
+          "feature_name": "abstract__bleu",
+          "section": "intro",
+          "term": "bleu",
+          "frequency": 3.0,
+          "tfidf": 0.5242
+        },
+        {
+          "feature_name": "introduction__self-attention",
+          "section": "intro",
+          "term": "self-attention",
+          "frequency": 4.0,
+          "tfidf": 0.4635
+        },
+        {
+          "feature_name": "introduction__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 5.0,
+          "tfidf": 0.4479
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.217
+        },
+        {
+          "feature_name": "abstract__self-attention",
+          "section": "intro",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.1909
+        },
+        {
+          "feature_name": "abstract__machine translation",
+          "section": "intro",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.1633
+        },
+        {
+          "feature_name": "abstract__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1633
+        },
+        {
+          "feature_name": "introduction__multi-head attention",
+          "section": "intro",
+          "term": "multi-head attention",
+          "frequency": 1.0,
+          "tfidf": 0.1556
+        },
+        {
+          "feature_name": "abstract__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1333
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 8.0,
+          "tfidf": 0.7999
+        },
+        {
+          "feature_name": "methods__self-attention",
+          "section": "method",
+          "term": "self-attention",
+          "frequency": 4.0,
+          "tfidf": 0.4872
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.2899
+        },
+        {
+          "feature_name": "methods__bleu",
+          "section": "method",
+          "term": "bleu",
+          "frequency": 1.0,
+          "tfidf": 0.1744
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.0907
+        }
+      ],
+      "experiment": [],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__transformer",
+          "section": "conclusion",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.8
+        },
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.5012
+        },
+        {
+          "feature_name": "conclusion__self-attention",
+          "section": "conclusion",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.3297
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 8,
+      "token_count": 567,
+      "bow_hit_count": 45,
+      "top_bow_terms": [
+        {
+          "canonical_term": "transformer",
+          "count": 14,
+          "section_prior": 0.2907,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 13,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 5,
+          "section_prior": 0.2917,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 4,
+          "section_prior": 0.5545,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "BLEU",
+          "count": 3,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 2,
+          "section_prior": 0.2786,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 1,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "parsing",
+          "count": 1,
+          "section_prior": 0.5789,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 1,
+          "section_prior": 0.1949,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "multi-head attention",
+          "count": 1,
+          "section_prior": 0.3,
+          "confidence_score": 0.85,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 9.0,
+          "tfidf": 0.9338
+        },
+        {
+          "feature_name": "abstract__attention",
+          "section": "intro",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 0.8049
+        },
+        {
+          "feature_name": "abstract__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 4.0,
+          "tfidf": 0.6257
+        },
+        {
+          "feature_name": "abstract__bleu",
+          "section": "intro",
+          "term": "bleu",
+          "frequency": 3.0,
+          "tfidf": 0.5242
+        },
+        {
+          "feature_name": "introduction__self-attention",
+          "section": "intro",
+          "term": "self-attention",
+          "frequency": 4.0,
+          "tfidf": 0.4635
+        },
+        {
+          "feature_name": "introduction__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 5.0,
+          "tfidf": 0.4479
+        },
+        {
+          "feature_name": "introduction__recurrent neural networks",
+          "section": "intro",
+          "term": "recurrent neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.217
+        },
+        {
+          "feature_name": "abstract__self-attention",
+          "section": "intro",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.1909
+        },
+        {
+          "feature_name": "abstract__machine translation",
+          "section": "intro",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.1633
+        },
+        {
+          "feature_name": "abstract__convolutional neural networks",
+          "section": "intro",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.1633
+        },
+        {
+          "feature_name": "introduction__multi-head attention",
+          "section": "intro",
+          "term": "multi-head attention",
+          "frequency": 1.0,
+          "tfidf": 0.1556
+        },
+        {
+          "feature_name": "abstract__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1333
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 4,
+      "token_count": 247,
+      "bow_hit_count": 21,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 6,
+          "section_prior": 0.0898,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.1344,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 5,
+          "section_prior": 0.0911,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 2,
+          "section_prior": 0.1695,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "multi-head attention",
+          "count": 1,
+          "section_prior": 0.4,
+          "confidence_score": 0.85,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 1,
+          "section_prior": 0.1497,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 1,
+          "section_prior": 0.0932,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 26,
+      "token_count": 2008,
+      "bow_hit_count": 145,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 57,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 38,
+          "section_prior": 0.4915,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 32,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 9,
+          "section_prior": 0.3709,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "multi-head attention",
+          "count": 4,
+          "section_prior": 0.1,
+          "confidence_score": 0.85,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "softmax function",
+          "count": 3,
+          "section_prior": 0.5,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "feedforward neural network",
+          "count": 2,
+          "section_prior": 0.5227,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 8.0,
+          "tfidf": 0.7999
+        },
+        {
+          "feature_name": "methods__self-attention",
+          "section": "method",
+          "term": "self-attention",
+          "frequency": 4.0,
+          "tfidf": 0.4872
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.2899
+        },
+        {
+          "feature_name": "methods__bleu",
+          "section": "method",
+          "term": "bleu",
+          "frequency": 1.0,
+          "tfidf": 0.1744
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.0907
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 14,
+      "token_count": 1051,
+      "bow_hit_count": 75,
+      "top_bow_terms": [
+        {
+          "canonical_term": "transformer",
+          "count": 24,
+          "section_prior": 0.18,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 14,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 10,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 9,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "BLEU",
+          "count": 7,
+          "section_prior": 0.5326,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 6,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Adam optimizer",
+          "count": 2,
+          "section_prior": 0.4667,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Perplexity",
+          "count": 1,
+          "section_prior": 0.3226,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 1,
+          "section_prior": 0.0792,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "label smoothing",
+          "count": 1,
+          "section_prior": 0.4615,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "conclusion": {
+      "sentence_count": 1,
+      "token_count": 155,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 3,
+          "section_prior": 0.0757,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 3,
+          "section_prior": 0.0672,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 2,
+          "section_prior": 0.0424,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__transformer",
+          "section": "conclusion",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.8
+        },
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.5012
+        },
+        {
+          "feature_name": "conclusion__self-attention",
+          "section": "conclusion",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.3297
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "self-attention",
+        "canonical": "self-attention",
+        "normalized": "self-attention",
+        "tokens": [
+          "self-attention"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "self-attention mechanism",
+          "self attention",
+          "self-attention"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 36,
+        "sentence": "positions in the network convolutional layers are generally more expensive than recurrent layers by a factor of k separable convolutions however decrease the complexity considerably to o k n d n d 2 even with k n however the complexity of a separable convolution is equal to the combination of a self-attention layer and a point-wise feed-forward layer the approach we take in our model as side benefit self-attention could yield more interpretable models we inspect attention distributions from our",
+        "context_window": {
+          "previous": "output position this would increase the maximum path length to o n r we plan to investigate this approach further in future work a single convolutional layer with kernel width k n does not connect all pairs of input and output positions doing so requires a stack of o n k convolutional layers in the case of contiguous kernels or o log k n in the case of dilated convolutions increasing the length of the longest paths between any two",
+          "current": "positions in the network convolutional layers are generally more expensive than recurrent layers by a factor of k separable convolutions however decrease the complexity considerably to o k n d n d 2 even with k n however the complexity of a separable convolution is equal to the combination of a self-attention layer and a point-wise feed-forward layer the approach we take in our model as side benefit self-attention could yield more interpretable models we inspect attention distributions from our",
+          "next": "models and present and discuss examples in the"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7615,
+        "downstream_relevance_score": 0.815,
+        "components": {
+          "bio_boundary_score": 0.8083,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.4915,
+          "document_tfidf_score": 0.5218,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "self-attention",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "self-attention",
+        "display_term": "self-attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "nan",
+        "wikidata_id": "Q113364820",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 16,
+        "total_frequency": 57,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__self-attention",
+        "section": "method",
+        "term": "self-attention",
+        "frequency": 4.0,
+        "tfidf": 0.4872,
+        "normalized_frequency": 0.4444,
+        "normalized_tfidf": 0.5218
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "self-attention"
+        ],
+        "normalization": "self-attention",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4915,
+        "canonicalization": {
+          "observed": "self-attention",
+          "canonical": "self-attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8083",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'self-attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'methods__self-attention' with tf-idf 0.4872",
+        "downstream relevance score is 0.815"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "machine translation",
+        "canonical": "machine translation",
+        "normalized": "machine translation",
+        "tokens": [
+          "machine",
+          "translation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "machine translation"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "recurrent neural networks long short-term memory and gated recurrent neural networks in particular have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures recurrent models typically factor computation along the symbol positions of the input and output sequences aligning the positions to steps in computation time they generate a sequence of",
+        "context_window": {
+          "previous": "evaluated countless model variants in our original codebase and tensor2tensor llion also experimented with novel model variants was responsible for our initial codebase and efficient inference and visualizations lukasz and aidan spent countless long days designing various parts of and implementing tensor2tensor replacing our earlier codebase greatly improving results and massively accelerating our research work performed while at google brain body",
+          "current": "recurrent neural networks long short-term memory and gated recurrent neural networks in particular have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures recurrent models typically factor computation along the symbol positions of the input and output sequences aligning the positions to steps in computation time they generate a sequence of",
+          "next": "hidden states h t as a function of the previous hidden state h t-1 and the input for position t this inherently sequential nature precludes parallelization within training examples which becomes critical at longer sequence lengths as memory constraints limit batching across examples recent work has achieved significant improvements in computational efficiency through factorization tricks and conditional computation while also improving model performance in case of the latter the fundamental constraint of sequential computation however remains attention mechanisms have become"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.2546
+      },
+      "evidence": {
+        "score": 0.6462,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7809,
+        "downstream_relevance_score": 0.7344,
+        "components": {
+          "bio_boundary_score": 0.93,
+          "sentence_evidence_score": 0.6462,
+          "sentence_role_score": 0.2546,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5545,
+          "document_tfidf_score": 0.1749,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "machine translation",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "machine translation",
+        "display_term": "machine translation",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Machine_translation",
+        "wikidata_id": "Q79798",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 21,
+        "total_frequency": 42,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__machine translation",
+        "section": "intro",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.1633,
+        "normalized_frequency": 0.1111,
+        "normalized_tfidf": 0.1749
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "machine",
+          "translation"
+        ],
+        "normalization": "machine translation",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5545,
+        "canonicalization": {
+          "observed": "machine translation",
+          "canonical": "machine translation",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.93",
+        "structure model assigned role 'core_method' with score 0.2546",
+        "evidence score 0.6462 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'machine translation' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "document-term matrix links the phrase to feature 'abstract__machine translation' with tf-idf 0.1633",
+        "downstream relevance score is 0.7344"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "attention",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 17,
+        "sentence": "of dimension d v we compute the dot products of the query with all keys divide each by d k and apply a softmax function to obtain the weights on the values in practice we compute the attention function on a set of queries simultaneously packed together into a matrix q the keys and values are also packed together into matrices k and v we compute the matrix of outputs as attention q k v softmax qk t d k",
+        "context_window": {
+          "previous": "described as mapping a query and a set of key-value pairs to an output where the query keys values and output are all vectors the output is computed as a weighted sum of the values where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key scaled dot-product attention we call our particular attention scaled dot-product attention figure the input consists of queries and keys of dimension d k and values",
+          "current": "of dimension d v we compute the dot products of the query with all keys divide each by d k and apply a softmax function to obtain the weights on the values in practice we compute the attention function on a set of queries simultaneously packed together into a matrix q the keys and values are also packed together into matrices k and v we compute the matrix of outputs as attention q k v softmax qk t d k",
+          "next": "v the two most commonly used attention functions are additive attention and dot-product multiplicative attention dot-product attention is identical to our algorithm except for the scaling factor of 1 d k additive attention computes the compatibility function using a feed-forward network with a single hidden layer while the two are similar in theoretical complexity dot-product attention is much faster and more space-efficient in practice since it can be implemented using highly optimized matrix multiplication code while for small values of"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6749,
+        "downstream_relevance_score": 0.6926,
+        "components": {
+          "bio_boundary_score": 0.9117,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3475,
+          "document_tfidf_score": 0.8567,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 30,
+        "total_frequency": 146,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 8.0,
+        "tfidf": 0.7999,
+        "normalized_frequency": 0.8889,
+        "normalized_tfidf": 0.8567
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention"
+        ],
+        "normalization": "attention",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.3475,
+        "canonicalization": {
+          "observed": "attention",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9117",
+        "structure model assigned role 'component' with score 0.82",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'methods__attention' with tf-idf 0.7999",
+        "downstream relevance score is 0.6926"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "bleu score",
+        "canonical": "bleu score",
+        "normalized": "bleu score",
+        "tokens": [
+          "bleu",
+          "score"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 42,
+        "sentence": "smoothing during training we employed label smoothing of value ls 0 1 this hurts perplexity as the model learns to be more unsure but improves accuracy and bleu score results machine translation on the wmt 2014 english-to-german translation task the big transformer model transformer big in table outperforms the best previously reported models including ensembles by more than 2 0 bleu establishing a new state-of-the-art bleu score of 28 4 the configuration of this model is listed in the bottom",
+        "context_window": {
+          "previous": "to the inverse square root of the step number we used warmup steps 4000 regularization we employ three types of regularization during training residual dropout we apply dropout to the output of each sub-layer before it is added to the sub-layer input and normalized in addition we apply dropout to the sums of the embeddings and the positional encodings in both the encoder and decoder stacks for the base model we use a rate of p drop 0 1 label",
+          "current": "smoothing during training we employed label smoothing of value ls 0 1 this hurts perplexity as the model learns to be more unsure but improves accuracy and bleu score results machine translation on the wmt 2014 english-to-german translation task the big transformer model transformer big in table outperforms the best previously reported models including ensembles by more than 2 0 bleu establishing a new state-of-the-art bleu score of 28 4 the configuration of this model is listed in the bottom",
+          "next": "line of table training took 3 5 days on 8 p100 gpus even our base model surpasses all previously published models and ensembles at a fraction of the training cost of any of the competitive models on the wmt 2014 english-to-french translation task our big model achieves a bleu score of 41 0 outperforming all of the previously published single models at less than 1 4 the training cost of the previous state-of-the-art model the transformer big model trained for"
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "perplexity",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "BLEU",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7127,
+        "downstream_relevance_score": 0.6524,
+        "components": {
+          "bio_boundary_score": 0.9001,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bleu",
+          "score"
+        ],
+        "normalization": "bleu score",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bleu score",
+          "canonical": "bleu score",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9001",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, outperforms, perplexity",
+        "downstream relevance score is 0.6524"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "attention mechanism",
+        "canonical": "attention",
+        "normalized": "attention",
+        "tokens": [
+          "attention",
+          "mechanism"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "attention mechanism",
+          "attention"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 9,
+        "sentence": "distant positions in the transformer this is reduced to a constant number of operations albeit at the cost of reduced effective resolution due to averaging attention-weighted positions an effect we counteract with multi-head attention as described in section 3 2 self-attention sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence self-attention has been used successfully in a variety of tasks including reading comprehension abstractive summarization textual",
+        "context_window": {
+          "previous": "the goal of reducing sequential computation also forms the foundation of the extended neural gpu bytenet and convs2s all of which use convolutional neural networks as basic building block computing hidden representations in parallel for all input and output positions in these models the number of operations required to relate signals from two arbitrary input or output positions grows in the distance between positions linearly for convs2s and logarithmically for bytenet this makes it more difficult to learn dependencies between",
+          "current": "distant positions in the transformer this is reduced to a constant number of operations albeit at the cost of reduced effective resolution due to averaging attention-weighted positions an effect we counteract with multi-head attention as described in section 3 2 self-attention sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence self-attention has been used successfully in a variety of tasks including reading comprehension abstractive summarization textual",
+          "next": "entailment and learning task-independent sentence representations end-to-end memory networks are based on a recurrent attention mechanism instead of sequencealigned recurrence and have been shown to perform well on simple-language question answering and language modeling tasks to the best of our knowledge however the transformer is the first transduction model relying entirely on self-attention to compute representations of its input and output without using sequencealigned rnns or convolution in the following sections we will describe the transformer motivate self-attention and discuss"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6386,
+        "downstream_relevance_score": 0.6152,
+        "components": {
+          "bio_boundary_score": 0.7879,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0898,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "attention mechanism",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "attention",
+        "display_term": "attention",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Attention_%28machine_learning%29",
+        "wikidata_id": "Q103701642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 16,
+        "total_frequency": 37,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "mechanism"
+        ],
+        "normalization": "attention mechanism",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0898,
+        "canonicalization": {
+          "observed": "attention mechanism",
+          "canonical": "attention",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7879",
+        "structure model assigned role 'component' with score 0.66",
+        "section BoW matched canonical term 'attention' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6152"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "positional encoding",
+        "canonical": "positional encoding",
+        "normalized": "positional encoding",
+        "tokens": [
+          "positional",
+          "encoding"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 28,
+        "sentence": "n convolutional o k n d 2 o o log k n self-attention restricted o r n d o o n r positional encoding since our model contains no recurrence and no convolution in order for the model to make use of the order of the sequence we must inject some information about the relative or absolute position of the tokens in the sequence to this end we add positional encodings to the input embeddings at the bottoms of the",
+        "context_window": {
+          "previous": "to in the embedding layers we multiply those weights by d model table maximum path lengths per-layer complexity and minimum number of sequential operations for different layer types n is the sequence length d is the representation dimension k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention layer type complexity per layer sequential maximum path length operations self-attention o n 2 d o o recurrent o n d 2 o n o",
+          "current": "n convolutional o k n d 2 o o log k n self-attention restricted o r n d o o n r positional encoding since our model contains no recurrence and no convolution in order for the model to make use of the order of the sequence we must inject some information about the relative or absolute position of the tokens in the sequence to this end we add positional encodings to the input embeddings at the bottoms of the",
+          "next": "encoder and decoder stacks the positional encodings have the same dimension d model as the embeddings so that the two can be summed there are many choices of positional encodings learned and fixed in this work we use sine and cosine functions of different frequencies p e pos 2i sin pos 10000 2i dmodel p e pos 2i 1 cos pos 10000 2i dmodel where pos is the position and i is the dimension that is each dimension of the"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.815,
+        "downstream_relevance_score": 0.5962,
+        "components": {
+          "bio_boundary_score": 0.99,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "positional",
+          "encoding"
+        ],
+        "normalization": "positional encoding",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "positional encoding",
+          "canonical": "positional encoding",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.99",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5962"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "computational complexity",
+        "canonical": "computational complexity",
+        "normalized": "computational complexity",
+        "tokens": [
+          "computational",
+          "complexity"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 32,
+        "sentence": "transduction encoder or decoder motivating our use of self-attention we consider three desiderata one is the total computational complexity per layer another is the amount of computation that can be parallelized as measured by the minimum number of sequential operations required the third is the path length between long-range dependencies in the network learning long-range dependencies is a key challenge in many sequence transduction tasks one key factor affecting the ability to learn such dependencies is the length of the",
+        "context_window": {
+          "previous": "e we chose the sinusoidal version because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training in this section we compare various aspects of self-attention layers to the recurrent and convolutional layers commonly used for mapping one variable-length sequence of symbol representations x 1 x n to another sequence of equal length z 1 z n with x i z i r d such as a hidden layer in a typical sequence",
+          "current": "transduction encoder or decoder motivating our use of self-attention we consider three desiderata one is the total computational complexity per layer another is the amount of computation that can be parallelized as measured by the minimum number of sequential operations required the third is the path length between long-range dependencies in the network learning long-range dependencies is a key challenge in many sequence transduction tasks one key factor affecting the ability to learn such dependencies is the length of the",
+          "next": "paths forward and backward signals have to traverse in the network the shorter these paths between any combination of positions in the input and output sequences the easier it is to learn long-range dependencies hence we also compare the maximum path length between any two input and output positions in networks composed of the different layer types as noted in table a self-attention layer connects all positions with a constant number of sequentially executed operations whereas a recurrent layer requires"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "measured by",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric cue"
+          },
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6297,
+        "downstream_relevance_score": 0.5278,
+        "components": {
+          "bio_boundary_score": 0.7603,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computational",
+          "complexity"
+        ],
+        "normalization": "computational complexity",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computational complexity",
+          "canonical": "computational complexity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7603",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence cue lexicon matched measured by, challenge",
+        "downstream relevance score is 0.5278"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "linear transformation",
+        "canonical": "linear transformation",
+        "normalized": "linear transformation",
+        "tokens": [
+          "linear",
+          "transformation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 26,
+        "sentence": "is d model 512 and the inner-layer has dimensionality d f f 2048 embeddings and softmax similarly to other sequence transduction models we use learned embeddings to convert the input tokens and output tokens to vectors of dimension d model we also use the usual learned linear transformation and softmax function to convert the decoder output to predicted next-token probabilities in our model we share the same weight matrix between the two embedding layers and the pre-softmax linear transformation similar",
+        "context_window": {
+          "previous": "our encoder and decoder contains a fully connected feed-forward network which is applied to each position separately and identically this consists of two linear transformations with a relu activation in between ffn x max 0 xw 1 b 1 w 2 b 2 while the linear transformations are the same across different positions they use different parameters from layer to layer another way of describing this is as two convolutions with kernel size 1 the dimensionality of input and output",
+          "current": "is d model 512 and the inner-layer has dimensionality d f f 2048 embeddings and softmax similarly to other sequence transduction models we use learned embeddings to convert the input tokens and output tokens to vectors of dimension d model we also use the usual learned linear transformation and softmax function to convert the decoder output to predicted next-token probabilities in our model we share the same weight matrix between the two embedding layers and the pre-softmax linear transformation similar",
+          "next": "to in the embedding layers we multiply those weights by d model table maximum path lengths per-layer complexity and minimum number of sequential operations for different layer types n is the sequence length d is the representation dimension k is the kernel size of convolutions and r the size of the neighborhood in restricted self-attention layer type complexity per layer sequential maximum path length operations self-attention o n 2 d o o recurrent o n d 2 o n o"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6815,
+        "downstream_relevance_score": 0.5268,
+        "components": {
+          "bio_boundary_score": 0.5345,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "transformation"
+        ],
+        "normalization": "linear transformation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear transformation",
+          "canonical": "linear transformation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5345",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5268"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "softmax",
+        "canonical": "softmax",
+        "normalized": "softmax",
+        "tokens": [
+          "softmax"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 19,
+        "sentence": "d k the two mechanisms perform similarly additive attention outperforms dot product attention without scaling for larger values of d k we suspect that for large values of d k the dot products grow large in magnitude pushing the softmax function into regions where it has extremely small gradients to counteract this effect we scale the dot products by 1 d k multi-head attention instead of performing a single attention function with d model -dimensional keys values and queries we",
+        "context_window": {
+          "previous": "v the two most commonly used attention functions are additive attention and dot-product multiplicative attention dot-product attention is identical to our algorithm except for the scaling factor of 1 d k additive attention computes the compatibility function using a feed-forward network with a single hidden layer while the two are similar in theoretical complexity dot-product attention is much faster and more space-efficient in practice since it can be implemented using highly optimized matrix multiplication code while for small values of",
+          "current": "d k the two mechanisms perform similarly additive attention outperforms dot product attention without scaling for larger values of d k we suspect that for large values of d k the dot products grow large in magnitude pushing the softmax function into regions where it has extremely small gradients to counteract this effect we scale the dot products by 1 d k multi-head attention instead of performing a single attention function with d model -dimensional keys values and queries we",
+          "next": "found it beneficial to linearly project the queries keys and values h times with different learned linear projections to d k d k and d v dimensions respectively on each of these projected versions of queries keys and values we then perform the attention function in parallel yielding d v -dimensional output values these are concatenated and once again projected resulting in the final values as depicted in figure multi-head attention allows the model to jointly attend to information from"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6294,
+        "downstream_relevance_score": 0.5191,
+        "components": {
+          "bio_boundary_score": 0.5338,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "softmax"
+        ],
+        "normalization": "softmax",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "softmax",
+          "canonical": "softmax",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5338",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.5191"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "attention key",
+        "canonical": "attention key",
+        "normalized": "attention key",
+        "tokens": [
+          "attention",
+          "key"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 47,
+        "sentence": "heads in table rows b we observe that reducing the attention key size d k hurts model quality this suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial we further observe in rows c and d that as expected bigger models are better and dropout is very helpful in avoiding over-fitting in row e we replace our sinusoidal positional encoding with learned positional embeddings and observe nearly identical results",
+        "context_window": {
+          "previous": "measuring the change in performance on english-to-german translation on the we used beam search as described in the previous section but no checkpoint averaging we present these results in table in table rows a we vary the number of attention heads and the attention key and value dimensions keeping the amount of computation constant as described in section 3 2 2 while single-head attention is 0 9 bleu worse than the best setting quality also drops off with too many",
+          "current": "heads in table rows b we observe that reducing the attention key size d k hurts model quality this suggests that determining compatibility is not easy and that a more sophisticated compatibility function than dot product may be beneficial we further observe in rows c and d that as expected bigger models are better and dropout is very helpful in avoiding over-fitting in row e we replace our sinusoidal positional encoding with learned positional embeddings and observe nearly identical results",
+          "next": "to the base model english constituency parsing to evaluate if the transformer can generalize to other tasks we performed on english constituency parsing this task presents specific challenges the output is subject to strong structural constraints and is significantly longer than the input furthermore rnn sequence-to-sequence models have not been able to attain state-of-the-art results in small-data regimes we trained a 4-layer transformer with d model 1024 on the wall street journal wsj portion of the penn treebank about 40k"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6997,
+        "downstream_relevance_score": 0.5038,
+        "components": {
+          "bio_boundary_score": 0.859,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "attention",
+          "key"
+        ],
+        "normalization": "attention key",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "attention key",
+          "canonical": "attention key",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.859",
+        "structure model assigned role 'component' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5038"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "path length",
+        "canonical": "path length",
+        "normalized": "path length",
+        "tokens": [
+          "path",
+          "length"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 35,
+        "sentence": "output position this would increase the maximum path length to o n r we plan to investigate this approach further in future work a single convolutional layer with kernel width k n does not connect all pairs of input and output positions doing so requires a stack of o n k convolutional layers in the case of contiguous kernels or o log k n in the case of dilated convolutions increasing the length of the longest paths between any two",
+        "context_window": {
+          "previous": "o n sequential operations in terms of computational complexity self-attention layers are faster than recurrent layers when the sequence length n is smaller than the representation dimensionality d which is most often the case with sentence representations used by state-of-the-art models in machine translations such as word-piece and byte-pair representations to improve computational performance for tasks involving very long sequences self-attention could be restricted to considering only a neighborhood of size r in the input sequence centered around the respective",
+          "current": "output position this would increase the maximum path length to o n r we plan to investigate this approach further in future work a single convolutional layer with kernel width k n does not connect all pairs of input and output positions doing so requires a stack of o n k convolutional layers in the case of contiguous kernels or o log k n in the case of dilated convolutions increasing the length of the longest paths between any two",
+          "next": "positions in the network convolutional layers are generally more expensive than recurrent layers by a factor of k separable convolutions however decrease the complexity considerably to o k n d n d 2 even with k n however the complexity of a separable convolution is equal to the combination of a self-attention layer and a point-wise feed-forward layer the approach we take in our model as side benefit self-attention could yield more interpretable models we inspect attention distributions from our"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "future work",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "future-work cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.574,
+        "downstream_relevance_score": 0.4639,
+        "components": {
+          "bio_boundary_score": 0.5673,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "path",
+          "length"
+        ],
+        "normalization": "path length",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "path length",
+          "canonical": "path length",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5673",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence cue lexicon matched future work",
+        "downstream relevance score is 0.4639"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "compatibility",
+        "canonical": "compatibility",
+        "normalized": "compatibility",
+        "tokens": [
+          "compatibility"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 16,
+        "sentence": "described as mapping a query and a set of key-value pairs to an output where the query keys values and output are all vectors the output is computed as a weighted sum of the values where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key scaled dot-product attention we call our particular attention scaled dot-product attention figure the input consists of queries and keys of dimension d k and values",
+        "context_window": {
+          "previous": "the output of the encoder stack similar to the encoder we employ residual connections around each of the sub-layers followed by layer normalization we also modify the self-attention sub-layer in the decoder stack to prevent positions from attending to subsequent positions this masking combined with fact that the output embeddings are offset by one position ensures that the predictions for position i can depend only on the known outputs at positions less than i attention an attention function can be",
+          "current": "described as mapping a query and a set of key-value pairs to an output where the query keys values and output are all vectors the output is computed as a weighted sum of the values where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key scaled dot-product attention we call our particular attention scaled dot-product attention figure the input consists of queries and keys of dimension d k and values",
+          "next": "of dimension d v we compute the dot products of the query with all keys divide each by d k and apply a softmax function to obtain the weights on the values in practice we compute the attention function on a set of queries simultaneously packed together into a matrix q the keys and values are also packed together into matrices k and v we compute the matrix of outputs as attention q k v softmax qk t d k"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5609,
+        "downstream_relevance_score": 0.4121,
+        "components": {
+          "bio_boundary_score": 0.522,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "compatibility"
+        ],
+        "normalization": "compatibility",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "compatibility",
+          "canonical": "compatibility",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.522",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4121"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "encoder",
+        "canonical": "encoder",
+        "normalized": "encoder",
+        "tokens": [
+          "encoder"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 14,
+        "sentence": "is the output of each sub-layer is layernorm x sublayer x where sublayer x is the function implemented by the sub-layer itself to facilitate these residual connections all sub-layers in the model as well as the embedding layers produce outputs of dimension d model 512 decoder the decoder is also composed of a stack of n 6 identical layers in addition to the two sub-layers in each encoder layer the decoder inserts a third sub-layer which performs multi-head attention over",
+        "context_window": {
+          "previous": "using stacked self-attention and point-wise fully connected layers for both the encoder and decoder shown in the left and right halves of figure respectively encoder and decoder stacks encoder the encoder is composed of a stack of n 6 identical layers each layer has two sub-layers the first is a multi-head self-attention mechanism and the second is a simple positionwise fully connected feed-forward network we employ a residual connection around each of the two sub-layers followed by layer normalization that",
+          "current": "is the output of each sub-layer is layernorm x sublayer x where sublayer x is the function implemented by the sub-layer itself to facilitate these residual connections all sub-layers in the model as well as the embedding layers produce outputs of dimension d model 512 decoder the decoder is also composed of a stack of n 6 identical layers in addition to the two sub-layers in each encoder layer the decoder inserts a third sub-layer which performs multi-head attention over",
+          "next": "the output of the encoder stack similar to the encoder we employ residual connections around each of the sub-layers followed by layer normalization we also modify the self-attention sub-layer in the decoder stack to prevent positions from attending to subsequent positions this masking combined with fact that the output embeddings are offset by one position ensures that the predictions for position i can depend only on the known outputs at positions less than i attention an attention function can be"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4661,
+        "downstream_relevance_score": 0.318,
+        "components": {
+          "bio_boundary_score": 0.5543,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "encoder"
+        ],
+        "normalization": "encoder",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "encoder",
+          "canonical": "encoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5543",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.318"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "sequential computation",
+        "canonical": "sequential computation",
+        "normalized": "sequential computation",
+        "tokens": [
+          "sequential",
+          "computation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "hidden states h t as a function of the previous hidden state h t-1 and the input for position t this inherently sequential nature precludes parallelization within training examples which becomes critical at longer sequence lengths as memory constraints limit batching across examples recent work has achieved significant improvements in computational efficiency through factorization tricks and conditional computation while also improving model performance in case of the latter the fundamental constraint of sequential computation however remains attention mechanisms have become",
+        "context_window": {
+          "previous": "recurrent neural networks long short-term memory and gated recurrent neural networks in particular have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation numerous efforts have since continued to push the boundaries of recurrent language models and encoder-decoder architectures recurrent models typically factor computation along the symbol positions of the input and output sequences aligning the positions to steps in computation time they generate a sequence of",
+          "current": "hidden states h t as a function of the previous hidden state h t-1 and the input for position t this inherently sequential nature precludes parallelization within training examples which becomes critical at longer sequence lengths as memory constraints limit batching across examples recent work has achieved significant improvements in computational efficiency through factorization tricks and conditional computation while also improving model performance in case of the latter the fundamental constraint of sequential computation however remains attention mechanisms have become",
+          "next": "an integral part of compelling sequence modeling and transduction models in various tasks allowing modeling of dependencies without regard to their distance in the input or output sequences in all but a few cases however such attention mechanisms are used in conjunction with a recurrent network in this work we propose the transformer a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output the transformer allows for significantly more"
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.427,
+        "downstream_relevance_score": 0.2948,
+        "components": {
+          "bio_boundary_score": 0.6152,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sequential",
+          "computation"
+        ],
+        "normalization": "sequential computation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sequential computation",
+          "canonical": "sequential computation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6152",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "downstream relevance score is 0.2948"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 16,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The Transformer follows this overall architecture using stacked self-attention and point-wise, fully connected layers for both the encoder and decoder, shown in the left and right halves of Figure , respectively.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "We present these results in Table .",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our model achieves 28.4 BLEU on the WMT 2014 Englishto-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our model achieves 28.4 BLEU on the WMT 2014 Englishto-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Recurrent neural networks, long short-term memory and gated recurrent neural networks in particular, have been firmly established as state of the art approaches in sequence modeling and transduction problems such as language modeling and machine translation .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this work we propose the Transformer, a model architecture eschewing recurrence and instead relying entirely on an attention mechanism to draw global dependencies between input and output.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "The Transformer allows for significantly more parallelization and can reach a new state of the art in translation quality after being trained for as little as twelve hours on eight P100 GPUs.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This makes it more difficult to learn dependencies between distant positions .",
+        "evidence_type": "limitation",
+        "matched_cue": "difficult to",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "While single-head attention is 0.9 BLEU worse than the best setting, quality also drops off with too many heads.",
+        "evidence_type": "metric",
+        "matched_cue": "BLEU",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In the former task our best model outperforms even all previously reported ensembles.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "self-attention",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.815
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "machine translation",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.7344
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "attention",
+        "section": "method",
+        "role": "component",
+        "score": 0.6926
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "bleu score",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6524
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "attention",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.6152
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "positional encoding",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5962
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "computational complexity",
+        "section": "method",
+        "role": "component",
+        "score": 0.5278
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "linear transformation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5268
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "softmax",
+        "section": "method",
+        "role": "component",
+        "score": 0.5191
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "attention key",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.5038
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "path length",
+        "section": "method",
+        "role": "component",
+        "score": 0.4639
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "compatibility",
+        "section": "method",
+        "role": "component",
+        "score": 0.4121
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "encoder",
+        "section": "method",
+        "role": "component",
+        "score": 0.318
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "sequential computation",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.2948
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}
