@@ -51,7 +51,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--input_dir", default=str(PROJECT_DIR / "datasets" / "03_demo_txt" / "full_library"))
     parser.add_argument("--output_dir", default=str(PROJECT_DIR / "outputs" / "paper_cards_batch_eval"))
     parser.add_argument("--keyword_checkpoint", default=str(PROJECT_DIR / "models" / "checkpoints" / "keyword_scibert_semeval2010_finetune_nobow"))
-    parser.add_argument("--structured_checkpoint", default=str(PROJECT_DIR / "models" / "checkpoints" / "structure_v2_scibert_evidencefix"))
+    parser.add_argument("--structured_checkpoint", default=str(PROJECT_DIR / "models" / "checkpoints" / "structure_v4_partial_role_balanced_fulldev"))
     parser.add_argument("--device", default="auto")
     parser.add_argument("--top_k_keyphrases", type=int, default=28)
     parser.add_argument("--limit", type=int, default=None)

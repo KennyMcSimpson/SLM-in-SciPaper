@@ -1,0 +1,3795 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2019_reinforcement_learning_dream_to_control_learning_behaviors_by_latent_imagination",
+    "title": "2019_reinforcement_learning_dream_to_control_learning_behaviors_by_latent_imagination",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2019_reinforcement_learning_dream_to_control_learning_behaviors_by_latent_imagination.txt",
+    "sentence_count": 880,
+    "section_counts": {
+      "intro": 172,
+      "related_work": 129,
+      "method": 258,
+      "experiment": 301,
+      "conclusion": 20
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 10457,
+    "type_count": 1741,
+    "type_token_ratio": 0.1665,
+    "section_token_counts": {
+      "intro": 4391,
+      "related_work": 1456,
+      "method": 838,
+      "experiment": 2151,
+      "conclusion": 1621
+    },
+    "top_unigrams": [
+      {
+        "term": "et",
+        "count": 120
+      },
+      {
+        "term": "al",
+        "count": 120
+      },
+      {
+        "term": "model",
+        "count": 119
+      },
+      {
+        "term": "learning",
+        "count": 93
+      },
+      {
+        "term": "arxiv",
+        "count": 90
+      },
+      {
+        "term": "1000",
+        "count": 77
+      },
+      {
+        "term": "2018",
+        "count": 74
+      },
+      {
+        "term": "dreamer",
+        "count": 68
+      },
+      {
+        "term": "steps",
+        "count": 60
+      },
+      {
+        "term": "latent",
+        "count": 59
+      },
+      {
+        "term": "value",
+        "count": 55
+      },
+      {
+        "term": "250",
+        "count": 50
+      },
+      {
+        "term": "500",
+        "count": 50
+      },
+      {
+        "term": "750",
+        "count": 50
+      },
+      {
+        "term": "tasks",
+        "count": 49
+      },
+      {
+        "term": "environment",
+        "count": 47
+      },
+      {
+        "term": "action",
+        "count": 46
+      },
+      {
+        "term": "preprint",
+        "count": 45
+      },
+      {
+        "term": "dynamics",
+        "count": 41
+      },
+      {
+        "term": "rewards",
+        "count": 39
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 120
+      },
+      {
+        "term": "250 500",
+        "count": 50
+      },
+      {
+        "term": "500 750",
+        "count": 50
+      },
+      {
+        "term": "750 1000",
+        "count": 48
+      },
+      {
+        "term": "arxiv preprint",
+        "count": 45
+      },
+      {
+        "term": "al 2018",
+        "count": 44
+      },
+      {
+        "term": "preprint arxiv",
+        "count": 44
+      },
+      {
+        "term": "environment steps",
+        "count": 30
+      },
+      {
+        "term": "200 400",
+        "count": 29
+      },
+      {
+        "term": "400 600",
+        "count": 28
+      },
+      {
+        "term": "600 800",
+        "count": 28
+      },
+      {
+        "term": "800 1000",
+        "count": 26
+      },
+      {
+        "term": "episode return",
+        "count": 25
+      },
+      {
+        "term": "reinforcement learning",
+        "count": 22
+      },
+      {
+        "term": "latent dynamics",
+        "count": 22
+      },
+      {
+        "term": "action model",
+        "count": 22
+      },
+      {
+        "term": "published conference",
+        "count": 20
+      },
+      {
+        "term": "conference paper",
+        "count": 20
+      },
+      {
+        "term": "paper iclr",
+        "count": 20
+      },
+      {
+        "term": "iclr 2020",
+        "count": 20
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "250 500 750",
+        "count": 50
+      },
+      {
+        "term": "500 750 1000",
+        "count": 48
+      },
+      {
+        "term": "et al 2018",
+        "count": 44
+      },
+      {
+        "term": "arxiv preprint arxiv",
+        "count": 44
+      },
+      {
+        "term": "200 400 600",
+        "count": 28
+      },
+      {
+        "term": "400 600 800",
+        "count": 28
+      },
+      {
+        "term": "600 800 1000",
+        "count": 26
+      },
+      {
+        "term": "published conference paper",
+        "count": 20
+      },
+      {
+        "term": "conference paper iclr",
+        "count": 20
+      },
+      {
+        "term": "paper iclr 2020",
+        "count": 20
+      },
+      {
+        "term": "et al 2019",
+        "count": 20
+      },
+      {
+        "term": "environment steps 1e6",
+        "count": 20
+      },
+      {
+        "term": "1000 episode return",
+        "count": 18
+      },
+      {
+        "term": "steps 1e6 250",
+        "count": 14
+      },
+      {
+        "term": "1e6 250 500",
+        "count": 14
+      },
+      {
+        "term": "ln ln ln",
+        "count": 13
+      },
+      {
+        "term": "et al 2015",
+        "count": 12
+      },
+      {
+        "term": "et al 2017",
+        "count": 12
+      },
+      {
+        "term": "hafner et al",
+        "count": 12
+      },
+      {
+        "term": "750 1000 episode",
+        "count": 11
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 9,
+    "nonzero_tfidf_features": 9,
+    "top_tfidf_features": [
+      {
+        "feature_name": "conclusion__representation learning",
+        "section": "conclusion",
+        "term": "representation learning",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "abstract__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.7872
+      },
+      {
+        "feature_name": "experiments__feature learning",
+        "section": "experiment",
+        "term": "feature learning",
+        "frequency": 1.0,
+        "tfidf": 0.7682
+      },
+      {
+        "feature_name": "methods__bias",
+        "section": "method",
+        "term": "bias",
+        "frequency": 2.0,
+        "tfidf": 0.6685
+      },
+      {
+        "feature_name": "experiments__deep learning",
+        "section": "experiment",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.6403
+      },
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.6167
+      },
+      {
+        "feature_name": "methods__reinforcement learning",
+        "section": "method",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.4625
+      },
+      {
+        "feature_name": "methods__backpropagation",
+        "section": "method",
+        "term": "backpropagation",
+        "frequency": 1.0,
+        "tfidf": 0.4374
+      },
+      {
+        "feature_name": "methods__convolutional neural networks",
+        "section": "method",
+        "term": "convolutional neural networks",
+        "frequency": 1.0,
+        "tfidf": 0.3845
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.7872
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.6167
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.6685
+        },
+        {
+          "feature_name": "methods__reinforcement learning",
+          "section": "method",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4625
+        },
+        {
+          "feature_name": "methods__backpropagation",
+          "section": "method",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.4374
+        },
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3845
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__feature learning",
+          "section": "experiment",
+          "term": "feature learning",
+          "frequency": 1.0,
+          "tfidf": 0.7682
+        },
+        {
+          "feature_name": "experiments__deep learning",
+          "section": "experiment",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.6403
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__representation learning",
+          "section": "conclusion",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 172,
+      "token_count": 4391,
+      "bow_hit_count": 64,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 15,
+          "section_prior": 0.4804,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 10,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 10,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 10,
+          "section_prior": 0.1776,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 10,
+          "section_prior": 0.4032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 9,
+          "section_prior": 0.525,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__deep learning",
+          "section": "intro",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.7872
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.6167
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 129,
+      "token_count": 1456,
+      "bow_hit_count": 50,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 30,
+          "section_prior": 0.2451,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 10,
+          "section_prior": 0.1869,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 4,
+          "section_prior": 0.0082,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "artificial intelligence model",
+          "count": 1,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 258,
+      "token_count": 838,
+      "bow_hit_count": 68,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 35,
+          "section_prior": 0.0455,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 12,
+          "section_prior": 0.0278,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 5,
+          "section_prior": 0.098,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 5,
+          "section_prior": 0.1102,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 4,
+          "section_prior": 0.0598,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 4,
+          "section_prior": 0.0682,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "artificial intelligence model",
+          "count": 2,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 1,
+          "section_prior": 0.1088,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.6685
+        },
+        {
+          "feature_name": "methods__reinforcement learning",
+          "section": "method",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.4625
+        },
+        {
+          "feature_name": "methods__backpropagation",
+          "section": "method",
+          "term": "backpropagation",
+          "frequency": 1.0,
+          "tfidf": 0.4374
+        },
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 1.0,
+          "tfidf": 0.3845
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 301,
+      "token_count": 2151,
+      "bow_hit_count": 110,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 49,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "machine learning",
+          "count": 20,
+          "section_prior": 0.1441,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 15,
+          "section_prior": 0.1389,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 6,
+          "section_prior": 0.025,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 5,
+          "section_prior": 0.098,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "policy-gradient method",
+          "count": 5,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 4,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Deep Q-Network",
+          "count": 4,
+          "section_prior": 0.4672,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "artificial intelligence model",
+          "count": 1,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep generative model",
+          "count": 1,
+          "section_prior": 0.0909,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__feature learning",
+          "section": "experiment",
+          "term": "feature learning",
+          "frequency": 1.0,
+          "tfidf": 0.7682
+        },
+        {
+          "feature_name": "experiments__deep learning",
+          "section": "experiment",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.6403
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 20,
+      "token_count": 1621,
+      "bow_hit_count": 15,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 10,
+          "section_prior": 0.0784,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1616,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__representation learning",
+          "section": "conclusion",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 525,
+        "sentence": "Model-based reinforcement learning for atari. arXiv preprint arXiv:1903.00374 , 2019.",
+        "context_window": {
+          "previous": "Levine, et al.",
+          "current": "Model-based reinforcement learning for atari. arXiv preprint arXiv:1903.00374 , 2019.",
+          "next": "R."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6901,
+        "downstream_relevance_score": 0.6953,
+        "components": {
+          "bio_boundary_score": 0.8859,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0455,
+          "document_tfidf_score": 0.4625,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 8,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__reinforcement learning",
+        "section": "method",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.4625,
+        "normalized_frequency": 0.5,
+        "normalized_tfidf": 0.4625
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0455,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8859",
+        "structure model assigned role 'core_method' with score 0.45",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'methods__reinforcement learning' with tf-idf 0.4625",
+        "downstream relevance score is 0.6953"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "deep learning",
+        "canonical": "deep learning",
+        "normalized": "deep learning",
+        "tokens": [
+          "deep",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep learning",
+          "deep-learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 12,
+        "sentence": "Learning effective latent dynamics models is becoming feasible through advances in deep learning and latent variable models (Krishnan et al., 2015; Karl et al., 2016; Doerr et al., 2018; Buesing et al., 2018).",
+        "context_window": {
+          "previous": "Compared to predictions in image space, latent states have a small memory footprint that enables imagining thousands of trajectories in parallel.",
+          "current": "Learning effective latent dynamics models is becoming feasible through advances in deep learning and latent variable models (Krishnan et al., 2015; Karl et al., 2016; Doerr et al., 2018; Buesing et al., 2018).",
+          "next": "Behaviors can be derived from dynamics models in many ways."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5865,
+        "downstream_relevance_score": 0.6859,
+        "components": {
+          "bio_boundary_score": 0.5917,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5,
+          "document_tfidf_score": 0.7872,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "deep learning",
+        "display_term": "deep learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Deep_learning",
+        "wikidata_id": "Q197536",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 25,
+        "total_frequency": 49,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__deep learning",
+        "section": "intro",
+        "term": "deep learning",
+        "frequency": 1.0,
+        "tfidf": 0.7872,
+        "normalized_frequency": 0.5,
+        "normalized_tfidf": 0.7872
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deep",
+          "learning"
+        ],
+        "normalization": "deep learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5,
+        "canonicalization": {
+          "observed": "deep learning",
+          "canonical": "deep learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5917",
+        "structure model assigned role 'problem' with score 0.9218",
+        "section BoW matched canonical term 'deep learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'abstract__deep learning' with tf-idf 0.7872",
+        "downstream relevance score is 0.6859"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "actor critic",
+        "canonical": "actor critic",
+        "normalized": "actor critic",
+        "tokens": [
+          "actor",
+          "critic"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 219,
+        "sentence": "For this, we propose an actor critic method that optimizes a parametric policy by propagating analytic gradients of multi-step values back through learned latent dynamics.",
+        "context_window": {
+          "previous": "7 C ONCLUSION We present Dreamer, an agent that learns long-horizon behaviors purely by latent imagination.",
+          "current": "For this, we propose an actor critic method that optimizes a parametric policy by propagating analytic gradients of multi-step values back through learned latent dynamics.",
+          "next": "Dreamer outperforms previous methods in data-efficiency, computation time, and final performance on a variety of challenging continuous control tasks with image inputs."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "method",
+          "matched_cue": "propose",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6926,
+        "downstream_relevance_score": 0.5548,
+        "components": {
+          "bio_boundary_score": 0.689,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "actor",
+          "critic"
+        ],
+        "normalization": "actor critic",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "actor critic",
+          "canonical": "actor critic",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.689",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5548"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "Value model",
+        "canonical": "Value model",
+        "normalized": "value model",
+        "tokens": [
+          "value",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 80,
+        "sentence": "The value model estimates the expected imagined rewards that the action model achieves from each state s τ , Action model: a τ ∼ q φ ( a τ | s τ ) Value model: v ψ ( s τ ) ≈ E q ( ·| s τ ) ( ∑ t + H τ = t γ τ − t r τ ) .",
+        "context_window": {
+          "previous": "The action model implements the policy and aims to predict actions that solve the imagination environment.",
+          "current": "The value model estimates the expected imagined rewards that the action model achieves from each state s τ , Action model: a τ ∼ q φ ( a τ | s τ ) Value model: v ψ ( s τ ) ≈ E q ( ·| s τ ) ( ∑ t + H τ = t γ τ − t r τ ) .",
+          "next": "(2) The action and value models are trained cooperatively as typical in policy iteration: the action model aims to maximize an estimate of the value, while the value model aims to match an estimate of the value that changes as the action model changes."
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.684,
+        "downstream_relevance_score": 0.5279,
+        "components": {
+          "bio_boundary_score": 0.9966,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "value",
+          "model"
+        ],
+        "normalization": "value model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Value model",
+          "canonical": "Value model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9966",
+        "structure model assigned role 'background' with score 0.45",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5279"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "Representation learning",
+        "canonical": "feature learning",
+        "normalized": "feature learning",
+        "tokens": [
+          "representation",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "representation learning",
+          "feature learning"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 212,
+        "sentence": "Representation learning Dreamer can be used with any differentiable dynamics model that pre- dicts future rewards given actions and past observations.",
+        "context_window": {
+          "previous": "Performance curves for all 19 tasks with horizon of 20 are shown in Appendix D, where Dreamer outperforms the alternatives on 16 of 20 tasks, with 4 ties.",
+          "current": "Representation learning Dreamer can be used with any differentiable dynamics model that pre- dicts future rewards given actions and past observations.",
+          "next": "Since the representation learning objective is orthogonal to our algorithm, we compare three natural choices described in Section 4: pixel recon- struction, contrastive estimation, and pure reward prediction."
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "future_work",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5413,
+        "downstream_relevance_score": 0.5275,
+        "components": {
+          "bio_boundary_score": 0.9531,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2451,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "representation learning",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "feature learning",
+        "display_term": "representation learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Feature_learning",
+        "wikidata_id": "Q17013334",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 12,
+        "total_frequency": 24,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "representation",
+          "learning"
+        ],
+        "normalization": "representation learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2451,
+        "canonicalization": {
+          "observed": "Representation learning",
+          "canonical": "feature learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9531",
+        "structure model assigned role 'future_work' with score 0.66",
+        "section BoW matched canonical term 'feature learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5275"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "information regularizer",
+        "canonical": "information regularizer",
+        "normalized": "information regularizer",
+        "tokens": [
+          "information",
+          "regularizer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 847,
+        "sentence": "As a result, the information regularizer encourages the model to learn long-term dependencies.",
+        "context_window": {
+          "previous": "This encourages the model to reconstruct each image by relying on information extracted at preceeding time steps to the extent possible, and only accessing additional information from the current image when necessary.",
+          "current": "As a result, the information regularizer encourages the model to learn long-term dependencies.",
+          "next": "For the generative objective, we lower bound the first term using the non-negativity of the KL divergence and drop the marginal data probability as it does not depend on the representation model, I( s 1: T ; ( o 1: T , r 1: T ) | a 1: T ) = E p ( o 1: T ,r 1: T ,s 1: T ,a 1: T ) ( ∑ t ln p ( o 1: T , r 1: T | s 1: T , a 1: T ) − ln p ( o 1: T , r 1: T | a 1: T ) const ) + = E ( ∑ t ln p ( o 1: T , r 1: T | s 1: T , a 1: T ) ) ≥ E ( ∑ t ln p ( o 1: T , r 1: T | s 1: T , a 1: T ) ) − KL ( p ( o 1: T , r 1: T | s 1: T , a 1: T ) ∥ ∥ ∥ ∏ t q ( o t | s t ) q ( r t | s t ) ) = E ( ∑ t ln q ( o t | s t ) + ln q ( r t | s t ) ) ."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7452,
+        "downstream_relevance_score": 0.5221,
+        "components": {
+          "bio_boundary_score": 0.9733,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "information",
+          "regularizer"
+        ],
+        "normalization": "information regularizer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "information regularizer",
+          "canonical": "information regularizer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9733",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5221"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "Dreamer",
+        "canonical": "Dreamer",
+        "normalized": "dreamer",
+        "tokens": [
+          "dreamer"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 36,
+        "sentence": "Any learning objective for the world model can be incorporated with Dreamer.",
+        "context_window": {
+          "previous": "As outlined in Figure 3 and detailed in Algorithm 1, Dreamer performs the following operations throughout the agent’s life time, either interleaved or in parallel: • Learning the latent dynamics model from the dataset of past experience to predict future re- wards from actions and past observations.",
+          "current": "Any learning objective for the world model can be incorporated with Dreamer.",
+          "next": "We review existing methods for learning latent dynamics in Section 4. • Learning action and value models from predicted latent trajectories, as described in Section 3."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6825,
+        "downstream_relevance_score": 0.5005,
+        "components": {
+          "bio_boundary_score": 0.9206,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dreamer"
+        ],
+        "normalization": "dreamer",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Dreamer",
+          "canonical": "Dreamer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9206",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.5005"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "Convolutional neural network",
+          "convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 84,
+        "sentence": "This allows for reparameterized sampling (Kingma and Welling, 2013; Rezende et al., 2014) that views sampled actions as deterministically dependent on the neural network output, allowing us to backpropagate analytic gradients through the sampling operation, a τ = tanh ( μ φ ( s τ ) + σ φ ( s τ ) \u000f ) , \u000f ∼ Normal(0 , I ) .",
+        "context_window": {
+          "previous": "The action model outputs a tanh-transformed Gaussian (Haarnoja et al., 2018) with sufficient statistics predicted by the neural network.",
+          "current": "This allows for reparameterized sampling (Kingma and Welling, 2013; Rezende et al., 2014) that views sampled actions as deterministically dependent on the neural network output, allowing us to backpropagate analytic gradients through the sampling operation, a τ = tanh ( μ φ ( s τ ) + σ φ ( s τ ) \u000f ) , \u000f ∼ Normal(0 , I ) .",
+          "next": "(3) Value estimation To learn the action and value models, we need to estimate the state values of imagined trajectories { s τ , a τ , r τ } t + H τ = t ."
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.538,
+        "downstream_relevance_score": 0.4969,
+        "components": {
+          "bio_boundary_score": 0.9933,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4032,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 27,
+        "total_frequency": 54,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4032,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9933",
+        "structure model assigned role 'background' with score 0.45",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.4969"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "standard deviation",
+        "canonical": "standard deviation",
+        "normalized": "standard deviation",
+        "tokens": [
+          "standard",
+          "deviation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 862,
+        "sentence": "The lines show mean scores over environment steps and the shaded areas show the standard deviation across 5 seeds.",
+        "context_window": {
+          "previous": "16 Published as a conference paper at ICLR 2020 D B EHAVIOR L EARNING 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Acrobot Swingup 0 1 2 3 4 5 0 250 500 750 1000 Cartpole Balance 0 1 2 3 4 5 0 250 500 750 1000 Cartpole Balance Sparse 0 1 2 3 4 5 0 250 500 750 1000 Cartpole Swingup 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Cartpole Swingup Sparse 0 1 2 3 4 5 0 250 500 750 1000 Cheetah Run 0 1 2 3 4 5 0 250 500 750 1000 Cup Catch 0 1 2 3 4 5 0 250 500 750 1000 Finger Spin 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Finger Turn Easy 0 1 2 3 4 5 0 250 500 750 1000 Finger Turn Hard 0 1 2 3 4 5 0 250 500 750 1000 Hopper Hop 0 1 2 3 4 5 0 250 500 750 1000 Hopper Stand 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Pendulum Swingup 0 1 2 3 4 5 0 250 500 750 1000 Quadruped Run 0 1 2 3 4 5 0 250 500 750 1000 Quadruped Walk 0 1 2 3 4 5 0 250 500 750 1000 Reacher Easy 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Episode Return Reacher Hard 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Walker Run 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Walker Stand 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Walker Walk Dreamer No value PlaNet D4PG (1e9 steps) A3C (1e9 steps, proprio) SLAC (3e6 steps) Figure 10: Comparison of action selection schemes on the continuous control tasks of the DeepMind Control Suite from pixel inputs.",
+          "current": "The lines show mean scores over environment steps and the shaded areas show the standard deviation across 5 seeds.",
+          "next": "We compare Dreamer that learns both actions and values in imagination, to only learning actions in imagination, and Planet that selects actions by online planning instead of learning a policy."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.693,
+        "downstream_relevance_score": 0.495,
+        "components": {
+          "bio_boundary_score": 0.8622,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "standard",
+          "deviation"
+        ],
+        "normalization": "standard deviation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "standard deviation",
+          "canonical": "standard deviation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8622",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.495"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "stochastic backpropagation",
+        "canonical": "stochastic backpropagation",
+        "normalized": "stochastic backpropagation",
+        "tokens": [
+          "stochastic",
+          "backpropagation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 143,
+        "sentence": "(12) We implement the state model as a CNN and again optimize the bound with respect to the combined parameter vector θ using stochastic backpropagation.",
+        "context_window": {
+          "previous": "Intuitively, q ( s t | o t ) makes the state predictable from the current image while ln ∑ o ′ q ( s t | o ′ ) keeps it diverse to prevent collapse, J NCE . = E ( ∑ t ( J t S + J t R + J t D ) ) J t S . = ln q ( s t | o t ) − ln ( ∑ o ′ q ( s t | o ′ ) ) .",
+          "current": "(12) We implement the state model as a CNN and again optimize the bound with respect to the combined parameter vector θ using stochastic backpropagation.",
+          "next": "While avoiding pixel prediction, the amount of information this bound can extract efficiently is limited (McAllester and Statos, 2018)."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6661,
+        "downstream_relevance_score": 0.464,
+        "components": {
+          "bio_boundary_score": 0.8402,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "backpropagation"
+        ],
+        "normalization": "stochastic backpropagation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic backpropagation",
+          "canonical": "stochastic backpropagation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8402",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.464"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "Image reconstruction",
+        "canonical": "Image reconstruction",
+        "normalized": "image reconstruction",
+        "tokens": [
+          "image",
+          "reconstruction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 868,
+        "sentence": "Image reconstruction provides the best learning signal across most of the tasks, followed by the contrastive objective.",
+        "context_window": {
+          "previous": "We compare generating both images and rewards, generating rewards and using a contrastive loss to learn about the images, and only predicting rewards.",
+          "current": "Image reconstruction provides the best learning signal across most of the tasks, followed by the contrastive objective.",
+          "next": "Learning purely from rewards was not sufficient in our experiments and might require larger amounts of experience."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6931,
+        "downstream_relevance_score": 0.4612,
+        "components": {
+          "bio_boundary_score": 0.9342,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "reconstruction"
+        ],
+        "normalization": "image reconstruction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Image reconstruction",
+          "canonical": "Image reconstruction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9342",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4612"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "convolutional encoder and decoder",
+        "canonical": "convolutional encoder and decoder",
+        "normalized": "convolutional encoder and decoder",
+        "tokens": [
+          "convolutional",
+          "encoder",
+          "and",
+          "decoder"
+        ],
+        "ngram_len": 4,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 816,
+        "sentence": "We use the convolutional encoder and decoder networks from Ha and Schmid- huber (2018), the RSSM of Hafner et al.",
+        "context_window": {
+          "previous": "13 Published as a conference paper at ICLR 2020 A H YPER P ARAMETERS Model components",
+          "current": "We use the convolutional encoder and decoder networks from Ha and Schmid- huber (2018), the RSSM of Hafner et al.",
+          "next": "(2018), and implement all other functions as three dense layers of size 300 with ELU activations (Clevert et al., 2015)."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6167,
+        "downstream_relevance_score": 0.4583,
+        "components": {
+          "bio_boundary_score": 0.7425,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 1.0
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "encoder",
+          "and",
+          "decoder"
+        ],
+        "normalization": "convolutional encoder and decoder",
+        "ngram": "4-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convolutional encoder and decoder",
+          "canonical": "convolutional encoder and decoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7425",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4583"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "world model",
+        "canonical": "world model",
+        "normalized": "world model",
+        "tokens": [
+          "world",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "We efficiently learn behaviors by propagating analytic gradients of learned state values back through trajectories imagined in the compact state space of a learned world model.",
+        "context_window": {
+          "previous": "We present Dreamer, a reinforcement learning agent that solves long-horizon tasks from images purely by latent imagination.",
+          "current": "We efficiently learn behaviors by propagating analytic gradients of learned state values back through trajectories imagined in the compact state space of a learned world model.",
+          "next": "On 20 challenging visual control tasks, Dreamer exceeds existing approaches in data-efficiency, computation time, and final performance."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5781,
+        "downstream_relevance_score": 0.4562,
+        "components": {
+          "bio_boundary_score": 0.5699,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "world",
+          "model"
+        ],
+        "normalization": "world model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "world model",
+          "canonical": "world model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5699",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.4562"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "latent dynamics",
+        "canonical": "latent dynamics",
+        "normalized": "latent dynamics",
+        "tokens": [
+          "latent",
+          "dynamics"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 39,
+        "sentence": "Latent dynamics Dreamer uses a latent dynamics model that consists of three components.",
+        "context_window": {
+          "previous": "The value model optimizes Bellman consistency for imagined rewards and the action model is updated by propagating gradients of value estimates back through the neural network dynamics. • Executing the learned action model in the world to collect new experience for growing the dataset.",
+          "current": "Latent dynamics Dreamer uses a latent dynamics model that consists of three components.",
+          "next": "The representation model encodes observations and actions to create continuous vector-valued model states s t with Markovian transitions (Watter et al., 2015; Zhang et al., 2019; Hafner et al., 2018)."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5649,
+        "downstream_relevance_score": 0.4493,
+        "components": {
+          "bio_boundary_score": 0.5177,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "latent",
+          "dynamics"
+        ],
+        "normalization": "latent dynamics",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "latent dynamics",
+          "canonical": "latent dynamics",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5177",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.4493"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "PlaNet",
+        "canonical": "PlaNet",
+        "normalized": "planet",
+        "tokens": [
+          "planet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 125,
+        "sentence": "After 5 × 10 6 environment steps, Dreamer reaches an average performance of 823 across tasks, compared to PlaNet at 332 and the top model-free D4PG agent at 786 after 10 8 steps.",
+        "context_window": {
+          "previous": "Dreamer inherits the data-efficiency of PlaNet while exceeding the asymptotic performance of the best model-free agents.",
+          "current": "After 5 × 10 6 environment steps, Dreamer reaches an average performance of 823 across tasks, compared to PlaNet at 332 and the top model-free D4PG agent at 786 after 10 8 steps.",
+          "next": "Results are averages over 5 seeds."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6446,
+        "downstream_relevance_score": 0.447,
+        "components": {
+          "bio_boundary_score": 0.7014,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "planet"
+        ],
+        "normalization": "planet",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "PlaNet",
+          "canonical": "PlaNet",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7014",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.447"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "binary classifier",
+        "canonical": "binary classifier",
+        "normalized": "binary classifier",
+        "tokens": [
+          "binary",
+          "classifier"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 842,
+        "sentence": "We predict the discount factor from the latent state with a binary classifier that is trained towards the soft labels of 0 and γ .",
+        "context_window": {
+          "previous": "1 , and bound rewards using tanh.",
+          "current": "We predict the discount factor from the latent state with a binary classifier that is trained towards the soft labels of 0 and γ .",
+          "next": "14 Published as a conference paper at ICLR 2020 B D ERIVATIONS We define the information bottleneck objective (Tishby et al., 2000) for latent dynamics models, max I( s 1: T ; ( o 1: T , r 1: T ) | a 1: T ) − β I( s 1: T , i 1: T | a 1: T ) , (13) where β is scalar and i t are dataset indices that determine the observations p ( o t | i t ) . = δ ( o t − ¯ o t ) as in Alemi et al."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.614,
+        "downstream_relevance_score": 0.4369,
+        "components": {
+          "bio_boundary_score": 0.7341,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "binary",
+          "classifier"
+        ],
+        "normalization": "binary classifier",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "binary classifier",
+          "canonical": "binary classifier",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7341",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4369"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "Model-based planning",
+        "canonical": "Model-based planning",
+        "normalized": "model-based planning",
+        "tokens": [
+          "model-based",
+          "planning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 473,
+        "sentence": "Model-based planning with discrete and continuous actions. arXiv preprint arXiv:1705.07177 , 2018.",
+        "context_window": {
+          "previous": "LeCun.",
+          "current": "Model-based planning with discrete and continuous actions. arXiv preprint arXiv:1705.07177 , 2018.",
+          "next": "M."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6346,
+        "downstream_relevance_score": 0.435,
+        "components": {
+          "bio_boundary_score": 0.7123,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "model-based",
+          "planning"
+        ],
+        "normalization": "model-based planning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Model-based planning",
+          "canonical": "Model-based planning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7123",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.435"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "variational bayes",
+        "canonical": "variational bayes",
+        "normalized": "variational bayes",
+        "tokens": [
+          "variational",
+          "bayes"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 545,
+        "sentence": "Auto-encoding variational bayes. arXiv preprint arXiv:1312.6114 , 2013.",
+        "context_window": {
+          "previous": "Welling.",
+          "current": "Auto-encoding variational bayes. arXiv preprint arXiv:1312.6114 , 2013.",
+          "next": "R."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6259,
+        "downstream_relevance_score": 0.4305,
+        "components": {
+          "bio_boundary_score": 0.7054,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "variational",
+          "bayes"
+        ],
+        "normalization": "variational bayes",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "variational bayes",
+          "canonical": "variational bayes",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7054",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4305"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "performance",
+        "canonical": "performance",
+        "normalized": "performance",
+        "tokens": [
+          "performance"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 150,
+        "sentence": "(2018) for performance curves of D4PG and A3C.",
+        "context_window": {
+          "previous": "See Tassa et al.",
+          "current": "(2018) for performance curves of D4PG and A3C.",
+          "next": "5 R ELATED W ORK Prior works learn latent dynamics for visual control by derivative-free policy learning or online planning, augment model-free agents with multi-step predictions, or use analytic gradients of Q- values or multi-step rewards, often for low-dimensional tasks."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6121,
+        "downstream_relevance_score": 0.4301,
+        "components": {
+          "bio_boundary_score": 0.607,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "performance"
+        ],
+        "normalization": "performance",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "performance",
+          "canonical": "performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.607",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4301"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "marginal probability",
+        "canonical": "marginal probability",
+        "normalized": "marginal probability",
+        "tokens": [
+          "marginal",
+          "probability"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 849,
+        "sentence": "(14) For the contrastive objective, we subtract the constant marginal probability of the data under the variational encoder, apply Bayes rule, and use the InfoNCE mini-batch bound (Poole et al., 2019), E ( ln q ( o t | s t ) + ln q ( r t | s t ) ) + = E ( ln q ( o t | s t ) − ln q ( o t ) + ln q ( r t | s t ) ) = E ( ln q ( s t | o t ) − ln q ( s t ) + ln q ( r t | s t ) ) ≥ E ( ln q ( s t | o t ) − ln ∑ o ′ q ( s t | o ′ ) + ln q ( r t | s t ) ) .",
+        "context_window": {
+          "previous": "For the generative objective, we lower bound the first term using the non-negativity of the KL divergence and drop the marginal data probability as it does not depend on the representation model, I( s 1: T ; ( o 1: T , r 1: T ) | a 1: T ) = E p ( o 1: T ,r 1: T ,s 1: T ,a 1: T ) ( ∑ t ln p ( o 1: T , r 1: T | s 1: T , a 1: T ) − ln p ( o 1: T , r 1: T | a 1: T ) const ) + = E ( ∑ t ln p ( o 1: T , r 1: T | s 1: T , a 1: T ) ) ≥ E ( ∑ t ln p ( o 1: T , r 1: T | s 1: T , a 1: T ) ) − KL ( p ( o 1: T , r 1: T | s 1: T , a 1: T ) ∥ ∥ ∥ ∏ t q ( o t | s t ) q ( r t | s t ) ) = E ( ∑ t ln q ( o t | s t ) + ln q ( r t | s t ) ) .",
+          "current": "(14) For the contrastive objective, we subtract the constant marginal probability of the data under the variational encoder, apply Bayes rule, and use the InfoNCE mini-batch bound (Poole et al., 2019), E ( ln q ( o t | s t ) + ln q ( r t | s t ) ) + = E ( ln q ( o t | s t ) − ln q ( o t ) + ln q ( r t | s t ) ) = E ( ln q ( s t | o t ) − ln q ( s t ) + ln q ( r t | s t ) ) ≥ E ( ln q ( s t | o t ) − ln ∑ o ′ q ( s t | o ′ ) + ln q ( r t | s t ) ) .",
+          "next": "(15) For the second term, we use the non-negativity of the KL divergence to obtain an upper bound, I( s 1: T ; i 1: T | a 1: T ) = E p ( o 1: T ,r 1: T ,s 1: T ,a 1: T ,i 1: T ) ( ∑ t ln p ( s t | s t − 1 , a t − 1 , i t ) − ln p ( s t | s t − 1 , a t − 1 ) ) = E ( ∑ t ln p ( s t | s t − 1 , a t − 1 , o t ) − ln p ( s t | s t − 1 , a t − 1 ) ) ≤ E ( ∑ t ln p ( s t | s t − 1 , a t − 1 , o t ) − ln q ( s t | s t − 1 , a t − 1 ) ) = E ( ∑ t KL ( p ( s t | s t − 1 , a t − 1 , o t ) ∥ ∥ q ( s t | s t − 1 , a t − 1 ) ) ) ."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5837,
+        "downstream_relevance_score": 0.4211,
+        "components": {
+          "bio_boundary_score": 0.6026,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "marginal",
+          "probability"
+        ],
+        "normalization": "marginal probability",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "marginal probability",
+          "canonical": "marginal probability",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6026",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4211"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "Atari games",
+        "canonical": "Atari games",
+        "normalized": "atari games",
+        "tokens": [
+          "atari",
+          "games"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 860,
+        "sentence": "We highlight representation learning for these environments as a direction of future work that could enable competitive performance across all Atari games and DMLab levels using Dreamer.",
+        "context_window": {
+          "previous": "Dreamer learns successful behaviors on this subset of Atari games and the object collection level of DMLab.",
+          "current": "We highlight representation learning for these environments as a direction of future work that could enable competitive performance across all Atari games and DMLab levels using Dreamer.",
+          "next": "16 Published as a conference paper at ICLR 2020 D B EHAVIOR L EARNING 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Acrobot Swingup 0 1 2 3 4 5 0 250 500 750 1000 Cartpole Balance 0 1 2 3 4 5 0 250 500 750 1000 Cartpole Balance Sparse 0 1 2 3 4 5 0 250 500 750 1000 Cartpole Swingup 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Cartpole Swingup Sparse 0 1 2 3 4 5 0 250 500 750 1000 Cheetah Run 0 1 2 3 4 5 0 250 500 750 1000 Cup Catch 0 1 2 3 4 5 0 250 500 750 1000 Finger Spin 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Finger Turn Easy 0 1 2 3 4 5 0 250 500 750 1000 Finger Turn Hard 0 1 2 3 4 5 0 250 500 750 1000 Hopper Hop 0 1 2 3 4 5 0 250 500 750 1000 Hopper Stand 0 1 2 3 4 5 0 250 500 750 1000 Episode Return Pendulum Swingup 0 1 2 3 4 5 0 250 500 750 1000 Quadruped Run 0 1 2 3 4 5 0 250 500 750 1000 Quadruped Walk 0 1 2 3 4 5 0 250 500 750 1000 Reacher Easy 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Episode Return Reacher Hard 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Walker Run 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Walker Stand 0 1 2 3 4 5 Environment Steps 1e6 0 250 500 750 1000 Walker Walk Dreamer No value PlaNet D4PG (1e9 steps) A3C (1e9 steps, proprio) SLAC (3e6 steps) Figure 10: Comparison of action selection schemes on the continuous control tasks of the DeepMind Control Suite from pixel inputs."
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "future work",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "future-work cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5711,
+        "downstream_relevance_score": 0.4176,
+        "components": {
+          "bio_boundary_score": 0.9733,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "atari",
+          "games"
+        ],
+        "normalization": "atari games",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Atari games",
+          "canonical": "Atari games",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9733",
+        "structure model assigned role 'future_work' with score 0.82",
+        "evidence cue lexicon matched future work",
+        "downstream relevance score is 0.4176"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "Learning",
+        "canonical": "Learning",
+        "normalized": "learning",
+        "tokens": [
+          "learning"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 869,
+        "sentence": "Learning purely from rewards was not sufficient in our experiments and might require larger amounts of experience.",
+        "context_window": {
+          "previous": "Image reconstruction provides the best learning signal across most of the tasks, followed by the contrastive objective.",
+          "current": "Learning purely from rewards was not sufficient in our experiments and might require larger amounts of experience.",
+          "next": "18 Published as a conference paper at ICLR 2020 F A CTION R EPEAT 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Episode Return Acrobot Swingup 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Cartpole Balance 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Cartpole Balance Sparse 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Cartpole Swingup 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Episode Return Cartpole Swingup Sparse 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Cheetah Run 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Cup Catch 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Finger Spin 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Episode Return Finger Turn Easy 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Finger Turn Hard 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Hopper Hop 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Hopper Stand 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Episode Return Pendulum Swingup 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Quadruped Run 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Quadruped Walk 0.0 0.2 0.4 0.6 0.8 1.0 0 200 400 600 800 1000 Reacher Easy 0.0 0.2 0.4 0.6 0.8 1.0 Environment Steps 1e6 0 200 400 600 800 1000 Episode Return Reacher Hard 0.0 0.2 0.4 0.6 0.8 1.0 Environment Steps 1e6 0 200 400 600 800 1000 Walker Run 0.0 0.2 0.4 0.6 0.8 1.0 Environment Steps 1e6 0 200 400 600 800 1000 Walker Stand 0.0 0.2 0.4 0.6 0.8 1.0 Environment Steps 1e6 0 200 400 600 800 1000 Walker Walk Repeat 1 Repeat 2 Repeat 4 A3C (1e9 steps, proprio) D4PG (1e9 steps) PlaNet (1e6 steps) SLAC (3e6 steps) Figure 12: Robustness of Dreamer to different control frequencies."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5901,
+        "downstream_relevance_score": 0.3977,
+        "components": {
+          "bio_boundary_score": 0.6178,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "learning"
+        ],
+        "normalization": "learning",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Learning",
+          "canonical": "Learning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6178",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.3977"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "action model",
+        "canonical": "action model",
+        "normalized": "action model",
+        "tokens": [
+          "action",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 69,
+        "sentence": "Compute a t ∼ q φ ( a t | s t ) with the action model.",
+        "context_window": {
+          "previous": "Update ψ ← ψ − α ∇ ψ ∑ t + H τ = t 1 2 ∥ ∥ v ψ ( s τ ) 9 V λ ( s τ ) ∥ ∥ 2 . // Environment interaction o 1 ← env.reset() for time step t = 1 ..T do Compute s t ∼ p θ ( s t | s t − 1 , a t − 1 , o t ) from history.",
+          "current": "Compute a t ∼ q φ ( a t | s t ) with the action model.",
+          "next": "Add exploration noise to action. r t , o t +1 ← env.step( a t ) ."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6082,
+        "downstream_relevance_score": 0.3891,
+        "components": {
+          "bio_boundary_score": 0.9975,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "action",
+          "model"
+        ],
+        "normalization": "action model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "action model",
+          "canonical": "action model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9975",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.3891"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "variational information bottleneck",
+        "canonical": "variational information bottleneck",
+        "normalized": "variational information bottleneck",
+        "tokens": [
+          "variational",
+          "information",
+          "bottleneck"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 129,
+        "sentence": "(9) The components are optimized jointly to increase the variational lower bound (ELBO; Jordan et al., 1999) or more generally the variational information bottleneck (VIB; Tishby et al., 2000; Alemi et al., 2016).",
+        "context_window": {
+          "previous": "The world model consists of the following components, where the observation model is only used to provide a learning signal, Representation model: p θ ( s t | s t − 1 , a t − 1 , o t ) Observation model: q θ ( o t | s t ) Reward model: q θ ( r t | s t ) Transition model: q θ ( s t | s t − 1 , a t − 1 ) .",
+          "current": "(9) The components are optimized jointly to increase the variational lower bound (ELBO; Jordan et al., 1999) or more generally the variational information bottleneck (VIB; Tishby et al., 2000; Alemi et al., 2016).",
+          "next": "As derived in Appendix B, the bound includes reconstruction terms for observations and rewards and a KL regularizer."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.543,
+        "downstream_relevance_score": 0.378,
+        "components": {
+          "bio_boundary_score": 0.7747,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "variational",
+          "information",
+          "bottleneck"
+        ],
+        "normalization": "variational information bottleneck",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "variational information bottleneck",
+          "canonical": "variational information bottleneck",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7747",
+        "structure model assigned role 'problem' with score 0.82",
+        "downstream relevance score is 0.378"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "Value estimation",
+        "canonical": "Value estimation",
+        "normalized": "value estimation",
+        "tokens": [
+          "value",
+          "estimation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 85,
+        "sentence": "(3) Value estimation To learn the action and value models, we need to estimate the state values of imagined trajectories { s τ , a τ , r τ } t + H τ = t .",
+        "context_window": {
+          "previous": "This allows for reparameterized sampling (Kingma and Welling, 2013; Rezende et al., 2014) that views sampled actions as deterministically dependent on the neural network output, allowing us to backpropagate analytic gradients through the sampling operation, a τ = tanh ( μ φ ( s τ ) + σ φ ( s τ ) \u000f ) , \u000f ∼ Normal(0 , I ) .",
+          "current": "(3) Value estimation To learn the action and value models, we need to estimate the state values of imagined trajectories { s τ , a τ , r τ } t + H τ = t .",
+          "next": "These trajectories branch off of the model states s t of sequence batches drawn from the agent’s dataset of experience and predict forward for the imagination horizon H using actions sampled from the action model."
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_motivation",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5575,
+        "downstream_relevance_score": 0.3755,
+        "components": {
+          "bio_boundary_score": 0.9781,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "value",
+          "estimation"
+        ],
+        "normalization": "value estimation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Value estimation",
+          "canonical": "Value estimation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9781",
+        "structure model assigned role 'motivation' with score 0.82",
+        "downstream relevance score is 0.3755"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "environment",
+        "canonical": "environment",
+        "normalized": "environment",
+        "tokens": [
+          "environment"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 47,
+        "sentence": "However, it is conditioned on actions and predicts rewards, allowing the agent to imagine the outcomes of potential action sequences without executing them in the environment.",
+        "context_window": {
+          "previous": "The model mimics a non-linear Kalman filter (Kalman, 1960), latent state space model, or HMM with real-valued states.",
+          "current": "However, it is conditioned on actions and predicts rewards, allowing the agent to imagine the outcomes of potential action sequences without executing them in the environment.",
+          "next": "2 Published as a conference paper at ICLR 2020 o 1 r 1 a 1 r 2 a 2 r 3 ̂ ̂ ̂ o 1 ̂ o 2 o 2 ̂ o 3 o 3 ̂ (a) Learn dynamics from experience o 1 r 1 a 1 v 1 r 2 a 2 v 2 r 3 a 3 v 3 ̂ ̂ ̂ ̂ ̂ ̂ ̂ ̂ ̂ (b) Learn behavior in imagination o 1 o 2 o 3 a 1 a 2 a 3 ̂ (c) Act in the environment Figure 3: Components of Dreamer."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5632,
+        "downstream_relevance_score": 0.3557,
+        "components": {
+          "bio_boundary_score": 0.8641,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "environment"
+        ],
+        "normalization": "environment",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "environment",
+          "canonical": "environment",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8641",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3557"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "imagination horizon",
+        "canonical": "imagination horizon",
+        "normalized": "imagination horizon",
+        "tokens": [
+          "imagination",
+          "horizon"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 840,
+        "sentence": "To account for the higher complexity of these tasks, we use an imagination horizon of H = 10 , scale the KL regularizers by β = 0 .",
+        "context_window": {
+          "previous": "1 over the first 200 , 000 gradient steps.",
+          "current": "To account for the higher complexity of these tasks, we use an imagination horizon of H = 10 , scale the KL regularizers by β = 0 .",
+          "next": "1 , and bound rewards using tanh."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5619,
+        "downstream_relevance_score": 0.3482,
+        "components": {
+          "bio_boundary_score": 0.8537,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imagination",
+          "horizon"
+        ],
+        "normalization": "imagination horizon",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "imagination horizon",
+          "canonical": "imagination horizon",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8537",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3482"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "representation model",
+        "canonical": "representation model",
+        "normalized": "representation model",
+        "tokens": [
+          "representation",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 95,
+        "sentence": "We apply the representation model to the first 5 images of two hold-out trajectories and predict forward for 45 steps using the latent dynamics, given only the actions.",
+        "context_window": {
+          "previous": "4 Published as a conference paper at ICLR 2020 True Context 6 10 15 20 25 30 35 40 45 50 Model True Model Figure 5: Reconstructions of long-term predictions.",
+          "current": "We apply the representation model to the first 5 images of two hold-out trajectories and predict forward for 45 steps using the latent dynamics, given only the actions.",
+          "next": "The recurrent state space model (RSSM; Hafner et al., 2018) performs accurate long-term predictions, enabling Dreamer to learn successful behaviors in a compact latent space."
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5517,
+        "downstream_relevance_score": 0.3429,
+        "components": {
+          "bio_boundary_score": 0.9579,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "representation",
+          "model"
+        ],
+        "normalization": "representation model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "representation model",
+          "canonical": "representation model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9579",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.3429"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 14,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Using the same hyper parameters for all tasks, Dreamer exceeds previous model-based and model-free agents in terms of data-efficiency, computation time, and final performance.",
+        "evidence_type": "result",
+        "matched_cue": "exceeds",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "As outlined in Figure and detailed in Algorithm 1, Dreamer performs the following operations throughout the agent's life time, either interleaved or in parallel: • Learning the latent dynamics model from the dataset of past experience to predict future rewards from actions and past observations.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We present Dreamer, a reinforcement learning agent that solves long-horizon tasks from images purely by latent imagination.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "On 20 challenging visual control tasks, Dreamer exceeds existing approaches in data-efficiency, computation time, and final performance.",
+        "evidence_type": "result",
+        "matched_cue": "exceeds",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "POPLIN improves over online planning by self-imitation. learn robot policies by imagination with a latent dynamics model.",
+        "evidence_type": "result",
+        "matched_cue": "improves over",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "As outlined in Figure and detailed in Algorithm 1, Dreamer performs the following operations throughout the agent's life time, either interleaved or in parallel: • Learning the latent dynamics model from the dataset of past experience to predict future rewards from actions and past observations.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The value model optimizes Bellman consistency for imagined rewards and the action model is updated by propagating gradients of value estimates back through the neural network dynamics. • Executing the learned action model in the world to collect new experience for growing the dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "These trajectories branch off of the model states s t of sequence batches drawn from the agent's dataset of experience and predict forward for the imagination horizon H using actions sampled from the action model.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We present Dreamer, an agent that learns long-horizon behaviors from images purely by latent imagination.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "A novel actor critic algorithm accounts for rewards beyond the imagination horizon while making efficient use of the neural network dynamics.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We present Dreamer, an agent that learns long-horizon behaviors purely by latent imagination.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "For this, we propose an actor critic method that optimizes a parametric policy by propagating analytic gradients of multi-step values back through learned latent dynamics.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Dreamer outperforms previous methods in data-efficiency, computation time, and final performance on a variety of challenging continuous control tasks with image inputs.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We approach this limitation by predicting both actions and state values.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "reinforcement learning",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6953
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "deep learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6859
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "actor critic",
+        "section": "related_work",
+        "role": "objective",
+        "score": 0.5548
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "Value model",
+        "section": "intro",
+        "role": "background",
+        "score": 0.5279
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "feature learning",
+        "section": "related_work",
+        "role": "future_work",
+        "score": 0.5275
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "information regularizer",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5221
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "Dreamer",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5005
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "Convolutional neural network",
+        "section": "intro",
+        "role": "background",
+        "score": 0.4969
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "standard deviation",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.495
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "stochastic backpropagation",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.464
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "Image reconstruction",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4612
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "convolutional encoder and decoder",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4583
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "world model",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4562
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "latent dynamics",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4493
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "PlaNet",
+        "section": "intro",
+        "role": "result",
+        "score": 0.447
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "binary classifier",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4369
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "Model-based planning",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.435
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "variational bayes",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4305
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "performance",
+        "section": "intro",
+        "role": "result",
+        "score": 0.4301
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "marginal probability",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4211
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "Atari games",
+        "section": "conclusion",
+        "role": "future_work",
+        "score": 0.4176
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "Learning",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.3977
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "action model",
+        "section": "intro",
+        "role": "mechanism",
+        "score": 0.3891
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "variational information bottleneck",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.378
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "Value estimation",
+        "section": "intro",
+        "role": "motivation",
+        "score": 0.3755
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "environment",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.3557
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "imagination horizon",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3482
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "representation model",
+        "section": "intro",
+        "role": "background",
+        "score": 0.3429
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

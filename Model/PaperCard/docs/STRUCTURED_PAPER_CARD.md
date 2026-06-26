@@ -164,13 +164,15 @@ Known limitations after fixed11:
 The datasets are not mixed as arbitrary A+B+C components. Each dataset only
 supervises the part it genuinely contains.
 
-- PubMed RCT: sentence role supervision. Its labels
+- PubMed RCT: hard sentence role supervision. Its labels
   `BACKGROUND/OBJECTIVE/METHODS/RESULTS/CONCLUSIONS` map to the paper-card
   roles `background/objective/process/result/finding`.
-- QASPER: evidence supervision. Its answer evidence and highlighted evidence
-  mark sentences that support questions about a scientific paper.
+- QASPER: evidence supervision plus partial role supervision. Its answer
+  evidence and highlighted evidence mark support sentences; for role, it only
+  provides a section-level candidate role set instead of a forced hard label.
 - ACLSum: small facet-summary supervision. Its `challenge/approach/outcome`
-  facets weakly map to `problem/core_method/result`.
+  facets weakly map to `problem/core_method/result` when the facet match is
+  confident; otherwise the sentence falls back to a section candidate role set.
 - FacetSum is recorded as a future optional dataset because it is large and
   access-gated, so it is not part of the default one-command core resources.
 
@@ -188,7 +190,7 @@ Quick smoke test:
 .\.venv_keyword\Scripts\python.exe .\scientific_keyphrase_extractor\scripts\smoke_test_structure_v2.py
 ```
 
-Train the V2 structure heads:
+Train the V4 structure heads:
 
 ```powershell
 .\.venv_keyword\Scripts\python.exe .\scientific_keyphrase_extractor\src\ske\structure\train.py `
@@ -200,7 +202,7 @@ Train the V2 structure heads:
     .\scientific_keyphrase_extractor\data\structure\pubmed_rct\validation.jsonl `
     .\scientific_keyphrase_extractor\data\structure\qasper\validation.jsonl `
     .\scientific_keyphrase_extractor\data\structure\aclsum\validation.jsonl `
-  --output_dir .\scientific_keyphrase_extractor\runs\structure_v2_scibert `
+  --output_dir .\models\checkpoints\structure_v4_partial_role_balanced_fulldev `
   --model_name .\scientific_keyphrase_extractor\resources\models\allenai_scibert_scivocab_uncased `
   --init_encoder_checkpoint .\scientific_keyphrase_extractor\runs\scibert_semeval2010_finetune_nobow `
   --epochs 3 `
@@ -220,7 +222,7 @@ Run paper-card inference:
 .\.venv_keyword\Scripts\python.exe .\scientific_keyphrase_extractor\scripts\infer_paper_card.py `
   --input_txt .\txt\2017_transformer_and_large_language_models_attention_is_all_you_need.txt `
   --keyword_checkpoint .\scientific_keyphrase_extractor\runs\scibert_semeval2010_finetune_nobow `
-  --structured_checkpoint .\scientific_keyphrase_extractor\runs\structure_v2_scibert `
+  --structured_checkpoint .\models\checkpoints\structure_v4_partial_role_balanced_fulldev `
   --output_json .\scientific_keyphrase_extractor\runs\paper_cards\attention.json `
   --output_md .\scientific_keyphrase_extractor\runs\paper_cards\attention.md `
   --device cuda
@@ -245,7 +247,7 @@ Batch diagnostic run:
   --input_dir .\txt `
   --output_dir .\scientific_keyphrase_extractor\runs\paper_cards_batch_fixed11 `
   --keyword_checkpoint .\scientific_keyphrase_extractor\runs\scibert_semeval2010_finetune_nobow `
-  --structured_checkpoint .\scientific_keyphrase_extractor\runs\structure_v2_scibert_evidencefix `
+  --structured_checkpoint .\models\checkpoints\structure_v4_partial_role_balanced_fulldev `
   --device cuda `
   --files `
     2017_transformer_and_large_language_models_attention_is_all_you_need.txt `

@@ -125,6 +125,10 @@ LOW_VALUE_PHRASES = {
     "squ",
 }
 
+_TOKENIZER_CACHE: dict[str, Any] = {}
+_STRUCTURE_MODEL_CACHE: dict[tuple[str, str], StructuredPaperModel] = {}
+_KEYPHRASE_MODEL_CACHE: dict[tuple[str, str], ScientificKeyphraseExtractor] = {}
+
 
 @dataclass
 class SentencePrediction:
@@ -180,8 +184,8 @@ def predict_sentence_structure(
     if not structured_checkpoint:
         return heuristic_sentence_predictions(document)
     checkpoint = Path(structured_checkpoint)
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint, use_fast=True)
-    model = StructuredPaperModel.load(checkpoint, map_location=device).to(device)
+    tokenizer = load_cached_tokenizer(checkpoint)
+    model = load_cached_structure_model(checkpoint, device)
     model.eval()
     record = document.to_dict()
     features = build_structure_features(record, tokenizer, StructureFeatureConfig())
@@ -248,8 +252,8 @@ def extract_keyphrase_candidates(
     device: torch.device,
 ) -> list[dict[str, Any]]:
     checkpoint = Path(keyword_checkpoint)
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint, use_fast=True)
-    model = ScientificKeyphraseExtractor.load(checkpoint, map_location=device).to(device)
+    tokenizer = load_cached_tokenizer(checkpoint)
+    model = load_cached_keyphrase_model(checkpoint, device)
     model.eval()
     bow_vocab = BowVocabulary.load(str(bow_csv)) if bow_csv else None
     raw_sentences = [sentence.text for sentence in section_document(text)]
@@ -279,6 +283,37 @@ def extract_keyphrase_candidates(
             item["sentence_index"] = features["sentence_indices"][item["sentence_index"]]
             raw_candidates.append(item)
     return coverage_rerank(raw_candidates, top_k_keyphrases, 0.72)
+
+
+def load_cached_tokenizer(checkpoint: Path) -> Any:
+    key = str(checkpoint.resolve())
+    tokenizer = _TOKENIZER_CACHE.get(key)
+    if tokenizer is None:
+        tokenizer = AutoTokenizer.from_pretrained(checkpoint, use_fast=True)
+        _TOKENIZER_CACHE[key] = tokenizer
+    return tokenizer
+
+
+def load_cached_structure_model(checkpoint: Path, device: torch.device) -> StructuredPaperModel:
+    key = (str(checkpoint.resolve()), device_cache_key(device))
+    model = _STRUCTURE_MODEL_CACHE.get(key)
+    if model is None:
+        model = StructuredPaperModel.load(checkpoint, map_location=device).to(device)
+        _STRUCTURE_MODEL_CACHE[key] = model
+    return model
+
+
+def load_cached_keyphrase_model(checkpoint: Path, device: torch.device) -> ScientificKeyphraseExtractor:
+    key = (str(checkpoint.resolve()), device_cache_key(device))
+    model = _KEYPHRASE_MODEL_CACHE.get(key)
+    if model is None:
+        model = ScientificKeyphraseExtractor.load(checkpoint, map_location=device).to(device)
+        _KEYPHRASE_MODEL_CACHE[key] = model
+    return model
+
+
+def device_cache_key(device: torch.device) -> str:
+    return f"{device.type}:{device.index if device.index is not None else ''}"
 
 
 def concept_units_from_candidates(

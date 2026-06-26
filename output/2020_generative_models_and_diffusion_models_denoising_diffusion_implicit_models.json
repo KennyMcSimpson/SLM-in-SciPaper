@@ -1,0 +1,3499 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2020_generative_models_and_diffusion_models_denoising_diffusion_implicit_models",
+    "title": "2020_generative_models_and_diffusion_models_denoising_diffusion_implicit_models",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2020_generative_models_and_diffusion_models_denoising_diffusion_implicit_models.txt",
+    "sentence_count": 419,
+    "section_counts": {
+      "intro": 65,
+      "related_work": 48,
+      "method": 96,
+      "experiment": 112,
+      "conclusion": 98
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 10231,
+    "type_count": 1624,
+    "type_token_ratio": 0.1587,
+    "section_token_counts": {
+      "intro": 2026,
+      "related_work": 1265,
+      "method": 2502,
+      "experiment": 1093,
+      "conclusion": 3345
+    },
+    "top_unigrams": [
+      {
+        "term": "et",
+        "count": 67
+      },
+      {
+        "term": "al",
+        "count": 67
+      },
+      {
+        "term": "process",
+        "count": 66
+      },
+      {
+        "term": "generative",
+        "count": 57
+      },
+      {
+        "term": "which",
+        "count": 49
+      },
+      {
+        "term": "arxiv",
+        "count": 49
+      },
+      {
+        "term": "samples",
+        "count": 48
+      },
+      {
+        "term": "ddim",
+        "count": 45
+      },
+      {
+        "term": "sample",
+        "count": 43
+      },
+      {
+        "term": "where",
+        "count": 43
+      },
+      {
+        "term": "can",
+        "count": 41
+      },
+      {
+        "term": "2020",
+        "count": 41
+      },
+      {
+        "term": "model",
+        "count": 39
+      },
+      {
+        "term": "models",
+        "count": 35
+      },
+      {
+        "term": "ddpm",
+        "count": 33
+      },
+      {
+        "term": "objective",
+        "count": 32
+      },
+      {
+        "term": "steps",
+        "count": 31
+      },
+      {
+        "term": "10",
+        "count": 29
+      },
+      {
+        "term": "forward",
+        "count": 29
+      },
+      {
+        "term": "ddpms",
+        "count": 28
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 67
+      },
+      {
+        "term": "al 2020",
+        "count": 32
+      },
+      {
+        "term": "arxiv preprint",
+        "count": 24
+      },
+      {
+        "term": "preprint arxiv",
+        "count": 24
+      },
+      {
+        "term": "published conference",
+        "count": 22
+      },
+      {
+        "term": "conference paper",
+        "count": 22
+      },
+      {
+        "term": "paper iclr",
+        "count": 22
+      },
+      {
+        "term": "iclr 2021",
+        "count": 22
+      },
+      {
+        "term": "generative process",
+        "count": 22
+      },
+      {
+        "term": "ho et",
+        "count": 22
+      },
+      {
+        "term": "forward process",
+        "count": 18
+      },
+      {
+        "term": "sample quality",
+        "count": 15
+      },
+      {
+        "term": "generative processes",
+        "count": 10
+      },
+      {
+        "term": "latent variables",
+        "count": 10
+      },
+      {
+        "term": "generative models",
+        "count": 9
+      },
+      {
+        "term": "log log",
+        "count": 9
+      },
+      {
+        "term": "denoising diffusion",
+        "count": 8
+      },
+      {
+        "term": "markov chain",
+        "count": 8
+      },
+      {
+        "term": "al 2018",
+        "count": 8
+      },
+      {
+        "term": "variational objective",
+        "count": 8
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "et al 2020",
+        "count": 32
+      },
+      {
+        "term": "arxiv preprint arxiv",
+        "count": 24
+      },
+      {
+        "term": "published conference paper",
+        "count": 22
+      },
+      {
+        "term": "conference paper iclr",
+        "count": 22
+      },
+      {
+        "term": "paper iclr 2021",
+        "count": 22
+      },
+      {
+        "term": "ho et al",
+        "count": 22
+      },
+      {
+        "term": "et al 2018",
+        "count": 8
+      },
+      {
+        "term": "et al 2014",
+        "count": 7
+      },
+      {
+        "term": "song et al",
+        "count": 7
+      },
+      {
+        "term": "20 50 100",
+        "count": 7
+      },
+      {
+        "term": "et al 2017",
+        "count": 6
+      },
+      {
+        "term": "et al 2015",
+        "count": 6
+      },
+      {
+        "term": "iclr 2021 figure",
+        "count": 6
+      },
+      {
+        "term": "10 20 50",
+        "count": 6
+      },
+      {
+        "term": "sohl-dickstein et al",
+        "count": 5
+      },
+      {
+        "term": "models arxiv preprint",
+        "count": 5
+      },
+      {
+        "term": "networks arxiv preprint",
+        "count": 5
+      },
+      {
+        "term": "denoising diffusion probabilistic",
+        "count": 4
+      },
+      {
+        "term": "produce high quality",
+        "count": 4
+      },
+      {
+        "term": "karras et al",
+        "count": 4
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 7,
+    "nonzero_tfidf_features": 7,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__diffusion models",
+        "section": "intro",
+        "term": "diffusion models",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "experiments__heuristic",
+        "section": "experiment",
+        "term": "heuristic",
+        "frequency": 1.0,
+        "tfidf": 0.7473
+      },
+      {
+        "feature_name": "experiments__ResNet",
+        "section": "experiment",
+        "term": "ResNet",
+        "frequency": 1.0,
+        "tfidf": 0.6645
+      },
+      {
+        "feature_name": "introduction__diffusion models",
+        "section": "intro",
+        "term": "diffusion models",
+        "frequency": 2.0,
+        "tfidf": 0.6415
+      },
+      {
+        "feature_name": "introduction__deep generative models",
+        "section": "intro",
+        "term": "deep generative models",
+        "frequency": 2.0,
+        "tfidf": 0.5873
+      },
+      {
+        "feature_name": "introduction__autoencoders",
+        "section": "intro",
+        "term": "autoencoders",
+        "frequency": 2.0,
+        "tfidf": 0.5602
+      },
+      {
+        "feature_name": "introduction__autoregressive models",
+        "section": "intro",
+        "term": "autoregressive models",
+        "frequency": 1.0,
+        "tfidf": 0.2937
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__diffusion models",
+          "section": "intro",
+          "term": "diffusion models",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__diffusion models",
+          "section": "intro",
+          "term": "diffusion models",
+          "frequency": 2.0,
+          "tfidf": 0.6415
+        },
+        {
+          "feature_name": "introduction__deep generative models",
+          "section": "intro",
+          "term": "deep generative models",
+          "frequency": 2.0,
+          "tfidf": 0.5873
+        },
+        {
+          "feature_name": "introduction__autoencoders",
+          "section": "intro",
+          "term": "autoencoders",
+          "frequency": 2.0,
+          "tfidf": 0.5602
+        },
+        {
+          "feature_name": "introduction__autoregressive models",
+          "section": "intro",
+          "term": "autoregressive models",
+          "frequency": 1.0,
+          "tfidf": 0.2937
+        }
+      ],
+      "related_work": [],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.7473
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.6645
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 65,
+      "token_count": 2026,
+      "bow_hit_count": 11,
+      "top_bow_terms": [
+        {
+          "canonical_term": "autoencoder",
+          "count": 8,
+          "section_prior": 0.3191,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "diffusion model",
+          "count": 2,
+          "section_prior": 0.4215,
+          "confidence_score": 0.85,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep generative model",
+          "count": 1,
+          "section_prior": 0.6364,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__diffusion models",
+          "section": "intro",
+          "term": "diffusion models",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__diffusion models",
+          "section": "intro",
+          "term": "diffusion models",
+          "frequency": 2.0,
+          "tfidf": 0.6415
+        },
+        {
+          "feature_name": "introduction__deep generative models",
+          "section": "intro",
+          "term": "deep generative models",
+          "frequency": 2.0,
+          "tfidf": 0.5873
+        },
+        {
+          "feature_name": "introduction__autoencoders",
+          "section": "intro",
+          "term": "autoencoders",
+          "frequency": 2.0,
+          "tfidf": 0.5602
+        },
+        {
+          "feature_name": "introduction__autoregressive models",
+          "section": "intro",
+          "term": "autoregressive models",
+          "frequency": 1.0,
+          "tfidf": 0.2937
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 48,
+      "token_count": 1265,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 96,
+      "token_count": 2502,
+      "bow_hit_count": 6,
+      "top_bow_terms": [
+        {
+          "canonical_term": "autoencoder",
+          "count": 4,
+          "section_prior": 0.2128,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "diffusion model",
+          "count": 2,
+          "section_prior": 0.2397,
+          "confidence_score": 0.85,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 112,
+      "token_count": 1093,
+      "bow_hit_count": 47,
+      "top_bow_terms": [
+        {
+          "canonical_term": "machine learning",
+          "count": 15,
+          "section_prior": 0.1441,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 5,
+          "section_prior": 0.3671,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Recurrent neural network",
+          "count": 5,
+          "section_prior": 0.075,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "autoencoder",
+          "count": 4,
+          "section_prior": 0.1277,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 3,
+          "section_prior": 0.025,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Google Wavenet",
+          "count": 3,
+          "section_prior": 0.5429,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "pattern recognition",
+          "count": 2,
+          "section_prior": 0.125,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "diffusion model",
+          "count": 2,
+          "section_prior": 0.0083,
+          "confidence_score": 0.85,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep generative model",
+          "count": 2,
+          "section_prior": 0.0909,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "image segmentation",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.7473
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.6645
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 98,
+      "token_count": 3345,
+      "bow_hit_count": 8,
+      "top_bow_terms": [
+        {
+          "canonical_term": "residual neural network",
+          "count": 5,
+          "section_prior": 0.0533,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "heuristic",
+          "count": 3,
+          "section_prior": 0.04,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "update",
+        "canonical": "update",
+        "normalized": "update",
+        "tokens": [
+          "update"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 406,
+        "sentence": "This update is more stochastic than the update for η = 1 , which explains why it achieves worse performance when dim( τ ) is small.",
+        "context_window": {
+          "previous": "(12), we have the following update equation: x τ i − 1 ( η ) = √ α τ i − 1 ( x τ i − √ 1 − α τ i \u000f ( τ i ) θ ( x τ i ) √ α τ i ) + √ 1 − α τ i − 1 − σ τ i ( η ) 2 · \u000f ( τ i ) θ ( x τ i ) + σ τ i ( η ) \u000f 18 Published as a conference paper at ICLR 2021 Figure 7: CIFAR10 samples from 1000 step DDPM, 1000 step DDIM and 100 step DDIM. where σ τ i ( η ) = η √ 1 − α τ i − 1 1 − α τ i √ 1 − α τ i α τ i − 1 For the case of ˆ σ (DDPM with a larger variance), the update equation becomes: x τ i − 1 = √ α τ i − 1 ( x τ i − √ 1 − α τ i \u000f ( τ i ) θ ( x τ i ) √ α τ i ) + √ 1 − α τ i − 1 − σ τ i (1) 2 · \u000f ( τ i ) θ ( x τ i ) + ˆ σ τ i \u000f which uses a different coefficient for \u000f compared with the update for η = 1 , but uses the same coefficient for the non-stochastic parts.",
+          "current": "This update is more stochastic than the update for η = 1 , which explains why it achieves worse performance when dim( τ ) is small.",
+          "next": "D.4 S AMPLES AND C ONSISTENCY We show more samples in Figure 7 (CIFAR10), Figure 8 (CelebA), Figure 10 (Church) and consis- tency results of DDIM in Figure 9 (CelebA)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6917,
+        "downstream_relevance_score": 0.5737,
+        "components": {
+          "bio_boundary_score": 0.6645,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "update"
+        ],
+        "normalization": "update",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "update",
+          "canonical": "update",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6645",
+        "structure model assigned role 'result' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5737"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "sample trajectory",
+        "canonical": "sample trajectory",
+        "normalized": "sample trajectory",
+        "tokens": [
+          "sample",
+          "trajectory"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 163,
+        "sentence": "In Figure 4, we show that the amount of time needed to produce a sample scales linearly with the length of the sample trajectory.",
+        "context_window": {
+          "previous": "(2020)).",
+          "current": "In Figure 4, we show that the amount of time needed to produce a sample scales linearly with the length of the sample trajectory.",
+          "next": "This suggests that DDIM is useful for producing samples more efficiently, as samples can be generated in much fewer steps."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7752,
+        "downstream_relevance_score": 0.5431,
+        "components": {
+          "bio_boundary_score": 0.994,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sample",
+          "trajectory"
+        ],
+        "normalization": "sample trajectory",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sample trajectory",
+          "canonical": "sample trajectory",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.994",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5431"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "reconstruction error",
+        "canonical": "reconstruction error",
+        "normalized": "reconstruction error",
+        "tokens": [
+          "reconstruction",
+          "error"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 187,
+        "sentence": "Our results show that DDIMs have lower reconstruction error for larger S values and have properties similar to Neural ODEs and normalizing flows.",
+        "context_window": {
+          "previous": "We consider encoding and decoding on the CIFAR-10 test set with the CIFAR-10 model with S steps for both encoding and decoding; we report the per-dimension mean squared error (scaled to [0 , 1] ) in Table 2.",
+          "current": "Our results show that DDIMs have lower reconstruction error for larger S values and have properties similar to Neural ODEs and normalizing flows.",
+          "next": "The same cannot be said for DDPMs due to their stochastic nature."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.721,
+        "downstream_relevance_score": 0.5289,
+        "components": {
+          "bio_boundary_score": 0.7597,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reconstruction",
+          "error"
+        ],
+        "normalization": "reconstruction error",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "reconstruction error",
+          "canonical": "reconstruction error",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7597",
+        "structure model assigned role 'finding' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5289"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "image generation",
+        "canonical": "image generation",
+        "normalized": "image generation",
+        "tokens": [
+          "image",
+          "generation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 0,
+        "sentence": "Published as a conference paper at ICLR 2021 D ENOISING D IFFUSION I MPLICIT M ODELS Jiaming Song, Chenlin Meng & Stefano Ermon Stanford University { tsong,chenlin,ermon } @cs.stanford.edu A BSTRACT Denoising diffusion probabilistic models (DDPMs) have achieved high qual- ity image generation without adversarial training, yet they require simulating a Markov chain for many steps in order to produce a sample.",
+        "context_window": {
+          "previous": "",
+          "current": "Published as a conference paper at ICLR 2021 D ENOISING D IFFUSION I MPLICIT M ODELS Jiaming Song, Chenlin Meng & Stefano Ermon Stanford University { tsong,chenlin,ermon } @cs.stanford.edu A BSTRACT Denoising diffusion probabilistic models (DDPMs) have achieved high qual- ity image generation without adversarial training, yet they require simulating a Markov chain for many steps in order to produce a sample.",
+          "next": "To accelerate sam- pling, we present denoising diffusion implicit models (DDIMs), a more efficient class of iterative implicit probabilistic models with the same training procedure as DDPMs."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7016,
+        "downstream_relevance_score": 0.5204,
+        "components": {
+          "bio_boundary_score": 0.9847,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "generation"
+        ],
+        "normalization": "image generation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image generation",
+          "canonical": "image generation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9847",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.5204"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "variational objective",
+        "canonical": "variational objective",
+        "normalized": "variational objective",
+        "tokens": [
+          "variational",
+          "objective"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 372,
+        "sentence": "A similar argument to the proof used in Theorem 1 can show that the variational objective J can also be converted to an objective of the form L γ .",
+        "context_window": {
+          "previous": "The resulting variational objective becomes (define x τ L +1 = ∅ for conciseness): J ( \u000f θ ) = E x 0: T ∼ q σ,τ ( x 0: T ) [log q σ,τ ( x 1: T | x 0 ) − log p θ ( x 0: T )] (58) = E x 0: T ∼ q σ,τ ( x 0: T ) [ ∑ t ∈ ¯ τ D KL ( q σ,τ ( x t | x 0 ) ‖ p ( t ) θ ( x 0 | x t ) (59) + L ∑ i =1 D KL ( q σ,τ ( x τ i − 1 | x τ i , x 0 ) ‖ p ( τ i ) θ ( x τ i − 1 | x τ i ))) ] where each KL divergence is between two Gaussians with variance independent of θ .",
+          "current": "A similar argument to the proof used in Theorem 1 can show that the variational objective J can also be converted to an objective of the form L γ .",
+          "next": "C.2 D ERIVATION OF DENOISING OBJECTIVES FOR DDPM S We note that in Ho et al."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7374,
+        "downstream_relevance_score": 0.518,
+        "components": {
+          "bio_boundary_score": 0.9972,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "variational",
+          "objective"
+        ],
+        "normalization": "variational objective",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "variational objective",
+          "canonical": "variational objective",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9972",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.518"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "diffusion",
+        "canonical": "diffusion",
+        "normalized": "diffusion",
+        "tokens": [
+          "diffusion"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 21,
+        "sentence": "1 arXiv:2010.02502v4 [cs.LG] 5 Oct 2022 Published as a conference paper at ICLR 2021 Figure 1: Graphical models for diffusion (left) and non-Markovian (right) inference models.",
+        "context_window": {
+          "previous": "DDIMs are implicit probabilistic models (Mohamed & Lakshminarayanan, 2016) and are closely related to DDPMs, in the sense that they are trained with the same objective function.",
+          "current": "1 arXiv:2010.02502v4 [cs.LG] 5 Oct 2022 Published as a conference paper at ICLR 2021 Figure 1: Graphical models for diffusion (left) and non-Markovian (right) inference models.",
+          "next": "In Section 3, we generalize the forward diffusion process used by DDPMs, which is Markovian, to non-Markovian ones, for which we are still able to design suitable reverse generative Markov chains."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6964,
+        "downstream_relevance_score": 0.5077,
+        "components": {
+          "bio_boundary_score": 0.967,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "diffusion"
+        ],
+        "normalization": "diffusion",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "diffusion",
+          "canonical": "diffusion",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.967",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.5077"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "DDIM",
+        "canonical": "DDIM",
+        "normalized": "ddim",
+        "tokens": [
+          "ddim"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 164,
+        "sentence": "This suggests that DDIM is useful for producing samples more efficiently, as samples can be generated in much fewer steps.",
+        "context_window": {
+          "previous": "In Figure 4, we show that the amount of time needed to produce a sample scales linearly with the length of the sample trajectory.",
+          "current": "This suggests that DDIM is useful for producing samples more efficiently, as samples can be generated in much fewer steps.",
+          "next": "Notably, DDIM is able to produce samples with quality comparable to 1000 step models within 20 to 100 steps, which is a 10 × to 50 × speed up compared to the original DDPM."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.758,
+        "downstream_relevance_score": 0.5073,
+        "components": {
+          "bio_boundary_score": 0.9966,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ddim"
+        ],
+        "normalization": "ddim",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "DDIM",
+          "canonical": "DDIM",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9966",
+        "structure model assigned role 'core_method' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5073"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "denoising",
+        "canonical": "denoising",
+        "normalized": "denoising",
+        "tokens": [
+          "denoising"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 12,
+        "sentence": "To achieve this, many denoising autoencoding models are trained to denoise samples corrupted by various levels of Gaussian noise.",
+        "context_window": {
+          "previous": "(2020)) and noise conditional score networks (NCSN, Song & Ermon (2019)) have demonstrated the ability to produce samples comparable to that of GANs, with- out having to perform adversarial training.",
+          "current": "To achieve this, many denoising autoencoding models are trained to denoise samples corrupted by various levels of Gaussian noise.",
+          "next": "Samples are then produced by a Markov chain which, starting from white noise, progressively denoises it into an im- age."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.69,
+        "downstream_relevance_score": 0.5044,
+        "components": {
+          "bio_boundary_score": 0.9452,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "denoising"
+        ],
+        "normalization": "denoising",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "denoising",
+          "canonical": "denoising",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9452",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.5044"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "CelebA",
+        "canonical": "CelebA",
+        "normalized": "celeba",
+        "tokens": [
+          "celeba"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 159,
+        "sentence": "In Figure 3, we show CIFAR10 and CelebA samples with the same number of sampling steps and varying σ .",
+        "context_window": {
+          "previous": "DDIM, on the other hand, achieves high sample quality much more consistently.",
+          "current": "In Figure 3, we show CIFAR10 and CelebA samples with the same number of sampling steps and varying σ .",
+          "next": "For the DDPM, the sample quality deteriorates rapidly when the sampling trajectory has 10 steps."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6993,
+        "downstream_relevance_score": 0.4937,
+        "components": {
+          "bio_boundary_score": 0.7352,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "celeba"
+        ],
+        "normalization": "celeba",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "CelebA",
+          "canonical": "CelebA",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7352",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4937"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "implicit generative model",
+        "canonical": "implicit generative model",
+        "normalized": "implicit generative model",
+        "tokens": [
+          "implicit",
+          "generative",
+          "model"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 201,
+        "sentence": "7 D ISCUSSION We have presented DDIMs – an implicit generative model trained with denoising auto-encoding / score matching objectives – from a purely variational perspective.",
+        "context_window": {
+          "previous": "The sampling procedure of DDIM is also reminiscent of neural networks with continuous depth (Chen et al., 2018; Grathwohl et al., 2018), since the samples it produces from the same latent variable have similar high-level visual features, regardless of the specific sample trajectory.",
+          "current": "7 D ISCUSSION We have presented DDIMs – an implicit generative model trained with denoising auto-encoding / score matching objectives – from a purely variational perspective.",
+          "next": "DDIM is able to generate high- 6 Although it might be possible if one interpolates all T noises, like what is done in Song & Ermon (2020)."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6712,
+        "downstream_relevance_score": 0.4894,
+        "components": {
+          "bio_boundary_score": 0.8573,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "implicit",
+          "generative",
+          "model"
+        ],
+        "normalization": "implicit generative model",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "implicit generative model",
+          "canonical": "implicit generative model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8573",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.4894"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "stochastic differential equation",
+        "canonical": "stochastic differential equation",
+        "normalized": "stochastic differential equation",
+        "tokens": [
+          "stochastic",
+          "differential",
+          "equation"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 124,
+        "sentence": "In a concurrent work, (Song et al., 2020) proposed a “probability flow ODE” that aims to recover the marginal densities of a stochastic differential equation (SDE) based on scores, from which a similar sampling schedule can be obtained.",
+        "context_window": {
+          "previous": "This suggests that unlike DDPM, we can use DDIM to obtain encodings of the observations (as the form of x T ), which might be useful for other downstream applications that requires latent representations of a model.",
+          "current": "In a concurrent work, (Song et al., 2020) proposed a “probability flow ODE” that aims to recover the marginal densities of a stochastic differential equation (SDE) based on scores, from which a similar sampling schedule can be obtained.",
+          "next": "Here, we state that the our ODE is equivalent to a special case of theirs (which corresponds to a continuous-time analog of DDPM)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7119,
+        "downstream_relevance_score": 0.4852,
+        "components": {
+          "bio_boundary_score": 0.951,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stochastic",
+          "differential",
+          "equation"
+        ],
+        "normalization": "stochastic differential equation",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stochastic differential equation",
+          "canonical": "stochastic differential equation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.951",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4852"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "probability flow",
+        "canonical": "probability flow",
+        "normalized": "probability flow",
+        "tokens": [
+          "probability",
+          "flow"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 128,
+        "sentence": "(14) with the optimal model \u000f ( t ) θ has an equivalent probability flow ODE corresponding to the “Variance-Exploding” SDE in Song et al.",
+        "context_window": {
+          "previous": "The ODE in Eq.",
+          "current": "(14) with the optimal model \u000f ( t ) θ has an equivalent probability flow ODE corresponding to the “Variance-Exploding” SDE in Song et al.",
+          "next": "(2020)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7199,
+        "downstream_relevance_score": 0.4793,
+        "components": {
+          "bio_boundary_score": 0.9786,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "probability",
+          "flow"
+        ],
+        "normalization": "probability flow",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "probability flow",
+          "canonical": "probability flow",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9786",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4793"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "hyperparameter",
+        "canonical": "hyperparameter",
+        "normalized": "hyperparameter",
+        "tokens": [
+          "hyperparameter"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 141,
+        "sentence": "To simplify comparisons, we consider σ with the form: σ τ i ( η ) = η √ (1 − α τ i − 1 ) / (1 − α τ i ) √ 1 − α τ i /α τ i − 1 , (16) where η ∈ R ≥ 0 is a hyperparameter that we can directly control.",
+        "context_window": {
+          "previous": "We consider different sub-sequences τ of [1 , . . . , T ] and different variance hyperparameters σ in- dexed by elements of τ .",
+          "current": "To simplify comparisons, we consider σ with the form: σ τ i ( η ) = η √ (1 − α τ i − 1 ) / (1 − α τ i ) √ 1 − α τ i /α τ i − 1 , (16) where η ∈ R ≥ 0 is a hyperparameter that we can directly control.",
+          "next": "This includes an original DDPM generative process when η = 1 and DDIM when η = 0 ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7303,
+        "downstream_relevance_score": 0.4748,
+        "components": {
+          "bio_boundary_score": 0.9319,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "hyperparameter"
+        ],
+        "normalization": "hyperparameter",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "hyperparameter",
+          "canonical": "hyperparameter",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9319",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4748"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "trained model",
+        "canonical": "trained model",
+        "normalized": "trained model",
+        "tokens": [
+          "trained",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 114,
+        "sentence": "Therefore, the trained model could consider many more steps than what is considered in (Ho et al., 2020) or even a continuous time variable t (Chen et al., 2020).",
+        "context_window": {
+          "previous": "In principle, this means that we can train a model with an arbitrary number of forward steps but only sample from some of them in the generative process.",
+          "current": "Therefore, the trained model could consider many more steps than what is considered in (Ho et al., 2020) or even a continuous time variable t (Chen et al., 2020).",
+          "next": "We leave empirical investigations of this aspect as future work."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6756,
+        "downstream_relevance_score": 0.4745,
+        "components": {
+          "bio_boundary_score": 0.7513,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "trained",
+          "model"
+        ],
+        "normalization": "trained model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "trained model",
+          "canonical": "trained model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7513",
+        "structure model assigned role 'core_method' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4745"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "VE-SDE",
+        "canonical": "VE-SDE",
+        "normalized": "ve-sde",
+        "tokens": [
+          "ve-sde"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 354,
+        "sentence": "From Equation (4) we have (note that α (0) = 1 ): x ( t ) √ α ( t ) = x (0) √ α (0) + √ 1 − α ( t ) α ( t ) \u000f, \u000f ∼ N (0 , I ) (41) which can be reparametrized into a form that is consistent with VE-SDE: ¯ x ( t ) = ¯ x (0) + σ ( t ) \u000f.",
+        "context_window": {
+          "previous": "(38) This also means that: x ( t ) = ¯ x ( t ) √ σ 2 ( t ) + 1 (39) α ( t ) = 1 1 + σ 2 ( t ) , (40) which establishes an bijection between ( x , α ) and ( ¯ x , σ ) .",
+          "current": "From Equation (4) we have (note that α (0) = 1 ): x ( t ) √ α ( t ) = x (0) √ α (0) + √ 1 − α ( t ) α ( t ) \u000f, \u000f ∼ N (0 , I ) (41) which can be reparametrized into a form that is consistent with VE-SDE: ¯ x ( t ) = ¯ x (0) + σ ( t ) \u000f.",
+          "next": "(42) Now, we derive the ODE forms for both DDIM and VE-SDE and show that they are equivalent."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7365,
+        "downstream_relevance_score": 0.4738,
+        "components": {
+          "bio_boundary_score": 0.9983,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ve-sde"
+        ],
+        "normalization": "ve-sde",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "VE-SDE",
+          "canonical": "VE-SDE",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9983",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4738"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "CIFAR10",
+        "canonical": "CIFAR10",
+        "normalized": "cifar10",
+        "tokens": [
+          "cifar10"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 147,
+        "sentence": "6 Published as a conference paper at ICLR 2021 Table 1: CIFAR10 and CelebA image generation measured in FID. η = 1 .",
+        "context_window": {
+          "previous": "We include more details in Appendix D.",
+          "current": "6 Published as a conference paper at ICLR 2021 Table 1: CIFAR10 and CelebA image generation measured in FID. η = 1 .",
+          "next": "0 and ˆ σ are cases of DDPM (although Ho et al."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7258,
+        "downstream_relevance_score": 0.4724,
+        "components": {
+          "bio_boundary_score": 0.9976,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cifar10"
+        ],
+        "normalization": "cifar10",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "CIFAR10",
+          "canonical": "CIFAR10",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9976",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4724"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "forward process",
+        "canonical": "forward process",
+        "normalized": "forward process",
+        "tokens": [
+          "forward",
+          "process"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 322,
+        "sentence": "For a categorical observation x 0 that is a one-hot vector with K possible values, we define the forward process as follows.",
+        "context_window": {
+          "previous": "Since the focus of this paper is to accelerate reverse models corresponding to the Gaussian diffusion, we leave empirical evaluations as future work.",
+          "current": "For a categorical observation x 0 that is a one-hot vector with K possible values, we define the forward process as follows.",
+          "next": "First, we have q ( x t | x 0 ) as the following categorical distribution: q ( x t | x 0 ) = Cat( α t x 0 + (1 − α t ) 1 K ) (17) where 1 K ∈ R K is a vector with all entries being 1 /K , and α t decreasing from α 0 = 1 for t = 0 to α T = 0 for t = T ."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7076,
+        "downstream_relevance_score": 0.4688,
+        "components": {
+          "bio_boundary_score": 0.9141,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "forward",
+          "process"
+        ],
+        "normalization": "forward process",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "forward process",
+          "canonical": "forward process",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9141",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4688"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "KL divergence",
+        "canonical": "KL divergence",
+        "normalized": "kl divergence",
+        "tokens": [
+          "kl",
+          "divergence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 327,
+        "sentence": "The KL divergence D KL ( q ( x t − 1 | x t , x 0 ) ‖ p θ ( x t − 1 | x t )) (21) is well-defined, and is simply the KL divergence between two categoricals.",
+        "context_window": {
+          "previous": "As (1 − α t − 1 ) − (1 − α t ) σ t → 0 , the sampling process will become less stochastic, in the sense that it will either choose x t or the predicted x 0 with high probability.",
+          "current": "The KL divergence D KL ( q ( x t − 1 | x t , x 0 ) ‖ p θ ( x t − 1 | x t )) (21) is well-defined, and is simply the KL divergence between two categoricals.",
+          "next": "Therefore, the resulting variational objective function should be easy to optimize as well."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7043,
+        "downstream_relevance_score": 0.467,
+        "components": {
+          "bio_boundary_score": 0.9705,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "kl",
+          "divergence"
+        ],
+        "normalization": "kl divergence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "KL divergence",
+          "canonical": "KL divergence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9705",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.467"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "generative trajectory",
+        "canonical": "generative trajectory",
+        "normalized": "generative trajectory",
+        "tokens": [
+          "generative",
+          "trajectory"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 169,
+        "sentence": "Interestingly, for the generated images with the same initial x T , most high-level features are similar, regardless of the generative trajectory.",
+        "context_window": {
+          "previous": "In Figure 5, we observe the generated images under different generative trajectories (i.e. different τ ) while starting with the same initial x T .",
+          "current": "Interestingly, for the generated images with the same initial x T , most high-level features are similar, regardless of the generative trajectory.",
+          "next": "In many cases, samples generated with only 20 steps are already very similar to ones generated with 1000 steps in terms of high-level features, with only minor differences in details."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6945,
+        "downstream_relevance_score": 0.4661,
+        "components": {
+          "bio_boundary_score": 0.9049,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generative",
+          "trajectory"
+        ],
+        "normalization": "generative trajectory",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "generative trajectory",
+          "canonical": "generative trajectory",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9049",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4661"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "graphical model",
+        "canonical": "graphical model",
+        "normalized": "graphical model",
+        "tokens": [
+          "graphical",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 367,
+        "sentence": "Intuitively, the graphical model of { x τ i } S i =1 and x 0 form a chain, whereas the graphical model of { x t } t ∈ ¯ τ and x 0 forms a star graph.",
+        "context_window": {
+          "previous": "C A DDITIONAL D ERIVATIONS C.1 A CCELERATED SAMPLING PROCESSES In the accelerated case, we can consider the inference process to be factored as: q σ,τ ( x 1: T | x 0 ) = q σ,τ ( x τ S | x 0 ) S ∏ i =1 q σ,τ ( x τ i − 1 | x τ i , x 0 ) ∏ t ∈ ¯ τ q σ,τ ( x t | x 0 ) (52) where τ is a sub-sequence of [1 , . . . , T ] of length S with τ S = T , and let ¯ τ := { 1 , . . . , T } \\ τ be its complement.",
+          "current": "Intuitively, the graphical model of { x τ i } S i =1 and x 0 form a chain, whereas the graphical model of { x t } t ∈ ¯ τ and x 0 forms a star graph.",
+          "next": "We define: q σ,τ ( x t | x 0 ) = N ( √ α t x 0 , (1 − α t ) I ) ∀ t ∈ ¯ τ ∪ { T } (53) q σ,τ ( x τ i − 1 | x τ i , x 0 ) = N ( √ α τ i − 1 x 0 + √ 1 − α τ i − 1 − σ 2 τ i · x τ i − √ α τ i x 0 √ 1 − α τ i , σ 2 τ i I ) ∀ i ∈ [ S ] where the coefficients are chosen such that: q σ,τ ( x τ i | x 0 ) = N ( √ α τ i x 0 , (1 − α τ i ) I ) ∀ i ∈ [ S ] (54) i.e., the “marginals” match."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7014,
+        "downstream_relevance_score": 0.4655,
+        "components": {
+          "bio_boundary_score": 0.9639,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "graphical",
+          "model"
+        ],
+        "normalization": "graphical model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "graphical model",
+          "canonical": "graphical model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9639",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4655"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "implicit probabilistic model",
+        "canonical": "implicit probabilistic model",
+        "normalized": "implicit probabilistic model",
+        "tokens": [
+          "implicit",
+          "probabilistic",
+          "model"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 101,
+        "sentence": "We name this the denoising diffusion implicit model (DDIM, pronounced /d:Im/ ), because it is an implicit probabilistic model trained with the DDPM objective (despite the forward process no longer being a diffusion).",
+        "context_window": {
+          "previous": "The resulting model becomes an implicit probabilistic model (Mohamed & Lakshminarayanan, 2016), where samples are generated from latent variables with a fixed procedure (from x T to x 0 ).",
+          "current": "We name this the denoising diffusion implicit model (DDIM, pronounced /d:Im/ ), because it is an implicit probabilistic model trained with the DDPM objective (despite the forward process no longer being a diffusion).",
+          "next": "4.2 A CCELERATED GENERATION PROCESSES In the previous sections, the generative process is considered as the approximation to the reverse process; since of the forward process has T steps, the generative process is also forced to sample T steps."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6326,
+        "downstream_relevance_score": 0.4622,
+        "components": {
+          "bio_boundary_score": 0.8244,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "implicit",
+          "probabilistic",
+          "model"
+        ],
+        "normalization": "implicit probabilistic model",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "implicit probabilistic model",
+          "canonical": "implicit probabilistic model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8244",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4622"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "DDPM",
+        "canonical": "DDPM",
+        "normalized": "ddpm",
+        "tokens": [
+          "ddpm"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 142,
+        "sentence": "This includes an original DDPM generative process when η = 1 and DDIM when η = 0 .",
+        "context_window": {
+          "previous": "To simplify comparisons, we consider σ with the form: σ τ i ( η ) = η √ (1 − α τ i − 1 ) / (1 − α τ i ) √ 1 − α τ i /α τ i − 1 , (16) where η ∈ R ≥ 0 is a hyperparameter that we can directly control.",
+          "current": "This includes an original DDPM generative process when η = 1 and DDIM when η = 0 .",
+          "next": "We also consider DDPM where the random noise has a larger standard deviation than σ (1) , which we denote as ˆ σ : ˆ σ τ i = √ 1 − α τ i /α τ i − 1 ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7034,
+        "downstream_relevance_score": 0.4608,
+        "components": {
+          "bio_boundary_score": 0.9377,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ddpm"
+        ],
+        "normalization": "ddpm",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "DDPM",
+          "canonical": "DDPM",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9377",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4608"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "reverse process",
+        "canonical": "reverse process",
+        "normalized": "reverse process",
+        "tokens": [
+          "reverse",
+          "process"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 325,
+        "sentence": "Similarly, we can define our reverse process p θ ( x t − 1 | x t ) as: p θ ( x t − 1 | x t ) = Cat ( σ t x t + ( α t − 1 − σ t α t ) f ( t ) θ ( x t ) + ((1 − α t − 1 ) − (1 − α t ) σ t ) 1 K ) , (20) where f ( t ) θ ( x t ) maps x t to a K -dimensional vector.",
+        "context_window": {
+          "previous": "Then we define q ( x t − 1 | x t , x 0 ) as the following mixture distribution: q ( x t − 1 | x t , x 0 ) =    Cat( x t ) with probability σ t Cat( x 0 ) with probability ( α t − 1 − σ t α t ) Cat( 1 K ) with probability (1 − α t − 1 ) − (1 − α t ) σ t , (18) or equivalently: q ( x t − 1 | x t , x 0 ) = Cat ( σ t x t + ( α t − 1 − σ t α t ) x 0 + ((1 − α t − 1 ) − (1 − α t ) σ t ) 1 K ) , (19) which is consistent with how we have defined q ( x t | x 0 ) .",
+          "current": "Similarly, we can define our reverse process p θ ( x t − 1 | x t ) as: p θ ( x t − 1 | x t ) = Cat ( σ t x t + ( α t − 1 − σ t α t ) f ( t ) θ ( x t ) + ((1 − α t − 1 ) − (1 − α t ) σ t ) 1 K ) , (20) where f ( t ) θ ( x t ) maps x t to a K -dimensional vector.",
+          "next": "As (1 − α t − 1 ) − (1 − α t ) σ t → 0 , the sampling process will become less stochastic, in the sense that it will either choose x t or the predicted x 0 with high probability."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6897,
+        "downstream_relevance_score": 0.4595,
+        "components": {
+          "bio_boundary_score": 0.8391,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reverse",
+          "process"
+        ],
+        "normalization": "reverse process",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "reverse process",
+          "canonical": "reverse process",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8391",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4595"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "interpolation",
+        "canonical": "interpolation",
+        "normalized": "interpolation",
+        "tokens": [
+          "interpolation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 410,
+        "sentence": "To generate interpolations on a grid, we sample four latent variables and separate them in to two pairs; then we use slerp with the pairs under the same α , and use slerp over the interpolated samples across the pairs (under an independently chosen interpolation coefficient).",
+        "context_window": {
+          "previous": "These values are used to produce DDIM samples.",
+          "current": "To generate interpolations on a grid, we sample four latent variables and separate them in to two pairs; then we use slerp with the pairs under the same α , and use slerp over the interpolated samples across the pairs (under an independently chosen interpolation coefficient).",
+          "next": "We show more grid interpolation results in Figure 11 (CelebA), Figure 12 (Bedroom), and Figure 13 (Church)."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6735,
+        "downstream_relevance_score": 0.4578,
+        "components": {
+          "bio_boundary_score": 0.8662,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "interpolation"
+        ],
+        "normalization": "interpolation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "interpolation",
+          "canonical": "interpolation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8662",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.4578"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "diffusion hyperparameter",
+        "canonical": "diffusion hyperparameter",
+        "normalized": "diffusion hyperparameter",
+        "tokens": [
+          "diffusion",
+          "hyperparameter"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 374,
+        "sentence": "(2020), a diffusion hyperparameter β t 9 is first introduced, and then relevant variables α t := 1 − β t and ¯ α t = ∏ T t =1 α t are defined.",
+        "context_window": {
+          "previous": "C.2 D ERIVATION OF DENOISING OBJECTIVES FOR DDPM S We note that in Ho et al.",
+          "current": "(2020), a diffusion hyperparameter β t 9 is first introduced, and then relevant variables α t := 1 − β t and ¯ α t = ∏ T t =1 α t are defined.",
+          "next": "In this paper, we have used the notation α t to represent the variable ¯ α t in Ho et al."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6736,
+        "downstream_relevance_score": 0.4511,
+        "components": {
+          "bio_boundary_score": 0.8694,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "diffusion",
+          "hyperparameter"
+        ],
+        "normalization": "diffusion hyperparameter",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "diffusion hyperparameter",
+          "canonical": "diffusion hyperparameter",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8694",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4511"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "generative model",
+        "canonical": "deep generative model",
+        "normalized": "deep generative model",
+        "tokens": [
+          "generative",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep generative models",
+          "deep generative model"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 308,
+        "sentence": "WaveNet: A generative model for raw audio. arXiv preprint arXiv:1609.03499 , September 2016a.",
+        "context_window": {
+          "previous": "Aaron van den Oord, Sander Dieleman, Heiga Zen, Karen Simonyan, Oriol Vinyals, Alex Graves, Nal Kalchbrenner, Andrew Senior, and Koray Kavukcuoglu.",
+          "current": "WaveNet: A generative model for raw audio. arXiv preprint arXiv:1609.03499 , September 2016a.",
+          "next": "Aaron van den Oord, Nal Kalchbrenner, and Koray Kavukcuoglu."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.549,
+        "downstream_relevance_score": 0.417,
+        "components": {
+          "bio_boundary_score": 0.9119,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.0909,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep generative model",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "deep generative model",
+        "display_term": "deep generative models",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "nan",
+        "wikidata_id": "Q105342324",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 6,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generative",
+          "model"
+        ],
+        "normalization": "generative model",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0909,
+        "canonicalization": {
+          "observed": "generative model",
+          "canonical": "deep generative model",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9119",
+        "structure model assigned role 'dataset' with score 0.45",
+        "section BoW matched canonical term 'deep generative model' with confidence 0.7098",
+        "BoW role prior suggests 'background'",
+        "downstream relevance score is 0.417"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "arXiv preprint arXiv",
+        "canonical": "arXiv preprint arXiv",
+        "normalized": "arxiv preprint arxiv",
+        "tokens": [
+          "arxiv",
+          "preprint",
+          "arxiv"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 304,
+        "sentence": "Improved techniques for training Score-Based generative models. arXiv preprint arXiv:2006.09011 , June 2020.",
+        "context_window": {
+          "previous": "Yang Song and Stefano Ermon.",
+          "current": "Improved techniques for training Score-Based generative models. arXiv preprint arXiv:2006.09011 , June 2020.",
+          "next": "Yang Song, Jascha Sohl-Dickstein, Diederik P Kingma, Abhishek Kumar, Stefano Ermon, and Ben Poole."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "evaluation_metric",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5337,
+        "downstream_relevance_score": 0.3731,
+        "components": {
+          "bio_boundary_score": 0.8719,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "arxiv",
+          "preprint",
+          "arxiv"
+        ],
+        "normalization": "arxiv preprint arxiv",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "arXiv preprint arXiv",
+          "canonical": "arXiv preprint arXiv",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8719",
+        "structure model assigned role 'metric' with score 0.82",
+        "downstream relevance score is 0.3731"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "generative process",
+        "canonical": "generative process",
+        "normalized": "generative process",
+        "tokens": [
+          "generative",
+          "process"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 89,
+        "sentence": "4 S AMPLING FROM G ENERALIZED G ENERATIVE P ROCESSES With L 1 as the objective, we are not only learning a generative process for the Markovian inference process considered in Sohl-Dickstein et al.",
+        "context_window": {
+          "previous": "(2020) can be used as a surrogate objective for the variational objective J σ as well.",
+          "current": "4 S AMPLING FROM G ENERALIZED G ENERATIVE P ROCESSES With L 1 as the objective, we are not only learning a generative process for the Markovian inference process considered in Sohl-Dickstein et al.",
+          "next": "(2015) and Ho et al."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5624,
+        "downstream_relevance_score": 0.3485,
+        "components": {
+          "bio_boundary_score": 0.9949,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "generative",
+          "process"
+        ],
+        "normalization": "generative process",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "generative process",
+          "canonical": "generative process",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9949",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.3485"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 11,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In this section, we show that DDIMs outperform DDPMs in terms of image generation when fewer iterations are considered, giving speed ups of 10× to 100× over the original DDPM generation process.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "The non-Markovian forward process presented here seems to suggest continuous forward processes other than Gaussian (which cannot be done in the original diffusion framework, since Gaussian is the only stable distribution with finite variance).",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For each dataset, we use the same trained model with T = 1000 and the objective being L γ from Eq. ( ) with γ = 1; as we argued in Section 3, no changes are needed with regards to the training procedure.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We use the same model for each dataset, and only compare the performance of different generative processes.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Our CelebA model has five feature map resolutions from 64 × 64 to 4 × 4, and we use the original CelebA dataset (not CelebA-HQ) using the from the StyleGAN repository.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "To accelerate sampling, we present denoising diffusion implicit models (DDIMs), a more efficient class of iterative implicit probabilistic models with the same training procedure as DDPMs.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To close this efficiency gap between DDPMs and GANs, we present denoising diffusion implicit models (DDIMs).",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In Section 3, we generalize the forward diffusion process used by DDPMs, which is Markovian, to non-Markovian ones, for which we are still able to design suitable reverse generative Markov chains.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "DDIMs can also be used to encode samples that reconstruct them from the latent code, which DDPMs cannot do due to the stochastic sampling process.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Our architecture for θ (x t ) follows that in , which is a U-Net based on a Wide ResNet .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "The non-Markovian forward process presented here seems to suggest continuous forward processes other than Gaussian (which cannot be done in the original diffusion framework, since Gaussian is the only stable distribution with finite variance).",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "update",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.5737
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "sample trajectory",
+        "section": "method",
+        "role": "contribution",
+        "score": 0.5431
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "reconstruction error",
+        "section": "method",
+        "role": "finding",
+        "score": 0.5289
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "image generation",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5204
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "variational objective",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.518
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "diffusion",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5077
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "DDIM",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5073
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "denoising",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5044
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "CelebA",
+        "section": "method",
+        "role": "contribution",
+        "score": 0.4937
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "implicit generative model",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.4894
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "stochastic differential equation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4852
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "probability flow",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4793
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "hyperparameter",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4748
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "trained model",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4745
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "VE-SDE",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4738
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "CIFAR10",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4724
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "forward process",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4688
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "KL divergence",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.467
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "generative trajectory",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4661
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "graphical model",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4655
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "implicit probabilistic model",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.4622
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "DDPM",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4608
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "reverse process",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4595
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "interpolation",
+        "section": "conclusion",
+        "role": "mechanism",
+        "score": 0.4578
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "diffusion hyperparameter",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4511
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "deep generative model",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.417
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "arXiv preprint arXiv",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.3731
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "generative process",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3485
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_018",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_021",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

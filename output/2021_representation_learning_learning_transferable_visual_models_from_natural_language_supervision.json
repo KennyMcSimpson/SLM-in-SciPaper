@@ -1,0 +1,4593 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2021_representation_learning_learning_transferable_visual_models_from_natural_language_supervision",
+    "title": "2021_representation_learning_learning_transferable_visual_models_from_natural_language_supervision",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2021_representation_learning_learning_transferable_visual_models_from_natural_language_supervision.txt",
+    "sentence_count": 879,
+    "section_counts": {
+      "intro": 19,
+      "related_work": 303,
+      "method": 28,
+      "experiment": 520,
+      "conclusion": 9
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 20775,
+    "type_count": 3338,
+    "type_token_ratio": 0.1607,
+    "section_token_counts": {
+      "intro": 498,
+      "related_work": 7279,
+      "method": 592,
+      "experiment": 12146,
+      "conclusion": 260
+    },
+    "top_unigrams": [
+      {
+        "term": "clip",
+        "count": 253
+      },
+      {
+        "term": "et",
+        "count": 210
+      },
+      {
+        "term": "al",
+        "count": 210
+      },
+      {
+        "term": "zero-shot",
+        "count": 172
+      },
+      {
+        "term": "performance",
+        "count": 156
+      },
+      {
+        "term": "models",
+        "count": 138
+      },
+      {
+        "term": "model",
+        "count": 130
+      },
+      {
+        "term": "imagenet",
+        "count": 111
+      },
+      {
+        "term": "image",
+        "count": 104
+      },
+      {
+        "term": "dataset",
+        "count": 99
+      },
+      {
+        "term": "language",
+        "count": 98
+      },
+      {
+        "term": "datasets",
+        "count": 96
+      },
+      {
+        "term": "learning",
+        "count": 94
+      },
+      {
+        "term": "which",
+        "count": 85
+      },
+      {
+        "term": "accuracy",
+        "count": 85
+      },
+      {
+        "term": "natural",
+        "count": 81
+      },
+      {
+        "term": "text",
+        "count": 77
+      },
+      {
+        "term": "images",
+        "count": 76
+      },
+      {
+        "term": "training",
+        "count": 71
+      },
+      {
+        "term": "these",
+        "count": 71
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 210
+      },
+      {
+        "term": "natural language",
+        "count": 73
+      },
+      {
+        "term": "al 2020",
+        "count": 52
+      },
+      {
+        "term": "zero-shot clip",
+        "count": 51
+      },
+      {
+        "term": "al 2019",
+        "count": 46
+      },
+      {
+        "term": "language supervision",
+        "count": 42
+      },
+      {
+        "term": "zero-shot transfer",
+        "count": 32
+      },
+      {
+        "term": "visual models",
+        "count": 28
+      },
+      {
+        "term": "models natural",
+        "count": 28
+      },
+      {
+        "term": "learning transferable",
+        "count": 27
+      },
+      {
+        "term": "transferable visual",
+        "count": 27
+      },
+      {
+        "term": "al 2018",
+        "count": 25
+      },
+      {
+        "term": "computer vision",
+        "count": 23
+      },
+      {
+        "term": "fully supervised",
+        "count": 20
+      },
+      {
+        "term": "clip models",
+        "count": 19
+      },
+      {
+        "term": "linear probe",
+        "count": 19
+      },
+      {
+        "term": "al 2017",
+        "count": 18
+      },
+      {
+        "term": "linear classifier",
+        "count": 17
+      },
+      {
+        "term": "zero-shot performance",
+        "count": 16
+      },
+      {
+        "term": "image text",
+        "count": 15
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "et al 2020",
+        "count": 52
+      },
+      {
+        "term": "et al 2019",
+        "count": 46
+      },
+      {
+        "term": "natural language supervision",
+        "count": 42
+      },
+      {
+        "term": "learning transferable visual",
+        "count": 27
+      },
+      {
+        "term": "transferable visual models",
+        "count": 27
+      },
+      {
+        "term": "visual models natural",
+        "count": 27
+      },
+      {
+        "term": "models natural language",
+        "count": 27
+      },
+      {
+        "term": "et al 2018",
+        "count": 25
+      },
+      {
+        "term": "et al 2017",
+        "count": 18
+      },
+      {
+        "term": "et al 2016",
+        "count": 12
+      },
+      {
+        "term": "65 70 75",
+        "count": 10
+      },
+      {
+        "term": "75 80 85",
+        "count": 10
+      },
+      {
+        "term": "70 75 80",
+        "count": 10
+      },
+      {
+        "term": "mahajan et al",
+        "count": 9
+      },
+      {
+        "term": "kornblith et al",
+        "count": 9
+      },
+      {
+        "term": "80 85 90",
+        "count": 9
+      },
+      {
+        "term": "taori et al",
+        "count": 9
+      },
+      {
+        "term": "li et al",
+        "count": 8
+      },
+      {
+        "term": "examples per class",
+        "count": 8
+      },
+      {
+        "term": "image text pairs",
+        "count": 7
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 59,
+    "nonzero_tfidf_features": 59,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__model weights",
+        "section": "intro",
+        "term": "model weights",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__bag-of-words",
+        "section": "intro",
+        "term": "bag-of-words",
+        "frequency": 4.0,
+        "tfidf": 0.7407
+      },
+      {
+        "feature_name": "methods__transformer",
+        "section": "method",
+        "term": "transformer",
+        "frequency": 9.0,
+        "tfidf": 0.6186
+      },
+      {
+        "feature_name": "conclusion__deep learning",
+        "section": "conclusion",
+        "term": "deep learning",
+        "frequency": 2.0,
+        "tfidf": 0.5828
+      },
+      {
+        "feature_name": "methods__embeddings",
+        "section": "method",
+        "term": "embeddings",
+        "frequency": 8.0,
+        "tfidf": 0.5264
+      },
+      {
+        "feature_name": "methods__representation learning",
+        "section": "method",
+        "term": "representation learning",
+        "frequency": 4.0,
+        "tfidf": 0.496
+      },
+      {
+        "feature_name": "introduction__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 4.0,
+        "tfidf": 0.4923
+      },
+      {
+        "feature_name": "related_work__vision and language",
+        "section": "related_work",
+        "term": "vision and language",
+        "frequency": 2.0,
+        "tfidf": 0.4572
+      },
+      {
+        "feature_name": "conclusion__deep learning models",
+        "section": "conclusion",
+        "term": "deep learning models",
+        "frequency": 1.0,
+        "tfidf": 0.3906
+      },
+      {
+        "feature_name": "conclusion__semi-supervised learning",
+        "section": "conclusion",
+        "term": "semi-supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.3906
+      },
+      {
+        "feature_name": "related_work__embeddings",
+        "section": "related_work",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.3851
+      },
+      {
+        "feature_name": "conclusion__few-shot learning",
+        "section": "conclusion",
+        "term": "few-shot learning",
+        "frequency": 1.0,
+        "tfidf": 0.3751
+      },
+      {
+        "feature_name": "introduction__masked language model",
+        "section": "intro",
+        "term": "masked language model",
+        "frequency": 2.0,
+        "tfidf": 0.3584
+      },
+      {
+        "feature_name": "related_work__natural language processing",
+        "section": "related_work",
+        "term": "natural language processing",
+        "frequency": 2.0,
+        "tfidf": 0.3552
+      },
+      {
+        "feature_name": "conclusion__supervised learning",
+        "section": "conclusion",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.3505
+      },
+      {
+        "feature_name": "experiments__inspection",
+        "section": "experiment",
+        "term": "inspection",
+        "frequency": 1.0,
+        "tfidf": 0.3369
+      },
+      {
+        "feature_name": "experiments__self-supervised learning",
+        "section": "experiment",
+        "term": "self-supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.3369
+      },
+      {
+        "feature_name": "experiments__linear regression",
+        "section": "experiment",
+        "term": "linear regression",
+        "frequency": 1.0,
+        "tfidf": 0.3179
+      },
+      {
+        "feature_name": "experiments__supervised learning",
+        "section": "experiment",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.3031
+      },
+      {
+        "feature_name": "experiments__l-bfgs",
+        "section": "experiment",
+        "term": "l-bfgs",
+        "frequency": 1.0,
+        "tfidf": 0.3031
+      },
+      {
+        "feature_name": "conclusion__natural language processing",
+        "section": "conclusion",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.3028
+      },
+      {
+        "feature_name": "methods__ResNet",
+        "section": "method",
+        "term": "ResNet",
+        "frequency": 3.0,
+        "tfidf": 0.301
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 3.0,
+        "tfidf": 0.298
+      },
+      {
+        "feature_name": "experiments__few-shot learning",
+        "section": "experiment",
+        "term": "few-shot learning",
+        "frequency": 1.0,
+        "tfidf": 0.291
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 4.0,
+        "tfidf": 0.2845
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__model weights",
+          "section": "intro",
+          "term": "model weights",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__bag-of-words",
+          "section": "intro",
+          "term": "bag-of-words",
+          "frequency": 4.0,
+          "tfidf": 0.7407
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 0.4923
+        },
+        {
+          "feature_name": "introduction__masked language model",
+          "section": "intro",
+          "term": "masked language model",
+          "frequency": 2.0,
+          "tfidf": 0.3584
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 3.0,
+          "tfidf": 0.298
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 2.0,
+          "tfidf": 0.1944
+        },
+        {
+          "feature_name": "introduction__GPT-2",
+          "section": "intro",
+          "term": "GPT-2",
+          "frequency": 1.0,
+          "tfidf": 0.1899
+        },
+        {
+          "feature_name": "introduction__manifold learning",
+          "section": "intro",
+          "term": "manifold learning",
+          "frequency": 1.0,
+          "tfidf": 0.1899
+        },
+        {
+          "feature_name": "introduction__zero-shot learning",
+          "section": "intro",
+          "term": "zero-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.1792
+        },
+        {
+          "feature_name": "introduction__supervised fine-tuning",
+          "section": "intro",
+          "term": "supervised fine-tuning",
+          "frequency": 1.0,
+          "tfidf": 0.1709
+        },
+        {
+          "feature_name": "introduction__transfer learning",
+          "section": "intro",
+          "term": "transfer learning",
+          "frequency": 1.0,
+          "tfidf": 0.1641
+        },
+        {
+          "feature_name": "introduction__heuristic",
+          "section": "intro",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1641
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__vision and language",
+          "section": "related_work",
+          "term": "vision and language",
+          "frequency": 2.0,
+          "tfidf": 0.4572
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.3851
+        },
+        {
+          "feature_name": "related_work__natural language processing",
+          "section": "related_work",
+          "term": "natural language processing",
+          "frequency": 2.0,
+          "tfidf": 0.3552
+        },
+        {
+          "feature_name": "related_work__masked language modeling",
+          "section": "related_work",
+          "term": "masked language modeling",
+          "frequency": 1.0,
+          "tfidf": 0.2646
+        },
+        {
+          "feature_name": "related_work__visual question answering",
+          "section": "related_work",
+          "term": "visual question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2497
+        },
+        {
+          "feature_name": "related_work__segmentation",
+          "section": "related_work",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.2286
+        },
+        {
+          "feature_name": "related_work__supervised learning",
+          "section": "related_work",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.2206
+        },
+        {
+          "feature_name": "related_work__training data",
+          "section": "related_work",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.2075
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.1925
+        },
+        {
+          "feature_name": "related_work__deep learning",
+          "section": "related_work",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1925
+        },
+        {
+          "feature_name": "related_work__question answering",
+          "section": "related_work",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1925
+        },
+        {
+          "feature_name": "related_work__representation learning",
+          "section": "related_work",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.1884
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 9.0,
+          "tfidf": 0.6186
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 8.0,
+          "tfidf": 0.5264
+        },
+        {
+          "feature_name": "methods__representation learning",
+          "section": "method",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 0.496
+        },
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 3.0,
+          "tfidf": 0.301
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 0.2845
+        },
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.1764
+        },
+        {
+          "feature_name": "methods__bag-of-words",
+          "section": "method",
+          "term": "bag-of-words",
+          "frequency": 1.0,
+          "tfidf": 0.1135
+        },
+        {
+          "feature_name": "methods__self-attention",
+          "section": "method",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.0866
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__inspection",
+          "section": "experiment",
+          "term": "inspection",
+          "frequency": 1.0,
+          "tfidf": 0.3369
+        },
+        {
+          "feature_name": "experiments__self-supervised learning",
+          "section": "experiment",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3369
+        },
+        {
+          "feature_name": "experiments__linear regression",
+          "section": "experiment",
+          "term": "linear regression",
+          "frequency": 1.0,
+          "tfidf": 0.3179
+        },
+        {
+          "feature_name": "experiments__supervised learning",
+          "section": "experiment",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3031
+        },
+        {
+          "feature_name": "experiments__l-bfgs",
+          "section": "experiment",
+          "term": "l-bfgs",
+          "frequency": 1.0,
+          "tfidf": 0.3031
+        },
+        {
+          "feature_name": "experiments__few-shot learning",
+          "section": "experiment",
+          "term": "few-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.291
+        },
+        {
+          "feature_name": "experiments__deep learning",
+          "section": "experiment",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.2808
+        },
+        {
+          "feature_name": "experiments__GPT-2",
+          "section": "experiment",
+          "term": "GPT-2",
+          "frequency": 1.0,
+          "tfidf": 0.2808
+        },
+        {
+          "feature_name": "experiments__GPT",
+          "section": "experiment",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.2642
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.2642
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.2349
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2261
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 2.0,
+          "tfidf": 0.5828
+        },
+        {
+          "feature_name": "conclusion__deep learning models",
+          "section": "conclusion",
+          "term": "deep learning models",
+          "frequency": 1.0,
+          "tfidf": 0.3906
+        },
+        {
+          "feature_name": "conclusion__semi-supervised learning",
+          "section": "conclusion",
+          "term": "semi-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3906
+        },
+        {
+          "feature_name": "conclusion__few-shot learning",
+          "section": "conclusion",
+          "term": "few-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.3751
+        },
+        {
+          "feature_name": "conclusion__supervised learning",
+          "section": "conclusion",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3505
+        },
+        {
+          "feature_name": "conclusion__natural language processing",
+          "section": "conclusion",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.3028
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 19,
+      "token_count": 498,
+      "bow_hit_count": 24,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Natural language processing",
+          "count": 10,
+          "section_prior": 0.6057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "masked language model",
+          "count": 4,
+          "section_prior": 0.4571,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 4,
+          "section_prior": 0.2786,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "GPT-3",
+          "count": 4,
+          "section_prior": 0.3151,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Model weights",
+          "count": 2,
+          "section_prior": 0.3636,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__model weights",
+          "section": "intro",
+          "term": "model weights",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__bag-of-words",
+          "section": "intro",
+          "term": "bag-of-words",
+          "frequency": 4.0,
+          "tfidf": 0.7407
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 0.4923
+        },
+        {
+          "feature_name": "introduction__masked language model",
+          "section": "intro",
+          "term": "masked language model",
+          "frequency": 2.0,
+          "tfidf": 0.3584
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 3.0,
+          "tfidf": 0.298
+        },
+        {
+          "feature_name": "introduction__machine learning",
+          "section": "intro",
+          "term": "machine learning",
+          "frequency": 2.0,
+          "tfidf": 0.1944
+        },
+        {
+          "feature_name": "introduction__GPT-2",
+          "section": "intro",
+          "term": "GPT-2",
+          "frequency": 1.0,
+          "tfidf": 0.1899
+        },
+        {
+          "feature_name": "introduction__manifold learning",
+          "section": "intro",
+          "term": "manifold learning",
+          "frequency": 1.0,
+          "tfidf": 0.1899
+        },
+        {
+          "feature_name": "introduction__zero-shot learning",
+          "section": "intro",
+          "term": "zero-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.1792
+        },
+        {
+          "feature_name": "introduction__supervised fine-tuning",
+          "section": "intro",
+          "term": "supervised fine-tuning",
+          "frequency": 1.0,
+          "tfidf": 0.1709
+        },
+        {
+          "feature_name": "introduction__transfer learning",
+          "section": "intro",
+          "term": "transfer learning",
+          "frequency": 1.0,
+          "tfidf": 0.1641
+        },
+        {
+          "feature_name": "introduction__heuristic",
+          "section": "intro",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1641
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 303,
+      "token_count": 7279,
+      "bow_hit_count": 214,
+      "top_bow_terms": [
+        {
+          "canonical_term": "prediction bias",
+          "count": 20,
+          "section_prior": 0.0467,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 20,
+          "section_prior": 0.0448,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 17,
+          "section_prior": 0.1475,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 15,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 15,
+          "section_prior": 0.2451,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 15,
+          "section_prior": 0.0911,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 15,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 10,
+          "section_prior": 0.0933,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 10,
+          "section_prior": 0.0759,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Vision and Language",
+          "count": 7,
+          "section_prior": 0.1692,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "masked language model",
+          "count": 6,
+          "section_prior": 0.1429,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 5,
+          "section_prior": 0.0972,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__vision and language",
+          "section": "related_work",
+          "term": "vision and language",
+          "frequency": 2.0,
+          "tfidf": 0.4572
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.3851
+        },
+        {
+          "feature_name": "related_work__natural language processing",
+          "section": "related_work",
+          "term": "natural language processing",
+          "frequency": 2.0,
+          "tfidf": 0.3552
+        },
+        {
+          "feature_name": "related_work__masked language modeling",
+          "section": "related_work",
+          "term": "masked language modeling",
+          "frequency": 1.0,
+          "tfidf": 0.2646
+        },
+        {
+          "feature_name": "related_work__visual question answering",
+          "section": "related_work",
+          "term": "visual question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2497
+        },
+        {
+          "feature_name": "related_work__segmentation",
+          "section": "related_work",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.2286
+        },
+        {
+          "feature_name": "related_work__supervised learning",
+          "section": "related_work",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.2206
+        },
+        {
+          "feature_name": "related_work__training data",
+          "section": "related_work",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.2075
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.1925
+        },
+        {
+          "feature_name": "related_work__deep learning",
+          "section": "related_work",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.1925
+        },
+        {
+          "feature_name": "related_work__question answering",
+          "section": "related_work",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1925
+        },
+        {
+          "feature_name": "related_work__representation learning",
+          "section": "related_work",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.1884
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 28,
+      "token_count": 592,
+      "bow_hit_count": 9,
+      "top_bow_terms": [
+        {
+          "canonical_term": "machine learning",
+          "count": 5,
+          "section_prior": 0.1102,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "self-supervised learning",
+          "count": 4,
+          "section_prior": 0.0323,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 9.0,
+          "tfidf": 0.6186
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 8.0,
+          "tfidf": 0.5264
+        },
+        {
+          "feature_name": "methods__representation learning",
+          "section": "method",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 0.496
+        },
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 3.0,
+          "tfidf": 0.301
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 0.2845
+        },
+        {
+          "feature_name": "methods__convolutional neural networks",
+          "section": "method",
+          "term": "convolutional neural networks",
+          "frequency": 2.0,
+          "tfidf": 0.1764
+        },
+        {
+          "feature_name": "methods__bag-of-words",
+          "section": "method",
+          "term": "bag-of-words",
+          "frequency": 1.0,
+          "tfidf": 0.1135
+        },
+        {
+          "feature_name": "methods__self-attention",
+          "section": "method",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.0866
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 520,
+      "token_count": 12146,
+      "bow_hit_count": 397,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 54,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 47,
+          "section_prior": 0.18,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 38,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 30,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 25,
+          "section_prior": 0.098,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 24,
+          "section_prior": 0.44,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "few-shot learning",
+          "count": 19,
+          "section_prior": 0.2297,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 17,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "supervised learning",
+          "count": 15,
+          "section_prior": 0.1,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 15,
+          "section_prior": 0.0574,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "GPT-2",
+          "count": 10,
+          "section_prior": 0.2326,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 10,
+          "section_prior": 0.1179,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__inspection",
+          "section": "experiment",
+          "term": "inspection",
+          "frequency": 1.0,
+          "tfidf": 0.3369
+        },
+        {
+          "feature_name": "experiments__self-supervised learning",
+          "section": "experiment",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3369
+        },
+        {
+          "feature_name": "experiments__linear regression",
+          "section": "experiment",
+          "term": "linear regression",
+          "frequency": 1.0,
+          "tfidf": 0.3179
+        },
+        {
+          "feature_name": "experiments__supervised learning",
+          "section": "experiment",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3031
+        },
+        {
+          "feature_name": "experiments__l-bfgs",
+          "section": "experiment",
+          "term": "l-bfgs",
+          "frequency": 1.0,
+          "tfidf": 0.3031
+        },
+        {
+          "feature_name": "experiments__few-shot learning",
+          "section": "experiment",
+          "term": "few-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.291
+        },
+        {
+          "feature_name": "experiments__deep learning",
+          "section": "experiment",
+          "term": "deep learning",
+          "frequency": 1.0,
+          "tfidf": 0.2808
+        },
+        {
+          "feature_name": "experiments__GPT-2",
+          "section": "experiment",
+          "term": "GPT-2",
+          "frequency": 1.0,
+          "tfidf": 0.2808
+        },
+        {
+          "feature_name": "experiments__GPT",
+          "section": "experiment",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.2642
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.2642
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.2349
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2261
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 9,
+      "token_count": 260,
+      "bow_hit_count": 6,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.1057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "scikit-learn",
+          "count": 1,
+          "section_prior": 0.1429,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__deep learning",
+          "section": "conclusion",
+          "term": "deep learning",
+          "frequency": 2.0,
+          "tfidf": 0.5828
+        },
+        {
+          "feature_name": "conclusion__deep learning models",
+          "section": "conclusion",
+          "term": "deep learning models",
+          "frequency": 1.0,
+          "tfidf": 0.3906
+        },
+        {
+          "feature_name": "conclusion__semi-supervised learning",
+          "section": "conclusion",
+          "term": "semi-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3906
+        },
+        {
+          "feature_name": "conclusion__few-shot learning",
+          "section": "conclusion",
+          "term": "few-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.3751
+        },
+        {
+          "feature_name": "conclusion__supervised learning",
+          "section": "conclusion",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3505
+        },
+        {
+          "feature_name": "conclusion__natural language processing",
+          "section": "conclusion",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.3028
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "Vision Transformer",
+        "canonical": "vision transformer",
+        "normalized": "vision transformer",
+        "tokens": [
+          "vision",
+          "transformer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "vision transformer"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 150,
+        "sentence": "For the second architecture, we experiment with the recently introduced Vision Transformer (ViT) (Dosovitskiy et al., 2020).",
+        "context_window": {
+          "previous": "Numpy-like pseudocode for the core of an implementa- tion of CLIP. representation of the image.",
+          "current": "For the second architecture, we experiment with the recently introduced Vision Transformer (ViT) (Dosovitskiy et al., 2020).",
+          "next": "We closely follow their implementation with only the minor modification of adding an additional layer normalization to the combined patch and position embeddings before the transformer and use a slightly different initialization scheme."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.75,
+          "evidence_type": "method",
+          "matched_cue": "architecture",
+          "role_prior": "core_method",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7321,
+        "downstream_relevance_score": 0.7097,
+        "components": {
+          "bio_boundary_score": 0.9373,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.1429,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "vision transformer",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "vision transformer",
+        "display_term": "vision transformer",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Vision_transformer",
+        "wikidata_id": "Q107675654",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 2,
+        "total_frequency": 2,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "vision",
+          "transformer"
+        ],
+        "normalization": "vision transformer",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.1429,
+        "canonicalization": {
+          "observed": "Vision Transformer",
+          "canonical": "vision transformer",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9373",
+        "structure model assigned role 'core_method' with score 0.66",
+        "section BoW matched canonical term 'vision transformer' with confidence 0.85",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.7097"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "natural language",
+        "canonical": "Natural language processing",
+        "normalized": "natural language processing",
+        "tokens": [
+          "natural",
+          "language"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "natural language processing",
+          "Natural language processing",
+          "nlp"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 827,
+        "sentence": "(2013) which showed that natural language descrip- tions could be used along side other sources of supervision to improve performance on the task of video event under- standing.",
+        "context_window": {
+          "previous": "In this context, the earliest use of the term natural language supervision that we are aware of is the work of Ramanathan et al.",
+          "current": "(2013) which showed that natural language descrip- tions could be used along side other sources of supervision to improve performance on the task of video event under- standing.",
+          "next": "However, as mentioned in the introduction and approach section, methods of leveraging natural language descriptions in computer vision well predate the use of this specific term, especially for image retrieval (Mori et al., 1999) and object classification (Wang et al., 2009)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7322,
+        "downstream_relevance_score": 0.6659,
+        "components": {
+          "bio_boundary_score": 0.999,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.0935,
+          "document_tfidf_score": 0.3552,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "natural language processing",
+        "match_quality": 0.78,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "Natural language processing",
+        "display_term": "natural language processing",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Natural_language_processing",
+        "wikidata_id": "Q30642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 16,
+        "total_frequency": 22,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "related_work__natural language processing",
+        "section": "related_work",
+        "term": "natural language processing",
+        "frequency": 2.0,
+        "tfidf": 0.3552,
+        "normalized_frequency": 0.2222,
+        "normalized_tfidf": 0.3552
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "natural",
+          "language"
+        ],
+        "normalization": "natural language",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0935,
+        "canonicalization": {
+          "observed": "natural language",
+          "canonical": "Natural language processing",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.999",
+        "structure model assigned role 'result' with score 0.66",
+        "section BoW matched canonical term 'Natural language processing' with confidence 0.7098",
+        "BoW role prior suggests 'background'",
+        "document-term matrix links the phrase to feature 'related_work__natural language processing' with tf-idf 0.3552",
+        "downstream relevance score is 0.6659"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "FairFace",
+        "canonical": "FairFace",
+        "normalized": "fairface",
+        "tokens": [
+          "fairface"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 700,
+        "sentence": "We find that LR CLIP gets higher accuracy on the FairFace dataset than both the ResNext-101 32x48d Instagram model (“Linear Probe Instagram”) (Ma- hajan et al., 2018) and FairFace’s own model on most of the classification tests we ran 7 .",
+        "context_window": {
+          "previous": "We evaluated two versions of CLIP on the FairFace dataset: a zero-shot CLIP model (“ZS CLIP”), and a logistic regres- sion classifier fitted to FairFace’s dataset on top of CLIP’s features (“LR CLIP”).",
+          "current": "We find that LR CLIP gets higher accuracy on the FairFace dataset than both the ResNext-101 32x48d Instagram model (“Linear Probe Instagram”) (Ma- hajan et al., 2018) and FairFace’s own model on most of the classification tests we ran 7 .",
+          "next": "ZS CLIP’s performance varies by category and is worse than that of FairFace’s model for a few categories, and better for others."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7507,
+        "downstream_relevance_score": 0.6522,
+        "components": {
+          "bio_boundary_score": 0.9943,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fairface"
+        ],
+        "normalization": "fairface",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "FairFace",
+          "canonical": "FairFace",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9943",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy, dataset",
+        "downstream relevance score is 0.6522"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "CLIP",
+        "canonical": "CLIP",
+        "normalized": "clip",
+        "tokens": [
+          "clip"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 221,
+        "sentence": "Additionally, the top-5 accuracy of CLIP models are noticeably higher than their top-1, and this model has a 95% top-5 accuracy, matching Inception-V4 (Szegedy et al., 2016).",
+        "context_window": {
+          "previous": "examples available for this dataset.",
+          "current": "Additionally, the top-5 accuracy of CLIP models are noticeably higher than their top-1, and this model has a 95% top-5 accuracy, matching Inception-V4 (Szegedy et al., 2016).",
+          "next": "The ability to match the performance of a strong, fully supervised baselines in a zero-shot setting suggests Learning Transferable Visual Models From Natural Language Supervision 7 aYahoo ImageNet SUN Visual N-Grams 72.4 11.5 23.0 CLIP 98.4 76.2 58.5 Table 1."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7171,
+        "downstream_relevance_score": 0.5997,
+        "components": {
+          "bio_boundary_score": 0.9969,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "clip"
+        ],
+        "normalization": "clip",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "CLIP",
+          "canonical": "CLIP",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9969",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5997"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "gender classification",
+        "canonical": "gender classification",
+        "normalized": "gender classification",
+        "tokens": [
+          "gender",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 688,
+        "sentence": "Percent accuracy on gender classification of images by FairFace race category 7.1.",
+        "context_window": {
+          "previous": "Percent accuracy on Race, Gender, and Age classification of images in FairFace categories ‘Black,’ ‘Indian,’ ‘East Asian,’ ‘Southeast Asian,’ ‘Middle Eastern,’ and ‘Latino’ (grouped to- gether as FairFace category ‘Non-White’) Middle Southeast East Model Gender Black White Indian Latino Eastern Asian Asian Average Male 96.9 96.4 98.7 96.5 98.9 96.2 96.9 97.2 Linear Probe CLIP Female 97.9 96.7 97.9 99.2 97.2 98.5 97.3 97.8 97.4 96.5 98.3 97.8 98.4 97.3 97.1 97.5 Male 96.3 96.4 97.7 97.2 98.3 95.5 96.8 96.9 Zero-Shot CLIP Female 97.1 95.3 98.3 97.8 97.5 97.2 96.4 97.0 96.7 95.9 98.0 97.5 98.0 96.3 96.6 Male 92.5 94.8 96.2 93.1 96.0 92.7 93.4 94.1 Linear Probe Instagram Female 90.1 91.4 95.0 94.8 95.0 94.1 94.3 93.4 91.3 93.2 95.6 94.0 95.6 93.4 93.9 Table 5.",
+          "current": "Percent accuracy on gender classification of images by FairFace race category 7.1.",
+          "next": "Bias Algorithmic decisions, training data, and choices about how classes are defined and taxonomized (which we refer to in- formally as “class design”) can all contribute to and amplify social biases and inequalities resulting from the use of AI systems (Noble, 2018; Bechmann & Bowker, 2019; Bowker & Star, 2000)."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6678,
+        "downstream_relevance_score": 0.5841,
+        "components": {
+          "bio_boundary_score": 0.8287,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gender",
+          "classification"
+        ],
+        "normalization": "gender classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gender classification",
+          "canonical": "gender classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8287",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5841"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "ImageNet",
+        "canonical": "ImageNet",
+        "normalized": "imagenet",
+        "tokens": [
+          "imagenet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 441,
+        "sentence": ", the accuracy of ImageNet models drop well below the expectation set by the Ima- geNet validation set.",
+        "context_window": {
+          "previous": "They propose this distinction because in part because they find that while several techniques have been demonstrated to improve per- formance on synthetic distribution shifts, they often fail to yield consistent improvements on natural distributions.",
+          "current": ", the accuracy of ImageNet models drop well below the expectation set by the Ima- geNet validation set.",
+          "next": "For the following summary discussion we report average accuracy across all"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7296,
+        "downstream_relevance_score": 0.5712,
+        "components": {
+          "bio_boundary_score": 0.9987,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imagenet"
+        ],
+        "normalization": "imagenet",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ImageNet",
+          "canonical": "ImageNet",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9987",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5712"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "MNIST",
+        "canonical": "MNIST",
+        "normalized": "mnist",
+        "tokens": [
+          "mnist"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 631,
+        "sentence": "However, CLIP only achieves 88% accu- racy on the handwritten digits of MNIST.",
+        "context_window": {
+          "previous": "CLIP learns a high quality semantic OCR representation that performs well on digitally rendered text, which is common in its pre-training dataset, as evidenced by performance on Rendered SST2.",
+          "current": "However, CLIP only achieves 88% accu- racy on the handwritten digits of MNIST.",
+          "next": "An embarrassingly simple baseline of logistic regression on raw pixels outper- forms zero-shot CLIP."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7857,
+          "evidence_type": "result",
+          "matched_cue": "achieves",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7472,
+        "downstream_relevance_score": 0.5675,
+        "components": {
+          "bio_boundary_score": 0.9974,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mnist"
+        ],
+        "normalization": "mnist",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "MNIST",
+          "canonical": "MNIST",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9974",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5675"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "logistic regression",
+        "canonical": "logistic regression",
+        "normalized": "logistic regression",
+        "tokens": [
+          "logistic",
+          "regression"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 319,
+        "sentence": "In Figure 7, we show estimates for the number of labeled examples per class that a logistic regression classifier on the same feature space requires to match the performance of zero-shot CLIP.",
+        "context_window": {
+          "previous": "In addition to studying the average performance of zero-shot CLIP and few-shot logistic regression, we also examine performance on individual datasets.",
+          "current": "In Figure 7, we show estimates for the number of labeled examples per class that a logistic regression classifier on the same feature space requires to match the performance of zero-shot CLIP.",
+          "next": "Since zero-shot CLIP is also a linear classifier, this estimates the effective data efficiency of zero-shot transfer in this setting."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7881,
+        "downstream_relevance_score": 0.5626,
+        "components": {
+          "bio_boundary_score": 0.9972,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "logistic",
+          "regression"
+        ],
+        "normalization": "logistic regression",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "logistic regression",
+          "canonical": "logistic regression",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9972",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5626"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "Class design",
+        "canonical": "Class design",
+        "normalized": "class design",
+        "tokens": [
+          "class",
+          "design"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 690,
+        "sentence": "Class design is particularly relevant to mod- els like CLIP, since any developer can define a class and the model will provide some result.",
+        "context_window": {
+          "previous": "Bias Algorithmic decisions, training data, and choices about how classes are defined and taxonomized (which we refer to in- formally as “class design”) can all contribute to and amplify social biases and inequalities resulting from the use of AI systems (Noble, 2018; Bechmann & Bowker, 2019; Bowker & Star, 2000).",
+          "current": "Class design is particularly relevant to mod- els like CLIP, since any developer can define a class and the model will provide some result.",
+          "next": "In this section, we provide preliminary analysis of some of the biases in CLIP, using bias probes inspired by those outlined in Buolamwini & Gebru (2018) and K ¨ arkk ¨ ainen & Joo (2019)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7557,
+        "downstream_relevance_score": 0.5626,
+        "components": {
+          "bio_boundary_score": 0.9973,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "class",
+          "design"
+        ],
+        "normalization": "class design",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Class design",
+          "canonical": "Class design",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9973",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.5626"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "action recognition",
+        "canonical": "action recognition",
+        "normalized": "action recognition",
+        "tokens": [
+          "action",
+          "recognition"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 290,
+        "sentence": "Zero- shot CLIP significantly outperforms a ResNet-50 on two datasets measuring action recognition in videos.",
+        "context_window": {
+          "previous": "On STL10, CLIP achieves 99.3% overall which appears to be a new state of the art despite not using any training examples.",
+          "current": "Zero- shot CLIP significantly outperforms a ResNet-50 on two datasets measuring action recognition in videos.",
+          "next": "On Kinet- ics700, CLIP outperforms a ResNet-50 by 14.5%."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8125,
+          "evidence_type": "result",
+          "matched_cue": "outperforms",
+          "role_prior": "result",
+          "confidence": 0.98
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6931,
+        "downstream_relevance_score": 0.5326,
+        "components": {
+          "bio_boundary_score": 0.8753,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "action",
+          "recognition"
+        ],
+        "normalization": "action recognition",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "action recognition",
+          "canonical": "action recognition",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8753",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.5326"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "text encoder",
+        "canonical": "text encoder",
+        "normalized": "text encoder",
+        "tokens": [
+          "text",
+          "encoder"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 161,
+        "sentence": "For the text encoder, we only scale the width of the model to be proportional to the calculated increase in width of the ResNet and do not scale the depth at all, as we found CLIP’s performance to be less sensitive to the capacity of the text encoder.",
+        "context_window": {
+          "previous": "While Tan & Le (2019) tune the ratio of compute allocated to each dimension for their EfficientNet architecture, we use a simple baseline of allo- cating additional compute equally to increasing the width, depth, and resolution of the model.",
+          "current": "For the text encoder, we only scale the width of the model to be proportional to the calculated increase in width of the ResNet and do not scale the depth at all, as we found CLIP’s performance to be less sensitive to the capacity of the text encoder.",
+          "next": "2.5."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7384,
+        "downstream_relevance_score": 0.5186,
+        "components": {
+          "bio_boundary_score": 0.9388,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "encoder"
+        ],
+        "normalization": "text encoder",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "text encoder",
+          "canonical": "text encoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9388",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5186"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "computer vision",
+        "canonical": "computer vision",
+        "normalized": "computer vision",
+        "tokens": [
+          "computer",
+          "vision"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "State-of-the-art computer vision systems are trained to predict a fixed set of predetermined object categories.",
+        "context_window": {
+          "previous": "Learning Transferable Visual Models From Natural Language Supervision Alec Radford * 1 Jong Wook Kim * 1 Chris Hallacy 1 Aditya Ramesh 1 Gabriel Goh 1 Sandhini Agarwal 1 Girish Sastry 1 Amanda Askell 1 Pamela Mishkin 1 Jack Clark 1 Gretchen Krueger 1 Ilya Sutskever 1",
+          "current": "State-of-the-art computer vision systems are trained to predict a fixed set of predetermined object categories.",
+          "next": "This restricted form of super- vision limits their generality and usability since additional labeled data is needed to specify any other visual concept."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9192
+      },
+      "evidence": {
+        "score": 0.3113,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "state-of-the-art",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6476,
+        "downstream_relevance_score": 0.5089,
+        "components": {
+          "bio_boundary_score": 0.892,
+          "sentence_evidence_score": 0.3113,
+          "sentence_role_score": 0.9192,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computer",
+          "vision"
+        ],
+        "normalization": "computer vision",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computer vision",
+          "canonical": "computer vision",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.892",
+        "structure model assigned role 'problem' with score 0.9192",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.5089"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "zero- shot performance",
+        "canonical": "zero- shot performance",
+        "normalized": "zero- shot performance",
+        "tokens": [
+          "zero-",
+          "shot",
+          "performance"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 243,
+        "sentence": "Prompt engineering and ensembling improve zero- shot performance.",
+        "context_window": {
+          "previous": "2017) Figure 4.",
+          "current": "Prompt engineering and ensembling improve zero- shot performance.",
+          "next": "Compared to the baseline of using contextless class names, prompt engineering and ensembling boost zero-shot classification performance by almost 5 points on average across 36 datasets."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6983,
+        "downstream_relevance_score": 0.5077,
+        "components": {
+          "bio_boundary_score": 0.8836,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "zero-",
+          "shot",
+          "performance"
+        ],
+        "normalization": "zero- shot performance",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "zero- shot performance",
+          "canonical": "zero- shot performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8836",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5077"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "surveillance",
+        "canonical": "surveillance",
+        "normalized": "surveillance",
+        "tokens": [
+          "surveillance"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 779,
+        "sentence": "We first tested model performance on low-resolution images captured from surveillance cameras (e.g.",
+        "context_window": {
+          "previous": "We measure the model’s performance on classification of images from CCTV cameras and zero-shot celebrity identifi- cation.",
+          "current": "We first tested model performance on low-resolution images captured from surveillance cameras (e.g.",
+          "next": "CCTV cameras)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7554,
+        "downstream_relevance_score": 0.5046,
+        "components": {
+          "bio_boundary_score": 0.9967,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "surveillance"
+        ],
+        "normalization": "surveillance",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "surveillance",
+          "canonical": "surveillance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9967",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.5046"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "image retrieval",
+        "canonical": "image retrieval",
+        "normalized": "image retrieval",
+        "tokens": [
+          "image",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 672,
+        "sentence": "Our studies of CLIP in a zero-shot setting show that the model displays significant promise for widely-applicable tasks like image retrieval or search.",
+        "context_window": {
+          "previous": "This capability introduces challenges similar to those found in characterizing other, large-scale generative models like GPT-3 (Brown et al., 2020); models that exhibit non-trivial zero-shot (or few- shot) generalization can have a vast range of capabilities, many of which are made clear only after testing for them.",
+          "current": "Our studies of CLIP in a zero-shot setting show that the model displays significant promise for widely-applicable tasks like image retrieval or search.",
+          "next": "For example, it can find relevant images in a database given text, or relevant text given an image."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7105,
+        "downstream_relevance_score": 0.504,
+        "components": {
+          "bio_boundary_score": 0.8433,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "retrieval"
+        ],
+        "normalization": "image retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image retrieval",
+          "canonical": "image retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8433",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.504"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "zero-shot CLIP",
+        "canonical": "zero-shot CLIP",
+        "normalized": "zero-shot clip",
+        "tokens": [
+          "zero-shot",
+          "clip"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 288,
+        "sentence": "On “general” object classifica- tion datasets such as ImageNet, CIFAR10/100, STL10, and PascalVOC2007 performance is relatively similar with a slight advantage for zero-shot CLIP in all cases.",
+        "context_window": {
+          "previous": "We suspect these difference are primarily due to varying amounts of per-task supervision between WIT and ImageNet.",
+          "current": "On “general” object classifica- tion datasets such as ImageNet, CIFAR10/100, STL10, and PascalVOC2007 performance is relatively similar with a slight advantage for zero-shot CLIP in all cases.",
+          "next": "On STL10, CLIP achieves 99.3% overall which appears to be a new state of the art despite not using any training examples."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.709,
+        "downstream_relevance_score": 0.5033,
+        "components": {
+          "bio_boundary_score": 0.92,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "zero-shot",
+          "clip"
+        ],
+        "normalization": "zero-shot clip",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "zero-shot CLIP",
+          "canonical": "zero-shot CLIP",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.92",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5033"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "gender prediction",
+        "canonical": "gender prediction",
+        "normalized": "gender prediction",
+        "tokens": [
+          "gender",
+          "prediction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 743,
+        "sentence": "We first simply looked into gender prediction performance of the model on the images of Members of Congress, in order to check to see if the model correctly recognized men as men and women as women given the image of a person who appeared to be in an official setting/position of power.",
+        "context_window": {
+          "previous": "For our first label set, we used a label set of 300 occupations and for our second label set we used a combined set of labels that Google Cloud Vision, Amazon Rekognition and Microsoft Azure Computer Vision returned for all the images.",
+          "current": "We first simply looked into gender prediction performance of the model on the images of Members of Congress, in order to check to see if the model correctly recognized men as men and women as women given the image of a person who appeared to be in an official setting/position of power.",
+          "next": "We found that the model got 100% accuracy on the images."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7152,
+        "downstream_relevance_score": 0.4937,
+        "components": {
+          "bio_boundary_score": 0.8592,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gender",
+          "prediction"
+        ],
+        "normalization": "gender prediction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gender prediction",
+          "canonical": "gender prediction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8592",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4937"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "image captioning",
+        "canonical": "image captioning",
+        "normalized": "image captioning",
+        "tokens": [
+          "image",
+          "captioning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 638,
+        "sentence": "This is a significant restriction compared to a truly flexible approach like image captioning which could generate novel outputs.",
+        "context_window": {
+          "previous": "Although CLIP can flexibly generate zero-shot classifiers for a wide variety of tasks and datasets, CLIP is still limited to choosing from only those concepts in a given zero-shot classifier.",
+          "current": "This is a significant restriction compared to a truly flexible approach like image captioning which could generate novel outputs.",
+          "next": "Unfortunately, as described in Sec- tion 2.3 we found the computational efficiency of the image caption baseline we tried to be much lower than CLIP."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6892,
+        "downstream_relevance_score": 0.493,
+        "components": {
+          "bio_boundary_score": 0.852,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image",
+          "captioning"
+        ],
+        "normalization": "image captioning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image captioning",
+          "canonical": "image captioning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.852",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.493"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "relation extraction",
+        "canonical": "relation extraction",
+        "normalized": "relation extraction",
+        "tokens": [
+          "relation",
+          "extraction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 824,
+        "sentence": "More recently, ExpBERT (Murty et al., 2020) uses feature representations produced by conditioning a deep contextual language model on nat- ural language explanations and descriptions of relations to improve performance on the task of relation extraction.",
+        "context_window": {
+          "previous": "Several papers have leveraged semantic parsing to convert natural language explanations into features (Srivastava et al., 2017) or additional training labels (Hancock et al., 2018).",
+          "current": "More recently, ExpBERT (Murty et al., 2020) uses feature representations produced by conditioning a deep contextual language model on nat- ural language explanations and descriptions of relations to improve performance on the task of relation extraction.",
+          "next": "CLIP is an example of using natural language as a training signal for learning about a domain other than language."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7074,
+        "downstream_relevance_score": 0.4896,
+        "components": {
+          "bio_boundary_score": 0.9156,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "relation",
+          "extraction"
+        ],
+        "normalization": "relation extraction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "relation extraction",
+          "canonical": "relation extraction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9156",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4896"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "linear probe",
+        "canonical": "linear probe",
+        "normalized": "linear probe",
+        "tokens": [
+          "linear",
+          "probe"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 339,
+        "sentence": "Comparing zero-shot and linear probe performance across datasets shows a strong correlation with zero-shot performance mostly shifted 10 to 25 points lower.",
+        "context_window": {
+          "previous": "Zero-shot performance is correlated with linear probe performance but still mostly sub-optimal.",
+          "current": "Comparing zero-shot and linear probe performance across datasets shows a strong correlation with zero-shot performance mostly shifted 10 to 25 points lower.",
+          "next": "On only"
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6773,
+        "downstream_relevance_score": 0.4868,
+        "components": {
+          "bio_boundary_score": 0.8114,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "probe"
+        ],
+        "normalization": "linear probe",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear probe",
+          "canonical": "linear probe",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8114",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4868"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "crime",
+        "canonical": "crime",
+        "normalized": "crime",
+        "tokens": [
+          "crime"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 731,
+        "sentence": "We found significant disparities in classifications across races for crime related terms, which is captured in Table 6.",
+        "context_window": {
+          "previous": "Inter- estingly, we found that people aged 0-20 years old were more likely to fall under these crime-related classes (approx- imately 18%) compared to images of people in different age ranges (approximately 12% for people aged 20-60 and 0% for people over 70).",
+          "current": "We found significant disparities in classifications across races for crime related terms, which is captured in Table 6.",
+          "next": "Given that we observed that people under 20 were the most likely to be classified in both the crime-related and non- human animal categories, we carried out classification for the images with the same classes but with an additional category ‘child’ added to the categories."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7109,
+        "downstream_relevance_score": 0.4815,
+        "components": {
+          "bio_boundary_score": 0.8456,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "crime"
+        ],
+        "normalization": "crime",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "crime",
+          "canonical": "crime",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8456",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4815"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "ensemble",
+        "canonical": "ensemble",
+        "normalized": "ensemble",
+        "tokens": [
+          "ensemble"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 268,
+        "sentence": "On ImageNet, we ensemble 80 different context prompts and this improves performance by an additional 3.5% over the single default prompt discussed above.",
+        "context_window": {
+          "previous": "We’ve observed ensembling across many gen- erated zero-shot classifiers to reliably improve performance and use it for the majority of datasets.",
+          "current": "On ImageNet, we ensemble 80 different context prompts and this improves performance by an additional 3.5% over the single default prompt discussed above.",
+          "next": "When considered together, prompt engineering and ensembling improve ImageNet accuracy by almost 5%."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6811,
+        "downstream_relevance_score": 0.4788,
+        "components": {
+          "bio_boundary_score": 0.7471,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ensemble"
+        ],
+        "normalization": "ensemble",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ensemble",
+          "canonical": "ensemble",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7471",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4788"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "image",
+        "canonical": "image",
+        "normalized": "image",
+        "tokens": [
+          "image"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 98,
+        "sentence": "To attempt to cover as broad a set of visual concepts as possible, we search for (image, text) pairs as part of the construction process whose text includes one of a set of 500,000 queries.",
+        "context_window": {
+          "previous": "To address this, we constructed a new dataset of 400 million (image, text) pairs collected form a variety of publicly available sources on the Internet.",
+          "current": "To attempt to cover as broad a set of visual concepts as possible, we search for (image, text) pairs as part of the construction process whose text includes one of a set of 500,000 queries.",
+          "next": "1 We approximately class 1 The base query list is all words occurring at least 100 times in the English version of Wikipedia."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7345,
+        "downstream_relevance_score": 0.4769,
+        "components": {
+          "bio_boundary_score": 0.9464,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image"
+        ],
+        "normalization": "image",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image",
+          "canonical": "image",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9464",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4769"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "evaluation",
+        "canonical": "evaluation",
+        "normalized": "evaluation",
+        "tokens": [
+          "evaluation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 408,
+        "sentence": "In addition to the aggregate analysis above, we visualize per-dataset differences in the performance of the best CLIP model and the best model in our evaluation suite across all 27 datasets in Figure 11.",
+        "context_window": {
+          "previous": "We suspect additional evaluation efforts along the lines of VTAB to be valuable.",
+          "current": "In addition to the aggregate analysis above, we visualize per-dataset differences in the performance of the best CLIP model and the best model in our evaluation suite across all 27 datasets in Figure 11.",
+          "next": "CLIP outperforms the Noisy Student EfficientNet-L2 on 21 of the 27 datasets."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6993,
+        "downstream_relevance_score": 0.4712,
+        "components": {
+          "bio_boundary_score": 0.9564,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "evaluation"
+        ],
+        "normalization": "evaluation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "evaluation",
+          "canonical": "evaluation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9564",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.4712"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "visual concept",
+        "canonical": "visual concept",
+        "normalized": "visual concept",
+        "tokens": [
+          "visual",
+          "concept"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "This restricted form of super- vision limits their generality and usability since additional labeled data is needed to specify any other visual concept.",
+        "context_window": {
+          "previous": "State-of-the-art computer vision systems are trained to predict a fixed set of predetermined object categories.",
+          "current": "This restricted form of super- vision limits their generality and usability since additional labeled data is needed to specify any other visual concept.",
+          "next": "Learning directly from raw text about images is a promising alternative which leverages a much broader source of supervision."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9192
+      },
+      "evidence": {
+        "score": 0.3113,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6375,
+        "downstream_relevance_score": 0.4686,
+        "components": {
+          "bio_boundary_score": 0.8508,
+          "sentence_evidence_score": 0.3113,
+          "sentence_role_score": 0.9192,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "visual",
+          "concept"
+        ],
+        "normalization": "visual concept",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "visual concept",
+          "canonical": "visual concept",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8508",
+        "structure model assigned role 'problem' with score 0.9192",
+        "downstream relevance score is 0.4686"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "Celebrity Recognition",
+        "canonical": "Celebrity Recognition",
+        "normalized": "celebrity recognition",
+        "tokens": [
+          "celebrity",
+          "recognition"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 800,
+        "sentence": "This performance is not competitive when compared to produc- tion level models such as Google’s Celebrity Recognition (Google).",
+        "context_window": {
+          "previous": "However, this performance dropped to 43.3% when we increased our class sizes to 1k celebrity names.",
+          "current": "This performance is not competitive when compared to produc- tion level models such as Google’s Celebrity Recognition (Google).",
+          "next": "However, what makes these results noteworthy is that this analysis was done using only zero-shot identifica- tion capabilities based on names inferred from pre-training data - we didn’t use any additional task-specific dataset, and so the (relatively) strong results further indicate that before deploying multimodal models, people will need to carefully study them for behaviors in a given context and domain."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6585,
+        "downstream_relevance_score": 0.4642,
+        "components": {
+          "bio_boundary_score": 0.7498,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "celebrity",
+          "recognition"
+        ],
+        "normalization": "celebrity recognition",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Celebrity Recognition",
+          "canonical": "Celebrity Recognition",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7498",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4642"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "effective robustness",
+        "canonical": "effective robustness",
+        "normalized": "effective robustness",
+        "tokens": [
+          "effective",
+          "robustness"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 507,
+        "sentence": "While zero-shot CLIP improves effective robustness, Figure 14 shows that the benefit is almost entirely gone in a fully supervised setting.",
+        "context_window": {
+          "previous": "Although the dataset was designed to closely overlap with ImageNet classes, using the names provided for each class by ObjectNet’s creators still helps a small amount compared to using ImageNet class names and pooling predictions when necessary.",
+          "current": "While zero-shot CLIP improves effective robustness, Figure 14 shows that the benefit is almost entirely gone in a fully supervised setting.",
+          "next": "To better understand this difference, we investigate how effective robustness changes on the contin- uum from zero-shot to fully supervised."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6525,
+        "downstream_relevance_score": 0.4611,
+        "components": {
+          "bio_boundary_score": 0.7882,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "effective",
+          "robustness"
+        ],
+        "normalization": "effective robustness",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "effective robustness",
+          "canonical": "effective robustness",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7882",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4611"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "GTSRB",
+        "canonical": "GTSRB",
+        "normalized": "gtsrb",
+        "tokens": [
+          "gtsrb"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 413,
+        "sentence": "A result such as the 14.7% improvement on GTSRB could be indicative of an issue with ImageNet-1K, which has only a single la- bel for all traffic and street signs.",
+        "context_window": {
+          "previous": "This may reflect a problem with overly narrow supervision in ImageNet.",
+          "current": "A result such as the 14.7% improvement on GTSRB could be indicative of an issue with ImageNet-1K, which has only a single la- bel for all traffic and street signs.",
+          "next": "This could encourage a supervised representation to collapse intra-class details and hurt accuracy on a fine-grained downstream task."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6673,
+        "downstream_relevance_score": 0.4588,
+        "components": {
+          "bio_boundary_score": 0.6959,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gtsrb"
+        ],
+        "normalization": "gtsrb",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "GTSRB",
+          "canonical": "GTSRB",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6959",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4588"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 121,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Zero-shot CLIP outperforms this baseline slightly more of-40 30 20 10 0 10 20 30 40 Score (%) Zero-Shot CLIP vs.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Across a 27 dataset eval suite, a zero-shot CLIP classifier outperforms a fully supervised linear classifier fitted on ResNet-50 features on 16 datasets, including ImageNet. ten than not and wins on 16 of the 27 datasets.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "On two of these datasets, Stanford Cars and Food101, zero-shot CLIP outperforms logistic regression on ResNet-50 features by over 20% while on two others, Flowers102 and FGVCAircraft, zero-shot CLIP underperforms by over 10%.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "On STL10, CLIP achieves 99.3% overall which appears to be a new state of the art despite not using any training examples.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "On STL10, CLIP achieves 99.3% overall which appears to be a new state of the art despite not using any training examples.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Zeroshot CLIP significantly outperforms a ResNet-50 on two datasets measuring action recognition in videos.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "That a BiT-M ResNet-152x2 performs best in a 16-shot setting is somewhat surprising since, as analyzed in Section 3.2, the Noisy Student EfficientNet-L2 outperforms it in a fully supervised setting by almost 5% on average across 27 datasets.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While it achieves near 100% accuracy on its proxy training task and manual inspection + threshold tuning results in very high precision with good recall among the found nearest-neighbors, we can not tractably check its recall across 400 million examples.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Many complex tasks and visual concepts can be difficult to specify just through text.",
+        "evidence_type": "limitation",
+        "matched_cue": "difficult to",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Future work is needed to develop methods that combine CLIP's strong zero-shot performance with efficient few-shot learning.",
+        "evidence_type": "limitation",
+        "matched_cue": "future work",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "On Kinet-ics700, CLIP outperforms a ResNet-50 by 14.5%.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Zeroshot CLIP also outperforms a ResNet-50's features by 7.7% on UCF101.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "For the first, we use ResNet-50 as the base architecture for the image encoder due to its widespread adoption and proven performance.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "For the second architecture, we experiment with the recently introduced Vision Transformer (ViT) .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "The text encoder is a Transformer with the architecture modifications described in .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "While previous computer vision research has often scaled models by increasing the width or depth in isolation, for the ResNet image encoders we adapt the approach of which found that allocating additional compute across all of width, depth, and resolution outperforms only allocating it to only one dimension of the model. tune the ratio of compute allocated to each dimension for their EfficientNet architecture, we use a simple baseline of allocating additional compute equally to increasing the width, depth, and resolution of the model.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "LM RN50 This is a multimodal model that uses an autoregressive loss instead of a contrastive loss, while using the ResNet-50 architecture as in the smallest contrastive model.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Apart from the training objective, the model was trained on the same dataset for the same number of epochs as other CLIP models.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "After filtering to keep only images with natural language titles and/or descriptions in English, the dataset shrunk by a factor of 6 to only 15 million photos.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To address this, we constructed a new dataset of 400 million (image, text) pairs collected form a variety of publicly available sources on the Internet.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The resulting dataset has a similar total word count as the WebText dataset used to train GPT-2.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Across a 27 dataset eval suite, a zero-shot CLIP classifier outperforms a fully supervised linear classifier fitted on ResNet-50 features on 16 datasets, including ImageNet. ten than not and wins on 16 of the 27 datasets.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In order to avoid training thousands of linear classifiers, we estimate the effective data efficiency based on a loglinear interpolation of the performance of a 1, 2, 4, 8, 16shot (when possible), and a fully supervised linear classifier trained on each dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Performance varies widely from still underperforming a one-shot classifier on two datasets to matching an estimated 184 labeled examples per class. have widely varying efficiency per dataset from less than 1 labeled example per class to 184.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "On all 5 datasets, both zero-shot accuracy and fully supervised accuracy are over 90%.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "vision transformer",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.7097
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "Natural language processing",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.6659
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "FairFace",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6522
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "CLIP",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5997
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "gender classification",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5841
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "ImageNet",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5712
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "MNIST",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.5675
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "logistic regression",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5626
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "Class design",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5626
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "action recognition",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5326
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "text encoder",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5186
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "computer vision",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5089
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "zero- shot performance",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5077
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "surveillance",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.5046
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "image retrieval",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.504
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "zero-shot CLIP",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5033
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "gender prediction",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.4937
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "image captioning",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.493
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "relation extraction",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.4896
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "linear probe",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4868
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "crime",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.4815
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "ensemble",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4788
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "image",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4769
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "evaluation",
+        "section": "related_work",
+        "role": "mechanism",
+        "score": 0.4712
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "visual concept",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4686
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "Celebrity Recognition",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.4642
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "effective robustness",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4611
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "GTSRB",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.4588
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

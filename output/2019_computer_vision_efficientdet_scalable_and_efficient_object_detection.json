@@ -1,0 +1,3839 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2019_computer_vision_efficientdet_scalable_and_efficient_object_detection",
+    "title": "2019_computer_vision_efficientdet_scalable_and_efficient_object_detection",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2019_computer_vision_efficientdet_scalable_and_efficient_object_detection.txt",
+    "sentence_count": 232,
+    "section_counts": {
+      "intro": 46,
+      "related_work": 35,
+      "method": 68,
+      "experiment": 80,
+      "conclusion": 3
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5781,
+    "type_count": 1239,
+    "type_token_ratio": 0.2143,
+    "section_token_counts": {
+      "intro": 1192,
+      "related_work": 914,
+      "method": 2025,
+      "experiment": 1557,
+      "conclusion": 93
+    },
+    "top_unigrams": [
+      {
+        "term": "feature",
+        "count": 55
+      },
+      {
+        "term": "bifpn",
+        "count": 49
+      },
+      {
+        "term": "network",
+        "count": 47
+      },
+      {
+        "term": "fusion",
+        "count": 40
+      },
+      {
+        "term": "flops",
+        "count": 37
+      },
+      {
+        "term": "accuracy",
+        "count": 37
+      },
+      {
+        "term": "efficientdet",
+        "count": 32
+      },
+      {
+        "term": "scaling",
+        "count": 31
+      },
+      {
+        "term": "model",
+        "count": 26
+      },
+      {
+        "term": "features",
+        "count": 26
+      },
+      {
+        "term": "backbone",
+        "count": 25
+      },
+      {
+        "term": "nas-fpn",
+        "count": 25
+      },
+      {
+        "term": "input",
+        "count": 25
+      },
+      {
+        "term": "detectors",
+        "count": 23
+      },
+      {
+        "term": "fpn",
+        "count": 23
+      },
+      {
+        "term": "efficiency",
+        "count": 22
+      },
+      {
+        "term": "ap",
+        "count": 22
+      },
+      {
+        "term": "object",
+        "count": 21
+      },
+      {
+        "term": "10",
+        "count": 21
+      },
+      {
+        "term": "than",
+        "count": 20
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "feature fusion",
+        "count": 19
+      },
+      {
+        "term": "feature network",
+        "count": 14
+      },
+      {
+        "term": "compound scaling",
+        "count": 13
+      },
+      {
+        "term": "object detection",
+        "count": 11
+      },
+      {
+        "term": "fewer flops",
+        "count": 10
+      },
+      {
+        "term": "parameters flops",
+        "count": 10
+      },
+      {
+        "term": "box class",
+        "count": 9
+      },
+      {
+        "term": "better accuracy",
+        "count": 9
+      },
+      {
+        "term": "feature level",
+        "count": 9
+      },
+      {
+        "term": "fast normalized",
+        "count": 9
+      },
+      {
+        "term": "object detectors",
+        "count": 8
+      },
+      {
+        "term": "resource constraints",
+        "count": 8
+      },
+      {
+        "term": "flops than",
+        "count": 8
+      },
+      {
+        "term": "bif pn",
+        "count": 8
+      },
+      {
+        "term": "retinanet 24",
+        "count": 7
+      },
+      {
+        "term": "fewer parameters",
+        "count": 7
+      },
+      {
+        "term": "class box",
+        "count": 7
+      },
+      {
+        "term": "scaling method",
+        "count": 7
+      },
+      {
+        "term": "normalized fusion",
+        "count": 7
+      },
+      {
+        "term": "backbone bifpn",
+        "count": 7
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "fast normalized fusion",
+        "count": 7
+      },
+      {
+        "term": "fewer parameters flops",
+        "count": 6
+      },
+      {
+        "term": "compound scaling method",
+        "count": 6
+      },
+      {
+        "term": "fewer flops than",
+        "count": 5
+      },
+      {
+        "term": "much fewer parameters",
+        "count": 5
+      },
+      {
+        "term": "multi-scale feature fusion",
+        "count": 5
+      },
+      {
+        "term": "wide spectrum resource",
+        "count": 4
+      },
+      {
+        "term": "than previous detectors",
+        "count": 4
+      },
+      {
+        "term": "retinanet resnet nas-fpn",
+        "count": 4
+      },
+      {
+        "term": "features different resolutions",
+        "count": 4
+      },
+      {
+        "term": "represents feature level",
+        "count": 4
+      },
+      {
+        "term": "achieves similar accuracy",
+        "count": 4
+      },
+      {
+        "term": "scal- ing method",
+        "count": 3
+      },
+      {
+        "term": "resolution depth width",
+        "count": 3
+      },
+      {
+        "term": "feature network box",
+        "count": 3
+      },
+      {
+        "term": "network box class",
+        "count": 3
+      },
+      {
+        "term": "developed new family",
+        "count": 3
+      },
+      {
+        "term": "which consistently achieve",
+        "count": 3
+      },
+      {
+        "term": "better efficiency than",
+        "count": 3
+      },
+      {
+        "term": "than prior art",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 10,
+    "nonzero_tfidf_features": 10,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "conclusion__object detection",
+        "section": "conclusion",
+        "term": "object detection",
+        "frequency": 2.0,
+        "tfidf": 0.8895
+      },
+      {
+        "feature_name": "introduction__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 2.0,
+        "tfidf": 0.8132
+      },
+      {
+        "feature_name": "methods__object detection",
+        "section": "method",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.7774
+      },
+      {
+        "feature_name": "related_work__aggregation",
+        "section": "related_work",
+        "term": "aggregation",
+        "frequency": 1.0,
+        "tfidf": 0.6756
+      },
+      {
+        "feature_name": "methods__ResNet",
+        "section": "method",
+        "term": "ResNet",
+        "frequency": 1.0,
+        "tfidf": 0.629
+      },
+      {
+        "feature_name": "introduction__ResNet",
+        "section": "intro",
+        "term": "ResNet",
+        "frequency": 1.0,
+        "tfidf": 0.582
+      },
+      {
+        "feature_name": "related_work__object detection",
+        "section": "related_work",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 0.5464
+      },
+      {
+        "feature_name": "related_work__attention",
+        "section": "related_work",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.495
+      },
+      {
+        "feature_name": "conclusion__segmentation",
+        "section": "conclusion",
+        "term": "segmentation",
+        "frequency": 1.0,
+        "tfidf": 0.4568
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 2.0,
+          "tfidf": 0.8132
+        },
+        {
+          "feature_name": "introduction__ResNet",
+          "section": "intro",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.582
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__aggregation",
+          "section": "related_work",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.6756
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.5464
+        },
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.495
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__object detection",
+          "section": "method",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.7774
+        },
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.629
+        }
+      ],
+      "experiment": [],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__object detection",
+          "section": "conclusion",
+          "term": "object detection",
+          "frequency": 2.0,
+          "tfidf": 0.8895
+        },
+        {
+          "feature_name": "conclusion__segmentation",
+          "section": "conclusion",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.4568
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 46,
+      "token_count": 1192,
+      "bow_hit_count": 50,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 25,
+          "section_prior": 0.5495,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 10,
+          "section_prior": 0.1067,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 5,
+          "section_prior": 0.4177,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2553,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "aggregation",
+          "count": 5,
+          "section_prior": 0.3191,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__object detection",
+          "section": "intro",
+          "term": "object detection",
+          "frequency": 2.0,
+          "tfidf": 0.8132
+        },
+        {
+          "feature_name": "introduction__ResNet",
+          "section": "intro",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.582
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 35,
+      "token_count": 914,
+      "bow_hit_count": 23,
+      "top_bow_terms": [
+        {
+          "canonical_term": "residual neural network",
+          "count": 5,
+          "section_prior": 0.0933,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 5,
+          "section_prior": 0.1261,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "aggregation",
+          "count": 5,
+          "section_prior": 0.1277,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.0898,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 3,
+          "section_prior": 0.1695,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__aggregation",
+          "section": "related_work",
+          "term": "aggregation",
+          "frequency": 1.0,
+          "tfidf": 0.6756
+        },
+        {
+          "feature_name": "related_work__object detection",
+          "section": "related_work",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.5464
+        },
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.495
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 68,
+      "token_count": 2025,
+      "bow_hit_count": 17,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 10,
+          "section_prior": 0.036,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 5,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4706,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__object detection",
+          "section": "method",
+          "term": "object detection",
+          "frequency": 1.0,
+          "tfidf": 0.7774
+        },
+        {
+          "feature_name": "methods__ResNet",
+          "section": "method",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.629
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 80,
+      "token_count": 1557,
+      "bow_hit_count": 33,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 15,
+          "section_prior": 0.3671,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 10,
+          "section_prior": 0.44,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 3,
+          "section_prior": 0.1622,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "conclusion": {
+      "sentence_count": 3,
+      "token_count": 93,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "object detection",
+          "count": 8,
+          "section_prior": 0.1261,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 5,
+          "section_prior": 0.0949,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__object detection",
+          "section": "conclusion",
+          "term": "object detection",
+          "frequency": 2.0,
+          "tfidf": 0.8895
+        },
+        {
+          "feature_name": "conclusion__segmentation",
+          "section": "conclusion",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.4568
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "object detection",
+        "canonical": "object detection",
+        "normalized": "object detection",
+        "tokens": [
+          "object",
+          "detection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "object detection",
+          "object-detection"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 3,
+        "sentence": "In this paper, we systematically study neu- ral network architecture design choices for object detection and propose several key optimizations to improve efficiency.",
+        "context_window": {
+          "previous": "Model efficiency has become increasingly important in computer vision.",
+          "current": "In this paper, we systematically study neu- ral network architecture design choices for object detection and propose several key optimizations to improve efficiency.",
+          "next": "First, we propose a weighted bi-directional feature pyra- mid network (BiFPN), which allows easy and fast multi- scale feature fusion; Second, we propose a compound scal- ing method that uniformly scales the resolution, depth, and width for all backbone, feature network, and box/class pre- diction networks at the same time."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8867
+      },
+      "evidence": {
+        "score": 0.43,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.875,
+          "evidence_type": "method",
+          "matched_cue": "propose",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7026,
+        "downstream_relevance_score": 0.8349,
+        "components": {
+          "bio_boundary_score": 0.9983,
+          "sentence_evidence_score": 0.43,
+          "sentence_role_score": 0.8867,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5495,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "object detection",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "object detection",
+        "display_term": "object detection",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Object_detection",
+        "wikidata_id": "Q3045304",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 17,
+        "total_frequency": 42,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__object detection",
+        "section": "intro",
+        "term": "object detection",
+        "frequency": 1.0,
+        "tfidf": 1.0,
+        "normalized_frequency": 0.5,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "object",
+          "detection"
+        ],
+        "normalization": "object detection",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.5495,
+        "canonicalization": {
+          "observed": "object detection",
+          "canonical": "object detection",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9983",
+        "structure model assigned role 'problem' with score 0.8867",
+        "section BoW matched canonical term 'object detection' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "document-term matrix links the phrase to feature 'abstract__object detection' with tf-idf 1.0",
+        "evidence cue lexicon matched architecture, propose, design",
+        "downstream relevance score is 0.8349"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "input feature",
+        "canonical": "input feature",
+        "normalized": "input feature",
+        "tokens": [
+          "input",
+          "feature"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 81,
+        "sentence": "To address this issue, we propose to add an additional weight for each input, and let the network to learn the importance of each input feature.",
+        "context_window": {
+          "previous": "However, we observe that since different input features are at different resolutions, they usually contribute to the output feature unequally .",
+          "current": "To address this issue, we propose to add an additional weight for each input, and let the network to learn the importance of each input feature.",
+          "next": "Based on this idea, we consider three weighted fusion approaches: Unbounded fusion: O = ∑ i w i · I i , where w i is a 3 learnable weight that can be a scalar (per-feature), a vec- tor (per-channel), or a multi-dimensional tensor (per-pixel)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7731,
+        "downstream_relevance_score": 0.6444,
+        "components": {
+          "bio_boundary_score": 0.8464,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "input",
+          "feature"
+        ],
+        "normalization": "input feature",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "input feature",
+          "canonical": "input feature",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8464",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6444"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "EfficientDet",
+        "canonical": "EfficientDet",
+        "normalized": "efficientdet",
+        "tokens": [
+          "efficientdet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 149,
+        "sentence": "Compared to RetinaNet [24] and Mask-RCNN [13], our EfficientDet achieves simi- lar accuracy with up to 8x fewer parameters and 21x fewer FLOPs.",
+        "context_window": {
+          "previous": "On relatively low-accuracy regime, our EfficientDet-D0 achieves similar accuracy as YOLOv3 with 28x fewer FLOPs.",
+          "current": "Compared to RetinaNet [24] and Mask-RCNN [13], our EfficientDet achieves simi- lar accuracy with up to 8x fewer parameters and 21x fewer FLOPs.",
+          "next": "On high-accuracy regime, our EfficientDet also consistently outperforms recent object detectors [10, 45] with much fewer parameters and FLOPs."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6983,
+        "downstream_relevance_score": 0.6249,
+        "components": {
+          "bio_boundary_score": 0.8514,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "efficientdet"
+        ],
+        "normalization": "efficientdet",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "EfficientDet",
+          "canonical": "EfficientDet",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8514",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves, accuracy",
+        "downstream relevance score is 0.6249"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "accuracy",
+        "canonical": "accuracy",
+        "normalized": "accuracy",
+        "tokens": [
+          "accuracy"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 148,
+        "sentence": "On relatively low-accuracy regime, our EfficientDet-D0 achieves similar accuracy as YOLOv3 with 28x fewer FLOPs.",
+        "context_window": {
+          "previous": "We group models together if they have similar accuracy, and compare their model size, FLOPs, and latency in each group. ter efficiency than previous detectors, being 4x – 9x smaller and using 13x - 42x less FLOPs across a wide range of ac- curacy or resource constraints.",
+          "current": "On relatively low-accuracy regime, our EfficientDet-D0 achieves similar accuracy as YOLOv3 with 28x fewer FLOPs.",
+          "next": "Compared to RetinaNet [24] and Mask-RCNN [13], our EfficientDet achieves simi- lar accuracy with up to 8x fewer parameters and 21x fewer FLOPs."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7047,
+        "downstream_relevance_score": 0.6155,
+        "components": {
+          "bio_boundary_score": 0.8841,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "accuracy"
+        ],
+        "normalization": "accuracy",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "accuracy",
+          "canonical": "accuracy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8841",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves, accuracy",
+        "downstream relevance score is 0.6155"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "PAN",
+        "canonical": "PAN",
+        "normalized": "pan",
+        "tokens": [
+          "pan"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 59,
+        "sentence": "As a concrete example, 2 P 7 P 6 P 5 P 4 P 3 (a) FPN (d) BiFPN (b) PANet (c) NAS-FPN P 7 P 6 P 5 P 4 P 3 P 7 P 6 P 5 P 4 P 3 P 7 P 6 P 5 P 4 P 3 repeated blocks repeated blocks Figure 2: Feature network design – (a) FPN [23] introduces a top-down pathway to fuse multi-scale features from level 3 to 7 ( P 3 - P 7 ); (b) PANet [26] adds an additional bottom-up pathway on top of FPN; (c) NAS-FPN [10] use neural architecture search to find an irregular feature network topology and then repeatedly apply the same block; (d) is our BiFPN with better accuracy and efficiency trade-offs.",
+        "context_window": {
+          "previous": "Formally, given a list of multi-scale features ~ P in = ( P in l 1 , P in l 2 , ... ) , where P in l i represents the feature at level l i , our goal is to find a transformation f that can effectively aggregate different features and output a list of new features: ~ P out = f ( ~ P in ) .",
+          "current": "As a concrete example, 2 P 7 P 6 P 5 P 4 P 3 (a) FPN (d) BiFPN (b) PANet (c) NAS-FPN P 7 P 6 P 5 P 4 P 3 P 7 P 6 P 5 P 4 P 3 P 7 P 6 P 5 P 4 P 3 repeated blocks repeated blocks Figure 2: Feature network design – (a) FPN [23] introduces a top-down pathway to fuse multi-scale features from level 3 to 7 ( P 3 - P 7 ); (b) PANet [26] adds an additional bottom-up pathway on top of FPN; (c) NAS-FPN [10] use neural architecture search to find an irregular feature network topology and then repeatedly apply the same block; (d) is our BiFPN with better accuracy and efficiency trade-offs.",
+          "next": "Figure 2(a) shows the conventional top-down FPN [23]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6718,
+        "downstream_relevance_score": 0.6083,
+        "components": {
+          "bio_boundary_score": 0.5356,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pan"
+        ],
+        "normalization": "pan",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "PAN",
+          "canonical": "PAN",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5356",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, accuracy, design",
+        "downstream relevance score is 0.6083"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "one-stage detector",
+        "canonical": "one-stage detector",
+        "normalized": "one-stage detector",
+        "tokens": [
+          "one-stage",
+          "detector"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 41,
+        "sentence": "In this paper, we mainly follow the one-stage detector design, and we show it is possible to achieve both better efficiency and higher accuracy with optimized network architectures.",
+        "context_window": {
+          "previous": "Recently, one-stage detectors have attracted substantial attention due to their efficiency and simplicity [21, 42, 44].",
+          "current": "In this paper, we mainly follow the one-stage detector design, and we show it is possible to achieve both better efficiency and higher accuracy with optimized network architectures.",
+          "next": "Multi-Scale Feature Representations: One of the main difficulties in object detection is to effectively represent and process multi-scale features."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "metric",
+          "matched_cue": "accuracy",
+          "role_prior": "metric",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6633,
+        "downstream_relevance_score": 0.6039,
+        "components": {
+          "bio_boundary_score": 0.7332,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "one-stage",
+          "detector"
+        ],
+        "normalization": "one-stage detector",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "one-stage detector",
+          "canonical": "one-stage detector",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7332",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy, design",
+        "downstream relevance score is 0.6039"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "BiF",
+        "canonical": "BiF",
+        "normalized": "bif",
+        "tokens": [
+          "bif"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 113,
+        "sentence": "Inspired by these works [10, 39], we propose a new com- pound scaling method for object detection, which uses a simple compound coefficient φ to jointly scale up all dimen- sions of backbone , BiFPN, class/box network, and resolu- tion.",
+        "context_window": {
+          "previous": "Recent work [39] shows remarkable per- formance on image classification by jointly scaling up all dimensions of network width, depth, and input resolution.",
+          "current": "Inspired by these works [10, 39], we propose a new com- pound scaling method for object detection, which uses a simple compound coefficient φ to jointly scale up all dimen- sions of backbone , BiFPN, class/box network, and resolu- tion.",
+          "next": "Unlike [39], object detectors have much more scaling dimensions than image classification models, so grid search for all dimensions is prohibitive expensive."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7105,
+        "downstream_relevance_score": 0.6019,
+        "components": {
+          "bio_boundary_score": 0.6328,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bif"
+        ],
+        "normalization": "bif",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BiF",
+          "canonical": "BiF",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6328",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6019"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "feature network",
+        "canonical": "feature network",
+        "normalized": "feature network",
+        "tokens": [
+          "feature",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 29,
+        "sentence": "Inspired by recent works [39], we propose a compound scaling method for object detectors, which jointly scales up the resolution/depth/width for all backbone, feature network, box/class prediction network.",
+        "context_window": {
+          "previous": "Challenge 2: model scaling – While previous works mainly rely on bigger backbone networks [24, 35, 34, 10] or larger input image sizes [13, 45] for higher accuracy, we ob- serve that scaling up feature network and box/class predic- tion network is also critical when taking into account both accuracy and efficiency.",
+          "current": "Inspired by recent works [39], we propose a compound scaling method for object detectors, which jointly scales up the resolution/depth/width for all backbone, feature network, box/class prediction network.",
+          "next": "Finally, we also observe that the recently introduced Effi- cientNets [39] achieve better efficiency than previous com- monly used backbones."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.746,
+        "downstream_relevance_score": 0.5953,
+        "components": {
+          "bio_boundary_score": 0.7951,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "network"
+        ],
+        "normalization": "feature network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature network",
+          "canonical": "feature network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7951",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5953"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "backbone",
+        "canonical": "backbone",
+        "normalized": "backbone",
+        "tokens": [
+          "backbone"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 192,
+        "sentence": "Starting from a RetinaNet detector [24] with ResNet-50 [14] backbone and top-down FPN [23], we first replace the backbone with EfficientNet- B3, which improves accuracy by about 3 AP with slightly less parameters and FLOPs.",
+        "context_window": {
+          "previous": "Table 4 compares the impact of backbone and BiFPN us- ing RetinaNet training settings.",
+          "current": "Starting from a RetinaNet detector [24] with ResNet-50 [14] backbone and top-down FPN [23], we first replace the backbone with EfficientNet- B3, which improves accuracy by about 3 AP with slightly less parameters and FLOPs.",
+          "next": "By further replacing FPN with our proposed BiFPN, we achieve additional 4 AP gain with much fewer parameters and FLOPs."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7036,
+        "downstream_relevance_score": 0.5927,
+        "components": {
+          "bio_boundary_score": 0.8688,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "backbone"
+        ],
+        "normalization": "backbone",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "backbone",
+          "canonical": "backbone",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8688",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5927"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "model scaling",
+        "canonical": "model scaling",
+        "normalized": "model scaling",
+        "tokens": [
+          "model",
+          "scaling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 28,
+        "sentence": "Challenge 2: model scaling – While previous works mainly rely on bigger backbone networks [24, 35, 34, 10] or larger input image sizes [13, 45] for higher accuracy, we ob- serve that scaling up feature network and box/class predic- tion network is also critical when taking into account both accuracy and efficiency.",
+        "context_window": {
+          "previous": "To address this issue, we propose a simple yet highly effective weighted bi-directional feature pyramid network (BiFPN), which introduces learnable weights to learn the importance of different input features, while repeatedly applying top- down and bottom-up multi-scale feature fusion.",
+          "current": "Challenge 2: model scaling – While previous works mainly rely on bigger backbone networks [24, 35, 34, 10] or larger input image sizes [13, 45] for higher accuracy, we ob- serve that scaling up feature network and box/class predic- tion network is also critical when taking into account both accuracy and efficiency.",
+          "next": "Inspired by recent works [39], we propose a compound scaling method for object detectors, which jointly scales up the resolution/depth/width for all backbone, feature network, box/class prediction network."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "limitation",
+        "cue_hits": [
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6691,
+        "downstream_relevance_score": 0.5847,
+        "components": {
+          "bio_boundary_score": 0.6278,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "model",
+          "scaling"
+        ],
+        "normalization": "model scaling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "model scaling",
+          "canonical": "model scaling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6278",
+        "structure model assigned role 'problem' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched challenge, accuracy",
+        "downstream relevance score is 0.5847"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "Fast Normalized Fusion",
+        "canonical": "Fast Normalized Fusion",
+        "normalized": "fast normalized fusion",
+        "tokens": [
+          "fast",
+          "normalized",
+          "fusion"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 204,
+        "sentence": "Softmax vs Fast Normalized Fusion As discussed in Section 3.3, we propose a fast normal- ized feature fusion approach to get ride of the expensive softmax while retaining the benefits of normalized weights.",
+        "context_window": {
+          "previous": "6.3.",
+          "current": "Softmax vs Fast Normalized Fusion As discussed in Section 3.3, we propose a fast normal- ized feature fusion approach to get ride of the expensive softmax while retaining the benefits of normalized weights.",
+          "next": "Table 6 compares the softmax and fast normalized fusion approaches in three detectors with different model sizes."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7093,
+        "downstream_relevance_score": 0.5734,
+        "components": {
+          "bio_boundary_score": 0.6829,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fast",
+          "normalized",
+          "fusion"
+        ],
+        "normalization": "fast normalized fusion",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Fast Normalized Fusion",
+          "canonical": "Fast Normalized Fusion",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6829",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5734"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "COCO",
+        "canonical": "COCO",
+        "normalized": "coco",
+        "tokens": [
+          "coco"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 188,
+        "sentence": "For simplicity, all accuracy results here are for COCO validation set.",
+        "context_window": {
+          "previous": "Ablation Study In this section, we ablate various design choices for our proposed EfficientDet.",
+          "current": "For simplicity, all accuracy results here are for COCO validation set.",
+          "next": "6.1."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "metric",
+          "matched_cue": "accuracy",
+          "role_prior": "metric",
+          "confidence": 0.87
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7138,
+        "downstream_relevance_score": 0.563,
+        "components": {
+          "bio_boundary_score": 0.9457,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "coco"
+        ],
+        "normalization": "coco",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "COCO",
+          "canonical": "COCO",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9457",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.563"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "compound scaling",
+        "canonical": "compound scaling",
+        "normalized": "compound scaling",
+        "tokens": [
+          "compound",
+          "scaling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 229,
+        "sentence": "In this paper, we systematically study network architec- ture design choices for efficient object detection, and pro- pose a weighted bidirectional feature network and a cus- tomized compound scaling method, in order to improve ac- curacy and efficiency.",
+        "context_window": {
+          "previous": "7.",
+          "current": "In this paper, we systematically study network architec- ture design choices for efficient object detection, and pro- pose a weighted bidirectional feature network and a cus- tomized compound scaling method, in order to improve ac- curacy and efficiency.",
+          "next": "Based on these optimizations, we de- velop a new family of detectors, named EfficientDet , which consistently achieve better accuracy and efficiency than the prior art across a wide spectrum of resource constraints."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7377,
+        "downstream_relevance_score": 0.5404,
+        "components": {
+          "bio_boundary_score": 0.9359,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "compound",
+          "scaling"
+        ],
+        "normalization": "compound scaling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "compound scaling",
+          "canonical": "compound scaling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9359",
+        "structure model assigned role 'result' with score 0.66",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.5404"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "Semantic Segmentation",
+        "canonical": "Semantic Segmentation",
+        "normalized": "semantic segmentation",
+        "tokens": [
+          "semantic",
+          "segmentation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 158,
+        "sentence": "EfficientDet for Semantic Segmentation While our EfficientDet models are mainly designed for object detection, we are also interested in their performance on other tasks such as semantic segmentation.",
+        "context_window": {
+          "previous": "5.2.",
+          "current": "EfficientDet for Semantic Segmentation While our EfficientDet models are mainly designed for object detection, we are also interested in their performance on other tasks such as semantic segmentation.",
+          "next": "Following [19], we modify our EfficientDet model to keep feature level { P 2 , P 3 , ..., P 7 } in BiFPN, but only use P 2 for the final per-pixel classification."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7406,
+        "downstream_relevance_score": 0.5197,
+        "components": {
+          "bio_boundary_score": 0.9693,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "semantic",
+          "segmentation"
+        ],
+        "normalization": "semantic segmentation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Semantic Segmentation",
+          "canonical": "Semantic Segmentation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9693",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5197"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "feature fusion",
+        "canonical": "feature fusion",
+        "normalized": "feature fusion",
+        "tokens": [
+          "feature",
+          "fusion"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 72,
+        "sentence": "Our intuition is simple: if a node has only one input edge with no feature fusion, then it will have less contribution to feature network that aims at fusing different features.",
+        "context_window": {
+          "previous": "To improve model efficiency, this paper proposes several optimizations for cross-scale connections: First, we remove those nodes that only have one input edge.",
+          "current": "Our intuition is simple: if a node has only one input edge with no feature fusion, then it will have less contribution to feature network that aims at fusing different features.",
+          "next": "This leads to a simplified bi- directional network; Second, we add an extra edge from the original input to output node if they are at the same level, in order to fuse more features without adding much cost; Third, unlike PANet [26] that only has one top-down and one bottom-up path, we treat each bidirectional (top-down & bottom-up) path as one feature network layer, and repeat the same layer multiple times to enable more high-level fea- ture fusion."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7347,
+        "downstream_relevance_score": 0.4996,
+        "components": {
+          "bio_boundary_score": 0.9922,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "feature",
+          "fusion"
+        ],
+        "normalization": "feature fusion",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "feature fusion",
+          "canonical": "feature fusion",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9922",
+        "structure model assigned role 'contribution' with score 0.66",
+        "downstream relevance score is 0.4996"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "softmax-based fusion",
+        "canonical": "softmax-based fusion",
+        "normalized": "softmax-based fusion",
+        "tokens": [
+          "softmax-based",
+          "fusion"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 223,
+        "sentence": "Despite the rapid change, our fast normalized fusion approach always shows very similar learning behav- ior to the softmax-based fusion for all three nodes.",
+        "context_window": {
+          "previous": "Interestingly, the normalized weights change rapidly during training, sug- gesting different features contribute to the feature fusion unequally.",
+          "current": "Despite the rapid change, our fast normalized fusion approach always shows very similar learning behav- ior to the softmax-based fusion for all three nodes.",
+          "next": "6.4."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7129,
+        "downstream_relevance_score": 0.4925,
+        "components": {
+          "bio_boundary_score": 0.914,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "softmax-based",
+          "fusion"
+        ],
+        "normalization": "softmax-based fusion",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "softmax-based fusion",
+          "canonical": "softmax-based fusion",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.914",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4925"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "scaling approach",
+        "canonical": "scaling approach",
+        "normalized": "scaling approach",
+        "tokens": [
+          "scaling",
+          "approach"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 115,
+        "sentence": "Therefore, we use a heuristic-based scaling approach, but still follow the main idea of jointly scaling up all dimensions.",
+        "context_window": {
+          "previous": "Unlike [39], object detectors have much more scaling dimensions than image classification models, so grid search for all dimensions is prohibitive expensive.",
+          "current": "Therefore, we use a heuristic-based scaling approach, but still follow the main idea of jointly scaling up all dimensions.",
+          "next": "Backbone network – we reuse the same width/depth scaling coefficients of EfficientNet-B0 to B6 [39] such that we can easily reuse their ImageNet-pretrained checkpoints."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6653,
+        "downstream_relevance_score": 0.486,
+        "components": {
+          "bio_boundary_score": 0.735,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "scaling",
+          "approach"
+        ],
+        "normalization": "scaling approach",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "scaling approach",
+          "canonical": "scaling approach",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.735",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.486"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "BiFPN",
+        "canonical": "BiFPN",
+        "normalized": "bifpn",
+        "tokens": [
+          "bifpn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 119,
+        "sentence": "Specifically, we perform a grid search on a list of val- ues { 1.2, 1.25, 1.3, 1.35, 1.4, 1.45 } , and pick the best value 1.35 as the BiFPN width scaling factor.",
+        "context_window": {
+          "previous": "For BiFPN width W bif pn (#channels), exponen- tially grow BiFPN width W bif pn (#channels) as similar to [39].",
+          "current": "Specifically, we perform a grid search on a list of val- ues { 1.2, 1.25, 1.3, 1.35, 1.4, 1.45 } , and pick the best value 1.35 as the BiFPN width scaling factor.",
+          "next": "Formally, BiFPN width and depth are scaled with the following equation: W bif pn = 64 · ( 1 ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.738,
+        "downstream_relevance_score": 0.4788,
+        "components": {
+          "bio_boundary_score": 0.9574,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bifpn"
+        ],
+        "normalization": "bifpn",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BiFPN",
+          "canonical": "BiFPN",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9574",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4788"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "weight normalization",
+        "canonical": "weight normalization",
+        "normalized": "weight normalization",
+        "tokens": [
+          "weight",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 85,
+        "sentence": "Therefore, we resort to weight normalization to bound the value range of each weight.",
+        "context_window": {
+          "previous": "However, since the scalar weight is unbounded, it could potentially cause training instability.",
+          "current": "Therefore, we resort to weight normalization to bound the value range of each weight.",
+          "next": "Softmax-based fusion: O = ∑ i e w i ∑ j e w j · I i ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6794,
+        "downstream_relevance_score": 0.4765,
+        "components": {
+          "bio_boundary_score": 0.6508,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "weight",
+          "normalization"
+        ],
+        "normalization": "weight normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "weight normalization",
+          "canonical": "weight normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6508",
+        "structure model assigned role 'core_method' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4765"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "grid search",
+        "canonical": "grid search",
+        "normalized": "grid search",
+        "tokens": [
+          "grid",
+          "search"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 119,
+        "sentence": "Specifically, we perform a grid search on a list of val- ues { 1.2, 1.25, 1.3, 1.35, 1.4, 1.45 } , and pick the best value 1.35 as the BiFPN width scaling factor.",
+        "context_window": {
+          "previous": "For BiFPN width W bif pn (#channels), exponen- tially grow BiFPN width W bif pn (#channels) as similar to [39].",
+          "current": "Specifically, we perform a grid search on a list of val- ues { 1.2, 1.25, 1.3, 1.35, 1.4, 1.45 } , and pick the best value 1.35 as the BiFPN width scaling factor.",
+          "next": "Formally, BiFPN width and depth are scaled with the following equation: W bif pn = 64 · ( 1 ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.709,
+        "downstream_relevance_score": 0.4737,
+        "components": {
+          "bio_boundary_score": 0.8581,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "grid",
+          "search"
+        ],
+        "normalization": "grid search",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "grid search",
+          "canonical": "grid search",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8581",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4737"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "softmax",
+        "canonical": "softmax",
+        "normalized": "softmax",
+        "tokens": [
+          "softmax"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 87,
+        "sentence": "An intuitive idea is to apply softmax to each weight, such that all weights are normalized to be a probability with value range from 0 to 1, representing the importance of each input.",
+        "context_window": {
+          "previous": "Softmax-based fusion: O = ∑ i e w i ∑ j e w j · I i .",
+          "current": "An intuitive idea is to apply softmax to each weight, such that all weights are normalized to be a probability with value range from 0 to 1, representing the importance of each input.",
+          "next": "However, as shown in our ablation study in section 6.3, the extra soft- max leads to significant slowdown on GPU hardware."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7258,
+        "downstream_relevance_score": 0.4724,
+        "components": {
+          "bio_boundary_score": 0.9982,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "softmax"
+        ],
+        "normalization": "softmax",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "softmax",
+          "canonical": "softmax",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9982",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4724"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "BiFPN depth",
+        "canonical": "BiFPN depth",
+        "normalized": "bifpn depth",
+        "tokens": [
+          "bifpn",
+          "depth"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 117,
+        "sentence": "BiFPN network – we linearly increase BiFPN depth D bif pn (#layers) since depth needs to be rounded to small integers.",
+        "context_window": {
+          "previous": "Backbone network – we reuse the same width/depth scaling coefficients of EfficientNet-B0 to B6 [39] such that we can easily reuse their ImageNet-pretrained checkpoints.",
+          "current": "BiFPN network – we linearly increase BiFPN depth D bif pn (#layers) since depth needs to be rounded to small integers.",
+          "next": "For BiFPN width W bif pn (#channels), exponen- tially grow BiFPN width W bif pn (#channels) as similar to [39]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6996,
+        "downstream_relevance_score": 0.4688,
+        "components": {
+          "bio_boundary_score": 0.8263,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bifpn",
+          "depth"
+        ],
+        "normalization": "bifpn depth",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BiFPN depth",
+          "canonical": "BiFPN depth",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8263",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4688"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "BiFPN width",
+        "canonical": "BiFPN width",
+        "normalized": "bifpn width",
+        "tokens": [
+          "bifpn",
+          "width"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 118,
+        "sentence": "For BiFPN width W bif pn (#channels), exponen- tially grow BiFPN width W bif pn (#channels) as similar to [39].",
+        "context_window": {
+          "previous": "BiFPN network – we linearly increase BiFPN depth D bif pn (#layers) since depth needs to be rounded to small integers.",
+          "current": "For BiFPN width W bif pn (#channels), exponen- tially grow BiFPN width W bif pn (#channels) as similar to [39].",
+          "next": "Specifically, we perform a grid search on a list of val- ues { 1.2, 1.25, 1.3, 1.35, 1.4, 1.45 } , and pick the best value 1.35 as the BiFPN width scaling factor."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6814,
+        "downstream_relevance_score": 0.4593,
+        "components": {
+          "bio_boundary_score": 0.8462,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bifpn",
+          "width"
+        ],
+        "normalization": "bifpn width",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BiFPN width",
+          "canonical": "BiFPN width",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8462",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4593"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "Latency",
+        "canonical": "Latency",
+        "normalized": "latency",
+        "tokens": [
+          "latency"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 145,
+        "sentence": "Latency is for inference with batch size 1.",
+        "context_window": {
+          "previous": "Params and FLOPs denote the number of parameters and multiply-adds.",
+          "current": "Latency is for inference with batch size 1.",
+          "next": "AA denotes auto-augmentation [45]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6996,
+        "downstream_relevance_score": 0.4588,
+        "components": {
+          "bio_boundary_score": 0.9171,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "latency"
+        ],
+        "normalization": "latency",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Latency",
+          "canonical": "Latency",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9171",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4588"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "FPN",
+        "canonical": "FPN",
+        "normalized": "fpn",
+        "tokens": [
+          "fpn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 60,
+        "sentence": "Figure 2(a) shows the conventional top-down FPN [23].",
+        "context_window": {
+          "previous": "As a concrete example, 2 P 7 P 6 P 5 P 4 P 3 (a) FPN (d) BiFPN (b) PANet (c) NAS-FPN P 7 P 6 P 5 P 4 P 3 P 7 P 6 P 5 P 4 P 3 P 7 P 6 P 5 P 4 P 3 repeated blocks repeated blocks Figure 2: Feature network design – (a) FPN [23] introduces a top-down pathway to fuse multi-scale features from level 3 to 7 ( P 3 - P 7 ); (b) PANet [26] adds an additional bottom-up pathway on top of FPN; (c) NAS-FPN [10] use neural architecture search to find an irregular feature network topology and then repeatedly apply the same block; (d) is our BiFPN with better accuracy and efficiency trade-offs.",
+          "current": "Figure 2(a) shows the conventional top-down FPN [23].",
+          "next": "It takes level 3-7 input features ~ P in = ( P in 3 , ...P in 7 ) , where P in i represents a feature level with resolution of 1 / 2 i of the input images."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6665,
+        "downstream_relevance_score": 0.4584,
+        "components": {
+          "bio_boundary_score": 0.8381,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fpn"
+        ],
+        "normalization": "fpn",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "FPN",
+          "canonical": "FPN",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8381",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4584"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "box network",
+        "canonical": "box network",
+        "normalized": "box network",
+        "tokens": [
+          "box",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 105,
+        "sentence": "These fused features are fed to a class and box network to produce object class and bounding box predic- tions respectively.",
+        "context_window": {
+          "previous": "Our proposed BiFPN serves as the feature network, which takes level 3-7 features { P 3 , P 4 , P 5 , P 6 , P 7 } from the backbone network and re- peatedly applies top-down and bottom-up bidirectional fea- ture fusion.",
+          "current": "These fused features are fed to a class and box network to produce object class and bounding box predic- tions respectively.",
+          "next": "Similar to [24], the class and box net- work weights are shared across all levels of features."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6698,
+        "downstream_relevance_score": 0.4533,
+        "components": {
+          "bio_boundary_score": 0.8079,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "box",
+          "network"
+        ],
+        "normalization": "box network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "box network",
+          "canonical": "box network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8079",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4533"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "Backbone network",
+        "canonical": "Backbone network",
+        "normalized": "backbone network",
+        "tokens": [
+          "backbone",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 116,
+        "sentence": "Backbone network – we reuse the same width/depth scaling coefficients of EfficientNet-B0 to B6 [39] such that we can easily reuse their ImageNet-pretrained checkpoints.",
+        "context_window": {
+          "previous": "Therefore, we use a heuristic-based scaling approach, but still follow the main idea of jointly scaling up all dimensions.",
+          "current": "Backbone network – we reuse the same width/depth scaling coefficients of EfficientNet-B0 to B6 [39] such that we can easily reuse their ImageNet-pretrained checkpoints.",
+          "next": "BiFPN network – we linearly increase BiFPN depth D bif pn (#layers) since depth needs to be rounded to small integers."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6698,
+        "downstream_relevance_score": 0.4533,
+        "components": {
+          "bio_boundary_score": 0.7244,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "backbone",
+          "network"
+        ],
+        "normalization": "backbone network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Backbone network",
+          "canonical": "Backbone network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7244",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4533"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "box net",
+        "canonical": "box net",
+        "normalized": "box net",
+        "tokens": [
+          "box",
+          "net"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 106,
+        "sentence": "Similar to [24], the class and box net- work weights are shared across all levels of features.",
+        "context_window": {
+          "previous": "These fused features are fed to a class and box network to produce object class and bounding box predic- tions respectively.",
+          "current": "Similar to [24], the class and box net- work weights are shared across all levels of features.",
+          "next": "4.2."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6445,
+        "downstream_relevance_score": 0.4401,
+        "components": {
+          "bio_boundary_score": 0.7209,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "box",
+          "net"
+        ],
+        "normalization": "box net",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "box net",
+          "canonical": "box net",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7209",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4401"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 25,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Figure shows the overall architecture of EfficientDet, which largely follows the one-stage detectors paradigm .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For simplicity, all accuracy results here are for COCO validation set.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper, we systematically study neural network architecture design choices for object detection and propose several key optimizations to improve efficiency.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper, we systematically study neural network architecture design choices for object detection and propose several key optimizations to improve efficiency.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this paper, we systematically study neural network architecture design choices for object detection and propose several key optimizations to improve efficiency.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "First, we propose a weighted bi-directional feature pyramid network (BiFPN), which allows easy and fast multiscale feature fusion; Second, we propose a compound scaling method that uniformly scales the resolution, depth, and width for all backbone, feature network, and box/class prediction networks at the same time.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In particular, with singlemodel and single-scale, our EfficientDet-D7 achieves stateof-the-art 55.1 AP on COCO test-dev with 77M parameters and 410B FLOPs 1 , being 4x -9x smaller and using 13x -42x fewer FLOPs than previous detectors.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "For example, the latest AmoebaNet-based NAS-FPN detector requires 167M parameters and 3045B FLOPs (30x more than RetinaNet ) to achieve state-ofthe-art accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "In this paper, we mainly follow the one-stage detector design, and we show it is possible to achieve both better efficiency and higher accuracy with optimized network architectures.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "In this paper, we mainly follow the one-stage detector design, and we show it is possible to achieve both better efficiency and higher accuracy with optimized network architectures.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "More recently, NAS-FPN leverages neural architecture search to automatically design feature network topology.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "More recently, NAS-FPN leverages neural architecture search to automatically design feature network topology.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Although it achieves better performance, NAS-FPN requires thousands of GPU hours during search, and the resulting feature network is irregular and thus difficult to interpret.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Although it achieves better performance, NAS-FPN requires thousands of GPU hours during search, and the resulting feature network is irregular and thus difficult to interpret.",
+        "evidence_type": "limitation",
+        "matched_cue": "difficult to",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "In order to obtain better accuracy, it is common to scale up a baseline detector by employing bigger backbone networks (e.g., from mobile-size models and ResNet , to ResNeXt and AmoebaNet ), or increasing input image size (e.g., from 512x512 to 1536x1536 ).",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Some recent works show that increasing the channel size and repeating feature networks can also lead to higher accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In this section, we ablate various design choices for our proposed EfficientDet.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In this paper, we systematically study network architecture design choices for efficient object detection, and propose a weighted bidirectional feature network and a customized compound scaling method, in order to improve accuracy and efficiency.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In this paper, we systematically study network architecture design choices for efficient object detection, and propose a weighted bidirectional feature network and a customized compound scaling method, in order to improve accuracy and efficiency.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In this paper, we systematically study network architecture design choices for efficient object detection, and propose a weighted bidirectional feature network and a customized compound scaling method, in order to improve accuracy and efficiency.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In this paper, we systematically study network architecture design choices for efficient object detection, and propose a weighted bidirectional feature network and a customized compound scaling method, in order to improve accuracy and efficiency.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "Based on these optimizations, we develop a new family of detectors, named EfficientDet, which consistently achieve better accuracy and efficiency than the prior art across a wide spectrum of resource constraints.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In particular, our scaled EfficientDet achieves state-of-the-art accuracy with much fewer parameters and FLOPs than previous object detection and semantic segmentation models.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In particular, our scaled EfficientDet achieves state-of-the-art accuracy with much fewer parameters and FLOPs than previous object detection and semantic segmentation models.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "In particular, our scaled EfficientDet achieves state-of-the-art accuracy with much fewer parameters and FLOPs than previous object detection and semantic segmentation models.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "object detection",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.8349
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "input feature",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6444
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "EfficientDet",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6249
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "accuracy",
+        "section": "method",
+        "role": "metric",
+        "score": 0.6155
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "PAN",
+        "section": "related_work",
+        "role": "core_method",
+        "score": 0.6083
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "one-stage detector",
+        "section": "intro",
+        "role": "metric",
+        "score": 0.6039
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "BiF",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6019
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "feature network",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.5953
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "backbone",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5927
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "model scaling",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5847
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "Fast Normalized Fusion",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.5734
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "COCO",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.563
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "compound scaling",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.5404
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "Semantic Segmentation",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5197
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "feature fusion",
+        "section": "related_work",
+        "role": "contribution",
+        "score": 0.4996
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "softmax-based fusion",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4925
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "scaling approach",
+        "section": "method",
+        "role": "gap",
+        "score": 0.486
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "BiFPN",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4788
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "weight normalization",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4765
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "grid search",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4737
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "softmax",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4724
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "BiFPN depth",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4688
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "BiFPN width",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4593
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "Latency",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4588
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "FPN",
+        "section": "related_work",
+        "role": "finding",
+        "score": 0.4584
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "box network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4533
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "Backbone network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4533
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "box net",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4401
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_018",
+        "target": "ecu_020",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_018",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

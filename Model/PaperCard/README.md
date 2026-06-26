@@ -47,7 +47,7 @@ cd E:\class\2026.4\NLP\scientific_paper_card_final
 ..\.venv_keyword\Scripts\python.exe .\code\03_inference_summary\infer_paper_card.py `
   --input_txt .\datasets\03_demo_txt\full_library\2017_transformer_and_large_language_models_attention_is_all_you_need.txt `
   --keyword_checkpoint .\models\checkpoints\keyword_scibert_semeval2010_finetune_nobow `
-  --structured_checkpoint .\models\checkpoints\structure_v2_scibert_evidencefix `
+  --structured_checkpoint .\models\checkpoints\structure_v4_partial_role_balanced_fulldev `
   --output_json .\outputs\evidence_units_attention.json `
   --device cuda
 ```
@@ -82,4 +82,4 @@ LDKP10k 和 SemEval2010 后续阶段见 `docs/RUN_COMMANDS.md`。
 
 关键词模型最终 checkpoint 是 `models/checkpoints/keyword_scibert_semeval2010_finetune_nobow`。训练窗口 BIO boundary F1 到约 0.7615；部署式 top-10 exact-match F1 约 0.1979，所以它应被描述为可工作的 present-keyphrase extractor，不是完整 absent-keyphrase generator。
 
-结构模型最终 checkpoint 是 `models/checkpoints/structure_v2_scibert_evidencefix`。role F1 约 0.84，evidence 默认阈值 F1 约 0.28，best-threshold F1 约 0.318。它的价值是给论文卡片提供角色、证据和重要性 bottleneck，而不是替代生成式摘要模型。
+结构模型当前 checkpoint 是 `models/checkpoints/structure_v4_partial_role_balanced_fulldev`。这一版保留 Stage2 的同一个模型结构：section-aware SciBERT encoder、sentence-context Transformer、role/evidence/importance 三个 head。变化在监督方式上：PubMed RCT 仍提供 hard role 标签，QASPER 主要提供 evidence 标签，同时只给 role 一个由 section 决定的候选集合约束；ACLSum 用 facet summaries 构造 ROUGE-L extractive oracle 监督 importance，facet role 足够明确时才作为 hard role，否则也退回 section candidate role mask。这样避免把 QASPER 没有提供的精确 role 强行编成硬标签。full-dev 同口径结果是：role F1 约 0.918，role candidate accuracy 约 0.984，evidence F1 约 0.299，importance best-threshold F1 约 0.275。旧 `structure_v3_oracle_importance_balanced_fulldev` 保留为对照：它的 importance best F1 更高一点，但 QASPER role 监督更难解释。当前选择 v4，是因为它更符合论文里“可解释、不过度伪造标签”的方法叙事。

@@ -1,0 +1,4601 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2019_natural_language_processing_xlnet_generalized_autoregressive_pretraining_for_language_understanding",
+    "title": "2019_natural_language_processing_xlnet_generalized_autoregressive_pretraining_for_language_understanding",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2019_natural_language_processing_xlnet_generalized_autoregressive_pretraining_for_language_understanding.txt",
+    "sentence_count": 172,
+    "section_counts": {
+      "intro": 24,
+      "method": 112,
+      "related_work": 5,
+      "experiment": 27,
+      "conclusion": 4
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4617,
+    "type_count": 1027,
+    "type_token_ratio": 0.2224,
+    "section_token_counts": {
+      "intro": 472,
+      "related_work": 142,
+      "method": 3165,
+      "experiment": 772,
+      "conclusion": 66
+    },
+    "top_unigrams": [
+      {
+        "term": "bert",
+        "count": 51
+      },
+      {
+        "term": "language",
+        "count": 37
+      },
+      {
+        "term": "xlnet",
+        "count": 32
+      },
+      {
+        "term": "model",
+        "count": 29
+      },
+      {
+        "term": "modeling",
+        "count": 28
+      },
+      {
+        "term": "pretraining",
+        "count": 26
+      },
+      {
+        "term": "sequence",
+        "count": 26
+      },
+      {
+        "term": "ar",
+        "count": 24
+      },
+      {
+        "term": "not",
+        "count": 24
+      },
+      {
+        "term": "tokens",
+        "count": 24
+      },
+      {
+        "term": "attention",
+        "count": 23
+      },
+      {
+        "term": "which",
+        "count": 22
+      },
+      {
+        "term": "factorization",
+        "count": 20
+      },
+      {
+        "term": "two",
+        "count": 19
+      },
+      {
+        "term": "order",
+        "count": 18
+      },
+      {
+        "term": "objective",
+        "count": 18
+      },
+      {
+        "term": "only",
+        "count": 17
+      },
+      {
+        "term": "use",
+        "count": 17
+      },
+      {
+        "term": "all",
+        "count": 16
+      },
+      {
+        "term": "text",
+        "count": 16
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "language modeling",
+        "count": 23
+      },
+      {
+        "term": "ar language",
+        "count": 17
+      },
+      {
+        "term": "factorization order",
+        "count": 13
+      },
+      {
+        "term": "does not",
+        "count": 12
+      },
+      {
+        "term": "permutation language",
+        "count": 8
+      },
+      {
+        "term": "bert xlnet",
+        "count": 7
+      },
+      {
+        "term": "bidirectional contexts",
+        "count": 6
+      },
+      {
+        "term": "text sequence",
+        "count": 6
+      },
+      {
+        "term": "independence assumption",
+        "count": 6
+      },
+      {
+        "term": "query stream",
+        "count": 6
+      },
+      {
+        "term": "language understanding",
+        "count": 5
+      },
+      {
+        "term": "pretrain-finetune discrepancy",
+        "count": 5
+      },
+      {
+        "term": "natural language",
+        "count": 5
+      },
+      {
+        "term": "target position",
+        "count": 5
+      },
+      {
+        "term": "factorization orders",
+        "count": 5
+      },
+      {
+        "term": "modeling objective",
+        "count": 5
+      },
+      {
+        "term": "content stream",
+        "count": 5
+      },
+      {
+        "term": "new york",
+        "count": 5
+      },
+      {
+        "term": "outperforms bert",
+        "count": 4
+      },
+      {
+        "term": "document ranking",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "ar language modeling",
+        "count": 13
+      },
+      {
+        "term": "permutation language modeling",
+        "count": 8
+      },
+      {
+        "term": "language modeling objective",
+        "count": 5
+      },
+      {
+        "term": "exp exp where",
+        "count": 4
+      },
+      {
+        "term": "xlnet generalized autoregressive",
+        "count": 3
+      },
+      {
+        "term": "ar language model",
+        "count": 3
+      },
+      {
+        "term": "all factorization orders",
+        "count": 3
+      },
+      {
+        "term": "both bert xlnet",
+        "count": 3
+      },
+      {
+        "term": "fair comparison bert",
+        "count": 3
+      },
+      {
+        "term": "generalized autoregressive pretraining",
+        "count": 2
+      },
+      {
+        "term": "propose xlnet generalized",
+        "count": 2
+      },
+      {
+        "term": "permutations factorization order",
+        "count": 2
+      },
+      {
+        "term": "empirically under comparable",
+        "count": 2
+      },
+      {
+        "term": "under comparable experiment",
+        "count": 2
+      },
+      {
+        "term": "xlnet outperforms bert",
+        "count": 2
+      },
+      {
+        "term": "given text sequence",
+        "count": 2
+      },
+      {
+        "term": "text sequence ar",
+        "count": 2
+      },
+      {
+        "term": "sequence ar language",
+        "count": 2
+      },
+      {
+        "term": "language understanding tasks",
+        "count": 2
+      },
+      {
+        "term": "special symbol mask",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 34,
+    "nonzero_tfidf_features": 34,
+    "top_tfidf_features": [
+      {
+        "feature_name": "conclusion__BERT",
+        "section": "conclusion",
+        "term": "BERT",
+        "frequency": 8.0,
+        "tfidf": 0.9833
+      },
+      {
+        "feature_name": "abstract__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 4.0,
+        "tfidf": 0.8423
+      },
+      {
+        "feature_name": "related_work__xlnet",
+        "section": "related_work",
+        "term": "xlnet",
+        "frequency": 3.0,
+        "tfidf": 0.8361
+      },
+      {
+        "feature_name": "experiments__xlnet",
+        "section": "experiment",
+        "term": "xlnet",
+        "frequency": 8.0,
+        "tfidf": 0.7995
+      },
+      {
+        "feature_name": "introduction__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 15.0,
+        "tfidf": 0.7657
+      },
+      {
+        "feature_name": "methods__xlnet",
+        "section": "method",
+        "term": "xlnet",
+        "frequency": 5.0,
+        "tfidf": 0.6976
+      },
+      {
+        "feature_name": "introduction__xlnet",
+        "section": "intro",
+        "term": "xlnet",
+        "frequency": 7.0,
+        "tfidf": 0.6042
+      },
+      {
+        "feature_name": "experiments__BERT",
+        "section": "experiment",
+        "term": "BERT",
+        "frequency": 8.0,
+        "tfidf": 0.5522
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 5.0,
+        "tfidf": 0.4196
+      },
+      {
+        "feature_name": "methods__BERT",
+        "section": "method",
+        "term": "BERT",
+        "frequency": 4.0,
+        "tfidf": 0.3831
+      },
+      {
+        "feature_name": "experiments__attention",
+        "section": "experiment",
+        "term": "attention",
+        "frequency": 4.0,
+        "tfidf": 0.3125
+      },
+      {
+        "feature_name": "abstract__autoregressive model",
+        "section": "intro",
+        "term": "autoregressive model",
+        "frequency": 1.0,
+        "tfidf": 0.302
+      },
+      {
+        "feature_name": "abstract__sentiment analysis",
+        "section": "intro",
+        "term": "sentiment analysis",
+        "frequency": 1.0,
+        "tfidf": 0.2849
+      },
+      {
+        "feature_name": "abstract__natural language inference",
+        "section": "intro",
+        "term": "natural language inference",
+        "frequency": 1.0,
+        "tfidf": 0.2849
+      },
+      {
+        "feature_name": "related_work__nlg",
+        "section": "related_work",
+        "term": "nlg",
+        "frequency": 1.0,
+        "tfidf": 0.2787
+      },
+      {
+        "feature_name": "related_work__ar models",
+        "section": "related_work",
+        "term": "ar models",
+        "frequency": 1.0,
+        "tfidf": 0.2787
+      },
+      {
+        "feature_name": "conclusion__attention",
+        "section": "conclusion",
+        "term": "attention",
+        "frequency": 2.0,
+        "tfidf": 0.2554
+      },
+      {
+        "feature_name": "related_work__bias",
+        "section": "related_work",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.2407
+      },
+      {
+        "feature_name": "methods__question answering",
+        "section": "method",
+        "term": "question answering",
+        "frequency": 2.0,
+        "tfidf": 0.2368
+      },
+      {
+        "feature_name": "related_work__MLP",
+        "section": "related_work",
+        "term": "MLP",
+        "frequency": 1.0,
+        "tfidf": 0.2323
+      },
+      {
+        "feature_name": "introduction__transformer",
+        "section": "intro",
+        "term": "transformer",
+        "frequency": 4.0,
+        "tfidf": 0.2092
+      },
+      {
+        "feature_name": "abstract__question answering",
+        "section": "intro",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.1924
+      },
+      {
+        "feature_name": "related_work__attention",
+        "section": "related_work",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.1837
+      },
+      {
+        "feature_name": "methods__bias",
+        "section": "method",
+        "term": "bias",
+        "frequency": 2.0,
+        "tfidf": 0.1809
+      },
+      {
+        "feature_name": "introduction__autoregressive models",
+        "section": "intro",
+        "term": "autoregressive models",
+        "frequency": 2.0,
+        "tfidf": 0.1726
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.8423
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 15.0,
+          "tfidf": 0.7657
+        },
+        {
+          "feature_name": "introduction__xlnet",
+          "section": "intro",
+          "term": "xlnet",
+          "frequency": 7.0,
+          "tfidf": 0.6042
+        },
+        {
+          "feature_name": "abstract__autoregressive model",
+          "section": "intro",
+          "term": "autoregressive model",
+          "frequency": 1.0,
+          "tfidf": 0.302
+        },
+        {
+          "feature_name": "abstract__sentiment analysis",
+          "section": "intro",
+          "term": "sentiment analysis",
+          "frequency": 1.0,
+          "tfidf": 0.2849
+        },
+        {
+          "feature_name": "abstract__natural language inference",
+          "section": "intro",
+          "term": "natural language inference",
+          "frequency": 1.0,
+          "tfidf": 0.2849
+        },
+        {
+          "feature_name": "introduction__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 4.0,
+          "tfidf": 0.2092
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1924
+        },
+        {
+          "feature_name": "introduction__autoregressive models",
+          "section": "intro",
+          "term": "autoregressive models",
+          "frequency": 2.0,
+          "tfidf": 0.1726
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.0559
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.0541
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.0437
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__xlnet",
+          "section": "related_work",
+          "term": "xlnet",
+          "frequency": 3.0,
+          "tfidf": 0.8361
+        },
+        {
+          "feature_name": "related_work__nlg",
+          "section": "related_work",
+          "term": "nlg",
+          "frequency": 1.0,
+          "tfidf": 0.2787
+        },
+        {
+          "feature_name": "related_work__ar models",
+          "section": "related_work",
+          "term": "ar models",
+          "frequency": 1.0,
+          "tfidf": 0.2787
+        },
+        {
+          "feature_name": "related_work__bias",
+          "section": "related_work",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.2407
+        },
+        {
+          "feature_name": "related_work__MLP",
+          "section": "related_work",
+          "term": "MLP",
+          "frequency": 1.0,
+          "tfidf": 0.2323
+        },
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.1837
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__xlnet",
+          "section": "method",
+          "term": "xlnet",
+          "frequency": 5.0,
+          "tfidf": 0.6976
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 0.4196
+        },
+        {
+          "feature_name": "methods__BERT",
+          "section": "method",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.3831
+        },
+        {
+          "feature_name": "methods__question answering",
+          "section": "method",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 0.2368
+        },
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.1809
+        },
+        {
+          "feature_name": "methods__autoregressive models",
+          "section": "method",
+          "term": "autoregressive models",
+          "frequency": 1.0,
+          "tfidf": 0.1674
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.157
+        },
+        {
+          "feature_name": "methods__GPT",
+          "section": "method",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.1252
+        },
+        {
+          "feature_name": "methods__machine learning",
+          "section": "method",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1184
+        },
+        {
+          "feature_name": "methods__word embedding",
+          "section": "method",
+          "term": "word embedding",
+          "frequency": 1.0,
+          "tfidf": 0.1128
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 1.0,
+          "tfidf": 0.0811
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__xlnet",
+          "section": "experiment",
+          "term": "xlnet",
+          "frequency": 8.0,
+          "tfidf": 0.7995
+        },
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 8.0,
+          "tfidf": 0.5522
+        },
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 0.3125
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__BERT",
+          "section": "conclusion",
+          "term": "BERT",
+          "frequency": 8.0,
+          "tfidf": 0.9833
+        },
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.2554
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 24,
+      "token_count": 472,
+      "bow_hit_count": 55,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 28,
+          "section_prior": 0.2788,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "XLNet",
+          "count": 12,
+          "section_prior": 0.1957,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.6057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "autoregressive model",
+          "count": 3,
+          "section_prior": 0.5517,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 3,
+          "section_prior": 0.4804,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 2,
+          "section_prior": 0.4845,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "textual entailment",
+          "count": 1,
+          "section_prior": 0.5135,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "sentiment analysis",
+          "count": 1,
+          "section_prior": 0.25,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.8423
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 15.0,
+          "tfidf": 0.7657
+        },
+        {
+          "feature_name": "introduction__xlnet",
+          "section": "intro",
+          "term": "xlnet",
+          "frequency": 7.0,
+          "tfidf": 0.6042
+        },
+        {
+          "feature_name": "abstract__autoregressive model",
+          "section": "intro",
+          "term": "autoregressive model",
+          "frequency": 1.0,
+          "tfidf": 0.302
+        },
+        {
+          "feature_name": "abstract__sentiment analysis",
+          "section": "intro",
+          "term": "sentiment analysis",
+          "frequency": 1.0,
+          "tfidf": 0.2849
+        },
+        {
+          "feature_name": "abstract__natural language inference",
+          "section": "intro",
+          "term": "natural language inference",
+          "frequency": 1.0,
+          "tfidf": 0.2849
+        },
+        {
+          "feature_name": "introduction__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 4.0,
+          "tfidf": 0.2092
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1924
+        },
+        {
+          "feature_name": "introduction__autoregressive models",
+          "section": "intro",
+          "term": "autoregressive models",
+          "frequency": 2.0,
+          "tfidf": 0.1726
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.0559
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.0541
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.0437
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 5,
+      "token_count": 142,
+      "bow_hit_count": 25,
+      "top_bow_terms": [
+        {
+          "canonical_term": "XLNet",
+          "count": 8,
+          "section_prior": 0.1087,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.0467,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.0898,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "natural language generation",
+          "count": 5,
+          "section_prior": 0.1818,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 1,
+          "section_prior": 0.1695,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "autoregressive model",
+          "count": 1,
+          "section_prior": 0.2069,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__xlnet",
+          "section": "related_work",
+          "term": "xlnet",
+          "frequency": 3.0,
+          "tfidf": 0.8361
+        },
+        {
+          "feature_name": "related_work__nlg",
+          "section": "related_work",
+          "term": "nlg",
+          "frequency": 1.0,
+          "tfidf": 0.2787
+        },
+        {
+          "feature_name": "related_work__ar models",
+          "section": "related_work",
+          "term": "ar models",
+          "frequency": 1.0,
+          "tfidf": 0.2787
+        },
+        {
+          "feature_name": "related_work__bias",
+          "section": "related_work",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.2407
+        },
+        {
+          "feature_name": "related_work__MLP",
+          "section": "related_work",
+          "term": "MLP",
+          "frequency": 1.0,
+          "tfidf": 0.2323
+        },
+        {
+          "feature_name": "related_work__attention",
+          "section": "related_work",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.1837
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 112,
+      "token_count": 3165,
+      "bow_hit_count": 326,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 124,
+          "section_prior": 0.202,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 62,
+          "section_prior": 0.3475,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 48,
+          "section_prior": 0.3709,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "XLNet",
+          "count": 47,
+          "section_prior": 0.2174,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 13,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 12,
+          "section_prior": 0.4915,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 8,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 5,
+          "section_prior": 0.0932,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "word embedding",
+          "count": 4,
+          "section_prior": 0.4912,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "autoregressive model",
+          "count": 3,
+          "section_prior": 0.1724,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__xlnet",
+          "section": "method",
+          "term": "xlnet",
+          "frequency": 5.0,
+          "tfidf": 0.6976
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 5.0,
+          "tfidf": 0.4196
+        },
+        {
+          "feature_name": "methods__BERT",
+          "section": "method",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.3831
+        },
+        {
+          "feature_name": "methods__question answering",
+          "section": "method",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 0.2368
+        },
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.1809
+        },
+        {
+          "feature_name": "methods__autoregressive models",
+          "section": "method",
+          "term": "autoregressive models",
+          "frequency": 1.0,
+          "tfidf": 0.1674
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.157
+        },
+        {
+          "feature_name": "methods__GPT",
+          "section": "method",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.1252
+        },
+        {
+          "feature_name": "methods__machine learning",
+          "section": "method",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.1184
+        },
+        {
+          "feature_name": "methods__word embedding",
+          "section": "method",
+          "term": "word embedding",
+          "frequency": 1.0,
+          "tfidf": 0.1128
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 1.0,
+          "tfidf": 0.0811
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 27,
+      "token_count": 772,
+      "bow_hit_count": 84,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 55,
+          "section_prior": 0.335,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "XLNet",
+          "count": 12,
+          "section_prior": 0.4565,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "RoBERTa",
+          "count": 7,
+          "section_prior": 0.5714,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "natural language understanding",
+          "count": 3,
+          "section_prior": 0.2174,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "tokenization",
+          "count": 2,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "AI accelerator",
+          "count": 2,
+          "section_prior": 0.3636,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "ALBERT",
+          "count": 2,
+          "section_prior": 0.1429,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 1,
+          "section_prior": 0.3611,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__xlnet",
+          "section": "experiment",
+          "term": "xlnet",
+          "frequency": 8.0,
+          "tfidf": 0.7995
+        },
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 8.0,
+          "tfidf": 0.5522
+        },
+        {
+          "feature_name": "experiments__attention",
+          "section": "experiment",
+          "term": "attention",
+          "frequency": 4.0,
+          "tfidf": 0.3125
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 4,
+      "token_count": 66,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "RoBERTa",
+          "count": 7,
+          "section_prior": 0.0857,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 3,
+          "section_prior": 0.0844,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 2,
+          "section_prior": 0.0807,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "natural language understanding",
+          "count": 1,
+          "section_prior": 0.3043,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__BERT",
+          "section": "conclusion",
+          "term": "BERT",
+          "frequency": 8.0,
+          "tfidf": 0.9833
+        },
+        {
+          "feature_name": "conclusion__attention",
+          "section": "conclusion",
+          "term": "attention",
+          "frequency": 2.0,
+          "tfidf": 0.2554
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "Transformer",
+        "canonical": "transformer",
+        "normalized": "transformer",
+        "tokens": [
+          "transformer"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "transformer architecture",
+          "transformer models",
+          "transformer model",
+          "transformers",
+          "transformer"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 34,
+        "sentence": "In addition to a novel pretraining objective, XLNet improves architectural designs for pretraining. • Inspired by the latest advancements in AR language modeling, XLNet integrates the segment recurrence mechanism and relative encoding scheme of Transformer-XL [ 9 ] into pretraining, which empirically improves the performance especially for tasks involving a longer text sequence. • Naively applying a Transformer(-XL) architecture to permutation-based language modeling does not work because the factorization order is arbitrary and the target is ambiguous.",
+        "context_window": {
+          "previous": "Meanwhile, the autoregressive objective also provides a natural way to use the product rule for factorizing the joint probability of the predicted tokens, eliminating the independence assumption made in BERT.",
+          "current": "In addition to a novel pretraining objective, XLNet improves architectural designs for pretraining. • Inspired by the latest advancements in AR language modeling, XLNet integrates the segment recurrence mechanism and relative encoding scheme of Transformer-XL [ 9 ] into pretraining, which empirically improves the performance especially for tasks involving a longer text sequence. • Naively applying a Transformer(-XL) architecture to permutation-based language modeling does not work because the factorization order is arbitrary and the target is ambiguous.",
+          "next": "As a solution, we propose to reparameterize the Transformer(-XL) network to remove the ambiguity."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9825,
+          "evidence_type": "method",
+          "matched_cue": "architecture",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7064,
+        "downstream_relevance_score": 0.8088,
+        "components": {
+          "bio_boundary_score": 0.8204,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3709,
+          "document_tfidf_score": 0.0825,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "transformer",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "transformer",
+        "display_term": "transformer",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Transformer_%28deep_learning%29",
+        "wikidata_id": "Q85810444",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 38,
+        "total_frequency": 170,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__transformer",
+        "section": "method",
+        "term": "transformer",
+        "frequency": 1.0,
+        "tfidf": 0.0811,
+        "normalized_frequency": 0.0667,
+        "normalized_tfidf": 0.0825
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "transformer"
+        ],
+        "normalization": "transformer",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.3709,
+        "canonicalization": {
+          "observed": "Transformer",
+          "canonical": "transformer",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8204",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'transformer' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'methods__transformer' with tf-idf 0.0811",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.8088"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "RoBERTa",
+        "canonical": "RoBERTa",
+        "normalized": "roberta",
+        "tokens": [
+          "roberta"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "RoBERTa",
+          "roberta"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 165,
+        "sentence": "All BERT, RoBERTa, and XLNet results are obtained with a 24-layer architecture with similar model sizes (aka BERT-Large).",
+        "context_window": {
+          "previous": "3.3 Comparison with RoBERTa: Scaling Up RACE Accuracy Middle High Model NDCG@20 ERR@20 GPT [28] 59.0 62.9 57.4 DRMM [13] 24.3 13.8 BERT [25] 72.0 76.6 70.1 KNRM [8] 26.9 14.9 BERT+DCMN ∗ [38] 74.1 79.5 71.8 Conv [8] 28.7 18.1 RoBERTa [21] 83.2 86.5 81.8 BERT † 30.53 18.67 XLNet 85.4 88.6 84.0 XLNet 31.10 20.28 Table 2: Comparison with state-of-the-art results on the test set of RACE, a reading comprehension task, and on ClueWeb09-B, a document ranking task. ∗ indicates using ensembles. † indicates our implementations. “Middle” and “High” in RACE are two subsets representing middle and high school difficulty levels.",
+          "current": "All BERT, RoBERTa, and XLNet results are obtained with a 24-layer architecture with similar model sizes (aka BERT-Large).",
+          "next": "After the initial publication of our manuscript, a few other pretrained models were released such as RoBERTa [ 21 ] and ALBERT [ 19 ]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7252,
+        "downstream_relevance_score": 0.7935,
+        "components": {
+          "bio_boundary_score": 0.9961,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5714,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "roberta",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "RoBERTa",
+        "display_term": "roberta",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "nan",
+        "wikidata_id": "Q85124095",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 8,
+        "total_frequency": 39,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "roberta"
+        ],
+        "normalization": "roberta",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.5714,
+        "canonicalization": {
+          "observed": "RoBERTa",
+          "canonical": "RoBERTa",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9961",
+        "structure model assigned role 'core_method' with score 0.66",
+        "section BoW matched canonical term 'RoBERTa' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.7935"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "BERT",
+        "canonical": "bidirectional encoder representations from transformers",
+        "normalized": "bidirectional encoder representations from transformers",
+        "tokens": [
+          "bert"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "bidirectional encoder representations from transformers",
+          "BERT",
+          "bert"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 118,
+        "sentence": "our model is the same as BERT: [CLS, A, SEP, B, SEP], where “SEP” and “CLS” are two special symbols and “A” and “B” are the two segments.",
+        "context_window": {
+          "previous": "Specifically, the input to",
+          "current": "our model is the same as BERT: [CLS, A, SEP, B, SEP], where “SEP” and “CLS” are two special symbols and “A” and “B” are the two segments.",
+          "next": "Although 5 we follow the two-segment data format, XLNet-Large does not use the objective of next sentence prediction [10] as it does not show consistent improvement in our ablation study (see Section 3.4)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6901,
+        "downstream_relevance_score": 0.7568,
+        "components": {
+          "bio_boundary_score": 0.5669,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.202,
+          "document_tfidf_score": 0.3896,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "bert",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "bidirectional encoder representations from transformers",
+        "display_term": "BERT",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/BERT_%28language_model%29",
+        "wikidata_id": "Q61726893",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 20,
+        "total_frequency": 78,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__BERT",
+        "section": "method",
+        "term": "BERT",
+        "frequency": 4.0,
+        "tfidf": 0.3831,
+        "normalized_frequency": 0.2667,
+        "normalized_tfidf": 0.3896
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bert"
+        ],
+        "normalization": "bert",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.202,
+        "canonicalization": {
+          "observed": "BERT",
+          "canonical": "bidirectional encoder representations from transformers",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5669",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'bidirectional encoder representations from transformers' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'methods__BERT' with tf-idf 0.3831",
+        "downstream relevance score is 0.7568"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "XLNet",
+        "canonical": "XLNet",
+        "normalized": "xlnet",
+        "tokens": [
+          "xlnet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "XLNet",
+          "xlnet"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 162,
+        "sentence": "In Table 1, we compare (1) best performance of three different variants of BERT and (2) XLNet trained with the same data and hyperparameters.",
+        "context_window": {
+          "previous": "Here, we first compare the performance of BERT and XLNet in a fair setting to decouple the effects of using more data and the improvement from BERT to XLNet.",
+          "current": "In Table 1, we compare (1) best performance of three different variants of BERT and (2) XLNet trained with the same data and hyperparameters.",
+          "next": "As we can see, trained on the same data with an almost identical training recipe, XLNet outperforms BERT by a sizable margin on all the considered datasets."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6854,
+        "downstream_relevance_score": 0.7055,
+        "components": {
+          "bio_boundary_score": 0.7581,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.4565,
+          "document_tfidf_score": 0.8131,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "xlnet",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "XLNet",
+        "display_term": "xlnet",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "nan",
+        "wikidata_id": "Q107031747",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 6,
+        "total_frequency": 20,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__xlnet",
+        "section": "experiment",
+        "term": "xlnet",
+        "frequency": 8.0,
+        "tfidf": 0.7995,
+        "normalized_frequency": 0.5333,
+        "normalized_tfidf": 0.8131
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "xlnet"
+        ],
+        "normalization": "xlnet",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4565,
+        "canonicalization": {
+          "observed": "XLNet",
+          "canonical": "XLNet",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7581",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'XLNet' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'experiments__xlnet' with tf-idf 0.7995",
+        "downstream relevance score is 0.7055"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "natural language understanding",
+        "canonical": "natural language understanding",
+        "normalized": "natural language understanding",
+        "tokens": [
+          "natural",
+          "language",
+          "understanding"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "natural language understanding",
+          "nlu"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 170,
+        "sentence": "The results are presented in Tables 2 (reading comprehension & document ranking), 3 (question answering), 4 (text classification) and 5 (natural language understanding), where XLNet generally outperforms BERT and RoBERTa.",
+        "context_window": {
+          "previous": "To obtain relatively fair comparison with RoBERTa, the experiment in this section is based on full data and reuses the hyper-parameters of RoBERTa, as described in section 3.1.",
+          "current": "The results are presented in Tables 2 (reading comprehension & document ranking), 3 (question answering), 4 (text classification) and 5 (natural language understanding), where XLNet generally outperforms BERT and RoBERTa.",
+          "next": "In addition, we make two more interesting observations:"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6389,
+        "downstream_relevance_score": 0.6907,
+        "components": {
+          "bio_boundary_score": 0.5247,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.3043,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "natural language understanding",
+        "match_quality": 1.0,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "natural language understanding",
+        "display_term": "nlu",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Natural_language_understanding",
+        "wikidata_id": "Q1078276",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 6,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "natural",
+          "language",
+          "understanding"
+        ],
+        "normalization": "natural language understanding",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.3043,
+        "canonicalization": {
+          "observed": "natural language understanding",
+          "canonical": "natural language understanding",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5247",
+        "structure model assigned role 'contribution' with score 0.45",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'natural language understanding' with confidence 0.91",
+        "BoW role prior suggests 'other'",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.6907"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "natural language",
+        "canonical": "Natural language processing",
+        "normalized": "natural language processing",
+        "tokens": [
+          "natural",
+          "language"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "natural language processing",
+          "Natural language processing",
+          "nlp"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 9,
+        "sentence": "Unsupervised representation learning has been highly successful in the domain of natural language processing [ 7 , 22 , 27 , 28 , 10 ].",
+        "context_window": {
+          "previous": "1",
+          "current": "Unsupervised representation learning has been highly successful in the domain of natural language processing [ 7 , 22 , 27 , 28 , 10 ].",
+          "next": "Typically, these methods first pretrain neural networks on large-scale unlabeled text corpora, and then finetune the models or representations on downstream tasks."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8011
+      },
+      "evidence": {
+        "score": 0.3896,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6602,
+        "downstream_relevance_score": 0.6677,
+        "components": {
+          "bio_boundary_score": 0.9142,
+          "sentence_evidence_score": 0.3896,
+          "sentence_role_score": 0.8011,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.6057,
+          "document_tfidf_score": 0.2897,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "natural language processing",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Natural language processing",
+        "display_term": "natural language processing",
+        "term_type": "other",
+        "role_prior": "background",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Natural_language_processing",
+        "wikidata_id": "Q30642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 50,
+        "total_frequency": 125,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__natural language inference",
+        "section": "intro",
+        "term": "natural language inference",
+        "frequency": 1.0,
+        "tfidf": 0.2849,
+        "normalized_frequency": 0.0667,
+        "normalized_tfidf": 0.2897
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "natural",
+          "language"
+        ],
+        "normalization": "natural language",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.6057,
+        "canonicalization": {
+          "observed": "natural language",
+          "canonical": "Natural language processing",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9142",
+        "structure model assigned role 'problem' with score 0.8011",
+        "section BoW matched canonical term 'Natural language processing' with confidence 0.7098",
+        "BoW role prior suggests 'background'",
+        "document-term matrix links the phrase to feature 'abstract__natural language inference' with tf-idf 0.2849",
+        "downstream relevance score is 0.6677"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "target position",
+        "canonical": "target position",
+        "normalized": "target position",
+        "tokens": [
+          "target",
+          "position"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 79,
+        "sentence": "To avoid this problem, we propose to re-parameterize the next-token distribution to be target position aware: p θ ( X z t = x | x z <t ) = exp ( e ( x ) > g θ ( x z <t , z t ) ) ∑ x ′ exp ( e ( x ′ ) > g θ ( x z <t , z t )) , (4) where g θ ( x z <t , z t ) denotes a new type of representations which additionally take the target position z t as input.",
+        "context_window": {
+          "previous": "Consequently, the same distribution is predicted regardless of the target position, which is not able to learn useful representations (see Appendix A.1 for a concrete example).",
+          "current": "To avoid this problem, we propose to re-parameterize the next-token distribution to be target position aware: p θ ( X z t = x | x z <t ) = exp ( e ( x ) > g θ ( x z <t , z t ) ) ∑ x ′ exp ( e ( x ′ ) > g θ ( x z <t , z t )) , (4) where g θ ( x z <t , z t ) denotes a new type of representations which additionally take the target position z t as input.",
+          "next": "Two-Stream Self-Attention While the idea of target-aware representations removes the ambiguity in target prediction, how to formulate g θ ( x z <t , z t ) remains a non-trivial problem."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8824,
+          "evidence_type": "method",
+          "matched_cue": "propose",
+          "role_prior": "core_method",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.8119,
+        "downstream_relevance_score": 0.6646,
+        "components": {
+          "bio_boundary_score": 0.9795,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "target",
+          "position"
+        ],
+        "normalization": "target position",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "target position",
+          "canonical": "target position",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9795",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6646"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "permutation language modeling",
+        "canonical": "permutation language modeling",
+        "normalized": "permutation language modeling",
+        "tokens": [
+          "permutation",
+          "language",
+          "modeling"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 58,
+        "sentence": "Borrowing ideas from orderless NADE [ 32 ], we propose the permutation language modeling objective that not only retains the benefits of AR models but also allows models to capture bidirectional contexts.",
+        "context_window": {
+          "previous": "A natural question to ask is whether there exists a pretraining objective that brings the advantages of both while avoiding their weaknesses.",
+          "current": "Borrowing ideas from orderless NADE [ 32 ], we propose the permutation language modeling objective that not only retains the benefits of AR models but also allows models to capture bidirectional contexts.",
+          "next": "Specifically, for a sequence x of length T , there are T ! different orders to perform a valid autoregressive factorization."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9643,
+          "evidence_type": "method",
+          "matched_cue": "propose",
+          "role_prior": "core_method",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7665,
+        "downstream_relevance_score": 0.651,
+        "components": {
+          "bio_boundary_score": 0.825,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "permutation",
+          "language",
+          "modeling"
+        ],
+        "normalization": "permutation language modeling",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "permutation language modeling",
+          "canonical": "permutation language modeling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.825",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.651"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "language modeling",
+        "canonical": "masked language model",
+        "normalized": "masked language model",
+        "tokens": [
+          "language",
+          "modeling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "masked language modeling",
+          "masked language models",
+          "masked language model"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 12,
+        "sentence": "Among them, autoregressive (AR) language modeling and autoencoding (AE) have been the two most successful pretraining objectives.",
+        "context_window": {
+          "previous": "Under this shared high-level idea, different unsupervised pretraining objectives have been explored in literature.",
+          "current": "Among them, autoregressive (AR) language modeling and autoencoding (AE) have been the two most successful pretraining objectives.",
+          "next": "AR language modeling seeks to estimate the probability distribution of a text corpus with an au- toregressive model [ 7 , 27 , 28 ]."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8011
+      },
+      "evidence": {
+        "score": 0.3896,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6701,
+        "downstream_relevance_score": 0.6509,
+        "components": {
+          "bio_boundary_score": 0.9478,
+          "sentence_evidence_score": 0.3896,
+          "sentence_role_score": 0.8011,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4571,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "masked language modeling",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "masked language model",
+        "display_term": "masked language model",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "nan",
+        "wikidata_id": "Q24868018",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 8,
+        "total_frequency": 13,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "language",
+          "modeling"
+        ],
+        "normalization": "language modeling",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4571,
+        "canonicalization": {
+          "observed": "language modeling",
+          "canonical": "masked language model",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9478",
+        "structure model assigned role 'problem' with score 0.8011",
+        "section BoW matched canonical term 'masked language model' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6509"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "content representation",
+        "canonical": "content representation",
+        "normalized": "content representation",
+        "tokens": [
+          "content",
+          "representation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 83,
+        "sentence": "To resolve such a contradiction, we propose to use two sets of hidden representations instead of one: • The content representation h θ ( x z ≤ t ) , or abbreviated as h z t , which serves a similar role to the standard hidden states in Transformer.",
+        "context_window": {
+          "previous": "For this parameterization to work, there are two requirements that are contradictory in a standard Transformer architecture: (1) to predict the token x z t , g θ ( x z <t , z t ) should only use the position z t and not the content x z t , otherwise the objective becomes trivial; (2) to predict the other tokens x z j with j > t , g θ ( x z <t , z t ) should also encode the content x z t to provide full contextual information.",
+          "current": "To resolve such a contradiction, we propose to use two sets of hidden representations instead of one: • The content representation h θ ( x z ≤ t ) , or abbreviated as h z t , which serves a similar role to the standard hidden states in Transformer.",
+          "next": "This representation encodes both the context and x z t itself. • The query representation g θ ( x z <t , z t ) , or abbreviated as g z t , which only has access to the contex- tual information x z <t and the position z t , but not the content x z t , as discussed above."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7711,
+        "downstream_relevance_score": 0.6434,
+        "components": {
+          "bio_boundary_score": 0.84,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "content",
+          "representation"
+        ],
+        "normalization": "content representation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "content representation",
+          "canonical": "content representation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.84",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6434"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Convolutional neural network",
+        "normalized": "convolutional neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "convolutional neural networks",
+          "Convolutional neural network",
+          "convolutional neural network",
+          "cellular neural network",
+          "cnn"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 15,
+        "sentence": "A parametric model (e.g. a neural network) is trained to model each conditional distribution.",
+        "context_window": {
+          "previous": "Specifically, given a text sequence x = ( x 1 , · · · , x T ) , AR language modeling factorizes the likelihood into a forward product p ( x ) = ∏ T t =1 p ( x t | x <t ) or a backward one p ( x ) = ∏ 1 t = T p ( x t | x >t ) .",
+          "current": "A parametric model (e.g. a neural network) is trained to model each conditional distribution.",
+          "next": "Since an AR language model is only trained to encode a uni-directional con- text (either forward or backward), it is not effective at modeling deep bidirectional contexts."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8011
+      },
+      "evidence": {
+        "score": 0.3896,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6286,
+        "downstream_relevance_score": 0.6266,
+        "components": {
+          "bio_boundary_score": 0.8142,
+          "sentence_evidence_score": 0.3896,
+          "sentence_role_score": 0.8011,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4032,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "convolutional neural network",
+        "match_quality": 0.78,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "Convolutional neural network",
+        "display_term": "convolutional neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Cellular_neural_network",
+        "wikidata_id": "Q5058375",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 27,
+        "total_frequency": 54,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4032,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Convolutional neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8142",
+        "structure model assigned role 'problem' with score 0.8011",
+        "section BoW matched canonical term 'Convolutional neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6266"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "AR language modeling",
+        "canonical": "AR language modeling",
+        "normalized": "ar language modeling",
+        "tokens": [
+          "ar",
+          "language",
+          "modeling"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 34,
+        "sentence": "In addition to a novel pretraining objective, XLNet improves architectural designs for pretraining. • Inspired by the latest advancements in AR language modeling, XLNet integrates the segment recurrence mechanism and relative encoding scheme of Transformer-XL [ 9 ] into pretraining, which empirically improves the performance especially for tasks involving a longer text sequence. • Naively applying a Transformer(-XL) architecture to permutation-based language modeling does not work because the factorization order is arbitrary and the target is ambiguous.",
+        "context_window": {
+          "previous": "Meanwhile, the autoregressive objective also provides a natural way to use the product rule for factorizing the joint probability of the predicted tokens, eliminating the independence assumption made in BERT.",
+          "current": "In addition to a novel pretraining objective, XLNet improves architectural designs for pretraining. • Inspired by the latest advancements in AR language modeling, XLNet integrates the segment recurrence mechanism and relative encoding scheme of Transformer-XL [ 9 ] into pretraining, which empirically improves the performance especially for tasks involving a longer text sequence. • Naively applying a Transformer(-XL) architecture to permutation-based language modeling does not work because the factorization order is arbitrary and the target is ambiguous.",
+          "next": "As a solution, we propose to reparameterize the Transformer(-XL) network to remove the ambiguity."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9825,
+          "evidence_type": "method",
+          "matched_cue": "architecture",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6909,
+        "downstream_relevance_score": 0.5921,
+        "components": {
+          "bio_boundary_score": 0.7673,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ar",
+          "language",
+          "modeling"
+        ],
+        "normalization": "ar language modeling",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "AR language modeling",
+          "canonical": "AR language modeling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7673",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5921"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "reading comprehension",
+        "canonical": "reading comprehension",
+        "normalized": "reading comprehension",
+        "tokens": [
+          "reading",
+          "comprehension"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 164,
+        "sentence": "3.3 Comparison with RoBERTa: Scaling Up RACE Accuracy Middle High Model NDCG@20 ERR@20 GPT [28] 59.0 62.9 57.4 DRMM [13] 24.3 13.8 BERT [25] 72.0 76.6 70.1 KNRM [8] 26.9 14.9 BERT+DCMN ∗ [38] 74.1 79.5 71.8 Conv [8] 28.7 18.1 RoBERTa [21] 83.2 86.5 81.8 BERT † 30.53 18.67 XLNet 85.4 88.6 84.0 XLNet 31.10 20.28 Table 2: Comparison with state-of-the-art results on the test set of RACE, a reading comprehension task, and on ClueWeb09-B, a document ranking task. ∗ indicates using ensembles. † indicates our implementations. “Middle” and “High” in RACE are two subsets representing middle and high school difficulty levels.",
+        "context_window": {
+          "previous": "As we can see, trained on the same data with an almost identical training recipe, XLNet outperforms BERT by a sizable margin on all the considered datasets.",
+          "current": "3.3 Comparison with RoBERTa: Scaling Up RACE Accuracy Middle High Model NDCG@20 ERR@20 GPT [28] 59.0 62.9 57.4 DRMM [13] 24.3 13.8 BERT [25] 72.0 76.6 70.1 KNRM [8] 26.9 14.9 BERT+DCMN ∗ [38] 74.1 79.5 71.8 Conv [8] 28.7 18.1 RoBERTa [21] 83.2 86.5 81.8 BERT † 30.53 18.67 XLNet 85.4 88.6 84.0 XLNet 31.10 20.28 Table 2: Comparison with state-of-the-art results on the test set of RACE, a reading comprehension task, and on ClueWeb09-B, a document ranking task. ∗ indicates using ensembles. † indicates our implementations. “Middle” and “High” in RACE are two subsets representing middle and high school difficulty levels.",
+          "next": "All BERT, RoBERTa, and XLNet results are obtained with a 24-layer architecture with similar model sizes (aka BERT-Large)."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6743,
+        "downstream_relevance_score": 0.5874,
+        "components": {
+          "bio_boundary_score": 0.7278,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reading",
+          "comprehension"
+        ],
+        "normalization": "reading comprehension",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "reading comprehension",
+          "canonical": "reading comprehension",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7278",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched state-of-the-art, accuracy",
+        "downstream relevance score is 0.5874"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "document ranking",
+        "canonical": "document ranking",
+        "normalized": "document ranking",
+        "tokens": [
+          "document",
+          "ranking"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 170,
+        "sentence": "The results are presented in Tables 2 (reading comprehension & document ranking), 3 (question answering), 4 (text classification) and 5 (natural language understanding), where XLNet generally outperforms BERT and RoBERTa.",
+        "context_window": {
+          "previous": "To obtain relatively fair comparison with RoBERTa, the experiment in this section is based on full data and reuses the hyper-parameters of RoBERTa, as described in section 3.1.",
+          "current": "The results are presented in Tables 2 (reading comprehension & document ranking), 3 (question answering), 4 (text classification) and 5 (natural language understanding), where XLNet generally outperforms BERT and RoBERTa.",
+          "next": "In addition, we make two more interesting observations:"
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7052,
+        "downstream_relevance_score": 0.5389,
+        "components": {
+          "bio_boundary_score": 0.7514,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "document",
+          "ranking"
+        ],
+        "normalization": "document ranking",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "document ranking",
+          "canonical": "document ranking",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7514",
+        "structure model assigned role 'contribution' with score 0.45",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.5389"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "permutation-based",
+        "canonical": "permutation-based",
+        "normalized": "permutation-based",
+        "tokens": [
+          "permutation-based"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 34,
+        "sentence": "In addition to a novel pretraining objective, XLNet improves architectural designs for pretraining. • Inspired by the latest advancements in AR language modeling, XLNet integrates the segment recurrence mechanism and relative encoding scheme of Transformer-XL [ 9 ] into pretraining, which empirically improves the performance especially for tasks involving a longer text sequence. • Naively applying a Transformer(-XL) architecture to permutation-based language modeling does not work because the factorization order is arbitrary and the target is ambiguous.",
+        "context_window": {
+          "previous": "Meanwhile, the autoregressive objective also provides a natural way to use the product rule for factorizing the joint probability of the predicted tokens, eliminating the independence assumption made in BERT.",
+          "current": "In addition to a novel pretraining objective, XLNet improves architectural designs for pretraining. • Inspired by the latest advancements in AR language modeling, XLNet integrates the segment recurrence mechanism and relative encoding scheme of Transformer-XL [ 9 ] into pretraining, which empirically improves the performance especially for tasks involving a longer text sequence. • Naively applying a Transformer(-XL) architecture to permutation-based language modeling does not work because the factorization order is arbitrary and the target is ambiguous.",
+          "next": "As a solution, we propose to reparameterize the Transformer(-XL) network to remove the ambiguity."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9825,
+          "evidence_type": "method",
+          "matched_cue": "architecture",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6212,
+        "downstream_relevance_score": 0.5358,
+        "components": {
+          "bio_boundary_score": 0.5289,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "permutation-based"
+        ],
+        "normalization": "permutation-based",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "permutation-based",
+          "canonical": "permutation-based",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5289",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5358"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "density estimation",
+        "canonical": "density estimation",
+        "normalized": "density estimation",
+        "tokens": [
+          "density",
+          "estimation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 22,
+        "sentence": "Since density estimation is not part of the objective, BERT is allowed to utilize ∗ Equal contribution.",
+        "context_window": {
+          "previous": "Given the input token sequence, a certain portion of tokens are replaced by a special symbol [MASK] , and the model is trained to recover the original tokens from the corrupted version.",
+          "current": "Since density estimation is not part of the objective, BERT is allowed to utilize ∗ Equal contribution.",
+          "next": "Order determined by swapping the one in [9]."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7362,
+        "downstream_relevance_score": 0.5004,
+        "components": {
+          "bio_boundary_score": 0.9978,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "density",
+          "estimation"
+        ],
+        "normalization": "density estimation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "density estimation",
+          "canonical": "density estimation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9978",
+        "structure model assigned role 'contribution' with score 0.66",
+        "downstream relevance score is 0.5004"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "query representation",
+        "canonical": "query representation",
+        "normalized": "query representation",
+        "tokens": [
+          "query",
+          "representation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 90,
+        "sentence": "Finally, we can use the last-layer query representation g ( M ) z t to compute Eq.",
+        "context_window": {
+          "previous": "The update rule of the content representations is exactly the same as the standard self-attention, so during finetuning, we can simply drop the query stream and use the content stream as a normal Transformer(-XL).",
+          "current": "Finally, we can use the last-layer query representation g ( M ) z t to compute Eq.",
+          "next": "(4)."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6837,
+        "downstream_relevance_score": 0.4859,
+        "components": {
+          "bio_boundary_score": 0.944,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "query",
+          "representation"
+        ],
+        "normalization": "query representation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "query representation",
+          "canonical": "query representation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.944",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4859"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "independence assumption",
+        "canonical": "independence assumption",
+        "normalized": "independence assumption",
+        "tokens": [
+          "independence",
+          "assumption"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 50,
+        "sentence": "(2), BERT factorizes the joint conditional probability p (¯ x | ˆ x ) based on an independence assumption that all masked tokens ¯ x are separately reconstructed.",
+        "context_window": {
+          "previous": "The pros and cons of the two pretraining objectives are compared in the following aspects: • Independence Assumption : As emphasized by the ≈ sign in Eq.",
+          "current": "(2), BERT factorizes the joint conditional probability p (¯ x | ˆ x ) based on an independence assumption that all masked tokens ¯ x are separately reconstructed.",
+          "next": "In comparison, the AR language modeling objective (1) factorizes p θ ( x ) using the product rule that holds universally without such an independence assumption. • Input noise : The input to BERT contains artificial symbols like [MASK] that never occur in downstream tasks, which creates a pretrain-finetune discrepancy."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7223,
+        "downstream_relevance_score": 0.4806,
+        "components": {
+          "bio_boundary_score": 0.9888,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "independence",
+          "assumption"
+        ],
+        "normalization": "independence assumption",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "independence assumption",
+          "canonical": "independence assumption",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9888",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4806"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "pretraining objective",
+        "canonical": "pretraining objective",
+        "normalized": "pretraining objective",
+        "tokens": [
+          "pretraining",
+          "objective"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 57,
+        "sentence": "A natural question to ask is whether there exists a pretraining objective that brings the advantages of both while avoiding their weaknesses.",
+        "context_window": {
+          "previous": "2.2 Objective: Permutation Language Modeling According to the comparison above, AR language modeling and BERT possess their unique advan- tages over the other.",
+          "current": "A natural question to ask is whether there exists a pretraining objective that brings the advantages of both while avoiding their weaknesses.",
+          "next": "Borrowing ideas from orderless NADE [ 32 ], we propose the permutation language modeling objective that not only retains the benefits of AR models but also allows models to capture bidirectional contexts."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7215,
+        "downstream_relevance_score": 0.4802,
+        "components": {
+          "bio_boundary_score": 0.9836,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pretraining",
+          "objective"
+        ],
+        "normalization": "pretraining objective",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pretraining objective",
+          "canonical": "pretraining objective",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9836",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4802"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "permutation language modeling objective",
+        "canonical": "permutation language modeling objective",
+        "normalized": "permutation language modeling objective",
+        "tokens": [
+          "permutation",
+          "language",
+          "modeling",
+          "objective"
+        ],
+        "ngram_len": 4,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 63,
+        "sentence": "Then, our proposed permutation language modeling objective can be expressed as follows: max θ E z ∼Z T [ T ∑ t =1 log p θ ( x z t | x z <t ) ] .",
+        "context_window": {
+          "previous": "We use z t and z <t to denote the t -th element and the first t − 1 elements of a permutation z ∈ Z T .",
+          "current": "Then, our proposed permutation language modeling objective can be expressed as follows: max θ E z ∼Z T [ T ∑ t =1 log p θ ( x z t | x z <t ) ] .",
+          "next": "(3) Essentially, for a text sequence x , we sample a factorization order z at a time and decompose the likelihood p θ ( x ) according to factorization order."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6729,
+        "downstream_relevance_score": 0.4749,
+        "components": {
+          "bio_boundary_score": 0.7356,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 1.0
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "permutation",
+          "language",
+          "modeling",
+          "objective"
+        ],
+        "normalization": "permutation language modeling objective",
+        "ngram": "4-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "permutation language modeling objective",
+          "canonical": "permutation language modeling objective",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7356",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4749"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "factorization order",
+        "canonical": "factorization order",
+        "normalized": "factorization order",
+        "tokens": [
+          "factorization",
+          "order"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 96,
+        "sentence": "(5) Note that z >c is chosen as the target because it possesses the longest context in the sequence given the current factorization order z .",
+        "context_window": {
+          "previous": "The objective is to maximize the log-likelihood of the target subsequence conditioned on the non-target subsequence, i.e., max θ E z ∼Z T [ log p θ ( x z >c | x z ≤ c ) ] = E z ∼Z T   | z | ∑ t = c +1 log p θ ( x z t | x z <t )   .",
+          "current": "(5) Note that z >c is chosen as the target because it possesses the longest context in the sequence given the current factorization order z .",
+          "next": "A hyperparameter K is used such that about 1 /K tokens are selected for predictions; i.e., | z | / ( | z | − c ) ≈ K ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6499,
+        "downstream_relevance_score": 0.4611,
+        "components": {
+          "bio_boundary_score": 0.66,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "factorization",
+          "order"
+        ],
+        "normalization": "factorization order",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "factorization order",
+          "canonical": "factorization order",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.66",
+        "structure model assigned role 'core_method' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4611"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "optimization",
+        "canonical": "optimization",
+        "normalized": "optimization",
+        "tokens": [
+          "optimization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 93,
+        "sentence": "To reduce the optimization difficulty, we choose to only predict the last tokens in a factorization order.",
+        "context_window": {
+          "previous": "Partial Prediction While the permutation language modeling objective (3) has several benefits, it is a much more challenging optimization problem due to the permutation and causes slow convergence in preliminary experiments.",
+          "current": "To reduce the optimization difficulty, we choose to only predict the last tokens in a factorization order.",
+          "next": "Formally, we split z into a non-target subsequence z ≤ c and a target subsequence z >c , where c is the cutting point."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6459,
+        "downstream_relevance_score": 0.4435,
+        "components": {
+          "bio_boundary_score": 0.7846,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "optimization"
+        ],
+        "normalization": "optimization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "optimization",
+          "canonical": "optimization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7846",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4435"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "original sequence",
+        "canonical": "original sequence",
+        "normalized": "original sequence",
+        "tokens": [
+          "original",
+          "sequence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 107,
+        "sentence": "Notice that positional encodings only depend on the actual positions in the original sequence.",
+        "context_window": {
+          "previous": "Then, for the next segment x , the attention update with memory can be written as h ( m ) z t ← Attention ( Q = h ( m − 1) z t , KV = [ ˜ h ( m − 1) , h ( m − 1) z ≤ t ] ; θ ) where [ ., . ] denotes concatenation along the sequence dimension.",
+          "current": "Notice that positional encodings only depend on the actual positions in the original sequence.",
+          "next": "Thus, the above attention update is independent of ˜ z once the representations ˜ h ( m ) are obtained."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6278,
+        "downstream_relevance_score": 0.4315,
+        "components": {
+          "bio_boundary_score": 0.663,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "original",
+          "sequence"
+        ],
+        "normalization": "original sequence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "original sequence",
+          "canonical": "original sequence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.663",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4315"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "sequence order",
+        "canonical": "sequence order",
+        "normalized": "sequence order",
+        "tokens": [
+          "sequence",
+          "order"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 67,
+        "sentence": "Remark on Permutation The proposed objective only permutes the factorization order, not the sequence order.",
+        "context_window": {
+          "previous": "Moreover, as this objective fits into the AR framework, it naturally avoids the independence assumption and the pretrain-finetune discrepancy discussed in Section 2.1.",
+          "current": "Remark on Permutation The proposed objective only permutes the factorization order, not the sequence order.",
+          "next": "In other words, we keep the original sequence order, use the positional encodings corresponding to the original sequence, and rely on a proper attention mask in Transformers to achieve permutation of the factorization order."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.62,
+        "downstream_relevance_score": 0.4274,
+        "components": {
+          "bio_boundary_score": 0.6366,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sequence",
+          "order"
+        ],
+        "normalization": "sequence order",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sequence order",
+          "canonical": "sequence order",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6366",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4274"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "permutation",
+        "canonical": "permutation",
+        "normalized": "permutation",
+        "tokens": [
+          "permutation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 62,
+        "sentence": "We use z t and z <t to denote the t -th element and the first t − 1 elements of a permutation z ∈ Z T .",
+        "context_window": {
+          "previous": "To formalize the idea, let Z T be the set of all possible permutations of the length- T index sequence [1 , 2 , . . . , T ] .",
+          "current": "We use z t and z <t to denote the t -th element and the first t − 1 elements of a permutation z ∈ Z T .",
+          "next": "Then, our proposed permutation language modeling objective can be expressed as follows: max θ E z ∼Z T [ T ∑ t =1 log p θ ( x z t | x z <t ) ] ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.623,
+        "downstream_relevance_score": 0.419,
+        "components": {
+          "bio_boundary_score": 0.5713,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "permutation"
+        ],
+        "normalization": "permutation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "permutation",
+          "canonical": "permutation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5713",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.419"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "finetuning",
+        "canonical": "finetuning",
+        "normalized": "finetuning",
+        "tokens": [
+          "finetuning"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 128,
+        "sentence": "Second, it opens the possibility of finetuning on tasks that have more than two input segments, which is not possible using absolute segment encodings.",
+        "context_window": {
+          "previous": "First, the inductive bias of relative encodings improves generalization [ 9 ].",
+          "current": "Second, it opens the possibility of finetuning on tasks that have more than two input segments, which is not possible using absolute segment encodings.",
+          "next": "2.6 Discussion Comparing Eq."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6207,
+        "downstream_relevance_score": 0.4178,
+        "components": {
+          "bio_boundary_score": 0.6939,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "finetuning"
+        ],
+        "normalization": "finetuning",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "finetuning",
+          "canonical": "finetuning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6939",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4178"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "AR modeling",
+        "canonical": "AR modeling",
+        "normalized": "ar modeling",
+        "tokens": [
+          "ar",
+          "modeling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 37,
+        "sentence": "The idea of permutation-based AR modeling has been explored in [ 32 , 12 ], but there are several key differences.",
+        "context_window": {
+          "previous": "Empirically, under comparable experiment setting, XLNet consistently outperforms BERT [ 10 ] on a wide spectrum of problems including GLUE language understanding tasks, reading comprehension tasks like SQuAD and RACE, text classification tasks such as Yelp and IMDB, and the ClueWeb09-B document ranking task.",
+          "current": "The idea of permutation-based AR modeling has been explored in [ 32 , 12 ], but there are several key differences.",
+          "next": "Firstly, previous models aim to improve density estimation by baking an “orderless” inductive bias into the model while XLNet is motivated by enabling AR language models to learn bidirectional contexts."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4746,
+        "downstream_relevance_score": 0.3028,
+        "components": {
+          "bio_boundary_score": 0.7769,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ar",
+          "modeling"
+        ],
+        "normalization": "ar modeling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "AR modeling",
+          "canonical": "AR modeling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7769",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.3028"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "order",
+        "canonical": "order",
+        "normalized": "order",
+        "tokens": [
+          "order"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 40,
+        "sentence": "Finally, for both orderless NADE and XLNet, we would like to emphasize that “orderless” does not mean that the input sequence can be randomly permuted but that the model allows for different factorization orders of the distribution.",
+        "context_window": {
+          "previous": "Technically, to construct a valid target-aware prediction distribution, XLNet incorporates the target position into the hidden state via two-stream attention while previous permutation-based AR models relied on implicit position awareness inherent to their MLP architectures.",
+          "current": "Finally, for both orderless NADE and XLNet, we would like to emphasize that “orderless” does not mean that the input sequence can be randomly permuted but that the model allows for different factorization orders of the distribution.",
+          "next": "Another related idea is to perform autoregressive denoising in the context of text generation [ 11 ], which only considers a fixed order though."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4148,
+        "downstream_relevance_score": 0.2617,
+        "components": {
+          "bio_boundary_score": 0.5156,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "order"
+        ],
+        "normalization": "order",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "order",
+          "canonical": "order",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5156",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.2617"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 25,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Borrowing ideas from orderless NADE , we propose the permutation language modeling objective that not only retains the benefits of AR models but also allows models to capture bidirectional contexts.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Moreover, as this objective fits into the AR framework, it naturally avoids the independence assumption and the pretrain-finetune discrepancy discussed in Section 2.1.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "To avoid this problem, we propose to re-parameterize the next-token distribution to be target position aware: where g θ (x z<t , z t ) denotes a new type of representations which additionally take the target position z t as input.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "We now discuss how we pretrain XLNet to model multiple segments in the autoregressive framework.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "All results reported are the median of 5 runs. # Model RACE SQuAD2.0 MNLI SST-2 F1 EM m/mm 1 BERT-Base 64.3 76.30 73.66 84.34/84.65 92.78 2 DAE + Transformer-XL 65.03 79.56 76.80 84.88/84.45 92.60 3 XLNet-Base (K = 7) 66.05 81.33 78.46 85.84/85.43 92.66 4 XLNet-Base (K = 6) 66.66 80.98 78.18 85.63/85.12 93.35 5 -memory 65.55 80.15 77.27 85.32/85.05 92.78 6 -span-based pred 65.95 80.61 77.91 85.49/85.02 93.12 7 -bidirectional data 66.34 80.65 77.87 85.31/84.99 92.66 8 + next-sent pred 66.76 79.83 76.94 85.32/85.09 92.89 Table : The results of BERT on RACE are taken from .",
+        "evidence_type": "metric",
+        "matched_cue": "F1",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "With the capability of modeling bidirectional contexts, denoising autoencoding based pretraining like BERT achieves better performance than pretraining approaches based on autoregressive language modeling.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In light of these pros and cons, we propose XLNet, a generalized autoregressive pretraining method that (1) enables learning bidirectional contexts by maximizing the expected likelihood over all permutations of the factorization order and (2) overcomes the limitations of BERT thanks to its autoregressive formulation.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Furthermore, XLNet integrates ideas from Transformer-XL, the state-of-the-art autoregressive model, into pretraining.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Empirically, under comparable experiment settings, XLNet outperforms BERT on 20 tasks, often by a large margin, including question answering, natural language inference, sentiment analysis, and document ranking.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "AR language modeling seeks to estimate the probability distribution of a text corpus with an autoregressive model .",
+        "evidence_type": "dataset",
+        "matched_cue": "corpus",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "A notable example is BERT , which has been the state-of-the-art pretraining approach.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Faced with the pros and cons of existing language pretraining objectives, in this work, we propose XLNet, a generalized autoregressive method that leverages the best of both AR language modeling and AE while avoiding their limitations. • Firstly, instead of using a fixed forward or backward factorization order as in conventional AR models, XLNet maximizes the expected log likelihood of a sequence w.r.t. all possible permutations of the factorization order.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In addition to a novel pretraining objective, XLNet improves architectural designs for pretraining. • Inspired by the latest advancements in AR language modeling, XLNet integrates the segment recurrence mechanism and relative encoding scheme of Transformer-XL into pretraining, which empirically improves the performance especially for tasks involving a longer text sequence. • Naively applying a Transformer(-XL) architecture to permutation-based language modeling does not work because the factorization order is arbitrary and the target is ambiguous.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "As a solution, we propose to reparameterize the Transformer(-XL) network to remove the ambiguity.",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Empirically, under comparable experiment setting, XLNet consistently outperforms BERT on a wide spectrum of problems including GLUE language understanding tasks, reading comprehension tasks like SQuAD and RACE, text classification tasks such as Yelp and IMDB, and the ClueWeb09-B document ranking task.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Sample a factorization order: 3 à 2 à 4 à 1 Attention Masks Content stream: can see self Query stream: cannot see self , where h θ (x z<t ) denotes the hidden representation of x z<t produced by the shared Transformer network after proper masking.",
+        "evidence_type": "limitation",
+        "matched_cue": "cannot",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Such a limitation of AR language modeling can be critical in real-world applications.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We perform an ablation study to understand the importance of each design choice based on four datasets with diverse characteristics.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Specifically, there are three main aspects we hope to study: • The effectiveness of the permutation language modeling objective alone, especially compared to the denoising auto-encoding objective used by BERT. • The importance of using Transformer-XL as the backbone neural architecture. • The necessity of some implementation details including span-based prediction, the bidirectional input pipeline, and next-sentence prediction.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For fair comparison, all models are based on a 12-layer architecture with the same model hyper-parameters as BERT-Base and are trained on only Wikipedia and the BooksCorpus.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For fair comparison, all models are based on a 12-layer architecture with the same model hyper-parameters as BERT-Base and are trained on only Wikipedia and the BooksCorpus.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "3, we present 3 patterns that only appear in XLNet but not BERT: (a) The self-exclusion pattern attends to all other tokens but itself, probably offering a fast way to gather global information; (b) The relative-stride pattern attends to positions every a few stride apart relative to the query position; (c) The one-side masked pattern is very similar to the lower-left part of Fig.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "The neural architecture of XLNet is developed to work seamlessly with the AR objective, including integrating Transformer-XL and the careful design of the two-stream attention mechanism.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "The neural architecture of XLNet is developed to work seamlessly with the AR objective, including integrating Transformer-XL and the careful design of the two-stream attention mechanism.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "XLNet achieves substantial improvement over previous pretraining objectives on various tasks.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "transformer",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.8088
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "RoBERTa",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.7935
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "bidirectional encoder representations from transformers",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.7568
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "XLNet",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.7055
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "natural language understanding",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.6907
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "Natural language processing",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6677
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "target position",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6646
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "permutation language modeling",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.651
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "masked language model",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6509
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "content representation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6434
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "Convolutional neural network",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6266
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "AR language modeling",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5921
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "reading comprehension",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5874
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "document ranking",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.5389
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "permutation-based",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5358
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "density estimation",
+        "section": "intro",
+        "role": "contribution",
+        "score": 0.5004
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "query representation",
+        "section": "method",
+        "role": "component",
+        "score": 0.4859
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "independence assumption",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4806
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "pretraining objective",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4802
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "permutation language modeling objective",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4749
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "factorization order",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4611
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "optimization",
+        "section": "method",
+        "role": "problem",
+        "score": 0.4435
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "original sequence",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4315
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "sequence order",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4274
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "permutation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.419
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "finetuning",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4178
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "AR modeling",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3028
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "order",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.2617
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_012",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_015",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_015",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_014",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_027",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

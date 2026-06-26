@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import re
 
 from ske.data.text_utils import normalize_text, token_jaccard
@@ -50,6 +51,7 @@ def infer_role_from_sentence(sentence: str, section: str) -> tuple[str, float]:
 
 
 def infer_importance(sentence: str, role: str, evidence_score: float = 0.0) -> float:
+    """Legacy fallback for old card rendering; not used by Stage 2 training."""
     role_weight = {
         "objective": 0.74,
         "problem": 0.68,
@@ -92,3 +94,72 @@ def contains_evidence(sentence: str, evidence_strings: set[str]) -> bool:
         if normalized_evidence and (normalized_evidence in normalized_sentence or token_jaccard(normalized_sentence, normalized_evidence) >= 0.62):
             return True
     return False
+
+
+def greedy_rouge_oracle_labels(
+    sentences: list[str],
+    summaries: dict[str, str],
+    max_sentences_per_facet: int = 3,
+    summary_tokens_per_sentence: int = 32,
+) -> list[float]:
+    """Build extractive oracle labels from facet summaries with greedy ROUGE-L gain."""
+    labels = [0.0 for _ in sentences]
+    if not sentences:
+        return labels
+    clean_sentences = [sentence.strip() for sentence in sentences]
+    for summary in summaries.values():
+        reference = summary.strip()
+        reference_tokens = rouge_tokens(reference)
+        if not reference_tokens:
+            continue
+        budget = min(max_sentences_per_facet, max(1, math.ceil(len(reference_tokens) / summary_tokens_per_sentence)))
+        selected: list[int] = []
+        remaining = set(range(len(clean_sentences)))
+        current_score = 0.0
+        for _ in range(budget):
+            best_idx: int | None = None
+            best_score = current_score
+            for idx in remaining:
+                candidate_indices = sorted([*selected, idx])
+                candidate = " ".join(clean_sentences[item] for item in candidate_indices)
+                score = rouge_l_f1(candidate, reference)
+                if score > best_score:
+                    best_score = score
+                    best_idx = idx
+            if best_idx is None:
+                break
+            labels[best_idx] = 1.0
+            selected.append(best_idx)
+            remaining.remove(best_idx)
+            current_score = best_score
+    return labels
+
+
+def rouge_l_f1(candidate: str, reference: str) -> float:
+    candidate_tokens = rouge_tokens(candidate)
+    reference_tokens = rouge_tokens(reference)
+    if not candidate_tokens or not reference_tokens:
+        return 0.0
+    lcs = lcs_length(candidate_tokens, reference_tokens)
+    precision = lcs / max(len(candidate_tokens), 1)
+    recall = lcs / max(len(reference_tokens), 1)
+    if precision + recall <= 0:
+        return 0.0
+    return 2 * precision * recall / (precision + recall)
+
+
+def rouge_tokens(text: str) -> list[str]:
+    return re.findall(r"[a-z0-9]+", normalize_text(text).lower())
+
+
+def lcs_length(left: list[str], right: list[str]) -> int:
+    previous = [0] * (len(right) + 1)
+    for left_token in left:
+        current = [0]
+        for idx, right_token in enumerate(right, start=1):
+            if left_token == right_token:
+                current.append(previous[idx - 1] + 1)
+            else:
+                current.append(max(previous[idx], current[-1]))
+        previous = current
+    return previous[-1]

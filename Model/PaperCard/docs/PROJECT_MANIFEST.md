@@ -16,7 +16,7 @@
 - Demo papers: `datasets/03_demo_txt/full_library`.
 - Base encoder: `models/base_scibert/allenai_scibert_scivocab_uncased`.
 - Final keyword checkpoint: `models/checkpoints/keyword_scibert_semeval2010_finetune_nobow`.
-- Final structure checkpoint: `models/checkpoints/structure_v2_scibert_evidencefix`.
+- Current structure checkpoint: `models/checkpoints/structure_v4_partial_role_balanced_fulldev`.
 - Training history: `models/training_history` and `outputs/training_metrics`.
 - Final outputs: `outputs/final_paper_cards_fixed11` and `outputs/showcase`.
 

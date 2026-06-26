@@ -1,0 +1,3891 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2022_transformer_and_large_language_models_react_synergizing_reasoning_and_acting_in_language_models",
+    "title": "2022_transformer_and_large_language_models_react_synergizing_reasoning_and_acting_in_language_models",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2022_transformer_and_large_language_models_react_synergizing_reasoning_and_acting_in_language_models.txt",
+    "sentence_count": 205,
+    "section_counts": {
+      "intro": 15,
+      "method": 46,
+      "experiment": 94,
+      "related_work": 47,
+      "conclusion": 3
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 6609,
+    "type_count": 1594,
+    "type_token_ratio": 0.2412,
+    "section_token_counts": {
+      "intro": 1074,
+      "related_work": 1087,
+      "method": 1542,
+      "experiment": 2849,
+      "conclusion": 57
+    },
+    "top_unigrams": [
+      {
+        "term": "react",
+        "count": 99
+      },
+      {
+        "term": "reasoning",
+        "count": 92
+      },
+      {
+        "term": "et",
+        "count": 54
+      },
+      {
+        "term": "al",
+        "count": 54
+      },
+      {
+        "term": "language",
+        "count": 32
+      },
+      {
+        "term": "act",
+        "count": 32
+      },
+      {
+        "term": "model",
+        "count": 30
+      },
+      {
+        "term": "actions",
+        "count": 28
+      },
+      {
+        "term": "more",
+        "count": 28
+      },
+      {
+        "term": "which",
+        "count": 27
+      },
+      {
+        "term": "fw",
+        "count": 27
+      },
+      {
+        "term": "cot",
+        "count": 27
+      },
+      {
+        "term": "tasks",
+        "count": 25
+      },
+      {
+        "term": "task",
+        "count": 25
+      },
+      {
+        "term": "prompting",
+        "count": 23
+      },
+      {
+        "term": "also",
+        "count": 23
+      },
+      {
+        "term": "decision",
+        "count": 22
+      },
+      {
+        "term": "2022",
+        "count": 22
+      },
+      {
+        "term": "cot-sc",
+        "count": 22
+      },
+      {
+        "term": "action",
+        "count": 21
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 54
+      },
+      {
+        "term": "al 2022",
+        "count": 20
+      },
+      {
+        "term": "decision making",
+        "count": 19
+      },
+      {
+        "term": "urqw 5rz",
+        "count": 17
+      },
+      {
+        "term": "reasoning acting",
+        "count": 11
+      },
+      {
+        "term": "published conference",
+        "count": 10
+      },
+      {
+        "term": "conference paper",
+        "count": 10
+      },
+      {
+        "term": "paper iclr",
+        "count": 10
+      },
+      {
+        "term": "iclr 2023",
+        "count": 10
+      },
+      {
+        "term": "ssoh 5hprwh",
+        "count": 10
+      },
+      {
+        "term": "language models",
+        "count": 9
+      },
+      {
+        "term": "reasoning traces",
+        "count": 9
+      },
+      {
+        "term": "shsshu vkdnhu",
+        "count": 8
+      },
+      {
+        "term": "inner monologue",
+        "count": 8
+      },
+      {
+        "term": "reinforcement learning",
+        "count": 7
+      },
+      {
+        "term": "shridhar et",
+        "count": 7
+      },
+      {
+        "term": "hotpotqa fever",
+        "count": 7
+      },
+      {
+        "term": "react cot",
+        "count": 7
+      },
+      {
+        "term": "large language",
+        "count": 6
+      },
+      {
+        "term": "fw 6hdufk",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "et al 2022",
+        "count": 20
+      },
+      {
+        "term": "published conference paper",
+        "count": 10
+      },
+      {
+        "term": "conference paper iclr",
+        "count": 10
+      },
+      {
+        "term": "paper iclr 2023",
+        "count": 10
+      },
+      {
+        "term": "shridhar et al",
+        "count": 7
+      },
+      {
+        "term": "et al 2020b",
+        "count": 6
+      },
+      {
+        "term": "et al 2021",
+        "count": 6
+      },
+      {
+        "term": "interactive decision making",
+        "count": 5
+      },
+      {
+        "term": "ruljlqdoo ghvljqhg wr",
+        "count": 5
+      },
+      {
+        "term": "urqw 5rz vriwzduh",
+        "count": 5
+      },
+      {
+        "term": "et al 2018",
+        "count": 5
+      },
+      {
+        "term": "wei et al",
+        "count": 5
+      },
+      {
+        "term": "et al 2020",
+        "count": 5
+      },
+      {
+        "term": "huang et al",
+        "count": 5
+      },
+      {
+        "term": "et al 2022a",
+        "count": 5
+      },
+      {
+        "term": "et al 2022b",
+        "count": 5
+      },
+      {
+        "term": "large language models",
+        "count": 4
+      },
+      {
+        "term": "imitation reinforcement learning",
+        "count": 4
+      },
+      {
+        "term": "zdv ruljlqdoo ghvljqhg",
+        "count": 4
+      },
+      {
+        "term": "fw 6hdufk urqw",
+        "count": 4
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 14,
+    "nonzero_tfidf_features": 14,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__large language models",
+        "section": "intro",
+        "term": "large language models",
+        "frequency": 6.0,
+        "tfidf": 1.5342
+      },
+      {
+        "feature_name": "abstract__large language models",
+        "section": "intro",
+        "term": "large language models",
+        "frequency": 3.0,
+        "tfidf": 1.2147
+      },
+      {
+        "feature_name": "conclusion__large language models",
+        "section": "conclusion",
+        "term": "large language models",
+        "frequency": 2.0,
+        "tfidf": 1.0014
+      },
+      {
+        "feature_name": "experiments__large language models",
+        "section": "experiment",
+        "term": "large language models",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "methods__reinforcement learning",
+        "section": "method",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.769
+      },
+      {
+        "feature_name": "methods__training data",
+        "section": "method",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 0.6392
+      },
+      {
+        "feature_name": "conclusion__question answering",
+        "section": "conclusion",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.606
+      },
+      {
+        "feature_name": "conclusion__reinforcement learning",
+        "section": "conclusion",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.3521
+      },
+      {
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.3236
+      },
+      {
+        "feature_name": "abstract__question answering",
+        "section": "intro",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.2732
+      },
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.2501
+      },
+      {
+        "feature_name": "introduction__few-shot learning",
+        "section": "intro",
+        "term": "few-shot learning",
+        "frequency": 1.0,
+        "tfidf": 0.2357
+      },
+      {
+        "feature_name": "introduction__question answering",
+        "section": "intro",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.158
+      },
+      {
+        "feature_name": "introduction__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 0.1434
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 6.0,
+          "tfidf": 1.5342
+        },
+        {
+          "feature_name": "abstract__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 3.0,
+          "tfidf": 1.2147
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.3236
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2732
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.2501
+        },
+        {
+          "feature_name": "introduction__few-shot learning",
+          "section": "intro",
+          "term": "few-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.2357
+        },
+        {
+          "feature_name": "introduction__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.158
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1434
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__reinforcement learning",
+          "section": "method",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.769
+        },
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.6392
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__large language models",
+          "section": "experiment",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__large language models",
+          "section": "conclusion",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 1.0014
+        },
+        {
+          "feature_name": "conclusion__question answering",
+          "section": "conclusion",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.606
+        },
+        {
+          "feature_name": "conclusion__reinforcement learning",
+          "section": "conclusion",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.3521
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 15,
+      "token_count": 1074,
+      "bow_hit_count": 25,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Large language model",
+          "count": 15,
+          "section_prior": 0.464,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 5,
+          "section_prior": 0.4845,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 5,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 6.0,
+          "tfidf": 1.5342
+        },
+        {
+          "feature_name": "abstract__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 3.0,
+          "tfidf": 1.2147
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 0.3236
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2732
+        },
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.2501
+        },
+        {
+          "feature_name": "introduction__few-shot learning",
+          "section": "intro",
+          "term": "few-shot learning",
+          "frequency": 1.0,
+          "tfidf": 0.2357
+        },
+        {
+          "feature_name": "introduction__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.158
+        },
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.1434
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 47,
+      "token_count": 1087,
+      "bow_hit_count": 63,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Large language model",
+          "count": 44,
+          "section_prior": 0.184,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 9,
+          "section_prior": 0.1869,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 5,
+          "section_prior": 0.0932,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 5,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 46,
+      "token_count": 1542,
+      "bow_hit_count": 51,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Large language model",
+          "count": 18,
+          "section_prior": 0.096,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 10,
+          "section_prior": 0.0932,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 10,
+          "section_prior": 0.0455,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.1542,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "GPT-3",
+          "count": 5,
+          "section_prior": 0.2603,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "few-shot learning",
+          "count": 3,
+          "section_prior": 0.1351,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__reinforcement learning",
+          "section": "method",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.769
+        },
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 0.6392
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 94,
+      "token_count": 2849,
+      "bow_hit_count": 45,
+      "top_bow_terms": [
+        {
+          "canonical_term": "Large language model",
+          "count": 14,
+          "section_prior": 0.08,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 10,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 10,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 5,
+          "section_prior": 0.2484,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "GPT-2",
+          "count": 5,
+          "section_prior": 0.2326,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "search engine",
+          "count": 1,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__large language models",
+          "section": "experiment",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 3,
+      "token_count": 57,
+      "bow_hit_count": 3,
+      "top_bow_terms": [
+        {
+          "canonical_term": "PaLM",
+          "count": 3,
+          "section_prior": 0.0114,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__large language models",
+          "section": "conclusion",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 1.0014
+        },
+        {
+          "feature_name": "conclusion__question answering",
+          "section": "conclusion",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.606
+        },
+        {
+          "feature_name": "conclusion__reinforcement learning",
+          "section": "conclusion",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.3521
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "language model",
+        "canonical": "Large language model",
+        "normalized": "large language model",
+        "tokens": [
+          "language",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "large language models",
+          "Large language model",
+          "large language model",
+          "llms",
+          "llm"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 51,
+        "sentence": "Since decision making and reasoning capabilities are integrated into a large language model, ReAct enjoys several unique features: A) Intuitive and easy to design : Designing ReAct prompts is straightforward as human annotators just type down their thoughts in language on top of their actions taken.",
+        "context_window": {
+          "previous": "3 Published as a conference paper at ICLR 2023 appear sparsely in the most relevant positions of a trajectory, so we let the language model decide the asynchronous occurrence of thoughts and actions for itself.",
+          "current": "Since decision making and reasoning capabilities are integrated into a large language model, ReAct enjoys several unique features: A) Intuitive and easy to design : Designing ReAct prompts is straightforward as human annotators just type down their thoughts in language on top of their actions taken.",
+          "next": "No ad-hoc format choice, thought design, or example selection is used in this paper."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "method",
+          "matched_cue": "design",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6373,
+        "downstream_relevance_score": 0.6972,
+        "components": {
+          "bio_boundary_score": 0.6952,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.096,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "large language model",
+        "match_quality": 0.78,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Large language model",
+        "display_term": "large language models",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Large_language_model",
+        "wikidata_id": "Q115305900",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 11,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "language",
+          "model"
+        ],
+        "normalization": "language model",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.096,
+        "canonicalization": {
+          "observed": "language model",
+          "canonical": "Large language model",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6952",
+        "structure model assigned role 'core_method' with score 0.45",
+        "section BoW matched canonical term 'Large language model' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.6972"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.",
+        "context_window": {
+          "previous": "Concretely, on question answering (HotpotQA) and fact verification (Fever), ReAct overcomes prevalent issues of hallucination and error propagation in chain-of-thought reasoning by interacting with a simple Wikipedia API, and generating human-like task-solving trajectories that are more interpretable than baselines without reasoning traces.",
+          "current": "Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.",
+          "next": "1 I NTRODUCTION A unique feature of human intelligence is the ability to seamlessly combine task-oriented actions with verbal reasoning (or inner speech, Alderson-Day & Fernyhough, 2015), which has been theorized to play an important role in human cognition for enabling self-regulation or strategization (Vygotsky, 1987; Luria, 1965; Fernyhough, 2010) and maintaining a working memory (Baddeley, 1992)."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8783
+      },
+      "evidence": {
+        "score": 0.435,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "outperforms",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5746,
+        "downstream_relevance_score": 0.684,
+        "components": {
+          "bio_boundary_score": 0.5245,
+          "sentence_evidence_score": 0.435,
+          "sentence_role_score": 0.8783,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5505,
+          "document_tfidf_score": 0.2109,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 28,
+        "total_frequency": 75,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 0.3236,
+        "normalized_frequency": 0.3333,
+        "normalized_tfidf": 0.2109
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.5505,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5245",
+        "structure model assigned role 'problem' with score 0.8783",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__reinforcement learning' with tf-idf 0.3236",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.684"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "action",
+        "canonical": "action",
+        "normalized": "action",
+        "tokens": [
+          "action"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 34,
+        "sentence": "To summarize, our key contributions are the following: (1) we introduce ReAct , a novel prompt- based paradigm to synergize reasoning and acting in language models for general task solving; (2) we perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation; (3) we present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks; (4) we analyze the limitations of ReAct under the prompting setup (i.e. limited support of reasoning and acting behaviors), and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.",
+        "context_window": {
+          "previous": "Besides general applicability and performance boost, the combination of reasoning and acting also contributes to model interpretability, trustworthiness, and diagnosability across all domains, as humans can readily distinguish information from model’s internal knowledge versus external environments, as well as inspect reasoning traces to understand the decision basis of model actions.",
+          "current": "To summarize, our key contributions are the following: (1) we introduce ReAct , a novel prompt- based paradigm to synergize reasoning and acting in language models for general task solving; (2) we perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation; (3) we present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks; (4) we analyze the limitations of ReAct under the prompting setup (i.e. limited support of reasoning and acting behaviors), and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.",
+          "next": "Scaling up ReAct to train and operate on more tasks and combining it with complementary paradigms like reinforcement learning could further unlock the potential of large language models."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.962,
+          "evidence_type": "method",
+          "matched_cue": "introduce",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7306,
+        "downstream_relevance_score": 0.6473,
+        "components": {
+          "bio_boundary_score": 0.7014,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "action"
+        ],
+        "normalization": "action",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "action",
+          "canonical": "action",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7014",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce, present",
+        "downstream relevance score is 0.6473"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "ReAct",
+        "canonical": "ReAct",
+        "normalized": "react",
+        "tokens": [
+          "react"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 80,
+        "sentence": "We set 7 and 5 steps for HotpotQA and FEVER respectively as we find more steps will not improve ReAct performance 3 .",
+        "context_window": {
+          "previous": "We therefore propose to incorporate ReAct and CoT-SC , and let the model decide when to switch to the other method based on the following heuristics: A) ReAct → CoT-SC : when ReAct fails to return an answer within given steps, back off to CoT-SC .",
+          "current": "We set 7 and 5 steps for HotpotQA and FEVER respectively as we find more steps will not improve ReAct performance 3 .",
+          "next": "B) CoT-SC → ReAct : when the majority answer among n CoT-SC samples occurs less than n/ 2 times (i.e. internal knowledge might not support the task confidently), back off to ReAct ."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7776,
+        "downstream_relevance_score": 0.5472,
+        "components": {
+          "bio_boundary_score": 0.9613,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "react"
+        ],
+        "normalization": "react",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ReAct",
+          "canonical": "ReAct",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9613",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5472"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "interactive decision making",
+        "canonical": "interactive decision making",
+        "normalized": "interactive decision making",
+        "tokens": [
+          "interactive",
+          "decision",
+          "making"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.",
+        "context_window": {
+          "previous": "Concretely, on question answering (HotpotQA) and fact verification (Fever), ReAct overcomes prevalent issues of hallucination and error propagation in chain-of-thought reasoning by interacting with a simple Wikipedia API, and generating human-like task-solving trajectories that are more interpretable than baselines without reasoning traces.",
+          "current": "Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.",
+          "next": "1 I NTRODUCTION A unique feature of human intelligence is the ability to seamlessly combine task-oriented actions with verbal reasoning (or inner speech, Alderson-Day & Fernyhough, 2015), which has been theorized to play an important role in human cognition for enabling self-regulation or strategization (Vygotsky, 1987; Luria, 1965; Fernyhough, 2010) and maintaining a working memory (Baddeley, 1992)."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8783
+      },
+      "evidence": {
+        "score": 0.435,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "outperforms",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6656,
+        "downstream_relevance_score": 0.5423,
+        "components": {
+          "bio_boundary_score": 0.8359,
+          "sentence_evidence_score": 0.435,
+          "sentence_role_score": 0.8783,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "interactive",
+          "decision",
+          "making"
+        ],
+        "normalization": "interactive decision making",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "interactive decision making",
+          "canonical": "interactive decision making",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8359",
+        "structure model assigned role 'problem' with score 0.8783",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.5423"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "CoT",
+        "canonical": "CoT",
+        "normalized": "cot",
+        "tokens": [
+          "cot"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 91,
+        "sentence": "CoT On the other hand, ReAct outperforms CoT on Fever (60.9 vs.",
+        "context_window": {
+          "previous": "ReAct vs.",
+          "current": "CoT On the other hand, ReAct outperforms CoT on Fever (60.9 vs.",
+          "next": "56.3) and slightly lags behind CoT on HotpotQA (27.4 vs."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7066,
+        "downstream_relevance_score": 0.5296,
+        "components": {
+          "bio_boundary_score": 0.9202,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cot"
+        ],
+        "normalization": "cot",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "CoT",
+          "canonical": "CoT",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9202",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.5296"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "thought design",
+        "canonical": "thought design",
+        "normalized": "thought design",
+        "tokens": [
+          "thought",
+          "design"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 52,
+        "sentence": "No ad-hoc format choice, thought design, or example selection is used in this paper.",
+        "context_window": {
+          "previous": "Since decision making and reasoning capabilities are integrated into a large language model, ReAct enjoys several unique features: A) Intuitive and easy to design : Designing ReAct prompts is straightforward as human annotators just type down their thoughts in language on top of their actions taken.",
+          "current": "No ad-hoc format choice, thought design, or example selection is used in this paper.",
+          "next": "We detail prompt design for each task in Sections 3 and 4."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "method",
+          "matched_cue": "design",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.662,
+        "downstream_relevance_score": 0.5192,
+        "components": {
+          "bio_boundary_score": 0.7797,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "thought",
+          "design"
+        ],
+        "normalization": "thought design",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "thought design",
+          "canonical": "thought design",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7797",
+        "structure model assigned role 'core_method' with score 0.45",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.5192"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "prompt design",
+        "canonical": "prompt design",
+        "normalized": "prompt design",
+        "tokens": [
+          "prompt",
+          "design"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 53,
+        "sentence": "We detail prompt design for each task in Sections 3 and 4.",
+        "context_window": {
+          "previous": "No ad-hoc format choice, thought design, or example selection is used in this paper.",
+          "current": "We detail prompt design for each task in Sections 3 and 4.",
+          "next": "B) General and flexible : Due to the flexible thought space and thought-action occurrence format, ReAct works for diverse tasks with distinct action spaces and reasoning needs, including but not limited to QA, fact verification, text game, and web navigation."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "method",
+          "matched_cue": "design",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6278,
+        "downstream_relevance_score": 0.5015,
+        "components": {
+          "bio_boundary_score": 0.6904,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "prompt",
+          "design"
+        ],
+        "normalization": "prompt design",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "prompt design",
+          "canonical": "prompt design",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6904",
+        "structure model assigned role 'core_method' with score 0.45",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.5015"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "desklamp",
+        "canonical": "desklamp",
+        "normalized": "desklamp",
+        "tokens": [
+          "desklamp"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 118,
+        "sentence": "It includes 6 types of tasks in which an agent needs to achieve a high-level goal (e.g. examine paper under desklamp) by navigating and interacting with a simulated household via text actions (e.g. go to coffeetable 1, take paper 2, use desklamp 1).",
+        "context_window": {
+          "previous": "ALFWorld ALFWorld (Shridhar et al., 2020b) (Figure 1(2)) is a synthetic text-based game designed to align with the embodied ALFRED benchmark (Shridhar et al., 2020a).",
+          "current": "It includes 6 types of tasks in which an agent needs to achieve a high-level goal (e.g. examine paper under desklamp) by navigating and interacting with a simulated household via text actions (e.g. go to coffeetable 1, take paper 2, use desklamp 1).",
+          "next": "A task instance can have more than 50 locations and take an expert policy more than 50 steps to solve, thus challenging an agent to plan and track subgoals, as well as explore systematically (e.g. check all desks one by one for desklamp)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7194,
+        "downstream_relevance_score": 0.4987,
+        "components": {
+          "bio_boundary_score": 0.8733,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "desklamp"
+        ],
+        "normalization": "desklamp",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "desklamp",
+          "canonical": "desklamp",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8733",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4987"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "Inner Monologue",
+        "canonical": "Inner Monologue",
+        "normalized": "inner monologue",
+        "tokens": [
+          "inner",
+          "monologue"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 187,
+        "sentence": "However, we argue that Inner Monologue does not truly comprise of inner thoughts — this is elaborated in Section 4.",
+        "context_window": {
+          "previous": "To our knowledge, Inner Monologue is the first work that demonstrates such a closed-loop system, which ReAct builds on.",
+          "current": "However, we argue that Inner Monologue does not truly comprise of inner thoughts — this is elaborated in Section 4.",
+          "next": "We also note that leveraging language as semantically-rich inputs in the process of interactive decision making has been shown to be successful under other settings (Abramson et al., 2020; Karamcheti et al., 2021; Huang et al., 2022a; Li et al., 2022)."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7046,
+        "downstream_relevance_score": 0.4968,
+        "components": {
+          "bio_boundary_score": 0.992,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "inner",
+          "monologue"
+        ],
+        "normalization": "inner monologue",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Inner Monologue",
+          "canonical": "Inner Monologue",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.992",
+        "structure model assigned role 'gap' with score 0.82",
+        "downstream relevance score is 0.4968"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "decision making",
+        "canonical": "decision making",
+        "normalized": "decision making",
+        "tokens": [
+          "decision",
+          "making"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "We apply our approach, named ReAct , to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines in addition to improved human interpretability and trustworthiness.",
+        "context_window": {
+          "previous": "In this paper, we explore the use of LLMs to generate both reasoning traces and task-specific actions in an interleaved manner, allowing for greater synergy between the two: reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with and gather additional information from external sources such as knowledge bases or environments.",
+          "current": "We apply our approach, named ReAct , to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines in addition to improved human interpretability and trustworthiness.",
+          "next": "Concretely, on question answering (HotpotQA) and fact verification (Fever), ReAct overcomes prevalent issues of hallucination and error propagation in chain-of-thought reasoning by interacting with a simple Wikipedia API, and generating human-like task-solving trajectories that are more interpretable than baselines without reasoning traces."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8783
+      },
+      "evidence": {
+        "score": 0.4045,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "state-of-the-art",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.593,
+        "downstream_relevance_score": 0.4903,
+        "components": {
+          "bio_boundary_score": 0.6176,
+          "sentence_evidence_score": 0.4045,
+          "sentence_role_score": 0.8783,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "decision",
+          "making"
+        ],
+        "normalization": "decision making",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "decision making",
+          "canonical": "decision making",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6176",
+        "structure model assigned role 'problem' with score 0.8783",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.4903"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "reasoning traces",
+        "canonical": "reasoning traces",
+        "normalized": "reasoning traces",
+        "tokens": [
+          "reasoning",
+          "traces"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "In this paper, we explore the use of LLMs to generate both reasoning traces and task-specific actions in an interleaved manner, allowing for greater synergy between the two: reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with and gather additional information from external sources such as knowledge bases or environments.",
+        "context_window": {
+          "previous": "Published as a conference paper at ICLR 2023 R E A C T : S YNERGIZING R EASONING AND A CTING IN L ANGUAGE M ODELS Shunyu Yao ∗ *,1 , Jeffrey Zhao 2 , Dian Yu 2 , Nan Du 2 , Izhak Shafran 2 , Karthik Narasimhan 1 , Yuan Cao 2 1 Department of Computer Science, Princeton University 2 Google Research, Brain team 1 {shunyuy,karthikn}@princeton.edu 2 {jeffreyzhao,dianyu,dunan,izhak,yuancao}@google.com A BSTRACT While large language models (LLMs) have demonstrated impressive performance across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics.",
+          "current": "In this paper, we explore the use of LLMs to generate both reasoning traces and task-specific actions in an interleaved manner, allowing for greater synergy between the two: reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with and gather additional information from external sources such as knowledge bases or environments.",
+          "next": "We apply our approach, named ReAct , to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines in addition to improved human interpretability and trustworthiness."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8783
+      },
+      "evidence": {
+        "score": 0.4045,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6497,
+        "downstream_relevance_score": 0.4847,
+        "components": {
+          "bio_boundary_score": 0.8085,
+          "sentence_evidence_score": 0.4045,
+          "sentence_role_score": 0.8783,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reasoning",
+          "traces"
+        ],
+        "normalization": "reasoning traces",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "reasoning traces",
+          "canonical": "reasoning traces",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8085",
+        "structure model assigned role 'problem' with score 0.8783",
+        "downstream relevance score is 0.4847"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "trajectory",
+        "canonical": "trajectory",
+        "normalized": "trajectory",
+        "tokens": [
+          "trajectory"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 50,
+        "sentence": "3 Published as a conference paper at ICLR 2023 appear sparsely in the most relevant positions of a trajectory, so we let the language model decide the asynchronous occurrence of thoughts and actions for itself.",
+        "context_window": {
+          "previous": "In contrast, for decision making tasks that potentially involve a large number of actions (Figure 1(2)), thoughts only need to 1 We show some GPT-3 (Brown et al., 2020) results in Appendix A.1, which outperforms PaLM-540B.",
+          "current": "3 Published as a conference paper at ICLR 2023 appear sparsely in the most relevant positions of a trajectory, so we let the language model decide the asynchronous occurrence of thoughts and actions for itself.",
+          "next": "Since decision making and reasoning capabilities are integrated into a large language model, ReAct enjoys several unique features: A) Intuitive and easy to design : Designing ReAct prompts is straightforward as human annotators just type down their thoughts in language on top of their actions taken."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7478,
+        "downstream_relevance_score": 0.4838,
+        "components": {
+          "bio_boundary_score": 0.9908,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "trajectory"
+        ],
+        "normalization": "trajectory",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "trajectory",
+          "canonical": "trajectory",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9908",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4838"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "fact verification",
+        "canonical": "fact verification",
+        "normalized": "fact verification",
+        "tokens": [
+          "fact",
+          "verification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 59,
+        "sentence": "3 K NOWLEDGE -I NTENSIVE R EASONING T ASKS We begin with knowledge-intensive reasoning tasks like multi-hop question answering and fact verification.",
+        "context_window": {
+          "previous": "Moreover, humans can also control or correct the agent behavior on the go by thought editing, as shown in Figure 5 in Section 4.",
+          "current": "3 K NOWLEDGE -I NTENSIVE R EASONING T ASKS We begin with knowledge-intensive reasoning tasks like multi-hop question answering and fact verification.",
+          "next": "As shown in Figure 1(1d), by interacting with a Wikipedia API, ReAct is able to retrieve information to support reasoning, while also use reasoning to target what to retrieve next, demonstrating a synergy of reasoning and acting."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7203,
+        "downstream_relevance_score": 0.4795,
+        "components": {
+          "bio_boundary_score": 0.8967,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "fact",
+          "verification"
+        ],
+        "normalization": "fact verification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "fact verification",
+          "canonical": "fact verification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8967",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4795"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "finetuning",
+        "canonical": "finetuning",
+        "normalized": "finetuning",
+        "tokens": [
+          "finetuning"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 109,
+        "sentence": "ReAct performs best for fine-tuning Figure 3 shows the scaling effect of prompting/finetuning four methods ( Standard , CoT , Act , ReAct ) on HotpotQA.",
+        "context_window": {
+          "previous": "These results indicate the value of properly combining model internal knowledge and external knowledge for reasoning tasks.",
+          "current": "ReAct performs best for fine-tuning Figure 3 shows the scaling effect of prompting/finetuning four methods ( Standard , CoT , Act , ReAct ) on HotpotQA.",
+          "next": "With PaLM-8/62B, prompting ReAct performs worst among four methods due to the difficulty to learn both reasoning and acting from in-context examples."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7026,
+        "downstream_relevance_score": 0.4771,
+        "components": {
+          "bio_boundary_score": 0.9596,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "finetuning"
+        ],
+        "normalization": "finetuning",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "finetuning",
+          "canonical": "finetuning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9596",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4771"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "reasoning",
+        "canonical": "reasoning",
+        "normalized": "reasoning",
+        "tokens": [
+          "reasoning"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 19,
+        "sentence": "This can lead to issues like fact hallucination and error propagation over the reasoning process (Figure 1 (1b)).",
+        "context_window": {
+          "previous": "However, this “chain-of-thought” reasoning is a static black box, in that the model uses its own internal representations to generate thoughts and is not grounded in the external world, which limits its ability to reason reactively or update its knowledge.",
+          "current": "This can lead to issues like fact hallucination and error propagation over the reasoning process (Figure 1 (1b)).",
+          "next": "On the other hand, recent work has explored the use of pre-trained language models for planning and acting in interactive environments (Ahn et al., 2022; Nakano et al., 2021; Yao et al., 2020; Huang et al., 2022a), with a focus on predicting actions via language priors."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7225,
+        "downstream_relevance_score": 0.4707,
+        "components": {
+          "bio_boundary_score": 0.9864,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reasoning"
+        ],
+        "normalization": "reasoning",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "reasoning",
+          "canonical": "reasoning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9864",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4707"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "CoT-SC",
+        "canonical": "CoT-SC",
+        "normalized": "cot-sc",
+        "tokens": [
+          "cot-sc"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 106,
+        "sentence": "Furthermore, Figure 2 shows how different methods perform with respect to the number of CoT-SC samples used.",
+        "context_window": {
+          "previous": "ReAct + CoT -SC perform best for prompting LLMs Also shown in Table 1, the best prompting method on HotpotQA and Fever are ReAct → CoT-SC and CoT-SC → ReAct respectively.",
+          "current": "Furthermore, Figure 2 shows how different methods perform with respect to the number of CoT-SC samples used.",
+          "next": "While two ReAct + CoT-SC methods are advantageous at one task each, they both significantly and consistently outperform CoT-SC across different number of samples, reaching CoT-SC performance with 21 samples using merely 3-5 samples."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6851,
+        "downstream_relevance_score": 0.468,
+        "components": {
+          "bio_boundary_score": 0.9085,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cot-sc"
+        ],
+        "normalization": "cot-sc",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "CoT-SC",
+          "canonical": "CoT-SC",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9085",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.468"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "ReAct Prompting",
+        "canonical": "ReAct Prompting",
+        "normalized": "react prompting",
+        "tokens": [
+          "react",
+          "prompting"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 67,
+        "sentence": "3.2 M ETHODS ReAct Prompting For HotpotQA and Fever, we randomly select 6 and 3 cases",
+        "context_window": {
+          "previous": "The purpose is to simulate how humans would interact with Wikipedia, and force models to retrieve via explicit reasoning in language.",
+          "current": "3.2 M ETHODS ReAct Prompting For HotpotQA and Fever, we randomly select 6 and 3 cases",
+          "next": "set and manually compose ReAct -format trajectories to use as few-shot exemplars in the prompts."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6684,
+        "downstream_relevance_score": 0.4652,
+        "components": {
+          "bio_boundary_score": 0.8573,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "react",
+          "prompting"
+        ],
+        "normalization": "react prompting",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ReAct Prompting",
+          "canonical": "ReAct Prompting",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8573",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.4652"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "goal decomposition",
+        "canonical": "goal decomposition",
+        "normalized": "goal decomposition",
+        "tokens": [
+          "goal",
+          "decomposition"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 162,
+        "sentence": "Qualitatively, we observed that ReAct-IM often made mistakes in identifying when subgoals were finished, or what the next subgoal should be, due to a lack of high- level goal decomposition.",
+        "context_window": {
+          "previous": "53 overall success rate), with consistent advantages on five out of six tasks.",
+          "current": "Qualitatively, we observed that ReAct-IM often made mistakes in identifying when subgoals were finished, or what the next subgoal should be, due to a lack of high- level goal decomposition.",
+          "next": "Additionally, many ReAct-IM trajectories struggled to determine where an item would likely be within the ALFWorld environment, due to a lack of commonsense reasoning."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6651,
+        "downstream_relevance_score": 0.4635,
+        "components": {
+          "bio_boundary_score": 0.8366,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "goal",
+          "decomposition"
+        ],
+        "normalization": "goal decomposition",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "goal decomposition",
+          "canonical": "goal decomposition",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8366",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4635"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "extensive computation",
+        "canonical": "extensive computation",
+        "normalized": "extensive computation",
+        "tokens": [
+          "extensive",
+          "computation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 38,
+        "sentence": "Learning a policy is challenging when the mapping c t 7 → a t is highly implicit and requires extensive computation.",
+        "context_window": {
+          "previous": "At time step t , an agent receives an observation o t ∈ O from the environment and takes an action a t ∈ A following some policy π ( a t | c t ) , where c t = ( o 1 , a 1 , · · · , o t − 1 , a t − 1 , o t ) is the context to the agent.",
+          "current": "Learning a policy is challenging when the mapping c t 7 → a t is highly implicit and requires extensive computation.",
+          "next": "For example, the agent shown in Figure 1(1c) is unable to generate the correct final action (Act 4) to finish the QA task as it requires complex reasoning over the trajectory context (Question, Act 1-3, Obs 1-3)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6556,
+        "downstream_relevance_score": 0.4459,
+        "components": {
+          "bio_boundary_score": 0.7737,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "extensive",
+          "computation"
+        ],
+        "normalization": "extensive computation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "extensive computation",
+          "canonical": "extensive computation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7737",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4459"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "HotpotQA",
+        "canonical": "HotpotQA",
+        "normalized": "hotpotqa",
+        "tokens": [
+          "hotpotqa"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 104,
+        "sentence": "We also find some HotpotQA questions may contain outdated answer labels, see Figure 4 for example.",
+        "context_window": {
+          "previous": "We provide examples for each success and failure modes in Appendix E.1.",
+          "current": "We also find some HotpotQA questions may contain outdated answer labels, see Figure 4 for example.",
+          "next": "ReAct + CoT -SC perform best for prompting LLMs Also shown in Table 1, the best prompting method on HotpotQA and Fever are ReAct → CoT-SC and CoT-SC → ReAct respectively."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6398,
+        "downstream_relevance_score": 0.4445,
+        "components": {
+          "bio_boundary_score": 0.6736,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "hotpotqa"
+        ],
+        "normalization": "hotpotqa",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "HotpotQA",
+          "canonical": "HotpotQA",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6736",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4445"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "imitation learning",
+        "canonical": "imitation learning",
+        "normalized": "imitation learning",
+        "tokens": [
+          "imitation",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 127,
+        "sentence": "For baselines, we use BUTLER (Shridhar et al., 2020b), an imitation learning agent trained on 10 5 expert trajectories for each task type 5 .",
+        "context_window": {
+          "previous": "Act prompts are constructed using the same trajectories, but without thoughts — since task instances are randomly chosen from the training set, it favors neither ReAct nor Act and provides a fair and controlled comparison to test the importance of sparse thoughts.",
+          "current": "For baselines, we use BUTLER (Shridhar et al., 2020b), an imitation learning agent trained on 10 5 expert trajectories for each task type 5 .",
+          "next": "WebShop Can ReAct also interact with noisy real-world language environments for practical applications?"
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6052,
+        "downstream_relevance_score": 0.4407,
+        "components": {
+          "bio_boundary_score": 0.9873,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imitation",
+          "learning"
+        ],
+        "normalization": "imitation learning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "imitation learning",
+          "canonical": "imitation learning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9873",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.4407"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "thought editing",
+        "canonical": "thought editing",
+        "normalized": "thought editing",
+        "tokens": [
+          "thought",
+          "editing"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 58,
+        "sentence": "Moreover, humans can also control or correct the agent behavior on the go by thought editing, as shown in Figure 5 in Section 4.",
+        "context_window": {
+          "previous": "D) Human aligned and controllable : ReAct promises an interpretable sequential decision making and reasoning process where humans can easily inspect reasoning and factual correctness.",
+          "current": "Moreover, humans can also control or correct the agent behavior on the go by thought editing, as shown in Figure 5 in Section 4.",
+          "next": "3 K NOWLEDGE -I NTENSIVE R EASONING T ASKS We begin with knowledge-intensive reasoning tasks like multi-hop question answering and fact verification."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6305,
+        "downstream_relevance_score": 0.4329,
+        "components": {
+          "bio_boundary_score": 0.6736,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "thought",
+          "editing"
+        ],
+        "normalization": "thought editing",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "thought editing",
+          "canonical": "thought editing",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6736",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4329"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "Wikipedia",
+        "canonical": "Wikipedia",
+        "normalized": "wikipedia",
+        "tokens": [
+          "wikipedia"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 27,
+        "sentence": "Wikipedia) to incorporate additional information into reasoning (act to reason).",
+        "context_window": {
+          "previous": "ReAct prompts LLMs to generate both verbal reasoning traces and actions pertaining to a task in an interleaved manner, which allows the model to perform dynamic reasoning to create, maintain, and adjust high-level plans for acting (reason to act), while also interact with the external environments (e.g.",
+          "current": "Wikipedia) to incorporate additional information into reasoning (act to reason).",
+          "next": "2 Published as a conference paper at ICLR 2023 We conduct empirical evaluations of ReAct and state-of-the-art baselines on four diverse benchmarks: question answering (HotPotQA, Yang et al., 2018), fact verification (Fever, Thorne et al., 2018), text-based game (ALFWorld, Shridhar et al., 2020b), and webpage navigation (WebShop, Yao et al., 2022)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6443,
+        "downstream_relevance_score": 0.43,
+        "components": {
+          "bio_boundary_score": 0.722,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "wikipedia"
+        ],
+        "normalization": "wikipedia",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Wikipedia",
+          "canonical": "Wikipedia",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.722",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.43"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "agent behavior",
+        "canonical": "agent behavior",
+        "normalized": "agent behavior",
+        "tokens": [
+          "agent",
+          "behavior"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 58,
+        "sentence": "Moreover, humans can also control or correct the agent behavior on the go by thought editing, as shown in Figure 5 in Section 4.",
+        "context_window": {
+          "previous": "D) Human aligned and controllable : ReAct promises an interpretable sequential decision making and reasoning process where humans can easily inspect reasoning and factual correctness.",
+          "current": "Moreover, humans can also control or correct the agent behavior on the go by thought editing, as shown in Figure 5 in Section 4.",
+          "next": "3 K NOWLEDGE -I NTENSIVE R EASONING T ASKS We begin with knowledge-intensive reasoning tasks like multi-hop question answering and fact verification."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6186,
+        "downstream_relevance_score": 0.4266,
+        "components": {
+          "bio_boundary_score": 0.6327,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "agent",
+          "behavior"
+        ],
+        "normalization": "agent behavior",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "agent behavior",
+          "canonical": "agent behavior",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6327",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4266"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "task solving",
+        "canonical": "task solving",
+        "normalized": "task solving",
+        "tokens": [
+          "task",
+          "solving"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 36,
+        "sentence": "2 R E A C T : S YNERGIZING R E ASONING + A C T ING Consider a general setup of an agent interacting with an environment for task solving.",
+        "context_window": {
+          "previous": "Scaling up ReAct to train and operate on more tasks and combining it with complementary paradigms like reinforcement learning could further unlock the potential of large language models.",
+          "current": "2 R E A C T : S YNERGIZING R E ASONING + A C T ING Consider a general setup of an agent interacting with an environment for task solving.",
+          "next": "At time step t , an agent receives an observation o t ∈ O from the environment and takes an action a t ∈ A following some policy π ( a t | c t ) , where c t = ( o 1 , a 1 , · · · , o t − 1 , a t − 1 , o t ) is the context to the agent."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6124,
+        "downstream_relevance_score": 0.4235,
+        "components": {
+          "bio_boundary_score": 0.6103,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "task",
+          "solving"
+        ],
+        "normalization": "task solving",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "task solving",
+          "canonical": "task solving",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6103",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4235"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "WebShop",
+        "canonical": "WebShop",
+        "normalized": "webshop",
+        "tokens": [
+          "webshop"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 128,
+        "sentence": "WebShop Can ReAct also interact with noisy real-world language environments for practical applications?",
+        "context_window": {
+          "previous": "For baselines, we use BUTLER (Shridhar et al., 2020b), an imitation learning agent trained on 10 5 expert trajectories for each task type 5 .",
+          "current": "WebShop Can ReAct also interact with noisy real-world language environments for practical applications?",
+          "next": "We investigate WebShop (Yao et al., 2022), a recently proposed online shopping website environment with 1.18M real-world products and 12k human instructions."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5835,
+        "downstream_relevance_score": 0.3494,
+        "components": {
+          "bio_boundary_score": 0.9956,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "webshop"
+        ],
+        "normalization": "webshop",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "WebShop",
+          "canonical": "WebShop",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9956",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3494"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "failure mode",
+        "canonical": "failure mode",
+        "normalized": "failure mode",
+        "tokens": [
+          "failure",
+          "mode"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 97,
+        "sentence": "6%) in success mode, and make up its major failure mode (56%).",
+        "context_window": {
+          "previous": "Some key observations are as follows: A) Hallucination is a serious problem for CoT , resulting in much higher false positive rate than ReAct (14% vs.",
+          "current": "6%) in success mode, and make up its major failure mode (56%).",
+          "next": "In contrast, the problem solving trajectory of ReAct is more grounded, fact-driven, and trustworthy, thanks to the access of an external knowledge base."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5643,
+        "downstream_relevance_score": 0.3494,
+        "components": {
+          "bio_boundary_score": 0.9297,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "failure",
+          "mode"
+        ],
+        "normalization": "failure mode",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "failure mode",
+          "canonical": "failure mode",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9297",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3494"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 16,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "ReAct outperforms Act consistently Table shows HotpotQA and Fever results using PaLM-540B as the base model with different prompting methods.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While two ReAct + CoT-SC methods are advantageous at one task each, they both significantly and consistently outperform CoT-SC across different number of samples, reaching CoT-SC performance with 21 samples using merely 3-5 samples.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "As all prompting methods are still significantly far from domain-specific state-of-the-art approaches (Table ), we believe finetuning with more human-written data might be a better way to unleash the power of ReAct.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We apply our approach, named ReAct, to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines in addition to improved human interpretability and trustworthiness.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Furthermore, on two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this work, we present ReAct, a general paradigm to combine reasoning and acting with language models for solving diverse language reasoning and decision making tasks (Figure ).",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We conduct empirical evaluations of ReAct and state-of-the-art baselines on four diverse benchmarks: question answering (HotPotQA, , fact verification ), text-based game (ALFWorld, , and webpage navigation .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "For HotPotQA and Fever, with access to a Wikipedia API that the model can interact with, ReAct outperforms vanilla action generation models while being competitive with chain-ofthought reasoning (CoT) .",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "On ALFWorld and WebShop, two or even one-shot ReAct prompting is able to outperform imitation or reinforcement learning methods trained with 10 3 ∼ 10 5 task instances, with an absolute improvement of 34% and 10% in success rates respectively.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To summarize, our key contributions are the following: (1) we introduce ReAct, a novel promptbased paradigm to synergize reasoning and acting in language models for general task solving; (2) we perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation; (3) we present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks; (4) we analyze the limitations of ReAct under the prompting setup (i.e. limited support of reasoning and acting behaviors), and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "To summarize, our key contributions are the following: (1) we introduce ReAct, a novel promptbased paradigm to synergize reasoning and acting in language models for general task solving; (2) we perform extensive experiments across diverse benchmarks to showcase the advantage of ReAct in a few-shot learning setup over prior approaches that perform either reasoning or action generation in isolation; (3) we present systematic ablations and analysis to understand the importance of acting in reasoning tasks, and reasoning in interactive tasks; (4) we analyze the limitations of ReAct under the prompting setup (i.e. limited support of reasoning and acting behaviors), and perform initial finetuning experiments showing the potential of ReAct to improve with additional training data.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Similarly, the agent shown in Figure (2a) fails to comprehend from the context that sinkbasin 1 does not contain peppershaker 1, thus keep producing hallucinating actions.",
+        "evidence_type": "limitation",
+        "matched_cue": "fails to",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Since decision making and reasoning capabilities are integrated into a large language model, ReAct enjoys several unique features: A) Intuitive and easy to design: Designing ReAct prompts is straightforward as human annotators just type down their thoughts in language on top of their actions taken.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "No ad-hoc format choice, thought design, or example selection is used in this paper.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We detail prompt design for each task in Sections 3 and 4.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "B) While interleaving reasoning, action and observation steps improves ReAct's groundedness and trustworthiness, such a structural constraint also reduces its flexibility in formulating reasoning steps, leading to more reasoning error rate than CoT. we note that there is one frequent error pattern specific to ReAct, in which the model repetitively generates the previous thoughts and actions, and we categorize it as part of \"reasoning error\" as the model fails to reason about what the proper next action to take and jump out of the loop .",
+        "evidence_type": "limitation",
+        "matched_cue": "fails to",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Large language model",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6972
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "reinforcement learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.684
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "action",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6473
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "ReAct",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5472
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "interactive decision making",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5423
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "CoT",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5296
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "thought design",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5192
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "prompt design",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5015
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "desklamp",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4987
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "Inner Monologue",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.4968
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "decision making",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4903
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "reasoning traces",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4847
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "trajectory",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4838
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "fact verification",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4795
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "finetuning",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4771
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "reasoning",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4707
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "CoT-SC",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.468
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "ReAct Prompting",
+        "section": "experiment",
+        "role": "mechanism",
+        "score": 0.4652
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "goal decomposition",
+        "section": "related_work",
+        "role": "problem",
+        "score": 0.4635
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "extensive computation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4459
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "HotpotQA",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4445
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "imitation learning",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4407
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "thought editing",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4329
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "Wikipedia",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.43
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "agent behavior",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4266
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "task solving",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4235
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "WebShop",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3494
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "failure mode",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3494
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_005",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_023",
+        "target": "ecu_025",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_022",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_022",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_027",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_015",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

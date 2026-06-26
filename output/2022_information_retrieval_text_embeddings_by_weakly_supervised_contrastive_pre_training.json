@@ -1,0 +1,4171 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2022_information_retrieval_text_embeddings_by_weakly_supervised_contrastive_pre_training",
+    "title": "2022_information_retrieval_text_embeddings_by_weakly_supervised_contrastive_pre_training",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2022_information_retrieval_text_embeddings_by_weakly_supervised_contrastive_pre_training.txt",
+    "sentence_count": 223,
+    "section_counts": {
+      "intro": 28,
+      "related_work": 5,
+      "method": 85,
+      "experiment": 101,
+      "conclusion": 4
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 5329,
+    "type_count": 1152,
+    "type_token_ratio": 0.2162,
+    "section_token_counts": {
+      "intro": 621,
+      "related_work": 91,
+      "method": 1805,
+      "experiment": 2652,
+      "conclusion": 160
+    },
+    "top_unigrams": [
+      {
+        "term": "text",
+        "count": 63
+      },
+      {
+        "term": "embeddings",
+        "count": 41
+      },
+      {
+        "term": "datasets",
+        "count": 38
+      },
+      {
+        "term": "data",
+        "count": 35
+      },
+      {
+        "term": "e5",
+        "count": 30
+      },
+      {
+        "term": "model",
+        "count": 29
+      },
+      {
+        "term": "models",
+        "count": 25
+      },
+      {
+        "term": "pairs",
+        "count": 25
+      },
+      {
+        "term": "results",
+        "count": 24
+      },
+      {
+        "term": "large",
+        "count": 24
+      },
+      {
+        "term": "tasks",
+        "count": 23
+      },
+      {
+        "term": "can",
+        "count": 23
+      },
+      {
+        "term": "retrieval",
+        "count": 23
+      },
+      {
+        "term": "base",
+        "count": 23
+      },
+      {
+        "term": "such",
+        "count": 20
+      },
+      {
+        "term": "benchmark",
+        "count": 20
+      },
+      {
+        "term": "dataset",
+        "count": 19
+      },
+      {
+        "term": "40",
+        "count": 19
+      },
+      {
+        "term": "negatives",
+        "count": 19
+      },
+      {
+        "term": "contrastive",
+        "count": 18
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "text embeddings",
+        "count": 18
+      },
+      {
+        "term": "text pairs",
+        "count": 14
+      },
+      {
+        "term": "contrastive pre-training",
+        "count": 9
+      },
+      {
+        "term": "text pair",
+        "count": 9
+      },
+      {
+        "term": "beir benchmark",
+        "count": 9
+      },
+      {
+        "term": "labeled data",
+        "count": 8
+      },
+      {
+        "term": "mteb benchmark",
+        "count": 8
+      },
+      {
+        "term": "pair dataset",
+        "count": 7
+      },
+      {
+        "term": "e5 base",
+        "count": 7
+      },
+      {
+        "term": "batch size",
+        "count": 7
+      },
+      {
+        "term": "data sources",
+        "count": 6
+      },
+      {
+        "term": "ms-marco nq",
+        "count": 6
+      },
+      {
+        "term": "hard negatives",
+        "count": 6
+      },
+      {
+        "term": "text classification",
+        "count": 6
+      },
+      {
+        "term": "56 datasets",
+        "count": 5
+      },
+      {
+        "term": "semantic textual",
+        "count": 5
+      },
+      {
+        "term": "textual similarity",
+        "count": 5
+      },
+      {
+        "term": "text embedding",
+        "count": 5
+      },
+      {
+        "term": "in-batch negatives",
+        "count": 5
+      },
+      {
+        "term": "retrieval tasks",
+        "count": 5
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "text pair dataset",
+        "count": 7
+      },
+      {
+        "term": "semantic textual similarity",
+        "count": 5
+      },
+      {
+        "term": "wide range tasks",
+        "count": 4
+      },
+      {
+        "term": "mteb benchmark 40",
+        "count": 4
+      },
+      {
+        "term": "zero-shot text classification",
+        "count": 4
+      },
+      {
+        "term": "well wide range",
+        "count": 3
+      },
+      {
+        "term": "tasks requiring single-vector",
+        "count": 3
+      },
+      {
+        "term": "any labeled data",
+        "count": 3
+      },
+      {
+        "term": "labeled data when",
+        "count": 3
+      },
+      {
+        "term": "40 more parameters",
+        "count": 3
+      },
+      {
+        "term": "results beir benchmark",
+        "count": 3
+      },
+      {
+        "term": "beir benchmark 53",
+        "count": 3
+      },
+      {
+        "term": "e5 small e5",
+        "count": 3
+      },
+      {
+        "term": "small e5 base",
+        "count": 3
+      },
+      {
+        "term": "e5 base e5",
+        "count": 3
+      },
+      {
+        "term": "base e5 large",
+        "count": 3
+      },
+      {
+        "term": "small base large",
+        "count": 3
+      },
+      {
+        "term": "base large models",
+        "count": 3
+      },
+      {
+        "term": "nfcorpus nq fiqa",
+        "count": 3
+      },
+      {
+        "term": "nq fiqa quora",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 25,
+    "nonzero_tfidf_features": 25,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 3.0,
+        "tfidf": 1.3217
+      },
+      {
+        "feature_name": "introduction__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 12.0,
+        "tfidf": 1.1506
+      },
+      {
+        "feature_name": "related_work__embeddings",
+        "section": "related_work",
+        "term": "embeddings",
+        "frequency": 13.0,
+        "tfidf": 1.1433
+      },
+      {
+        "feature_name": "methods__embeddings",
+        "section": "method",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "conclusion__embeddings",
+        "section": "conclusion",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.8575
+      },
+      {
+        "feature_name": "experiments__supervised fine-tuning",
+        "section": "experiment",
+        "term": "supervised fine-tuning",
+        "frequency": 5.0,
+        "tfidf": 0.689
+      },
+      {
+        "feature_name": "experiments__embeddings",
+        "section": "experiment",
+        "term": "embeddings",
+        "frequency": 7.0,
+        "tfidf": 0.6238
+      },
+      {
+        "feature_name": "conclusion__sentence embeddings",
+        "section": "conclusion",
+        "term": "sentence embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.5144
+      },
+      {
+        "feature_name": "experiments__roberta",
+        "section": "experiment",
+        "term": "roberta",
+        "frequency": 3.0,
+        "tfidf": 0.3395
+      },
+      {
+        "feature_name": "experiments__BERT",
+        "section": "experiment",
+        "term": "BERT",
+        "frequency": 4.0,
+        "tfidf": 0.3323
+      },
+      {
+        "feature_name": "related_work__sentence embeddings",
+        "section": "related_work",
+        "term": "sentence embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.2549
+      },
+      {
+        "feature_name": "experiments__mrr",
+        "section": "experiment",
+        "term": "mrr",
+        "frequency": 2.0,
+        "tfidf": 0.21
+      },
+      {
+        "feature_name": "introduction__sentence embeddings",
+        "section": "intro",
+        "term": "sentence embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.1587
+      },
+      {
+        "feature_name": "experiments__sentence embeddings",
+        "section": "experiment",
+        "term": "sentence embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.1558
+      },
+      {
+        "feature_name": "experiments__large language models",
+        "section": "experiment",
+        "term": "large language models",
+        "frequency": 1.0,
+        "tfidf": 0.1362
+      },
+      {
+        "feature_name": "experiments__perplexity",
+        "section": "experiment",
+        "term": "perplexity",
+        "frequency": 1.0,
+        "tfidf": 0.1298
+      },
+      {
+        "feature_name": "experiments__machine translation",
+        "section": "experiment",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.1247
+      },
+      {
+        "feature_name": "introduction__GPT",
+        "section": "intro",
+        "term": "GPT",
+        "frequency": 1.0,
+        "tfidf": 0.1182
+      },
+      {
+        "feature_name": "experiments__heuristic",
+        "section": "experiment",
+        "term": "heuristic",
+        "frequency": 1.0,
+        "tfidf": 0.1132
+      },
+      {
+        "feature_name": "experiments__summarization",
+        "section": "experiment",
+        "term": "summarization",
+        "frequency": 1.0,
+        "tfidf": 0.1132
+      },
+      {
+        "feature_name": "experiments__natural language processing",
+        "section": "experiment",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.1006
+      },
+      {
+        "feature_name": "experiments__question answering",
+        "section": "experiment",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.0987
+      },
+      {
+        "feature_name": "introduction__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 1.0,
+        "tfidf": 0.0938
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.083
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 1.0,
+        "tfidf": 0.0702
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 3.0,
+          "tfidf": 1.3217
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 12.0,
+          "tfidf": 1.1506
+        },
+        {
+          "feature_name": "introduction__sentence embeddings",
+          "section": "intro",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1587
+        },
+        {
+          "feature_name": "introduction__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.1182
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.0938
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.083
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 13.0,
+          "tfidf": 1.1433
+        },
+        {
+          "feature_name": "related_work__sentence embeddings",
+          "section": "related_work",
+          "term": "sentence embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2549
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__supervised fine-tuning",
+          "section": "experiment",
+          "term": "supervised fine-tuning",
+          "frequency": 5.0,
+          "tfidf": 0.689
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 7.0,
+          "tfidf": 0.6238
+        },
+        {
+          "feature_name": "experiments__roberta",
+          "section": "experiment",
+          "term": "roberta",
+          "frequency": 3.0,
+          "tfidf": 0.3395
+        },
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.3323
+        },
+        {
+          "feature_name": "experiments__mrr",
+          "section": "experiment",
+          "term": "mrr",
+          "frequency": 2.0,
+          "tfidf": 0.21
+        },
+        {
+          "feature_name": "experiments__sentence embeddings",
+          "section": "experiment",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1558
+        },
+        {
+          "feature_name": "experiments__large language models",
+          "section": "experiment",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 0.1362
+        },
+        {
+          "feature_name": "experiments__perplexity",
+          "section": "experiment",
+          "term": "perplexity",
+          "frequency": 1.0,
+          "tfidf": 0.1298
+        },
+        {
+          "feature_name": "experiments__machine translation",
+          "section": "experiment",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.1247
+        },
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1132
+        },
+        {
+          "feature_name": "experiments__summarization",
+          "section": "experiment",
+          "term": "summarization",
+          "frequency": 1.0,
+          "tfidf": 0.1132
+        },
+        {
+          "feature_name": "experiments__natural language processing",
+          "section": "experiment",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.1006
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__embeddings",
+          "section": "conclusion",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.8575
+        },
+        {
+          "feature_name": "conclusion__sentence embeddings",
+          "section": "conclusion",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.5144
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 28,
+      "token_count": 621,
+      "bow_hit_count": 84,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 74,
+          "section_prior": 0.233,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 3,
+          "section_prior": 0.6057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 3,
+          "section_prior": 0.2788,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Sentence Embedding",
+          "count": 3,
+          "section_prior": 0.2529,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 1,
+          "section_prior": 0.3056,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 3.0,
+          "tfidf": 1.3217
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 12.0,
+          "tfidf": 1.1506
+        },
+        {
+          "feature_name": "introduction__sentence embeddings",
+          "section": "intro",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1587
+        },
+        {
+          "feature_name": "introduction__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.1182
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.0938
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.083
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 5,
+      "token_count": 91,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 15,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Sentence Embedding",
+          "count": 3,
+          "section_prior": 0.1609,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 13.0,
+          "tfidf": 1.1433
+        },
+        {
+          "feature_name": "related_work__sentence embeddings",
+          "section": "related_work",
+          "term": "sentence embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2549
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 85,
+      "token_count": 1805,
+      "bow_hit_count": 161,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 128,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Sentence Embedding",
+          "count": 6,
+          "section_prior": 0.1149,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 5,
+          "section_prior": 0.0792,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 5,
+          "section_prior": 0.3709,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "textual entailment",
+          "count": 4,
+          "section_prior": 0.0811,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "knowledge distillation",
+          "count": 4,
+          "section_prior": 0.0204,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "heuristic",
+          "count": 3,
+          "section_prior": 0.16,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "supervised fine-tuning",
+          "count": 3,
+          "section_prior": 0.38,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "Perplexity",
+          "count": 2,
+          "section_prior": 0.5806,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "browsing",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 101,
+      "token_count": 2652,
+      "bow_hit_count": 105,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 38,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 25,
+          "section_prior": 0.335,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "supervised fine-tuning",
+          "count": 9,
+          "section_prior": 0.44,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 5,
+          "section_prior": 0.2484,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "Large language model",
+          "count": 5,
+          "section_prior": 0.08,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "deep learning",
+          "count": 5,
+          "section_prior": 0.0574,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "automatic summarization",
+          "count": 4,
+          "section_prior": 0.3763,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Sentence Embedding",
+          "count": 3,
+          "section_prior": 0.3793,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "GloVe",
+          "count": 3,
+          "section_prior": 0.6129,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep learning model",
+          "count": 3,
+          "section_prior": 0.0588,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__supervised fine-tuning",
+          "section": "experiment",
+          "term": "supervised fine-tuning",
+          "frequency": 5.0,
+          "tfidf": 0.689
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 7.0,
+          "tfidf": 0.6238
+        },
+        {
+          "feature_name": "experiments__roberta",
+          "section": "experiment",
+          "term": "roberta",
+          "frequency": 3.0,
+          "tfidf": 0.3395
+        },
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.3323
+        },
+        {
+          "feature_name": "experiments__mrr",
+          "section": "experiment",
+          "term": "mrr",
+          "frequency": 2.0,
+          "tfidf": 0.21
+        },
+        {
+          "feature_name": "experiments__sentence embeddings",
+          "section": "experiment",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.1558
+        },
+        {
+          "feature_name": "experiments__large language models",
+          "section": "experiment",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 0.1362
+        },
+        {
+          "feature_name": "experiments__perplexity",
+          "section": "experiment",
+          "term": "perplexity",
+          "frequency": 1.0,
+          "tfidf": 0.1298
+        },
+        {
+          "feature_name": "experiments__machine translation",
+          "section": "experiment",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.1247
+        },
+        {
+          "feature_name": "experiments__heuristic",
+          "section": "experiment",
+          "term": "heuristic",
+          "frequency": 1.0,
+          "tfidf": 0.1132
+        },
+        {
+          "feature_name": "experiments__summarization",
+          "section": "experiment",
+          "term": "summarization",
+          "frequency": 1.0,
+          "tfidf": 0.1132
+        },
+        {
+          "feature_name": "experiments__natural language processing",
+          "section": "experiment",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.1006
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 4,
+      "token_count": 160,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 10,
+          "section_prior": 0.0493,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Sentence Embedding",
+          "count": 3,
+          "section_prior": 0.092,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__embeddings",
+          "section": "conclusion",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.8575
+        },
+        {
+          "feature_name": "conclusion__sentence embeddings",
+          "section": "conclusion",
+          "term": "sentence embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.5144
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "text embedding model",
+        "canonical": "Sentence Embedding",
+        "normalized": "sentence embedding",
+        "tokens": [
+          "text",
+          "embedding",
+          "model"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "sentence representation",
+          "sentence embeddings",
+          "Sentence Embedding",
+          "sentence embedding",
+          "text embedding"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 219,
+        "sentence": "In this work, we train a general-purpose text embedding model E5 from weak supervision signals.",
+        "context_window": {
+          "previous": "For long-tail domains such as Trec-Covid [ 55 ] and retrieval tasks that involve long documents (Touche-2020) [ 4 ] or rely heavily on exact lexical match (Fever) [ 54 ], further research efforts are still necessary to improve current dense retrievers.",
+          "current": "In this work, we train a general-purpose text embedding model E5 from weak supervision signals.",
+          "next": "We adopt a simple contrastive training framework with in-batch negatives and learn from a large-scale text pair dataset we harvest from heterogeneous data sources across the web."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6705,
+        "downstream_relevance_score": 0.6693,
+        "components": {
+          "bio_boundary_score": 0.655,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.7644,
+          "laplace_section_prior": 0.092,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "text embedding",
+        "match_quality": 0.84,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "Sentence Embedding",
+        "display_term": "sentence embeddings",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "nan",
+        "wikidata_id": "Q140197859",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 7,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "embedding",
+          "model"
+        ],
+        "normalization": "text embedding model",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.092,
+        "canonicalization": {
+          "observed": "text embedding model",
+          "canonical": "Sentence Embedding",
+          "channel_score": 0.7644
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.655",
+        "structure model assigned role 'component' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'Sentence Embedding' with confidence 0.7644",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6693"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "nDCG@10",
+        "canonical": "nDCG@10",
+        "normalized": "ndcg 10",
+        "tokens": [
+          "ndcg",
+          "10"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 139,
+        "sentence": "The evaluation metrics are accuracy, v-measure, average precision, MAP, nDCG@10, and Spearman coefficients, respectively.",
+        "context_window": {
+          "previous": "In this paper, we evaluate the English subsets, which have 56 datasets spanning across 6 categories: Classification (Class.), Clustering (Clust.), Pair Classification (PairClass.), Rerank, Retrieval (Retr.), STS, and Summarization (Summ.).",
+          "current": "The evaluation metrics are accuracy, v-measure, average precision, MAP, nDCG@10, and Spearman coefficients, respectively.",
+          "next": "Please refer to the MTEB paper for details."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "precision",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "metric",
+          "matched_cue": "accuracy",
+          "role_prior": "metric",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6481,
+        "downstream_relevance_score": 0.6088,
+        "components": {
+          "bio_boundary_score": 0.7853,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ndcg",
+          "10"
+        ],
+        "normalization": "ndcg 10",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "nDCG@10",
+          "canonical": "nDCG@10",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7853",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched precision, accuracy",
+        "downstream relevance score is 0.6088"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "data",
+        "canonical": "data",
+        "normalized": "data",
+        "tokens": [
+          "data"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 69,
+        "sentence": "Consistency-based filter To further improve data quality and make training costs manageable, we propose a consistency-based data filtering technique: a model is first trained on the 1 .",
+        "context_window": {
+          "previous": "For more details and examples, please refer to Appendix A.",
+          "current": "Consistency-based filter To further improve data quality and make training costs manageable, we propose a consistency-based data filtering technique: a model is first trained on the 1 .",
+          "next": "3 B noisy text pairs, and then used to rank each pair against a pool of 1 million random passages."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6531,
+        "downstream_relevance_score": 0.607,
+        "components": {
+          "bio_boundary_score": 0.5659,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "data"
+        ],
+        "normalization": "data",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "data",
+          "canonical": "data",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5659",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched trained on, propose",
+        "downstream relevance score is 0.607"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "text pair dataset",
+        "canonical": "text pair dataset",
+        "normalized": "text pair dataset",
+        "tokens": [
+          "text",
+          "pair",
+          "dataset"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 55,
+        "sentence": "In this work, we mine and assemble CCPairs, a large high-quality text pair dataset from web sources which provide diverse training signals transferring well to a wide range of tasks.",
+        "context_window": {
+          "previous": "3 CCPairs: A Large Collection of Text Pair Dataset The quality and diversity of the data is crucial for training general-purpose text embeddings.",
+          "current": "In this work, we mine and assemble CCPairs, a large high-quality text pair dataset from web sources which provide diverse training signals transferring well to a wide range of tasks.",
+          "next": "2 https://github.com/UKPLab/sentence-transformers 2 consistency - based filter share …… 1.3B unfiltered 270M Encoder Encoder query: text 1 passage: text 2 average pool E q E p CCPairs average pool Figure 1: Overview of our data curation pipeline and model architecture."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "dataset",
+          "matched_cue": "dataset",
+          "role_prior": "dataset",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6932,
+        "downstream_relevance_score": 0.5778,
+        "components": {
+          "bio_boundary_score": 0.9118,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "pair",
+          "dataset"
+        ],
+        "normalization": "text pair dataset",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "text pair dataset",
+          "canonical": "text pair dataset",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9118",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.5778"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "contrastive learning recipe",
+        "canonical": "contrastive learning recipe",
+        "normalized": "contrastive learning recipe",
+        "tokens": [
+          "contrastive",
+          "learning",
+          "recipe"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 22,
+        "sentence": "We choose a simple contrastive learning recipe using in-batch negatives with a large batch-size to train our model.",
+        "context_window": {
+          "previous": "We construct the CCPairs dataset by combining various semi- structured data sources such as CommunityQA, Common Crawl and Scientific papers, and perform aggressive filtering with a consistency-based filter [ 15 ] to improve data quality.",
+          "current": "We choose a simple contrastive learning recipe using in-batch negatives with a large batch-size to train our model.",
+          "next": "Extensive experiments on both BEIR and MTEB benchmarks demonstrate the effectiveness of the proposed method."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7277,
+        "downstream_relevance_score": 0.548,
+        "components": {
+          "bio_boundary_score": 0.7159,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "contrastive",
+          "learning",
+          "recipe"
+        ],
+        "normalization": "contrastive learning recipe",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "contrastive learning recipe",
+          "canonical": "contrastive learning recipe",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7159",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.548"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "BM25 baseline",
+        "canonical": "BM25 baseline",
+        "normalized": "bm25 baseline",
+        "tokens": [
+          "bm25",
+          "baseline"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 24,
+        "sentence": "On the BEIR zero-shot retrieval benchmark [ 53 ], E5 is the first model to outperform the strong BM25 baseline without using any labeled data.",
+        "context_window": {
+          "previous": "Extensive experiments on both BEIR and MTEB benchmarks demonstrate the effectiveness of the proposed method.",
+          "current": "On the BEIR zero-shot retrieval benchmark [ 53 ], E5 is the first model to outperform the strong BM25 baseline without using any labeled data.",
+          "next": "When fine-tuned on labeled datasets, the performance can be further improved."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8173
+      },
+      "evidence": {
+        "score": 0.3361,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperform",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9524,
+          "evidence_type": "result",
+          "matched_cue": "outperform",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6495,
+        "downstream_relevance_score": 0.5402,
+        "components": {
+          "bio_boundary_score": 0.8022,
+          "sentence_evidence_score": 0.3361,
+          "sentence_role_score": 0.8173,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bm25",
+          "baseline"
+        ],
+        "normalization": "bm25 baseline",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BM25 baseline",
+          "canonical": "BM25 baseline",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8022",
+        "structure model assigned role 'problem' with score 0.8173",
+        "evidence cue lexicon matched outperform, benchmark",
+        "downstream relevance score is 0.5402"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "contrastive pre-training",
+        "canonical": "contrastive pre-training",
+        "normalized": "contrastive pre-training",
+        "tokens": [
+          "contrastive",
+          "pre-training"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 192,
+        "sentence": "Impacts of Batch Size Since we use in-batch negatives for contrastive pre-training, larger batch size will provide more negatives and therefore improve the quality of the learned text embeddings.",
+        "context_window": {
+          "previous": "Some negative results are also listed in Appendix C.",
+          "current": "Impacts of Batch Size Since we use in-batch negatives for contrastive pre-training, larger batch size will provide more negatives and therefore improve the quality of the learned text embeddings.",
+          "next": "In 7 https://huggingface.co/spaces/mteb/leaderboard , as of November 22, 2022 7 Table 5: Impacts of different batch sizes for contrastive pre-training. batch size NFCorpus NQ FiQA Quora DBPedia Scifact Avg 32k 35.8 39.0 40.0 85.7 35.4 73.7 51.6 8k 33.3 38.5 37.6 85.7 34.0 71.8 50.2 1k 28.2 33.1 30.4 84.0 30.1 69.1 45.8 Table 5, increasing batch size from 1 K to 32 K leads to consistent gains across all ."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7325,
+        "downstream_relevance_score": 0.5337,
+        "components": {
+          "bio_boundary_score": 0.8155,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "contrastive",
+          "pre-training"
+        ],
+        "normalization": "contrastive pre-training",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "contrastive pre-training",
+          "canonical": "contrastive pre-training",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8155",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5337"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "retrieval benchmark",
+        "canonical": "retrieval benchmark",
+        "normalized": "retrieval benchmark",
+        "tokens": [
+          "retrieval",
+          "benchmark"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "For zero-shot settings, E5 is the first model that outperforms the strong BM25 baseline on the BEIR retrieval benchmark without using any labeled data.",
+        "context_window": {
+          "previous": "We conduct extensive evaluations on 56 datasets from the BEIR and MTEB benchmarks.",
+          "current": "For zero-shot settings, E5 is the first model that outperforms the strong BM25 baseline on the BEIR retrieval benchmark without using any labeled data.",
+          "next": "When fine-tuned, E5 obtains the best results on the MTEB benchmark, beating existing embedding models with 40 × more parameters."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "outperforms",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5891,
+        "downstream_relevance_score": 0.5303,
+        "components": {
+          "bio_boundary_score": 0.7062,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "retrieval",
+          "benchmark"
+        ],
+        "normalization": "retrieval benchmark",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "retrieval benchmark",
+          "canonical": "retrieval benchmark",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7062",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms, benchmark",
+        "downstream relevance score is 0.5303"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "batch",
+        "canonical": "batch",
+        "normalized": "batch",
+        "tokens": [
+          "batch"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 92,
+        "sentence": "We find that this simple strategy enables more stable training and outperforms methods such as MoCo [25] when the batch size is sufficiently large.",
+        "context_window": {
+          "previous": "Here we choose to use the in-batch negatives [ 10 ], where the passages from other pairs in a batch serve as negative samples.",
+          "current": "We find that this simple strategy enables more stable training and outperforms methods such as MoCo [25] when the batch size is sufficiently large.",
+          "next": "4.2 Fine-tuning with Labeled Data While contrastive pre-training on the CCPairs provides a solid foundation for general-purpose embeddings, further training on labeled data can inject human knowledge into the model to boost the performance."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5913,
+        "downstream_relevance_score": 0.4993,
+        "components": {
+          "bio_boundary_score": 0.6034,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch"
+        ],
+        "normalization": "batch",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch",
+          "canonical": "batch",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6034",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.4993"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "teacher model",
+        "canonical": "teacher model",
+        "normalized": "teacher model",
+        "tokens": [
+          "teacher",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 99,
+        "sentence": "The loss function is a linear interpolation between contrastive loss L cont for hard labels and KL divergence D KL for distilling soft labels from the teacher model. min D KL ( p ce , p stu ) + αL cont (3) Where p ce and p stu are the probabilities from the cross-encoder teacher model and our student model. α is a hyperparameter to balance the two loss functions.",
+        "context_window": {
+          "previous": "For the NLI dataset, contradiction sentences are regarded as hard negatives.",
+          "current": "The loss function is a linear interpolation between contrastive loss L cont for hard labels and KL divergence D KL for distilling soft labels from the teacher model. min D KL ( p ce , p stu ) + αL cont (3) Where p ce and p stu are the probabilities from the cross-encoder teacher model and our student model. α is a hyperparameter to balance the two loss functions.",
+          "next": "L cont is the same as in Equation 1."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6863,
+        "downstream_relevance_score": 0.4873,
+        "components": {
+          "bio_boundary_score": 0.95,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "teacher",
+          "model"
+        ],
+        "normalization": "teacher model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "teacher model",
+          "canonical": "teacher model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.95",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4873"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "Text Classification",
+        "canonical": "Text Classification",
+        "normalized": "text classification",
+        "tokens": [
+          "text",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 110,
+        "sentence": "4 Zero-shot Text Classification The input and label texts are converted to sentences based on manually written prompt templates.",
+        "context_window": {
+          "previous": "6 The version released by SimCSE.",
+          "current": "4 Zero-shot Text Classification The input and label texts are converted to sentences based on manually written prompt templates.",
+          "next": "The predicted label is the one closest to the input text in the embedding space."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7164,
+        "downstream_relevance_score": 0.4775,
+        "components": {
+          "bio_boundary_score": 0.9675,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "classification"
+        ],
+        "normalization": "text classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Text Classification",
+          "canonical": "Text Classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9675",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4775"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "passage",
+        "canonical": "passage",
+        "normalized": "passage",
+        "tokens": [
+          "passage"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 60,
+        "sentence": "Let ( q , p ) denote a text pair consisting of a query q and a passage p .",
+        "context_window": {
+          "previous": "Instead, we curate a text pair dataset CCPairs ( C olossal C lean text Pairs ) by harvesting heterogeneous semi-structured data sources.",
+          "current": "Let ( q , p ) denote a text pair consisting of a query q and a passage p .",
+          "next": "Here we use “ passage ” to denote word sequences of arbitrary length, which can be a short sentence, a paragraph, or a long document."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7227,
+        "downstream_relevance_score": 0.4708,
+        "components": {
+          "bio_boundary_score": 0.987,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "passage"
+        ],
+        "normalization": "passage",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "passage",
+          "canonical": "passage",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.987",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4708"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "Common Crawl",
+        "canonical": "Common Crawl",
+        "normalized": "common crawl",
+        "tokens": [
+          "common",
+          "crawl"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 64,
+        "sentence": "Simple heuristic rules are applied to filter data from Reddit and Common Crawl.",
+        "context_window": {
+          "previous": "We only include data sources that can be automatically mined, and some subsets are directly reused from existing datasets.",
+          "current": "Simple heuristic rules are applied to filter data from Reddit and Common Crawl.",
+          "next": "For example, we remove Reddit comments that are either too long ( > 4096 characters) or receive score less than 1 , and remove passages from web pages with high perplexity [ 60 ]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6947,
+        "downstream_relevance_score": 0.4662,
+        "components": {
+          "bio_boundary_score": 0.9077,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "common",
+          "crawl"
+        ],
+        "normalization": "common crawl",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Common Crawl",
+          "canonical": "Common Crawl",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9077",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4662"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "BEIR Benchmark",
+        "canonical": "BEIR Benchmark",
+        "normalized": "beir benchmark",
+        "tokens": [
+          "beir",
+          "benchmark"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 133,
+        "sentence": "5.2 Evaluation Datasets BEIR Benchmark [ 53 ] is a collection of 19 information retrieval datasets, ranging across ad-hoc web search, question answering, fact verification and duplicate question retrieval, etc.",
+        "context_window": {
+          "previous": "More implementation details can be found in Appendix B.",
+          "current": "5.2 Evaluation Datasets BEIR Benchmark [ 53 ] is a collection of 19 information retrieval datasets, ranging across ad-hoc web search, question answering, fact verification and duplicate question retrieval, etc.",
+          "next": "We evaluate the 15 datasets that provide public downloads."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8462,
+          "evidence_type": "dataset",
+          "matched_cue": "benchmark",
+          "role_prior": "dataset",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5826,
+        "downstream_relevance_score": 0.4586,
+        "components": {
+          "bio_boundary_score": 0.9922,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "beir",
+          "benchmark"
+        ],
+        "normalization": "beir benchmark",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BEIR Benchmark",
+          "canonical": "BEIR Benchmark",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9922",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.4586"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "BM25",
+        "canonical": "BM25",
+        "normalized": "bm25",
+        "tokens": [
+          "bm25"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 42,
+        "sentence": "SPAR [ 11 ] trains a dense retriever by treating BM25 as a teacher model.",
+        "context_window": {
+          "previous": "Oguz et al. [45] performs domain-matched pre-training to improve in-domain results.",
+          "current": "SPAR [ 11 ] trains a dense retriever by treating BM25 as a teacher model.",
+          "next": "Although the aforementioned approaches can easily obtain abundant supervision signals, such synthetic data tend to be of low quality."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6773,
+        "downstream_relevance_score": 0.4472,
+        "components": {
+          "bio_boundary_score": 0.8346,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bm25"
+        ],
+        "normalization": "bm25",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BM25",
+          "canonical": "BM25",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8346",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4472"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "Text Clustering",
+        "canonical": "Text Clustering",
+        "normalized": "text clustering",
+        "tokens": [
+          "text",
+          "clustering"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 115,
+        "sentence": "Text Clustering Standard clustering algorithms such as k-means can be applied straightforwardly.",
+        "context_window": {
+          "previous": "Since the absolute similarity scores do not enable an easy interpretation, the evaluation is usually based on rank correlation coefficients.",
+          "current": "Text Clustering Standard clustering algorithms such as k-means can be applied straightforwardly.",
+          "next": "Texts belonging to the same category are expected to be close in the embedding space."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6121,
+        "downstream_relevance_score": 0.4233,
+        "components": {
+          "bio_boundary_score": 0.6787,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "clustering"
+        ],
+        "normalization": "text clustering",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Text Clustering",
+          "canonical": "Text Clustering",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6787",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4233"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "text pair",
+        "canonical": "text pair",
+        "normalized": "text pair",
+        "tokens": [
+          "text",
+          "pair"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 71,
+        "sentence": "A text pair is kept only if it falls in the top- k ranked lists.",
+        "context_window": {
+          "previous": "3 B noisy text pairs, and then used to rank each pair against a pool of 1 million random passages.",
+          "current": "A text pair is kept only if it falls in the top- k ranked lists.",
+          "next": "In other words, the model’s prediction should be consistent with the training labels."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6061,
+        "downstream_relevance_score": 0.4202,
+        "components": {
+          "bio_boundary_score": 0.7057,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "pair"
+        ],
+        "normalization": "text pair",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "text pair",
+          "canonical": "text pair",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7057",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4202"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "NLI dataset",
+        "canonical": "NLI dataset",
+        "normalized": "nli dataset",
+        "tokens": [
+          "nli",
+          "dataset"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 98,
+        "sentence": "For the NLI dataset, contradiction sentences are regarded as hard negatives.",
+        "context_window": {
+          "previous": "Building on the practices of training state-of-the-art dense retrievers [ 50 , 58 ], we use mined hard negatives and knowledge distillation from a cross-encoder (CE) teacher model for the MS-MARCO and NQ datasets.",
+          "current": "For the NLI dataset, contradiction sentences are regarded as hard negatives.",
+          "next": "The loss function is a linear interpolation between contrastive loss L cont for hard labels and KL divergence D KL for distilling soft labels from the teacher model. min D KL ( p ce , p stu ) + αL cont (3) Where p ce and p stu are the probabilities from the cross-encoder teacher model and our student model. α is a hyperparameter to balance the two loss functions."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6,
+        "downstream_relevance_score": 0.4198,
+        "components": {
+          "bio_boundary_score": 0.9698,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "nli",
+          "dataset"
+        ],
+        "normalization": "nli dataset",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "NLI dataset",
+          "canonical": "NLI dataset",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9698",
+        "structure model assigned role 'problem' with score 0.66",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.4198"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "data quality",
+        "canonical": "data quality",
+        "normalized": "data quality",
+        "tokens": [
+          "data",
+          "quality"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 73,
+        "sentence": "Here we set k = 2 based on manual inspection of data quality.",
+        "context_window": {
+          "previous": "In other words, the model’s prediction should be consistent with the training labels.",
+          "current": "Here we set k = 2 based on manual inspection of data quality.",
+          "next": "After this step, we end up with ∼ 270 M text pairs for contrastive pre-training."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6036,
+        "downstream_relevance_score": 0.4188,
+        "components": {
+          "bio_boundary_score": 0.7257,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "data",
+          "quality"
+        ],
+        "normalization": "data quality",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "data quality",
+          "canonical": "data quality",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7257",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4188"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "Contrastive loss",
+        "canonical": "Contrastive loss",
+        "normalized": "contrastive loss",
+        "tokens": [
+          "contrastive",
+          "loss"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 36,
+        "sentence": "Contrastive loss popularized by SimCLR [ 10 ] turns out to be more effective than classification- based losses [ 49 , 14 ] for embeddings.",
+        "context_window": {
+          "previous": "For long documents, it remains an open research question whether fixed-length embeddings can encode all the information.",
+          "current": "Contrastive loss popularized by SimCLR [ 10 ] turns out to be more effective than classification- based losses [ 49 , 14 ] for embeddings.",
+          "next": "LaBSE [ 20 ], LASER [ 2 ] and CLIP [ 47 ] further extend to multilingual and multi-modal scenarios using parallel sentences and image-text pairs."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6024,
+        "downstream_relevance_score": 0.4183,
+        "components": {
+          "bio_boundary_score": 0.6444,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "contrastive",
+          "loss"
+        ],
+        "normalization": "contrastive loss",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Contrastive loss",
+          "canonical": "Contrastive loss",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6444",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4183"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "linear classifier",
+        "canonical": "linear classifier",
+        "normalized": "linear classifier",
+        "tokens": [
+          "linear",
+          "classifier"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 106,
+        "sentence": "Few-shot Text Classification A linear classifier is trained on top of the frozen embeddings with a few labeled examples.",
+        "context_window": {
+          "previous": "Then for each query, we compute its query embedding and return the top- k ranked lists from the corpus based on cosine similarity.",
+          "current": "Few-shot Text Classification A linear classifier is trained on top of the frozen embeddings with a few labeled examples.",
+          "next": "Different tasks only need to train and save the parameters of the classification heads."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5162,
+        "downstream_relevance_score": 0.389,
+        "components": {
+          "bio_boundary_score": 0.724,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "classifier"
+        ],
+        "normalization": "linear classifier",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear classifier",
+          "canonical": "linear classifier",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.724",
+        "structure model assigned role 'component' with score 0.82",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.389"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "information retrieval",
+        "canonical": "information retrieval",
+        "normalized": "information retrieval",
+        "tokens": [
+          "information",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 39,
+        "sentence": "However, Contriever [ 28 ] shows that random cropping with data augmentation is more effective than ICT on a range of zero-shot information retrieval tasks.",
+        "context_window": {
+          "previous": "Another direction is to design self-supervised pre-training tasks for text matching and retrieval. [ 9 ] proposes the well-known inverse cloze task (ICT), where a random sentence within a passage is chosen as a pseudo-query and the rest is treated as a positive sample.",
+          "current": "However, Contriever [ 28 ] shows that random cropping with data augmentation is more effective than ICT on a range of zero-shot information retrieval tasks.",
+          "next": "OpenAI text embeddings [ 41 ] use neighboring texts as positives and scale up the model size to 175 B."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5698,
+        "downstream_relevance_score": 0.3691,
+        "components": {
+          "bio_boundary_score": 0.8875,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "information",
+          "retrieval"
+        ],
+        "normalization": "information retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "information retrieval",
+          "canonical": "information retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8875",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3691"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "contrastive training",
+        "canonical": "contrastive training",
+        "normalized": "contrastive training",
+        "tokens": [
+          "contrastive",
+          "training"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 90,
+        "sentence": "Another critical issue for contrastive training is how to select the negative samples.",
+        "context_window": {
+          "previous": "Such an asymmetric design turns out to be important for some retrieval tasks where there exist paraphrases of the query in the target corpus.",
+          "current": "Another critical issue for contrastive training is how to select the negative samples.",
+          "next": "Here we choose to use the in-batch negatives [ 10 ], where the passages from other pairs in a batch serve as negative samples."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5435,
+        "downstream_relevance_score": 0.3682,
+        "components": {
+          "bio_boundary_score": 0.8053,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "contrastive",
+          "training"
+        ],
+        "normalization": "contrastive training",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "contrastive training",
+          "canonical": "contrastive training",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8053",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.3682"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "embedding space",
+        "canonical": "embedding space",
+        "normalized": "embedding space",
+        "tokens": [
+          "embedding",
+          "space"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 116,
+        "sentence": "Texts belonging to the same category are expected to be close in the embedding space.",
+        "context_window": {
+          "previous": "Text Clustering Standard clustering algorithms such as k-means can be applied straightforwardly.",
+          "current": "Texts belonging to the same category are expected to be close in the embedding space.",
+          "next": "For tasks other than zero-shot text classification and retrieval, we use the query embeddings by default."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5345,
+        "downstream_relevance_score": 0.3635,
+        "components": {
+          "bio_boundary_score": 0.8315,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "embedding",
+          "space"
+        ],
+        "normalization": "embedding space",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "embedding space",
+          "canonical": "embedding space",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8315",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.3635"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "E5-PT large",
+        "canonical": "E5-PT large",
+        "normalized": "e5-pt large",
+        "tokens": [
+          "e5-pt",
+          "large"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 145,
+        "sentence": "When scaling up to E5-PT large , we see further benefits from 42 .",
+        "context_window": {
+          "previous": "To the best of our knowledge, this is the first reported result that an unsupervised model can beat BM25 on the BEIR benchmark.",
+          "current": "When scaling up to E5-PT large , we see further benefits from 42 .",
+          "next": "9 to 44 ."
+        }
+      },
+      "role": {
+        "label": "future_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "future_work",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.519,
+        "downstream_relevance_score": 0.3427,
+        "components": {
+          "bio_boundary_score": 0.8171,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "e5-pt",
+          "large"
+        ],
+        "normalization": "e5-pt large",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "E5-PT large",
+          "canonical": "E5-PT large",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8171",
+        "structure model assigned role 'future_work' with score 0.66",
+        "downstream relevance score is 0.3427"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "batch size 256",
+        "canonical": "batch size 256",
+        "normalized": "batch size 256",
+        "tokens": [
+          "batch",
+          "size",
+          "256"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 127,
+        "sentence": "Models are fine-tuned for 3 epochs with batch size 256 on 8 GPUs.",
+        "context_window": {
+          "previous": "We reuse the mined hard negatives and re-ranker scores from SimLM [ 58 ] for the first two datasets.",
+          "current": "Models are fine-tuned for 3 epochs with batch size 256 on 8 GPUs.",
+          "next": "Learning rate is { 3 , 2 , 1 } × 10 − 5 for the {small, base, large} models with 400 steps warmup."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5244,
+        "downstream_relevance_score": 0.3387,
+        "components": {
+          "bio_boundary_score": 0.8199,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "size",
+          "256"
+        ],
+        "normalization": "batch size 256",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch size 256",
+          "canonical": "batch size 256",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8199",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3387"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "LSA",
+        "canonical": "LSA",
+        "normalized": "lsa",
+        "tokens": [
+          "lsa"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 30,
+        "sentence": "LSA utilizes the decomposition of a word-document co-occurrence matrix to generate document embeddings, while LDA adopts probabilistic graphical models to learn topic distributions.",
+        "context_window": {
+          "previous": "Early works include Latent Semantic Indexing (LSA) [ 16 ] and Latent Dirichlet Allocation (LDA) [ 3 ].",
+          "current": "LSA utilizes the decomposition of a word-document co-occurrence matrix to generate document embeddings, while LDA adopts probabilistic graphical models to learn topic distributions.",
+          "next": "Arora et al. show that a simple weighted average of word vectors [ 38 ] can be a strong baseline for sentence embeddings."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.4945
+      },
+      "evidence": {
+        "score": 0.3493,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.459,
+        "downstream_relevance_score": 0.3372,
+        "components": {
+          "bio_boundary_score": 0.8022,
+          "sentence_evidence_score": 0.3493,
+          "sentence_role_score": 0.4945,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "lsa"
+        ],
+        "normalization": "lsa",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "LSA",
+          "canonical": "LSA",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8022",
+        "structure model assigned role 'gap' with score 0.4945",
+        "downstream relevance score is 0.3372"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "Latent Semantic Indexing",
+        "canonical": "Latent Semantic Indexing",
+        "normalized": "latent semantic indexing",
+        "tokens": [
+          "latent",
+          "semantic",
+          "indexing"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 29,
+        "sentence": "Early works include Latent Semantic Indexing (LSA) [ 16 ] and Latent Dirichlet Allocation (LDA) [ 3 ].",
+        "context_window": {
+          "previous": "There have been long-lasting interests in transforming texts into low-dimensional dense embeddings.",
+          "current": "Early works include Latent Semantic Indexing (LSA) [ 16 ] and Latent Dirichlet Allocation (LDA) [ 3 ].",
+          "next": "LSA utilizes the decomposition of a word-document co-occurrence matrix to generate document embeddings, while LDA adopts probabilistic graphical models to learn topic distributions."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4299,
+        "downstream_relevance_score": 0.2896,
+        "components": {
+          "bio_boundary_score": 0.6275,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "latent",
+          "semantic",
+          "indexing"
+        ],
+        "normalization": "latent semantic indexing",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Latent Semantic Indexing",
+          "canonical": "Latent Semantic Indexing",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6275",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.2896"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 56,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "When averaged over all 15 datasets, E5-PT base outperforms the classic BM25 algorithm by 1.2 points.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Our E5 base model achieves an average nDCG@10 of 48.7, already surpassing existing methods with more parameters such as GTR large .",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In Table , E5 models not only substantially outperform existing ones with similar sizes, but also match the results of much larger models.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "It remains an open question whether state-of-the-art embeddings can be obtained in a purely self-supervised manner.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This evaluation setup is consistent with most state-of-the-art dense retrievers.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In this work, we mine and assemble CCPairs, a large high-quality text pair dataset from web sources which provide diverse training signals transferring well to a wide range of tasks.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Instead, we curate a text pair dataset CCPairs (Colossal Clean text Pairs) by harvesting heterogeneous semi-structured data sources.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Our dataset includes (post, comment) pairs from Reddit , (question, upvoted answer) pairs from Stackexchange , (entity name + section title, passage) pairs from English Wikipedia, (title, abstract) and citation pairs from Scientific papers , and (title, passage) pairs from Common Crawl web pages and various News sources.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For example, we remove Reddit comments that are either too long (> 4096 characters) or receive score less than 1, and remove passages from web pages with high perplexity .",
+        "evidence_type": "metric",
+        "matched_cue": "perplexity",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "BEIR Benchmark is a collection of 19 information retrieval datasets, ranging across ad-hoc web search, question answering, fact verification and duplicate question retrieval, etc.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The evaluation metrics are accuracy, v-measure, average precision, MAP, nDCG@10, and Spearman coefficients, respectively.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The evaluation metrics are accuracy, v-measure, average precision, MAP, nDCG@10, and Spearman coefficients, respectively.",
+        "evidence_type": "metric",
+        "matched_cue": "precision",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To the best of our knowledge, this is the first reported result that an unsupervised model can beat BM25 on the BEIR benchmark.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The highest number for each dataset is in bold, and the second highest is underlined. †: we report the LaPraDor results without ensembling with BM25. * : reproduction with the released checkpoint.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The methods can easily obtain large-scale training data, while our approach requires more effort in dataset curation.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "ANCE GTR base ColBERT Contriever cpt 300M GTR large E5 small E5 base E5 large MS MARCO 38.8 42.0 40.1 40.7 -43.0 42.3 43.1 44.1 Trec-Covid 65.4 53.9 67.7 59.6 67.9 55.7 76.8 79.6 78.3 NFCorpus 23.7 30.8 30.5 32.8 33.2 32.9 33.9 36.6 36.1 NQ 44.6 49.5 52.4 49.8 -54.7 58.7 60.0 62.9 HotpotQA 45.6 53.5 59.3 63.8 59.4 57.9 56.3 62.2 63.3 FiQA 29.5 34.9 31.7 32.9 38.4 42.4 34.8 36.4 38.6 ArguAna 41.5 51.1 23.3 44.6 47.0 52.5 46.7 51.4 49.4 Touche-2020 24.0 20.5 20.2 23.0 28.5 21.9 26.8 28.3 27.2 CQADupStack 29.6 35.7 35.0 34.5 -38.4 36.1 38.9 39.4 Quora 85.2 88.1 85.4 86.5 70.6 89.0 87.7 87.9 88.2 DBPedia 28.1 34.7 39.2 41.3 36.2 39.1 38.6 41.0 42.4 Scidocs 12.2 14.9 14.5 16.5 -15.8 16.4 19.0 20.1 Fever 66.9 66.0 77.1 75.8 72.1 71.2 53.5 58.2 65.0 Climate-Fever 19.8 24.1 18.4 23.7 18.5 26.2 15.8 15.4 22.4 Scifact 50.7 60.0 67.1 67.7 67.2 63.9 65.6 73.1 72.6 Average 40.5 44.0 44.4 46.6 -47.0 46.0 48.7 50.0 Best on 0 0 1 1 1 4 0 3 5 Results with Supervised Fine-tuning In Table , we fine-tune our models on supervised datasets and then transfer them to the BEIR benchmark.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Since the difference between BERT-FT base and E5 base is that BERT-FT base only has fine-tuning stage, their performance gap demonstrates the usefulness of contrastive pre-training on our proposed CCPairs dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the BEIR benchmark, we choose 6 datasets with more stable results across different runs.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For the Quora duplicate retrieval task in the BEIR benchmark, we add prefix \"query: \" to all the questions.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "However, the MS-MARCO data from the BEIR benchmark does not have titles, so the results are expected to be lower.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table : In-domain results. \"target pre-train\" refers to intermediate pre-training on the target corpus before supervised fine-tuning.",
+        "evidence_type": "dataset",
+        "matched_cue": "corpus",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "MS-MARCO NQ MRR@10 R@1k R@20 R@100 ANCE 61] ✗ 33.0 95.9 81.9 87.5 RocketQAv2 [50] ✗ 38.8 98.1 83.7 89.0 SimLM [58] ✓ 41.1 98.7 85.2 89.7 E5 small ✗ 37.5 98.1 84.6 89.8 E5 base ✗ 38.5 98.5 86.1 90.7 E5 large ✗ 39.4 98.7 86.4 90.5 Here are some attempts that we eventually give up on: Adding BM25 hard negatives Similar to DPR , we add one BM25 hard negative for each positive pair during training.",
+        "evidence_type": "metric",
+        "matched_cue": "MRR",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "When using 15M data, this strategy improves the overall results by ∼ 0.5 points on the BEIR benchmark.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "However, running the BM25 algorithm over a 250M+ dataset is too time-consuming even with multi-node and multi-process parallelism.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Using RoBERTa instead of BERT for initialization Though RoBERTa shows consistent gains on many NLP tasks, we empirically find that RoBERTa performs worse than BERT initialization on most of the BEIR benchmark datasets.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "Sentence Embedding",
+        "section": "conclusion",
+        "role": "component",
+        "score": 0.6693
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "nDCG@10",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6088
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "data",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.607
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "text pair dataset",
+        "section": "method",
+        "role": "process",
+        "score": 0.5778
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "contrastive learning recipe",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.548
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "BM25 baseline",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5402
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "contrastive pre-training",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5337
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "retrieval benchmark",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.5303
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "batch",
+        "section": "method",
+        "role": "process",
+        "score": 0.4993
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "teacher model",
+        "section": "method",
+        "role": "component",
+        "score": 0.4873
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "Text Classification",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4775
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "passage",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4708
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "Common Crawl",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4662
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "BEIR Benchmark",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4586
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "BM25",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4472
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "Text Clustering",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4233
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "text pair",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4202
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "NLI dataset",
+        "section": "method",
+        "role": "problem",
+        "score": 0.4198
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "data quality",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4188
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "Contrastive loss",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4183
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "linear classifier",
+        "section": "method",
+        "role": "component",
+        "score": 0.389
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "information retrieval",
+        "section": "method",
+        "role": "gap",
+        "score": 0.3691
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "contrastive training",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.3682
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "embedding space",
+        "section": "method",
+        "role": "component",
+        "score": 0.3635
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "E5-PT large",
+        "section": "experiment",
+        "role": "future_work",
+        "score": 0.3427
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "batch size 256",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3387
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "LSA",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.3372
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "Latent Semantic Indexing",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.2896
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_003",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_021",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

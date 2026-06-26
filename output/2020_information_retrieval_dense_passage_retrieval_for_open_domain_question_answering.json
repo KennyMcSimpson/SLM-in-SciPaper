@@ -1,0 +1,4006 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2020_information_retrieval_dense_passage_retrieval_for_open_domain_question_answering",
+    "title": "2020_information_retrieval_dense_passage_retrieval_for_open_domain_question_answering",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2020_information_retrieval_dense_passage_retrieval_for_open_domain_question_answering.txt",
+    "sentence_count": 268,
+    "section_counts": {
+      "intro": 9,
+      "method": 18,
+      "experiment": 182,
+      "related_work": 55,
+      "conclusion": 4
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 6639,
+    "type_count": 1524,
+    "type_token_ratio": 0.2296,
+    "section_token_counts": {
+      "intro": 284,
+      "related_work": 1419,
+      "method": 463,
+      "experiment": 4383,
+      "conclusion": 90
+    },
+    "top_unigrams": [
+      {
+        "term": "passage",
+        "count": 71
+      },
+      {
+        "term": "passages",
+        "count": 66
+      },
+      {
+        "term": "et",
+        "count": 64
+      },
+      {
+        "term": "al",
+        "count": 64
+      },
+      {
+        "term": "question",
+        "count": 52
+      },
+      {
+        "term": "retrieval",
+        "count": 47
+      },
+      {
+        "term": "training",
+        "count": 47
+      },
+      {
+        "term": "questions",
+        "count": 44
+      },
+      {
+        "term": "bm25",
+        "count": 41
+      },
+      {
+        "term": "qa",
+        "count": 37
+      },
+      {
+        "term": "dpr",
+        "count": 37
+      },
+      {
+        "term": "using",
+        "count": 35
+      },
+      {
+        "term": "can",
+        "count": 34
+      },
+      {
+        "term": "dense",
+        "count": 33
+      },
+      {
+        "term": "retriever",
+        "count": 27
+      },
+      {
+        "term": "2019",
+        "count": 27
+      },
+      {
+        "term": "which",
+        "count": 26
+      },
+      {
+        "term": "negative",
+        "count": 25
+      },
+      {
+        "term": "datasets",
+        "count": 24
+      },
+      {
+        "term": "accuracy",
+        "count": 24
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 64
+      },
+      {
+        "term": "al 2019",
+        "count": 26
+      },
+      {
+        "term": "open-domain qa",
+        "count": 14
+      },
+      {
+        "term": "natural questions",
+        "count": 12
+      },
+      {
+        "term": "dense passage",
+        "count": 11
+      },
+      {
+        "term": "lee et",
+        "count": 11
+      },
+      {
+        "term": "passage retrieval",
+        "count": 10
+      },
+      {
+        "term": "question passage",
+        "count": 10
+      },
+      {
+        "term": "passage retriever",
+        "count": 9
+      },
+      {
+        "term": "al 2020",
+        "count": 9
+      },
+      {
+        "term": "question answering",
+        "count": 8
+      },
+      {
+        "term": "retrieval accuracy",
+        "count": 8
+      },
+      {
+        "term": "al 2017",
+        "count": 8
+      },
+      {
+        "term": "negative passages",
+        "count": 8
+      },
+      {
+        "term": "pairs questions",
+        "count": 7
+      },
+      {
+        "term": "retriever dpr",
+        "count": 7
+      },
+      {
+        "term": "nq triviaqa",
+        "count": 7
+      },
+      {
+        "term": "trained using",
+        "count": 7
+      },
+      {
+        "term": "open-domain question",
+        "count": 6
+      },
+      {
+        "term": "qa datasets",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "et al 2019",
+        "count": 26
+      },
+      {
+        "term": "lee et al",
+        "count": 11
+      },
+      {
+        "term": "dense passage retriever",
+        "count": 9
+      },
+      {
+        "term": "et al 2020",
+        "count": 9
+      },
+      {
+        "term": "et al 2017",
+        "count": 8
+      },
+      {
+        "term": "passage retriever dpr",
+        "count": 7
+      },
+      {
+        "term": "open-domain question answering",
+        "count": 6
+      },
+      {
+        "term": "chen et al",
+        "count": 5
+      },
+      {
+        "term": "in-batch negative training",
+        "count": 5
+      },
+      {
+        "term": "et al 2019a",
+        "count": 4
+      },
+      {
+        "term": "pairs questions answers",
+        "count": 4
+      },
+      {
+        "term": "wang et al",
+        "count": 4
+      },
+      {
+        "term": "min et al",
+        "count": 4
+      },
+      {
+        "term": "guu et al",
+        "count": 4
+      },
+      {
+        "term": "orqa lee et",
+        "count": 3
+      },
+      {
+        "term": "using pairs questions",
+        "count": 3
+      },
+      {
+        "term": "question passage pairs",
+        "count": 3
+      },
+      {
+        "term": "question passage encoders",
+        "count": 3
+      },
+      {
+        "term": "between question passage",
+        "count": 3
+      },
+      {
+        "term": "bm25 negative passage",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 17,
+    "nonzero_tfidf_features": 17,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__open-domain question answering",
+        "section": "intro",
+        "term": "open-domain question answering",
+        "frequency": 3.0,
+        "tfidf": 1.1677
+      },
+      {
+        "feature_name": "introduction__open-domain qa",
+        "section": "intro",
+        "term": "open-domain qa",
+        "frequency": 7.0,
+        "tfidf": 1.1109
+      },
+      {
+        "feature_name": "conclusion__question answering",
+        "section": "conclusion",
+        "term": "question answering",
+        "frequency": 2.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "related_work__open-domain qa",
+        "section": "related_work",
+        "term": "open-domain qa",
+        "frequency": 4.0,
+        "tfidf": 0.958
+      },
+      {
+        "feature_name": "experiments__end-to-end",
+        "section": "experiment",
+        "term": "end-to-end",
+        "frequency": 3.0,
+        "tfidf": 0.8994
+      },
+      {
+        "feature_name": "introduction__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 5.0,
+        "tfidf": 0.4933
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 2.0,
+        "tfidf": 0.3681
+      },
+      {
+        "feature_name": "abstract__embeddings",
+        "section": "intro",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.3038
+      },
+      {
+        "feature_name": "experiments__question answering",
+        "section": "experiment",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.2685
+      },
+      {
+        "feature_name": "abstract__end-to-end",
+        "section": "intro",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.2525
+      },
+      {
+        "feature_name": "abstract__question answering",
+        "section": "intro",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.2398
+      },
+      {
+        "feature_name": "related_work__bart",
+        "section": "related_work",
+        "term": "bart",
+        "frequency": 1.0,
+        "tfidf": 0.2395
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.2261
+      },
+      {
+        "feature_name": "introduction__end-to-end",
+        "section": "intro",
+        "term": "end-to-end",
+        "frequency": 2.0,
+        "tfidf": 0.1931
+      },
+      {
+        "feature_name": "introduction__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 2.0,
+        "tfidf": 0.1877
+      },
+      {
+        "feature_name": "introduction__question answering",
+        "section": "intro",
+        "term": "question answering",
+        "frequency": 2.0,
+        "tfidf": 0.1717
+      },
+      {
+        "feature_name": "related_work__BERT",
+        "section": "related_work",
+        "term": "BERT",
+        "frequency": 1.0,
+        "tfidf": 0.1579
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__open-domain question answering",
+          "section": "intro",
+          "term": "open-domain question answering",
+          "frequency": 3.0,
+          "tfidf": 1.1677
+        },
+        {
+          "feature_name": "introduction__open-domain qa",
+          "section": "intro",
+          "term": "open-domain qa",
+          "frequency": 7.0,
+          "tfidf": 1.1109
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 5.0,
+          "tfidf": 0.4933
+        },
+        {
+          "feature_name": "abstract__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.3038
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.2525
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2398
+        },
+        {
+          "feature_name": "introduction__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 2.0,
+          "tfidf": 0.1931
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.1877
+        },
+        {
+          "feature_name": "introduction__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 0.1717
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__open-domain qa",
+          "section": "related_work",
+          "term": "open-domain qa",
+          "frequency": 4.0,
+          "tfidf": 0.958
+        },
+        {
+          "feature_name": "related_work__bart",
+          "section": "related_work",
+          "term": "bart",
+          "frequency": 1.0,
+          "tfidf": 0.2395
+        },
+        {
+          "feature_name": "related_work__BERT",
+          "section": "related_work",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.1579
+        }
+      ],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 3.0,
+          "tfidf": 0.8994
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 2.0,
+          "tfidf": 0.3681
+        },
+        {
+          "feature_name": "experiments__question answering",
+          "section": "experiment",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2685
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.2261
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__question answering",
+          "section": "conclusion",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 9,
+      "token_count": 284,
+      "bow_hit_count": 30,
+      "top_bow_terms": [
+        {
+          "canonical_term": "question answering",
+          "count": 15,
+          "section_prior": 0.4845,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "open-domain question answering",
+          "count": 10,
+          "section_prior": 0.625,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.5238,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__open-domain question answering",
+          "section": "intro",
+          "term": "open-domain question answering",
+          "frequency": 3.0,
+          "tfidf": 1.1677
+        },
+        {
+          "feature_name": "introduction__open-domain qa",
+          "section": "intro",
+          "term": "open-domain qa",
+          "frequency": 7.0,
+          "tfidf": 1.1109
+        },
+        {
+          "feature_name": "introduction__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 5.0,
+          "tfidf": 0.4933
+        },
+        {
+          "feature_name": "abstract__embeddings",
+          "section": "intro",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.3038
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.2525
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2398
+        },
+        {
+          "feature_name": "introduction__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 2.0,
+          "tfidf": 0.1931
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.1877
+        },
+        {
+          "feature_name": "introduction__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 0.1717
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 55,
+      "token_count": 1419,
+      "bow_hit_count": 34,
+      "top_bow_terms": [
+        {
+          "canonical_term": "open-domain question answering",
+          "count": 14,
+          "section_prior": 0.2812,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 10,
+          "section_prior": 0.0997,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "BART",
+          "count": 5,
+          "section_prior": 0.1277,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__open-domain qa",
+          "section": "related_work",
+          "term": "open-domain qa",
+          "frequency": 4.0,
+          "tfidf": 0.958
+        },
+        {
+          "feature_name": "related_work__bart",
+          "section": "related_work",
+          "term": "bart",
+          "frequency": 1.0,
+          "tfidf": 0.2395
+        },
+        {
+          "feature_name": "related_work__BERT",
+          "section": "related_work",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.1579
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 18,
+      "token_count": 463,
+      "bow_hit_count": 17,
+      "top_bow_terms": [
+        {
+          "canonical_term": "embedding",
+          "count": 10,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 5,
+          "section_prior": 0.202,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "open-domain question answering",
+          "count": 2,
+          "section_prior": 0.0312,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 182,
+      "token_count": 4383,
+      "bow_hit_count": 107,
+      "top_bow_terms": [
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 35,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 20,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 20,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 11,
+          "section_prior": 0.2484,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "open-domain question answering",
+          "count": 6,
+          "section_prior": 0.0312,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.3551,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 5,
+          "section_prior": 0.335,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 3.0,
+          "tfidf": 0.8994
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 2.0,
+          "tfidf": 0.3681
+        },
+        {
+          "feature_name": "experiments__question answering",
+          "section": "experiment",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.2685
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.2261
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 4,
+      "token_count": 90,
+      "bow_hit_count": 14,
+      "top_bow_terms": [
+        {
+          "canonical_term": "question answering",
+          "count": 10,
+          "section_prior": 0.0807,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "open-domain question answering",
+          "count": 4,
+          "section_prior": 0.0312,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__question answering",
+          "section": "conclusion",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "Question Answering",
+        "canonical": "question answering",
+        "normalized": "question answering",
+        "tokens": [
+          "question",
+          "answering"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "question answering",
+          "question-answering"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 198,
+        "sentence": ": Question Answering In this section, we experiment with how different passage retrievers affect the final QA accuracy.",
+        "context_window": {
+          "previous": "In comparison, building an inverted index using Lucene is much cheaper and takes only about 30 minutes in total.",
+          "current": ": Question Answering In this section, we experiment with how different passage retrievers affect the final QA accuracy.",
+          "next": "6.1 End-to-end QA System We implement an end-to-end question answering system in which we can plug different retriever systems directly."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8824,
+          "evidence_type": "metric",
+          "matched_cue": "accuracy",
+          "role_prior": "metric",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7074,
+        "downstream_relevance_score": 0.7896,
+        "components": {
+          "bio_boundary_score": 0.8819,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2484,
+          "document_tfidf_score": 0.23,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "question answering",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "question answering",
+        "display_term": "question answering",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Question_answering",
+        "wikidata_id": "Q1074173",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 16,
+        "total_frequency": 39,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__question answering",
+        "section": "experiment",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.2685,
+        "normalized_frequency": 0.1429,
+        "normalized_tfidf": 0.23
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "question",
+          "answering"
+        ],
+        "normalization": "question answering",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2484,
+        "canonicalization": {
+          "observed": "Question Answering",
+          "canonical": "question answering",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8819",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'question answering' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "document-term matrix links the phrase to feature 'experiments__question answering' with tf-idf 0.2685",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.7896"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "exact match",
+        "canonical": "exact match",
+        "normalized": "exact match",
+        "tokens": [
+          "exact",
+          "match"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 224,
+        "sentence": "Overall, our DPR-based models outperform the previous state- of-the-art results on four out of the five datasets, with 1% to 12% absolute differences in exact match accuracy.",
+        "context_window": {
+          "previous": "Conversely, on smaller datasets like WQ and TREC, the multi- dataset setting has a clear advantage.",
+          "current": "Overall, our DPR-based models outperform the previous state- of-the-art results on four out of the five datasets, with 1% to 12% absolute differences in exact match accuracy.",
+          "next": "It is interesting to contrast our results to those of ORQA (Lee et al., 2019) and also the concurrently developed approach, REALM (Guu et al., 2020)."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperform",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8889,
+          "evidence_type": "result",
+          "matched_cue": "outperform",
+          "role_prior": "result",
+          "confidence": 0.98
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7404,
+        "downstream_relevance_score": 0.6568,
+        "components": {
+          "bio_boundary_score": 0.9947,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "exact",
+          "match"
+        ],
+        "normalization": "exact match",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "exact match",
+          "canonical": "exact match",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9947",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperform, accuracy",
+        "downstream relevance score is 0.6568"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "BM25",
+        "canonical": "BM25",
+        "normalized": "bm25",
+        "tokens": [
+          "bm25"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 145,
+        "sentence": "Our DPR trained using 1,000 examples already outperforms BM25. tiple datasets, TREC, the smallest dataset of the five, benefits greatly from more training examples.",
+        "context_window": {
+          "previous": "The results are measured on the de- velopment set of Natural Questions.",
+          "current": "Our DPR trained using 1,000 examples already outperforms BM25. tiple datasets, TREC, the smallest dataset of the five, benefits greatly from more training examples.",
+          "next": "In contrast, Natural Questions and WebQuestions improve modestly and TriviaQA degrades slightly."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          },
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7534,
+        "downstream_relevance_score": 0.6535,
+        "components": {
+          "bio_boundary_score": 0.9986,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bm25"
+        ],
+        "normalization": "bm25",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BM25",
+          "canonical": "BM25",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9986",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms, dataset",
+        "downstream relevance score is 0.6535"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "retrieval accuracy",
+        "canonical": "retrieval accuracy",
+        "normalized": "retrieval accuracy",
+        "tokens": [
+          "retrieval",
+          "accuracy"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 155,
+        "sentence": "Figure 1 illustrates the top- k retrieval accuracy with respect to different num- bers of training examples, measured on the devel- opment set of Natural Questions.",
+        "context_window": {
+          "previous": "Sample efficiency We explore how many train- ing examples are needed to achieve good passage retrieval performance.",
+          "current": "Figure 1 illustrates the top- k retrieval accuracy with respect to different num- bers of training examples, measured on the devel- opment set of Natural Questions.",
+          "next": "As is shown, a dense passage retriever trained using only 1,000 ex- amples already outperforms BM25."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6663,
+        "downstream_relevance_score": 0.5833,
+        "components": {
+          "bio_boundary_score": 0.8272,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "retrieval",
+          "accuracy"
+        ],
+        "normalization": "retrieval accuracy",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "retrieval accuracy",
+          "canonical": "retrieval accuracy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8272",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5833"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "Open-domain question answering",
+        "canonical": "open-domain question answering",
+        "normalized": "open-domain question answering",
+        "tokens": [
+          "open-domain",
+          "question",
+          "answering"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "open-domain question answering",
+          "open-domain question-answering",
+          "open-domain qa"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "Open-domain question answering (QA) (Voorhees, 1999) is a task that answers factoid questions us- ing a large collection of documents.",
+        "context_window": {
+          "previous": "1 1",
+          "current": "Open-domain question answering (QA) (Voorhees, 1999) is a task that answers factoid questions us- ing a large collection of documents.",
+          "next": "While early QA systems are often complicated and consist of multiple components (Ferrucci (2012); Moldovan et al."
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.522,
+        "downstream_relevance_score": 0.5797,
+        "components": {
+          "bio_boundary_score": 0.9407,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.625,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "open-domain question answering",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "open-domain question answering",
+        "display_term": "open-domain qa",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "task",
+        "wiki_url": "nan",
+        "wikidata_id": "Q121409954",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 13,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__open-domain question answering",
+        "section": "intro",
+        "term": "open-domain question answering",
+        "frequency": 3.0,
+        "tfidf": 1.1677,
+        "normalized_frequency": 0.4286,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "open-domain",
+          "question",
+          "answering"
+        ],
+        "normalization": "open-domain question answering",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.625,
+        "canonicalization": {
+          "observed": "Open-domain question answering",
+          "canonical": "open-domain question answering",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9407",
+        "structure model assigned role 'background' with score 0.45",
+        "section BoW matched canonical term 'open-domain question answering' with confidence 0.91",
+        "BoW role prior suggests 'task'",
+        "document-term matrix links the phrase to feature 'abstract__open-domain question answering' with tf-idf 1.1677",
+        "downstream relevance score is 0.5797"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "dense vector representation",
+        "canonical": "dense vector representation",
+        "normalized": "dense vector representation",
+        "tokens": [
+          "dense",
+          "vector",
+          "representation"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 18,
+        "sentence": "However, it is generally believed that learn- ing a good dense vector representation needs a large number of labeled pairs of question and con- texts.",
+        "context_window": {
+          "previous": "(2016)).",
+          "current": "However, it is generally believed that learn- ing a good dense vector representation needs a large number of labeled pairs of question and con- texts.",
+          "next": "Dense retrieval methods have thus never be shown to outperform TF-IDF/BM25 for open- domain QA before ORQA (Lee et al., 2019), which proposes a sophisticated inverse cloze task (ICT) objective, predicting the blocks that contain the masked sentence, for additional pretraining."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.9881
+      },
+      "evidence": {
+        "score": 0.5458,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7159,
+        "downstream_relevance_score": 0.5577,
+        "components": {
+          "bio_boundary_score": 0.8554,
+          "sentence_evidence_score": 0.5458,
+          "sentence_role_score": 0.9881,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dense",
+          "vector",
+          "representation"
+        ],
+        "normalization": "dense vector representation",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dense vector representation",
+          "canonical": "dense vector representation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8554",
+        "structure model assigned role 'process' with score 0.9881",
+        "evidence score 0.5458 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5577"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "additional pretraining",
+        "canonical": "additional pretraining",
+        "normalized": "additional pretraining",
+        "tokens": [
+          "additional",
+          "pretraining"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 258,
+        "sentence": "In contrast, our model provides a simple and yet effective solution that shows stronger empirical per- formance, without relying on additional pretraining or complex joint training schemes.",
+        "context_window": {
+          "previous": "(2020b).",
+          "current": "In contrast, our model provides a simple and yet effective solution that shows stronger empirical per- formance, without relying on additional pretraining or complex joint training schemes.",
+          "next": "DPR has also been used as an important mod- ule in very recent work."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7494,
+        "downstream_relevance_score": 0.5493,
+        "components": {
+          "bio_boundary_score": 0.766,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "additional",
+          "pretraining"
+        ],
+        "normalization": "additional pretraining",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "additional pretraining",
+          "canonical": "additional pretraining",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.766",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5493"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "Training Model",
+        "canonical": "Training Model",
+        "normalized": "training model",
+        "tokens": [
+          "training",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 217,
+        "sentence": "From the table, we can Training Model NQ TriviaQA WQ TREC SQuAD Single BM25+BERT (Lee et al., 2019) 26.5 47.1 17.7 21.3 33.2 Single ORQA (Lee et al., 2019) 33.3 45.0 36.4 30.1 20.2 Single HardEM (Min et al., 2019a) 28.1 50.9 - - - Single GraphRetriever (Min et al., 2019b) 34.5 56.0 36.4 - - Single PathRetriever (Asai et al., 2020) 32.6 - - - 56.5 Single REALM Wiki (Guu et al., 2020) 39.2 - 40.2 46.8 - Single REALM News (Guu et al., 2020) 40.4 - 40.7 42.9 - Single BM25 32.6 52.4 29.9 24.9 38.1 DPR 41.5 56.8 34.6 25.9 29.8 BM25+DPR 39.0 57.0 35.2 28.0 36.7 Multi DPR 41.5 56.8 42.4 49.4 24.1 BM25+DPR 38.8 57.9 41.1 50.6 35.8 Table 4: End-to-end QA (Exact Match) Accuracy.",
+        "context_window": {
+          "previous": "6.2 Results Table 4 summarizes our final end-to-end QA re- sults, measured by exact match with the reference answer after minor normalization as in (Chen et al., 2017; Lee et al., 2019).",
+          "current": "From the table, we can Training Model NQ TriviaQA WQ TREC SQuAD Single BM25+BERT (Lee et al., 2019) 26.5 47.1 17.7 21.3 33.2 Single ORQA (Lee et al., 2019) 33.3 45.0 36.4 30.1 20.2 Single HardEM (Min et al., 2019a) 28.1 50.9 - - - Single GraphRetriever (Min et al., 2019b) 34.5 56.0 36.4 - - Single PathRetriever (Asai et al., 2020) 32.6 - - - 56.5 Single REALM Wiki (Guu et al., 2020) 39.2 - 40.2 46.8 - Single REALM News (Guu et al., 2020) 40.4 - 40.7 42.9 - Single BM25 32.6 52.4 29.9 24.9 38.1 DPR 41.5 56.8 34.6 25.9 29.8 BM25+DPR 39.0 57.0 35.2 28.0 36.7 Multi DPR 41.5 56.8 42.4 49.4 24.1 BM25+DPR 38.8 57.9 41.1 50.6 35.8 Table 4: End-to-end QA (Exact Match) Accuracy.",
+          "next": "The first block of results are copied from their cited papers."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6003,
+        "downstream_relevance_score": 0.549,
+        "components": {
+          "bio_boundary_score": 0.5204,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "training",
+          "model"
+        ],
+        "normalization": "training model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Training Model",
+          "canonical": "Training Model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5204",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.549"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "retriever",
+        "canonical": "retriever",
+        "normalized": "retriever",
+        "tokens": [
+          "retriever"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 46,
+        "sentence": "For a fixed k , a retriever can be evaluated in isolation on top-k retrieval accuracy , which is the fraction of ques- tions for which C F contains a span that answers the question.",
+        "context_window": {
+          "previous": "4 Formally speaking, a retriever R : ( q, C ) → C F is a function that takes as input a question q and a corpus C and returns a much smaller filter set of texts C F ⊂ C , where |C F | = k |C| .",
+          "current": "For a fixed k , a retriever can be evaluated in isolation on top-k retrieval accuracy , which is the fraction of ques- tions for which C F contains a span that answers the question.",
+          "next": "3 Dense Passage Retriever (DPR) We focus our research in this work on improv- ing the retrieval component in open-domain QA."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6397,
+        "downstream_relevance_score": 0.5466,
+        "components": {
+          "bio_boundary_score": 0.7366,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "retriever"
+        ],
+        "normalization": "retriever",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "retriever",
+          "canonical": "retriever",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7366",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5466"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "context retriever",
+        "canonical": "context retriever",
+        "normalized": "context retriever",
+        "tokens": [
+          "context",
+          "retriever"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 7,
+        "sentence": "(2003), inter alia ), the advances of reading comprehension models suggest a much simplified two-stage framework: (1) a context retriever first selects a small subset of passages where some of them contain the answer to the question, and then (2) a machine reader can thoroughly exam- ine the retrieved contexts and identify the correct answer (Chen et al., 2017).",
+        "context_window": {
+          "previous": "While early QA systems are often complicated and consist of multiple components (Ferrucci (2012); Moldovan et al.",
+          "current": "(2003), inter alia ), the advances of reading comprehension models suggest a much simplified two-stage framework: (1) a context retriever first selects a small subset of passages where some of them contain the answer to the question, and then (2) a machine reader can thoroughly exam- ine the retrieved contexts and identify the correct answer (Chen et al., 2017).",
+          "next": "Although reducing open-domain QA to machine reading is a very rea- sonable strategy, a huge performance degradation is often observed in practice 2 , indicating the needs of improving retrieval. ∗ Equal contribution"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.6897,
+          "evidence_type": "method",
+          "matched_cue": "framework",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6592,
+        "downstream_relevance_score": 0.5346,
+        "components": {
+          "bio_boundary_score": 0.771,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "context",
+          "retriever"
+        ],
+        "normalization": "context retriever",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "context retriever",
+          "canonical": "context retriever",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.771",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched framework",
+        "downstream relevance score is 0.5346"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "negative passage",
+        "canonical": "negative passage",
+        "normalized": "negative passage",
+        "tokens": [
+          "negative",
+          "passage"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 171,
+        "sentence": "We find that adding a single BM25 negative passage improves the result substantially while adding two does not help further.",
+        "context_window": {
+          "previous": "These additional passages are used as negative passages for all questions in the same batch.",
+          "current": "We find that adding a single BM25 negative passage improves the result substantially while adding two does not help further.",
+          "next": "Impact of gold passages We use passages that match the gold contexts in the original datasets (when available) as positive examples (Section 4.2)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7326,
+        "downstream_relevance_score": 0.5338,
+        "components": {
+          "bio_boundary_score": 0.809,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "negative",
+          "passage"
+        ],
+        "normalization": "negative passage",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "negative passage",
+          "canonical": "negative passage",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.809",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5338"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "latent semantic encoding",
+        "canonical": "latent semantic encoding",
+        "normalized": "latent semantic encoding",
+        "tokens": [
+          "latent",
+          "semantic",
+          "encoding"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 12,
+        "sentence": "Con- versely, the dense , latent semantic encoding is com- plementary to sparse representations by design.",
+        "context_window": {
+          "previous": "Retrieval in open-domain QA is usually imple- mented using TF-IDF or BM25 (Robertson and Zaragoza, 2009), which matches keywords effi- ciently with an inverted index and can be seen as representing the question and context in high- dimensional, sparse vectors (with weighting).",
+          "current": "Con- versely, the dense , latent semantic encoding is com- plementary to sparse representations by design.",
+          "next": "For example, synonyms or paraphrases that consist of completely different tokens may still be mapped to vectors close to each other."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.9881
+      },
+      "evidence": {
+        "score": 0.5458,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6025,
+        "downstream_relevance_score": 0.5338,
+        "components": {
+          "bio_boundary_score": 0.5193,
+          "sentence_evidence_score": 0.5458,
+          "sentence_role_score": 0.9881,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "latent",
+          "semantic",
+          "encoding"
+        ],
+        "normalization": "latent semantic encoding",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "latent semantic encoding",
+          "canonical": "latent semantic encoding",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5193",
+        "structure model assigned role 'process' with score 0.9881",
+        "evidence score 0.5458 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched design",
+        "downstream relevance score is 0.5338"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "dot product",
+        "canonical": "dot product",
+        "normalized": "dot product",
+        "tokens": [
+          "dot",
+          "product"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 178,
+        "sentence": "We test these alternatives and find that L2 performs compara- ble to dot product, and both of them are superior to cosine.",
+        "context_window": {
+          "previous": "Similarity and loss Besides dot product, cosine and Euclidean L2 distance are also commonly used as decomposable similarity functions.",
+          "current": "We test these alternatives and find that L2 performs compara- ble to dot product, and both of them are superior to cosine.",
+          "next": "Similarly, in addition to negative log- likelihood, a popular option for ranking is triplet loss, which compares a positive passage and a nega- tive one directly with respect to a question (Burges et al., 2005)."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7379,
+        "downstream_relevance_score": 0.5055,
+        "components": {
+          "bio_boundary_score": 0.9979,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dot",
+          "product"
+        ],
+        "normalization": "dot product",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dot product",
+          "canonical": "dot product",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9979",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.5055"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "DPR",
+        "canonical": "DPR",
+        "normalized": "dpr",
+        "tokens": [
+          "dpr"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 262,
+        "sentence": "Starting from our trained DPR model, they show that the retrieval performance can be further improved.",
+        "context_window": {
+          "previous": "(2020a) use the retrieval model trained in the pre- vious iteration to discover new negatives and con- struct a different set of examples in each training iteration.",
+          "current": "Starting from our trained DPR model, they show that the retrieval performance can be further improved.",
+          "next": "Recent work (Izacard and Grave, 2020; Lewis et al., 2020b) have also shown that DPR can be combined with generation models such as BART (Lewis et al., 2020a) and T5 (Raf- fel et al., 2019), achieving good performance on open-domain QA and other knowledge-intensive tasks."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6981,
+        "downstream_relevance_score": 0.4748,
+        "components": {
+          "bio_boundary_score": 0.8078,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dpr"
+        ],
+        "normalization": "dpr",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "DPR",
+          "canonical": "DPR",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8078",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4748"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "negative training",
+        "canonical": "negative training",
+        "normalized": "negative training",
+        "tokens": [
+          "negative",
+          "training"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 169,
+        "sentence": "Finally, we explore in-batch negative training with additional “hard” negative passages that have high BM25 scores given the question, but do not contain the answer string (the bottom block).",
+        "context_window": {
+          "previous": "As a result, accuracy consis- tently improves as the batch size grows.",
+          "current": "Finally, we explore in-batch negative training with additional “hard” negative passages that have high BM25 scores given the question, but do not contain the answer string (the bottom block).",
+          "next": "These additional passages are used as negative passages for all questions in the same batch."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.678,
+        "downstream_relevance_score": 0.4702,
+        "components": {
+          "bio_boundary_score": 0.8821,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "negative",
+          "training"
+        ],
+        "normalization": "negative training",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "negative training",
+          "canonical": "negative training",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8821",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.4702"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "passage retrieval",
+        "canonical": "passage retrieval",
+        "normalized": "passage retrieval",
+        "tokens": [
+          "passage",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 154,
+        "sentence": "Sample efficiency We explore how many train- ing examples are needed to achieve good passage retrieval performance.",
+        "context_window": {
+          "previous": "5.2 Ablation Study on Model Training To understand further how different model training options affect the results, we conduct several addi- tional experiments and discuss our findings below.",
+          "current": "Sample efficiency We explore how many train- ing examples are needed to achieve good passage retrieval performance.",
+          "next": "Figure 1 illustrates the top- k retrieval accuracy with respect to different num- bers of training examples, measured on the devel- opment set of Natural Questions."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6304,
+        "downstream_relevance_score": 0.4624,
+        "components": {
+          "bio_boundary_score": 0.5791,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "passage",
+          "retrieval"
+        ],
+        "normalization": "passage retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "passage retrieval",
+          "canonical": "passage retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5791",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4624"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "SQuAD",
+        "canonical": "SQuAD",
+        "normalized": "squad",
+        "tokens": [
+          "squad"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 106,
+        "sentence": "Dataset Train Dev Test Natural Questions 79,168 58,880 8,757 3,610 TriviaQA 78,785 60,413 8,837 11,313 WebQuestions 3,417 2,474 361 2,032 CuratedTREC 1,353 1,125 133 694 SQuAD 78,713 70,096 8,886 10,570 Table 1: Number of questions in each QA dataset.",
+        "context_window": {
+          "previous": "(2019) also propose splitting docu- ments into overlapping passages, which we do not find advan- tageous compared to the non-overlapping version.",
+          "current": "Dataset Train Dev Test Natural Questions 79,168 58,880 8,757 3,610 TriviaQA 78,785 60,413 8,837 11,313 WebQuestions 3,417 2,474 361 2,032 CuratedTREC 1,353 1,125 133 694 SQuAD 78,713 70,096 8,886 10,570 Table 1: Number of questions in each QA dataset.",
+          "next": "The two columns of Train denote the original training ex- amples in the dataset and the actual questions used for training DPR after filtering."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5835,
+        "downstream_relevance_score": 0.449,
+        "components": {
+          "bio_boundary_score": 0.9957,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "squad"
+        ],
+        "normalization": "squad",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "SQuAD",
+          "canonical": "SQuAD",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9957",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.449"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "text passage",
+        "canonical": "text passage",
+        "normalized": "text passage",
+        "tokens": [
+          "text",
+          "passage"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 50,
+        "sentence": "3.1 Overview Our dense passage retriever (DPR) uses a dense encoder E P ( · ) which maps any text passage to a d - dimensional real-valued vectors and builds an index for all the M passages that we will use for retrieval.",
+        "context_window": {
+          "previous": "Note that M can be very large (e.g., 21 million passages in our experiments, de- scribed in Section 4.1) and k is usually small, such as 20 – 100 .",
+          "current": "3.1 Overview Our dense passage retriever (DPR) uses a dense encoder E P ( · ) which maps any text passage to a d - dimensional real-valued vectors and builds an index for all the M passages that we will use for retrieval.",
+          "next": "3 The ideal size and boundary of a text passage are func- tions of both the retriever and reader."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6084,
+        "downstream_relevance_score": 0.434,
+        "components": {
+          "bio_boundary_score": 0.6852,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "text",
+          "passage"
+        ],
+        "normalization": "text passage",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "text passage",
+          "canonical": "text passage",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6852",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.434"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "model performance",
+        "canonical": "model performance",
+        "normalized": "model performance",
+        "tokens": [
+          "model",
+          "performance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 167,
+        "sentence": "It produces more pairs and thus increases the number of train- ing examples, which might contribute to the good model performance.",
+        "context_window": {
+          "previous": "Effectively, in-batch negative training is an easy and memory-efficient way to reuse the negative examples already in the batch rather than creating new ones.",
+          "current": "It produces more pairs and thus increases the number of train- ing examples, which might contribute to the good model performance.",
+          "next": "As a result, accuracy consis- tently improves as the batch size grows."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5726,
+        "downstream_relevance_score": 0.4323,
+        "components": {
+          "bio_boundary_score": 0.472,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "model",
+          "performance"
+        ],
+        "normalization": "model performance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "model performance",
+          "canonical": "model performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.472",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4323"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "Google Suggest",
+        "canonical": "Google Suggest",
+        "normalized": "google suggest",
+        "tokens": [
+          "google",
+          "suggest"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 103,
+        "sentence": "WebQuestions (WQ) (Berant et al., 2013) consists of questions selected using Google Suggest API, where the answers are entities in Freebase.",
+        "context_window": {
+          "previous": "TriviaQA (Joshi et al., 2017) contains a set of trivia questions with answers that were originally scraped from the Web.",
+          "current": "WebQuestions (WQ) (Berant et al., 2013) consists of questions selected using Google Suggest API, where the answers are entities in Freebase.",
+          "next": "CuratedTREC (TREC) (Baudi ˇ s and ˇ Sediv ` y, 2015) sources questions from TREC QA tracks 5 However, Wang et al."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5899,
+        "downstream_relevance_score": 0.4285,
+        "components": {
+          "bio_boundary_score": 0.5805,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "google",
+          "suggest"
+        ],
+        "normalization": "google suggest",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Google Suggest",
+          "canonical": "Google Suggest",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5805",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4285"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "dense representation",
+        "canonical": "dense representation",
+        "normalized": "dense representation",
+        "tokens": [
+          "dense",
+          "representation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 245,
+        "sentence": "The dense representation alone, however, is typically inferior to the sparse one.",
+        "context_window": {
+          "previous": "Such approaches com- plement the sparse vector methods as they can po- tentially give high similarity scores to semantically relevant text pairs, even without exact token match- ing.",
+          "current": "The dense representation alone, however, is typically inferior to the sparse one.",
+          "next": "While not the focus of this work, dense representations from pre- trained models, along with cross-attention mecha- nisms, have also been shown effective in passage or dialogue re-ranking tasks (Nogueira and Cho, 2019; Humeau et al., 2020)."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5968,
+        "downstream_relevance_score": 0.3959,
+        "components": {
+          "bio_boundary_score": 0.979,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dense",
+          "representation"
+        ],
+        "normalization": "dense representation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dense representation",
+          "canonical": "dense representation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.979",
+        "structure model assigned role 'gap' with score 0.82",
+        "downstream relevance score is 0.3959"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "question encoder",
+        "canonical": "question encoder",
+        "normalized": "question encoder",
+        "tokens": [
+          "question",
+          "encoder"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 20,
+        "sentence": "The question encoder and the reader model are then fine- tuned using pairs of questions and answers jointly.",
+        "context_window": {
+          "previous": "Dense retrieval methods have thus never be shown to outperform TF-IDF/BM25 for open- domain QA before ORQA (Lee et al., 2019), which proposes a sophisticated inverse cloze task (ICT) objective, predicting the blocks that contain the masked sentence, for additional pretraining.",
+          "current": "The question encoder and the reader model are then fine- tuned using pairs of questions and answers jointly.",
+          "next": "Although ORQA successfully demonstrates that dense retrieval can outperform BM25, setting new state-of-the-art results on multiple open-domain arXiv:2004.04906v3 [cs.CL] 30 Sep 2020 QA datasets, it also suffers from two weaknesses."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5722,
+        "downstream_relevance_score": 0.3832,
+        "components": {
+          "bio_boundary_score": 0.9167,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "question",
+          "encoder"
+        ],
+        "normalization": "question encoder",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "question encoder",
+          "canonical": "question encoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9167",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.3832"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "dense retrieval",
+        "canonical": "dense retrieval",
+        "normalized": "dense retrieval",
+        "tokens": [
+          "dense",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 14,
+        "sentence": "Consider the question “Who is the bad guy in lord of the rings?” , which can be answered from the context “Sala Baker is best known for portraying the villain Sauron in the Lord of the Rings trilogy.” A term-based system would have difficulty retrieving such a context, while a dense retrieval system would be able to better match “bad guy” with “villain” and fetch the cor- rect context.",
+        "context_window": {
+          "previous": "For example, synonyms or paraphrases that consist of completely different tokens may still be mapped to vectors close to each other.",
+          "current": "Consider the question “Who is the bad guy in lord of the rings?” , which can be answered from the context “Sala Baker is best known for portraying the villain Sauron in the Lord of the Rings trilogy.” A term-based system would have difficulty retrieving such a context, while a dense retrieval system would be able to better match “bad guy” with “villain” and fetch the cor- rect context.",
+          "next": "Dense encodings are also learnable by adjusting the embedding functions, which pro- vides additional flexibility to have a task-specific representation."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5815,
+        "downstream_relevance_score": 0.3752,
+        "components": {
+          "bio_boundary_score": 0.9074,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dense",
+          "retrieval"
+        ],
+        "normalization": "dense retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dense retrieval",
+          "canonical": "dense retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9074",
+        "structure model assigned role 'problem' with score 0.66",
+        "downstream relevance score is 0.3752"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "Wikipedia",
+        "canonical": "Wikipedia",
+        "normalized": "wikipedia",
+        "tokens": [
+          "wikipedia"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 92,
+        "sentence": "4.1 Wikipedia Data Pre-processing Following (Lee et al., 2019), we use the English Wikipedia dump from Dec.",
+        "context_window": {
+          "previous": "In this section, we describe the data we used for experiments and the basic setup.",
+          "current": "4.1 Wikipedia Data Pre-processing Following (Lee et al., 2019), we use the English Wikipedia dump from Dec.",
+          "next": "20, 2018 as the source documents for answering questions."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6078,
+        "downstream_relevance_score": 0.3621,
+        "components": {
+          "bio_boundary_score": 0.9973,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "wikipedia"
+        ],
+        "normalization": "wikipedia",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Wikipedia",
+          "canonical": "Wikipedia",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9973",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3621"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "triplet loss",
+        "canonical": "triplet loss",
+        "normalized": "triplet loss",
+        "tokens": [
+          "triplet",
+          "loss"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 179,
+        "sentence": "Similarly, in addition to negative log- likelihood, a popular option for ranking is triplet loss, which compares a positive passage and a nega- tive one directly with respect to a question (Burges et al., 2005).",
+        "context_window": {
+          "previous": "We test these alternatives and find that L2 performs compara- ble to dot product, and both of them are superior to cosine.",
+          "current": "Similarly, in addition to negative log- likelihood, a popular option for ranking is triplet loss, which compares a positive passage and a nega- tive one directly with respect to a question (Burges et al., 2005).",
+          "next": "Our experiments show that using triplet loss does not affect the results much."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5822,
+        "downstream_relevance_score": 0.3587,
+        "components": {
+          "bio_boundary_score": 0.9904,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "triplet",
+          "loss"
+        ],
+        "normalization": "triplet loss",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "triplet loss",
+          "canonical": "triplet loss",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9904",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3587"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "ORQA",
+        "canonical": "ORQA",
+        "normalized": "orqa",
+        "tokens": [
+          "orqa"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 232,
+        "sentence": "One thing worth noticing is that our reader does consider more passages compared to ORQA, al- though it is not completely clear how much more time it takes for inference.",
+        "context_window": {
+          "previous": "This approach obtains a score of 39.8 EM, which suggests that our strategy of training a strong retriever and reader in isolation can leverage effectively available supervi- sion, while outperforming a comparable joint train- ing approach with a simpler design (Appendix D).",
+          "current": "One thing worth noticing is that our reader does consider more passages compared to ORQA, al- though it is not completely clear how much more time it takes for inference.",
+          "next": "While DPR processes up to 100 passages for each question, the reader is able to fit all of them into one batch on a sin- gle 32GB GPU, thus the latency remains almost identical to the single passage case (around 20ms)."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5949,
+        "downstream_relevance_score": 0.3553,
+        "components": {
+          "bio_boundary_score": 0.9522,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "orqa"
+        ],
+        "normalization": "orqa",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ORQA",
+          "canonical": "ORQA",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9522",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3553"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "positive example",
+        "canonical": "positive example",
+        "normalized": "positive example",
+        "tokens": [
+          "positive",
+          "example"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 86,
+        "sentence": "Any ( q i , p j ) pair is a positive example when i = j , and negative otherwise.",
+        "context_window": {
+          "previous": "In this way, we reuse computation and effectively train on B 2 ( q i , p j ) question/passage pairs in each batch.",
+          "current": "Any ( q i , p j ) pair is a positive example when i = j , and negative otherwise.",
+          "next": "This creates B train- ing instances in each batch, where there are B − 1 negative passages for each question."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5647,
+        "downstream_relevance_score": 0.3496,
+        "components": {
+          "bio_boundary_score": 0.9382,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "positive",
+          "example"
+        ],
+        "normalization": "positive example",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "positive example",
+          "canonical": "positive example",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9382",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3496"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "passage",
+        "canonical": "passage",
+        "normalized": "passage",
+        "tokens": [
+          "passage"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 209,
+        "sentence": "The probabilities of a token being the starting/ending positions of an answer span and a passage being selected are defined as: P start ,i ( s ) = softmax ( P i w start ) s , (3) P end ,i ( t ) = softmax ( P i w end ) t , (4) P selected ( i ) = softmax ( ˆ P ᵀ w selected ) i , (5) where ˆ P = [ P [CLS] 1 , . . . , P [CLS] k ] ∈ R h × k and w start , w end , w selected ∈ R h are learnable vectors.",
+        "context_window": {
+          "previous": "Specifically, let P i ∈ R L × h ( 1 ≤ i ≤ k ) be a BERT (base, uncased in our experiments) rep- resentation for the i -th passage, where L is the maximum length of the passage and h the hidden dimension.",
+          "current": "The probabilities of a token being the starting/ending positions of an answer span and a passage being selected are defined as: P start ,i ( s ) = softmax ( P i w start ) s , (3) P end ,i ( t ) = softmax ( P i w end ) t , (4) P selected ( i ) = softmax ( ˆ P ᵀ w selected ) i , (5) where ˆ P = [ P [CLS] 1 , . . . , P [CLS] k ] ∈ R h × k and w start , w end , w selected ∈ R h are learnable vectors.",
+          "next": "We compute a span score of the s -th to t -th words from the i -th passage as P start ,i ( s ) × P end ,i ( t ) , and a passage selection score of the i -th passage as P selected ( i ) ."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5619,
+        "downstream_relevance_score": 0.3382,
+        "components": {
+          "bio_boundary_score": 0.9213,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "passage"
+        ],
+        "normalization": "passage",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "passage",
+          "canonical": "passage",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9213",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3382"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 53,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Overall, our DPR-based models outperform the previous stateof-the-art results on four out of the five datasets, with 1% to 12% absolute differences in exact match accuracy.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While both methods include additional pretraining tasks and employ an expensive end-to-end training regime, DPR manages to outperform them on both NQ and TriviaQA, simply by focusing on learning a strong passage retrieval model using pairs of questions and answers.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Although the results of DPR on WQ and TREC in the single-dataset setting are less competitive, adding more question-answer pairs helps boost the performance, achieving the new state of the art.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Below we briefly describe each dataset and refer readers to their paper for the details of data preparation.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "CuratedTREC (TREC) sources questions from TREC QA tracks 5 However, In this section, we evaluate the retrieval performance of our Dense Passage Retriever (DPR), along with analysis on how its output differs from Training Retriever Top-20 Top-100 NQ TriviaQA WQ TREC SQuAD NQ TriviaQA WQ TREC SQuAD None BM25 59.1 66.9 55.0 70.9 68.8 73.7 76.7 71.1 84.1 80.0 Single DPR 78.4 79.4 73.2 79.8 63.2 85.4 85.0 81.4 89.1 77.2 BM25 + DPR 76.6 79.8 71.0 85.2 71.5 83.8 84.5 80.5 92.7 81.3 Multi DPR 79.4 78.8 75.0 89.1 51.6 86.0 84.7 82.9 93.9 67.6 BM25 + DPR 78.0 79.9 74.7 88.5 66.2 83.9 84.4 82.3 94.1 78.6 Table 2: Top-20 & Top-100 retrieval accuracy on test sets, measured as the percentage of top 20/100 retrieved passages that contain the answer.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "While it is good to have the flexibility to adapt the retriever to each dataset, it would also be desirable to obtain a single retriever that works well across the board.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We used λ = 1.1 based on the retrieval accuracy in the development set.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table 2 compares different passage retrieval systems on five QA datasets, using the top-k accuracy (k ∈ {20, 100}).",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "BM25 parameters b = 0.4 (document length normalization) and k1 = 0.9 (term frequency scaling) are tuned using development sets. tiple datasets, TREC, the smallest dataset of the five, benefits greatly from more training examples.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Results can be improved further in some cases by combining DPR with BM25 in both single-and multi-dataset settings.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In other words, can it still generalize well when directly applied to a different dataset without additional fine-tuning?",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To test the cross-dataset generalization, we train DPR on Natural Questions only and test it directly on the smaller WebQuestions and CuratedTREC datasets.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We find that DPR generalizes well, with 3-5 points loss from the best performing fine-tuned model in top-20 retrieval accuracy (69.9/86.3 vs.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In this section, we experiment with how different passage retrievers affect the final QA accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table summarizes our final end-to-end QA results, measured by exact match with the reference answer after minor normalization as in .",
+        "evidence_type": "metric",
+        "matched_cue": "measured by",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "From the table, we can see that higher retriever accuracy typically leads to better final QA results: in all cases except SQuAD, answers extracted from the passages retrieved by DPR are more likely to be correct, compared to those from BM25.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Overall, our DPR-based models outperform the previous stateof-the-art results on four out of the five datasets, with 1% to 12% absolute differences in exact match accuracy.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Although the results of DPR on WQ and TREC in the single-dataset setting are less competitive, adding more question-answer pairs helps boost the performance, achieving the new state of the art.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We also note that we found k = 50 to be optimal for NQ, and k = 10 leads to only marginal loss in exact match accuracy (40.8 vs.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In comparison, DPR is able to return Table 6: Retrieval Top-k accuracy on the development set of Natural Questions using different similarity and loss functions. the correct answer, presumably by matching \"body of water\" with semantic neighbors such as sea and channel, even though no lexical overlap exists.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "59.1% for top-20 accuracy on Natural Questions).",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In this work, we show that retrieval can be practically implemented using dense representations alone, where embeddings are learned from a small number of questions and passages by a simple dualencoder framework.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "When evaluated on a wide range of open-domain QA datasets, our dense retriever outperforms a strong Lucene-BM25 system greatly by 9%-19% absolute in terms of top-20 passage retrieval accuracy, and helps our end-to-end QA system establish new state-of-the-art on multiple open-domain QA benchmarks.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "When evaluated on a wide range of open-domain QA datasets, our dense retriever outperforms a strong Lucene-BM25 system greatly by 9%-19% absolute in terms of top-20 passage retrieval accuracy, and helps our end-to-end QA system establish new state-of-the-art on multiple open-domain QA benchmarks.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "When evaluated on a wide range of open-domain QA datasets, our dense retriever outperforms a strong Lucene-BM25 system greatly by 9%-19% absolute in terms of top-20 passage retrieval accuracy, and helps our end-to-end QA system establish new state-of-the-art on multiple open-domain QA benchmarks.",
+        "evidence_type": "dataset",
+        "matched_cue": "evaluated on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "question answering",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.7896
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "exact match",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6568
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "BM25",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6535
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "retrieval accuracy",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5833
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "open-domain question answering",
+        "section": "intro",
+        "role": "background",
+        "score": 0.5797
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "dense vector representation",
+        "section": "method",
+        "role": "process",
+        "score": 0.5577
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "additional pretraining",
+        "section": "related_work",
+        "role": "core_method",
+        "score": 0.5493
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "Training Model",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.549
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "retriever",
+        "section": "related_work",
+        "role": "metric",
+        "score": 0.5466
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "context retriever",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.5346
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "negative passage",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5338
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "latent semantic encoding",
+        "section": "method",
+        "role": "process",
+        "score": 0.5338
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "dot product",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.5055
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "DPR",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.4748
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "negative training",
+        "section": "experiment",
+        "role": "problem",
+        "score": 0.4702
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "passage retrieval",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4624
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "SQuAD",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.449
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "text passage",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.434
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "model performance",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4323
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "Google Suggest",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4285
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "dense representation",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.3959
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "question encoder",
+        "section": "method",
+        "role": "component",
+        "score": 0.3832
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "dense retrieval",
+        "section": "method",
+        "role": "problem",
+        "score": 0.3752
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "Wikipedia",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3621
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "triplet loss",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3587
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "ORQA",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3553
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "positive example",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3496
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "passage",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3382
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_024",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

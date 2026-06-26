@@ -1,0 +1,4027 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2020_information_retrieval_colbert_efficient_and_effective_passage_search_via_contextualized_late_interaction_over_bert",
+    "title": "2020_information_retrieval_colbert_efficient_and_effective_passage_search_via_contextualized_late_interaction_over_bert",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2020_information_retrieval_colbert_efficient_and_effective_passage_search_via_contextualized_late_interaction_over_bert.txt",
+    "sentence_count": 348,
+    "section_counts": {
+      "intro": 25,
+      "method": 86,
+      "related_work": 79,
+      "experiment": 154,
+      "conclusion": 4
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 8581,
+    "type_count": 1760,
+    "type_token_ratio": 0.2051,
+    "section_token_counts": {
+      "intro": 574,
+      "related_work": 1646,
+      "method": 2314,
+      "experiment": 3942,
+      "conclusion": 105
+    },
+    "top_unigrams": [
+      {
+        "term": "colbert",
+        "count": 109
+      },
+      {
+        "term": "document",
+        "count": 88
+      },
+      {
+        "term": "query",
+        "count": 84
+      },
+      {
+        "term": "bert",
+        "count": 81
+      },
+      {
+        "term": "10",
+        "count": 57
+      },
+      {
+        "term": "model",
+        "count": 54
+      },
+      {
+        "term": "documents",
+        "count": 50
+      },
+      {
+        "term": "models",
+        "count": 47
+      },
+      {
+        "term": "each",
+        "count": 46
+      },
+      {
+        "term": "retrieval",
+        "count": 44
+      },
+      {
+        "term": "interaction",
+        "count": 40
+      },
+      {
+        "term": "embeddings",
+        "count": 39
+      },
+      {
+        "term": "bm25",
+        "count": 36
+      },
+      {
+        "term": "re-ranking",
+        "count": 33
+      },
+      {
+        "term": "which",
+        "count": 33
+      },
+      {
+        "term": "mrr",
+        "count": 32
+      },
+      {
+        "term": "ms",
+        "count": 32
+      },
+      {
+        "term": "ranking",
+        "count": 31
+      },
+      {
+        "term": "results",
+        "count": 31
+      },
+      {
+        "term": "marco",
+        "count": 29
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "mrr 10",
+        "count": 32
+      },
+      {
+        "term": "ms marco",
+        "count": 29
+      },
+      {
+        "term": "late interaction",
+        "count": 25
+      },
+      {
+        "term": "query document",
+        "count": 22
+      },
+      {
+        "term": "bert base",
+        "count": 14
+      },
+      {
+        "term": "each document",
+        "count": 13
+      },
+      {
+        "term": "per query",
+        "count": 12
+      },
+      {
+        "term": "10 10",
+        "count": 12
+      },
+      {
+        "term": "trec car",
+        "count": 11
+      },
+      {
+        "term": "end-to-end retrieval",
+        "count": 10
+      },
+      {
+        "term": "et al",
+        "count": 10
+      },
+      {
+        "term": "document embeddings",
+        "count": 9
+      },
+      {
+        "term": "ranking models",
+        "count": 7
+      },
+      {
+        "term": "each query",
+        "count": 7
+      },
+      {
+        "term": "document representations",
+        "count": 7
+      },
+      {
+        "term": "cosine similarity",
+        "count": 6
+      },
+      {
+        "term": "document encoder",
+        "count": 6
+      },
+      {
+        "term": "interaction mechanism",
+        "count": 6
+      },
+      {
+        "term": "top- retrieval",
+        "count": 6
+      },
+      {
+        "term": "re-ranking colbert",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "10 10 10",
+        "count": 10
+      },
+      {
+        "term": "directly large document",
+        "count": 4
+      },
+      {
+        "term": "tesla v100 gpu",
+        "count": 4
+      },
+      {
+        "term": "late interaction paradigm",
+        "count": 4
+      },
+      {
+        "term": "nogueira et al",
+        "count": 4
+      },
+      {
+        "term": "all document embeddings",
+        "count": 4
+      },
+      {
+        "term": "squared l2 distance",
+        "count": 4
+      },
+      {
+        "term": "bert base training",
+        "count": 4
+      },
+      {
+        "term": "results ms marco",
+        "count": 4
+      },
+      {
+        "term": "contextualized late interaction",
+        "count": 3
+      },
+      {
+        "term": "late interaction over",
+        "count": 3
+      },
+      {
+        "term": "increase computational cost",
+        "count": 3
+      },
+      {
+        "term": "query document pair",
+        "count": 3
+      },
+      {
+        "term": "document representations offline",
+        "count": 3
+      },
+      {
+        "term": "retrieval directly large",
+        "count": 3
+      },
+      {
+        "term": "large document collection",
+        "count": 3
+      },
+      {
+        "term": "existing bert-based models",
+        "count": 3
+      },
+      {
+        "term": "flops per query",
+        "count": 3
+      },
+      {
+        "term": "neural ranking models",
+        "count": 3
+      },
+      {
+        "term": "effectiveness mrr 10",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 23,
+    "nonzero_tfidf_features": 23,
+    "top_tfidf_features": [
+      {
+        "feature_name": "conclusion__BERT",
+        "section": "conclusion",
+        "term": "BERT",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "abstract__natural language understanding",
+        "section": "intro",
+        "term": "natural language understanding",
+        "frequency": 2.0,
+        "tfidf": 0.9388
+      },
+      {
+        "feature_name": "related_work__BERT",
+        "section": "related_work",
+        "term": "BERT",
+        "frequency": 6.0,
+        "tfidf": 0.9017
+      },
+      {
+        "feature_name": "methods__transformer",
+        "section": "method",
+        "term": "transformer",
+        "frequency": 3.0,
+        "tfidf": 0.8737
+      },
+      {
+        "feature_name": "introduction__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 2.0,
+        "tfidf": 0.7636
+      },
+      {
+        "feature_name": "experiments__BERT",
+        "section": "experiment",
+        "term": "BERT",
+        "frequency": 4.0,
+        "tfidf": 0.6817
+      },
+      {
+        "feature_name": "abstract__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 2.0,
+        "tfidf": 0.6737
+      },
+      {
+        "feature_name": "introduction__mrr",
+        "section": "intro",
+        "term": "mrr",
+        "frequency": 1.0,
+        "tfidf": 0.6457
+      },
+      {
+        "feature_name": "experiments__embeddings",
+        "section": "experiment",
+        "term": "embeddings",
+        "frequency": 3.0,
+        "tfidf": 0.5775
+      },
+      {
+        "feature_name": "methods__mrr",
+        "section": "method",
+        "term": "mrr",
+        "frequency": 1.0,
+        "tfidf": 0.4317
+      },
+      {
+        "feature_name": "experiments__mrr",
+        "section": "experiment",
+        "term": "mrr",
+        "frequency": 2.0,
+        "tfidf": 0.4308
+      },
+      {
+        "feature_name": "methods__seq2seq",
+        "section": "method",
+        "term": "seq2seq",
+        "frequency": 1.0,
+        "tfidf": 0.4116
+      },
+      {
+        "feature_name": "methods__end-to-end",
+        "section": "method",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.3588
+      },
+      {
+        "feature_name": "abstract__end-to-end",
+        "section": "intro",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.3242
+      },
+      {
+        "feature_name": "experiments__deep networks",
+        "section": "experiment",
+        "term": "deep networks",
+        "frequency": 1.0,
+        "tfidf": 0.296
+      },
+      {
+        "feature_name": "related_work__embeddings",
+        "section": "related_work",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.2906
+      },
+      {
+        "feature_name": "methods__BERT",
+        "section": "method",
+        "term": "BERT",
+        "frequency": 1.0,
+        "tfidf": 0.2826
+      },
+      {
+        "feature_name": "experiments__end-to-end",
+        "section": "experiment",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.226
+      },
+      {
+        "feature_name": "methods__embeddings",
+        "section": "method",
+        "term": "embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.2246
+      },
+      {
+        "feature_name": "related_work__word embeddings",
+        "section": "related_work",
+        "term": "word embeddings",
+        "frequency": 1.0,
+        "tfidf": 0.197
+      },
+      {
+        "feature_name": "related_work__MLP",
+        "section": "related_work",
+        "term": "MLP",
+        "frequency": 1.0,
+        "tfidf": 0.19
+      },
+      {
+        "feature_name": "related_work__end-to-end",
+        "section": "related_work",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.1659
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 1.0,
+        "tfidf": 0.1439
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__natural language understanding",
+          "section": "intro",
+          "term": "natural language understanding",
+          "frequency": 2.0,
+          "tfidf": 0.9388
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.7636
+        },
+        {
+          "feature_name": "abstract__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.6737
+        },
+        {
+          "feature_name": "introduction__mrr",
+          "section": "intro",
+          "term": "mrr",
+          "frequency": 1.0,
+          "tfidf": 0.6457
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3242
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__BERT",
+          "section": "related_work",
+          "term": "BERT",
+          "frequency": 6.0,
+          "tfidf": 0.9017
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2906
+        },
+        {
+          "feature_name": "related_work__word embeddings",
+          "section": "related_work",
+          "term": "word embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.197
+        },
+        {
+          "feature_name": "related_work__MLP",
+          "section": "related_work",
+          "term": "MLP",
+          "frequency": 1.0,
+          "tfidf": 0.19
+        },
+        {
+          "feature_name": "related_work__end-to-end",
+          "section": "related_work",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.1659
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.8737
+        },
+        {
+          "feature_name": "methods__mrr",
+          "section": "method",
+          "term": "mrr",
+          "frequency": 1.0,
+          "tfidf": 0.4317
+        },
+        {
+          "feature_name": "methods__seq2seq",
+          "section": "method",
+          "term": "seq2seq",
+          "frequency": 1.0,
+          "tfidf": 0.4116
+        },
+        {
+          "feature_name": "methods__end-to-end",
+          "section": "method",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3588
+        },
+        {
+          "feature_name": "methods__BERT",
+          "section": "method",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.2826
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2246
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.6817
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 3.0,
+          "tfidf": 0.5775
+        },
+        {
+          "feature_name": "experiments__mrr",
+          "section": "experiment",
+          "term": "mrr",
+          "frequency": 2.0,
+          "tfidf": 0.4308
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 1.0,
+          "tfidf": 0.296
+        },
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.226
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.1439
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__BERT",
+          "section": "conclusion",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 25,
+      "token_count": 574,
+      "bow_hit_count": 41,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 25,
+          "section_prior": 0.2788,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "natural language understanding",
+          "count": 6,
+          "section_prior": 0.3913,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.5238,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "mean reciprocal rank",
+          "count": 3,
+          "section_prior": 0.0732,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "bag-of-words model",
+          "count": 2,
+          "section_prior": 0.2549,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__natural language understanding",
+          "section": "intro",
+          "term": "natural language understanding",
+          "frequency": 2.0,
+          "tfidf": 0.9388
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.7636
+        },
+        {
+          "feature_name": "abstract__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.6737
+        },
+        {
+          "feature_name": "introduction__mrr",
+          "section": "intro",
+          "term": "mrr",
+          "frequency": 1.0,
+          "tfidf": 0.6457
+        },
+        {
+          "feature_name": "abstract__end-to-end",
+          "section": "intro",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3242
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 79,
+      "token_count": 1646,
+      "bow_hit_count": 186,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 79,
+          "section_prior": 0.0997,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 30,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 25,
+          "section_prior": 0.1497,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 14,
+          "section_prior": 0.0911,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "natural language understanding",
+          "count": 12,
+          "section_prior": 0.0435,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "mean reciprocal rank",
+          "count": 9,
+          "section_prior": 0.0244,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.0448,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "word embedding",
+          "count": 3,
+          "section_prior": 0.193,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 3,
+          "section_prior": 0.1695,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "sequence-to-sequence learning",
+          "count": 3,
+          "section_prior": 0.2286,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 3,
+          "section_prior": 0.1368,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__BERT",
+          "section": "related_work",
+          "term": "BERT",
+          "frequency": 6.0,
+          "tfidf": 0.9017
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.2906
+        },
+        {
+          "feature_name": "related_work__word embeddings",
+          "section": "related_work",
+          "term": "word embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.197
+        },
+        {
+          "feature_name": "related_work__MLP",
+          "section": "related_work",
+          "term": "MLP",
+          "frequency": 1.0,
+          "tfidf": 0.19
+        },
+        {
+          "feature_name": "related_work__end-to-end",
+          "section": "related_work",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.1659
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 86,
+      "token_count": 2314,
+      "bow_hit_count": 208,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 92,
+          "section_prior": 0.202,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 87,
+          "section_prior": 0.4133,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 8,
+          "section_prior": 0.3709,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "mean reciprocal rank",
+          "count": 6,
+          "section_prior": 0.122,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1088,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 3,
+          "section_prior": 0.2204,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "natural language understanding",
+          "count": 3,
+          "section_prior": 0.0435,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 3,
+          "section_prior": 0.0598,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 1,
+          "section_prior": 0.4068,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.8737
+        },
+        {
+          "feature_name": "methods__mrr",
+          "section": "method",
+          "term": "mrr",
+          "frequency": 1.0,
+          "tfidf": 0.4317
+        },
+        {
+          "feature_name": "methods__seq2seq",
+          "section": "method",
+          "term": "seq2seq",
+          "frequency": 1.0,
+          "tfidf": 0.4116
+        },
+        {
+          "feature_name": "methods__end-to-end",
+          "section": "method",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.3588
+        },
+        {
+          "feature_name": "methods__BERT",
+          "section": "method",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.2826
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 1.0,
+          "tfidf": 0.2246
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 154,
+      "token_count": 3942,
+      "bow_hit_count": 315,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 102,
+          "section_prior": 0.335,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 78,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "mean reciprocal rank",
+          "count": 58,
+          "section_prior": 0.7561,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 50,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 13,
+          "section_prior": 0.18,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "bag-of-words model",
+          "count": 9,
+          "section_prior": 0.3529,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "sequence-to-sequence learning",
+          "count": 3,
+          "section_prior": 0.2,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "tokenization",
+          "count": 2,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 4.0,
+          "tfidf": 0.6817
+        },
+        {
+          "feature_name": "experiments__embeddings",
+          "section": "experiment",
+          "term": "embeddings",
+          "frequency": 3.0,
+          "tfidf": 0.5775
+        },
+        {
+          "feature_name": "experiments__mrr",
+          "section": "experiment",
+          "term": "mrr",
+          "frequency": 2.0,
+          "tfidf": 0.4308
+        },
+        {
+          "feature_name": "experiments__deep networks",
+          "section": "experiment",
+          "term": "deep networks",
+          "frequency": 1.0,
+          "tfidf": 0.296
+        },
+        {
+          "feature_name": "experiments__end-to-end",
+          "section": "experiment",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.226
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.1439
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 4,
+      "token_count": 105,
+      "bow_hit_count": 5,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 5,
+          "section_prior": 0.0844,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__BERT",
+          "section": "conclusion",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "BERT",
+        "canonical": "bidirectional encoder representations from transformers",
+        "normalized": "bidirectional encoder representations from transformers",
+        "tokens": [
+          "bert"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "bidirectional encoder representations from transformers",
+          "BERT",
+          "bert"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 35,
+        "sentence": "1 hps://blog.google/products/search/search-language-understanding-bert/ 2 hps://azure.microsoft.com/en-us/blog/bing-delivers-its-largest-improvement- in-search-experience-using-azure-gpus/ arXiv:2004.12832v2 [cs.IR] 4 Jun 2020 Query Document MaxSim ∑ MaxSim MaxSim s Query CNN / Match Kernels CNN / Match Kernels / MLP MLP s Document (c) All-to-all Interaction (e.g., BERT) (b) Query-Document Interaction (e.g., DRMM, KNRM, Conv-KNRM) (d) Late Interaction (i.e., the proposed ColBERT) (a) Representation-based Similarity (e.g., DSSM, SNRM) Query Document s Query Document s Figure 2: Schematic diagrams illustrating query–document matching paradigms in neural IR.",
+        "context_window": {
+          "previous": "Following the re-ranking setup of MS MARCO, ColBERT (re-rank), the Neural Matching Models, and the Deep LMs re-rank the MS MARCO’s official top-1000 documents per query.",
+          "current": "1 hps://blog.google/products/search/search-language-understanding-bert/ 2 hps://azure.microsoft.com/en-us/blog/bing-delivers-its-largest-improvement- in-search-experience-using-azure-gpus/ arXiv:2004.12832v2 [cs.IR] 4 Jun 2020 Query Document MaxSim ∑ MaxSim MaxSim s Query CNN / Match Kernels CNN / Match Kernels / MLP MLP s Document (c) All-to-all Interaction (e.g., BERT) (b) Query-Document Interaction (e.g., DRMM, KNRM, Conv-KNRM) (d) Late Interaction (i.e., the proposed ColBERT) (a) Representation-based Similarity (e.g., DSSM, SNRM) Query Document s Query Document s Figure 2: Schematic diagrams illustrating query–document matching paradigms in neural IR.",
+          "next": "The figure contrasts existing approaches (sub-figures (a), (b), and (c)) with the proposed late interaction paradigm (sub-figure (d))."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6877,
+        "downstream_relevance_score": 0.6828,
+        "components": {
+          "bio_boundary_score": 0.8683,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.202,
+          "document_tfidf_score": 0.2826,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "bert",
+        "match_quality": 1.0,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "bidirectional encoder representations from transformers",
+        "display_term": "BERT",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/BERT_%28language_model%29",
+        "wikidata_id": "Q61726893",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 20,
+        "total_frequency": 78,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "methods__BERT",
+        "section": "method",
+        "term": "BERT",
+        "frequency": 1.0,
+        "tfidf": 0.2826,
+        "normalized_frequency": 0.1667,
+        "normalized_tfidf": 0.2826
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bert"
+        ],
+        "normalization": "bert",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.202,
+        "canonicalization": {
+          "observed": "BERT",
+          "canonical": "bidirectional encoder representations from transformers",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8683",
+        "structure model assigned role 'core_method' with score 0.45",
+        "section BoW matched canonical term 'bidirectional encoder representations from transformers' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'methods__BERT' with tf-idf 0.2826",
+        "downstream relevance score is 0.6828"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "neural network",
+        "canonical": "Recurrent neural network",
+        "normalized": "recurrent neural network",
+        "tokens": [
+          "neural",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "recurrent neural networks",
+          "Recurrent neural network",
+          "recurrent neural network",
+          "rnn"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 49,
+        "sentence": "Instead of summarizing q and d into individual embeddings, these rankers model word- and phrase-level relationships across q and d and match them using a deep neural network (e.g., with CNNs/MLPs [ 22 ] or kernels [ 36 ]).",
+        "context_window": {
+          "previous": "Moving to the right, Figure 2 (b) visualizes typical interaction-focused rankers.",
+          "current": "Instead of summarizing q and d into individual embeddings, these rankers model word- and phrase-level relationships across q and d and match them using a deep neural network (e.g., with CNNs/MLPs [ 22 ] or kernels [ 36 ]).",
+          "next": "In the simplest case, they feed the neural net- work an interaction matrix that reflects the similiarity between every pair of words across q and d ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6588,
+        "downstream_relevance_score": 0.6556,
+        "components": {
+          "bio_boundary_score": 0.7861,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.4417,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.045,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "recurrent neural network",
+        "match_quality": 0.78,
+        "section": "method",
+        "original_section": "method",
+        "canonical_term": "Recurrent neural network",
+        "display_term": "recurrent neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "wikidata_id": "Q1457734",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 52,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "network"
+        ],
+        "normalization": "neural network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.4417,
+        "canonicalization": {
+          "observed": "neural network",
+          "canonical": "Recurrent neural network",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7861",
+        "structure model assigned role 'core_method' with score 0.45",
+        "section BoW matched canonical term 'Recurrent neural network' with confidence 0.7098",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6556"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "embedding",
+        "canonical": "embedding",
+        "normalized": "embedding",
+        "tokens": [
+          "embedding"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "embeddings",
+          "embedding"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 242,
+        "sentence": "We divide each embedding into s = 16 sub-vectors, each encoded using one byte.",
+        "context_window": {
+          "previous": "For our faiss index, we set the number of partitions to P = 2,000, and search the nearest p = 10 to each query embedding to retrieve k ′ = k = 1000 document vectors per query embedding.",
+          "current": "We divide each embedding into s = 16 sub-vectors, each encoded using one byte.",
+          "next": "To represent the index used for the second stage of our end-to-end retrieval procedure, we use 16-bit values per dimension."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6942,
+        "downstream_relevance_score": 0.636,
+        "components": {
+          "bio_boundary_score": 0.9798,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1276,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "embedding",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "embedding",
+        "display_term": "embeddings",
+        "term_type": "component",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "component",
+        "wiki_url": "https://en.wikipedia.org/wiki/Embedding_%28machine_learning%29",
+        "wikidata_id": "Q133284072",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 23,
+        "total_frequency": 74,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "embedding"
+        ],
+        "normalization": "embedding",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1276,
+        "canonicalization": {
+          "observed": "embedding",
+          "canonical": "embedding",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9798",
+        "structure model assigned role 'component' with score 0.66",
+        "section BoW matched canonical term 'embedding' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.636"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "interaction-based paradigm",
+        "canonical": "interaction-based paradigm",
+        "normalized": "interaction-based paradigm",
+        "tokens": [
+          "interaction-based",
+          "paradigm"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 51,
+        "sentence": "Further right, Figure 2 (c) illus- trates a more powerful interaction-based paradigm, which models the interactions between words within as well as across q and d at the same time, as in BERT’s transformer architecture [25].",
+        "context_window": {
+          "previous": "In the simplest case, they feed the neural net- work an interaction matrix that reflects the similiarity between every pair of words across q and d .",
+          "current": "Further right, Figure 2 (c) illus- trates a more powerful interaction-based paradigm, which models the interactions between words within as well as across q and d at the same time, as in BERT’s transformer architecture [25].",
+          "next": "These increasingly expressive architectures are in tension."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.686,
+        "downstream_relevance_score": 0.5613,
+        "components": {
+          "bio_boundary_score": 0.8619,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "interaction-based",
+          "paradigm"
+        ],
+        "normalization": "interaction-based paradigm",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "interaction-based paradigm",
+          "canonical": "interaction-based paradigm",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8619",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5613"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "document encoder",
+        "canonical": "document encoder",
+        "normalized": "document encoder",
+        "tokens": [
+          "document",
+          "encoder"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 138,
+        "sentence": "Our document encoder has a very similar architecture.",
+        "context_window": {
+          "previous": "Document Encoder.",
+          "current": "Our document encoder has a very similar architecture.",
+          "next": "We first segment a document d into its constituent to- kens d 1 d 2 ... d m , to which we prepend BERT’s start token [CLS] fol- lowed by our special token [D] that indicates a document sequence."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6614,
+        "downstream_relevance_score": 0.5485,
+        "components": {
+          "bio_boundary_score": 0.7229,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "document",
+          "encoder"
+        ],
+        "normalization": "document encoder",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "document encoder",
+          "canonical": "document encoder",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7229",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5485"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "KNRM",
+        "canonical": "KNRM",
+        "normalized": "knrm",
+        "tokens": [
+          "knrm"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 71,
+        "sentence": "In this work, we compare against KNRM [ 4 , 36 ], Duet [ 20 , 22 ], Con- vKNRM [ 4 ], and fastText+ConvKNRM [ 10 ].",
+        "context_window": {
+          "previous": "Over the past few years, IR researchers have introduced numerous neural architectures for ranking.",
+          "current": "In this work, we compare against KNRM [ 4 , 36 ], Duet [ 20 , 22 ], Con- vKNRM [ 4 ], and fastText+ConvKNRM [ 10 ].",
+          "next": "KNRM proposes a differentiable kernel-pooling technique for extracting matching signals from an interaction matrix, while Duet combines signals from exact-match-based as well as embedding-based similarities for ranking."
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7176,
+        "downstream_relevance_score": 0.5356,
+        "components": {
+          "bio_boundary_score": 0.9954,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "knrm"
+        ],
+        "normalization": "knrm",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "KNRM",
+          "canonical": "KNRM",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9954",
+        "structure model assigned role 'comparison' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5356"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "term-based retrieval",
+        "canonical": "term-based retrieval",
+        "normalized": "term-based retrieval",
+        "tokens": [
+          "term-based",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 66,
+        "sentence": "(3) We show how to leverage ColBERT both for re-ranking on top of a term-based retrieval model ( § 3.5) and for searching a full collection using vector similarity indexes ( § 3.6).",
+        "context_window": {
+          "previous": "(2) We present ColBERT ( § 3.2 & 3.3), a highly-effective model that employs novel BERT-based query and document en- coders within the late interaction paradigm.",
+          "current": "(3) We show how to leverage ColBERT both for re-ranking on top of a term-based retrieval model ( § 3.5) and for searching a full collection using vector similarity indexes ( § 3.6).",
+          "next": "(4) We evaluate ColBERT on MS MARCO and TREC CAR, two recent passage search collections."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7262,
+        "downstream_relevance_score": 0.5176,
+        "components": {
+          "bio_boundary_score": 0.8265,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "term-based",
+          "retrieval"
+        ],
+        "normalization": "term-based retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "term-based retrieval",
+          "canonical": "term-based retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8265",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5176"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "Information Retrieval",
+        "canonical": "Information Retrieval",
+        "normalized": "information retrieval",
+        "tokens": [
+          "information",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "Recent progress in Natural Language Understanding (NLU) is driv- ing fast-paced advances in Information Retrieval (IR), largely owed to fine-tuning deep language models (LMs) for document ranking.",
+        "context_window": {
+          "previous": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT Omar Khaab Stanford University okhaab@stanford.edu Matei Zaharia Stanford University matei@cs.stanford.edu",
+          "current": "Recent progress in Natural Language Understanding (NLU) is driv- ing fast-paced advances in Information Retrieval (IR), largely owed to fine-tuning deep language models (LMs) for document ranking.",
+          "next": "While remarkably effective, the ranking models based on these LMs increase computational cost by orders of magnitude over prior ap- proaches, particularly as they must feed each query–document pair through a massive neural network to compute a single relevance score."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8298
+      },
+      "evidence": {
+        "score": 0.3409,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.704,
+        "downstream_relevance_score": 0.5002,
+        "components": {
+          "bio_boundary_score": 0.9909,
+          "sentence_evidence_score": 0.3409,
+          "sentence_role_score": 0.8298,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "information",
+          "retrieval"
+        ],
+        "normalization": "information retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Information Retrieval",
+          "canonical": "Information Retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9909",
+        "structure model assigned role 'problem' with score 0.8298",
+        "downstream relevance score is 0.5002"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "late interaction",
+        "canonical": "late interaction",
+        "normalized": "late interaction",
+        "tokens": [
+          "late",
+          "interaction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 109,
+        "sentence": "Using E q and E d , ColBERT computes the relevance score be- tween q and d via late interaction, which we define as a summation of maximum similarity (MaxSim) operators.",
+        "context_window": {
+          "previous": "We describe our BERT-based encoders in § 3.2.",
+          "current": "Using E q and E d , ColBERT computes the relevance score be- tween q and d via late interaction, which we define as a summation of maximum similarity (MaxSim) operators.",
+          "next": "In particular, we find the maximum cosine similarity of each v ∈ E q with vectors in E d , and combine the outputs via summation."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7102,
+        "downstream_relevance_score": 0.4997,
+        "components": {
+          "bio_boundary_score": 0.9904,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "late",
+          "interaction"
+        ],
+        "normalization": "late interaction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "late interaction",
+          "canonical": "late interaction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9904",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "downstream relevance score is 0.4997"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "linear layer",
+        "canonical": "linear layer",
+        "normalized": "linear layer",
+        "tokens": [
+          "linear",
+          "layer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 146,
+        "sentence": "We fine-tune the BERT encoders and train from scratch the additional parameters (i.e., the linear layer and the [Q] and [D] markers’ embeddings) using the Adam [ 16 ]",
+        "context_window": {
+          "previous": "S q , d : = ’ i ∈[| E q |] max j ∈[| E d |] E q i · E T d j (3) ColBERT is differentiable end-to-end.",
+          "current": "We fine-tune the BERT encoders and train from scratch the additional parameters (i.e., the linear layer and the [Q] and [D] markers’ embeddings) using the Adam [ 16 ]",
+          "next": "."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6776,
+        "downstream_relevance_score": 0.4828,
+        "components": {
+          "bio_boundary_score": 0.9214,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "layer"
+        ],
+        "normalization": "linear layer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear layer",
+          "canonical": "linear layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9214",
+        "structure model assigned role 'component' with score 0.82",
+        "downstream relevance score is 0.4828"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "ColBERT",
+        "canonical": "ColBERT",
+        "normalized": "colbert",
+        "tokens": [
+          "colbert"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 321,
+        "sentence": "The results from § 4.2 indicate that ColBERT is highly effective despite the low cost and simplicity of its late interaction mechanism.",
+        "context_window": {
+          "previous": "Between brackets is the number of BERT layers used in each model.",
+          "current": "The results from § 4.2 indicate that ColBERT is highly effective despite the low cost and simplicity of its late interaction mechanism.",
+          "next": "To beer understand the source of this effectiveness, we examine a number of important details in ColBERT’s interaction and encoder architecture."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7058,
+        "downstream_relevance_score": 0.4788,
+        "components": {
+          "bio_boundary_score": 0.9716,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "colbert"
+        ],
+        "normalization": "colbert",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ColBERT",
+          "canonical": "ColBERT",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9716",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4788"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "Col- BERT",
+        "canonical": "Col- BERT",
+        "normalized": "col- bert",
+        "tokens": [
+          "col-",
+          "bert"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 282,
+        "sentence": "Studying the results in Figure 4, we notice that not only is Col- BERT much cheaper than BERT for the same model size (i.e., 12- layer “base” transformer encoder), it also scales beer with the number of ranked documents.",
+        "context_window": {
+          "previous": "Consequently, both MRR@10 values at k = 1000 are slightly higher from those reported in Table 1.",
+          "current": "Studying the results in Figure 4, we notice that not only is Col- BERT much cheaper than BERT for the same model size (i.e., 12- layer “base” transformer encoder), it also scales beer with the number of ranked documents.",
+          "next": "In part, this is because ColBERT only needs to process the query once, irrespective of the number of documents evaluated."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6748,
+        "downstream_relevance_score": 0.4685,
+        "components": {
+          "bio_boundary_score": 0.9107,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "col-",
+          "bert"
+        ],
+        "normalization": "col- bert",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Col- BERT",
+          "canonical": "Col- BERT",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9107",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4685"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "indexing",
+        "canonical": "indexing",
+        "normalized": "indexing",
+        "tokens": [
+          "indexing"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 151,
+        "sentence": "At a high level, our indexing procedure is straight-forward: we proceed over the documents in the collection in batches, running our document encoder f D on each batch and storing the output embeddings per document.",
+        "context_window": {
+          "previous": "3.4 Offline Indexing: Computing & Storing Document Embeddings By design, ColBERT isolates almost all of the computations between queries and documents, largely to enable pre-computing document representations offline.",
+          "current": "At a high level, our indexing procedure is straight-forward: we proceed over the documents in the collection in batches, running our document encoder f D on each batch and storing the output embeddings per document.",
+          "next": "Although indexing a set of documents is an offline process, we incorporate a few simple optimizations for enhancing the throughput of indexing."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6864,
+        "downstream_relevance_score": 0.4645,
+        "components": {
+          "bio_boundary_score": 0.9539,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "indexing"
+        ],
+        "normalization": "indexing",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "indexing",
+          "canonical": "indexing",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9539",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4645"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "faiss index",
+        "canonical": "faiss index",
+        "normalized": "faiss index",
+        "tokens": [
+          "faiss",
+          "index"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 241,
+        "sentence": "For our faiss index, we set the number of partitions to P = 2,000, and search the nearest p = 10 to each query embedding to retrieve k ′ = k = 1000 document vectors per query embedding.",
+        "context_window": {
+          "previous": "For end-to-end ranking, we use (squared) L2 distance, as we found our faiss index was faster at L2-based re- trieval.",
+          "current": "For our faiss index, we set the number of partitions to P = 2,000, and search the nearest p = 10 to each query embedding to retrieve k ′ = k = 1000 document vectors per query embedding.",
+          "next": "We divide each embedding into s = 16 sub-vectors, each encoded using one byte."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6491,
+        "downstream_relevance_score": 0.4552,
+        "components": {
+          "bio_boundary_score": 0.8229,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "faiss",
+          "index"
+        ],
+        "normalization": "faiss index",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "faiss index",
+          "canonical": "faiss index",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8229",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4552"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "user experience",
+        "canonical": "user experience",
+        "normalized": "user experience",
+        "tokens": [
+          "user",
+          "experience"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 39,
+        "sentence": "This poses a challenging tradeoff since raising query response times by as lile as 100ms is known to impact user experience and even measurably diminish revenue [ 17 ].",
+        "context_window": {
+          "previous": "As the figure shows, BERT considerably improves search preci- sion, raising MRR@10 by almost 7% against the best previous meth- ods; simultaneously, it increases latency by up to tens of thousands of milliseconds even with a high-end GPU.",
+          "current": "This poses a challenging tradeoff since raising query response times by as lile as 100ms is known to impact user experience and even measurably diminish revenue [ 17 ].",
+          "next": "To tackle this problem, recent work has started ex- ploring using Natural Language Understanding (NLU) techniques to augment traditional retrieval models like BM25 [ 32 ]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6713,
+        "downstream_relevance_score": 0.4541,
+        "components": {
+          "bio_boundary_score": 0.8124,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "user",
+          "experience"
+        ],
+        "normalization": "user experience",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "user experience",
+          "canonical": "user experience",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8124",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4541"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "cheap interaction",
+        "canonical": "cheap interaction",
+        "normalized": "cheap interaction",
+        "tokens": [
+          "cheap",
+          "interaction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 115,
+        "sentence": "First, it stands out as a particularly cheap interaction mechanism, as we examine its FLOPs in § 4.2.",
+        "context_window": {
+          "previous": "While more sophisticated matching is possible with other choices such as deep convolution and aention layers (i.e., as in typical interaction-focused models), a summation of maximum similarity computations has two distinctive characteristics.",
+          "current": "First, it stands out as a particularly cheap interaction mechanism, as we examine its FLOPs in § 4.2.",
+          "next": "Second, and more importantly, it is amenable to highly-efficient pruning for top- k retrieval, as we evaluate in § 4.3."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6697,
+        "downstream_relevance_score": 0.4532,
+        "components": {
+          "bio_boundary_score": 0.7243,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cheap",
+          "interaction"
+        ],
+        "normalization": "cheap interaction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cheap interaction",
+          "canonical": "cheap interaction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7243",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4532"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "neural net",
+        "canonical": "neural net",
+        "normalized": "neural net",
+        "tokens": [
+          "neural",
+          "net"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 50,
+        "sentence": "In the simplest case, they feed the neural net- work an interaction matrix that reflects the similiarity between every pair of words across q and d .",
+        "context_window": {
+          "previous": "Instead of summarizing q and d into individual embeddings, these rankers model word- and phrase-level relationships across q and d and match them using a deep neural network (e.g., with CNNs/MLPs [ 22 ] or kernels [ 36 ]).",
+          "current": "In the simplest case, they feed the neural net- work an interaction matrix that reflects the similiarity between every pair of words across q and d .",
+          "next": "Further right, Figure 2 (c) illus- trates a more powerful interaction-based paradigm, which models the interactions between words within as well as across q and d at the same time, as in BERT’s transformer architecture [25]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6609,
+        "downstream_relevance_score": 0.4487,
+        "components": {
+          "bio_boundary_score": 0.8131,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "neural",
+          "net"
+        ],
+        "normalization": "neural net",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "neural net",
+          "canonical": "neural net",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8131",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4487"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "embedding dimension",
+        "canonical": "embedding dimension",
+        "normalized": "embedding dimension",
+        "tokens": [
+          "embedding",
+          "dimension"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 231,
+        "sentence": "We set our ColBERT embedding dimension m to be 128; § 4.5 demonstrates ColBERT’s robustness to a wide range of embedding dimensions.",
+        "context_window": {
+          "previous": "We fix the number of embeddings per query at N q = 32.",
+          "current": "We set our ColBERT embedding dimension m to be 128; § 4.5 demonstrates ColBERT’s robustness to a wide range of embedding dimensions.",
+          "next": "For MS MARCO, we initialize the BERT components of the Col- BERT query and document encoders using Google’s official pre- trained BERT base model."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6254,
+        "downstream_relevance_score": 0.4428,
+        "components": {
+          "bio_boundary_score": 0.748,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "embedding",
+          "dimension"
+        ],
+        "normalization": "embedding dimension",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "embedding dimension",
+          "canonical": "embedding dimension",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.748",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4428"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "Col",
+        "canonical": "Col",
+        "normalized": "col",
+        "tokens": [
+          "col"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 0,
+        "sentence": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT Omar Khaab Stanford University okhaab@stanford.edu Matei Zaharia Stanford University matei@cs.stanford.edu",
+        "context_window": {
+          "previous": "",
+          "current": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT Omar Khaab Stanford University okhaab@stanford.edu Matei Zaharia Stanford University matei@cs.stanford.edu",
+          "next": "Recent progress in Natural Language Understanding (NLU) is driv- ing fast-paced advances in Information Retrieval (IR), largely owed to fine-tuning deep language models (LMs) for document ranking."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8298
+      },
+      "evidence": {
+        "score": 0.3409,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5921,
+        "downstream_relevance_score": 0.432,
+        "components": {
+          "bio_boundary_score": 0.6098,
+          "sentence_evidence_score": 0.3409,
+          "sentence_role_score": 0.8298,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "col"
+        ],
+        "normalization": "col",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Col",
+          "canonical": "Col",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6098",
+        "structure model assigned role 'problem' with score 0.8298",
+        "downstream relevance score is 0.432"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "architec- ture",
+        "canonical": "architec- ture",
+        "normalized": "architec- ture",
+        "tokens": [
+          "architec-",
+          "ture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 55,
+        "sentence": "Figure 2 (d) illustrates an architec- ture that precisely does so.",
+        "context_window": {
+          "previous": "In this work, we observe that the fine-grained matching of interaction-based models and the pre- computation of document representations of representation-based models can be combined by retaining yet judiciously delaying the query–document interaction.",
+          "current": "Figure 2 (d) illustrates an architec- ture that precisely does so.",
+          "next": "As illustrated, every query embedding interacts with all document embeddings via a MaxSim operator, which computes maximum similarity (e.g., cosine similarity), and the scalar outputs of these operators are summed across query terms."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6143,
+        "downstream_relevance_score": 0.4244,
+        "components": {
+          "bio_boundary_score": 0.6321,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "architec-",
+          "ture"
+        ],
+        "normalization": "architec- ture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "architec- ture",
+          "canonical": "architec- ture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6321",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4244"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "token",
+        "canonical": "token",
+        "normalized": "token",
+        "tokens": [
+          "token"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 123,
+        "sentence": "We prepend the token [Q] to the query.",
+        "context_window": {
+          "previous": "Given a textual query q , we tokenize it into its BERT-based WordPiece [ 35 ] tokens q 1 q 2 ... q l .",
+          "current": "We prepend the token [Q] to the query.",
+          "next": "We place this token right after BERT’s sequence- start token [CLS] ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6169,
+        "downstream_relevance_score": 0.4158,
+        "components": {
+          "bio_boundary_score": 0.5518,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "token"
+        ],
+        "normalization": "token",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "token",
+          "canonical": "token",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5518",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4158"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "document",
+        "canonical": "document",
+        "normalized": "document",
+        "tokens": [
+          "document"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 113,
+        "sentence": "Given these term scores, it then estimates the document relevance by summing the matching evidence across all query terms.",
+        "context_window": {
+          "previous": "In- tuitively, this interaction mechanism softly searches for each query term t q —in a manner that reflects its context in the query—against the document’s embeddings, quantifying the strength of the “match” via the largest similarity score between t q and a document term t d .",
+          "current": "Given these term scores, it then estimates the document relevance by summing the matching evidence across all query terms.",
+          "next": "While more sophisticated matching is possible with other choices such as deep convolution and aention layers (i.e., as in typical interaction-focused models), a summation of maximum similarity computations has two distinctive characteristics."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6121,
+        "downstream_relevance_score": 0.4133,
+        "components": {
+          "bio_boundary_score": 0.6127,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "document"
+        ],
+        "normalization": "document",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "document",
+          "canonical": "document",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6127",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4133"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "document sequence",
+        "canonical": "document sequence",
+        "normalized": "document sequence",
+        "tokens": [
+          "document",
+          "sequence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 139,
+        "sentence": "We first segment a document d into its constituent to- kens d 1 d 2 ... d m , to which we prepend BERT’s start token [CLS] fol- lowed by our special token [D] that indicates a document sequence.",
+        "context_window": {
+          "previous": "Our document encoder has a very similar architecture.",
+          "current": "We first segment a document d into its constituent to- kens d 1 d 2 ... d m , to which we prepend BERT’s start token [CLS] fol- lowed by our special token [D] that indicates a document sequence.",
+          "next": "Unlike queries, we do not append [mask] tokens to documents."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5853,
+        "downstream_relevance_score": 0.4094,
+        "components": {
+          "bio_boundary_score": 0.5226,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "document",
+          "sequence"
+        ],
+        "normalization": "document sequence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "document sequence",
+          "canonical": "document sequence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5226",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4094"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "evaluation",
+        "canonical": "evaluation",
+        "normalized": "evaluation",
+        "tokens": [
+          "evaluation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 225,
+        "sentence": "Our evaluation is conducted on the test set used in TREC 2017 CAR, which contains 2,254 queries.",
+        "context_window": {
+          "previous": "That section’s passages are marked as relevant to the corresponding query.",
+          "current": "Our evaluation is conducted on the test set used in TREC 2017 CAR, which contains 2,254 queries.",
+          "next": "4.1.2 Implementation."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6077,
+        "downstream_relevance_score": 0.3788,
+        "components": {
+          "bio_boundary_score": 0.9958,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "evaluation"
+        ],
+        "normalization": "evaluation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "evaluation",
+          "canonical": "evaluation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9958",
+        "structure model assigned role 'dataset' with score 0.66",
+        "downstream relevance score is 0.3788"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "BM25",
+        "canonical": "BM25",
+        "normalized": "bm25",
+        "tokens": [
+          "bm25"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 298,
+        "sentence": "Crucially, however, they re-weigh the frequency of terms per document and/or expand the set of terms in each document before building the BM25 index.",
+        "context_window": {
+          "previous": "All three rely on a traditional bag-of-words model (pri- marily BM25) for retrieval.",
+          "current": "Crucially, however, they re-weigh the frequency of terms per document and/or expand the set of terms in each document before building the BM25 index.",
+          "next": "In particular, doc2query expands each document with a pre-defined number of synthetic queries generated by a seq2seq transformer model (which docTTTTquery replaced with a pre-trained language model, T5 [ 31 ])."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5935,
+        "downstream_relevance_score": 0.3714,
+        "components": {
+          "bio_boundary_score": 0.9681,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bm25"
+        ],
+        "normalization": "bm25",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BM25",
+          "canonical": "BM25",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9681",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3714"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "latency",
+        "canonical": "latency",
+        "normalized": "latency",
+        "tokens": [
+          "latency"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 306,
+        "sentence": "For its latency, we measure the time for faiss -based candidate filtering and the subsequent re-ranking.",
+        "context_window": {
+          "previous": "8 As discussed in § 4.1, we use ColBERT L2 for end-to- end retrieval, which employs negative squared L2 distance as its vector-similarity function.",
+          "current": "For its latency, we measure the time for faiss -based candidate filtering and the subsequent re-ranking.",
+          "next": "In this experiment, faiss uses all available CPU cores."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6074,
+        "downstream_relevance_score": 0.3619,
+        "components": {
+          "bio_boundary_score": 0.9948,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "latency"
+        ],
+        "normalization": "latency",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "latency",
+          "canonical": "latency",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9948",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3619"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "tensor",
+        "canonical": "tensor",
+        "normalized": "tensor",
+        "tokens": [
+          "tensor"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 169,
+        "sentence": "We pad the k documents to their maximum length to facilitate batched operations, and move the tensor D to the GPU’s memory.",
+        "context_window": {
+          "previous": "Given a query q , we compute its bag of contextualized embed- dings E q (Equation 1) and, concurrently, gather the document repre- sentations into a 3-dimensional tensor D consisting of k document matrices.",
+          "current": "We pad the k documents to their maximum length to facilitate batched operations, and move the tensor D to the GPU’s memory.",
+          "next": "On the GPU, we compute a batch dot-product of E q and D , possibly over multiple mini-batches."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.607,
+        "downstream_relevance_score": 0.3617,
+        "components": {
+          "bio_boundary_score": 0.9945,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "tensor"
+        ],
+        "normalization": "tensor",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "tensor",
+          "canonical": "tensor",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9945",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3617"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "faiss",
+        "canonical": "faiss",
+        "normalized": "faiss",
+        "tokens": [
+          "faiss"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 187,
+        "sentence": "For the first stage, we concurrently issue N q vector-similarity queries (corresponding to each of the embeddings in E q ) onto our faiss in- dex.",
+        "context_window": {
+          "previous": "Both stages rely on ColBERT’s scoring: the first is an approximate stage aimed at filtering while the second is a refinement stage.",
+          "current": "For the first stage, we concurrently issue N q vector-similarity queries (corresponding to each of the embeddings in E q ) onto our faiss in- dex.",
+          "next": "This retrieves the top- k ′ (e.g., k ′ = k / 2) matches for that vector 4 hps://github.com/facebookresearch/faiss over all document embeddings."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6068,
+        "downstream_relevance_score": 0.3615,
+        "components": {
+          "bio_boundary_score": 0.9927,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "faiss"
+        ],
+        "normalization": "faiss",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "faiss",
+          "canonical": "faiss",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9927",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3615"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 15,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "At a high level, TK improves the KNRM architecture described earlier: while KNRM employs kernel pooling on top of word-embedding-based interaction, TK uses a Transformer component for contextually encoding queries and documents before kernel pooling.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Similarly, the figure emphasizes the importance of our query augmentation mechanism: without query augmentation [C], ColBERT has a noticeably lower MRR@10.",
+        "evidence_type": "metric",
+        "matched_cue": "MRR",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Lastly, we see the impact of end-to-end retrieval not only on recall but also on MRR@10.",
+        "evidence_type": "metric",
+        "matched_cue": "recall",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Lastly, we see the impact of end-to-end retrieval not only on recall but also on MRR@10.",
+        "evidence_type": "metric",
+        "matched_cue": "MRR",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "To tackle this, we present ColBERT, a novel ranking model that adapts deep LMs (in particular, BERT) for efficient retrieval.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "ColBERT introduces a late interaction architecture that independently encodes the query and the document using BERT and then employs a cheap yet powerful interaction step that models their fine-grained similarity.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Results show that ColBERT's effectiveness is competitive with existing BERT-based models (and outperforms every non-BERT baseline), while executing two orders-of-magnitude faster and requiring four orders-of-magnitude fewer FLOPs per query.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Indeed, in the span of just a few months, a number of ranking models based on BERT have achieved state-of-the-art results on various retrieval benchmarks and have been proprietarily adapted for deployment by Google and Bing .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "It reports retrieval effectiveness (MRR@10) on the official validation set as well as average query latency (log-scale) using a high-end server that dedicates one Tesla V100 GPU per query for neural re-rankers.",
+        "evidence_type": "metric",
+        "matched_cue": "MRR",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Despite highly promising results and insights, SNRM's effectiveness is substantially outperformed by the state of the art on the datasets with which it was evaluated (e.g., see ).",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "A notable example is BERT , a bidirectional transformer-based language model whose fine-tuning advanced the state of the art on various NLU benchmarks.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "Relative to their single-document BERT, this gives duoBERT a 1% MRR@10 advantage on MS MARCO while increasing the cost by at least 1.4×.",
+        "evidence_type": "metric",
+        "matched_cue": "MRR",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "TK establishes a new state-of-the-art for non-BERT models on MS MARCO (Dev); however, the best non-ensemble MRR@10 it achieves is 31% while ColBERT reaches up to 36%.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "TK establishes a new state-of-the-art for non-BERT models on MS MARCO (Dev); however, the best non-ensemble MRR@10 it achieves is 31% while ColBERT reaches up to 36%.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "TK establishes a new state-of-the-art for non-BERT models on MS MARCO (Dev); however, the best non-ensemble MRR@10 it achieves is 31% while ColBERT reaches up to 36%.",
+        "evidence_type": "metric",
+        "matched_cue": "MRR",
+        "role_prior": "metric",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "bidirectional encoder representations from transformers",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6828
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "Recurrent neural network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6556
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "embedding",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.636
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "interaction-based paradigm",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5613
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "document encoder",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5485
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "KNRM",
+        "section": "related_work",
+        "role": "comparison",
+        "score": 0.5356
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "term-based retrieval",
+        "section": "method",
+        "role": "contribution",
+        "score": 0.5176
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "Information Retrieval",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5002
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "late interaction",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.4997
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "linear layer",
+        "section": "method",
+        "role": "component",
+        "score": 0.4828
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "ColBERT",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4788
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "Col- BERT",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4685
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "indexing",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4645
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "faiss index",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.4552
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "user experience",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4541
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "cheap interaction",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4532
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "neural net",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4487
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "embedding dimension",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.4428
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "Col",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.432
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "architec- ture",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4244
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "token",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4158
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "document",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4133
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "document sequence",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4094
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "evaluation",
+        "section": "related_work",
+        "role": "dataset",
+        "score": 0.3788
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "BM25",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.3714
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "latency",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3619
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "tensor",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3617
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "faiss",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3615
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_004",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_019",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_026",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_026",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_027",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

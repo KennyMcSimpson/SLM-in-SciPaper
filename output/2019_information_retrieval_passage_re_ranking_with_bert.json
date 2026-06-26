@@ -1,0 +1,2969 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2019_information_retrieval_passage_re_ranking_with_bert",
+    "title": "2019_information_retrieval_passage_re_ranking_with_bert",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2019_information_retrieval_passage_re_ranking_with_bert.txt",
+    "sentence_count": 133,
+    "section_counts": {
+      "intro": 27,
+      "related_work": 20,
+      "method": 40,
+      "experiment": 46
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 2197,
+    "type_count": 806,
+    "type_token_ratio": 0.3669,
+    "section_token_counts": {
+      "intro": 766,
+      "related_work": 327,
+      "method": 698,
+      "experiment": 406,
+      "conclusion": 0
+    },
+    "top_unigrams": [
+      {
+        "term": "2017",
+        "count": 25
+      },
+      {
+        "term": "arxiv",
+        "count": 25
+      },
+      {
+        "term": "et",
+        "count": 22
+      },
+      {
+        "term": "al",
+        "count": 22
+      },
+      {
+        "term": "bert",
+        "count": 18
+      },
+      {
+        "term": "passage",
+        "count": 18
+      },
+      {
+        "term": "training",
+        "count": 17
+      },
+      {
+        "term": "set",
+        "count": 16
+      },
+      {
+        "term": "ms",
+        "count": 14
+      },
+      {
+        "term": "marco",
+        "count": 14
+      },
+      {
+        "term": "passages",
+        "count": 14
+      },
+      {
+        "term": "2018",
+        "count": 13
+      },
+      {
+        "term": "trec-car",
+        "count": 13
+      },
+      {
+        "term": "preprint",
+        "count": 12
+      },
+      {
+        "term": "models",
+        "count": 11
+      },
+      {
+        "term": "relevant",
+        "count": 11
+      },
+      {
+        "term": "ranking",
+        "count": 9
+      },
+      {
+        "term": "neural",
+        "count": 9
+      },
+      {
+        "term": "10",
+        "count": 9
+      },
+      {
+        "term": "language",
+        "count": 8
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 22
+      },
+      {
+        "term": "ms marco",
+        "count": 14
+      },
+      {
+        "term": "arxiv preprint",
+        "count": 12
+      },
+      {
+        "term": "preprint arxiv",
+        "count": 12
+      },
+      {
+        "term": "al 2017",
+        "count": 11
+      },
+      {
+        "term": "al 2018",
+        "count": 6
+      },
+      {
+        "term": "mrr 10",
+        "count": 5
+      },
+      {
+        "term": "relevant passages",
+        "count": 5
+      },
+      {
+        "term": "al 2016",
+        "count": 4
+      },
+      {
+        "term": "passage re-ranking",
+        "count": 4
+      },
+      {
+        "term": "bert large",
+        "count": 4
+      },
+      {
+        "term": "training set",
+        "count": 4
+      },
+      {
+        "term": "kyunghyun cho",
+        "count": 3
+      },
+      {
+        "term": "natural language",
+        "count": 3
+      },
+      {
+        "term": "paper describe",
+        "count": 3
+      },
+      {
+        "term": "state art",
+        "count": 3
+      },
+      {
+        "term": "marco passage",
+        "count": 3
+      },
+      {
+        "term": "passage ranking",
+        "count": 3
+      },
+      {
+        "term": "pre-trained bert",
+        "count": 3
+      },
+      {
+        "term": "retrieved bm25",
+        "count": 3
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "arxiv preprint arxiv",
+        "count": 12
+      },
+      {
+        "term": "et al 2017",
+        "count": 11
+      },
+      {
+        "term": "et al 2018",
+        "count": 6
+      },
+      {
+        "term": "et al 2016",
+        "count": 4
+      },
+      {
+        "term": "ms marco passage",
+        "count": 3
+      },
+      {
+        "term": "comprehension arxiv preprint",
+        "count": 3
+      },
+      {
+        "term": "new york university",
+        "count": 2
+      },
+      {
+        "term": "natural language processing",
+        "count": 2
+      },
+      {
+        "term": "https github com",
+        "count": 2
+      },
+      {
+        "term": "neural ranking models",
+        "count": 2
+      },
+      {
+        "term": "knrm xiong et",
+        "count": 2
+      },
+      {
+        "term": "xiong et al",
+        "count": 2
+      },
+      {
+        "term": "dietz et al",
+        "count": 2
+      },
+      {
+        "term": "reading compre- hension",
+        "count": 2
+      },
+      {
+        "term": "bert passage re-ranker",
+        "count": 2
+      },
+      {
+        "term": "training pre-trained bert",
+        "count": 2
+      },
+      {
+        "term": "ms marco trec-car",
+        "count": 2
+      },
+      {
+        "term": "set contains approximately",
+        "count": 2
+      },
+      {
+        "term": "pairs less than",
+        "count": 2
+      },
+      {
+        "term": "not see any",
+        "count": 2
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 11,
+    "nonzero_tfidf_features": 11,
+    "top_tfidf_features": [
+      {
+        "feature_name": "methods__BERT",
+        "section": "method",
+        "term": "BERT",
+        "frequency": 3.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 2.0,
+        "tfidf": 0.9193
+      },
+      {
+        "feature_name": "experiments__mrr",
+        "section": "experiment",
+        "term": "mrr",
+        "frequency": 1.0,
+        "tfidf": 0.6946
+      },
+      {
+        "feature_name": "abstract__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 2.0,
+        "tfidf": 0.6117
+      },
+      {
+        "feature_name": "experiments__BERT",
+        "section": "experiment",
+        "term": "BERT",
+        "frequency": 1.0,
+        "tfidf": 0.5496
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 1.0,
+        "tfidf": 0.4641
+      },
+      {
+        "feature_name": "abstract__question answering",
+        "section": "intro",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.4138
+      },
+      {
+        "feature_name": "abstract__GPT",
+        "section": "intro",
+        "term": "GPT",
+        "frequency": 1.0,
+        "tfidf": 0.4138
+      },
+      {
+        "feature_name": "abstract__natural language inference",
+        "section": "intro",
+        "term": "natural language inference",
+        "frequency": 1.0,
+        "tfidf": 0.4138
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.3935
+      },
+      {
+        "feature_name": "abstract__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.3348
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.9193
+        },
+        {
+          "feature_name": "abstract__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.6117
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "abstract__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "abstract__natural language inference",
+          "section": "intro",
+          "term": "natural language inference",
+          "frequency": 1.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.3935
+        },
+        {
+          "feature_name": "abstract__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.3348
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__BERT",
+          "section": "method",
+          "term": "BERT",
+          "frequency": 3.0,
+          "tfidf": 1.0
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__mrr",
+          "section": "experiment",
+          "term": "mrr",
+          "frequency": 1.0,
+          "tfidf": 0.6946
+        },
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.5496
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.4641
+        }
+      ],
+      "conclusion": []
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 27,
+      "token_count": 766,
+      "bow_hit_count": 52,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 38,
+          "section_prior": 0.2788,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 5,
+          "section_prior": 0.4845,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 4,
+          "section_prior": 0.6057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "mean reciprocal rank",
+          "count": 3,
+          "section_prior": 0.0732,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "textual entailment",
+          "count": 1,
+          "section_prior": 0.5135,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 1,
+          "section_prior": 0.3056,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.9193
+        },
+        {
+          "feature_name": "abstract__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 2.0,
+          "tfidf": 0.6117
+        },
+        {
+          "feature_name": "abstract__question answering",
+          "section": "intro",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "abstract__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "abstract__natural language inference",
+          "section": "intro",
+          "term": "natural language inference",
+          "frequency": 1.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.3935
+        },
+        {
+          "feature_name": "abstract__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.3348
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 20,
+      "token_count": 327,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "training set",
+          "count": 10,
+          "section_prior": 0.0448,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "AI accelerator",
+          "count": 2,
+          "section_prior": 0.0909,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "search engine",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 40,
+      "token_count": 698,
+      "bow_hit_count": 69,
+      "top_bow_terms": [
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 38,
+          "section_prior": 0.202,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 11,
+          "section_prior": 0.1542,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "mean reciprocal rank",
+          "count": 9,
+          "section_prior": 0.122,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.2204,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 4,
+          "section_prior": 0.3709,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "AI accelerator",
+          "count": 1,
+          "section_prior": 0.0909,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "search engine",
+          "count": 1,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__BERT",
+          "section": "method",
+          "term": "BERT",
+          "frequency": 3.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 46,
+      "token_count": 406,
+      "bow_hit_count": 15,
+      "top_bow_terms": [
+        {
+          "canonical_term": "attention",
+          "count": 5,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "self-attention",
+          "count": 5,
+          "section_prior": 0.1017,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__mrr",
+          "section": "experiment",
+          "term": "mrr",
+          "frequency": 1.0,
+          "tfidf": 0.6946
+        },
+        {
+          "feature_name": "experiments__BERT",
+          "section": "experiment",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.5496
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.4641
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 0,
+      "token_count": 0,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": []
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "BERT",
+        "canonical": "bidirectional encoder representations from transformers",
+        "normalized": "bidirectional encoder representations from transformers",
+        "tokens": [
+          "bert"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "bidirectional encoder representations from transformers",
+          "BERT",
+          "bert"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "In this paper, we describe a simple re-implementation of BERT for query-based pas- sage re-ranking.",
+        "context_window": {
+          "previous": "P ASSAGE R E - RANKING WITH BERT Rodrigo Nogueira New York University rodrigonogueira@nyu.edu Kyunghyun Cho New York University Facebook AI Research CIFAR Azrieli Global Scholar kyunghyun.cho@nyu.edu A BSTRACT Recently, neural models pretrained on a language modeling task, such as ELMo (Peters et al., 2017), OpenAI GPT (Radford et al., 2018), and BERT (De- vlin et al., 2018), have achieved impressive results on various natural language processing tasks such as question-answering and natural language inference.",
+          "current": "In this paper, we describe a simple re-implementation of BERT for query-based pas- sage re-ranking.",
+          "next": "Our system is the state of the art on the TREC-CAR dataset and the top entry in the leaderboard of the MS MARCO passage retrieval task, outper- forming the previous state of the art by 27% (relative) in MRR@10."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8897
+      },
+      "evidence": {
+        "score": 0.4198,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6384,
+        "downstream_relevance_score": 0.6928,
+        "components": {
+          "bio_boundary_score": 0.7839,
+          "sentence_evidence_score": 0.4198,
+          "sentence_role_score": 0.8897,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2788,
+          "document_tfidf_score": 0.9193,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "bert",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "bidirectional encoder representations from transformers",
+        "display_term": "BERT",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/BERT_%28language_model%29",
+        "wikidata_id": "Q61726893",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 23,
+        "total_frequency": 78,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 2.0,
+        "tfidf": 0.9193,
+        "normalized_frequency": 0.6667,
+        "normalized_tfidf": 0.9193
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bert"
+        ],
+        "normalization": "bert",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2788,
+        "canonicalization": {
+          "observed": "BERT",
+          "canonical": "bidirectional encoder representations from transformers",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7839",
+        "structure model assigned role 'problem' with score 0.8897",
+        "section BoW matched canonical term 'bidirectional encoder representations from transformers' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__BERT' with tf-idf 0.9193",
+        "downstream relevance score is 0.6928"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "relevant passage",
+        "canonical": "relevant passage",
+        "normalized": "relevant passage",
+        "tokens": [
+          "relevant",
+          "passage"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 28,
+        "sentence": "However, some have no relevant passage because the corpus was initially constructed by retrieving the top-10 passages from the Bing search engine and then annotated.",
+        "context_window": {
+          "previous": "On average, each query has one relevant passage.",
+          "current": "However, some have no relevant passage because the corpus was initially constructed by retrieving the top-10 passages from the Bing search engine and then annotated.",
+          "next": "Hence, some of the relevant passages might not be retrieved by BM25."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "corpus",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "corpus mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7181,
+        "downstream_relevance_score": 0.5612,
+        "components": {
+          "bio_boundary_score": 0.9847,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "relevant",
+          "passage"
+        ],
+        "normalization": "relevant passage",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "relevant passage",
+          "canonical": "relevant passage",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9847",
+        "structure model assigned role 'gap' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched corpus",
+        "downstream relevance score is 0.5612"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "passage retrieval",
+        "canonical": "passage retrieval",
+        "normalized": "passage retrieval",
+        "tokens": [
+          "passage",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 2,
+        "sentence": "Our system is the state of the art on the TREC-CAR dataset and the top entry in the leaderboard of the MS MARCO passage retrieval task, outper- forming the previous state of the art by 27% (relative) in MRR@10.",
+        "context_window": {
+          "previous": "In this paper, we describe a simple re-implementation of BERT for query-based pas- sage re-ranking.",
+          "current": "Our system is the state of the art on the TREC-CAR dataset and the top entry in the leaderboard of the MS MARCO passage retrieval task, outper- forming the previous state of the art by 27% (relative) in MRR@10.",
+          "next": "The code to reproduce our results is available at https://github.com/nyu-dl/ dl4marco-bert 1 I NTRODUCTION We have seen rapid progress in machine reading compression in recent years with the introduction of large-scale datasets, such as SQuAD (Rajpurkar et al., 2016), MS MARCO (Nguyen et al., 2016), SearchQA (Dunn et al., 2017), TriviaQA (Joshi et al., 2017), and QUASAR-T (Dhingra et al., 2017), and the broad adoption of neural models, such as BiDAF (Seo et al., 2016), DrQA (Chen et al., 2017), DocumentQA (Clark & Gardner, 2017), and QAnet (Yu et al., 2018)."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8897
+      },
+      "evidence": {
+        "score": 0.4198,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          },
+          {
+            "cue_phrase": "MRR",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8276,
+          "evidence_type": "result",
+          "matched_cue": "state-of-the-art",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6438,
+        "downstream_relevance_score": 0.5547,
+        "components": {
+          "bio_boundary_score": 0.8011,
+          "sentence_evidence_score": 0.4198,
+          "sentence_role_score": 0.8897,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "passage",
+          "retrieval"
+        ],
+        "normalization": "passage retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "passage retrieval",
+          "canonical": "passage retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8011",
+        "structure model assigned role 'problem' with score 0.8897",
+        "evidence cue lexicon matched dataset, MRR",
+        "downstream relevance score is 0.5547"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "Wikipedia",
+        "canonical": "Wikipedia",
+        "normalized": "wikipedia",
+        "tokens": [
+          "wikipedia"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 55,
+        "sentence": "MRR@10 performance. models 2 were pre-trained on the full Wikipedia, and therefore they have seen, although in an unsu- pervised way, Wikipedia documents that are used in the test set of TREC-CAR.",
+        "context_window": {
+          "previous": "Number of training question-passage pairs MRR@10 0 0.1 0.2 0.3 0.4 1k 10k 100k 1M 10M 100M BERT Large IR-NET (previous SOTA) Figure 1: Number of MS MARCO examples seen during training vs.",
+          "current": "MRR@10 performance. models 2 were pre-trained on the full Wikipedia, and therefore they have seen, although in an unsu- pervised way, Wikipedia documents that are used in the test set of TREC-CAR.",
+          "next": "Thus, to avoid this leak of test data into training, we pre-trained the BERT re-ranker only on the half of Wikipedia used by TREC-CAR’s training set."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "MRR",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6737,
+        "downstream_relevance_score": 0.5153,
+        "components": {
+          "bio_boundary_score": 0.9034,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "wikipedia"
+        ],
+        "normalization": "wikipedia",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Wikipedia",
+          "canonical": "Wikipedia",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9034",
+        "structure model assigned role 'dataset' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched MRR",
+        "downstream relevance score is 0.5153"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "MS MARCO",
+        "canonical": "MS MARCO",
+        "normalized": "ms marco",
+        "tokens": [
+          "ms",
+          "marco"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 51,
+        "sentence": "The official pre-trained BERT 1 https://cloud.google.com/tpu/ 2 MS MARCO TREC-CAR MRR@10 MAP Method Dev Eval Test BM25 (Lucene, no tuning) 16.7 16.5 12.3 BM25 (Anserini, tuned) - - 15.3 Co-PACRR ?",
+        "context_window": {
+          "previous": "However, there is an important difference.",
+          "current": "The official pre-trained BERT 1 https://cloud.google.com/tpu/ 2 MS MARCO TREC-CAR MRR@10 MAP Method Dev Eval Test BM25 (Lucene, no tuning) 16.7 16.5 12.3 BM25 (Anserini, tuned) - - 15.3 Co-PACRR ?",
+          "next": "(MacAvaney et al., 2017) - - 14.8 KNRM (Xiong et al., 2017) 21.8 19.8 - Conv-KNRM (Dai et al., 2018) 29.0 27.1 - IRNet † 27.8 28.1 - BERT Base 34.7 - 31.0 BERT Large 36.5 35.8 33.5 Table 1: Main Result on the passage re-ranking datasets. ?"
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "MRR",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7133,
+        "downstream_relevance_score": 0.5109,
+        "components": {
+          "bio_boundary_score": 0.9554,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ms",
+          "marco"
+        ],
+        "normalization": "ms marco",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "MS MARCO",
+          "canonical": "MS MARCO",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9554",
+        "structure model assigned role 'core_method' with score 0.45",
+        "evidence cue lexicon matched MRR",
+        "downstream relevance score is 0.5109"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "re-ranking",
+        "canonical": "re-ranking",
+        "normalized": "re-ranking",
+        "tokens": [
+          "re-ranking"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "In this paper, we describe a simple re-implementation of BERT for query-based pas- sage re-ranking.",
+        "context_window": {
+          "previous": "P ASSAGE R E - RANKING WITH BERT Rodrigo Nogueira New York University rodrigonogueira@nyu.edu Kyunghyun Cho New York University Facebook AI Research CIFAR Azrieli Global Scholar kyunghyun.cho@nyu.edu A BSTRACT Recently, neural models pretrained on a language modeling task, such as ELMo (Peters et al., 2017), OpenAI GPT (Radford et al., 2018), and BERT (De- vlin et al., 2018), have achieved impressive results on various natural language processing tasks such as question-answering and natural language inference.",
+          "current": "In this paper, we describe a simple re-implementation of BERT for query-based pas- sage re-ranking.",
+          "next": "Our system is the state of the art on the TREC-CAR dataset and the top entry in the leaderboard of the MS MARCO passage retrieval task, outper- forming the previous state of the art by 27% (relative) in MRR@10."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8897
+      },
+      "evidence": {
+        "score": 0.4198,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6386,
+        "downstream_relevance_score": 0.472,
+        "components": {
+          "bio_boundary_score": 0.7845,
+          "sentence_evidence_score": 0.4198,
+          "sentence_role_score": 0.8897,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "re-ranking"
+        ],
+        "normalization": "re-ranking",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "re-ranking",
+          "canonical": "re-ranking",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7845",
+        "structure model assigned role 'problem' with score 0.8897",
+        "downstream relevance score is 0.472"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "TREC-CAR",
+        "canonical": "TREC-CAR",
+        "normalized": "trec-car",
+        "tokens": [
+          "trec-car"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 57,
+        "sentence": "For the fine-tuning data, we generate our query-passage pairs by retrieving the top ten passages from the entire TREC-CAR corpus using BM25.",
+        "context_window": {
+          "previous": "Thus, to avoid this leak of test data into training, we pre-trained the BERT re-ranker only on the half of Wikipedia used by TREC-CAR’s training set.",
+          "current": "For the fine-tuning data, we generate our query-passage pairs by retrieving the top ten passages from the entire TREC-CAR corpus using BM25.",
+          "next": "3 This means that we end up with 30M example pairs (3M queries * 10 passages/query) to train our model."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "corpus",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "corpus mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5783,
+        "downstream_relevance_score": 0.4561,
+        "components": {
+          "bio_boundary_score": 0.5982,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "trec-car"
+        ],
+        "normalization": "trec-car",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "TREC-CAR",
+          "canonical": "TREC-CAR",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5982",
+        "structure model assigned role 'mechanism' with score 0.82",
+        "evidence cue lexicon matched corpus",
+        "downstream relevance score is 0.4561"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "ad-hoc search",
+        "canonical": "ad-hoc search",
+        "normalized": "ad-hoc search",
+        "tokens": [
+          "ad-hoc",
+          "search"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 73,
+        "sentence": "Convolutional neural networks for soft-matching n-grams in ad-hoc search.",
+        "context_window": {
+          "previous": "Zhuyun Dai, Chenyan Xiong, Jamie Callan, and Zhiyuan Liu.",
+          "current": "Convolutional neural networks for soft-matching n-grams in ad-hoc search.",
+          "next": "In Proceedings of the Eleventh ACM International Con- ference on Web Search and Data Mining , pp."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6543,
+        "downstream_relevance_score": 0.4452,
+        "components": {
+          "bio_boundary_score": 0.7713,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ad-hoc",
+          "search"
+        ],
+        "normalization": "ad-hoc search",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ad-hoc search",
+          "canonical": "ad-hoc search",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7713",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4452"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "Adam Fis",
+        "canonical": "Adam Fis",
+        "normalized": "adam fis",
+        "tokens": [
+          "adam",
+          "fis"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 68,
+        "sentence": "R EFERENCES Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes.",
+        "context_window": {
+          "previous": "We have made the code to reproduce our experiments publicly available.",
+          "current": "R EFERENCES Danqi Chen, Adam Fisch, Jason Weston, and Antoine Bordes.",
+          "next": "Reading wikipedia to answer open- domain questions. arXiv preprint arXiv:1704.00051 , 2017."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5846,
+        "downstream_relevance_score": 0.409,
+        "components": {
+          "bio_boundary_score": 0.5301,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "adam",
+          "fis"
+        ],
+        "normalization": "adam fis",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Adam Fis",
+          "canonical": "Adam Fis",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5301",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.409"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "MARCO",
+        "canonical": "MARCO",
+        "normalized": "marco",
+        "tokens": [
+          "marco"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 64,
+        "sentence": "For example, a BERT LARGE trained on 100k question-passage pairs (less than 0.3% of the MS MARCO training data) is already 1.4 MRR@10 points better than the previous state-of-the-art, IR-NET.",
+        "context_window": {
+          "previous": "Training size vs performance: We found that the pretrained models used in this work require few training examples from the end task to achieve a good performance 1.",
+          "current": "For example, a BERT LARGE trained on 100k question-passage pairs (less than 0.3% of the MS MARCO training data) is already 1.4 MRR@10 points better than the previous state-of-the-art, IR-NET.",
+          "next": "2 https://github.com/google-research/bert 3 We use the Anserini toolkit (Yang et al., 2018) to index and retrieve the passages."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          },
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          },
+          {
+            "cue_phrase": "MRR",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "state-of-the-art",
+          "role_prior": "result",
+          "confidence": 0.98
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4582,
+        "downstream_relevance_score": 0.3939,
+        "components": {
+          "bio_boundary_score": 0.7234,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "marco"
+        ],
+        "normalization": "marco",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "MARCO",
+          "canonical": "MARCO",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7234",
+        "structure model assigned role 'process' with score 0.82",
+        "evidence cue lexicon matched trained on, state-of-the-art, MRR",
+        "downstream relevance score is 0.3939"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "passage ranking",
+        "canonical": "passage ranking",
+        "normalized": "passage ranking",
+        "tokens": [
+          "passage",
+          "ranking"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "However, until recently, there were only a few large datasets for passage ranking, with the notable exception of the TREC-CAR (Dietz et al., 2017).",
+        "context_window": {
+          "previous": "The information retrieval (IR) community has also experienced a flourishing development of neural ranking models, such as DRMM (Guo et al., 2016), KNRM (Xiong et al., 2017), Co-PACRR (Hui et al., 2018), and DUET (Mitra et al., 2017).",
+          "current": "However, until recently, there were only a few large datasets for passage ranking, with the notable exception of the TREC-CAR (Dietz et al., 2017).",
+          "next": "This, at least in part, prevented the neural ranking models from being successful when compared to more classical IR techniques (Lin, 2019)."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5973,
+        "downstream_relevance_score": 0.3834,
+        "components": {
+          "bio_boundary_score": 0.9806,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "passage",
+          "ranking"
+        ],
+        "normalization": "passage ranking",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "passage ranking",
+          "canonical": "passage ranking",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9806",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3834"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "passage re-ranking",
+        "canonical": "passage re-ranking",
+        "normalized": "passage re-ranking",
+        "tokens": [
+          "passage",
+          "re-ranking"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 9,
+        "sentence": "In this paper, we describe in detail how we have re-purposed BERT as a passage re-ranker and achieved state-of-the-art results on the MS MARCO passage re-ranking task.",
+        "context_window": {
+          "previous": "Namely, the MS MARCO passage ranking dataset, which contains one million queries from real users and their respective relevant passages annotated by humans, and BERT, a powerful general purpose natural language processing model.",
+          "current": "In this paper, we describe in detail how we have re-purposed BERT as a passage re-ranker and achieved state-of-the-art results on the MS MARCO passage re-ranking task.",
+          "next": "2 P ASSAGE R E -R ANKING WITH BERT Task A simple question-answering pipeline consists of three main stages."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "state-of-the-art",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "strong result cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "state-of-the-art",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.478,
+        "downstream_relevance_score": 0.3564,
+        "components": {
+          "bio_boundary_score": 0.7082,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "passage",
+          "re-ranking"
+        ],
+        "normalization": "passage re-ranking",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "passage re-ranking",
+          "canonical": "passage re-ranking",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7082",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence cue lexicon matched state-of-the-art",
+        "downstream relevance score is 0.3564"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "ad-hoc retrieval",
+        "canonical": "ad-hoc retrieval",
+        "normalized": "ad-hoc retrieval",
+        "tokens": [
+          "ad-hoc",
+          "retrieval"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 92,
+        "sentence": "Co-pacrr: A context-aware neural ir model for ad-hoc retrieval.",
+        "context_window": {
+          "previous": "Kai Hui, Andrew Yates, Klaus Berberich, and Gerard de Melo.",
+          "current": "Co-pacrr: A context-aware neural ir model for ad-hoc retrieval.",
+          "next": "In Proceedings of the Eleventh ACM International Conference on Web Search and Data Mining , pp."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5664,
+        "downstream_relevance_score": 0.3505,
+        "components": {
+          "bio_boundary_score": 0.9423,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "ad-hoc",
+          "retrieval"
+        ],
+        "normalization": "ad-hoc retrieval",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ad-hoc retrieval",
+          "canonical": "ad-hoc retrieval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9423",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3505"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "passage",
+        "canonical": "passage",
+        "normalized": "passage",
+        "tokens": [
+          "passage"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 14,
+        "sentence": "In this paper, we describe how we implemented the second stage of this pipeline, passage re-ranking.",
+        "context_window": {
+          "previous": "Finally, the top ten or fifty of these documents will be the source for the candidate answers by an answer generation module.",
+          "current": "In this paper, we describe how we implemented the second stage of this pipeline, passage re-ranking.",
+          "next": "Method The job of the re-ranker is to estimate a score s i of how relevant a candidate passage d i is to a query q ."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.547,
+        "downstream_relevance_score": 0.3472,
+        "components": {
+          "bio_boundary_score": 0.9438,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "passage"
+        ],
+        "normalization": "passage",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "passage",
+          "canonical": "passage",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9438",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3472"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "answer generation",
+        "canonical": "answer generation",
+        "normalized": "answer generation",
+        "tokens": [
+          "answer",
+          "generation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 13,
+        "sentence": "Finally, the top ten or fifty of these documents will be the source for the candidate answers by an answer generation module.",
+        "context_window": {
+          "previous": "In the second stage, passage re-ranking , each of these documents is scored and re-ranked by a more computationally-intensive method.",
+          "current": "Finally, the top ten or fifty of these documents will be the source for the candidate answers by an answer generation module.",
+          "next": "In this paper, we describe how we implemented the second stage of this pipeline, passage re-ranking."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4997,
+        "downstream_relevance_score": 0.3327,
+        "components": {
+          "bio_boundary_score": 0.7782,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "answer",
+          "generation"
+        ],
+        "normalization": "answer generation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "answer generation",
+          "canonical": "answer generation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7782",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3327"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "BM25",
+        "canonical": "BM25",
+        "normalized": "bm25",
+        "tokens": [
+          "bm25"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 29,
+        "sentence": "Hence, some of the relevant passages might not be retrieved by BM25.",
+        "context_window": {
+          "previous": "However, some have no relevant passage because the corpus was initially constructed by retrieving the top-10 passages from the Bing search engine and then annotated.",
+          "current": "Hence, some of the relevant passages might not be retrieved by BM25.",
+          "next": "An evaluation set with approximately 6,800 queries and their top 1,000 retrieved passages without relevance annotations is also provided."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5372,
+        "downstream_relevance_score": 0.3253,
+        "components": {
+          "bio_boundary_score": 0.9914,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bm25"
+        ],
+        "normalization": "bm25",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BM25",
+          "canonical": "BM25",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9914",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.3253"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "machine comprehension",
+        "canonical": "machine comprehension",
+        "normalized": "machine comprehension",
+        "tokens": [
+          "machine",
+          "comprehension"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 121,
+        "sentence": "Bidirectional attention flow for machine comprehension. arXiv preprint arXiv:1611.01603 , 2016.",
+        "context_window": {
+          "previous": "Minjoon Seo, Aniruddha Kembhavi, Ali Farhadi, and Hannaneh Hajishirzi.",
+          "current": "Bidirectional attention flow for machine comprehension. arXiv preprint arXiv:1611.01603 , 2016.",
+          "next": "Chenyan Xiong, Zhuyun Dai, Jamie Callan, Zhiyuan Liu, and Russell Power."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4634,
+        "downstream_relevance_score": 0.3137,
+        "components": {
+          "bio_boundary_score": 0.5774,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "machine",
+          "comprehension"
+        ],
+        "normalization": "machine comprehension",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "machine comprehension",
+          "canonical": "machine comprehension",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5774",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3137"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "TREC-CAR 2017",
+        "canonical": "TREC-CAR 2017",
+        "normalized": "trec-car 2017",
+        "tokens": [
+          "trec-car",
+          "2017"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 44,
+        "sentence": "The test set is the same one used to evaluate the submissions to TREC-CAR 2017 (approx.",
+        "context_window": {
+          "previous": "The released dataset has five predefined folds, and we use the first four as a training set (approximately 2.3M queries), and the remaining as a validation set (approximately 580k queries).",
+          "current": "The test set is the same one used to evaluate the submissions to TREC-CAR 2017 (approx.",
+          "next": "2,254 queries)."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4548,
+        "downstream_relevance_score": 0.3093,
+        "components": {
+          "bio_boundary_score": 0.6241,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "trec-car",
+          "2017"
+        ],
+        "normalization": "trec-car 2017",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "TREC-CAR 2017",
+          "canonical": "TREC-CAR 2017",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6241",
+        "structure model assigned role 'dataset' with score 0.66",
+        "downstream relevance score is 0.3093"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "training",
+        "canonical": "training",
+        "normalized": "training",
+        "tokens": [
+          "training"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 32,
+        "sentence": "This corresponds to training on 12.8M (100k * 128) query-passage pairs or less than 2% of the full training set .",
+        "context_window": {
+          "previous": "Training We fine-tune the model using a TPU v3-8 1 with a batch size of 128 (128 sequences * 512 tokens = 65,536 tokens/batch) for 100k iterations, which takes approximately 30 hours.",
+          "current": "This corresponds to training on 12.8M (100k * 128) query-passage pairs or less than 2% of the full training set .",
+          "next": "We could not see any improvement in the dev set when training for another 3 days, which equivalent to seeing 50M pairs in total."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.461,
+        "downstream_relevance_score": 0.3025,
+        "components": {
+          "bio_boundary_score": 0.7403,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "training"
+        ],
+        "normalization": "training",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "training",
+          "canonical": "training",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7403",
+        "structure model assigned role 'process' with score 0.66",
+        "downstream relevance score is 0.3025"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "local convolution",
+        "canonical": "local convolution",
+        "normalized": "local convolution",
+        "tokens": [
+          "local",
+          "convolution"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 131,
+        "sentence": "Qanet: Combining local convolution with global self-attention for reading compre- hension. arXiv preprint arXiv:1804.09541 , 2018.",
+        "context_window": {
+          "previous": "Adams Wei Yu, David Dohan, Minh-Thang Luong, Rui Zhao, Kai Chen, Mohammad Norouzi, and Quoc V Le.",
+          "current": "Qanet: Combining local convolution with global self-attention for reading compre- hension. arXiv preprint arXiv:1804.09541 , 2018.",
+          "next": "5"
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4113,
+        "downstream_relevance_score": 0.2867,
+        "components": {
+          "bio_boundary_score": 0.5259,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "local",
+          "convolution"
+        ],
+        "normalization": "local convolution",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "local convolution",
+          "canonical": "local convolution",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5259",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.2867"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "kernel pooling",
+        "canonical": "kernel pooling",
+        "normalized": "kernel pooling",
+        "tokens": [
+          "kernel",
+          "pooling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 123,
+        "sentence": "End-to-end neural ad- hoc ranking with kernel pooling.",
+        "context_window": {
+          "previous": "Chenyan Xiong, Zhuyun Dai, Jamie Callan, Zhiyuan Liu, and Russell Power.",
+          "current": "End-to-end neural ad- hoc ranking with kernel pooling.",
+          "next": "In Proceedings of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval , pp."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4113,
+        "downstream_relevance_score": 0.2699,
+        "components": {
+          "bio_boundary_score": 0.5583,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "kernel",
+          "pooling"
+        ],
+        "normalization": "kernel pooling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "kernel pooling",
+          "canonical": "kernel pooling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5583",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.2699"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 8,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Despite training on a fraction of the data available, the proposed BERT-based models surpass the previous state-of-the-art models by a large margin on both of the tasks.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For example, a BERT LARGE trained on 100k question-passage pairs (less than 0.3% of the MS MARCO training data) is already 1.4 MRR@10 points better than the previous state-of-the-art, IR-NET.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For example, a BERT LARGE trained on 100k question-passage pairs (less than 0.3% of the MS MARCO training data) is already 1.4 MRR@10 points better than the previous state-of-the-art, IR-NET.",
+        "evidence_type": "metric",
+        "matched_cue": "MRR",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our system is the state of the art on the TREC-CAR dataset and the top entry in the leaderboard of the MS MARCO passage retrieval task, outperforming the previous state of the art by 27% (relative)",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "Our system is the state of the art on the TREC-CAR dataset and the top entry in the leaderboard of the MS MARCO passage retrieval task, outperforming the previous state of the art by 27% (relative)",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Namely, the MS MARCO passage ranking dataset, which contains one million queries from real users and their respective relevant passages annotated by humans, and BERT, a powerful general purpose natural language processing model.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In this paper, we describe in detail how we have re-purposed BERT as a passage re-ranker and achieved state-of-the-art results on the MS MARCO passage re-ranking task.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For example, a BERT LARGE trained on 100k question-passage pairs (less than 0.3% of the MS MARCO training data) is already 1.4 MRR@10 points better than the previous state-of-the-art, IR-NET.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "bidirectional encoder representations from transformers",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.6928
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "relevant passage",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.5612
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "passage retrieval",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5547
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "Wikipedia",
+        "section": "method",
+        "role": "dataset",
+        "score": 0.5153
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "MS MARCO",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5109
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "re-ranking",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.472
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "TREC-CAR",
+        "section": "method",
+        "role": "mechanism",
+        "score": 0.4561
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "ad-hoc search",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4452
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "Adam Fis",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.409
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "MARCO",
+        "section": "method",
+        "role": "process",
+        "score": 0.3939
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "passage ranking",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.3834
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "passage re-ranking",
+        "section": "intro",
+        "role": "prior_work",
+        "score": 0.3564
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "ad-hoc retrieval",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3505
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "passage",
+        "section": "intro",
+        "role": "process",
+        "score": 0.3472
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "answer generation",
+        "section": "intro",
+        "role": "component",
+        "score": 0.3327
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "BM25",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3253
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "machine comprehension",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.3137
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "TREC-CAR 2017",
+        "section": "related_work",
+        "role": "dataset",
+        "score": 0.3093
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "training",
+        "section": "related_work",
+        "role": "process",
+        "score": 0.3025
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "local convolution",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.2867
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "kernel pooling",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.2699
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_006",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_020",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

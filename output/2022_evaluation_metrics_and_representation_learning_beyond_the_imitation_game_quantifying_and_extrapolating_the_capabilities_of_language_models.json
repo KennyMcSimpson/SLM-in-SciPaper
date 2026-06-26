@@ -1,0 +1,3982 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2022_evaluation_metrics_and_representation_learning_beyond_the_imitation_game_quantifying_and_extrapolating_the_capabilities_of_language_models",
+    "title": "2022_evaluation_metrics_and_representation_learning_beyond_the_imitation_game_quantifying_and_extrapolating_the_capabilities_of_language_models",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2022_evaluation_metrics_and_representation_learning_beyond_the_imitation_game_quantifying_and_extrapolating_the_capabilities_of_language_models.txt",
+    "sentence_count": 201,
+    "section_counts": {
+      "intro": 14,
+      "related_work": 10,
+      "method": 20,
+      "experiment": 23,
+      "conclusion": 134
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 4651,
+    "type_count": 1866,
+    "type_token_ratio": 0.4012,
+    "section_token_counts": {
+      "intro": 585,
+      "related_work": 401,
+      "method": 329,
+      "experiment": 141,
+      "conclusion": 3195
+    },
+    "top_unigrams": [
+      {
+        "term": "tasks",
+        "count": 67
+      },
+      {
+        "term": "performance",
+        "count": 51
+      },
+      {
+        "term": "models",
+        "count": 45
+      },
+      {
+        "term": "big-bench",
+        "count": 40
+      },
+      {
+        "term": "et",
+        "count": 37
+      },
+      {
+        "term": "al",
+        "count": 37
+      },
+      {
+        "term": "model",
+        "count": 35
+      },
+      {
+        "term": "10",
+        "count": 34
+      },
+      {
+        "term": "language",
+        "count": 30
+      },
+      {
+        "term": "task",
+        "count": 30
+      },
+      {
+        "term": "human",
+        "count": 22
+      },
+      {
+        "term": "benchmark",
+        "count": 20
+      },
+      {
+        "term": "capabilities",
+        "count": 19
+      },
+      {
+        "term": "evaluation",
+        "count": 17
+      },
+      {
+        "term": "scale",
+        "count": 16
+      },
+      {
+        "term": "see",
+        "count": 15
+      },
+      {
+        "term": "all",
+        "count": 15
+      },
+      {
+        "term": "benchmarks",
+        "count": 15
+      },
+      {
+        "term": "json",
+        "count": 15
+      },
+      {
+        "term": "new",
+        "count": 14
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 37
+      },
+      {
+        "term": "language models",
+        "count": 28
+      },
+      {
+        "term": "10 10",
+        "count": 24
+      },
+      {
+        "term": "big-bench lite",
+        "count": 12
+      },
+      {
+        "term": "json tasks",
+        "count": 11
+      },
+      {
+        "term": "al 2021",
+        "count": 10
+      },
+      {
+        "term": "imitation game",
+        "count": 7
+      },
+      {
+        "term": "see section",
+        "count": 7
+      },
+      {
+        "term": "aggregate performance",
+        "count": 7
+      },
+      {
+        "term": "beyond imitation",
+        "count": 6
+      },
+      {
+        "term": "big-g sparse",
+        "count": 6
+      },
+      {
+        "term": "social bias",
+        "count": 5
+      },
+      {
+        "term": "model performance",
+        "count": 5
+      },
+      {
+        "term": "human rater",
+        "count": 5
+      },
+      {
+        "term": "al 2020",
+        "count": 5
+      },
+      {
+        "term": "orders magnitude",
+        "count": 5
+      },
+      {
+        "term": "benchmark tasks",
+        "count": 5
+      },
+      {
+        "term": "potentially transformative",
+        "count": 4
+      },
+      {
+        "term": "current benchmarks",
+        "count": 4
+      },
+      {
+        "term": "evaluation results",
+        "count": 4
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "10 10 10",
+        "count": 19
+      },
+      {
+        "term": "et al 2021",
+        "count": 10
+      },
+      {
+        "term": "beyond imitation game",
+        "count": 6
+      },
+      {
+        "term": "et al 2020",
+        "count": 5
+      },
+      {
+        "term": "large language models",
+        "count": 4
+      },
+      {
+        "term": "10 10 11",
+        "count": 4
+      },
+      {
+        "term": "effective parameter count",
+        "count": 4
+      },
+      {
+        "term": "et al 2019a",
+        "count": 4
+      },
+      {
+        "term": "capabilities language models",
+        "count": 3
+      },
+      {
+        "term": "imitation game benchmark",
+        "count": 3
+      },
+      {
+        "term": "limitations current benchmarks",
+        "count": 3
+      },
+      {
+        "term": "et al 2017",
+        "count": 3
+      },
+      {
+        "term": "brown et al",
+        "count": 3
+      },
+      {
+        "term": "et al 2022",
+        "count": 3
+      },
+      {
+        "term": "10 11 effective",
+        "count": 3
+      },
+      {
+        "term": "11 effective parameter",
+        "count": 3
+      },
+      {
+        "term": "20 40 60",
+        "count": 3
+      },
+      {
+        "term": "40 60 80",
+        "count": 3
+      },
+      {
+        "term": "big-g sparse big-g",
+        "count": 3
+      },
+      {
+        "term": "sparse big-g sparse",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 21,
+    "nonzero_tfidf_features": 21,
+    "top_tfidf_features": [
+      {
+        "feature_name": "methods__bias",
+        "section": "method",
+        "term": "bias",
+        "frequency": 28.0,
+        "tfidf": 1.1231
+      },
+      {
+        "feature_name": "conclusion__summarization",
+        "section": "conclusion",
+        "term": "summarization",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__training data",
+        "section": "intro",
+        "term": "training data",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "abstract__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 2.0,
+        "tfidf": 0.7341
+      },
+      {
+        "feature_name": "abstract__transformer",
+        "section": "intro",
+        "term": "transformer",
+        "frequency": 2.0,
+        "tfidf": 0.7341
+      },
+      {
+        "feature_name": "related_work__machine translation",
+        "section": "related_work",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.6675
+      },
+      {
+        "feature_name": "related_work__nlg",
+        "section": "related_work",
+        "term": "nlg",
+        "frequency": 1.0,
+        "tfidf": 0.6183
+      },
+      {
+        "feature_name": "abstract__GPT",
+        "section": "intro",
+        "term": "GPT",
+        "frequency": 1.0,
+        "tfidf": 0.429
+      },
+      {
+        "feature_name": "related_work__natural language processing",
+        "section": "related_work",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.4149
+      },
+      {
+        "feature_name": "methods__large language models",
+        "section": "method",
+        "term": "large language models",
+        "frequency": 4.0,
+        "tfidf": 0.2378
+      },
+      {
+        "feature_name": "methods__GPT",
+        "section": "method",
+        "term": "GPT",
+        "frequency": 3.0,
+        "tfidf": 0.1526
+      },
+      {
+        "feature_name": "methods__PaLM",
+        "section": "method",
+        "term": "PaLM",
+        "frequency": 2.0,
+        "tfidf": 0.1089
+      },
+      {
+        "feature_name": "methods__transformer",
+        "section": "method",
+        "term": "transformer",
+        "frequency": 2.0,
+        "tfidf": 0.0874
+      },
+      {
+        "feature_name": "methods__question answering",
+        "section": "method",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.063
+      },
+      {
+        "feature_name": "methods__bart",
+        "section": "method",
+        "term": "bart",
+        "frequency": 1.0,
+        "tfidf": 0.0595
+      },
+      {
+        "feature_name": "methods__GPT-2",
+        "section": "method",
+        "term": "GPT-2",
+        "frequency": 1.0,
+        "tfidf": 0.0525
+      },
+      {
+        "feature_name": "methods__GPT-3",
+        "section": "method",
+        "term": "GPT-3",
+        "frequency": 1.0,
+        "tfidf": 0.0509
+      },
+      {
+        "feature_name": "methods__machine learning",
+        "section": "method",
+        "term": "machine learning",
+        "frequency": 1.0,
+        "tfidf": 0.0481
+      },
+      {
+        "feature_name": "methods__self-attention",
+        "section": "method",
+        "term": "self-attention",
+        "frequency": 1.0,
+        "tfidf": 0.0415
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 1.0,
+        "tfidf": 0.0341
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "abstract__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.7341
+        },
+        {
+          "feature_name": "abstract__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 2.0,
+          "tfidf": 0.7341
+        },
+        {
+          "feature_name": "abstract__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.429
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.6675
+        },
+        {
+          "feature_name": "related_work__nlg",
+          "section": "related_work",
+          "term": "nlg",
+          "frequency": 1.0,
+          "tfidf": 0.6183
+        },
+        {
+          "feature_name": "related_work__natural language processing",
+          "section": "related_work",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.4149
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 28.0,
+          "tfidf": 1.1231
+        },
+        {
+          "feature_name": "methods__large language models",
+          "section": "method",
+          "term": "large language models",
+          "frequency": 4.0,
+          "tfidf": 0.2378
+        },
+        {
+          "feature_name": "methods__GPT",
+          "section": "method",
+          "term": "GPT",
+          "frequency": 3.0,
+          "tfidf": 0.1526
+        },
+        {
+          "feature_name": "methods__PaLM",
+          "section": "method",
+          "term": "PaLM",
+          "frequency": 2.0,
+          "tfidf": 0.1089
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 2.0,
+          "tfidf": 0.0874
+        },
+        {
+          "feature_name": "methods__question answering",
+          "section": "method",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.063
+        },
+        {
+          "feature_name": "methods__bart",
+          "section": "method",
+          "term": "bart",
+          "frequency": 1.0,
+          "tfidf": 0.0595
+        },
+        {
+          "feature_name": "methods__GPT-2",
+          "section": "method",
+          "term": "GPT-2",
+          "frequency": 1.0,
+          "tfidf": 0.0525
+        },
+        {
+          "feature_name": "methods__GPT-3",
+          "section": "method",
+          "term": "GPT-3",
+          "frequency": 1.0,
+          "tfidf": 0.0509
+        },
+        {
+          "feature_name": "methods__machine learning",
+          "section": "method",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.0481
+        },
+        {
+          "feature_name": "methods__self-attention",
+          "section": "method",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.0415
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.0341
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__summarization",
+          "section": "conclusion",
+          "term": "summarization",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 14,
+      "token_count": 585,
+      "bow_hit_count": 5,
+      "top_bow_terms": [
+        {
+          "canonical_term": "BART",
+          "count": 5,
+          "section_prior": 0.3191,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__training data",
+          "section": "intro",
+          "term": "training data",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "abstract__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 2.0,
+          "tfidf": 0.7341
+        },
+        {
+          "feature_name": "abstract__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 2.0,
+          "tfidf": 0.7341
+        },
+        {
+          "feature_name": "abstract__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.429
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 10,
+      "token_count": 401,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__machine translation",
+          "section": "related_work",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.6675
+        },
+        {
+          "feature_name": "related_work__nlg",
+          "section": "related_work",
+          "term": "nlg",
+          "frequency": 1.0,
+          "tfidf": 0.6183
+        },
+        {
+          "feature_name": "related_work__natural language processing",
+          "section": "related_work",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.4149
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 20,
+      "token_count": 329,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "prediction bias",
+          "count": 10,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 5,
+          "section_prior": 0.3709,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 3,
+          "section_prior": 0.1806,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__bias",
+          "section": "method",
+          "term": "bias",
+          "frequency": 28.0,
+          "tfidf": 1.1231
+        },
+        {
+          "feature_name": "methods__large language models",
+          "section": "method",
+          "term": "large language models",
+          "frequency": 4.0,
+          "tfidf": 0.2378
+        },
+        {
+          "feature_name": "methods__GPT",
+          "section": "method",
+          "term": "GPT",
+          "frequency": 3.0,
+          "tfidf": 0.1526
+        },
+        {
+          "feature_name": "methods__PaLM",
+          "section": "method",
+          "term": "PaLM",
+          "frequency": 2.0,
+          "tfidf": 0.1089
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 2.0,
+          "tfidf": 0.0874
+        },
+        {
+          "feature_name": "methods__question answering",
+          "section": "method",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.063
+        },
+        {
+          "feature_name": "methods__bart",
+          "section": "method",
+          "term": "bart",
+          "frequency": 1.0,
+          "tfidf": 0.0595
+        },
+        {
+          "feature_name": "methods__GPT-2",
+          "section": "method",
+          "term": "GPT-2",
+          "frequency": 1.0,
+          "tfidf": 0.0525
+        },
+        {
+          "feature_name": "methods__GPT-3",
+          "section": "method",
+          "term": "GPT-3",
+          "frequency": 1.0,
+          "tfidf": 0.0509
+        },
+        {
+          "feature_name": "methods__machine learning",
+          "section": "method",
+          "term": "machine learning",
+          "frequency": 1.0,
+          "tfidf": 0.0481
+        },
+        {
+          "feature_name": "methods__self-attention",
+          "section": "method",
+          "term": "self-attention",
+          "frequency": 1.0,
+          "tfidf": 0.0415
+        },
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 1.0,
+          "tfidf": 0.0341
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 23,
+      "token_count": 141,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 134,
+      "token_count": 3195,
+      "bow_hit_count": 94,
+      "top_bow_terms": [
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 30,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 20,
+          "section_prior": 0.0935,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Large language model",
+          "count": 20,
+          "section_prior": 0.176,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "PaLM",
+          "count": 9,
+          "section_prior": 0.0114,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.097,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 5,
+          "section_prior": 0.0672,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "automatic summarization",
+          "count": 4,
+          "section_prior": 0.0968,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Pathways",
+          "count": 1,
+          "section_prior": 0.1429,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__summarization",
+          "section": "conclusion",
+          "term": "summarization",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "BIG- bench",
+        "canonical": "BIG- bench",
+        "normalized": "big- bench",
+        "tokens": [
+          "big-",
+          "bench"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 28,
+        "sentence": "To address this challenge, we introduce the Beyond the Imitation Game benchmark (BIG- bench).",
+        "context_window": {
+          "previous": "In order to inform future research, prepare for disruptive new model capabilities, and ameliorate socially harmful effects, it is vital that we understand the present and near-future capabilities and limitations of language models.",
+          "current": "To address this challenge, we introduce the Beyond the Imitation Game benchmark (BIG- bench).",
+          "next": "BIG-bench currently consists of 204 tasks, contributed by 450 authors across 132 institutions."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7857,
+          "evidence_type": "limitation",
+          "matched_cue": "challenge",
+          "role_prior": "limitation",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.786,
+        "downstream_relevance_score": 0.6961,
+        "components": {
+          "bio_boundary_score": 0.8944,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "big-",
+          "bench"
+        ],
+        "normalization": "big- bench",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BIG- bench",
+          "canonical": "BIG- bench",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8944",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce, challenge, benchmark",
+        "downstream relevance score is 0.6961"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "Imitation Game benchmark",
+        "canonical": "Imitation Game benchmark",
+        "normalized": "imitation game benchmark",
+        "tokens": [
+          "imitation",
+          "game",
+          "benchmark"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 28,
+        "sentence": "To address this challenge, we introduce the Beyond the Imitation Game benchmark (BIG- bench).",
+        "context_window": {
+          "previous": "In order to inform future research, prepare for disruptive new model capabilities, and ameliorate socially harmful effects, it is vital that we understand the present and near-future capabilities and limitations of language models.",
+          "current": "To address this challenge, we introduce the Beyond the Imitation Game benchmark (BIG- bench).",
+          "next": "BIG-bench currently consists of 204 tasks, contributed by 450 authors across 132 institutions."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "challenge",
+            "evidence_type": "limitation",
+            "role_prior": "limitation",
+            "section_hint": "conclusion",
+            "notes": "challenge cue"
+          },
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7857,
+          "evidence_type": "limitation",
+          "matched_cue": "challenge",
+          "role_prior": "limitation",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7276,
+        "downstream_relevance_score": 0.6757,
+        "components": {
+          "bio_boundary_score": 0.6946,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.08,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imitation",
+          "game",
+          "benchmark"
+        ],
+        "normalization": "imitation game benchmark",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Imitation Game benchmark",
+          "canonical": "Imitation Game benchmark",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6946",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce, challenge, benchmark",
+        "downstream relevance score is 0.6757"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "language understanding",
+        "canonical": "natural language understanding",
+        "normalized": "natural language understanding",
+        "tokens": [
+          "language",
+          "understanding"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "natural language understanding",
+          "nlu"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 117,
+        "sentence": "For instance, benchmarks often propose tasks that codify narrow subsets of areas, such as language understanding (Wang et al., 2019a), summarization (See et al., 2017; Hermann et al., 2015; Narayan et al., 2018; Koupaee & Wang, 2018; Rush et al., 2015; Graff et al., 2003), or trivia-question answering (Joshi et al., 2017; Kwiatkowski et al., 2019; Rajpurkar et al., 2016).",
+        "context_window": {
+          "previous": "First, many benchmarks have restricted scope, largely targeting a single or a few capabilities on which language models have already proven some proficiency.",
+          "current": "For instance, benchmarks often propose tasks that codify narrow subsets of areas, such as language understanding (Wang et al., 2019a), summarization (See et al., 2017; Hermann et al., 2015; Narayan et al., 2018; Koupaee & Wang, 2018; Rush et al., 2015; Graff et al., 2003), or trivia-question answering (Joshi et al., 2017; Kwiatkowski et al., 2019; Rajpurkar et al., 2016).",
+          "next": "Because they are narrowly targeted, and because their targets are often ones that language models are already known to perform, they are ill-suited to identify new and unexpected capabilities that language models may develop with increased scale, or to characterize the breadth of current capabilities."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6229,
+        "downstream_relevance_score": 0.6159,
+        "components": {
+          "bio_boundary_score": 0.6116,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.3043,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "natural language understanding",
+        "match_quality": 0.78,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "natural language understanding",
+        "display_term": "nlu",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Natural_language_understanding",
+        "wikidata_id": "Q1078276",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 6,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "language",
+          "understanding"
+        ],
+        "normalization": "language understanding",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.3043,
+        "canonicalization": {
+          "observed": "language understanding",
+          "canonical": "natural language understanding",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6116",
+        "structure model assigned role 'contribution' with score 0.45",
+        "section BoW matched canonical term 'natural language understanding' with confidence 0.7098",
+        "BoW role prior suggests 'other'",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6159"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "multiple choice",
+        "canonical": "multiple choice",
+        "normalized": "multiple choice",
+        "tokens": [
+          "multiple",
+          "choice"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 179,
+        "sentence": "All figures in this paper showing performance on individual metrics use one of the following: (as is standard practice, we usually report scores in the range 0-100 unless stated otherwise) • exact_string_match: Accuracy on exact. • multiple_choice_grade: A weighted multiple choice accuracy between 0-100, where a set of targets and scores for each potential target are specified.",
+        "context_window": {
+          "previous": "The full list of available metrics for JSON tasks can be found on the BIG-bench repo.",
+          "current": "All figures in this paper showing performance on individual metrics use one of the following: (as is standard practice, we usually report scores in the range 0-100 unless stated otherwise) • exact_string_match: Accuracy on exact. • multiple_choice_grade: A weighted multiple choice accuracy between 0-100, where a set of targets and scores for each potential target are specified.",
+          "next": "This reduces to standard multiple choice accuracy when a single target is assigned a score of 1 and the rest score 0. • expected_calibration_error: A measure of a model’s calibration – i.e. how well the model’s accuracy matches the probability it assigns to a response. expected_calibration_error is the absolute deviation between the assigned probability and average accuracy, after binning examples in terms of assigned probability (Naeini et al., 2015). • multiple_choice_brier_score: A measure of calibration given as the squared error between model assigned probabilities and 0, 1 targets across classes (Brier, 1950)."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7103,
+        "downstream_relevance_score": 0.5934,
+        "components": {
+          "bio_boundary_score": 0.8918,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "multiple",
+          "choice"
+        ],
+        "normalization": "multiple choice",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "multiple choice",
+          "canonical": "multiple choice",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8918",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5934"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "human performance",
+        "canonical": "human performance",
+        "normalized": "human performance",
+        "tokens": [
+          "human",
+          "performance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 107,
+        "sentence": "BIG-G (see Section 2.3.1 for details on models) was evaluated on all tasks for which human performance is available (171 tasks), and GPT was evaluated on 146 tasks.",
+        "context_window": {
+          "previous": "See Section 2.1 for details on our task types), compared with human rater performance (see Section 2.3.2).",
+          "current": "BIG-G (see Section 2.3.1 for details on models) was evaluated on all tasks for which human performance is available (171 tasks), and GPT was evaluated on 146 tasks.",
+          "next": "Model performance improves with scale, but remains well below human rater baseline performance."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "evaluated on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset evidence cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7289,
+        "downstream_relevance_score": 0.5358,
+        "components": {
+          "bio_boundary_score": 0.9878,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "human",
+          "performance"
+        ],
+        "normalization": "human performance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "human performance",
+          "canonical": "human performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9878",
+        "structure model assigned role 'result' with score 0.66",
+        "evidence cue lexicon matched evaluated on",
+        "downstream relevance score is 0.5358"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "benchmark",
+        "canonical": "benchmark",
+        "normalized": "benchmark",
+        "tokens": [
+          "benchmark"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 143,
+        "sentence": "Figure 3 shows a word-cloud of task keywords and the distribution of task sizes, and Table App.3 lists the most frequent keywords in the benchmark.",
+        "context_window": {
+          "previous": "As reflected in the BIG-bench review criteria, benchmark tasks are novel, cover a diverse range of topics and languages, and are not fully solvable by current models.",
+          "current": "Figure 3 shows a word-cloud of task keywords and the distribution of task sizes, and Table App.3 lists the most frequent keywords in the benchmark.",
+          "next": "See also the list of descriptive task keywords. • BIG-bench Lite: a small, representative, and canonical subset of tasks that allows for faster evaluation than on the whole benchmark."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7136,
+        "downstream_relevance_score": 0.5307,
+        "components": {
+          "bio_boundary_score": 0.9971,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "benchmark"
+        ],
+        "normalization": "benchmark",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "benchmark",
+          "canonical": "benchmark",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9971",
+        "structure model assigned role 'finding' with score 0.82",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.5307"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "Model performance",
+        "canonical": "Model performance",
+        "normalized": "model performance",
+        "tokens": [
+          "model",
+          "performance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 111,
+        "sentence": "Model performance is remarkably similar across model classes for a fixed number of parameters.",
+        "context_window": {
+          "previous": "BIG-G and BIG-G sparse were evaluated on all 161 JSON tasks; GPT was evaluated on 156 JSON tasks.",
+          "current": "Model performance is remarkably similar across model classes for a fixed number of parameters.",
+          "next": "(c) Aggregate performance over BIG-bench Lite, a curated subset of 24 tasks intended for lightweight evaluation."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7272,
+        "downstream_relevance_score": 0.4999,
+        "components": {
+          "bio_boundary_score": 0.982,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "model",
+          "performance"
+        ],
+        "normalization": "model performance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Model performance",
+          "canonical": "Model performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.982",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4999"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "shot count",
+        "canonical": "shot count",
+        "normalized": "shot count",
+        "tokens": [
+          "shot",
+          "count"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 102,
+        "sentence": "In the legend, all parenthetical numbers indicate shot count.",
+        "context_window": {
+          "previous": "For sparse models, the x axis indicates the number of non-embedding parameters active during inference.",
+          "current": "In the legend, all parenthetical numbers indicate shot count.",
+          "next": "Each task has a unique preferred metric (Section 2.1)."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6986,
+        "downstream_relevance_score": 0.4979,
+        "components": {
+          "bio_boundary_score": 0.9488,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "shot",
+          "count"
+        ],
+        "normalization": "shot count",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "shot count",
+          "canonical": "shot count",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9488",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.4979"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "BBL",
+        "canonical": "BBL",
+        "normalized": "bbl",
+        "tokens": [
+          "bbl"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 192,
+        "sentence": "Figure 4 shows the per-task performance of human raters, OpenAI, and Google models on BBL.",
+        "context_window": {
+          "previous": "Figure 1c gives the aggregate BIG-bench Lite performance for BIG-G, BIG-G sparse, GPT, and PaLM models (see Section 2.3.1 for details).",
+          "current": "Figure 4 shows the per-task performance of human raters, OpenAI, and Google models on BBL.",
+          "next": "Figure App.5 shows the distribution of keywords for BIG-bench and BBL."
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7141,
+        "downstream_relevance_score": 0.4959,
+        "components": {
+          "bio_boundary_score": 0.9987,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bbl"
+        ],
+        "normalization": "bbl",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BBL",
+          "canonical": "BBL",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9987",
+        "structure model assigned role 'finding' with score 0.82",
+        "downstream relevance score is 0.4959"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "model scale",
+        "canonical": "model scale",
+        "normalized": "model scale",
+        "tokens": [
+          "model",
+          "scale"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 137,
+        "sentence": "In our analysis we therefore focus not on the performance of any single model, but rather on how the performance changes as a function of model scale.",
+        "context_window": {
+          "previous": "We are especially interested in anticipating the future capabilities of language models.",
+          "current": "In our analysis we therefore focus not on the performance of any single model, but rather on how the performance changes as a function of model scale.",
+          "next": "For select tasks, we investigate how specific model capabilities evolve with scale."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.666,
+        "downstream_relevance_score": 0.4863,
+        "components": {
+          "bio_boundary_score": 0.5796,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "model",
+          "scale"
+        ],
+        "normalization": "model scale",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "model scale",
+          "canonical": "model scale",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5796",
+        "structure model assigned role 'result' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4863"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "social bias",
+        "canonical": "social bias",
+        "normalized": "social bias",
+        "tokens": [
+          "social",
+          "bias"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 98,
+        "sentence": "This understanding will directly motivate the development of new technologies; allow us to identify and mitigate potential harmful social effects, ranging from job loss to automation of social bias (Bender et al., 2021); enable us to predict other ways in which model behavior may be subtly misaligned with human intent (Kenton et al., 2021); allow us to direct our research energies in the most promising directions (Bommasani et al., 2021, sec.",
+        "context_window": {
+          "previous": "Due to the potentially transformative effects of language models, it is vitally important that we understand their capabilities and limitations, and that we understand how those capabilities and limitations are likely to change as models are improved.",
+          "current": "This understanding will directly motivate the development of new technologies; allow us to identify and mitigate potential harmful social effects, ranging from job loss to automation of social bias (Bender et al., 2021); enable us to predict other ways in which model behavior may be subtly misaligned with human intent (Kenton et al., 2021); allow us to direct our research energies in the most promising directions (Bommasani et al., 2021, sec.",
+          "next": "3); and enable us to avoid devoting research resources to problems that are likely to be solved by scale alone (Sutton, 2019)."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7153,
+        "downstream_relevance_score": 0.4728,
+        "components": {
+          "bio_boundary_score": 0.9269,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "social",
+          "bias"
+        ],
+        "normalization": "social bias",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "social bias",
+          "canonical": "social bias",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9269",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4728"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "sampling",
+        "canonical": "sampling",
+        "normalized": "sampling",
+        "tokens": [
+          "sampling"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 197,
+        "sentence": "We found that sampling with temperature set to one (and with top- k = 40) led to consistently lower scores; see Figure App.1.",
+        "context_window": {
+          "previous": "2.3 Evaluation targets 2.3.1 Language models evaluated on BIG-bench All model outputs were sampled greedily (with zero temperature), unless otherwise noted.",
+          "current": "We found that sampling with temperature set to one (and with top- k = 40) led to consistently lower scores; see Figure App.1.",
+          "next": "We expect that alternative sampling methods would be beneficial if multiple samples were drawn per example, as in Chen et al."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7231,
+        "downstream_relevance_score": 0.4668,
+        "components": {
+          "bio_boundary_score": 0.9532,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sampling"
+        ],
+        "normalization": "sampling",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "sampling",
+          "canonical": "sampling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9532",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4668"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "programmatic task",
+        "canonical": "programmatic task",
+        "normalized": "programmatic task",
+        "tokens": [
+          "programmatic",
+          "task"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 173,
+        "sentence": "A programmatic task is called with a model object, and can query the model using the following methods: • generate_text : Generates text continuations for given inputs. • cond_log_prob : Computes conditional log probabilities of targets given inputs.",
+        "context_window": {
+          "previous": "They are written in Python and have the ability to interact directly with the model over multiple query rounds, as well as to measure performance using custom metrics.",
+          "current": "A programmatic task is called with a model object, and can query the model using the following methods: • generate_text : Generates text continuations for given inputs. • cond_log_prob : Computes conditional log probabilities of targets given inputs.",
+          "next": "The code that defines the task can query the model repeatedly, enabling the evaluation of models over multiple rounds of “dialog,” such as in the twenty_questions task."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7016,
+        "downstream_relevance_score": 0.4656,
+        "components": {
+          "bio_boundary_score": 0.9616,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "programmatic",
+          "task"
+        ],
+        "normalization": "programmatic task",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "programmatic task",
+          "canonical": "programmatic task",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9616",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4656"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "BIG-bench",
+        "canonical": "BIG-bench",
+        "normalized": "big-bench",
+        "tokens": [
+          "big-bench"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 184,
+        "sentence": "2.2 BIG-bench Lite BIG-bench was designed to contain a large, diverse task set, and to support arbitrary programmatic tasks.",
+        "context_window": {
+          "previous": "Having said that, BIG-bench is designed for evaluating pure language models and has limits to cover multi-modal capabilities which would be an exciting future direction.",
+          "current": "2.2 BIG-bench Lite BIG-bench was designed to contain a large, diverse task set, and to support arbitrary programmatic tasks.",
+          "next": "This scope is one of the strengths of BIG-bench."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7116,
+        "downstream_relevance_score": 0.4608,
+        "components": {
+          "bio_boundary_score": 0.9955,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "big-bench"
+        ],
+        "normalization": "big-bench",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BIG-bench",
+          "canonical": "BIG-bench",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9955",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4608"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "new behavior",
+        "canonical": "new behavior",
+        "normalized": "new behavior",
+        "tokens": [
+          "new",
+          "behavior"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 88,
+        "sentence": "Each level demonstrates new behavior and is the subject of a rich discipline, despite being reducible to a bulk system obeying the rules of the levels below.",
+        "context_window": {
+          "previous": "Consider, for instance, the hierarchy from quantum field theory to atomic physics, to chemistry, to biology, and to ecology.",
+          "current": "Each level demonstrates new behavior and is the subject of a rich discipline, despite being reducible to a bulk system obeying the rules of the levels below.",
+          "next": "Language models similarly demonstrate qualitatively new behavior as they increase in size (Zhang et al., 2020e)."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6912,
+        "downstream_relevance_score": 0.4602,
+        "components": {
+          "bio_boundary_score": 0.9262,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "new",
+          "behavior"
+        ],
+        "normalization": "new behavior",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "new behavior",
+          "canonical": "new behavior",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9262",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4602"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "scale",
+        "canonical": "scale",
+        "normalized": "scale",
+        "tokens": [
+          "scale"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 129,
+        "sentence": "Furthermore, models are measured across scales to facilitate a naive extrapolation of the scale at which they may be indistinguishable from human evaluators.",
+        "context_window": {
+          "previous": "We provide a human-evaluator baseline and expert human evaluations on this diverse set of tasks, in order to measure whether model performance is broadly distinguishable from human-evaluator performance.",
+          "current": "Furthermore, models are measured across scales to facilitate a naive extrapolation of the scale at which they may be indistinguishable from human evaluators.",
+          "next": "In homage to Alan Turing’s imitation game (Turing, 1950), and because we aim to extract information about model behavior beyond what is available from a binary judgement of whether a model is distinguishable from a human, we call this benchmark the Beyond the Imitation Game benchmark, or BIG-bench."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7051,
+        "downstream_relevance_score": 0.4575,
+        "components": {
+          "bio_boundary_score": 0.9738,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "scale"
+        ],
+        "normalization": "scale",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "scale",
+          "canonical": "scale",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9738",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4575"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "BIG-bench Lit",
+        "canonical": "BIG-bench Lit",
+        "normalized": "big-bench lit",
+        "tokens": [
+          "big-bench",
+          "lit"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 184,
+        "sentence": "2.2 BIG-bench Lite BIG-bench was designed to contain a large, diverse task set, and to support arbitrary programmatic tasks.",
+        "context_window": {
+          "previous": "Having said that, BIG-bench is designed for evaluating pure language models and has limits to cover multi-modal capabilities which would be an exciting future direction.",
+          "current": "2.2 BIG-bench Lite BIG-bench was designed to contain a large, diverse task set, and to support arbitrary programmatic tasks.",
+          "next": "This scope is one of the strengths of BIG-bench."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6838,
+        "downstream_relevance_score": 0.4564,
+        "components": {
+          "bio_boundary_score": 0.9002,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "big-bench",
+          "lit"
+        ],
+        "normalization": "big-bench lit",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BIG-bench Lit",
+          "canonical": "BIG-bench Lit",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9002",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4564"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "Peer review",
+        "canonical": "Peer review",
+        "normalized": "peer review",
+        "tokens": [
+          "peer",
+          "review"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 133,
+        "sentence": "Peer review of the proposed tasks was performed by discussion on the pull request.",
+        "context_window": {
+          "previous": "The benchmark was developed openly on GitHub, with contributors adding tasks by way of GitHub pull requests.",
+          "current": "Peer review of the proposed tasks was performed by discussion on the pull request.",
+          "next": "In order to incentivize contributions, all authors of accepted tasks were given the opportunity to be co-authors on this paper introducing BIG-bench."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6787,
+        "downstream_relevance_score": 0.4537,
+        "components": {
+          "bio_boundary_score": 0.883,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "peer",
+          "review"
+        ],
+        "normalization": "peer review",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Peer review",
+          "canonical": "Peer review",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.883",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4537"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "language",
+        "canonical": "language",
+        "normalized": "language",
+        "tokens": [
+          "language"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 83,
+        "sentence": "Motivated by this predictable improvement, researchers have now scaled language models to more than one trillion parameters (Fedus et al., 2021), and we expect models to grow orders of magnitude larger over the next several years.",
+        "context_window": {
+          "previous": "Their cross entropy on a test set scales as a power law with regards to model size, training data size, and the amount of compute used in training (Hestness et al., 2017; 2019; Rosenfeld et al., 2019; Kaplan et al., 2020; Brown et al., 2020).",
+          "current": "Motivated by this predictable improvement, researchers have now scaled language models to more than one trillion parameters (Fedus et al., 2021), and we expect models to grow orders of magnitude larger over the next several years.",
+          "next": "We also expect continued performance gains from improvements in architecture and training methods."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6909,
+        "downstream_relevance_score": 0.4501,
+        "components": {
+          "bio_boundary_score": 0.846,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "language"
+        ],
+        "normalization": "language",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "language",
+          "canonical": "language",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.846",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4501"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "online documentation",
+        "canonical": "online documentation",
+        "normalized": "online documentation",
+        "tokens": [
+          "online",
+          "documentation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 181,
+        "sentence": "API details and instructions for contributing new tasks or evaluations can be found in the online documentation.",
+        "context_window": {
+          "previous": "This reduces to standard multiple choice accuracy when a single target is assigned a score of 1 and the rest score 0. • expected_calibration_error: A measure of a model’s calibration – i.e. how well the model’s accuracy matches the probability it assigns to a response. expected_calibration_error is the absolute deviation between the assigned probability and average accuracy, after binning examples in terms of assigned probability (Naeini et al., 2015). • multiple_choice_brier_score: A measure of calibration given as the squared error between model assigned probabilities and 0, 1 targets across classes (Brier, 1950).",
+          "current": "API details and instructions for contributing new tasks or evaluations can be found in the online documentation.",
+          "next": "In terms of task specification, we believe JSON and programmatic tasks cover sufficiently wide tasks that probes capabilities of large language models with standard external API."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6421,
+        "downstream_relevance_score": 0.4347,
+        "components": {
+          "bio_boundary_score": 0.761,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "online",
+          "documentation"
+        ],
+        "normalization": "online documentation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "online documentation",
+          "canonical": "online documentation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.761",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4347"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "JSON",
+        "canonical": "JSON",
+        "normalized": "json",
+        "tokens": [
+          "json"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 168,
+        "sentence": "They are defined by a JSON file, which contains a list of examples made up of inputs and targets.",
+        "context_window": {
+          "previous": "7 About 80% of benchmark tasks are JSON tasks .",
+          "current": "They are defined by a JSON file, which contains a list of examples made up of inputs and targets.",
+          "next": "Performance is evaluated by comparing generated model outputs to targets using standard metrics (e.g., ROUGE), or based on model-assigned probabilities (e.g., in answering multiple-choice questions)."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6603,
+        "downstream_relevance_score": 0.4341,
+        "components": {
+          "bio_boundary_score": 0.8224,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "json"
+        ],
+        "normalization": "json",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "JSON",
+          "canonical": "JSON",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8224",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4341"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "Random",
+        "canonical": "Random",
+        "normalized": "random",
+        "tokens": [
+          "random"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 195,
+        "sentence": "Random performance for multiple choice tasks is indicated by hatch marks.",
+        "context_window": {
+          "previous": "8 auto_debugging bbq_lite_json code_line_description conceptual_combinations conlang_translation emoji_movie formal_fallacies_... hindu_knowledge known_unknowns language_identification linguistics_puzzles logic_grid_puzzle logical_deduction misconceptions_russian novel_concepts operators parsinlu_reading_comprehension play_dialog_same_or_different repeat_copy_logic strange_stories strategyqa symbol_interpretation vitaminc_fact_verification winowhy Table 1: The 24 tasks included in BIG-bench Lite, a diverse subset of JSON tasks that can be evaluated cheaply. auto_debugging bbq_lite_json code_line_description conceptual_combinations conlang_translation emoji_movie formal_fallacies_syllogisms_negation hindu_knowledge known_unknowns language_identification linguistics_puzzles logic_grid_puzzle logical_deduction misconceptions_russian novel_concepts operators parsinlu_reading_comprehension play_dialog_same_or_different repeat_copy_logic strange_stories strategyqa symbol_interpretation vitaminc_fact_verification winowhy 0 20 40 60 80 100 Absolute preferred metric Best human rater Average human rater Best model per task Random Figure 4: BIG-bench Lite Performance of best (blue) and average (gray) human raters and the best model configuration (maroon), taken over number of shots and architecture, for each BIG-bench Lite task.",
+          "current": "Random performance for multiple choice tasks is indicated by hatch marks.",
+          "next": "2.3 Evaluation targets 2.3.1 Language models evaluated on BIG-bench All model outputs were sampled greedily (with zero temperature), unless otherwise noted."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6075,
+        "downstream_relevance_score": 0.4277,
+        "components": {
+          "bio_boundary_score": 0.5862,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "random"
+        ],
+        "normalization": "random",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Random",
+          "canonical": "Random",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5862",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4277"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "preferred metric",
+        "canonical": "preferred metric",
+        "normalized": "preferred metric",
+        "tokens": [
+          "preferred",
+          "metric"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 104,
+        "sentence": "The aggregate performance is the average of each task’s preferred metric normalized such that 0 represents poor performance and 100 very good performance (see Section 3.1 for a more detailed discussion).",
+        "context_window": {
+          "previous": "Each task has a unique preferred metric (Section 2.1).",
+          "current": "The aggregate performance is the average of each task’s preferred metric normalized such that 0 represents poor performance and 100 very good performance (see Section 3.1 for a more detailed discussion).",
+          "next": "(a) Aggregate performance on programmatic and JSON tasks (JSON tasks are evaluated with one-shot prompting."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6073,
+        "downstream_relevance_score": 0.3886,
+        "components": {
+          "bio_boundary_score": 0.9942,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "preferred",
+          "metric"
+        ],
+        "normalization": "preferred metric",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "preferred metric",
+          "canonical": "preferred metric",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9942",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.3886"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "aggregate performance",
+        "canonical": "aggregate performance",
+        "normalized": "aggregate performance",
+        "tokens": [
+          "aggregate",
+          "performance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 104,
+        "sentence": "The aggregate performance is the average of each task’s preferred metric normalized such that 0 represents poor performance and 100 very good performance (see Section 3.1 for a more detailed discussion).",
+        "context_window": {
+          "previous": "Each task has a unique preferred metric (Section 2.1).",
+          "current": "The aggregate performance is the average of each task’s preferred metric normalized such that 0 represents poor performance and 100 very good performance (see Section 3.1 for a more detailed discussion).",
+          "next": "(a) Aggregate performance on programmatic and JSON tasks (JSON tasks are evaluated with one-shot prompting."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6065,
+        "downstream_relevance_score": 0.3882,
+        "components": {
+          "bio_boundary_score": 0.9915,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "aggregate",
+          "performance"
+        ],
+        "normalization": "aggregate performance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "aggregate performance",
+          "canonical": "aggregate performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9915",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.3882"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "Samuel",
+        "canonical": "Samuel",
+        "normalized": "samuel",
+        "tokens": [
+          "samuel"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 18,
+        "sentence": "Mohammad, Sajant Anand, Sam Dillavou, Sam Shleifer, Sam Wiseman, Samuel Gruetter, Samuel R.",
+        "context_window": {
+          "previous": "Saurous, Riku Arakawa, Robbe Raymaekers, Robert Frank, Rohan Sikand, Roman Novak, Roman Sitelew, Ronan LeBras, Rosanne Liu, Rowan Jacobs, Rui Zhang, Ruslan Salakhutdinov, Ryan Chi, Ryan Lee, Ryan Stovall, Ryan Teehan, Rylan Yang, Sahib Singh, Saif M.",
+          "current": "Mohammad, Sajant Anand, Sam Dillavou, Sam Shleifer, Sam Wiseman, Samuel Gruetter, Samuel R.",
+          "next": "Bowman, Samuel S."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.6563
+      },
+      "evidence": {
+        "score": 0.2038,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5226,
+        "downstream_relevance_score": 0.3628,
+        "components": {
+          "bio_boundary_score": 0.5843,
+          "sentence_evidence_score": 0.2038,
+          "sentence_role_score": 0.6563,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "samuel"
+        ],
+        "normalization": "samuel",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Samuel",
+          "canonical": "Samuel",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5843",
+        "structure model assigned role 'gap' with score 0.6563",
+        "downstream relevance score is 0.3628"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "Moh",
+        "canonical": "Moh",
+        "normalized": "moh",
+        "tokens": [
+          "moh"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 18,
+        "sentence": "Mohammad, Sajant Anand, Sam Dillavou, Sam Shleifer, Sam Wiseman, Samuel Gruetter, Samuel R.",
+        "context_window": {
+          "previous": "Saurous, Riku Arakawa, Robbe Raymaekers, Robert Frank, Rohan Sikand, Roman Novak, Roman Sitelew, Ronan LeBras, Rosanne Liu, Rowan Jacobs, Rui Zhang, Ruslan Salakhutdinov, Ryan Chi, Ryan Lee, Ryan Stovall, Ryan Teehan, Rylan Yang, Sahib Singh, Saif M.",
+          "current": "Mohammad, Sajant Anand, Sam Dillavou, Sam Shleifer, Sam Wiseman, Samuel Gruetter, Samuel R.",
+          "next": "Bowman, Samuel S."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.6563
+      },
+      "evidence": {
+        "score": 0.2038,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5198,
+        "downstream_relevance_score": 0.3613,
+        "components": {
+          "bio_boundary_score": 0.5746,
+          "sentence_evidence_score": 0.2038,
+          "sentence_role_score": 0.6563,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "moh"
+        ],
+        "normalization": "moh",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Moh",
+          "canonical": "Moh",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5746",
+        "structure model assigned role 'gap' with score 0.6563",
+        "downstream relevance score is 0.3613"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "breakthroughness",
+        "canonical": "breakthroughness",
+        "normalized": "breakthroughness",
+        "tokens": [
+          "breakthroughness"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 53,
+        "sentence": "12 3.4.1 Properties of tasks with high linearity or breakthroughness . . . . . . . . . . . . . . .",
+        "context_window": {
+          "previous": "12 3.4 Linearity and breakthroughness: categorizing scaling behaviors . . . . . . . . . . . . . . . . .",
+          "current": "12 3.4.1 Properties of tasks with high linearity or breakthroughness . . . . . . . . . . . . . . .",
+          "next": "13 3.4.2 Breakthrough behavior is sensitive to details of task specification . . . . . . . . . . . ."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5494,
+        "downstream_relevance_score": 0.3317,
+        "components": {
+          "bio_boundary_score": 0.9217,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "breakthroughness"
+        ],
+        "normalization": "breakthroughness",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "breakthroughness",
+          "canonical": "breakthroughness",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9217",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3317"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "Joshua",
+        "canonical": "Joshua",
+        "normalized": "joshua",
+        "tokens": [
+          "joshua"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 9,
+        "sentence": "Balis, Jonathan Batchelder, Jonathan Berant, Jörg Frohberg, Jos Rozen, Jose Hernandez-Orallo, Joseph Boudeman, Joseph Guerr, Joseph Jones, Joshua B.",
+        "context_window": {
+          "previous": "Simon, James Koppel, James Zheng, James Zou, Jan Kocoń, Jana Thompson, Janelle Wingfield, Jared Kaplan, Jarema Radom, Jascha Sohl-Dickstein, Jason Phang, Jason Wei, Jason Yosinski, Jekaterina Novikova, Jelle Bosscher, Jennifer Marsh, Jeremy Kim, Jeroen Taal, Jesse Engel, Jesujoba Alabi, Jiacheng Xu, Jiaming Song, Jillian Tang, Joan Waweru, John Burden, John Miller, John U.",
+          "current": "Balis, Jonathan Batchelder, Jonathan Berant, Jörg Frohberg, Jos Rozen, Jose Hernandez-Orallo, Joseph Boudeman, Joseph Guerr, Joseph Jones, Joshua B.",
+          "next": "Tenenbaum, Joshua S."
+        }
+      },
+      "role": {
+        "label": "background",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "background_context",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.4642,
+        "downstream_relevance_score": 0.2874,
+        "components": {
+          "bio_boundary_score": 0.7519,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "joshua"
+        ],
+        "normalization": "joshua",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Joshua",
+          "canonical": "Joshua",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7519",
+        "structure model assigned role 'background' with score 0.45",
+        "downstream relevance score is 0.2874"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 33,
+    "top_candidates": [
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "When human-equivalent performance is reached for these benchmarks, they are often either discontinued and replaced or extended through the inclusion of more challenging benchmarks, in a kind of \"challenge-solve-and-replace\" evaluation dynamic , or a \"dataset-solve-and-patch\" adversarial benchmark co-evolution .",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Different choices in task design can make the same capability appear to stagnate, gradually improve, or suddenly break through.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "However, they are able to implicitly judge cause versus effect by assigning higher probability to sentences that present events in the correct order.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "These tasks present a context where the completion is ambiguous given the available evidence, or where the model is asked to make generalizations about broad classes.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "To achieve a more accurate baseline of human performance on BIG-bench tasks where possible, we relied on a team of expert evaluators who continuously performed evaluation of tasks within the benchmark over the past year.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "In order to inform future research, prepare for disruptive new model capabilities, and ameliorate socially harmful effects, it is vital that we understand the present and near-future capabilities and limitations of language models.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "To address this challenge, we introduce the Beyond the Imitation Game benchmark (BIGbench).",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "To address this challenge, we introduce the Beyond the Imitation Game benchmark (BIGbench).",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "To address this challenge, we introduce the Beyond the Imitation Game benchmark (BIGbench).",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "A recent consensus is that as generative language models are made larger, and are trained on more data, they perform better in predictable ways.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We also expect continued performance gains from improvements in architecture and training methods.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "To address the lack of geographic diversity in NLP, Masakhane used participatory research to construct a machine-translation benchmark for over 30 low-resource languages ).",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "EleutherAI's Language Model Evaluation Harness is another open-source collaborative benchmarking codebase, though unlike BIG-bench it does not introduce new tasks; it instead organizes existing tasks and defines a unified API for evaluating models on them.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "The GEM benchmark is a living benchmark for natural language generation, evaluation, and metrics , constructed by a broad collaboration of more than 50 contributors.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "GEM provides an environment in which models can be tested on a wide set of tasks and with different evaluation strategies that can evolve alongside the models.",
+        "evidence_type": "dataset",
+        "matched_cue": "tested on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "DynaBench is an open-source platform for dynamic dataset creation and model benchmarking that uses human-and-model-in-the-loop to identify and collect examples where models will fail but humans would not.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "SyntaxGym ) is an online platform designed to make targeted evaluations following the norms of psycholinguistic experimental design.",
+        "evidence_type": "method",
+        "matched_cue": "design",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "The Massive Multitask Language Understanding (MMLU) benchmark is a collection of 57 diverse tasks, collated by 7 authors.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "BIG-bench has also been partially evaluated on other models including Gopher , Chinchilla , and T0 .",
+        "evidence_type": "dataset",
+        "matched_cue": "evaluated on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "While Brier score is a proper scoring rule for measuring the accuracy of predicted probabilities, ECE has been widely used to measure calibration due to its intuitive nature. for discussion of properties and drawbacks of various calibration metrics.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "10 7 10 8 10 9 10 10 10 11 Effective parameter count 34 36 38 40 Accuracy Performance on multiple-choice tasks (a) 10 7 10 8 10 9 10 10 10 11 Effective parameter count 0.22 0.23 0.24 0.25 0.26 0.27 0.28 Brier score Calibration on multiple-choice tasks (Brier) (b) 10 7 10 8 10 9 10 10 10 11 Effective parameter count 0.25 0.30 0.35 0.40 0.45 Expected calibration error Calibration on multiple-choice tasks (ECE) BIG-G (0-shot) BIG-G (1-shot) BIG-G (2-shot) BIG-G (3-shot) BIG-G sparse (0-shot) BIG-G sparse (1-shot) BIG-G sparse (2-shot) BIG-G sparse (3-shot) (c) In Figure , we show for 109 multiple-choice JSON tasks in BIG-bench.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "In contrast, the BIG-G sparse models outperform both across scales (Figure , ).",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Understanding social bias in machine learning systems in general and language models in particular is an important, multifaceted challenge, and it has been the subject of much prior work ; Models perform at chance when asked explicitly to identify which events are cause and effect.",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Table App.1 shows the architectures and parameters of the BIG-G models tested on BIG-bench.",
+        "evidence_type": "dataset",
+        "matched_cue": "tested on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In Figure App.3 we present the results by individual task and category of the analysis of social bias in ambiguous contexts aggregated in Figure .",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "BIG- bench",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6961
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "Imitation Game benchmark",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6757
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "natural language understanding",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.6159
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "multiple choice",
+        "section": "conclusion",
+        "role": "metric",
+        "score": 0.5934
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "human performance",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.5358
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "benchmark",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.5307
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "Model performance",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.4999
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "shot count",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.4979
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "BBL",
+        "section": "conclusion",
+        "role": "finding",
+        "score": 0.4959
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "model scale",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.4863
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "social bias",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4728
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "sampling",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4668
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "programmatic task",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4656
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "BIG-bench",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4608
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "new behavior",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4602
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "scale",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4575
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "BIG-bench Lit",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4564
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "Peer review",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4537
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "language",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4501
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "online documentation",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4347
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "JSON",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4341
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "Random",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.4277
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "preferred metric",
+        "section": "conclusion",
+        "role": "mechanism",
+        "score": 0.3886
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "aggregate performance",
+        "section": "conclusion",
+        "role": "mechanism",
+        "score": 0.3882
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "Samuel",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.3628
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "Moh",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.3613
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "breakthroughness",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3317
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "Joshua",
+        "section": "intro",
+        "role": "background",
+        "score": 0.2874
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_017",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_023",
+        "target": "ecu_024",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_025",
+        "target": "ecu_026",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_002",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_013",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_022",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_023",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_025",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

@@ -7,7 +7,7 @@
 ## Dataset Blocks
 
 - `datasets/01_keyword_keyphrase/processed`: 训练关键词边界和句子 selector。KP20k 负责大规模 warm-up，LDKP10k 负责长文档适配，SemEval2010 负责科学关键词小数据 fine-tune/evaluation。
-- `datasets/02_structure_card/processed`: 训练结构模型。PubMed RCT 给 sentence role，QASPER 给 evidence sentence，ACLSum 给 facet/card 弱监督。
+- `datasets/02_structure_card/processed`: 训练结构模型。PubMed RCT 给 sentence role，QASPER 给 evidence sentence，ACLSum 用 facet summaries 构造 ROUGE-L extractive oracle 来监督 importance。
 - `datasets/03_demo_txt/full_library`: 本地论文 txt，只用于推理展示，不参与训练。
 
 ## Code Blocks
@@ -21,7 +21,7 @@
 ## Kept Model Artifacts
 
 - `models/checkpoints/keyword_scibert_semeval2010_finetune_nobow`: 最终关键词模型。
-- `models/checkpoints/structure_v2_scibert_evidencefix`: 最终结构模型。
+- `models/checkpoints/structure_v4_partial_role_balanced_fulldev`: 当前结构模型。
 - `models/training_history/keyword_1_kp20k_warmup`: 第一阶段训练记录和 checkpoint。
 - `models/training_history/keyword_2_ldkp10k_finetune_nobow_b4_e1`: 第二阶段训练记录和 checkpoint。
 

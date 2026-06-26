@@ -5,6 +5,9 @@ import json
 import sys
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 sys.path.append(str(PROJECT_DIR / "src"))
 
@@ -23,7 +26,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build evidence-grounded concept units JSON from a txt paper.")
     parser.add_argument("--input_txt", required=True)
     parser.add_argument("--keyword_checkpoint", default=str(PROJECT_DIR / "models" / "checkpoints" / "keyword_scibert_semeval2010_finetune_nobow"))
-    parser.add_argument("--structured_checkpoint", default=str(PROJECT_DIR / "models" / "checkpoints" / "structure_v2_scibert_evidencefix"))
+    parser.add_argument("--structured_checkpoint", default=str(PROJECT_DIR / "models" / "checkpoints" / "structure_v4_partial_role_balanced_fulldev"))
     parser.add_argument("--bow_csv", default=None)
     parser.add_argument("--section_bow_csv", default=str(default_section_bow) if default_section_bow.exists() else None)
     parser.add_argument("--term_frequency_matrix_csv", default=str(default_frequency_matrix) if default_frequency_matrix.exists() else None)

@@ -1,0 +1,3918 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2018_reinforcement_learning_impala_scalable_distributed_deep_rl_with_importance_weighted_actor_learner_architectures",
+    "title": "2018_reinforcement_learning_impala_scalable_distributed_deep_rl_with_importance_weighted_actor_learner_architectures",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2018_reinforcement_learning_impala_scalable_distributed_deep_rl_with_importance_weighted_actor_learner_architectures.txt",
+    "sentence_count": 286,
+    "section_counts": {
+      "intro": 31,
+      "related_work": 155,
+      "method": 22,
+      "experiment": 67,
+      "conclusion": 11
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 6644,
+    "type_count": 1399,
+    "type_token_ratio": 0.2106,
+    "section_token_counts": {
+      "intro": 771,
+      "related_work": 3849,
+      "method": 364,
+      "experiment": 1442,
+      "conclusion": 218
+    },
+    "top_unigrams": [
+      {
+        "term": "impala",
+        "count": 97
+      },
+      {
+        "term": "et",
+        "count": 47
+      },
+      {
+        "term": "al",
+        "count": 47
+      },
+      {
+        "term": "tasks",
+        "count": 43
+      },
+      {
+        "term": "policy",
+        "count": 43
+      },
+      {
+        "term": "deep",
+        "count": 42
+      },
+      {
+        "term": "v-trace",
+        "count": 35
+      },
+      {
+        "term": "a3c",
+        "count": 35
+      },
+      {
+        "term": "all",
+        "count": 33
+      },
+      {
+        "term": "actor",
+        "count": 33
+      },
+      {
+        "term": "learner",
+        "count": 31
+      },
+      {
+        "term": "learning",
+        "count": 29
+      },
+      {
+        "term": "task",
+        "count": 29
+      },
+      {
+        "term": "performance",
+        "count": 25
+      },
+      {
+        "term": "each",
+        "count": 25
+      },
+      {
+        "term": "data",
+        "count": 24
+      },
+      {
+        "term": "agent",
+        "count": 23
+      },
+      {
+        "term": "training",
+        "count": 23
+      },
+      {
+        "term": "figure",
+        "count": 23
+      },
+      {
+        "term": "which",
+        "count": 22
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 47
+      },
+      {
+        "term": "actor actor",
+        "count": 21
+      },
+      {
+        "term": "impala deep",
+        "count": 19
+      },
+      {
+        "term": "al 2016",
+        "count": 18
+      },
+      {
+        "term": "batched a2c",
+        "count": 16
+      },
+      {
+        "term": "deep pbt",
+        "count": 11
+      },
+      {
+        "term": "weighted actor-learner",
+        "count": 10
+      },
+      {
+        "term": "al 2017",
+        "count": 10
+      },
+      {
+        "term": "importance weighted",
+        "count": 9
+      },
+      {
+        "term": "actor-learner architectures",
+        "count": 9
+      },
+      {
+        "term": "deepmind lab",
+        "count": 9
+      },
+      {
+        "term": "data efficiency",
+        "count": 8
+      },
+      {
+        "term": "impala importance",
+        "count": 8
+      },
+      {
+        "term": "value function",
+        "count": 8
+      },
+      {
+        "term": "final performance",
+        "count": 8
+      },
+      {
+        "term": "human normalised",
+        "count": 8
+      },
+      {
+        "term": "mnih et",
+        "count": 7
+      },
+      {
+        "term": "importance sampling",
+        "count": 7
+      },
+      {
+        "term": "off-policy correction",
+        "count": 6
+      },
+      {
+        "term": "al 2018",
+        "count": 6
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "et al 2016",
+        "count": 18
+      },
+      {
+        "term": "actor actor actor",
+        "count": 15
+      },
+      {
+        "term": "impala deep pbt",
+        "count": 11
+      },
+      {
+        "term": "et al 2017",
+        "count": 10
+      },
+      {
+        "term": "importance weighted actor-learner",
+        "count": 9
+      },
+      {
+        "term": "weighted actor-learner architectures",
+        "count": 9
+      },
+      {
+        "term": "impala importance weighted",
+        "count": 8
+      },
+      {
+        "term": "mnih et al",
+        "count": 7
+      },
+      {
+        "term": "et al 2018",
+        "count": 6
+      },
+      {
+        "term": "10 15 20",
+        "count": 6
+      },
+      {
+        "term": "15 20 25",
+        "count": 6
+      },
+      {
+        "term": "20 25 30",
+        "count": 6
+      },
+      {
+        "term": "1-step importance sampling",
+        "count": 6
+      },
+      {
+        "term": "batched a2c sync",
+        "count": 5
+      },
+      {
+        "term": "deepmind lab tasks",
+        "count": 5
+      },
+      {
+        "term": "environment frames 1e9",
+        "count": 5
+      },
+      {
+        "term": "25 30 35",
+        "count": 5
+      },
+      {
+        "term": "13 17 21",
+        "count": 5
+      },
+      {
+        "term": "17 21 24",
+        "count": 5
+      },
+      {
+        "term": "21 24 hyperparameter",
+        "count": 5
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 14,
+    "nonzero_tfidf_features": 14,
+    "top_tfidf_features": [
+      {
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "introduction__deep reinforcement learning",
+        "section": "intro",
+        "term": "deep reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.8244
+      },
+      {
+        "feature_name": "methods__policy gradient",
+        "section": "method",
+        "term": "policy gradient",
+        "frequency": 1.0,
+        "tfidf": 0.7849
+      },
+      {
+        "feature_name": "conclusion__end-to-end",
+        "section": "conclusion",
+        "term": "end-to-end",
+        "frequency": 2.0,
+        "tfidf": 0.7809
+      },
+      {
+        "feature_name": "related_work__reinforcement learning",
+        "section": "related_work",
+        "term": "reinforcement learning",
+        "frequency": 3.0,
+        "tfidf": 0.6707
+      },
+      {
+        "feature_name": "experiments__multi-task learning",
+        "section": "experiment",
+        "term": "multi-task learning",
+        "frequency": 1.0,
+        "tfidf": 0.6493
+      },
+      {
+        "feature_name": "experiments__online learning",
+        "section": "experiment",
+        "term": "online learning",
+        "frequency": 1.0,
+        "tfidf": 0.6493
+      },
+      {
+        "feature_name": "conclusion__learning algorithm",
+        "section": "conclusion",
+        "term": "learning algorithm",
+        "frequency": 2.0,
+        "tfidf": 0.6247
+      },
+      {
+        "feature_name": "methods__gradient descent",
+        "section": "method",
+        "term": "gradient descent",
+        "frequency": 1.0,
+        "tfidf": 0.6196
+      },
+      {
+        "feature_name": "related_work__sgd",
+        "section": "related_work",
+        "term": "sgd",
+        "frequency": 2.0,
+        "tfidf": 0.617
+      },
+      {
+        "feature_name": "introduction__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.566
+      },
+      {
+        "feature_name": "experiments__bias",
+        "section": "experiment",
+        "term": "bias",
+        "frequency": 1.0,
+        "tfidf": 0.3961
+      },
+      {
+        "feature_name": "related_work__deep reinforcement learning",
+        "section": "related_work",
+        "term": "deep reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.3085
+      },
+      {
+        "feature_name": "related_work__policy gradient",
+        "section": "related_work",
+        "term": "policy gradient",
+        "frequency": 1.0,
+        "tfidf": 0.2725
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.8244
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.566
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 3.0,
+          "tfidf": 0.6707
+        },
+        {
+          "feature_name": "related_work__sgd",
+          "section": "related_work",
+          "term": "sgd",
+          "frequency": 2.0,
+          "tfidf": 0.617
+        },
+        {
+          "feature_name": "related_work__deep reinforcement learning",
+          "section": "related_work",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.3085
+        },
+        {
+          "feature_name": "related_work__policy gradient",
+          "section": "related_work",
+          "term": "policy gradient",
+          "frequency": 1.0,
+          "tfidf": 0.2725
+        }
+      ],
+      "method": [
+        {
+          "feature_name": "methods__policy gradient",
+          "section": "method",
+          "term": "policy gradient",
+          "frequency": 1.0,
+          "tfidf": 0.7849
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.6196
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__multi-task learning",
+          "section": "experiment",
+          "term": "multi-task learning",
+          "frequency": 1.0,
+          "tfidf": 0.6493
+        },
+        {
+          "feature_name": "experiments__online learning",
+          "section": "experiment",
+          "term": "online learning",
+          "frequency": 1.0,
+          "tfidf": 0.6493
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.3961
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__end-to-end",
+          "section": "conclusion",
+          "term": "end-to-end",
+          "frequency": 2.0,
+          "tfidf": 0.7809
+        },
+        {
+          "feature_name": "conclusion__learning algorithm",
+          "section": "conclusion",
+          "term": "learning algorithm",
+          "frequency": 2.0,
+          "tfidf": 0.6247
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 31,
+      "token_count": 771,
+      "bow_hit_count": 19,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 15,
+          "section_prior": 0.5505,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "deep reinforcement learning",
+          "count": 3,
+          "section_prior": 0.4722,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 1,
+          "section_prior": 0.5238,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 2.0,
+          "tfidf": 1.0
+        },
+        {
+          "feature_name": "introduction__deep reinforcement learning",
+          "section": "intro",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.8244
+        },
+        {
+          "feature_name": "introduction__reinforcement learning",
+          "section": "intro",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.566
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 155,
+      "token_count": 3849,
+      "bow_hit_count": 67,
+      "top_bow_terms": [
+        {
+          "canonical_term": "policy-gradient method",
+          "count": 19,
+          "section_prior": 0.1731,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 15,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 10,
+          "section_prior": 0.036,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1869,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1497,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.0467,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 4,
+          "section_prior": 0.0619,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "multi-task learning",
+          "count": 4,
+          "section_prior": 0.375,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 3.0,
+          "tfidf": 0.6707
+        },
+        {
+          "feature_name": "related_work__sgd",
+          "section": "related_work",
+          "term": "sgd",
+          "frequency": 2.0,
+          "tfidf": 0.617
+        },
+        {
+          "feature_name": "related_work__deep reinforcement learning",
+          "section": "related_work",
+          "term": "deep reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.3085
+        },
+        {
+          "feature_name": "related_work__policy gradient",
+          "section": "related_work",
+          "term": "policy gradient",
+          "frequency": 1.0,
+          "tfidf": 0.2725
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 22,
+      "token_count": 364,
+      "bow_hit_count": 10,
+      "top_bow_terms": [
+        {
+          "canonical_term": "policy-gradient method",
+          "count": 5,
+          "section_prior": 0.2596,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 5,
+          "section_prior": 0.3271,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__policy gradient",
+          "section": "method",
+          "term": "policy gradient",
+          "frequency": 1.0,
+          "tfidf": 0.7849
+        },
+        {
+          "feature_name": "methods__gradient descent",
+          "section": "method",
+          "term": "gradient descent",
+          "frequency": 1.0,
+          "tfidf": 0.6196
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 67,
+      "token_count": 1442,
+      "bow_hit_count": 16,
+      "top_bow_terms": [
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 5,
+          "section_prior": 0.0556,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "multi-task learning",
+          "count": 4,
+          "section_prior": 0.2083,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "deep neural network",
+          "count": 4,
+          "section_prior": 0.1197,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 3,
+          "section_prior": 0.1688,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__multi-task learning",
+          "section": "experiment",
+          "term": "multi-task learning",
+          "frequency": 1.0,
+          "tfidf": 0.6493
+        },
+        {
+          "feature_name": "experiments__online learning",
+          "section": "experiment",
+          "term": "online learning",
+          "frequency": 1.0,
+          "tfidf": 0.6493
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.3961
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 11,
+      "token_count": 218,
+      "bow_hit_count": 12,
+      "top_bow_terms": [
+        {
+          "canonical_term": "machine learning algorithm",
+          "count": 10,
+          "section_prior": 0.1818,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 2,
+          "section_prior": 0.1224,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__end-to-end",
+          "section": "conclusion",
+          "term": "end-to-end",
+          "frequency": 2.0,
+          "tfidf": 0.7809
+        },
+        {
+          "feature_name": "conclusion__learning algorithm",
+          "section": "conclusion",
+          "term": "learning algorithm",
+          "frequency": 2.0,
+          "tfidf": 0.6247
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 1,
+        "sentence": "In this work we aim to solve a large collection of tasks using a single reinforcement learning agent with a single set of parameters.",
+        "context_window": {
+          "previous": "IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures Lasse Espeholt * 1 Hubert Soyer * 1 Remi Munos * 1 Karen Simonyan 1 Volodymyr Mnih 1 Tom Ward 1 Yotam Doron 1 Vlad Firoiu 1 Tim Harley 1 Iain Dunning 1 Shane Legg 1 Koray Kavukcuoglu 1",
+          "current": "In this work we aim to solve a large collection of tasks using a single reinforcement learning agent with a single set of parameters.",
+          "next": "A key challenge is to handle the increased amount of data and extended training time."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9131
+      },
+      "evidence": {
+        "score": 0.465,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6674,
+        "downstream_relevance_score": 0.7437,
+        "components": {
+          "bio_boundary_score": 0.8647,
+          "sentence_evidence_score": 0.465,
+          "sentence_role_score": 0.9131,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.5505,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 28,
+        "total_frequency": 75,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "abstract__reinforcement learning",
+        "section": "intro",
+        "term": "reinforcement learning",
+        "frequency": 2.0,
+        "tfidf": 1.0,
+        "normalized_frequency": 0.6667,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.5505,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8647",
+        "structure model assigned role 'problem' with score 0.9131",
+        "evidence score 0.465 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'abstract__reinforcement learning' with tf-idf 1.0",
+        "downstream relevance score is 0.7437"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "A3C",
+        "canonical": "A3C",
+        "normalized": "a3c",
+        "tokens": [
+          "a3c"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 22,
+        "sentence": "With the scalable architecture and V-trace combined, IM- PALA achieves exceptionally high data throughput rates of 250,000 frames per second, making it over 30 times faster than single-machine A3C.",
+        "context_window": {
+          "previous": "Therefore, we introduce the V-trace off-policy actor-critic algorithm to correct for this harmful discrepancy.",
+          "current": "With the scalable architecture and V-trace combined, IM- PALA achieves exceptionally high data throughput rates of 250,000 frames per second, making it over 30 times faster than single-machine A3C.",
+          "next": "Crucially, IMPALA is also more data efficient than A3C based agents and more robust to hyperparameter values and network architectures, allow- ing it to make better use of deeper neural networks."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9032,
+          "evidence_type": "result",
+          "matched_cue": "achieves",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7096,
+        "downstream_relevance_score": 0.618,
+        "components": {
+          "bio_boundary_score": 0.7555,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "a3c"
+        ],
+        "normalization": "a3c",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "A3C",
+          "canonical": "A3C",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7555",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, achieves",
+        "downstream relevance score is 0.618"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "throughput",
+        "canonical": "throughput",
+        "normalized": "throughput",
+        "tokens": [
+          "throughput"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 22,
+        "sentence": "With the scalable architecture and V-trace combined, IM- PALA achieves exceptionally high data throughput rates of 250,000 frames per second, making it over 30 times faster than single-machine A3C.",
+        "context_window": {
+          "previous": "Therefore, we introduce the V-trace off-policy actor-critic algorithm to correct for this harmful discrepancy.",
+          "current": "With the scalable architecture and V-trace combined, IM- PALA achieves exceptionally high data throughput rates of 250,000 frames per second, making it over 30 times faster than single-machine A3C.",
+          "next": "Crucially, IMPALA is also more data efficient than A3C based agents and more robust to hyperparameter values and network architectures, allow- ing it to make better use of deeper neural networks."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9032,
+          "evidence_type": "result",
+          "matched_cue": "achieves",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6594,
+        "downstream_relevance_score": 0.5919,
+        "components": {
+          "bio_boundary_score": 0.5841,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "throughput"
+        ],
+        "normalization": "throughput",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "throughput",
+          "canonical": "throughput",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5841",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, achieves",
+        "downstream relevance score is 0.5919"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "off- policy",
+        "canonical": "off- policy",
+        "normalized": "off- policy",
+        "tokens": [
+          "off-",
+          "policy"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 82,
+        "sentence": "To this end, we introduce a novel off- policy actor-critic algorithm for the learner, called V-trace.",
+        "context_window": {
+          "previous": "V-trace Off-policy learning is important in the decoupled distributed actor-learner architecture because of the lag between when actions are generated by the actors and when the learner estimates the gradient.",
+          "current": "To this end, we introduce a novel off- policy actor-critic algorithm for the learner, called V-trace.",
+          "next": "First, let us introduce some notations."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6772,
+        "downstream_relevance_score": 0.5818,
+        "components": {
+          "bio_boundary_score": 0.5762,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "off-",
+          "policy"
+        ],
+        "normalization": "off- policy",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "off- policy",
+          "canonical": "off- policy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5762",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce, algorithm",
+        "downstream relevance score is 0.5818"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "deep network",
+        "canonical": "deep neural network",
+        "normalized": "deep neural network",
+        "tokens": [
+          "deep",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "deep neural networks",
+          "deep neural network",
+          "deep networks",
+          "deep network",
+          "dnn"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 248,
+        "sentence": "We train IMPALA and A3C agents on each game individu- ally and compare their performance using the deep network (without the LSTM) introduced in Section 5.",
+        "context_window": {
+          "previous": "Most games feature very different visuals and game mechanics which makes this domain particularly challenging for multi-task learning.",
+          "current": "We train IMPALA and A3C agents on each game individu- ally and compare their performance using the deep network (without the LSTM) introduced in Section 5.",
+          "next": "We also pro- vide results using a shallow network that is equivalent to the feed forward network used in (Mnih et al., 2016) which features three convolutional layers."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6356,
+        "downstream_relevance_score": 0.5621,
+        "components": {
+          "bio_boundary_score": 0.5868,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1197,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "deep network",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "deep neural network",
+        "display_term": "deep neural networks",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Deep_neural_network",
+        "wikidata_id": "Q51289900",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 27,
+        "total_frequency": 44,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deep",
+          "network"
+        ],
+        "normalization": "deep network",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1197,
+        "canonicalization": {
+          "observed": "deep network",
+          "canonical": "deep neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5868",
+        "structure model assigned role 'result' with score 0.82",
+        "section BoW matched canonical term 'deep neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5621"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "actor-critic",
+        "canonical": "actor-critic",
+        "normalized": "actor-critic",
+        "tokens": [
+          "actor-critic"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 82,
+        "sentence": "To this end, we introduce a novel off- policy actor-critic algorithm for the learner, called V-trace.",
+        "context_window": {
+          "previous": "V-trace Off-policy learning is important in the decoupled distributed actor-learner architecture because of the lag between when actions are generated by the actors and when the learner estimates the gradient.",
+          "current": "To this end, we introduce a novel off- policy actor-critic algorithm for the learner, called V-trace.",
+          "next": "First, let us introduce some notations."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6563,
+        "downstream_relevance_score": 0.5609,
+        "components": {
+          "bio_boundary_score": 0.5047,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "actor-critic"
+        ],
+        "normalization": "actor-critic",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "actor-critic",
+          "canonical": "actor-critic",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5047",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched introduce, algorithm",
+        "downstream relevance score is 0.5609"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "deep architecture",
+        "canonical": "deep architecture",
+        "normalized": "deep architecture",
+        "tokens": [
+          "deep",
+          "architecture"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 262,
+        "sentence": "All models used the deep architecture (Figure 3).",
+        "context_window": {
+          "previous": "Performance on DMLab-30 wrt. wall-clock time.",
+          "current": "All models used the deep architecture (Figure 3).",
+          "next": "The high throughput of IMPALA results in orders of magnitude faster learning. number of no-op actions (uniformly chosen from [1, 30]) to combat the determinism of the ALE environment."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6933,
+        "downstream_relevance_score": 0.5523,
+        "components": {
+          "bio_boundary_score": 0.8867,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deep",
+          "architecture"
+        ],
+        "normalization": "deep architecture",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "deep architecture",
+          "canonical": "deep architecture",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8867",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5523"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "policy gradient",
+        "canonical": "policy-gradient method",
+        "normalized": "policy-gradient method",
+        "tokens": [
+          "policy",
+          "gradient"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "policy gradient methods",
+          "policy-gradient method",
+          "policy gradient"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 118,
+        "sentence": "In order to reduce the variance of the policy gradient es- timate (4) , we usually subtract from q s a state-dependent baseline, such as the current value approximation V ( x s ) .",
+        "context_window": {
+          "previous": "See Appendix A for analy- sis and Appendix E.3 for a comparison of different ways to estimate q s .",
+          "current": "In order to reduce the variance of the policy gradient es- timate (4) , we usually subtract from q s a state-dependent baseline, such as the current value approximation V ( x s ) .",
+          "next": "Finally notice that (4) estimates the policy gradient for π ¯ ρ which is the policy evaluated by the V-trace algorithm when using a truncation level ¯ ρ ."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5357,
+        "downstream_relevance_score": 0.5475,
+        "components": {
+          "bio_boundary_score": 0.9037,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1731,
+          "document_tfidf_score": 0.2725,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "policy gradient",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "policy-gradient method",
+        "display_term": "policy gradient",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN JJ",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Policy_gradient_method",
+        "wikidata_id": "Q113840014",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 6,
+        "total_frequency": 17,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "related_work__policy gradient",
+        "section": "related_work",
+        "term": "policy gradient",
+        "frequency": 1.0,
+        "tfidf": 0.2725,
+        "normalized_frequency": 0.3333,
+        "normalized_tfidf": 0.2725
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "policy",
+          "gradient"
+        ],
+        "normalization": "policy gradient",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1731,
+        "canonicalization": {
+          "observed": "policy gradient",
+          "canonical": "policy-gradient method",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9037",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "section BoW matched canonical term 'policy-gradient method' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'related_work__policy gradient' with tf-idf 0.2725",
+        "downstream relevance score is 0.5475"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "DeepMind",
+        "canonical": "DeepMind",
+        "normalized": "deepmind",
+        "tokens": [
+          "deepmind"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 10,
+        "sentence": "While the improvements on tasks like the game of Go (Sil- ver et al., 2017) and Atari games (Horgan et al., 2018) have been dramatic, the progress has been primarily in single task performance, where an agent is trained on each task * Equal contribution 1 DeepMind Technologies, London, United Kingdom.",
+        "context_window": {
+          "previous": "Deep reinforcement learning methods have recently mas- tered a wide variety of domains through trial and error learning (Mnih et al., 2015; Silver et al., 2017; 2016; Zoph et al., 2017; Lillicrap et al., 2015; Barth-Maron et al., 2018).",
+          "current": "While the improvements on tasks like the game of Go (Sil- ver et al., 2017) and Atari games (Horgan et al., 2018) have been dramatic, the progress has been primarily in single task performance, where an agent is trained on each task * Equal contribution 1 DeepMind Technologies, London, United Kingdom.",
+          "next": "Correspondence to: Lasse Espeholt < lespe- holt@google.com > . separately."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "trained on",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "method",
+            "notes": "training-data cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7267,
+        "downstream_relevance_score": 0.5247,
+        "components": {
+          "bio_boundary_score": 0.8984,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deepmind"
+        ],
+        "normalization": "deepmind",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "DeepMind",
+          "canonical": "DeepMind",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8984",
+        "structure model assigned role 'result' with score 0.66",
+        "evidence cue lexicon matched trained on",
+        "downstream relevance score is 0.5247"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "IMPALA",
+        "canonical": "IMPALA",
+        "normalized": "impala",
+        "tokens": [
+          "impala"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 5,
+        "sentence": "We demonstrate the effec- tiveness of IMPALA for multi-task reinforcement learning on DMLab-30 (a set of 30 tasks from the DeepMind Lab environment (Beattie et al., 2016)) and Atari-57 (all available Atari games in Arcade Learning Environment (Bellemare et al., 2013a)).",
+        "context_window": {
+          "previous": "We achieve stable learning at high throughput by combining decoupled acting and learning with a novel off-policy correction method called V-trace.",
+          "current": "We demonstrate the effec- tiveness of IMPALA for multi-task reinforcement learning on DMLab-30 (a set of 30 tasks from the DeepMind Lab environment (Beattie et al., 2016)) and Atari-57 (all available Atari games in Arcade Learning Environment (Bellemare et al., 2013a)).",
+          "next": "Our results show that IMPALA is able to achieve better performance than previous agents with less data, and crucially exhibits positive trans- fer between tasks as a result of its multi-task ap- proach."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.731,
+        "downstream_relevance_score": 0.4877,
+        "components": {
+          "bio_boundary_score": 0.9797,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "impala"
+        ],
+        "normalization": "impala",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "IMPALA",
+          "canonical": "IMPALA",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9797",
+        "structure model assigned role 'contribution' with score 0.66",
+        "downstream relevance score is 0.4877"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "environment",
+        "canonical": "environment",
+        "normalized": "environment",
+        "tokens": [
+          "environment"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 38,
+        "sentence": "In other words, high variance in environment speed can severely limit performance.",
+        "context_window": {
+          "previous": "Therefore, the slowest environment in each batch determines the time it takes to perform the entire batch step (see Figure 2a and 2b).",
+          "current": "In other words, high variance in environment speed can severely limit performance.",
+          "next": "Batched A2C works partic- ularly well on Atari environments, because rendering and game logic are computationally very cheap in comparison to the expensive tensor operations performed by reinforcement learning agents."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.708,
+        "downstream_relevance_score": 0.4799,
+        "components": {
+          "bio_boundary_score": 0.9175,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "environment"
+        ],
+        "normalization": "environment",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "environment",
+          "canonical": "environment",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9175",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4799"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "experience replay",
+        "canonical": "experience replay",
+        "normalized": "experience replay",
+        "tokens": [
+          "experience",
+          "replay"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 200,
+        "sentence": "We also add an experience replay buffer on the learner to increase the off-policy gap between π and μ .",
+        "context_window": {
+          "previous": "We evaluate all algorithms on the set of 5 DeepMind Lab tasks from the previous section.",
+          "current": "We also add an experience replay buffer on the learner to increase the off-policy gap between π and μ .",
+          "next": "In the experience replay experiments we draw 50% of the items in each batch uniformly at random from the replay buffer."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6813,
+        "downstream_relevance_score": 0.4719,
+        "components": {
+          "bio_boundary_score": 0.9204,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "experience",
+          "replay"
+        ],
+        "normalization": "experience replay",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "experience replay",
+          "canonical": "experience replay",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9204",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4719"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "gradient",
+        "canonical": "gradient",
+        "normalized": "gradient",
+        "tokens": [
+          "gradient"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 197,
+        "sentence": "This reduces the variance of the gradient estimate but introduces a bias.",
+        "context_window": {
+          "previous": "For V-trace and 1-step importance sampling we clip each importance weight ρ t and c t at 1 (i.e. ¯ c = ¯ ρ = 1) .",
+          "current": "This reduces the variance of the gradient estimate but introduces a bias.",
+          "next": "Out of ¯ ρ ∈ [1 , 10 , 100] we found that ¯ ρ = 1 worked best."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.715,
+        "downstream_relevance_score": 0.4668,
+        "components": {
+          "bio_boundary_score": 0.9612,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "gradient"
+        ],
+        "normalization": "gradient",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "gradient",
+          "canonical": "gradient",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9612",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4668"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "learner",
+        "canonical": "learner",
+        "normalized": "learner",
+        "tokens": [
+          "learner"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 64,
+        "sentence": "However, the learner policy π is potentially several updates ahead of the actor’s policy μ at the time of update, therefore there is a policy-lag between the actors and learner(s).",
+        "context_window": {
+          "previous": "This simple architecture enables the learner(s) to be accelerated using GPUs and actors to be easily distributed across many machines.",
+          "current": "However, the learner policy π is potentially several updates ahead of the actor’s policy μ at the time of update, therefore there is a policy-lag between the actors and learner(s).",
+          "next": "V-trace cor- IMPALA: Importance Weighted Actor-Learner Architectures rects for this lag to achieve extremely high data throughput while maintaining data efficiency."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6099,
+        "downstream_relevance_score": 0.4599,
+        "components": {
+          "bio_boundary_score": 0.6136,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "learner"
+        ],
+        "normalization": "learner",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "learner",
+          "canonical": "learner",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6136",
+        "structure model assigned role 'gap' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4599"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "importance sampling",
+        "canonical": "importance sampling",
+        "normalized": "importance sampling",
+        "tokens": [
+          "importance",
+          "sampling"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 88,
+        "sentence": "We define the n -steps V-trace target for V ( x s ) , our value approximation at state x s , as: v s def = V ( x s ) + ∑ s + n − 1 t = s γ t − s ( ∏ t − 1 i = s c i ) δ t V , (1) where δ t V def = ρ t ( r t + γV ( x t +1 ) − V ( x t ) ) is a temporal difference for V , and ρ t def = min ( ¯ ρ, π ( a t | x t ) μ ( a t | x t ) ) and c i def = min ( ¯ c, π ( a i | x i ) μ ( a i | x i ) ) are truncated importance sampling (IS) weights (we make use of the notation ∏ t − 1 i = s c i = 1 for s = t ).",
+        "context_window": {
+          "previous": "V-trace target Consider a trajectory ( x t , a t , r t ) t = s + n t = s generated by the ac- tor following some policy μ .",
+          "current": "We define the n -steps V-trace target for V ( x s ) , our value approximation at state x s , as: v s def = V ( x s ) + ∑ s + n − 1 t = s γ t − s ( ∏ t − 1 i = s c i ) δ t V , (1) where δ t V def = ρ t ( r t + γV ( x t +1 ) − V ( x t ) ) is a temporal difference for V , and ρ t def = min ( ¯ ρ, π ( a t | x t ) μ ( a t | x t ) ) and c i def = min ( ¯ c, π ( a i | x i ) μ ( a i | x i ) ) are truncated importance sampling (IS) weights (we make use of the notation ∏ t − 1 i = s c i = 1 for s = t ).",
+          "next": "In addition we assume that the truncation levels are such that ¯ ρ ≥ ¯ c ."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6462,
+        "downstream_relevance_score": 0.4536,
+        "components": {
+          "bio_boundary_score": 0.6901,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "importance",
+          "sampling"
+        ],
+        "normalization": "importance sampling",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "importance sampling",
+          "canonical": "importance sampling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6901",
+        "structure model assigned role 'contribution' with score 0.66",
+        "downstream relevance score is 0.4536"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "actor-learner",
+        "canonical": "actor-learner",
+        "normalized": "actor-learner",
+        "tokens": [
+          "actor-learner"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 81,
+        "sentence": "V-trace Off-policy learning is important in the decoupled distributed actor-learner architecture because of the lag between when actions are generated by the actors and when the learner estimates the gradient.",
+        "context_window": {
+          "previous": "4.",
+          "current": "V-trace Off-policy learning is important in the decoupled distributed actor-learner architecture because of the lag between when actions are generated by the actors and when the learner estimates the gradient.",
+          "next": "To this end, we introduce a novel off- policy actor-critic algorithm for the learner, called V-trace."
+        }
+      },
+      "role": {
+        "label": "motivation",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5524,
+        "downstream_relevance_score": 0.4523,
+        "components": {
+          "bio_boundary_score": 0.6356,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "actor-learner"
+        ],
+        "normalization": "actor-learner",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "actor-learner",
+          "canonical": "actor-learner",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6356",
+        "structure model assigned role 'motivation' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.4523"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "high throughput",
+        "canonical": "high throughput",
+        "normalized": "high throughput",
+        "tokens": [
+          "high",
+          "throughput"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 4,
+        "sentence": "We achieve stable learning at high throughput by combining decoupled acting and learning with a novel off-policy correction method called V-trace.",
+        "context_window": {
+          "previous": "We have devel- oped a new distributed agent IMPALA (Impor- tance Weighted Actor-Learner Architecture) that not only uses resources more efficiently in single- machine training but also scales to thousands of machines without sacrificing data efficiency or resource utilisation.",
+          "current": "We achieve stable learning at high throughput by combining decoupled acting and learning with a novel off-policy correction method called V-trace.",
+          "next": "We demonstrate the effec- tiveness of IMPALA for multi-task reinforcement learning on DMLab-30 (a set of 30 tasks from the DeepMind Lab environment (Beattie et al., 2016)) and Atari-57 (all available Atari games in Arcade Learning Environment (Bellemare et al., 2013a))."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9131
+      },
+      "evidence": {
+        "score": 0.3758,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5647,
+        "downstream_relevance_score": 0.4393,
+        "components": {
+          "bio_boundary_score": 0.6039,
+          "sentence_evidence_score": 0.3758,
+          "sentence_role_score": 0.9131,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "high",
+          "throughput"
+        ],
+        "normalization": "high throughput",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "high throughput",
+          "canonical": "high throughput",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6039",
+        "structure model assigned role 'problem' with score 0.9131",
+        "downstream relevance score is 0.4393"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "V-trace",
+        "canonical": "V-trace",
+        "normalized": "v-trace",
+        "tokens": [
+          "v-trace"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 176,
+        "sentence": "V- TRACE A NALYSIS To analyse V-trace we investigate four different algorithms: 1.",
+        "context_window": {
+          "previous": "5.2.2.",
+          "current": "V- TRACE A NALYSIS To analyse V-trace we investigate four different algorithms: 1.",
+          "next": "No-correction - No off-policy correction."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_objective",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6218,
+        "downstream_relevance_score": 0.4351,
+        "components": {
+          "bio_boundary_score": 0.6139,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "v-trace"
+        ],
+        "normalization": "v-trace",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "V-trace",
+          "canonical": "V-trace",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6139",
+        "structure model assigned role 'objective' with score 0.66",
+        "downstream relevance score is 0.4351"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "value function",
+        "canonical": "value function",
+        "normalized": "value function",
+        "tokens": [
+          "value",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 105,
+        "sentence": "Thus we see that the truncation levels ¯ c and ¯ ρ represent different features of the algorithm: ¯ ρ impacts the nature of the value function we converge to, whereas ¯ c impacts the speed at which we converge to this function.",
+        "context_window": {
+          "previous": "However notice that this truncation does not impact the solution to which we converge (which is characterised by ¯ ρ only).",
+          "current": "Thus we see that the truncation levels ¯ c and ¯ ρ represent different features of the algorithm: ¯ ρ impacts the nature of the value function we converge to, whereas ¯ c impacts the speed at which we converge to this function.",
+          "next": "Remark 1."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "algorithm",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "algorithm cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5434,
+        "downstream_relevance_score": 0.3904,
+        "components": {
+          "bio_boundary_score": 0.9307,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "value",
+          "function"
+        ],
+        "normalization": "value function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "value function",
+          "canonical": "value function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9307",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence cue lexicon matched algorithm",
+        "downstream relevance score is 0.3904"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "capped human normalised score",
+        "canonical": "capped human normalised score",
+        "normalized": "capped human normalised score",
+        "tokens": [
+          "capped",
+          "human",
+          "normalised",
+          "score"
+        ],
+        "ngram_len": 4,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 225,
+        "sentence": "Using mean capped human normalised score emphasises the need to solve multiple tasks instead of focusing on becoming super human on a single task.",
+        "context_window": {
+          "previous": "We report mean capped human normalised score where the score for each task is capped at 100% (see Appendix B ).",
+          "current": "Using mean capped human normalised score emphasises the need to solve multiple tasks instead of focusing on becoming super human on a single task.",
+          "next": "For PBT we use the mean capped human normalised score as fitness function and tune entropy cost, learning rate and RMSProp ε ."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "evaluation_metric",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5206,
+        "downstream_relevance_score": 0.3763,
+        "components": {
+          "bio_boundary_score": 0.821,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 1.0
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "capped",
+          "human",
+          "normalised",
+          "score"
+        ],
+        "normalization": "capped human normalised score",
+        "ngram": "4-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "capped human normalised score",
+          "canonical": "capped human normalised score",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.821",
+        "structure model assigned role 'metric' with score 0.82",
+        "downstream relevance score is 0.3763"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "state-action-value function",
+        "canonical": "state-action-value function",
+        "normalized": "state-action-value function",
+        "tokens": [
+          "state-action-value",
+          "function"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 54,
+        "sentence": "However, many actor-critic methods such as A3C learn a state-value func- tion V instead of a state-action-value function Q .",
+        "context_window": {
+          "previous": "Re- trace requires learning state-action-value functions Q in order to make the off-policy correction.",
+          "current": "However, many actor-critic methods such as A3C learn a state-value func- tion V instead of a state-action-value function Q .",
+          "next": "V-trace is based on the state-value function."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5549,
+        "downstream_relevance_score": 0.3742,
+        "components": {
+          "bio_boundary_score": 0.8391,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "state-action-value",
+          "function"
+        ],
+        "normalization": "state-action-value function",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "state-action-value function",
+          "canonical": "state-action-value function",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8391",
+        "structure model assigned role 'gap' with score 0.82",
+        "downstream relevance score is 0.3742"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "LSTM",
+        "canonical": "LSTM",
+        "normalized": "lstm",
+        "tokens": [
+          "lstm"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 138,
+        "sentence": "LSTM 256 V t r t \u0000 1 a t \u0000 1 LSTM 256 h t \u0000 1 ⇡ ( a t ) 96 ⇥ 72 3 ReLU LSTM 64 Embedding 20 blue ladder Figure 3.",
+        "context_window": {
+          "previous": "3 ⇥ 3 , stride 1 FC 256 ReLU Max 3 ⇥ 3 , stride 2 Residual Block Residual Block ⇥ 3 ReLU [16 , 32 , 32] ch .",
+          "current": "LSTM 256 V t r t \u0000 1 a t \u0000 1 LSTM 256 h t \u0000 1 ⇡ ( a t ) 96 ⇥ 72 3 ReLU LSTM 64 Embedding 20 blue ladder Figure 3.",
+          "next": "Model Architectures."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5964,
+        "downstream_relevance_score": 0.3729,
+        "components": {
+          "bio_boundary_score": 0.9983,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "lstm"
+        ],
+        "normalization": "lstm",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "LSTM",
+          "canonical": "LSTM",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9983",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3729"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "output layer",
+        "canonical": "output layer",
+        "normalized": "output layer",
+        "tokens": [
+          "output",
+          "layer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 74,
+        "sentence": "As an example, a typical deep RL agent features a convolutional network followed by a Long Short-Term Memory (LSTM) (Hochreiter & Schmidhuber, 1997) and a fully connected output layer after the LSTM.",
+        "context_window": {
+          "previous": "Since the learner in IMPALA performs updates on entire batches of trajectories, it is able to parallelise more of its computations than an online agent like A3C.",
+          "current": "As an example, a typical deep RL agent features a convolutional network followed by a Long Short-Term Memory (LSTM) (Hochreiter & Schmidhuber, 1997) and a fully connected output layer after the LSTM.",
+          "next": "An IMPALA learner applies the convolutional network to all inputs in parallel by folding the time dimension into the batch dimension."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5357,
+        "downstream_relevance_score": 0.3513,
+        "components": {
+          "bio_boundary_score": 0.7954,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "output",
+          "layer"
+        ],
+        "normalization": "output layer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "output layer",
+          "canonical": "output layer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7954",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.3513"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "shallow model",
+        "canonical": "shallow model",
+        "normalized": "shallow model",
+        "tokens": [
+          "shallow",
+          "model"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 156,
+        "sentence": "Table 1 details the results for single-machine and multi-machine ver- sions with the shallow model from Figure 3.",
+        "context_window": {
+          "previous": "Our dynamic batching module is implemented by specialised TensorFlow operations but is conceptually similar to the queues used in GA3C.",
+          "current": "Table 1 details the results for single-machine and multi-machine ver- sions with the shallow model from Figure 3.",
+          "next": "In the single- machine case, IMPALA achieves the highest performance on both tasks, ahead of all batched A2C variants and ahead of A3C."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5359,
+        "downstream_relevance_score": 0.3347,
+        "components": {
+          "bio_boundary_score": 0.9866,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "shallow",
+          "model"
+        ],
+        "normalization": "shallow model",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "shallow model",
+          "canonical": "shallow model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9866",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.3347"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "Retrace",
+        "canonical": "Retrace",
+        "normalized": "retrace",
+        "tokens": [
+          "retrace"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 109,
+        "sentence": "Like in Retrace( λ ), we can also consider an additional discounting parameter λ ∈ [0 , 1] in the definition of V-trace by setting c i = λ min ( ¯ c, π ( a i | x i ) μ ( a i | x i ) ) .",
+        "context_window": {
+          "previous": "Remark 2.",
+          "current": "Like in Retrace( λ ), we can also consider an additional discounting parameter λ ∈ [0 , 1] in the definition of V-trace by setting c i = λ min ( ¯ c, π ( a i | x i ) μ ( a i | x i ) ) .",
+          "next": "In the on- policy case, when n = ∞ , V-trace then reduces to TD( λ )."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.55,
+        "downstream_relevance_score": 0.332,
+        "components": {
+          "bio_boundary_score": 0.9535,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "retrace"
+        ],
+        "normalization": "retrace",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Retrace",
+          "canonical": "Retrace",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9535",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.332"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "deep",
+        "canonical": "deep",
+        "normalized": "deep",
+        "tokens": [
+          "deep"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 243,
+        "sentence": "of the deep model by a factor of 7 to 210K frames/sec, up from 30K frames/sec.",
+        "context_window": {
+          "previous": "Using 8 learner GPUs instead of",
+          "current": "of the deep model by a factor of 7 to 210K frames/sec, up from 30K frames/sec.",
+          "next": "5.3.2."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5414,
+        "downstream_relevance_score": 0.3275,
+        "components": {
+          "bio_boundary_score": 0.852,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "deep"
+        ],
+        "normalization": "deep",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "deep",
+          "canonical": "deep",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.852",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3275"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "on-policy case",
+        "canonical": "on-policy case",
+        "normalized": "on-policy case",
+        "tokens": [
+          "on-policy",
+          "case"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 90,
+        "sentence": "Notice that in the on-policy case (when π = μ ), and as- suming that ¯ c ≥ 1 , then all c i = 1 and ρ t = 1 , thus (1) rewrites v s = V ( x s ) + ∑ s + n − 1 t = s γ t − s ( r t + γV ( x t +1 ) − V ( x t ) ) = ∑ s + n − 1 t = s γ t − s r t + γ n V ( x s + n ) , (2) which is the on-policy n -steps Bellman target.",
+        "context_window": {
+          "previous": "In addition we assume that the truncation levels are such that ¯ ρ ≥ ¯ c .",
+          "current": "Notice that in the on-policy case (when π = μ ), and as- suming that ¯ c ≥ 1 , then all c i = 1 and ρ t = 1 , thus (1) rewrites v s = V ( x s ) + ∑ s + n − 1 t = s γ t − s ( r t + γV ( x t +1 ) − V ( x t ) ) = ∑ s + n − 1 t = s γ t − s r t + γ n V ( x s + n ) , (2) which is the on-policy n -steps Bellman target.",
+          "next": "Thus in the on-policy case, V-trace reduces to the on-policy n -steps Bellman update."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5206,
+        "downstream_relevance_score": 0.3267,
+        "components": {
+          "bio_boundary_score": 0.9365,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "on-policy",
+          "case"
+        ],
+        "normalization": "on-policy case",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "on-policy case",
+          "canonical": "on-policy case",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9365",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.3267"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "truncation",
+        "canonical": "truncation",
+        "normalized": "truncation",
+        "tokens": [
+          "truncation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 103,
+        "sentence": "We use the truncation level ¯ c as a variance reduction technique.",
+        "context_window": {
+          "previous": "The more dissimilar π and μ are (the more off-policy we are), the larger the variance of this product.",
+          "current": "We use the truncation level ¯ c as a variance reduction technique.",
+          "next": "However notice that this truncation does not impact the solution to which we converge (which is characterised by ¯ ρ only)."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5338,
+        "downstream_relevance_score": 0.3236,
+        "components": {
+          "bio_boundary_score": 0.9149,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "truncation"
+        ],
+        "normalization": "truncation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "truncation",
+          "canonical": "truncation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9149",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "downstream relevance score is 0.3236"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 23,
+    "top_candidates": [
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "At training time s, the value parameters θ are updated by gradient descent on the l2 loss to the target v s , i.e., in the direction of and the policy parameters ω in the direction of the policy gradient: In order to prevent premature convergence we may add an entropy bonus, like in A3C, along the direction The overall update is obtained by summing these three gradients rescaled by appropriate coefficients, which are hyperparameters of the algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "A key challenge is to handle the increased amount of data and extended training time.",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We have developed a new distributed agent IMPALA (Importance Weighted Actor-Learner Architecture) that not only uses resources more efficiently in singlemachine training but also scales to thousands of machines without sacrificing data efficiency or resource utilisation.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "While the improvements on tasks like the game of Go and Atari games have been dramatic, the progress has been primarily in single task performance, where an agent is trained on each task separately.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We propose the Importance Weighted Actor-Learner Architecture (IMPALA) shown in Figure .",
+        "evidence_type": "method",
+        "matched_cue": "propose",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We propose the Importance Weighted Actor-Learner Architecture (IMPALA) shown in Figure .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Therefore, we introduce the V-trace off-policy actor-critic algorithm to correct for this harmful discrepancy.",
+        "evidence_type": "method",
+        "matched_cue": "introduce",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Therefore, we introduce the V-trace off-policy actor-critic algorithm to correct for this harmful discrepancy.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "With the scalable architecture and V-trace combined, IM-PALA achieves exceptionally high data throughput rates of 250,000 frames per second, making it over 30 times faster than single-machine A3C.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "With the scalable architecture and V-trace combined, IM-PALA achieves exceptionally high data throughput rates of 250,000 frames per second, making it over 30 times faster than single-machine A3C.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We demonstrate the effectiveness of IMPALA by training a single agent on multi-task problems using DMLab-30, a new challenge set which consists of 30 diverse cognitive tasks in the 3D DeepMind Lab environment and by training a single agent on all games in the Atari-57 set of tasks.",
+        "evidence_type": "limitation",
+        "matched_cue": "challenge",
+        "role_prior": "limitation",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "The most similar architecture to IMPALA is GA3C , which also uses asynchronous data collection to more effectively utilise GPUs.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "The closest work to ours is the Retrace algorithm which introduced an off-policy correction for multi-step RL, and has been used in several agent architectures .",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For data efficiency, computational performance and effectiveness of the off-policy correction we look at the learning behaviour of IMPALA agents trained on individual tasks.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "However notice that we do not take the product of those ρ t coefficients (in contrast to the c s coefficients) so the variance does not explode with the time horizon. • c impacts the contraction modulus η of R (thus the speed at which an online-algorithm like V-trace will converge to its fixed point V πρ ).",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "All agents trained on Atari are equipped only with a feed forward network and pre-process frames in the same way as described in .",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We have introduced a new highly scalable distributed agent, IMPALA, and a new off-policy learning algorithm, V-trace.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "With its simple but scalable distributed architecture, IM-PALA can make efficient use of available compute at small and large scale.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "V-trace is a general off-policy learning algorithm that is more stable and robust compared to other off-policy correction methods for actor critic agents.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We have demonstrated that IMPALA achieves better performance compared to A3C variants in terms of data efficiency, stability and final performance.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "We believe that IMPALA provides a simple yet scalable and robust framework for building better Deep-RL agents and has the potential to enable research on new challenges.",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "This type of decoupled architecture can achieve very high throughput.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.72
+      },
+      {
+        "section": "related_work",
+        "section_original": "related_work",
+        "sentence": "In contrast, IMPALA uses the more principled V-trace algorithm.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "reinforcement learning",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.7437
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "A3C",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.618
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "throughput",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.5919
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "off- policy",
+        "section": "related_work",
+        "role": "objective",
+        "score": 0.5818
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "deep neural network",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5621
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "actor-critic",
+        "section": "related_work",
+        "role": "objective",
+        "score": 0.5609
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "deep architecture",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.5523
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "policy-gradient method",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.5475
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "DeepMind",
+        "section": "intro",
+        "role": "result",
+        "score": 0.5247
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "IMPALA",
+        "section": "intro",
+        "role": "contribution",
+        "score": 0.4877
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "environment",
+        "section": "related_work",
+        "role": "result",
+        "score": 0.4799
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "experience replay",
+        "section": "method",
+        "role": "gap",
+        "score": 0.4719
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "gradient",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4668
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "learner",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.4599
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "importance sampling",
+        "section": "related_work",
+        "role": "contribution",
+        "score": 0.4536
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "actor-learner",
+        "section": "related_work",
+        "role": "motivation",
+        "score": 0.4523
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "high throughput",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.4393
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "V-trace",
+        "section": "related_work",
+        "role": "objective",
+        "score": 0.4351
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "value function",
+        "section": "related_work",
+        "role": "process",
+        "score": 0.3904
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "capped human normalised score",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.3763
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "state-action-value function",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.3742
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "LSTM",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.3729
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "output layer",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.3513
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "shallow model",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3347
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "Retrace",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.332
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "deep",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3275
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "on-policy case",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3267
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "truncation",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3236
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_001",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_003",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_024",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_024",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_024",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_025",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_014",
+        "target": "ecu_021",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_022",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

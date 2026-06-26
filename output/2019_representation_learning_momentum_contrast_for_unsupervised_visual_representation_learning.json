@@ -1,0 +1,3879 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2019_representation_learning_momentum_contrast_for_unsupervised_visual_representation_learning",
+    "title": "2019_representation_learning_momentum_contrast_for_unsupervised_visual_representation_learning",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2019_representation_learning_momentum_contrast_for_unsupervised_visual_representation_learning.txt",
+    "sentence_count": 378,
+    "section_counts": {
+      "intro": 40,
+      "related_work": 54,
+      "method": 71,
+      "experiment": 205,
+      "conclusion": 8
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 7363,
+    "type_count": 1426,
+    "type_token_ratio": 0.1937,
+    "section_token_counts": {
+      "intro": 853,
+      "related_work": 995,
+      "method": 1332,
+      "experiment": 4056,
+      "conclusion": 127
+    },
+    "top_unigrams": [
+      {
+        "term": "moco",
+        "count": 83
+      },
+      {
+        "term": "ap",
+        "count": 72
+      },
+      {
+        "term": "learning",
+        "count": 46
+      },
+      {
+        "term": "can",
+        "count": 43
+      },
+      {
+        "term": "contrastive",
+        "count": 41
+      },
+      {
+        "term": "supervised",
+        "count": 41
+      },
+      {
+        "term": "dictionary",
+        "count": 39
+      },
+      {
+        "term": "encoder",
+        "count": 35
+      },
+      {
+        "term": "tasks",
+        "count": 33
+      },
+      {
+        "term": "pre-training",
+        "count": 33
+      },
+      {
+        "term": "loss",
+        "count": 33
+      },
+      {
+        "term": "50",
+        "count": 32
+      },
+      {
+        "term": "61",
+        "count": 31
+      },
+      {
+        "term": "unsupervised",
+        "count": 29
+      },
+      {
+        "term": "imagenet",
+        "count": 28
+      },
+      {
+        "term": "in-1m",
+        "count": 28
+      },
+      {
+        "term": "keys",
+        "count": 27
+      },
+      {
+        "term": "pretext",
+        "count": 26
+      },
+      {
+        "term": "all",
+        "count": 26
+      },
+      {
+        "term": "75",
+        "count": 26
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "contrastive loss",
+        "count": 23
+      },
+      {
+        "term": "supervised pre-training",
+        "count": 22
+      },
+      {
+        "term": "ap mk",
+        "count": 21
+      },
+      {
+        "term": "memory bank",
+        "count": 18
+      },
+      {
+        "term": "imagenet supervised",
+        "count": 18
+      },
+      {
+        "term": "50 ap",
+        "count": 17
+      },
+      {
+        "term": "pretext tasks",
+        "count": 14
+      },
+      {
+        "term": "ap bb",
+        "count": 13
+      },
+      {
+        "term": "contrastive learning",
+        "count": 12
+      },
+      {
+        "term": "unsupervised learning",
+        "count": 12
+      },
+      {
+        "term": "pre-training counterpart",
+        "count": 11
+      },
+      {
+        "term": "pretext task",
+        "count": 11
+      },
+      {
+        "term": "ap ap",
+        "count": 11
+      },
+      {
+        "term": "ap 75",
+        "count": 10
+      },
+      {
+        "term": "moco ig-1b",
+        "count": 10
+      },
+      {
+        "term": "dictionary size",
+        "count": 9
+      },
+      {
+        "term": "pre-train ap",
+        "count": 9
+      },
+      {
+        "term": "ap 50",
+        "count": 9
+      },
+      {
+        "term": "super in-1m",
+        "count": 9
+      },
+      {
+        "term": "moco in-1m",
+        "count": 9
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "imagenet supervised pre-training",
+        "count": 10
+      },
+      {
+        "term": "supervised pre-training counterpart",
+        "count": 10
+      },
+      {
+        "term": "ap ap 75",
+        "count": 9
+      },
+      {
+        "term": "75 random init",
+        "count": 7
+      },
+      {
+        "term": "ap mk 50",
+        "count": 7
+      },
+      {
+        "term": "contrastive loss mechanisms",
+        "count": 6
+      },
+      {
+        "term": "ap 50 ap",
+        "count": 6
+      },
+      {
+        "term": "50 ap ap",
+        "count": 6
+      },
+      {
+        "term": "ap mk ap",
+        "count": 6
+      },
+      {
+        "term": "mk ap mk",
+        "count": 6
+      },
+      {
+        "term": "mk 50 ap",
+        "count": 5
+      },
+      {
+        "term": "50 ap mk",
+        "count": 5
+      },
+      {
+        "term": "ap mk 75",
+        "count": 5
+      },
+      {
+        "term": "brackets gaps imagenet",
+        "count": 4
+      },
+      {
+        "term": "gaps imagenet supervised",
+        "count": 4
+      },
+      {
+        "term": "pre-training counterpart green",
+        "count": 4
+      },
+      {
+        "term": "counterpart green gaps",
+        "count": 4
+      },
+      {
+        "term": "green gaps least",
+        "count": 4
+      },
+      {
+        "term": "gaps least point",
+        "count": 4
+      },
+      {
+        "term": "imagenet supervised counterpart",
+        "count": 4
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 13,
+    "nonzero_tfidf_features": 13,
+    "top_tfidf_features": [
+      {
+        "feature_name": "conclusion__unsupervised learning",
+        "section": "conclusion",
+        "term": "unsupervised learning",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "related_work__self-supervised learning",
+        "section": "related_work",
+        "term": "self-supervised learning",
+        "frequency": 1.0,
+        "tfidf": 1.0
+      },
+      {
+        "feature_name": "experiments__sgd",
+        "section": "experiment",
+        "term": "sgd",
+        "frequency": 3.0,
+        "tfidf": 0.9802
+      },
+      {
+        "feature_name": "abstract__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 2.0,
+        "tfidf": 0.8021
+      },
+      {
+        "feature_name": "introduction__unsupervised learning",
+        "section": "intro",
+        "term": "unsupervised learning",
+        "frequency": 4.0,
+        "tfidf": 0.783
+      },
+      {
+        "feature_name": "introduction__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 3.0,
+        "tfidf": 0.5229
+      },
+      {
+        "feature_name": "abstract__unsupervised learning",
+        "section": "intro",
+        "term": "unsupervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.4687
+      },
+      {
+        "feature_name": "abstract__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 1.0,
+        "tfidf": 0.37
+      },
+      {
+        "feature_name": "introduction__GPT",
+        "section": "intro",
+        "term": "GPT",
+        "frequency": 1.0,
+        "tfidf": 0.2004
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 1.0,
+        "tfidf": 0.1979
+      },
+      {
+        "feature_name": "introduction__segmentation",
+        "section": "intro",
+        "term": "segmentation",
+        "frequency": 1.0,
+        "tfidf": 0.1715
+      },
+      {
+        "feature_name": "introduction__BERT",
+        "section": "intro",
+        "term": "BERT",
+        "frequency": 1.0,
+        "tfidf": 0.1591
+      },
+      {
+        "feature_name": "introduction__natural language processing",
+        "section": "intro",
+        "term": "natural language processing",
+        "frequency": 1.0,
+        "tfidf": 0.1362
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "abstract__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 2.0,
+          "tfidf": 0.8021
+        },
+        {
+          "feature_name": "introduction__unsupervised learning",
+          "section": "intro",
+          "term": "unsupervised learning",
+          "frequency": 4.0,
+          "tfidf": 0.783
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 3.0,
+          "tfidf": 0.5229
+        },
+        {
+          "feature_name": "abstract__unsupervised learning",
+          "section": "intro",
+          "term": "unsupervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.4687
+        },
+        {
+          "feature_name": "abstract__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.37
+        },
+        {
+          "feature_name": "introduction__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.2004
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1715
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.1591
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.1362
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__self-supervised learning",
+          "section": "related_work",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 3.0,
+          "tfidf": 0.9802
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.1979
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__unsupervised learning",
+          "section": "conclusion",
+          "term": "unsupervised learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 40,
+      "token_count": 853,
+      "bow_hit_count": 58,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 21,
+          "section_prior": 0.4804,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 20,
+          "section_prior": 0.6591,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 10,
+          "section_prior": 0.4177,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "bidirectional encoder representations from transformers",
+          "count": 5,
+          "section_prior": 0.2788,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 1,
+          "section_prior": 0.6057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "generative pre-trained transformer",
+          "count": 1,
+          "section_prior": 0.3056,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "abstract__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 2.0,
+          "tfidf": 0.8021
+        },
+        {
+          "feature_name": "introduction__unsupervised learning",
+          "section": "intro",
+          "term": "unsupervised learning",
+          "frequency": 4.0,
+          "tfidf": 0.783
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 3.0,
+          "tfidf": 0.5229
+        },
+        {
+          "feature_name": "abstract__unsupervised learning",
+          "section": "intro",
+          "term": "unsupervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.4687
+        },
+        {
+          "feature_name": "abstract__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.37
+        },
+        {
+          "feature_name": "introduction__GPT",
+          "section": "intro",
+          "term": "GPT",
+          "frequency": 1.0,
+          "tfidf": 0.2004
+        },
+        {
+          "feature_name": "introduction__segmentation",
+          "section": "intro",
+          "term": "segmentation",
+          "frequency": 1.0,
+          "tfidf": 0.1715
+        },
+        {
+          "feature_name": "introduction__BERT",
+          "section": "intro",
+          "term": "BERT",
+          "frequency": 1.0,
+          "tfidf": 0.1591
+        },
+        {
+          "feature_name": "introduction__natural language processing",
+          "section": "intro",
+          "term": "natural language processing",
+          "frequency": 1.0,
+          "tfidf": 0.1362
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 54,
+      "token_count": 995,
+      "bow_hit_count": 34,
+      "top_bow_terms": [
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 12,
+          "section_prior": 0.0682,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 10,
+          "section_prior": 0.1497,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 5,
+          "section_prior": 0.2451,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "self-supervised learning",
+          "count": 4,
+          "section_prior": 0.2903,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "backpropagation",
+          "count": 3,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__self-supervised learning",
+          "section": "related_work",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 71,
+      "token_count": 1332,
+      "bow_hit_count": 39,
+      "top_bow_terms": [
+        {
+          "canonical_term": "backpropagation",
+          "count": 12,
+          "section_prior": 0.3,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 10,
+          "section_prior": 0.3067,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1088,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 5,
+          "section_prior": 0.3094,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Convolutional neural network",
+          "count": 5,
+          "section_prior": 0.2204,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4706,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 205,
+      "token_count": 4056,
+      "bow_hit_count": 147,
+      "top_bow_terms": [
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 40,
+          "section_prior": 0.0952,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "speech segmentation",
+          "count": 40,
+          "section_prior": 0.3671,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 26,
+          "section_prior": 0.1622,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 12,
+          "section_prior": 0.0227,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "stochastic gradient descent",
+          "count": 10,
+          "section_prior": 0.2158,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 10,
+          "section_prior": 0.44,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "Epoch",
+          "count": 2,
+          "section_prior": 0.4412,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "pose estimation",
+          "count": 2,
+          "section_prior": 0.125,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 3.0,
+          "tfidf": 0.9802
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 1.0,
+          "tfidf": 0.1979
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 8,
+      "token_count": 127,
+      "bow_hit_count": 12,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 5,
+          "section_prior": 0.0949,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 4,
+          "section_prior": 0.1818,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 3,
+          "section_prior": 0.1261,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__unsupervised learning",
+          "section": "conclusion",
+          "term": "unsupervised learning",
+          "frequency": 1.0,
+          "tfidf": 1.0
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "unsupervised learning",
+        "canonical": "unsupervised learning",
+        "normalized": "unsupervised learning",
+        "tokens": [
+          "unsupervised",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "unsupervised learning"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 28,
+        "sentence": "We present Momentum Contrast (MoCo) as a way of building large and consistent dictionaries for unsupervised learning with a contrastive loss (Figure 1).",
+        "context_window": {
+          "previous": "However, ex- isting methods that use contrastive losses can be limited in one of these two aspects (discussed later in context).",
+          "current": "We present Momentum Contrast (MoCo) as a way of building large and consistent dictionaries for unsupervised learning with a contrastive loss (Figure 1).",
+          "next": "We maintain the dictionary as a queue of data samples: the encoded repre- sentations of the current mini-batch are enqueued, and the oldest are dequeued."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9545,
+          "evidence_type": "method",
+          "matched_cue": "present",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6932,
+        "downstream_relevance_score": 0.8682,
+        "components": {
+          "bio_boundary_score": 0.5738,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.6591,
+          "document_tfidf_score": 0.783,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "unsupervised learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "unsupervised learning",
+        "display_term": "unsupervised learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Unsupervised_learning",
+        "wikidata_id": "Q1152135",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 11,
+        "total_frequency": 22,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__unsupervised learning",
+        "section": "intro",
+        "term": "unsupervised learning",
+        "frequency": 4.0,
+        "tfidf": 0.783,
+        "normalized_frequency": 1.0,
+        "normalized_tfidf": 0.783
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "unsupervised",
+          "learning"
+        ],
+        "normalization": "unsupervised learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.6591,
+        "canonicalization": {
+          "observed": "unsupervised learning",
+          "canonical": "unsupervised learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5738",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'unsupervised learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__unsupervised learning' with tf-idf 0.783",
+        "evidence cue lexicon matched present",
+        "downstream relevance score is 0.8682"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "ResNet",
+        "canonical": "residual neural network",
+        "normalized": "residual neural network",
+        "tokens": [
+          "resnet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "residual neural network",
+          "resnet",
+          "ResNet"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 228,
+        "sentence": "4 Our w 2 × and w 4 × models correspond to the “ × 8” and “ × 16” cases in [38], because the standard-sized ResNet is referred to as “ × 4” in [38].",
+        "context_window": {
+          "previous": "3 Parameters are of the feature extractor : e.g ., we do not count the pa- rameters of conv x if conv x is not included in linear classification.",
+          "current": "4 Our w 2 × and w 4 × models correspond to the “ × 8” and “ × 16” cases in [38], because the standard-sized ResNet is referred to as “ × 4” in [38].",
+          "next": "0 200 400 600 #parameters (M) 40 50 60 70 accuracy (%) Exemplar RelativePosition Jigsaw Rotation Colorization DeepCluster InstDisc CPCv1 CPCv2 BigBiGAN-R50 BigBiGAN-Rv50w4x AMDIM-small AMDIM-large CMC-R50 CMC-R50w2x LocalAgg R50 RX50 R50w2x R50w4x previous MoCo method architecture #params (M) accuracy (%) Exemplar [17] R50w 3 × 211 46.0 [38] RelativePosition [13] R50w 2 × 94 51.4 [38] Jigsaw [45] R50w 2 × 94 44.6 [38] Rotation [19] Rv50w 4 × 86 55.4 [38] Colorization [64] R101 ∗ 28 39.6 [14] DeepCluster [3] VGG [53] 15 48.4 [4] BigBiGAN [16] R50 24 56.6 Rv50w 4 × 86 61.3 methods based on contrastive learning follow: InstDisc [61] R50 24 54.0 LocalAgg [66] R50 24 58.8 CPC v1 [46] R101 ∗ 28 48.7 CPC v2 [35] R170 ∗ wider 303 65.9 CMC [56] R50 L+ab 47 64.1 † R50w 2 × L+ab 188 68.4 † AMDIM [2] AMDIM small 194 63.5 † AMDIM large 626 68.1 † MoCo R50 24 60.6 RX50 46 63.9 R50w 2 × 94 65.4 R50w 4 × 375 68.6 Table 1."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7268,
+        "downstream_relevance_score": 0.6742,
+        "components": {
+          "bio_boundary_score": 0.9928,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.44,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "resnet",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "residual neural network",
+        "display_term": "ResNet",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Residual_neural_network",
+        "wikidata_id": "Q43744058",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 32,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "resnet"
+        ],
+        "normalization": "resnet",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.44,
+        "canonicalization": {
+          "observed": "ResNet",
+          "canonical": "residual neural network",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9928",
+        "structure model assigned role 'dataset' with score 0.45",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'residual neural network' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6742"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "momentum update",
+        "canonical": "momentum update",
+        "normalized": "momentum update",
+        "tokens": [
+          "momentum",
+          "update"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 108,
+        "sentence": "We propose a momentum update to address this issue.",
+        "context_window": {
+          "previous": "We hypothesize that such failure is caused by the rapidly changing encoder that reduces the key representations’ consistency.",
+          "current": "We propose a momentum update to address this issue.",
+          "next": "Formally, denoting the parameters of f k as θ k and those of f q as θ q , we update θ k by: θ k ← mθ k + (1 − m ) θ q ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7536,
+        "downstream_relevance_score": 0.6343,
+        "components": {
+          "bio_boundary_score": 0.7908,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "momentum",
+          "update"
+        ],
+        "normalization": "momentum update",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "momentum update",
+          "canonical": "momentum update",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7908",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6343"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "MoCo",
+        "canonical": "MoCo",
+        "normalized": "moco",
+        "tokens": [
+          "moco"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 224,
+        "sentence": "MoCo benefits from larger models and achieves 68.6% accuracy with R50w 4 × .",
+        "context_window": {
+          "previous": "MoCo with R50 performs competitively and achieves 60.6% accuracy, better than all competitors of similar model sizes ( ∼ 24M).",
+          "current": "MoCo benefits from larger models and achieves 68.6% accuracy with R50w 4 × .",
+          "next": "Notably, we achieve competitive results using a standard ResNet-50 and require no specific architecture designs, e.g ., 2 Here 58.0% is with InfoNCE and K = 65536."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7038,
+        "downstream_relevance_score": 0.6278,
+        "components": {
+          "bio_boundary_score": 0.9517,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "moco"
+        ],
+        "normalization": "moco",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "MoCo",
+          "canonical": "MoCo",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9517",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves, accuracy",
+        "downstream relevance score is 0.6278"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "pretext",
+        "canonical": "pretext",
+        "normalized": "pretext",
+        "tokens": [
+          "pretext"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 237,
+        "sentence": "This paper’s focus is on a mechanism for general con- trastive learning; we do not explore orthogonal factors (such as specific pretext tasks) that may further improve accuracy.",
+        "context_window": {
+          "previous": "By using an architec- ture that is not customized for the pretext task, it is easier to transfer features to a variety of visual tasks and make com- parisons, studied in the next subsection.",
+          "current": "This paper’s focus is on a mechanism for general con- trastive learning; we do not explore orthogonal factors (such as specific pretext tasks) that may further improve accuracy.",
+          "next": "As an example, “MoCo v2” [8], an extension of a prelim- inary version of this manuscript, achieves 71.1% accuracy with R50 (up from 60.6%), given small changes on the data augmentation and output projection head [7]."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7258,
+        "downstream_relevance_score": 0.6042,
+        "components": {
+          "bio_boundary_score": 0.9451,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pretext"
+        ],
+        "normalization": "pretext",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pretext",
+          "canonical": "pretext",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9451",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.6042"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "ResNet-50",
+        "canonical": "ResNet-50",
+        "normalized": "resnet-50",
+        "tokens": [
+          "resnet-50"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 214,
+        "sentence": "The table below shows ResNet-50 accuracy with different MoCo momentum values ( m in Eqn.(2)) used in pre-training ( K = 4096 here) : momentum m 0 0.9 0.99 0.999 0.9999 accuracy (%) fail 55.2 57.8 59.0 58.9 It performs reasonably well when m is in 0.99 ∼ 0.9999, showing that a slowly progressing ( i.e ., relatively large mo- mentum) key encoder is beneficial.",
+        "context_window": {
+          "previous": "2 Ablation: momentum.",
+          "current": "The table below shows ResNet-50 accuracy with different MoCo momentum values ( m in Eqn.(2)) used in pre-training ( K = 4096 here) : momentum m 0 0.9 0.99 0.999 0.9999 accuracy (%) fail 55.2 57.8 59.0 58.9 It performs reasonably well when m is in 0.99 ∼ 0.9999, showing that a slowly progressing ( i.e ., relatively large mo- mentum) key encoder is beneficial.",
+          "next": "When m is too small ( e.g ., 0.9), the accuracy drops considerably; at the extreme of no momentum ( m is 0), the training loss oscillates and fails to converge."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.716,
+        "downstream_relevance_score": 0.5991,
+        "components": {
+          "bio_boundary_score": 0.9938,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "resnet-50"
+        ],
+        "normalization": "resnet-50",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ResNet-50",
+          "canonical": "ResNet-50",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9938",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5991"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "accuracy",
+        "canonical": "accuracy",
+        "normalized": "accuracy",
+        "tokens": [
+          "accuracy"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 219,
+        "sentence": "For a fair and comprehensive comparison, we report accuracy vs . #parameters 3 trade-offs.",
+        "context_window": {
+          "previous": "Previous unsuper- vised learning methods can differ substantially in model sizes.",
+          "current": "For a fair and comprehensive comparison, we report accuracy vs . #parameters 3 trade-offs.",
+          "next": "Besides ResNet-50 (R50) [33], we also report its variants that are 2 × and 4 × wider (more channels), following [38]."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7027,
+        "downstream_relevance_score": 0.5922,
+        "components": {
+          "bio_boundary_score": 0.886,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "accuracy"
+        ],
+        "normalization": "accuracy",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "accuracy",
+          "canonical": "accuracy",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.886",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5922"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "detector structure",
+        "canonical": "detector structure",
+        "normalized": "detector structure",
+        "tokens": [
+          "detector",
+          "structure"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 299,
+        "sentence": "Interestingly, the transferring accuracy depends on the detector structure.",
+        "context_window": {
+          "previous": "For R50-C4 (Table 2b), MoCo with IN-1M or IG-1B is better than the supervised counterpart: up to + 0.9 AP 50 , + 3.7 AP, and + 4.9 AP 75 .",
+          "current": "Interestingly, the transferring accuracy depends on the detector structure.",
+          "next": "For the C4 backbone, by default used in existing ResNet-based results [14, 61, 26, 66], the ad- vantage of unsupervised pre-training is larger."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6464,
+        "downstream_relevance_score": 0.5729,
+        "components": {
+          "bio_boundary_score": 0.7698,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "detector",
+          "structure"
+        ],
+        "normalization": "detector structure",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "detector structure",
+          "canonical": "detector structure",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7698",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5729"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "SGD",
+        "canonical": "stochastic gradient descent",
+        "normalized": "stochastic gradient descent",
+        "tokens": [
+          "sgd"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "stochastic gradient descent",
+          "sgd optimizer",
+          "sgd"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 173,
+        "sentence": "The SGD weight decay is 0.0001 and the SGD momentum is 0.9.",
+        "context_window": {
+          "previous": "We use SGD as our optimizer.",
+          "current": "The SGD weight decay is 0.0001 and the SGD momentum is 0.9.",
+          "next": "For IN-1M, we use a mini-batch size of 256 ( N in Algorithm 1) in 8 GPUs, and an initial learning rate of 0.03."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5828,
+        "downstream_relevance_score": 0.5699,
+        "components": {
+          "bio_boundary_score": 0.9926,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2158,
+          "document_tfidf_score": 0.9802,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "sgd",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "stochastic gradient descent",
+        "display_term": "sgd",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Stochastic_gradient_descent",
+        "wikidata_id": "Q7617819",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 14,
+        "total_frequency": 29,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__sgd",
+        "section": "experiment",
+        "term": "sgd",
+        "frequency": 3.0,
+        "tfidf": 0.9802,
+        "normalized_frequency": 0.75,
+        "normalized_tfidf": 0.9802
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "sgd"
+        ],
+        "normalization": "sgd",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2158,
+        "canonicalization": {
+          "observed": "SGD",
+          "canonical": "stochastic gradient descent",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9926",
+        "structure model assigned role 'dataset' with score 0.45",
+        "section BoW matched canonical term 'stochastic gradient descent' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'experiments__sgd' with tf-idf 0.9802",
+        "downstream relevance score is 0.5699"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "ImageNet",
+        "canonical": "ImageNet",
+        "normalized": "imagenet",
+        "tokens": [
+          "imagenet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 183,
+        "sentence": "We report 1-crop, top-1 classifi- cation accuracy on the ImageNet validation set.",
+        "context_window": {
+          "previous": "We train this classifier on the global average pooling features of a ResNet, for 100 epochs.",
+          "current": "We report 1-crop, top-1 classifi- cation accuracy on the ImageNet validation set.",
+          "next": "For this classifier, we perform a grid search and find the optimal initial learning rate is 30 and weight decay is 0 (similarly reported in [56])."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7187,
+        "downstream_relevance_score": 0.5655,
+        "components": {
+          "bio_boundary_score": 0.918,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imagenet"
+        ],
+        "normalization": "imagenet",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ImageNet",
+          "canonical": "ImageNet",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.918",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.5655"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "ImageNet supervised pre-training",
+        "canonical": "ImageNet supervised pre-training",
+        "normalized": "imagenet supervised pre-training",
+        "tokens": [
+          "imagenet",
+          "supervised",
+          "pre-training"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 352,
+        "sentence": "In green are the gaps of at least + 0.5 point. † : this entry is with BN frozen, which improves results; see main text. with ImageNet supervised pre-training: COCO keypoint detection : supervised pre-training has no clear advantage over random initialization, whereas MoCo outperforms in all metrics.",
+        "context_window": {
+          "previous": "In the brackets are the gaps to the ImageNet supervised pre-training counterpart.",
+          "current": "In green are the gaps of at least + 0.5 point. † : this entry is with BN frozen, which improves results; see main text. with ImageNet supervised pre-training: COCO keypoint detection : supervised pre-training has no clear advantage over random initialization, whereas MoCo outperforms in all metrics.",
+          "next": "COCO dense pose estimation [1]: MoCo substantially outperforms supervised pre-training, e.g ., by 3.7 points in AP dp 75 , in this highly localization-sensitive task."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6661,
+        "downstream_relevance_score": 0.5454,
+        "components": {
+          "bio_boundary_score": 0.9356,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imagenet",
+          "supervised",
+          "pre-training"
+        ],
+        "normalization": "imagenet supervised pre-training",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ImageNet supervised pre-training",
+          "canonical": "ImageNet supervised pre-training",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9356",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.5454"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "memory bank",
+        "canonical": "memory bank",
+        "normalized": "memory bank",
+        "tokens": [
+          "memory",
+          "bank"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 196,
+        "sentence": "A similar trend has been observed in [61, 56] under the memory bank mechanism, while here we show that this trend is more general and can be seen in all mechanisms.",
+        "context_window": {
+          "previous": "Overall, all three mecha- nisms benefit from a larger K .",
+          "current": "A similar trend has been observed in [61, 56] under the memory bank mechanism, while here we show that this trend is more general and can be seen in all mechanisms.",
+          "next": "These results support our moti- vation of building a large dictionary."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7757,
+        "downstream_relevance_score": 0.5433,
+        "components": {
+          "bio_boundary_score": 0.9955,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "memory",
+          "bank"
+        ],
+        "normalization": "memory bank",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "memory bank",
+          "canonical": "memory bank",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9955",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5433"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "contrastive learning",
+        "canonical": "contrastive learning",
+        "normalized": "contrastive learning",
+        "tokens": [
+          "contrastive",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 304,
+        "sentence": "To pin-point the gain that is solely contributed by using the MoCo mechanism in contrastive learning, we fine-tune the models pre-trained with the end-to-end or memory bank mechanism, both im- plemented by us ( i.e ., the best ones in Figure 3), using the same fine-tuning setting as MoCo.",
+        "context_window": {
+          "previous": "We point out that these results are partially because we establish solid detec- tion baselines for contrastive learning.",
+          "current": "To pin-point the gain that is solely contributed by using the MoCo mechanism in contrastive learning, we fine-tune the models pre-trained with the end-to-end or memory bank mechanism, both im- plemented by us ( i.e ., the best ones in Figure 3), using the same fine-tuning setting as MoCo.",
+          "next": "These competitors perform decently (Table 3)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.754,
+        "downstream_relevance_score": 0.5267,
+        "components": {
+          "bio_boundary_score": 0.9917,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "contrastive",
+          "learning"
+        ],
+        "normalization": "contrastive learning",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "contrastive learning",
+          "canonical": "contrastive learning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9917",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5267"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "dictionary",
+        "canonical": "dictionary",
+        "normalized": "dictionary",
+        "tokens": [
+          "dictionary"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 21,
+        "sentence": "The dictionary keys { k 0 , k 1 , k 2 , ... } are defined on-the-fly by a set of data samples.",
+        "context_window": {
+          "previous": "Momentum Contrast (MoCo) trains a visual represen- tation encoder by matching an encoded query q to a dictionary of encoded keys using a contrastive loss.",
+          "current": "The dictionary keys { k 0 , k 1 , k 2 , ... } are defined on-the-fly by a set of data samples.",
+          "next": "The dictionary is built as a queue, with the current mini-batch en- queued and the oldest mini-batch dequeued, decoupling it from the mini-batch size."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.8887
+      },
+      "evidence": {
+        "score": 0.4214,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6988,
+        "downstream_relevance_score": 0.5034,
+        "components": {
+          "bio_boundary_score": 0.9944,
+          "sentence_evidence_score": 0.4214,
+          "sentence_role_score": 0.8887,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dictionary"
+        ],
+        "normalization": "dictionary",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "dictionary",
+          "canonical": "dictionary",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9944",
+        "structure model assigned role 'problem' with score 0.8887",
+        "downstream relevance score is 0.5034"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "pretext task",
+        "canonical": "pretext task",
+        "normalized": "pretext task",
+        "tokens": [
+          "pretext",
+          "task"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 373,
+        "sentence": "We hope an advanced pretext task will improve this.",
+        "context_window": {
+          "previous": "MoCo’s im- provement from IN-1M to IG-1B is consistently noticeable but relatively small, suggesting that the larger-scale data may not be fully exploited.",
+          "current": "We hope an advanced pretext task will improve this.",
+          "next": "Beyond the simple instance discrim- ination task [61], it is possible to adopt MoCo for pretext tasks like masked auto-encoding, e.g ., in language [12] and in vision [46]."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7062,
+        "downstream_relevance_score": 0.489,
+        "components": {
+          "bio_boundary_score": 0.85,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pretext",
+          "task"
+        ],
+        "normalization": "pretext task",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pretext task",
+          "canonical": "pretext task",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.85",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.489"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "pretext tasks",
+        "canonical": "pretext tasks",
+        "normalized": "pretext tasks",
+        "tokens": [
+          "pretext",
+          "tasks"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 125,
+        "sentence": "But these pretext tasks may require special network designs such as patchifying the input [46] or customizing the receptive field size [2], which may com- plicate the transfer of these networks to downstream tasks.",
+        "context_window": {
+          "previous": "Some re- cent methods [46, 36, 2] are based on pretext tasks driven by local positions, where the dictionary size can be made larger by multiple positions.",
+          "current": "But these pretext tasks may require special network designs such as patchifying the input [46] or customizing the receptive field size [2], which may com- plicate the transfer of these networks to downstream tasks.",
+          "next": "Another mechanism is the memory bank approach pro- posed by [61] (Figure 2b)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6908,
+        "downstream_relevance_score": 0.4642,
+        "components": {
+          "bio_boundary_score": 0.879,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "pretext",
+          "tasks"
+        ],
+        "normalization": "pretext tasks",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "pretext tasks",
+          "canonical": "pretext tasks",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.879",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4642"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "shuffled BN",
+        "canonical": "shuffled BN",
+        "normalized": "shuffled bn",
+        "tokens": [
+          "shuffled",
+          "bn"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 162,
+        "sentence": "We use shuffled BN in both our method and its end-to- end ablation counterpart (Figure 2a).",
+        "context_window": {
+          "previous": "This effectively tackles the cheating issue and allows training to benefit from BN.",
+          "current": "We use shuffled BN in both our method and its end-to- end ablation counterpart (Figure 2a).",
+          "next": "It is irrelevant to the memory bank counterpart (Figure 2b), which does not suf- fer from this issue because the positive keys are from differ- ent mini-batches in the past."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6241,
+        "downstream_relevance_score": 0.4591,
+        "components": {
+          "bio_boundary_score": 0.5697,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "shuffled",
+          "bn"
+        ],
+        "normalization": "shuffled bn",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "shuffled BN",
+          "canonical": "shuffled BN",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5697",
+        "structure model assigned role 'core_method' with score 0.82",
+        "downstream relevance score is 0.4591"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "data augmentation",
+        "canonical": "data augmentation",
+        "normalized": "data augmentation",
+        "tokens": [
+          "data",
+          "augmentation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 140,
+        "sentence": "Following [63, 2], we take two random “views” of the same image under random data augmentation to form a positive pair.",
+        "context_window": {
+          "previous": "Following [61], we consider a query and a key as a pos- itive pair if they originate from the same image, and other- wise as a negative sample pair.",
+          "current": "Following [63, 2], we take two random “views” of the same image under random data augmentation to form a positive pair.",
+          "next": "The queries and keys are respectively encoded by their encoders, f q and f k ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6755,
+        "downstream_relevance_score": 0.4563,
+        "components": {
+          "bio_boundary_score": 0.7686,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "data",
+          "augmentation"
+        ],
+        "normalization": "data augmentation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "data augmentation",
+          "canonical": "data augmentation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7686",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4563"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "linear classifier",
+        "canonical": "linear classifier",
+        "normalized": "linear classifier",
+        "tokens": [
+          "linear",
+          "classifier"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 181,
+        "sentence": "Then we freeze the features and train a supervised linear classifier (a fully-connected layer followed by softmax).",
+        "context_window": {
+          "previous": "In this sub- section we perform unsupervised pre-training on IN-1M.",
+          "current": "Then we freeze the features and train a supervised linear classifier (a fully-connected layer followed by softmax).",
+          "next": "We train this classifier on the global average pooling features of a ResNet, for 100 epochs."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6421,
+        "downstream_relevance_score": 0.4515,
+        "components": {
+          "bio_boundary_score": 0.8117,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "classifier"
+        ],
+        "normalization": "linear classifier",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "linear classifier",
+          "canonical": "linear classifier",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8117",
+        "structure model assigned role 'component' with score 0.66",
+        "downstream relevance score is 0.4515"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "consistency",
+        "canonical": "consistency",
+        "normalized": "consistency",
+        "tokens": [
+          "consistency"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 119,
+        "sentence": "They exhibit different properties on the dictionary size and consistency.",
+        "context_window": {
+          "previous": "We compare it with two existing general mechanisms in Figure 2.",
+          "current": "They exhibit different properties on the dictionary size and consistency.",
+          "next": "The end-to-end update by back-propagation is a natural mechanism ( e.g ., [29, 46, 36, 63, 2, 35], Figure 2a)."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6786,
+        "downstream_relevance_score": 0.4478,
+        "components": {
+          "bio_boundary_score": 0.8717,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "consistency"
+        ],
+        "normalization": "consistency",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "consistency",
+          "canonical": "consistency",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8717",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4478"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "Linear Classification",
+        "canonical": "Linear Classification",
+        "normalized": "linear classification",
+        "tokens": [
+          "linear",
+          "classification"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 179,
+        "sentence": "Linear Classification Protocol We first verify our method by linear classification on frozen features, following a common protocol.",
+        "context_window": {
+          "previous": "4.1.",
+          "current": "Linear Classification Protocol We first verify our method by linear classification on frozen features, following a common protocol.",
+          "next": "In this sub- section we perform unsupervised pre-training on IN-1M."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6198,
+        "downstream_relevance_score": 0.4441,
+        "components": {
+          "bio_boundary_score": 0.6498,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "linear",
+          "classification"
+        ],
+        "normalization": "linear classification",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Linear Classification",
+          "canonical": "Linear Classification",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6498",
+        "structure model assigned role 'core_method' with score 0.66",
+        "downstream relevance score is 0.4441"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "supervised representation",
+        "canonical": "supervised representation",
+        "normalized": "supervised representation",
+        "tokens": [
+          "supervised",
+          "representation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 38,
+        "sentence": "These re- sults show that MoCo largely closes the gap between un- supervised and supervised representation learning in many computer vision tasks, and can serve as an alternative to Im- ageNet supervised pre-training in several applications.",
+        "context_window": {
+          "previous": "In these experiments, we explore MoCo pre-trained on Ima- geNet or on a one-billion Instagram image set, demonstrat- ing that MoCo can work well in a more real-world, billion- image scale, and relatively uncurated scenario.",
+          "current": "These re- sults show that MoCo largely closes the gap between un- supervised and supervised representation learning in many computer vision tasks, and can serve as an alternative to Im- ageNet supervised pre-training in several applications.",
+          "next": "2."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6049,
+        "downstream_relevance_score": 0.4322,
+        "components": {
+          "bio_boundary_score": 0.6817,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "supervised",
+          "representation"
+        ],
+        "normalization": "supervised representation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "supervised representation",
+          "canonical": "supervised representation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6817",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4322"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "unsupervised",
+        "canonical": "unsupervised",
+        "normalized": "unsupervised",
+        "tokens": [
+          "unsupervised"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 370,
+        "sentence": "Our method has shown positive results of unsupervised learning in a variety of computer vision tasks and datasets.",
+        "context_window": {
+          "previous": "Discussion and",
+          "current": "Our method has shown positive results of unsupervised learning in a variety of computer vision tasks and datasets.",
+          "next": "A few open questions are worth discussing."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5873,
+        "downstream_relevance_score": 0.4172,
+        "components": {
+          "bio_boundary_score": 0.5122,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "unsupervised"
+        ],
+        "normalization": "unsupervised",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "unsupervised",
+          "canonical": "unsupervised",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5122",
+        "structure model assigned role 'core_method' with score 0.66",
+        "downstream relevance score is 0.4172"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "semantic",
+        "canonical": "semantic",
+        "normalized": "semantic",
+        "tokens": [
+          "semantic"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 376,
+        "sentence": "5 Namely, object detection on VOC/COCO, instance segmentation on COCO/LVIS, keypoint detection on COCO, dense pose on COCO, and semantic segmentation on Cityscapes.",
+        "context_window": {
+          "previous": "We hope MoCo will be useful with other pretext tasks that involve contrastive learning.",
+          "current": "5 Namely, object detection on VOC/COCO, instance segmentation on COCO/LVIS, keypoint detection on COCO, dense pose on COCO, and semantic segmentation on Cityscapes.",
+          "next": "A."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5649,
+        "downstream_relevance_score": 0.3846,
+        "components": {
+          "bio_boundary_score": 0.5196,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "semantic"
+        ],
+        "normalization": "semantic",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "semantic",
+          "canonical": "semantic",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5196",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.3846"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "computer vision",
+        "canonical": "computer vision",
+        "normalized": "computer vision",
+        "tokens": [
+          "computer",
+          "vision"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 10,
+        "sentence": "But supervised pre-training is still dominant in computer vision, where unsupervised meth- ods generally lag behind.",
+        "context_window": {
+          "previous": "Unsupervised representation learning is highly success- ful in natural language processing, e.g ., as shown by GPT [50, 51] and BERT [12].",
+          "current": "But supervised pre-training is still dominant in computer vision, where unsupervised meth- ods generally lag behind.",
+          "next": "The reason may stem from dif- ferences in their respective signal spaces."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5916,
+        "downstream_relevance_score": 0.3805,
+        "components": {
+          "bio_boundary_score": 0.9719,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "computer",
+          "vision"
+        ],
+        "normalization": "computer vision",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "computer vision",
+          "canonical": "computer vision",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9719",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.3805"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "contrastive loss",
+        "canonical": "contrastive loss",
+        "normalized": "contrastive loss",
+        "tokens": [
+          "contrastive",
+          "loss"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 72,
+        "sentence": "With similarity measured by dot product, a form of a contrastive loss function, called InfoNCE [46], is consid- ered in this paper: L q = − log exp( q · k + /τ ) ∑ K i =0 exp( q · k i /τ ) (1) where τ is a temperature hyper-parameter per [61].",
+        "context_window": {
+          "previous": "A contrastive loss [29] is a function whose value is low when q is similar to its positive key k + and dissimilar to all other keys (considered negative keys for q ).",
+          "current": "With similarity measured by dot product, a form of a contrastive loss function, called InfoNCE [46], is consid- ered in this paper: L q = − log exp( q · k + /τ ) ∑ K i =0 exp( q · k i /τ ) (1) where τ is a temperature hyper-parameter per [61].",
+          "next": "The sum is over one positive and K negative samples."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "measured by",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5393,
+        "downstream_relevance_score": 0.3714,
+        "components": {
+          "bio_boundary_score": 0.9979,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "contrastive",
+          "loss"
+        ],
+        "normalization": "contrastive loss",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "contrastive loss",
+          "canonical": "contrastive loss",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9979",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "evidence cue lexicon matched measured by",
+        "downstream relevance score is 0.3714"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "instance segmentation",
+        "canonical": "instance segmentation",
+        "normalized": "instance segmentation",
+        "tokens": [
+          "instance",
+          "segmentation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 354,
+        "sentence": "LVIS v0.5 instance segmentation [27]: this task has ∼ 1000 long-tailed distributed categories.",
+        "context_window": {
+          "previous": "COCO dense pose estimation [1]: MoCo substantially outperforms supervised pre-training, e.g ., by 3.7 points in AP dp 75 , in this highly localization-sensitive task.",
+          "current": "LVIS v0.5 instance segmentation [27]: this task has ∼ 1000 long-tailed distributed categories.",
+          "next": "Specifically in LVIS for the ImageNet supervised baseline, we find fine- tuning with frozen BN (24.4 AP mk ) is better than tunable BN (details in appendix)."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5837,
+        "downstream_relevance_score": 0.3595,
+        "components": {
+          "bio_boundary_score": 0.9956,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "instance",
+          "segmentation"
+        ],
+        "normalization": "instance segmentation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "instance segmentation",
+          "canonical": "instance segmentation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9956",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3595"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "K = 65",
+        "canonical": "K = 65",
+        "normalized": "k 65",
+        "tokens": [
+          "k",
+          "65"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 221,
+        "sentence": "4 We set K = 65536 and m = 0.999.",
+        "context_window": {
+          "previous": "Besides ResNet-50 (R50) [33], we also report its variants that are 2 × and 4 × wider (more channels), following [38].",
+          "current": "4 We set K = 65536 and m = 0.999.",
+          "next": "Table 1 is the comparison."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.581,
+        "downstream_relevance_score": 0.3581,
+        "components": {
+          "bio_boundary_score": 0.9047,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "k",
+          "65"
+        ],
+        "normalization": "k 65",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "K = 65",
+          "canonical": "K = 65",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9047",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3581"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 11,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This dataset is well-balanced in its class distribution, and its images generally contain iconic view of objects.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Instagram-1B (IG-1B): Following , this is a dataset of ∼1 billion (940M) public images from Instagram.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This dataset is relatively uncurated comparing to IN-1M, and has a long-tailed, unbalanced distribution of real-world data.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This dataset contains both iconic objects and scene-level images.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.87
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "MoCo can outperform its supervised pre-training counterpart in 7 detection/segmentation tasks on PASCAL VOC, COCO, and other datasets, sometimes surpassing it by large margins.",
+        "evidence_type": "result",
+        "matched_cue": "outperform",
+        "role_prior": "result",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Several recent studies present promising results on unsupervised visual representation learning using approaches related to the contrastive loss .",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "We present Momentum Contrast (MoCo) as a way of building large and consistent dictionaries for unsupervised learning with a contrastive loss (Figure ).",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "Using this pretext task, MoCo shows competitive results under the common protocol of linear classification in the ImageNet dataset .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "introduction",
+        "sentence": "In these experiments, we explore MoCo pre-trained on Ima-geNet or on a one-billion Instagram image set, demonstrating that MoCo can work well in a more real-world, billionimage scale, and relatively uncurated scenario.",
+        "evidence_type": "dataset",
+        "matched_cue": "trained on",
+        "role_prior": "dataset",
+        "confidence": 0.75
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "For IN-1M, we use a mini-batch size of 256 (N in Algorithm 1) in 8 GPUs, and an initial learning rate of 0.03.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.75
+      },
+      {
+        "section": "intro",
+        "section_original": "abstract",
+        "sentence": "We present Momentum Contrast (MoCo) for unsupervised visual representation learning.",
+        "evidence_type": "method",
+        "matched_cue": "present",
+        "role_prior": "core_method",
+        "confidence": 0.72
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "unsupervised learning",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.8682
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "residual neural network",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.6742
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "momentum update",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.6343
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "MoCo",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6278
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "pretext",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.6042
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "ResNet-50",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5991
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "accuracy",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5922
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "detector structure",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5729
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "stochastic gradient descent",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5699
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "ImageNet",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5655
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "ImageNet supervised pre-training",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.5454
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "memory bank",
+        "section": "experiment",
+        "role": "contribution",
+        "score": 0.5433
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "contrastive learning",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5267
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "dictionary",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5034
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "pretext task",
+        "section": "conclusion",
+        "role": "result",
+        "score": 0.489
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "pretext tasks",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4642
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "shuffled BN",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4591
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "data augmentation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4563
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "linear classifier",
+        "section": "experiment",
+        "role": "component",
+        "score": 0.4515
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "consistency",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4478
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "Linear Classification",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.4441
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "supervised representation",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.4322
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "unsupervised",
+        "section": "conclusion",
+        "role": "core_method",
+        "score": 0.4172
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "semantic",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.3846
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "computer vision",
+        "section": "intro",
+        "role": "gap",
+        "score": 0.3805
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "contrastive loss",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3714
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "instance segmentation",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3595
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "K = 65",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3581
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_002",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_016",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_017",
+        "target": "ecu_018",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_005",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_007",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_022",
+        "target": "ecu_025",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

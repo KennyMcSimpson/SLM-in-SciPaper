@@ -1,0 +1,4464 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2022_transformer_and_large_language_models_palm_scaling_language_modeling_with_pathways",
+    "title": "2022_transformer_and_large_language_models_palm_scaling_language_modeling_with_pathways",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2022_transformer_and_large_language_models_palm_scaling_language_modeling_with_pathways.txt",
+    "sentence_count": 1244,
+    "section_counts": {
+      "intro": 14,
+      "method": 2,
+      "experiment": 1068,
+      "related_work": 100,
+      "conclusion": 60
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 21681,
+    "type_count": 2952,
+    "type_token_ratio": 0.1362,
+    "section_token_counts": {
+      "intro": 440,
+      "related_work": 2143,
+      "method": 2,
+      "experiment": 17526,
+      "conclusion": 1570
+    },
+    "top_unigrams": [
+      {
+        "term": "palm",
+        "count": 211
+      },
+      {
+        "term": "model",
+        "count": 211
+      },
+      {
+        "term": "et",
+        "count": 210
+      },
+      {
+        "term": "al",
+        "count": 210
+      },
+      {
+        "term": "540b",
+        "count": 154
+      },
+      {
+        "term": "tasks",
+        "count": 149
+      },
+      {
+        "term": "results",
+        "count": 128
+      },
+      {
+        "term": "training",
+        "count": 127
+      },
+      {
+        "term": "language",
+        "count": 122
+      },
+      {
+        "term": "models",
+        "count": 109
+      },
+      {
+        "term": "data",
+        "count": 97
+      },
+      {
+        "term": "performance",
+        "count": 85
+      },
+      {
+        "term": "code",
+        "count": 83
+      },
+      {
+        "term": "2021",
+        "count": 77
+      },
+      {
+        "term": "which",
+        "count": 76
+      },
+      {
+        "term": "not",
+        "count": 73
+      },
+      {
+        "term": "these",
+        "count": 68
+      },
+      {
+        "term": "few-shot",
+        "count": 67
+      },
+      {
+        "term": "62b",
+        "count": 67
+      },
+      {
+        "term": "8b",
+        "count": 65
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "et al",
+        "count": 210
+      },
+      {
+        "term": "palm 540b",
+        "count": 78
+      },
+      {
+        "term": "al 2021",
+        "count": 68
+      },
+      {
+        "term": "al 2022",
+        "count": 41
+      },
+      {
+        "term": "8b 62b",
+        "count": 36
+      },
+      {
+        "term": "62b 540b",
+        "count": 35
+      },
+      {
+        "term": "al 2020",
+        "count": 34
+      },
+      {
+        "term": "language models",
+        "count": 30
+      },
+      {
+        "term": "natural language",
+        "count": 27
+      },
+      {
+        "term": "prior sota",
+        "count": 27
+      },
+      {
+        "term": "training data",
+        "count": 23
+      },
+      {
+        "term": "540b model",
+        "count": 22
+      },
+      {
+        "term": "large language",
+        "count": 20
+      },
+      {
+        "term": "al 2019",
+        "count": 19
+      },
+      {
+        "term": "language pairs",
+        "count": 19
+      },
+      {
+        "term": "20 40",
+        "count": 18
+      },
+      {
+        "term": "40 60",
+        "count": 18
+      },
+      {
+        "term": "60 80",
+        "count": 18
+      },
+      {
+        "term": "model scale",
+        "count": 15
+      },
+      {
+        "term": "human performance",
+        "count": 14
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "et al 2021",
+        "count": 68
+      },
+      {
+        "term": "et al 2022",
+        "count": 41
+      },
+      {
+        "term": "et al 2020",
+        "count": 34
+      },
+      {
+        "term": "8b 62b 540b",
+        "count": 28
+      },
+      {
+        "term": "et al 2019",
+        "count": 19
+      },
+      {
+        "term": "large language models",
+        "count": 18
+      },
+      {
+        "term": "20 40 60",
+        "count": 18
+      },
+      {
+        "term": "40 60 80",
+        "count": 18
+      },
+      {
+        "term": "60 80 100",
+        "count": 13
+      },
+      {
+        "term": "brown et al",
+        "count": 12
+      },
+      {
+        "term": "chen et al",
+        "count": 12
+      },
+      {
+        "term": "du et al",
+        "count": 11
+      },
+      {
+        "term": "wei et al",
+        "count": 11
+      },
+      {
+        "term": "et al 2018",
+        "count": 11
+      },
+      {
+        "term": "rae et al",
+        "count": 9
+      },
+      {
+        "term": "smith et al",
+        "count": 9
+      },
+      {
+        "term": "et al 2017",
+        "count": 9
+      },
+      {
+        "term": "62b 540b 20",
+        "count": 9
+      },
+      {
+        "term": "540b 20 40",
+        "count": 9
+      },
+      {
+        "term": "palm 540b achieves",
+        "count": 8
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 42,
+    "nonzero_tfidf_features": 42,
+    "top_tfidf_features": [
+      {
+        "feature_name": "experiments__PaLM",
+        "section": "experiment",
+        "term": "PaLM",
+        "frequency": 45.0,
+        "tfidf": 0.9596
+      },
+      {
+        "feature_name": "introduction__PaLM",
+        "section": "intro",
+        "term": "PaLM",
+        "frequency": 7.0,
+        "tfidf": 0.8013
+      },
+      {
+        "feature_name": "abstract__PaLM",
+        "section": "intro",
+        "term": "PaLM",
+        "frequency": 4.0,
+        "tfidf": 0.7181
+      },
+      {
+        "feature_name": "conclusion__transformer",
+        "section": "conclusion",
+        "term": "transformer",
+        "frequency": 3.0,
+        "tfidf": 0.6031
+      },
+      {
+        "feature_name": "conclusion__bias",
+        "section": "conclusion",
+        "term": "bias",
+        "frequency": 3.0,
+        "tfidf": 0.5488
+      },
+      {
+        "feature_name": "methods__attention",
+        "section": "method",
+        "term": "attention",
+        "frequency": 6.0,
+        "tfidf": 0.5439
+      },
+      {
+        "feature_name": "methods__transformer",
+        "section": "method",
+        "term": "transformer",
+        "frequency": 5.0,
+        "tfidf": 0.5323
+      },
+      {
+        "feature_name": "conclusion__natural language processing",
+        "section": "conclusion",
+        "term": "natural language processing",
+        "frequency": 3.0,
+        "tfidf": 0.526
+      },
+      {
+        "feature_name": "methods__MLP",
+        "section": "method",
+        "term": "MLP",
+        "frequency": 4.0,
+        "tfidf": 0.5254
+      },
+      {
+        "feature_name": "methods__embeddings",
+        "section": "method",
+        "term": "embeddings",
+        "frequency": 6.0,
+        "tfidf": 0.4961
+      },
+      {
+        "feature_name": "abstract__few-shot learning",
+        "section": "intro",
+        "term": "few-shot learning",
+        "frequency": 3.0,
+        "tfidf": 0.4652
+      },
+      {
+        "feature_name": "conclusion__large language models",
+        "section": "conclusion",
+        "term": "large language models",
+        "frequency": 2.0,
+        "tfidf": 0.4486
+      },
+      {
+        "feature_name": "abstract__tpu",
+        "section": "intro",
+        "term": "tpu",
+        "frequency": 2.0,
+        "tfidf": 0.359
+      },
+      {
+        "feature_name": "introduction__GPT-3",
+        "section": "intro",
+        "term": "GPT-3",
+        "frequency": 4.0,
+        "tfidf": 0.3531
+      },
+      {
+        "feature_name": "abstract__large language models",
+        "section": "intro",
+        "term": "large language models",
+        "frequency": 2.0,
+        "tfidf": 0.2993
+      },
+      {
+        "feature_name": "methods__PaLM",
+        "section": "method",
+        "term": "PaLM",
+        "frequency": 2.0,
+        "tfidf": 0.2894
+      },
+      {
+        "feature_name": "introduction__transformer",
+        "section": "intro",
+        "term": "transformer",
+        "frequency": 3.0,
+        "tfidf": 0.261
+      },
+      {
+        "feature_name": "introduction__bias",
+        "section": "intro",
+        "term": "bias",
+        "frequency": 3.0,
+        "tfidf": 0.2443
+      },
+      {
+        "feature_name": "introduction__text generation",
+        "section": "intro",
+        "term": "text generation",
+        "frequency": 2.0,
+        "tfidf": 0.2427
+      },
+      {
+        "feature_name": "conclusion__text generation",
+        "section": "conclusion",
+        "term": "text generation",
+        "frequency": 1.0,
+        "tfidf": 0.2172
+      },
+      {
+        "feature_name": "conclusion__machine translation",
+        "section": "conclusion",
+        "term": "machine translation",
+        "frequency": 1.0,
+        "tfidf": 0.2096
+      },
+      {
+        "feature_name": "methods__training data",
+        "section": "method",
+        "term": "training data",
+        "frequency": 2.0,
+        "tfidf": 0.2039
+      },
+      {
+        "feature_name": "conclusion__question answering",
+        "section": "conclusion",
+        "term": "question answering",
+        "frequency": 1.0,
+        "tfidf": 0.1972
+      },
+      {
+        "feature_name": "experiments__summarization",
+        "section": "experiment",
+        "term": "summarization",
+        "frequency": 10.0,
+        "tfidf": 0.1859
+      },
+      {
+        "feature_name": "introduction__large language models",
+        "section": "intro",
+        "term": "large language models",
+        "frequency": 2.0,
+        "tfidf": 0.1853
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__PaLM",
+          "section": "intro",
+          "term": "PaLM",
+          "frequency": 7.0,
+          "tfidf": 0.8013
+        },
+        {
+          "feature_name": "abstract__PaLM",
+          "section": "intro",
+          "term": "PaLM",
+          "frequency": 4.0,
+          "tfidf": 0.7181
+        },
+        {
+          "feature_name": "abstract__few-shot learning",
+          "section": "intro",
+          "term": "few-shot learning",
+          "frequency": 3.0,
+          "tfidf": 0.4652
+        },
+        {
+          "feature_name": "abstract__tpu",
+          "section": "intro",
+          "term": "tpu",
+          "frequency": 2.0,
+          "tfidf": 0.359
+        },
+        {
+          "feature_name": "introduction__GPT-3",
+          "section": "intro",
+          "term": "GPT-3",
+          "frequency": 4.0,
+          "tfidf": 0.3531
+        },
+        {
+          "feature_name": "abstract__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 0.2993
+        },
+        {
+          "feature_name": "introduction__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.261
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.2443
+        },
+        {
+          "feature_name": "introduction__text generation",
+          "section": "intro",
+          "term": "text generation",
+          "frequency": 2.0,
+          "tfidf": 0.2427
+        },
+        {
+          "feature_name": "introduction__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 0.1853
+        },
+        {
+          "feature_name": "introduction__summarization",
+          "section": "intro",
+          "term": "summarization",
+          "frequency": 2.0,
+          "tfidf": 0.1766
+        },
+        {
+          "feature_name": "abstract__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.1449
+        }
+      ],
+      "related_work": [],
+      "method": [
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 6.0,
+          "tfidf": 0.5439
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 5.0,
+          "tfidf": 0.5323
+        },
+        {
+          "feature_name": "methods__MLP",
+          "section": "method",
+          "term": "MLP",
+          "frequency": 4.0,
+          "tfidf": 0.5254
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 6.0,
+          "tfidf": 0.4961
+        },
+        {
+          "feature_name": "methods__PaLM",
+          "section": "method",
+          "term": "PaLM",
+          "frequency": 2.0,
+          "tfidf": 0.2894
+        },
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 2.0,
+          "tfidf": 0.2039
+        },
+        {
+          "feature_name": "methods__tokenization",
+          "section": "method",
+          "term": "tokenization",
+          "frequency": 1.0,
+          "tfidf": 0.1447
+        }
+      ],
+      "experiment": [
+        {
+          "feature_name": "experiments__PaLM",
+          "section": "experiment",
+          "term": "PaLM",
+          "frequency": 45.0,
+          "tfidf": 0.9596
+        },
+        {
+          "feature_name": "experiments__summarization",
+          "section": "experiment",
+          "term": "summarization",
+          "frequency": 10.0,
+          "tfidf": 0.1859
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 13.0,
+          "tfidf": 0.1702
+        },
+        {
+          "feature_name": "experiments__bleu",
+          "section": "experiment",
+          "term": "bleu",
+          "frequency": 8.0,
+          "tfidf": 0.1487
+        },
+        {
+          "feature_name": "experiments__natural language processing",
+          "section": "experiment",
+          "term": "natural language processing",
+          "frequency": 4.0,
+          "tfidf": 0.0752
+        },
+        {
+          "feature_name": "experiments__machine translation",
+          "section": "experiment",
+          "term": "machine translation",
+          "frequency": 2.0,
+          "tfidf": 0.041
+        },
+        {
+          "feature_name": "experiments__few-shot learning",
+          "section": "experiment",
+          "term": "few-shot learning",
+          "frequency": 2.0,
+          "tfidf": 0.041
+        },
+        {
+          "feature_name": "experiments__question answering",
+          "section": "experiment",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 0.0324
+        },
+        {
+          "feature_name": "experiments__large language models",
+          "section": "experiment",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 0.0224
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 1.0,
+          "tfidf": 0.0177
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.0136
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__transformer",
+          "section": "conclusion",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.6031
+        },
+        {
+          "feature_name": "conclusion__bias",
+          "section": "conclusion",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.5488
+        },
+        {
+          "feature_name": "conclusion__natural language processing",
+          "section": "conclusion",
+          "term": "natural language processing",
+          "frequency": 3.0,
+          "tfidf": 0.526
+        },
+        {
+          "feature_name": "conclusion__large language models",
+          "section": "conclusion",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 0.4486
+        },
+        {
+          "feature_name": "conclusion__text generation",
+          "section": "conclusion",
+          "term": "text generation",
+          "frequency": 1.0,
+          "tfidf": 0.2172
+        },
+        {
+          "feature_name": "conclusion__machine translation",
+          "section": "conclusion",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.2096
+        },
+        {
+          "feature_name": "conclusion__question answering",
+          "section": "conclusion",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1972
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 14,
+      "token_count": 440,
+      "bow_hit_count": 50,
+      "top_bow_terms": [
+        {
+          "canonical_term": "PaLM",
+          "count": 13,
+          "section_prior": 0.1705,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "few-shot learning",
+          "count": 11,
+          "section_prior": 0.3243,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "Large language model",
+          "count": 9,
+          "section_prior": 0.464,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 5,
+          "section_prior": 0.2907,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 4,
+          "section_prior": 0.2786,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "prediction bias",
+          "count": 4,
+          "section_prior": 0.1776,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Pathways",
+          "count": 2,
+          "section_prior": 0.1429,
+          "confidence_score": 0.85,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "AI accelerator",
+          "count": 2,
+          "section_prior": 0.3636,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__PaLM",
+          "section": "intro",
+          "term": "PaLM",
+          "frequency": 7.0,
+          "tfidf": 0.8013
+        },
+        {
+          "feature_name": "abstract__PaLM",
+          "section": "intro",
+          "term": "PaLM",
+          "frequency": 4.0,
+          "tfidf": 0.7181
+        },
+        {
+          "feature_name": "abstract__few-shot learning",
+          "section": "intro",
+          "term": "few-shot learning",
+          "frequency": 3.0,
+          "tfidf": 0.4652
+        },
+        {
+          "feature_name": "abstract__tpu",
+          "section": "intro",
+          "term": "tpu",
+          "frequency": 2.0,
+          "tfidf": 0.359
+        },
+        {
+          "feature_name": "introduction__GPT-3",
+          "section": "intro",
+          "term": "GPT-3",
+          "frequency": 4.0,
+          "tfidf": 0.3531
+        },
+        {
+          "feature_name": "abstract__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 0.2993
+        },
+        {
+          "feature_name": "introduction__transformer",
+          "section": "intro",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.261
+        },
+        {
+          "feature_name": "introduction__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.2443
+        },
+        {
+          "feature_name": "introduction__text generation",
+          "section": "intro",
+          "term": "text generation",
+          "frequency": 2.0,
+          "tfidf": 0.2427
+        },
+        {
+          "feature_name": "introduction__large language models",
+          "section": "intro",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 0.1853
+        },
+        {
+          "feature_name": "introduction__summarization",
+          "section": "intro",
+          "term": "summarization",
+          "frequency": 2.0,
+          "tfidf": 0.1766
+        },
+        {
+          "feature_name": "abstract__bias",
+          "section": "intro",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.1449
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 100,
+      "token_count": 2143,
+      "bow_hit_count": 115,
+      "top_bow_terms": [
+        {
+          "canonical_term": "PaLM",
+          "count": 39,
+          "section_prior": 0.0114,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "BLEU",
+          "count": 23,
+          "section_prior": 0.0109,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "GPT-3",
+          "count": 20,
+          "section_prior": 0.032,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 18,
+          "section_prior": 0.1485,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "Large language model",
+          "count": 10,
+          "section_prior": 0.184,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 5,
+          "section_prior": 0.0448,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "method": {
+      "sentence_count": 2,
+      "token_count": 2,
+      "bow_hit_count": 0,
+      "top_bow_terms": [],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "methods__attention",
+          "section": "method",
+          "term": "attention",
+          "frequency": 6.0,
+          "tfidf": 0.5439
+        },
+        {
+          "feature_name": "methods__transformer",
+          "section": "method",
+          "term": "transformer",
+          "frequency": 5.0,
+          "tfidf": 0.5323
+        },
+        {
+          "feature_name": "methods__MLP",
+          "section": "method",
+          "term": "MLP",
+          "frequency": 4.0,
+          "tfidf": 0.5254
+        },
+        {
+          "feature_name": "methods__embeddings",
+          "section": "method",
+          "term": "embeddings",
+          "frequency": 6.0,
+          "tfidf": 0.4961
+        },
+        {
+          "feature_name": "methods__PaLM",
+          "section": "method",
+          "term": "PaLM",
+          "frequency": 2.0,
+          "tfidf": 0.2894
+        },
+        {
+          "feature_name": "methods__training data",
+          "section": "method",
+          "term": "training data",
+          "frequency": 2.0,
+          "tfidf": 0.2039
+        },
+        {
+          "feature_name": "methods__tokenization",
+          "section": "method",
+          "term": "tokenization",
+          "frequency": 1.0,
+          "tfidf": 0.1447
+        }
+      ]
+    },
+    "experiment": {
+      "sentence_count": 1068,
+      "token_count": 17526,
+      "bow_hit_count": 1087,
+      "top_bow_terms": [
+        {
+          "canonical_term": "PaLM",
+          "count": 416,
+          "section_prior": 0.7045,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 105,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "GPT-3",
+          "count": 88,
+          "section_prior": 0.2466,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Large language model",
+          "count": 69,
+          "section_prior": 0.08,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "natural language generation",
+          "count": 68,
+          "section_prior": 0.1818,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "automatic summarization",
+          "count": 50,
+          "section_prior": 0.3763,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 37,
+          "section_prior": 0.2484,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "AI accelerator",
+          "count": 37,
+          "section_prior": 0.3636,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "transformer",
+          "count": 34,
+          "section_prior": 0.18,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 29,
+          "section_prior": 0.1769,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 25,
+          "section_prior": 0.1179,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "attention",
+          "count": 23,
+          "section_prior": 0.2317,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__PaLM",
+          "section": "experiment",
+          "term": "PaLM",
+          "frequency": 45.0,
+          "tfidf": 0.9596
+        },
+        {
+          "feature_name": "experiments__summarization",
+          "section": "experiment",
+          "term": "summarization",
+          "frequency": 10.0,
+          "tfidf": 0.1859
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 13.0,
+          "tfidf": 0.1702
+        },
+        {
+          "feature_name": "experiments__bleu",
+          "section": "experiment",
+          "term": "bleu",
+          "frequency": 8.0,
+          "tfidf": 0.1487
+        },
+        {
+          "feature_name": "experiments__natural language processing",
+          "section": "experiment",
+          "term": "natural language processing",
+          "frequency": 4.0,
+          "tfidf": 0.0752
+        },
+        {
+          "feature_name": "experiments__machine translation",
+          "section": "experiment",
+          "term": "machine translation",
+          "frequency": 2.0,
+          "tfidf": 0.041
+        },
+        {
+          "feature_name": "experiments__few-shot learning",
+          "section": "experiment",
+          "term": "few-shot learning",
+          "frequency": 2.0,
+          "tfidf": 0.041
+        },
+        {
+          "feature_name": "experiments__question answering",
+          "section": "experiment",
+          "term": "question answering",
+          "frequency": 2.0,
+          "tfidf": 0.0324
+        },
+        {
+          "feature_name": "experiments__large language models",
+          "section": "experiment",
+          "term": "large language models",
+          "frequency": 1.0,
+          "tfidf": 0.0224
+        },
+        {
+          "feature_name": "experiments__epoch",
+          "section": "experiment",
+          "term": "epoch",
+          "frequency": 1.0,
+          "tfidf": 0.0177
+        },
+        {
+          "feature_name": "experiments__bias",
+          "section": "experiment",
+          "term": "bias",
+          "frequency": 1.0,
+          "tfidf": 0.0136
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 60,
+      "token_count": 1570,
+      "bow_hit_count": 106,
+      "top_bow_terms": [
+        {
+          "canonical_term": "training set",
+          "count": 45,
+          "section_prior": 0.097,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "BLEU",
+          "count": 11,
+          "section_prior": 0.1196,
+          "confidence_score": 0.91,
+          "wiki_category": "metric"
+        },
+        {
+          "canonical_term": "PaLM",
+          "count": 10,
+          "section_prior": 0.0114,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Large language model",
+          "count": 10,
+          "section_prior": 0.176,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "Natural language processing",
+          "count": 10,
+          "section_prior": 0.1057,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "machine translation",
+          "count": 9,
+          "section_prior": 0.1386,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "BLOOM",
+          "count": 6,
+          "section_prior": 0.05,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "question answering",
+          "count": 5,
+          "section_prior": 0.0807,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__transformer",
+          "section": "conclusion",
+          "term": "transformer",
+          "frequency": 3.0,
+          "tfidf": 0.6031
+        },
+        {
+          "feature_name": "conclusion__bias",
+          "section": "conclusion",
+          "term": "bias",
+          "frequency": 3.0,
+          "tfidf": 0.5488
+        },
+        {
+          "feature_name": "conclusion__natural language processing",
+          "section": "conclusion",
+          "term": "natural language processing",
+          "frequency": 3.0,
+          "tfidf": 0.526
+        },
+        {
+          "feature_name": "conclusion__large language models",
+          "section": "conclusion",
+          "term": "large language models",
+          "frequency": 2.0,
+          "tfidf": 0.4486
+        },
+        {
+          "feature_name": "conclusion__text generation",
+          "section": "conclusion",
+          "term": "text generation",
+          "frequency": 1.0,
+          "tfidf": 0.2172
+        },
+        {
+          "feature_name": "conclusion__machine translation",
+          "section": "conclusion",
+          "term": "machine translation",
+          "frequency": 1.0,
+          "tfidf": 0.2096
+        },
+        {
+          "feature_name": "conclusion__question answering",
+          "section": "conclusion",
+          "term": "question answering",
+          "frequency": 1.0,
+          "tfidf": 0.1972
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "BLEU",
+        "canonical": "BLEU",
+        "normalized": "bleu",
+        "tokens": [
+          "bleu"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "bleu",
+          "BLEU"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 1238,
+        "sentence": "We can see that 5 out of the 6 sets have very similar BLEU scores between the clean sets and full sets.",
+        "context_window": {
+          "previous": "Results are presented in Table 19.",
+          "current": "We can see that 5 out of the 6 sets have very similar BLEU scores between the clean sets and full sets.",
+          "next": "The results on De-En are roughly 3.0 BLEU worse on the clean set, but this delta is consistent across scale."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "BLEU",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "metric",
+          "matched_cue": "BLEU",
+          "role_prior": "metric",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6974,
+        "downstream_relevance_score": 0.7886,
+        "components": {
+          "bio_boundary_score": 0.849,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1196,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "bleu",
+        "match_quality": 1.0,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "BLEU",
+        "display_term": "bleu",
+        "term_type": "metric",
+        "role_prior": "metric",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "metric",
+        "wiki_url": "https://en.wikipedia.org/wiki/BLEU",
+        "wikidata_id": "Q3500773",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 10,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bleu"
+        ],
+        "normalization": "bleu",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.1196,
+        "canonicalization": {
+          "observed": "BLEU",
+          "canonical": "BLEU",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.849",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'BLEU' with confidence 0.91",
+        "BoW role prior suggests 'metric'",
+        "evidence cue lexicon matched BLEU",
+        "downstream relevance score is 0.7886"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "language understanding",
+        "canonical": "natural language understanding",
+        "normalized": "natural language understanding",
+        "tokens": [
+          "language",
+          "understanding"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "natural language understanding",
+          "nlu"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 77,
+        "sentence": "For instance, in Table 4 we present a new few-shot state of the art on 28 out of the 29 most widely evaluated English language understanding benchmarks, compared against the best per-task result from GLaM (Du et al., 2021), GPT-3 (Brown et al., 2020), Megatron–Turing NLG (Smith et al., 2022), Gopher (Rae et al., 2021), Chinchilla (Hoffmann et al., 2022), and LaMDA (Thoppilan et al., 2022). • Breakthrough capabilities – We demonstrate breakthrough capabilities in language understanding and generation across a number of difficult tasks.",
+        "context_window": {
+          "previous": "This critically demonstrates scaling improvements from large LMs have neither plateaued nor reached their saturation point.",
+          "current": "For instance, in Table 4 we present a new few-shot state of the art on 28 out of the 29 most widely evaluated English language understanding benchmarks, compared against the best per-task result from GLaM (Du et al., 2021), GPT-3 (Brown et al., 2020), Megatron–Turing NLG (Smith et al., 2022), Gopher (Rae et al., 2021), Chinchilla (Hoffmann et al., 2022), and LaMDA (Thoppilan et al., 2022). • Breakthrough capabilities – We demonstrate breakthrough capabilities in language understanding and generation across a number of difficult tasks.",
+          "next": "Specifically, Section 6.3 presents evaluation on a collection of reasoning tasks, which require multi-step mathematical or commonsense reasoning to produce the correct answer."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "present",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7377,
+          "evidence_type": "result",
+          "matched_cue": "state-of-the-art",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7665,
+        "downstream_relevance_score": 0.7578,
+        "components": {
+          "bio_boundary_score": 0.8036,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.2174,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "natural language understanding",
+        "match_quality": 0.78,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "natural language understanding",
+        "display_term": "natural language understanding",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Natural_language_understanding",
+        "wikidata_id": "Q1078276",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 4,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "language",
+          "understanding"
+        ],
+        "normalization": "language understanding",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.2174,
+        "canonicalization": {
+          "observed": "language understanding",
+          "canonical": "natural language understanding",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8036",
+        "structure model assigned role 'result' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'natural language understanding' with confidence 0.7098",
+        "BoW role prior suggests 'other'",
+        "evidence cue lexicon matched present",
+        "downstream relevance score is 0.7578"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "large language model",
+        "canonical": "Large language model",
+        "normalized": "large language model",
+        "tokens": [
+          "large",
+          "language",
+          "model"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "large language models",
+          "Large language model",
+          "large language model",
+          "llms",
+          "llm"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 1202,
+        "sentence": "Thus, care should always be taken in choosing downstream applications for a large language model.",
+        "context_window": {
+          "previous": "Whether memorization is problematic depends on the properties of the dataset (“Does the dataset contain text that would be harmful if surfaced?”) and the target application (“Are there negative consequences if memorized text is produced?”).",
+          "current": "Thus, care should always be taken in choosing downstream applications for a large language model.",
+          "next": "One computationally efficient, though memory-intensive, approach to prevent generation-time memorization would be to implement a bloom filter over the training data, and restrict sequences that occur verbatim in the training dataset from ever being generated."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.692,
+        "downstream_relevance_score": 0.6404,
+        "components": {
+          "bio_boundary_score": 0.9283,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.176,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "large language model",
+        "match_quality": 1.0,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "Large language model",
+        "display_term": "large language models",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Large_language_model",
+        "wikidata_id": "Q115305900",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 10,
+        "total_frequency": 21,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "large",
+          "language",
+          "model"
+        ],
+        "normalization": "large language model",
+        "ngram": "3-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.176,
+        "canonicalization": {
+          "observed": "large language model",
+          "canonical": "Large language model",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9283",
+        "structure model assigned role 'contribution' with score 0.45",
+        "section BoW matched canonical term 'Large language model' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.6404"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "scaling",
+        "canonical": "scaling",
+        "normalized": "scaling",
+        "tokens": [
+          "scaling"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 84,
+        "sentence": "However, for certain tasks, we observe discontinuous improvements, where scaling from 62B to 540B results in a drastic jump in accuracy compared to scaling from 8B to 62B.",
+        "context_window": {
+          "previous": "Typically, scaling from 62B to 540B results in similar performance as scaling from 8B to 62B, which is consistent with the “power law” rule of thumb often observed in neural network scaling (Kaplan et al., 2020).",
+          "current": "However, for certain tasks, we observe discontinuous improvements, where scaling from 62B to 540B results in a drastic jump in accuracy compared to scaling from 8B to 62B.",
+          "next": "Such behavior is observed on roughly 25% of the BIG-bench tasks in Section 6.2."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "metric",
+          "matched_cue": "accuracy",
+          "role_prior": "metric",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7215,
+        "downstream_relevance_score": 0.602,
+        "components": {
+          "bio_boundary_score": 0.93,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "scaling"
+        ],
+        "normalization": "scaling",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "scaling",
+          "canonical": "scaling",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.93",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.602"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "clean set",
+        "canonical": "clean set",
+        "normalized": "clean set",
+        "tokens": [
+          "clean",
+          "set"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 1239,
+        "sentence": "The results on De-En are roughly 3.0 BLEU worse on the clean set, but this delta is consistent across scale.",
+        "context_window": {
+          "previous": "We can see that 5 out of the 6 sets have very similar BLEU scores between the clean sets and full sets.",
+          "current": "The results on De-En are roughly 3.0 BLEU worse on the clean set, but this delta is consistent across scale.",
+          "next": "Since 37 we know from Section 7 that the 8B model has significantly less memorization capacity than 540B, if this difference were primarily due to memorization, we would expect the delta to be smaller on 8B."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "BLEU",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "metric",
+          "matched_cue": "BLEU",
+          "role_prior": "metric",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6786,
+        "downstream_relevance_score": 0.5769,
+        "components": {
+          "bio_boundary_score": 0.8654,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "clean",
+          "set"
+        ],
+        "normalization": "clean set",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "clean set",
+          "canonical": "clean set",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8654",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched BLEU",
+        "downstream relevance score is 0.5769"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "BIG-bench",
+        "canonical": "BIG-bench",
+        "normalized": "big-bench",
+        "tokens": [
+          "big-bench"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 502,
+        "sentence": "Note that because the BIG-bench dataset was released recently, and previous models have only benchmarked on a subset of tasks and shots, comparisons are more limited than other more established benchmarks.",
+        "context_window": {
+          "previous": "Figure 3-left shows the results of evaluating the PaLM family of models on BIG-bench, compared against previously published results (Rae et al., 2021).",
+          "current": "Note that because the BIG-bench dataset was released recently, and previous models have only benchmarked on a subset of tasks and shots, comparisons are more limited than other more established benchmarks.",
+          "next": "The three models evaluated on 58 tasks in common, so this figure presents results only on these 58 tasks."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "dataset",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "dataset mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6976,
+        "downstream_relevance_score": 0.5755,
+        "components": {
+          "bio_boundary_score": 0.9749,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "big-bench"
+        ],
+        "normalization": "big-bench",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BIG-bench",
+          "canonical": "BIG-bench",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9749",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched dataset",
+        "downstream relevance score is 0.5755"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "Model",
+        "canonical": "Model",
+        "normalized": "model",
+        "tokens": [
+          "model"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 119,
+        "sentence": "35 512 → 1024 → 2048 Table 1: Model architecture details.",
+        "context_window": {
+          "previous": "50 512 → 1024 PaLM 540B 118 48 18432 540 .",
+          "current": "35 512 → 1024 → 2048 Table 1: Model architecture details.",
+          "next": "We list the number of layers, d model , the number of attention heads and attention head size."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7164,
+        "downstream_relevance_score": 0.5543,
+        "components": {
+          "bio_boundary_score": 0.9702,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "model"
+        ],
+        "normalization": "model",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Model",
+          "canonical": "Model",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9702",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5543"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "mathematical induction",
+        "canonical": "mathematical induction",
+        "normalized": "mathematical induction",
+        "tokens": [
+          "mathematical",
+          "induction"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 573,
+        "sentence": "For navigate and mathematical induction , PaLM 540B only modestly outperforms PaLM 62B, and both are still far from the best human performance score.",
+        "context_window": {
+          "previous": "However, scale does not benefit all tasks.",
+          "current": "For navigate and mathematical induction , PaLM 540B only modestly outperforms PaLM 62B, and both are still far from the best human performance score.",
+          "next": "This suggests a high variance in the example-level difficulty of the task."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "outperforms",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "result comparison cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6766,
+        "downstream_relevance_score": 0.5536,
+        "components": {
+          "bio_boundary_score": 0.8587,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mathematical",
+          "induction"
+        ],
+        "normalization": "mathematical induction",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mathematical induction",
+          "canonical": "mathematical induction",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8587",
+        "structure model assigned role 'metric' with score 0.82",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched outperforms",
+        "downstream relevance score is 0.5536"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "cause and effect",
+        "canonical": "cause and effect",
+        "normalized": "cause and effect",
+        "tokens": [
+          "cause",
+          "and",
+          "effect"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 592,
+        "sentence": "Higher-Likelihood Sentence: I washed the car because my car got dirty. • cause and effect (two sentence) – In two sentence subtask, the model is shown two events and needs to select which sentence corresponds to the event which caused the other.",
+        "context_window": {
+          "previous": "Input B: My car got dirty because I washed the car.",
+          "current": "Higher-Likelihood Sentence: I washed the car because my car got dirty. • cause and effect (two sentence) – In two sentence subtask, the model is shown two events and needs to select which sentence corresponds to the event which caused the other.",
+          "next": "Example: Input : For each example, two events are given."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7235,
+        "downstream_relevance_score": 0.5262,
+        "components": {
+          "bio_boundary_score": 0.9889,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "cause",
+          "and",
+          "effect"
+        ],
+        "normalization": "cause and effect",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "cause and effect",
+          "canonical": "cause and effect",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9889",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5262"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "natural language",
+        "canonical": "Natural language processing",
+        "normalized": "natural language processing",
+        "tokens": [
+          "natural",
+          "language"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "natural language processing",
+          "Natural language processing",
+          "nlp"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 699,
+        "sentence": "We consider three tasks where the goal is to write code given a natural language description.",
+        "context_window": {
+          "previous": "Text-to-code .",
+          "current": "We consider three tasks where the goal is to write code given a natural language description.",
+          "next": "In the HumanEval (Chen et al., 2021) and MBPP (Austin et al., 2021) datasets, the model is given an English-language description of a few sentences and a small number of input-output examples, and the goal is to generate a short Python program, usually a single function."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6078,
+        "downstream_relevance_score": 0.5228,
+        "components": {
+          "bio_boundary_score": 0.9971,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.7098,
+          "laplace_section_prior": 0.1179,
+          "document_tfidf_score": 0.0783,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "natural language processing",
+        "match_quality": 0.78,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "Natural language processing",
+        "display_term": "natural language processing",
+        "term_type": "other",
+        "role_prior": "other",
+        "ngram_label": "trigram",
+        "pos_pattern": "JJ NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "other",
+        "wiki_url": "https://en.wikipedia.org/wiki/Natural_language_processing",
+        "wikidata_id": "Q30642",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 13,
+        "total_frequency": 28,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__natural language processing",
+        "section": "experiment",
+        "term": "natural language processing",
+        "frequency": 4.0,
+        "tfidf": 0.0752,
+        "normalized_frequency": 0.0889,
+        "normalized_tfidf": 0.0783
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "natural",
+          "language"
+        ],
+        "normalization": "natural language",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1179,
+        "canonicalization": {
+          "observed": "natural language",
+          "canonical": "Natural language processing",
+          "channel_score": 0.7098
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9971",
+        "structure model assigned role 'dataset' with score 0.45",
+        "section BoW matched canonical term 'Natural language processing' with confidence 0.7098",
+        "BoW role prior suggests 'other'",
+        "document-term matrix links the phrase to feature 'experiments__natural language processing' with tf-idf 0.0752",
+        "downstream relevance score is 0.5228"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "human performance",
+        "canonical": "human performance",
+        "normalized": "human performance",
+        "tokens": [
+          "human",
+          "performance"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 497,
+        "sentence": "The BIG-bench data release includes human performance metrics, where a number of workers (typically 10) on a crowdsourcing platform were asked to solve each task.",
+        "context_window": {
+          "previous": "For this evaluation, only textual tasks were considered.",
+          "current": "The BIG-bench data release includes human performance metrics, where a number of workers (typically 10) on a crowdsourcing platform were asked to solve each task.",
+          "next": "These workers were given a task description and exemplars similar to what the few-shot model sees, and were allowed to use any external tools they wanted to provide an answer (search engines, calculators, etc.)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7307,
+        "downstream_relevance_score": 0.5146,
+        "components": {
+          "bio_boundary_score": 0.994,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "human",
+          "performance"
+        ],
+        "normalization": "human performance",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "human performance",
+          "canonical": "human performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.994",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5146"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "logical sequence",
+        "canonical": "logical sequence",
+        "normalized": "logical sequence",
+        "tokens": [
+          "logical",
+          "sequence"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 560,
+        "sentence": "Performance on english proverbs and logical sequence is also extremely strong, but it follows a discontinuous improve- ment curve—the improvement from 62B → 540B is much larger than 8b → 62B.",
+        "context_window": {
+          "previous": "Answer: Yes We can see in Figure 5 that performance on goal step wikihow and logical args follows a log-linear scaling curve, with the PaLM 540B model achieving accuracy close to the best human performance.",
+          "current": "Performance on english proverbs and logical sequence is also extremely strong, but it follows a discontinuous improve- ment curve—the improvement from 62B → 540B is much larger than 8b → 62B.",
+          "next": "Such tasks are of particular interest here, because such scaling curves imply that certain capabilities of the model only emerge once a certain scale is reached."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7289,
+        "downstream_relevance_score": 0.5136,
+        "components": {
+          "bio_boundary_score": 0.9884,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "logical",
+          "sequence"
+        ],
+        "normalization": "logical sequence",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "logical sequence",
+          "canonical": "logical sequence",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9884",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5136"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "Multilingual understanding",
+        "canonical": "Multilingual understanding",
+        "normalized": "multilingual understanding",
+        "tokens": [
+          "multilingual",
+          "understanding"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 86,
+        "sentence": "This suggests that new capabilities of large LMs can emerge when the model achieves sufficient scale, and that these capabilities continue to emerge beyond previously studied scales. • Multilingual understanding – Previous work on large language models have conducted limited evaluations in the multilingual domain.",
+        "context_window": {
+          "previous": "Such behavior is observed on roughly 25% of the BIG-bench tasks in Section 6.2.",
+          "current": "This suggests that new capabilities of large LMs can emerge when the model achieves sufficient scale, and that these capabilities continue to emerge beyond previously studied scales. • Multilingual understanding – Previous work on large language models have conducted limited evaluations in the multilingual domain.",
+          "next": "In this work, we conduct a more thorough evaluation of multilingual benchmarks including machine translation (Section 6.5), summarization (Section 6.6), and question answering (Section 6.7) in a wide variety of languages."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9474,
+          "evidence_type": "result",
+          "matched_cue": "achieves",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6165,
+        "downstream_relevance_score": 0.5096,
+        "components": {
+          "bio_boundary_score": 0.7661,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "multilingual",
+          "understanding"
+        ],
+        "normalization": "multilingual understanding",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Multilingual understanding",
+          "canonical": "Multilingual understanding",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7661",
+        "structure model assigned role 'prior_work' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5096"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "DCN",
+        "canonical": "DCN",
+        "normalized": "dcn",
+        "tokens": [
+          "dcn"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 176,
+        "sentence": "The bursty properties of this workload introduce challenges that we address through a careful design of the Pathways networking stack to enable optimal DCN link utilization.",
+        "context_window": {
+          "previous": "step that amounts to an aggregate burst of 81 Tbps across all hosts.",
+          "current": "The bursty properties of this workload introduce challenges that we address through a careful design of the Pathways networking stack to enable optimal DCN link utilization.",
+          "next": "For example, to mitigate the effects of congestion, the data for gradient transfers is broken down into smaller chunks and routed via multiple smaller flows over a diverse set of DCN links."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "introduce",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          },
+          {
+            "cue_phrase": "design",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "design cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6295,
+        "downstream_relevance_score": 0.5091,
+        "components": {
+          "bio_boundary_score": 0.6434,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "dcn"
+        ],
+        "normalization": "dcn",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "DCN",
+          "canonical": "DCN",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6434",
+        "structure model assigned role 'objective' with score 0.66",
+        "evidence cue lexicon matched introduce, design",
+        "downstream relevance score is 0.5091"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "source code",
+        "canonical": "source code",
+        "normalized": "source code",
+        "tokens": [
+          "source",
+          "code"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 136,
+        "sentence": "Further, we remove duplicates based on Levenshtein distance between the files because duplicate files are known to be common in source code repositories (Lopes et al., 2017; Allamanis, 2019).",
+        "context_window": {
+          "previous": "6 to one of 24 common programming languages, including Java, HTML, Javascript, Python, PHP, C#, XML, C++, and C, which results in 196GB of source code.",
+          "current": "Further, we remove duplicates based on Levenshtein distance between the files because duplicate files are known to be common in source code repositories (Lopes et al., 2017; Allamanis, 2019).",
+          "next": "Table 2 lists the proportion of various data sources used to create the final PaLM dataset mixture."
+        }
+      },
+      "role": {
+        "label": "ablation",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "ablation_evidence",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6823,
+        "downstream_relevance_score": 0.5076,
+        "components": {
+          "bio_boundary_score": 0.9945,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "source",
+          "code"
+        ],
+        "normalization": "source code",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "source code",
+          "canonical": "source code",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9945",
+        "structure model assigned role 'ablation' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.5076"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "prompting",
+        "canonical": "prompting",
+        "normalized": "prompting",
+        "tokens": [
+          "prompting"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 75,
+        "sentence": "The prompting was done with 2-shot exemplars, which are shown in Section 9, along with output on more examples using these same exemplars. vast majority of these benchmarks, typically by significant margins.",
+        "context_window": {
+          "previous": "All examples were generated with greedy (1-best) decoding of PaLM 540B.",
+          "current": "The prompting was done with 2-shot exemplars, which are shown in Section 9, along with output on more examples using these same exemplars. vast majority of these benchmarks, typically by significant margins.",
+          "next": "This critically demonstrates scaling improvements from large LMs have neither plateaued nor reached their saturation point."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7299,
+        "downstream_relevance_score": 0.5042,
+        "components": {
+          "bio_boundary_score": 0.992,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "prompting"
+        ],
+        "normalization": "prompting",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "prompting",
+          "canonical": "prompting",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.992",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5042"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "BIG- bench",
+        "canonical": "BIG- bench",
+        "normalized": "big- bench",
+        "tokens": [
+          "big-",
+          "bench"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 81,
+        "sentence": "In Section 6.2 we additionally highlight breakthrough performance on BIG-bench (BIG- bench collaboration, 2021), a recently released suite of 150+ new language understanding and generation tasks, many of which are extremely difficult even for humans to correctly answer.",
+        "context_window": {
+          "previous": "In this work, we demonstrate that when model scaling is combined with chain-of-thought prompting (Wei et al., 2022b), simple few-shot evaluation can outperform or match the finetuned state of the art on a wide array of reasoning tasks.",
+          "current": "In Section 6.2 we additionally highlight breakthrough performance on BIG-bench (BIG- bench collaboration, 2021), a recently released suite of 150+ new language understanding and generation tasks, many of which are extremely difficult even for humans to correctly answer.",
+          "next": "In Figure 1 and Section 9, we demonstrate exploratory capabilities in PaLM’s ability to explicitly interpret and explain complex reasoning chains. • Discontinuous improvements – To better understand the scaling behavior, we present results at three different parameter scales: 8B, 62B, and 540B."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7083,
+        "downstream_relevance_score": 0.5029,
+        "components": {
+          "bio_boundary_score": 0.8355,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "big-",
+          "bench"
+        ],
+        "normalization": "big- bench",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "BIG- bench",
+          "canonical": "BIG- bench",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8355",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.5029"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "autoregressive Transformer",
+        "canonical": "autoregressive Transformer",
+        "normalized": "autoregressive transformer",
+        "tokens": [
+          "autoregressive",
+          "transformer"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 50,
+        "sentence": "In this work, we continue the scaling line of language modeling improvements and train a 540 billion parameter, densely activated, autoregressive Transformer on 780 billion tokens of high-quality text.",
+        "context_window": {
+          "previous": "The improvements in these models have primarily come from one or more of the following approaches: (1) scaling the size of the models in both depth and width; (2) increasing the number of tokens that the model was trained on; (3) training on cleaner datasets from more diverse sources; and (4) increasing model capacity without increasing the computational cost through sparsely activated modules.",
+          "current": "In this work, we continue the scaling line of language modeling improvements and train a 540 billion parameter, densely activated, autoregressive Transformer on 780 billion tokens of high-quality text.",
+          "next": "This was achieved through the use of Pathways (Barham et al., 2022), a new ML system which enables highly efficient training of very large neural networks across thousands of accelerator chips, including those spanning multiple Tensor Processing Units (TPU) v4 Pods."
+        }
+      },
+      "role": {
+        "label": "process",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method_process",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6482,
+        "downstream_relevance_score": 0.4967,
+        "components": {
+          "bio_boundary_score": 0.7584,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "autoregressive",
+          "transformer"
+        ],
+        "normalization": "autoregressive transformer",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "autoregressive Transformer",
+          "canonical": "autoregressive Transformer",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7584",
+        "structure model assigned role 'process' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4967"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "toxicity",
+        "canonical": "toxicity",
+        "normalized": "toxicity",
+        "tokens": [
+          "toxicity"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 90,
+        "sentence": "4 • Bias and toxicity – We also evaluated model performance for distributional bias and toxicity, which resulted in several insights (Section 10).",
+        "context_window": {
+          "previous": "Further work is necessary to understand the impact of increasing the proportion of multilingual data on the English and multilingual tasks.",
+          "current": "4 • Bias and toxicity – We also evaluated model performance for distributional bias and toxicity, which resulted in several insights (Section 10).",
+          "next": "Firstly, for gender and occupation bias, we found that accuracy on the Winogender coreference task improves with model scale, and PaLM 540B sets a new state-of-the-art result in 1-shot and few-shot settings."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7066,
+        "downstream_relevance_score": 0.492,
+        "components": {
+          "bio_boundary_score": 0.8295,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "toxicity"
+        ],
+        "normalization": "toxicity",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "toxicity",
+          "canonical": "toxicity",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8295",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.492"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "reasoning",
+        "canonical": "reasoning",
+        "normalized": "reasoning",
+        "tokens": [
+          "reasoning"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 678,
+        "sentence": "21 Figure 10 also shows results for the other reasoning datasets.",
+        "context_window": {
+          "previous": "(2021) the intermediate reasoning steps were simply called the “solution,” and the actual text was slightly different than the chain-of-thoughts used here.",
+          "current": "21 Figure 10 also shows results for the other reasoning datasets.",
+          "next": "Across the"
+        }
+      },
+      "role": {
+        "label": "finding",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "paper_finding",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.713,
+        "downstream_relevance_score": 0.4826,
+        "components": {
+          "bio_boundary_score": 0.9972,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reasoning"
+        ],
+        "normalization": "reasoning",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "reasoning",
+          "canonical": "reasoning",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9972",
+        "structure model assigned role 'finding' with score 0.66",
+        "downstream relevance score is 0.4826"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "communicative goal",
+        "canonical": "communicative goal",
+        "normalized": "communicative goal",
+        "tokens": [
+          "communicative",
+          "goal"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 949,
+        "sentence": "These texts seek to achieve a communicative goal (e.g. summarize a document, verbalize a set of concepts).",
+        "context_window": {
+          "previous": "6.6 Multilingual Natural Language Generation Natural language generation tasks require automatically generating understandable text given textual or non-linguistic information as input, such as documents, tables, or other structured forms.",
+          "current": "These texts seek to achieve a communicative goal (e.g. summarize a document, verbalize a set of concepts).",
+          "next": "Few-shot conditional natural language generation has not been explored for similarly sized models in the past."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.666,
+        "downstream_relevance_score": 0.4809,
+        "components": {
+          "bio_boundary_score": 0.6968,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "communicative",
+          "goal"
+        ],
+        "normalization": "communicative goal",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "communicative goal",
+          "canonical": "communicative goal",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6968",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4809"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "WMT",
+        "canonical": "WMT",
+        "normalized": "wmt",
+        "tokens": [
+          "wmt"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 884,
+        "sentence": "We will use the WMT’19 French-German language pair to test direct translation capabilities. • Extremely-low resource language pairs – While all language pairs are technically zero-resource since no explicit parallel data was provided to the model, it is still interesting to consider the case where one of the languages in consideration has very little monolingual data.",
+        "context_window": {
+          "previous": "In machine translation, English can be involved in a translation even when it is not the source/target language because machine translation systems often “pivot” through English, e.g., French → English → German.",
+          "current": "We will use the WMT’19 French-German language pair to test direct translation capabilities. • Extremely-low resource language pairs – While all language pairs are technically zero-resource since no explicit parallel data was provided to the model, it is still interesting to consider the case where one of the languages in consideration has very little monolingual data.",
+          "next": "In this work, we choose Kazakh as our low-resource language."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6781,
+        "downstream_relevance_score": 0.473,
+        "components": {
+          "bio_boundary_score": 0.9138,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "wmt"
+        ],
+        "normalization": "wmt",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "WMT",
+          "canonical": "WMT",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9138",
+        "structure model assigned role 'gap' with score 0.82",
+        "downstream relevance score is 0.473"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "SuperGLUE",
+        "canonical": "SuperGLUE",
+        "normalized": "superglue",
+        "tokens": [
+          "superglue"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 409,
+        "sentence": "6.1.2 Finetuning We conduct finetuning experiments for the PaLM model on the SuperGLUE benchmark.",
+        "context_window": {
+          "previous": "The results are reported on the test set of each of the tasks.",
+          "current": "6.1.2 Finetuning We conduct finetuning experiments for the PaLM model on the SuperGLUE benchmark.",
+          "next": "PaLM is finetuned with 5 × 10 − 5 learning rate using the Adafactor optimizer, with a batch size of 32."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "dataset",
+        "cue_hits": [
+          {
+            "cue_phrase": "benchmark",
+            "evidence_type": "dataset",
+            "role_prior": "dataset",
+            "section_hint": "experiment",
+            "notes": "benchmark mention"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6053,
+        "downstream_relevance_score": 0.4603,
+        "components": {
+          "bio_boundary_score": 0.9924,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "superglue"
+        ],
+        "normalization": "superglue",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "SuperGLUE",
+          "canonical": "SuperGLUE",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9924",
+        "structure model assigned role 'dataset' with score 0.82",
+        "evidence cue lexicon matched benchmark",
+        "downstream relevance score is 0.4603"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "step number",
+        "canonical": "step number",
+        "normalized": "step number",
+        "tokens": [
+          "step",
+          "number"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 225,
+        "sentence": "However, parameter scaling has the benefit that parameter matrices which operate at different scales (the embeddings and layer norm scales) do not have their learning rate scaled down at the same rate. • Optimization hyperparameters – We use an Adafactor learning rate of 10 − 2 for the first 10,000 steps, which is then decayed at a rate of 1 / √ k , where k is the step number.",
+        "context_window": {
+          "previous": "(2020).",
+          "current": "However, parameter scaling has the benefit that parameter matrices which operate at different scales (the embeddings and layer norm scales) do not have their learning rate scaled down at the same rate. • Optimization hyperparameters – We use an Adafactor learning rate of 10 − 2 for the first 10,000 steps, which is then decayed at a rate of 1 / √ k , where k is the step number.",
+          "next": "We train with momentum of β 1 = 0 ."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6384,
+        "downstream_relevance_score": 0.4496,
+        "components": {
+          "bio_boundary_score": 0.7685,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "step",
+          "number"
+        ],
+        "normalization": "step number",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "step number",
+          "canonical": "step number",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7685",
+        "structure model assigned role 'gap' with score 0.66",
+        "downstream relevance score is 0.4496"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "HumanEval",
+        "canonical": "HumanEval",
+        "normalized": "humaneval",
+        "tokens": [
+          "humaneval"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 761,
+        "sentence": "This is in contrast to GPT-3, for example, which has performance of 0 on HumanEval according to Chen et al.",
+        "context_window": {
+          "previous": "This shows that the code web documents used in the LaMDA training are informative for these tasks.",
+          "current": "This is in contrast to GPT-3, for example, which has performance of 0 on HumanEval according to Chen et al.",
+          "next": "(2021)."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6216,
+        "downstream_relevance_score": 0.4478,
+        "components": {
+          "bio_boundary_score": 0.6307,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "humaneval"
+        ],
+        "normalization": "humaneval",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "HumanEval",
+          "canonical": "HumanEval",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6307",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4478"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "data contamination",
+        "canonical": "data contamination",
+        "normalized": "data contamination",
+        "tokens": [
+          "data",
+          "contamination"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 1227,
+        "sentence": "Note that positive deltas act as evidence against data contamination inflating results, while negative deltas act as potential evidence for results being inflated by data contamination.",
+        "context_window": {
+          "previous": "We can see that an equal number of sets have a positive vs. negative accuracy delta on the clean subset, which would imply that data contamination does not cause meaningful inflation of our reported results.",
+          "current": "Note that positive deltas act as evidence against data contamination inflating results, while negative deltas act as potential evidence for results being inflated by data contamination.",
+          "next": "Of course, as we are evaluating different subsets of the data (with some of the test sets such as CB being quite small) these are not apples-to-apples comparisons."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6578,
+        "downstream_relevance_score": 0.4429,
+        "components": {
+          "bio_boundary_score": 0.8156,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "data",
+          "contamination"
+        ],
+        "normalization": "data contamination",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "data contamination",
+          "canonical": "data contamination",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8156",
+        "structure model assigned role 'contribution' with score 0.45",
+        "downstream relevance score is 0.4429"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "Rematerialization",
+        "canonical": "Rematerialization",
+        "normalized": "rematerialization",
+        "tokens": [
+          "rematerialization"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 185,
+        "sentence": "Rematerialization is a technique that is widely used to trade off memory usage with compute.",
+        "context_window": {
+          "previous": "First, the number of hardware FLOPs executed is system-dependent and implementation-dependent and design choices in the compiler can result in different number of operations.",
+          "current": "Rematerialization is a technique that is widely used to trade off memory usage with compute.",
+          "next": "In order to efficiently compute the backwards pass of most neural network architectures using gradient descent, many intermediate activations for the batch must be stored in memory."
+        }
+      },
+      "role": {
+        "label": "mechanism",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6074,
+        "downstream_relevance_score": 0.3787,
+        "components": {
+          "bio_boundary_score": 0.9952,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "rematerialization"
+        ],
+        "normalization": "rematerialization",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "Rematerialization",
+          "canonical": "Rematerialization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9952",
+        "structure model assigned role 'mechanism' with score 0.66",
+        "downstream relevance score is 0.3787"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "functional correctness",
+        "canonical": "functional correctness",
+        "normalized": "functional correctness",
+        "tokens": [
+          "functional",
+          "correctness"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 866,
+        "sentence": "Indeed, even on the benchmarks we consider here, we follow previous work in measuring functional correctness based on a small number of tests, but this can overestimate the performance of the methods.",
+        "context_window": {
+          "previous": "Additionally, code suggestions can also be confirmed by a test suite, but it is not always safe to infer from a small number of test cases that solutions are functionally correct.",
+          "current": "Indeed, even on the benchmarks we consider here, we follow previous work in measuring functional correctness based on a small number of tests, but this can overestimate the performance of the methods.",
+          "next": "More thorough tests of functional correctness would be desirable."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5629,
+        "downstream_relevance_score": 0.3783,
+        "components": {
+          "bio_boundary_score": 0.9975,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "functional",
+          "correctness"
+        ],
+        "normalization": "functional correctness",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "functional correctness",
+          "canonical": "functional correctness",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9975",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "downstream relevance score is 0.3783"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 100,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "1-shot Finetuning Task LaMDA 137B PaLM 8B PaLM 62B PaLM 540B Prior SOTA T5 XXL PaLM 8B PaLM 62B PaLM 540B Data-To-Text Although this work focuses on few-shot modeling and there are no public few-shot results available for these tasks, several interesting takeaways can be learned from these results: • Effectiveness of finetuning -In summarization, the 540B finetuned PaLM closely matches or exceeds the best reported prior results on all English generation tasks.",
+        "evidence_type": "result",
+        "matched_cue": "exceeds",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We do recognize that finetuning of decoder-only LMs may not be the computationally optimal approach for all tasks when a large amount of task-specific training data exists, but we believe it serves as an important upper bound for few-shot predictions. • Generation quality of English vs. non-English -PaLM achieves a new finetuning state-of-the art result for 4 out of 6 summarization tasks which generate English text, even when the input is non-English.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We do recognize that finetuning of decoder-only LMs may not be the computationally optimal approach for all tasks when a large amount of task-specific training data exists, but we believe it serves as an important upper bound for few-shot predictions. • Generation quality of English vs. non-English -PaLM achieves a new finetuning state-of-the art result for 4 out of 6 summarization tasks which generate English text, even when the input is non-English.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "An exception to this is the Trivia QA task where 1-shot learning outperforms both 5-shot and 8-shot learning across all three model sizes.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Interestingly, PaLM 540B achieves SOTA results on checkpoints at 770 billion tokens of training but achieves worse results in the later checkpoints after that.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "conclusion",
+        "section_original": "conclusion",
+        "sentence": "A major limitation of the fairness analyses presented in this section is that they are performed only on English language data, while PaLM is trained on multilingual data and evaluated on multilingual language processing tasks.",
+        "evidence_type": "limitation",
+        "matched_cue": "limitation",
+        "role_prior": "limitation",
+        "confidence": 0.98
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "PaLM uses a standard Transformer model architecture in a decoder-only setup (i.e., each timestep can only attend to itself and past timesteps), with the following modifications: • SwiGLU Activation -We use SwiGLU activations (Swish(xW ) • xV ) for the MLP intermediate activations because they have been shown to significantly increase quality compared to standard ReLU, GeLU, or Swish activations .",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "This provides a high-level summary of the model's architecture, training setup, training data, and intended usage.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The PaLM pretraining dataset consists of a high-quality corpus of 780 billion tokens that represent a wide range of natural language use cases.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The PaLM pretraining dataset consists of a high-quality corpus of 780 billion tokens that represent a wide range of natural language use cases.",
+        "evidence_type": "dataset",
+        "matched_cue": "corpus",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The dataset is a mixture of filtered webpages, books, Wikipedia, news articles, source code, and social media conversations.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This dataset is based on the datasets used to train LaMDA and GLaM .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In addition to natural language data, the pretraining dataset also contains code.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The source code in the pretraining dataset is obtained from open source repositories on GitHub.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table lists the proportion of various data sources used to create the final PaLM dataset mixture.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We check for data contamination in Section 8 and present an overlap analysis between our training dataset and the evaluation data.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Total dataset size = 780 billion tokens Data source Proportion of data Social media conversations (multilingual) 50% Filtered webpages (multilingual) 27% Books (English) 13% GitHub (code) 5% Wikipedia (multilingual) 4% News (English) 1% Table : Proportion of data from each source in the training dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "The multilingual corpus contains text from over 100 languages, with the distribution given in Appendix Table .",
+        "evidence_type": "dataset",
+        "matched_cue": "corpus",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In this work, we demonstrate a striking result: model scale and chain-of-thought (CoT) prompting are alone enough to achieve SOTA accuracy across a variety of arithmetic and commonsense reasoning tasks.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Like , for arithmetic reasoning datasets, we augment model predictions using a post-hoc external calculator, though we find that using such a calculator did not improve performance by more than 5% on any dataset.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Across the 7 reasoning datasets, 8-shot prediction with PaLM 540B+chain-of-thought achieved SOTA accuracy on 4 tasks (GSM8K, MAWPS, SVAMP, StrategyQA), and close to SOTA on the remaining 3 tasks (ASDiv, AQuA, CommonsenseQA).",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Intermediate reasoning steps were included with the GSM8K dataset but not with the other benchmarks, so we include PaLM results on GSM8K with direct prompting for completeness.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Note that we verified through n-gram overlap analysis that there was no data contamination between our model training corpus and the reasoning evaluation sets.",
+        "evidence_type": "dataset",
+        "matched_cue": "corpus",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Because most of our evaluation datasets test Python programming skills, we collected an additional dataset specifically of Python code.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "This additional dataset, which we call ExtraPythonData, contains 5.8B tokens from GitHub repositories that were not used during pre-training.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "BLEU",
+        "section": "conclusion",
+        "role": "metric",
+        "score": 0.7886
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "natural language understanding",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.7578
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "Large language model",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.6404
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "scaling",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.602
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "clean set",
+        "section": "conclusion",
+        "role": "metric",
+        "score": 0.5769
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "BIG-bench",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5755
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "Model",
+        "section": "experiment",
+        "role": "core_method",
+        "score": 0.5543
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "mathematical induction",
+        "section": "experiment",
+        "role": "metric",
+        "score": 0.5536
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "cause and effect",
+        "section": "experiment",
+        "role": "mechanism",
+        "score": 0.5262
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "Natural language processing",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5228
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "human performance",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5146
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "logical sequence",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5136
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "Multilingual understanding",
+        "section": "experiment",
+        "role": "prior_work",
+        "score": 0.5096
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "DCN",
+        "section": "experiment",
+        "role": "objective",
+        "score": 0.5091
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "source code",
+        "section": "experiment",
+        "role": "ablation",
+        "score": 0.5076
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "prompting",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5042
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "BIG- bench",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.5029
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "autoregressive Transformer",
+        "section": "experiment",
+        "role": "process",
+        "score": 0.4967
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "toxicity",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.492
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "reasoning",
+        "section": "experiment",
+        "role": "finding",
+        "score": 0.4826
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "communicative goal",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4809
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "WMT",
+        "section": "related_work",
+        "role": "gap",
+        "score": 0.473
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "SuperGLUE",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.4603
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "step number",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.4496
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "HumanEval",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4478
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "data contamination",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.4429
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "Rematerialization",
+        "section": "experiment",
+        "role": "mechanism",
+        "score": 0.3787
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "functional correctness",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.3783
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_001",
+        "target": "ecu_005",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_011",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_012",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_011",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_012",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_003",
+        "target": "ecu_026",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_010",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_006",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_023",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}

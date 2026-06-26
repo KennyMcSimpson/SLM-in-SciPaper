@@ -8,7 +8,8 @@ from typing import Any
 import torch
 from torch.utils.data import Dataset
 
-from .schema import ROLE_TO_ID, SECTION_TO_ID
+from .roles import best_summary_facet_role
+from .schema import ROLE_LABELS, ROLE_TO_ID, SECTION_DEFAULT_ROLES, SECTION_TO_ID
 
 
 IGNORE_INDEX = -100
@@ -57,6 +58,19 @@ class StructuredSentenceDataset(Dataset):
                     negative += 1
         return positive, negative
 
+    def importance_counts(self) -> tuple[int, int]:
+        positive = 0
+        negative = 0
+        for record in self.records:
+            for sentence in record.get("sentences", []):
+                if not isinstance(sentence, dict) or sentence.get("importance_label") is None:
+                    continue
+                if float(sentence.get("importance_label") or 0.0) >= 0.5:
+                    positive += 1
+                else:
+                    negative += 1
+        return positive, negative
+
 
 def build_structure_features(record: dict[str, Any], tokenizer: Any, config: StructureFeatureConfig) -> dict[str, Any]:
     sentences = [item for item in record.get("sentences", []) if str(item.get("text", "")).strip()]
@@ -71,10 +85,13 @@ def build_structure_features(record: dict[str, Any], tokenizer: Any, config: Str
     cls_positions: list[int] = []
     sentence_section_ids: list[int] = []
     role_labels: list[int] = []
+    role_candidate_masks: list[list[float]] = []
     evidence_labels: list[float] = []
     importance_labels: list[float] = []
     kept_sentences: list[str] = []
     original_sentence_indices: list[int] = []
+    record_source = str(record.get("source") or "")
+    summaries = record.get("summaries") or {}
 
     for local_idx, sentence in enumerate(selected):
         text = str(sentence.get("text", "")).strip()
@@ -90,6 +107,7 @@ def build_structure_features(record: dict[str, Any], tokenizer: Any, config: Str
         if len(input_ids) + len(sent_ids) + 2 > config.max_seq_length and cls_positions:
             continue
         section_id = SECTION_TO_ID.get(str(sentence.get("section") or "intro"), 0)
+        role_label, role_candidate_mask = role_supervision(sentence, record_source, summaries)
         segment_id = local_idx % 2
         cls_positions.append(len(input_ids))
         input_ids.append(tokenizer.cls_token_id)
@@ -105,7 +123,8 @@ def build_structure_features(record: dict[str, Any], tokenizer: Any, config: Str
         token_type_ids.append(segment_id)
         section_token_ids.append(section_id)
         sentence_section_ids.append(section_id)
-        role_labels.append(role_to_label(sentence.get("role")))
+        role_labels.append(role_label)
+        role_candidate_masks.append(role_candidate_mask)
         evidence_labels.append(float(sentence["evidence_label"]) if sentence.get("evidence_label") is not None else -1.0)
         importance_labels.append(float(sentence["importance_label"]) if sentence.get("importance_label") is not None else -1.0)
         kept_sentences.append(text)
@@ -121,6 +140,7 @@ def build_structure_features(record: dict[str, Any], tokenizer: Any, config: Str
         "cls_positions": cls_positions,
         "sentence_section_ids": sentence_section_ids,
         "role_labels": role_labels,
+        "role_candidate_masks": role_candidate_masks,
         "evidence_labels": evidence_labels,
         "importance_labels": importance_labels,
         "sentences": kept_sentences,
@@ -173,6 +193,7 @@ def collate_structure_features(features: list[dict[str, Any]], pad_token_id: int
     sentence_mask = torch.zeros((batch_size, max_sents), dtype=torch.bool)
     sentence_section_ids = torch.zeros((batch_size, max_sents), dtype=torch.long)
     role_labels = torch.full((batch_size, max_sents), IGNORE_INDEX, dtype=torch.long)
+    role_candidate_masks = torch.zeros((batch_size, max_sents, len(ROLE_LABELS)), dtype=torch.float)
     evidence_labels = torch.full((batch_size, max_sents), -1.0, dtype=torch.float)
     importance_labels = torch.full((batch_size, max_sents), -1.0, dtype=torch.float)
 
@@ -187,6 +208,7 @@ def collate_structure_features(features: list[dict[str, Any]], pad_token_id: int
         sentence_mask[batch_idx, :sent_count] = True
         sentence_section_ids[batch_idx, :sent_count] = torch.tensor(feature["sentence_section_ids"], dtype=torch.long)
         role_labels[batch_idx, :sent_count] = torch.tensor(feature["role_labels"], dtype=torch.long)
+        role_candidate_masks[batch_idx, :sent_count, :] = torch.tensor(feature["role_candidate_masks"], dtype=torch.float)
         evidence_labels[batch_idx, :sent_count] = torch.tensor(feature["evidence_labels"], dtype=torch.float)
         importance_labels[batch_idx, :sent_count] = torch.tensor(feature["importance_labels"], dtype=torch.float)
 
@@ -199,6 +221,7 @@ def collate_structure_features(features: list[dict[str, Any]], pad_token_id: int
         "sentence_mask": sentence_mask,
         "sentence_section_ids": sentence_section_ids,
         "role_labels": role_labels,
+        "role_candidate_masks": role_candidate_masks,
         "evidence_labels": evidence_labels,
         "importance_labels": importance_labels,
         "sentences": [feature["sentences"] for feature in features],
@@ -213,6 +236,32 @@ def role_to_label(role: Any) -> int:
     if role is None:
         return IGNORE_INDEX
     return ROLE_TO_ID.get(str(role), IGNORE_INDEX)
+
+
+def role_supervision(sentence: dict[str, Any], record_source: str, summaries: dict[str, str]) -> tuple[int, list[float]]:
+    source = str(sentence.get("source") or record_source or "")
+    section = str(sentence.get("section") or "intro")
+    if source == "qasper":
+        return IGNORE_INDEX, section_candidate_mask(section)
+    if source == "aclsum":
+        facet_role, confidence = best_summary_facet_role(str(sentence.get("text") or ""), summaries)
+        if facet_role is not None and confidence >= 0.08:
+            return role_to_label(facet_role), zero_role_candidate_mask()
+        return IGNORE_INDEX, section_candidate_mask(section)
+    return role_to_label(sentence.get("role")), zero_role_candidate_mask()
+
+
+def section_candidate_mask(section: str) -> list[float]:
+    mask = [0.0] * len(ROLE_LABELS)
+    for role in SECTION_DEFAULT_ROLES.get(section, ["background"]):
+        role_id = ROLE_TO_ID.get(role)
+        if role_id is not None:
+            mask[role_id] = 1.0
+    return mask
+
+
+def zero_role_candidate_mask() -> list[float]:
+    return [0.0] * len(ROLE_LABELS)
 
 
 def read_jsonl(path: Path, max_records: int | None = None) -> list[dict[str, Any]]:

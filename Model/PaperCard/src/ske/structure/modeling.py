@@ -18,10 +18,12 @@ class StructuredModelConfig:
     model_name: str = "allenai/scibert_scivocab_uncased"
     num_sections: int = len(CANONICAL_SECTIONS)
     num_roles: int = len(ROLE_LABELS)
+    loss_weighting: str = "fixed"
     role_loss_weight: float = 1.0
     evidence_loss_weight: float = 0.7
     evidence_pos_weight: float = 1.0
     importance_loss_weight: float = 0.35
+    importance_pos_weight: float = 1.0
     sentence_context_layers: int = 1
     sentence_context_heads: int = 8
     dropout: float = 0.1
@@ -52,6 +54,10 @@ class StructuredPaperModel(nn.Module):
         self.role_classifier = nn.Linear(hidden_size, config.num_roles)
         self.evidence_classifier = nn.Linear(hidden_size, 1)
         self.importance_regressor = nn.Linear(hidden_size, 1)
+        if config.loss_weighting == "uncertainty":
+            self.log_task_vars = nn.Parameter(torch.zeros(3))
+        else:
+            self.log_task_vars = None
 
     def forward(
         self,
@@ -62,6 +68,7 @@ class StructuredPaperModel(nn.Module):
         cls_positions: torch.Tensor,
         sentence_mask: torch.Tensor,
         role_labels: torch.Tensor | None = None,
+        role_candidate_masks: torch.Tensor | None = None,
         evidence_labels: torch.Tensor | None = None,
         importance_labels: torch.Tensor | None = None,
     ) -> dict[str, torch.Tensor]:
@@ -90,30 +97,27 @@ class StructuredPaperModel(nn.Module):
             "importance_logits": importance_logits,
             "importance_scores": importance_scores,
         }
-        losses: list[torch.Tensor] = []
-        if role_labels is not None:
-            role_loss = nn.functional.cross_entropy(
-                role_logits.view(-1, role_logits.size(-1)),
-                role_labels.view(-1),
-                ignore_index=IGNORE_INDEX,
-            )
+        task_losses: list[tuple[str, torch.Tensor, float]] = []
+        if role_labels is not None or role_candidate_masks is not None:
+            role_loss, role_loss_parts = mixed_role_loss(role_logits, sentence_mask, role_labels, role_candidate_masks)
             outputs["role_loss"] = role_loss
+            outputs.update(role_loss_parts)
             if not torch.isnan(role_loss):
-                losses.append(self.config.role_loss_weight * role_loss)
+                task_losses.append(("role", role_loss, self.config.role_loss_weight))
         if evidence_labels is not None:
             evidence_mask = (evidence_labels >= 0.0) & sentence_mask
             if evidence_mask.any():
                 evidence_loss = masked_bce_with_logits(evidence_logits, evidence_labels, evidence_mask, self.config.evidence_pos_weight)
                 outputs["evidence_loss"] = evidence_loss
-                losses.append(self.config.evidence_loss_weight * evidence_loss)
+                task_losses.append(("evidence", evidence_loss, self.config.evidence_loss_weight))
         if importance_labels is not None:
             importance_mask = (importance_labels >= 0.0) & sentence_mask
             if importance_mask.any():
-                importance_loss = masked_mse(importance_scores, importance_labels, importance_mask)
+                importance_loss = masked_bce_with_logits(importance_logits, importance_labels, importance_mask, self.config.importance_pos_weight)
                 outputs["importance_loss"] = importance_loss
-                losses.append(self.config.importance_loss_weight * importance_loss)
-        if losses:
-            outputs["loss"] = torch.stack(losses).sum()
+                task_losses.append(("importance", importance_loss, self.config.importance_loss_weight))
+        if task_losses:
+            outputs["loss"] = combine_task_losses(task_losses, self.config.loss_weighting, self.log_task_vars, outputs)
         return outputs
 
     def save(self, output_dir: str | Path) -> None:
@@ -164,10 +168,76 @@ def masked_bce_with_logits(logits: torch.Tensor, labels: torch.Tensor, mask: tor
     return masked.sum() / mask.float().sum().clamp_min(1.0)
 
 
+def mixed_role_loss(
+    role_logits: torch.Tensor,
+    sentence_mask: torch.Tensor,
+    role_labels: torch.Tensor | None,
+    role_candidate_masks: torch.Tensor | None,
+) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+    losses: list[torch.Tensor] = []
+    counts: list[torch.Tensor] = []
+    parts: dict[str, torch.Tensor] = {}
+    if role_labels is not None:
+        hard_valid = (role_labels >= 0) & sentence_mask
+        if hard_valid.any():
+            hard_loss_all = nn.functional.cross_entropy(
+                role_logits.view(-1, role_logits.size(-1)),
+                role_labels.view(-1),
+                ignore_index=IGNORE_INDEX,
+                reduction="none",
+            ).view_as(role_labels)
+            hard_sum = (hard_loss_all * hard_valid.float()).sum()
+            hard_count = hard_valid.float().sum()
+            losses.append(hard_sum)
+            counts.append(hard_count)
+            parts["role_hard_loss"] = (hard_sum / hard_count.clamp_min(1.0)).detach()
+            parts["role_hard_count"] = hard_count.detach()
+    if role_candidate_masks is not None:
+        candidate_counts = role_candidate_masks.sum(dim=-1)
+        partial_valid = (candidate_counts > 0) & sentence_mask
+        if partial_valid.any():
+            log_probs = nn.functional.log_softmax(role_logits, dim=-1)
+            negative_infinity = torch.finfo(log_probs.dtype).min
+            candidate_log_probs = log_probs.masked_fill(role_candidate_masks <= 0, negative_infinity)
+            candidate_log_mass = torch.logsumexp(candidate_log_probs, dim=-1)
+            partial_loss_all = -candidate_log_mass
+            partial_sum = (partial_loss_all * partial_valid.float()).sum()
+            partial_count = partial_valid.float().sum()
+            losses.append(partial_sum)
+            counts.append(partial_count)
+            parts["role_partial_loss"] = (partial_sum / partial_count.clamp_min(1.0)).detach()
+            parts["role_partial_count"] = partial_count.detach()
+    if not losses:
+        return role_logits.sum() * 0.0, parts
+    total_loss = torch.stack(losses).sum() / torch.stack(counts).sum().clamp_min(1.0)
+    return total_loss, parts
+
+
 def masked_mse(predictions: torch.Tensor, labels: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
     loss = (predictions - labels.clamp(min=0.0, max=1.0)).pow(2)
     masked = loss * mask.float()
     return masked.sum() / mask.float().sum().clamp_min(1.0)
+
+
+def combine_task_losses(
+    task_losses: list[tuple[str, torch.Tensor, float]],
+    loss_weighting: str,
+    log_task_vars: torch.nn.Parameter | None,
+    outputs: dict[str, torch.Tensor],
+) -> torch.Tensor:
+    if loss_weighting == "uncertainty":
+        if log_task_vars is None:
+            raise ValueError("Uncertainty loss weighting requires log_task_vars.")
+        task_to_idx = {"role": 0, "evidence": 1, "importance": 2}
+        weighted: list[torch.Tensor] = []
+        for name, loss, _ in task_losses:
+            log_var = log_task_vars[task_to_idx[name]]
+            precision = torch.exp(-log_var)
+            outputs[f"{name}_loss_precision"] = precision.detach()
+            outputs[f"{name}_loss_log_var"] = log_var.detach()
+            weighted.append(precision * loss + log_var)
+        return torch.stack(weighted).sum()
+    return torch.stack([weight * loss for _, loss, weight in task_losses]).sum()
 
 
 def move_structure_batch_to_device(batch: dict[str, Any], device: torch.device) -> dict[str, Any]:

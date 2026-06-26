@@ -1,0 +1,4216 @@
+{
+  "schema_version": "evidence_units_v1",
+  "document": {
+    "doc_id": "2020_representation_learning_bootstrap_your_own_latent_a_new_approach_to_self_supervised_learning",
+    "title": "2020_representation_learning_bootstrap_your_own_latent_a_new_approach_to_self_supervised_learning",
+    "source_path": "E:\\class\\2026.4\\NLP\\newtxt\\2020_representation_learning_bootstrap_your_own_latent_a_new_approach_to_self_supervised_learning.txt",
+    "sentence_count": 537,
+    "section_counts": {
+      "intro": 43,
+      "related_work": 30,
+      "method": 77,
+      "experiment": 372,
+      "conclusion": 15
+    }
+  },
+  "pipeline": {
+    "output_type": "evidence_grounded_concept_units_json",
+    "keyword_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\keyword_scibert_semeval2010_finetune_nobow",
+    "structure_checkpoint": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\models\\checkpoints\\structure_v4_partial_role_balanced_fulldev",
+    "legacy_bow_csv": "",
+    "section_bow_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_bow_vocabulary.csv",
+    "term_frequency_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_frequency.csv",
+    "term_tfidf_matrix_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\section_document_term_matrix_tfidf.csv",
+    "evidence_cue_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\evidence_cue_lexicon.csv",
+    "sentence_evidence_csv": "E:\\class\\2026.4\\NLP\\scientific_paper_card_final\\datasets\\lexicon\\sentence_evidence_candidates.csv",
+    "card_markdown_generated": false,
+    "overview_generated": false
+  },
+  "course_nlp_features": {
+    "corpus_building": {
+      "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
+      "json_fields": [
+        "document",
+        "corpus_statistics",
+        "section_profiles",
+        "evidence_units"
+      ]
+    },
+    "tokenization": {
+      "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
+      "json_fields": [
+        "corpus_statistics.token_count",
+        "evidence_units[].phrase.tokens"
+      ]
+    },
+    "normalization": {
+      "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
+      "json_fields": [
+        "evidence_units[].phrase.normalized",
+        "evidence_units[].course_feature_trace.normalization"
+      ]
+    },
+    "n_gram": {
+      "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
+      "json_fields": [
+        "corpus_statistics.top_unigrams",
+        "corpus_statistics.top_bigrams",
+        "corpus_statistics.top_trigrams",
+        "evidence_units[].phrase.ngram_len"
+      ]
+    },
+    "bow_and_naive_bayes": {
+      "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
+      "json_fields": [
+        "section_profiles[].top_bow_terms",
+        "evidence_units[].bow_metadata"
+      ]
+    },
+    "tf_idf_document_term_matrix": {
+      "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
+      "json_fields": [
+        "document_term_matrix",
+        "section_profiles[].top_tfidf_terms",
+        "evidence_units[].document_term_matrix"
+      ]
+    },
+    "laplace_smoothing": {
+      "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
+      "json_fields": [
+        "evidence_units[].importance.components.laplace_section_prior"
+      ]
+    },
+    "evidence_cue_lexicon": {
+      "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
+      "json_fields": [
+        "evidence_units[].evidence.cue_hits",
+        "external_evidence_candidates"
+      ]
+    },
+    "sequence_labeling": {
+      "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
+      "json_fields": [
+        "evidence_units[].importance.components.bio_boundary_score"
+      ]
+    },
+    "canonicalization_noisy_channel_style": {
+      "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
+      "json_fields": [
+        "evidence_units[].course_feature_trace.canonicalization"
+      ]
+    }
+  },
+  "corpus_statistics": {
+    "token_count": 6973,
+    "type_count": 1337,
+    "type_token_ratio": 0.1917,
+    "section_token_counts": {
+      "intro": 885,
+      "related_work": 675,
+      "method": 1797,
+      "experiment": 3367,
+      "conclusion": 249
+    },
+    "top_unigrams": [
+      {
+        "term": "byol",
+        "count": 122
+      },
+      {
+        "term": "network",
+        "count": 69
+      },
+      {
+        "term": "representation",
+        "count": 65
+      },
+      {
+        "term": "target",
+        "count": 62
+      },
+      {
+        "term": "image",
+        "count": 47
+      },
+      {
+        "term": "simclr",
+        "count": 43
+      },
+      {
+        "term": "online",
+        "count": 40
+      },
+      {
+        "term": "using",
+        "count": 30
+      },
+      {
+        "term": "performance",
+        "count": 28
+      },
+      {
+        "term": "learning",
+        "count": 26
+      },
+      {
+        "term": "training",
+        "count": 26
+      },
+      {
+        "term": "50",
+        "count": 25
+      },
+      {
+        "term": "appendix",
+        "count": 25
+      },
+      {
+        "term": "methods",
+        "count": 24
+      },
+      {
+        "term": "negative",
+        "count": 24
+      },
+      {
+        "term": "imagenet",
+        "count": 24
+      },
+      {
+        "term": "predictor",
+        "count": 24
+      },
+      {
+        "term": "top-",
+        "count": 24
+      },
+      {
+        "term": "batch",
+        "count": 23
+      },
+      {
+        "term": "same",
+        "count": 22
+      }
+    ],
+    "top_bigrams": [
+      {
+        "term": "target network",
+        "count": 32
+      },
+      {
+        "term": "online network",
+        "count": 19
+      },
+      {
+        "term": "image augmentations",
+        "count": 16
+      },
+      {
+        "term": "resnet- 50",
+        "count": 16
+      },
+      {
+        "term": "negative pairs",
+        "count": 14
+      },
+      {
+        "term": "linear evaluation",
+        "count": 14
+      },
+      {
+        "term": "augmented view",
+        "count": 12
+      },
+      {
+        "term": "batch size",
+        "count": 12
+      },
+      {
+        "term": "byol ours",
+        "count": 12
+      },
+      {
+        "term": "contrastive methods",
+        "count": 11
+      },
+      {
+        "term": "same image",
+        "count": 10
+      },
+      {
+        "term": "top- accuracy",
+        "count": 10
+      },
+      {
+        "term": "moving average",
+        "count": 9
+      },
+      {
+        "term": "negative examples",
+        "count": 9
+      },
+      {
+        "term": "state art",
+        "count": 8
+      },
+      {
+        "term": "augmented views",
+        "count": 8
+      },
+      {
+        "term": "average online",
+        "count": 7
+      },
+      {
+        "term": "byol uses",
+        "count": 7
+      },
+      {
+        "term": "under linear",
+        "count": 7
+      },
+      {
+        "term": "evaluation protocol",
+        "count": 7
+      }
+    ],
+    "top_trigrams": [
+      {
+        "term": "under linear evaluation",
+        "count": 7
+      },
+      {
+        "term": "byol ours resnet-",
+        "count": 6
+      },
+      {
+        "term": "linear evaluation protocol",
+        "count": 5
+      },
+      {
+        "term": "resnet- 50 94",
+        "count": 5
+      },
+      {
+        "term": "resnet- 50 375",
+        "count": 5
+      },
+      {
+        "term": "augmented view same",
+        "count": 4
+      },
+      {
+        "term": "views same image",
+        "count": 4
+      },
+      {
+        "term": "using negative pairs",
+        "count": 4
+      },
+      {
+        "term": "evaluation protocol imagenet",
+        "count": 4
+      },
+      {
+        "term": "set image augmentations",
+        "count": 4
+      },
+      {
+        "term": "exponential moving average",
+        "count": 4
+      },
+      {
+        "term": "moving average online",
+        "count": 4
+      },
+      {
+        "term": "target decay rate",
+        "count": 4
+      },
+      {
+        "term": "linear evaluation imagenet",
+        "count": 4
+      },
+      {
+        "term": "simclr resnet- 50",
+        "count": 4
+      },
+      {
+        "term": "ours resnet- 50",
+        "count": 4
+      },
+      {
+        "term": "two neural networks",
+        "count": 3
+      },
+      {
+        "term": "online target networks",
+        "count": 3
+      },
+      {
+        "term": "augmented view image",
+        "count": 3
+      },
+      {
+        "term": "target network representation",
+        "count": 3
+      }
+    ]
+  },
+  "document_term_matrix": {
+    "available": true,
+    "nonzero_frequency_features": 21,
+    "nonzero_tfidf_features": 21,
+    "top_tfidf_features": [
+      {
+        "feature_name": "introduction__ResNet",
+        "section": "intro",
+        "term": "ResNet",
+        "frequency": 2.0,
+        "tfidf": 0.8679
+      },
+      {
+        "feature_name": "abstract__ResNet",
+        "section": "intro",
+        "term": "ResNet",
+        "frequency": 1.0,
+        "tfidf": 0.7598
+      },
+      {
+        "feature_name": "related_work__representation learning",
+        "section": "related_work",
+        "term": "representation learning",
+        "frequency": 4.0,
+        "tfidf": 0.7579
+      },
+      {
+        "feature_name": "conclusion__self-supervised learning",
+        "section": "conclusion",
+        "term": "self-supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.7306
+      },
+      {
+        "feature_name": "conclusion__supervised learning",
+        "section": "conclusion",
+        "term": "supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.6828
+      },
+      {
+        "feature_name": "abstract__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 1.0,
+        "tfidf": 0.6501
+      },
+      {
+        "feature_name": "experiments__object detection",
+        "section": "experiment",
+        "term": "object detection",
+        "frequency": 5.0,
+        "tfidf": 0.6107
+      },
+      {
+        "feature_name": "experiments__MLP",
+        "section": "experiment",
+        "term": "MLP",
+        "frequency": 4.0,
+        "tfidf": 0.5192
+      },
+      {
+        "feature_name": "related_work__self-supervised learning",
+        "section": "related_work",
+        "term": "self-supervised learning",
+        "frequency": 2.0,
+        "tfidf": 0.4598
+      },
+      {
+        "feature_name": "experiments__ResNet",
+        "section": "experiment",
+        "term": "ResNet",
+        "frequency": 4.0,
+        "tfidf": 0.422
+      },
+      {
+        "feature_name": "experiments__segmentation",
+        "section": "experiment",
+        "term": "segmentation",
+        "frequency": 4.0,
+        "tfidf": 0.4138
+      },
+      {
+        "feature_name": "introduction__self-supervised learning",
+        "section": "intro",
+        "term": "self-supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.3973
+      },
+      {
+        "feature_name": "experiments__sgd",
+        "section": "experiment",
+        "term": "sgd",
+        "frequency": 3.0,
+        "tfidf": 0.3766
+      },
+      {
+        "feature_name": "related_work__embeddings",
+        "section": "related_work",
+        "term": "embeddings",
+        "frequency": 2.0,
+        "tfidf": 0.3633
+      },
+      {
+        "feature_name": "introduction__representation learning",
+        "section": "intro",
+        "term": "representation learning",
+        "frequency": 1.0,
+        "tfidf": 0.298
+      },
+      {
+        "feature_name": "related_work__semi-supervised learning",
+        "section": "related_work",
+        "term": "semi-supervised learning",
+        "frequency": 1.0,
+        "tfidf": 0.2395
+      },
+      {
+        "feature_name": "related_work__end-to-end",
+        "section": "related_work",
+        "term": "end-to-end",
+        "frequency": 1.0,
+        "tfidf": 0.2395
+      },
+      {
+        "feature_name": "related_work__reinforcement learning",
+        "section": "related_work",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.182
+      },
+      {
+        "feature_name": "experiments__label smoothing",
+        "section": "experiment",
+        "term": "label smoothing",
+        "frequency": 1.0,
+        "tfidf": 0.1427
+      },
+      {
+        "feature_name": "experiments__tpu",
+        "section": "experiment",
+        "term": "tpu",
+        "frequency": 1.0,
+        "tfidf": 0.1427
+      },
+      {
+        "feature_name": "experiments__training set",
+        "section": "experiment",
+        "term": "training set",
+        "frequency": 2.0,
+        "tfidf": 0.1418
+      }
+    ],
+    "top_tfidf_features_by_section": {
+      "intro": [
+        {
+          "feature_name": "introduction__ResNet",
+          "section": "intro",
+          "term": "ResNet",
+          "frequency": 2.0,
+          "tfidf": 0.8679
+        },
+        {
+          "feature_name": "abstract__ResNet",
+          "section": "intro",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.7598
+        },
+        {
+          "feature_name": "abstract__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.6501
+        },
+        {
+          "feature_name": "introduction__self-supervised learning",
+          "section": "intro",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3973
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.298
+        }
+      ],
+      "related_work": [
+        {
+          "feature_name": "related_work__representation learning",
+          "section": "related_work",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 0.7579
+        },
+        {
+          "feature_name": "related_work__self-supervised learning",
+          "section": "related_work",
+          "term": "self-supervised learning",
+          "frequency": 2.0,
+          "tfidf": 0.4598
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.3633
+        },
+        {
+          "feature_name": "related_work__semi-supervised learning",
+          "section": "related_work",
+          "term": "semi-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.2395
+        },
+        {
+          "feature_name": "related_work__end-to-end",
+          "section": "related_work",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.2395
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.182
+        }
+      ],
+      "method": [],
+      "experiment": [
+        {
+          "feature_name": "experiments__object detection",
+          "section": "experiment",
+          "term": "object detection",
+          "frequency": 5.0,
+          "tfidf": 0.6107
+        },
+        {
+          "feature_name": "experiments__MLP",
+          "section": "experiment",
+          "term": "MLP",
+          "frequency": 4.0,
+          "tfidf": 0.5192
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 4.0,
+          "tfidf": 0.422
+        },
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 4.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 3.0,
+          "tfidf": 0.3766
+        },
+        {
+          "feature_name": "experiments__label smoothing",
+          "section": "experiment",
+          "term": "label smoothing",
+          "frequency": 1.0,
+          "tfidf": 0.1427
+        },
+        {
+          "feature_name": "experiments__tpu",
+          "section": "experiment",
+          "term": "tpu",
+          "frequency": 1.0,
+          "tfidf": 0.1427
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 2.0,
+          "tfidf": 0.1418
+        }
+      ],
+      "conclusion": [
+        {
+          "feature_name": "conclusion__self-supervised learning",
+          "section": "conclusion",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.7306
+        },
+        {
+          "feature_name": "conclusion__supervised learning",
+          "section": "conclusion",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.6828
+        }
+      ]
+    }
+  },
+  "section_profiles": {
+    "intro": {
+      "sentence_count": 43,
+      "token_count": 885,
+      "bow_hit_count": 33,
+      "top_bow_terms": [
+        {
+          "canonical_term": "residual neural network",
+          "count": 15,
+          "section_prior": 0.1067,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "feature learning",
+          "count": 10,
+          "section_prior": 0.4804,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "self-supervised learning",
+          "count": 8,
+          "section_prior": 0.3871,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "introduction__ResNet",
+          "section": "intro",
+          "term": "ResNet",
+          "frequency": 2.0,
+          "tfidf": 0.8679
+        },
+        {
+          "feature_name": "abstract__ResNet",
+          "section": "intro",
+          "term": "ResNet",
+          "frequency": 1.0,
+          "tfidf": 0.7598
+        },
+        {
+          "feature_name": "abstract__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.6501
+        },
+        {
+          "feature_name": "introduction__self-supervised learning",
+          "section": "intro",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.3973
+        },
+        {
+          "feature_name": "introduction__representation learning",
+          "section": "intro",
+          "term": "representation learning",
+          "frequency": 1.0,
+          "tfidf": 0.298
+        }
+      ]
+    },
+    "related_work": {
+      "sentence_count": 30,
+      "token_count": 675,
+      "bow_hit_count": 40,
+      "top_bow_terms": [
+        {
+          "canonical_term": "feature learning",
+          "count": 13,
+          "section_prior": 0.2451,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "self-supervised learning",
+          "count": 8,
+          "section_prior": 0.2903,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "embedding",
+          "count": 5,
+          "section_prior": 0.1276,
+          "confidence_score": 0.91,
+          "wiki_category": "component"
+        },
+        {
+          "canonical_term": "reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1869,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "end-to-end reinforcement learning",
+          "count": 5,
+          "section_prior": 0.1497,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "semi-supervised learning",
+          "count": 4,
+          "section_prior": 0.25,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "related_work__representation learning",
+          "section": "related_work",
+          "term": "representation learning",
+          "frequency": 4.0,
+          "tfidf": 0.7579
+        },
+        {
+          "feature_name": "related_work__self-supervised learning",
+          "section": "related_work",
+          "term": "self-supervised learning",
+          "frequency": 2.0,
+          "tfidf": 0.4598
+        },
+        {
+          "feature_name": "related_work__embeddings",
+          "section": "related_work",
+          "term": "embeddings",
+          "frequency": 2.0,
+          "tfidf": 0.3633
+        },
+        {
+          "feature_name": "related_work__semi-supervised learning",
+          "section": "related_work",
+          "term": "semi-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.2395
+        },
+        {
+          "feature_name": "related_work__end-to-end",
+          "section": "related_work",
+          "term": "end-to-end",
+          "frequency": 1.0,
+          "tfidf": 0.2395
+        },
+        {
+          "feature_name": "related_work__reinforcement learning",
+          "section": "related_work",
+          "term": "reinforcement learning",
+          "frequency": 1.0,
+          "tfidf": 0.182
+        }
+      ]
+    },
+    "method": {
+      "sentence_count": 77,
+      "token_count": 1797,
+      "bow_hit_count": 18,
+      "top_bow_terms": [
+        {
+          "canonical_term": "multilayer perceptron",
+          "count": 9,
+          "section_prior": 0.4068,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "gradient descent",
+          "count": 5,
+          "section_prior": 0.268,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "self-supervised learning",
+          "count": 4,
+          "section_prior": 0.0323,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": []
+    },
+    "experiment": {
+      "sentence_count": 372,
+      "token_count": 3367,
+      "bow_hit_count": 64,
+      "top_bow_terms": [
+        {
+          "canonical_term": "speech segmentation",
+          "count": 20,
+          "section_prior": 0.3671,
+          "confidence_score": 0.91,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "object detection",
+          "count": 14,
+          "section_prior": 0.1622,
+          "confidence_score": 0.85,
+          "wiki_category": "task"
+        },
+        {
+          "canonical_term": "training set",
+          "count": 10,
+          "section_prior": 0.4254,
+          "confidence_score": 0.91,
+          "wiki_category": "dataset"
+        },
+        {
+          "canonical_term": "residual neural network",
+          "count": 10,
+          "section_prior": 0.44,
+          "confidence_score": 0.91,
+          "wiki_category": "model"
+        },
+        {
+          "canonical_term": "transfer learning",
+          "count": 5,
+          "section_prior": 0.2471,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "AI accelerator",
+          "count": 4,
+          "section_prior": 0.3636,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        },
+        {
+          "canonical_term": "linear regression",
+          "count": 1,
+          "section_prior": 0.5,
+          "confidence_score": 0.91,
+          "wiki_category": "other"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "experiments__object detection",
+          "section": "experiment",
+          "term": "object detection",
+          "frequency": 5.0,
+          "tfidf": 0.6107
+        },
+        {
+          "feature_name": "experiments__MLP",
+          "section": "experiment",
+          "term": "MLP",
+          "frequency": 4.0,
+          "tfidf": 0.5192
+        },
+        {
+          "feature_name": "experiments__ResNet",
+          "section": "experiment",
+          "term": "ResNet",
+          "frequency": 4.0,
+          "tfidf": 0.422
+        },
+        {
+          "feature_name": "experiments__segmentation",
+          "section": "experiment",
+          "term": "segmentation",
+          "frequency": 4.0,
+          "tfidf": 0.4138
+        },
+        {
+          "feature_name": "experiments__sgd",
+          "section": "experiment",
+          "term": "sgd",
+          "frequency": 3.0,
+          "tfidf": 0.3766
+        },
+        {
+          "feature_name": "experiments__label smoothing",
+          "section": "experiment",
+          "term": "label smoothing",
+          "frequency": 1.0,
+          "tfidf": 0.1427
+        },
+        {
+          "feature_name": "experiments__tpu",
+          "section": "experiment",
+          "term": "tpu",
+          "frequency": 1.0,
+          "tfidf": 0.1427
+        },
+        {
+          "feature_name": "experiments__training set",
+          "section": "experiment",
+          "term": "training set",
+          "frequency": 2.0,
+          "tfidf": 0.1418
+        }
+      ]
+    },
+    "conclusion": {
+      "sentence_count": 15,
+      "token_count": 249,
+      "bow_hit_count": 13,
+      "top_bow_terms": [
+        {
+          "canonical_term": "supervised learning",
+          "count": 5,
+          "section_prior": 0.15,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "self-supervised learning",
+          "count": 4,
+          "section_prior": 0.1935,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        },
+        {
+          "canonical_term": "unsupervised learning",
+          "count": 4,
+          "section_prior": 0.1818,
+          "confidence_score": 0.91,
+          "wiki_category": "method"
+        }
+      ],
+      "top_tfidf_terms": [
+        {
+          "feature_name": "conclusion__self-supervised learning",
+          "section": "conclusion",
+          "term": "self-supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.7306
+        },
+        {
+          "feature_name": "conclusion__supervised learning",
+          "section": "conclusion",
+          "term": "supervised learning",
+          "frequency": 1.0,
+          "tfidf": 0.6828
+        }
+      ]
+    }
+  },
+  "evidence_units": [
+    {
+      "unit_id": "ecu_001",
+      "rank": 1,
+      "phrase": {
+        "surface": "ResNet",
+        "canonical": "residual neural network",
+        "normalized": "residual neural network",
+        "tokens": [
+          "resnet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "residual neural network",
+          "resnet",
+          "ResNet"
+        ]
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 36,
+        "sentence": "6% top-1 accuracy with a larger ResNet (Figure 1).",
+        "context_window": {
+          "previous": "3% top-1 accuracy with a standard ResNet- 50 and 79 .",
+          "current": "6% top-1 accuracy with a larger ResNet (Figure 1).",
+          "next": "In the semi-supervised and transfer settings on ImageNet, we obtain results on par or superior to the current state of the art."
+        }
+      },
+      "role": {
+        "label": "metric",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "metric",
+        "cue_hits": [
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7154,
+        "downstream_relevance_score": 0.7963,
+        "components": {
+          "bio_boundary_score": 0.995,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.1067,
+          "document_tfidf_score": 1.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "resnet",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "residual neural network",
+        "display_term": "ResNet",
+        "term_type": "model",
+        "role_prior": "core_method",
+        "ngram_label": "unigram",
+        "pos_pattern": "NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "model",
+        "wiki_url": "https://en.wikipedia.org/wiki/Residual_neural_network",
+        "wikidata_id": "Q43744058",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 3,
+        "total_frequency": 4,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "introduction__ResNet",
+        "section": "intro",
+        "term": "ResNet",
+        "frequency": 2.0,
+        "tfidf": 0.8679,
+        "normalized_frequency": 0.4,
+        "normalized_tfidf": 1.0
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "resnet"
+        ],
+        "normalization": "resnet",
+        "ngram": "1-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.1067,
+        "canonicalization": {
+          "observed": "ResNet",
+          "canonical": "residual neural network",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.995",
+        "structure model assigned role 'metric' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "section BoW matched canonical term 'residual neural network' with confidence 0.85",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'introduction__ResNet' with tf-idf 0.8679",
+        "evidence cue lexicon matched accuracy",
+        "downstream relevance score is 0.7963"
+      ]
+    },
+    {
+      "unit_id": "ecu_002",
+      "rank": 2,
+      "phrase": {
+        "surface": "self-supervised learning",
+        "canonical": "self-supervised learning",
+        "normalized": "self-supervised learning",
+        "tokens": [
+          "self-supervised",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "self-supervised learning"
+        ]
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 74,
+        "sentence": "Many successful self-supervised learning approaches build upon the cross-view prediction framework introduced in [ 63 ].",
+        "context_window": {
+          "previous": "We start by motivating our method before explaining its details in Section 3.1.",
+          "current": "Many successful self-supervised learning approaches build upon the cross-view prediction framework introduced in [ 63 ].",
+          "next": "Typically, these approaches learn representations by predicting different views (e.g., different random crops) of the same image from one another."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "framework",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "framework cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.9286,
+          "evidence_type": "method",
+          "matched_cue": "framework",
+          "role_prior": "core_method",
+          "confidence": 0.9
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.722,
+        "downstream_relevance_score": 0.7176,
+        "components": {
+          "bio_boundary_score": 0.9846,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.0323,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.08,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "self-supervised learning",
+        "match_quality": 1.0,
+        "section": "intro",
+        "original_section": "intro",
+        "canonical_term": "self-supervised learning",
+        "display_term": "self-supervised learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Self-supervised_learning",
+        "wikidata_id": "Q77562367",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 5,
+        "total_frequency": 11,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "self-supervised",
+          "learning"
+        ],
+        "normalization": "self-supervised learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0323,
+        "canonicalization": {
+          "observed": "self-supervised learning",
+          "canonical": "self-supervised learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9846",
+        "structure model assigned role 'core_method' with score 0.82",
+        "section BoW matched canonical term 'self-supervised learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "evidence cue lexicon matched framework",
+        "downstream relevance score is 0.7176"
+      ]
+    },
+    {
+      "unit_id": "ecu_003",
+      "rank": 3,
+      "phrase": {
+        "surface": "ImageNet",
+        "canonical": "ImageNet",
+        "normalized": "imagenet",
+        "tokens": [
+          "imagenet"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 8,
+        "sentence": "3% top-1 classification accuracy on ImageNet using a linear evaluation with a ResNet-50 architecture and 79 .",
+        "context_window": {
+          "previous": "BYOL reaches 74 .",
+          "current": "3% top-1 classification accuracy on ImageNet using a linear evaluation with a ResNet-50 architecture and 79 .",
+          "next": "6% with a larger ResNet."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.58,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          },
+          {
+            "cue_phrase": "accuracy",
+            "evidence_type": "metric",
+            "role_prior": "metric",
+            "section_hint": "experiment",
+            "notes": "metric name"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.7143,
+          "evidence_type": "metric",
+          "matched_cue": "accuracy",
+          "role_prior": "metric",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7763,
+        "downstream_relevance_score": 0.6527,
+        "components": {
+          "bio_boundary_score": 0.9796,
+          "sentence_evidence_score": 0.58,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.07,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "imagenet"
+        ],
+        "normalization": "imagenet",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "ImageNet",
+          "canonical": "ImageNet",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9796",
+        "structure model assigned role 'core_method' with score 0.66",
+        "evidence score 0.58 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched architecture, accuracy",
+        "downstream relevance score is 0.6527"
+      ]
+    },
+    {
+      "unit_id": "ecu_004",
+      "rank": 4,
+      "phrase": {
+        "surface": "bootstrapping",
+        "canonical": "bootstrapping",
+        "normalized": "bootstrapping",
+        "tokens": [
+          "bootstrapping"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 28,
+        "sentence": "While previous methods based on bootstrapping have used pseudo-labels [ 16 ], cluster indices [ 17 ] or a handful of labels [ 18 , 19 , 20 ], we propose to directly bootstrap the representations .",
+        "context_window": {
+          "previous": "Moreover, BYOL is more robust to the choice of image augmentations than contrastive methods; we suspect that not relying on negative pairs is one of the leading reasons for its improved robustness.",
+          "current": "While previous methods based on bootstrapping have used pseudo-labels [ 16 ], cluster indices [ 17 ] or a handful of labels [ 18 , 19 , 20 ], we propose to directly bootstrap the representations .",
+          "next": "In particular, BYOL uses two neural networks, referred to as online and target networks, that interact and learn from each other."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8214,
+          "evidence_type": "method",
+          "matched_cue": "propose",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7847,
+        "downstream_relevance_score": 0.6055,
+        "components": {
+          "bio_boundary_score": 0.9275,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bootstrapping"
+        ],
+        "normalization": "bootstrapping",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bootstrapping",
+          "canonical": "bootstrapping",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9275",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.6055"
+      ]
+    },
+    {
+      "unit_id": "ecu_005",
+      "rank": 5,
+      "phrase": {
+        "surface": "representation learning",
+        "canonical": "feature learning",
+        "normalized": "feature learning",
+        "tokens": [
+          "representation",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "representation learning",
+          "feature learning"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 44,
+        "sentence": "Generative approaches to representation learning build a distribution over data and latent embedding and use the learned embeddings as image representations.",
+        "context_window": {
+          "previous": "Most unsupervised methods for representation learning can be categorized as either generative or discriminative [ 23 , 8 ].",
+          "current": "Generative approaches to representation learning build a distribution over data and latent embedding and use the learned embeddings as image representations.",
+          "next": "Many of these approaches rely either on auto-encoding of images [ 24 , 25 , 26 ] or on adversarial learning [ 27 ], jointly modelling data and representation [ 28 , 29 , 30 , 31 ]."
+        }
+      },
+      "role": {
+        "label": "component",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "method_component",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5915,
+        "downstream_relevance_score": 0.5973,
+        "components": {
+          "bio_boundary_score": 0.9815,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.2451,
+          "document_tfidf_score": 0.8732,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "representation learning",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "feature learning",
+        "display_term": "representation learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Feature_learning",
+        "wikidata_id": "Q17013334",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 12,
+        "total_frequency": 24,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "related_work__representation learning",
+        "section": "related_work",
+        "term": "representation learning",
+        "frequency": 4.0,
+        "tfidf": 0.7579,
+        "normalized_frequency": 0.8,
+        "normalized_tfidf": 0.8732
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "representation",
+          "learning"
+        ],
+        "normalization": "representation learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.2451,
+        "canonicalization": {
+          "observed": "representation learning",
+          "canonical": "feature learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9815",
+        "structure model assigned role 'component' with score 0.66",
+        "section BoW matched canonical term 'feature learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'related_work__representation learning' with tf-idf 0.7579",
+        "downstream relevance score is 0.5973"
+      ]
+    },
+    {
+      "unit_id": "ecu_006",
+      "rank": 6,
+      "phrase": {
+        "surface": "bootstrap",
+        "canonical": "bootstrap",
+        "normalized": "bootstrap",
+        "tokens": [
+          "bootstrap"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 28,
+        "sentence": "While previous methods based on bootstrapping have used pseudo-labels [ 16 ], cluster indices [ 17 ] or a handful of labels [ 18 , 19 , 20 ], we propose to directly bootstrap the representations .",
+        "context_window": {
+          "previous": "Moreover, BYOL is more robust to the choice of image augmentations than contrastive methods; we suspect that not relying on negative pairs is one of the leading reasons for its improved robustness.",
+          "current": "While previous methods based on bootstrapping have used pseudo-labels [ 16 ], cluster indices [ 17 ] or a handful of labels [ 18 , 19 , 20 ], we propose to directly bootstrap the representations .",
+          "next": "In particular, BYOL uses two neural networks, referred to as online and target networks, that interact and learn from each other."
+        }
+      },
+      "role": {
+        "label": "objective",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "propose",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "method contribution cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8214,
+          "evidence_type": "method",
+          "matched_cue": "propose",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7687,
+        "downstream_relevance_score": 0.5971,
+        "components": {
+          "bio_boundary_score": 0.8726,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "bootstrap"
+        ],
+        "normalization": "bootstrap",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "bootstrap",
+          "canonical": "bootstrap",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8726",
+        "structure model assigned role 'objective' with score 0.82",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "evidence cue lexicon matched propose",
+        "downstream relevance score is 0.5971"
+      ]
+    },
+    {
+      "unit_id": "ecu_007",
+      "rank": 7,
+      "phrase": {
+        "surface": "object detection",
+        "canonical": "object detection",
+        "normalized": "object detection",
+        "tokens": [
+          "object",
+          "detection"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "object detection"
+        ]
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 371,
+        "sentence": "Transfer to other vision tasks We evaluate our representation on different tasks relevant to computer vision practitioners, namely semantic segmentation, object detection and depth estimation.",
+        "context_window": {
+          "previous": "0 Table 3: Transfer learning results from ImageNet (IN) with the standard ResNet-50 architecture.",
+          "current": "Transfer to other vision tasks We evaluate our representation on different tasks relevant to computer vision practitioners, namely semantic segmentation, object detection and depth estimation.",
+          "next": "With this evaluation, we assess whether BYOL ’s representation generalizes beyond classification tasks."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6079,
+        "downstream_relevance_score": 0.5704,
+        "components": {
+          "bio_boundary_score": 0.997,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.85,
+          "laplace_section_prior": 0.1622,
+          "document_tfidf_score": 0.7036,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "object detection",
+        "match_quality": 1.0,
+        "section": "experiment",
+        "original_section": "experiment",
+        "canonical_term": "object detection",
+        "display_term": "object detection",
+        "term_type": "task",
+        "role_prior": "task",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "initial_corpus",
+        "wiki_category": "task",
+        "wiki_url": "https://en.wikipedia.org/wiki/Object_detection",
+        "wikidata_id": "Q3045304",
+        "source": "initial_corpus",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 7,
+        "total_frequency": 17,
+        "confidence_score": 0.85
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "experiments__object detection",
+        "section": "experiment",
+        "term": "object detection",
+        "frequency": 5.0,
+        "tfidf": 0.6107,
+        "normalized_frequency": 1.0,
+        "normalized_tfidf": 0.7036
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "object",
+          "detection"
+        ],
+        "normalization": "object detection",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1622,
+        "canonicalization": {
+          "observed": "object detection",
+          "canonical": "object detection",
+          "channel_score": 0.85
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.997",
+        "structure model assigned role 'dataset' with score 0.45",
+        "section BoW matched canonical term 'object detection' with confidence 0.85",
+        "BoW role prior suggests 'task'",
+        "document-term matrix links the phrase to feature 'experiments__object detection' with tf-idf 0.6107",
+        "downstream relevance score is 0.5704"
+      ]
+    },
+    {
+      "unit_id": "ecu_008",
+      "rank": 8,
+      "phrase": {
+        "surface": "convolutional residual network",
+        "canonical": "convolutional residual network",
+        "normalized": "convolutional residual network",
+        "tokens": [
+          "convolutional",
+          "residual",
+          "network"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 134,
+        "sentence": "Architecture We use a convolutional residual network [ 22 ] with 50 layers and post-activation (ResNet- 50(1 × ) v1) as our base parametric encoders f θ and f ξ .",
+        "context_window": {
+          "previous": "Additional details on the image augmentations are in Appendix B.",
+          "current": "Architecture We use a convolutional residual network [ 22 ] with 50 layers and post-activation (ResNet- 50(1 × ) v1) as our base parametric encoders f θ and f ξ .",
+          "next": "We also use deeper ( 50 , 101 , 152 and 200 layers) and wider (from 1 × to 4 × ) ResNets, as in [ 67 , 48 , 8 ]."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 0.8696,
+          "evidence_type": "method",
+          "matched_cue": "architecture",
+          "role_prior": "core_method",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6648,
+        "downstream_relevance_score": 0.5603,
+        "components": {
+          "bio_boundary_score": 0.7427,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "convolutional",
+          "residual",
+          "network"
+        ],
+        "normalization": "convolutional residual network",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "convolutional residual network",
+          "canonical": "convolutional residual network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7427",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5603"
+      ]
+    },
+    {
+      "unit_id": "ecu_009",
+      "rank": 9,
+      "phrase": {
+        "surface": "target pipeline",
+        "canonical": "target pipeline",
+        "normalized": "target pipeline",
+        "tokens": [
+          "target",
+          "pipeline"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 103,
+        "sentence": "Note that this predictor is only applied to the online branch, making the architecture asymmetric between the online and target pipeline.",
+        "context_window": {
+          "previous": "We then output a prediction q θ ( z θ ) of z ′ ξ and ` 2 -normalize both q θ ( z θ ) and z ′ ξ to q θ ( z θ ) = ∆ q θ ( z θ ) / ‖ q θ ( z θ ) ‖ 2 and z ′ ξ = ∆ z ′ ξ / ‖ z ′ ξ ‖ 2 .",
+          "current": "Note that this predictor is only applied to the online branch, making the architecture asymmetric between the online and target pipeline.",
+          "next": "Finally we define the following mean squared error between the normalized predictions and target projections, 5 L θ,ξ = ∆ ∥ ∥ q θ ( z θ ) − z ′ ξ ∥ ∥ 2 2 = 2 − 2 · 〈 q θ ( z θ ) , z ′ ξ 〉 ∥ ∥ q θ ( z θ ) ∥ ∥ 2 · ∥ ∥ z ′ ξ ∥ ∥ 2 · (2) We symmetrize the loss L θ,ξ in Eq."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method",
+        "cue_hits": [
+          {
+            "cue_phrase": "architecture",
+            "evidence_type": "method",
+            "role_prior": "core_method",
+            "section_hint": "method",
+            "notes": "architecture cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6804,
+        "downstream_relevance_score": 0.5584,
+        "components": {
+          "bio_boundary_score": 0.8446,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.035,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "target",
+          "pipeline"
+        ],
+        "normalization": "target pipeline",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "target pipeline",
+          "canonical": "target pipeline",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8446",
+        "structure model assigned role 'core_method' with score 0.82",
+        "evidence cue lexicon matched architecture",
+        "downstream relevance score is 0.5584"
+      ]
+    },
+    {
+      "unit_id": "ecu_010",
+      "rank": 10,
+      "phrase": {
+        "surface": "state of the art",
+        "canonical": "state of the art",
+        "normalized": "state of the art",
+        "tokens": [
+          "state",
+          "of",
+          "the",
+          "art"
+        ],
+        "ngram_len": 4,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 6,
+        "sentence": "While state-of-the art methods rely on negative pairs, BYOL achieves a new state of the art without them .",
+        "context_window": {
+          "previous": "At the same time, we update the target network with a slow-moving average of the online network.",
+          "current": "While state-of-the art methods rely on negative pairs, BYOL achieves a new state of the art without them .",
+          "next": "BYOL reaches 74 ."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4418,
+        "support_type": "result",
+        "cue_hits": [
+          {
+            "cue_phrase": "achieves",
+            "evidence_type": "result",
+            "role_prior": "result",
+            "section_hint": "experiment",
+            "notes": "achievement cue"
+          }
+        ],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "achieves",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6404,
+        "downstream_relevance_score": 0.5436,
+        "components": {
+          "bio_boundary_score": 0.7802,
+          "sentence_evidence_score": 0.4418,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.035,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 1.0
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "state",
+          "of",
+          "the",
+          "art"
+        ],
+        "normalization": "state of the art",
+        "ngram": "4-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": true,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "state of the art",
+          "canonical": "state of the art",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7802",
+        "structure model assigned role 'problem' with score 0.9218",
+        "evidence cue lexicon matched achieves",
+        "downstream relevance score is 0.5436"
+      ]
+    },
+    {
+      "unit_id": "ecu_011",
+      "rank": 11,
+      "phrase": {
+        "surface": "target network",
+        "canonical": "target network",
+        "normalized": "target network",
+        "tokens": [
+          "target",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 505,
+        "sentence": "Here, we show that by mere stabilization effect, even when using the same number of negative examples, using a target network is beneficial.",
+        "context_window": {
+          "previous": "This sheds new light on the use of the target network in MoCo [ 9 ], where the target network is used to provide more negative examples.",
+          "current": "Here, we show that by mere stabilization effect, even when using the same number of negative examples, using a target network is beneficial.",
+          "next": "Finally, we observe that modifying the architecture of S θ to include a predictor only mildly affects the performance of SimCLR ."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7749,
+        "downstream_relevance_score": 0.543,
+        "components": {
+          "bio_boundary_score": 0.9932,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "target",
+          "network"
+        ],
+        "normalization": "target network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "target network",
+          "canonical": "target network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9932",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.543"
+      ]
+    },
+    {
+      "unit_id": "ecu_012",
+      "rank": 12,
+      "phrase": {
+        "surface": "unsupervised learning",
+        "canonical": "unsupervised learning",
+        "normalized": "unsupervised learning",
+        "tokens": [
+          "unsupervised",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "unsupervised learning"
+        ]
+      },
+      "location": {
+        "section": "conclusion",
+        "sentence_index": 533,
+        "sentence": "10 Broader impact The presented research should be categorized as research in the field of unsupervised learning.",
+        "context_window": {
+          "previous": "Therefore, automating the search for these augmentations would be an important next step to generalize BYOL to other modalities.",
+          "current": "10 Broader impact The presented research should be categorized as research in the field of unsupervised learning.",
+          "next": "This work may inspire new algorithms, theoretical, and experimental investigation."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.32,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5093,
+        "downstream_relevance_score": 0.5357,
+        "components": {
+          "bio_boundary_score": 0.5243,
+          "sentence_evidence_score": 0.32,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1818,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "unsupervised learning",
+        "match_quality": 1.0,
+        "section": "conclusion",
+        "original_section": "conclusion",
+        "canonical_term": "unsupervised learning",
+        "display_term": "unsupervised learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "JJ NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Unsupervised_learning",
+        "wikidata_id": "Q1152135",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 6,
+        "total_frequency": 7,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "unsupervised",
+          "learning"
+        ],
+        "normalization": "unsupervised learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1818,
+        "canonicalization": {
+          "observed": "unsupervised learning",
+          "canonical": "unsupervised learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5243",
+        "structure model assigned role 'contribution' with score 0.45",
+        "section BoW matched canonical term 'unsupervised learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "downstream relevance score is 0.5357"
+      ]
+    },
+    {
+      "unit_id": "ecu_013",
+      "rank": 13,
+      "phrase": {
+        "surface": "reinforcement learning",
+        "canonical": "reinforcement learning",
+        "normalized": "reinforcement learning",
+        "tokens": [
+          "reinforcement",
+          "learning"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO",
+          "section_bow"
+        ],
+        "aliases": [
+          "reinforcement learning"
+        ]
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 57,
+        "sentence": "Our approach has some similarities with Predictions of Bootstrapped Latents ( PBL , [ 49 ]), a self-supervised represen- tation learning technique for reinforcement learning (RL).",
+        "context_window": {
+          "previous": "Yet, even with suitable architectures [ 48 ], these methods are being outperformed by contrastive methods [37, 8, 12].",
+          "current": "Our approach has some similarities with Predictions of Bootstrapped Latents ( PBL , [ 49 ]), a self-supervised represen- tation learning technique for reinforcement learning (RL).",
+          "next": "PBL jointly trains the agent’s history representation and an encoding of future observations."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5526,
+        "downstream_relevance_score": 0.5242,
+        "components": {
+          "bio_boundary_score": 0.961,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.91,
+          "laplace_section_prior": 0.1869,
+          "document_tfidf_score": 0.2097,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.07,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": true,
+        "matched_alias": "reinforcement learning",
+        "match_quality": 1.0,
+        "section": "related_work",
+        "original_section": "related_work",
+        "canonical_term": "reinforcement learning",
+        "display_term": "reinforcement learning",
+        "term_type": "method",
+        "role_prior": "core_method",
+        "ngram_label": "bigram",
+        "pos_pattern": "NN NN",
+        "is_generic": false,
+        "source_corpus": "both",
+        "wiki_category": "method",
+        "wiki_url": "https://en.wikipedia.org/wiki/Reinforcement_learning",
+        "wikidata_id": "Q830687",
+        "source": "both",
+        "match_type": "",
+        "notes": "pos=fallback",
+        "document_frequency": 14,
+        "total_frequency": 36,
+        "confidence_score": 0.91
+      },
+      "document_term_matrix": {
+        "matched": true,
+        "feature_name": "related_work__reinforcement learning",
+        "section": "related_work",
+        "term": "reinforcement learning",
+        "frequency": 1.0,
+        "tfidf": 0.182,
+        "normalized_frequency": 0.2,
+        "normalized_tfidf": 0.2097
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "reinforcement",
+          "learning"
+        ],
+        "normalization": "reinforcement learning",
+        "ngram": "2-gram",
+        "bow_feature": true,
+        "tfidf_feature": true,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.1869,
+        "canonicalization": {
+          "observed": "reinforcement learning",
+          "canonical": "reinforcement learning",
+          "channel_score": 0.91
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.961",
+        "structure model assigned role 'prior_work' with score 0.45",
+        "section BoW matched canonical term 'reinforcement learning' with confidence 0.91",
+        "BoW role prior suggests 'core_method'",
+        "document-term matrix links the phrase to feature 'related_work__reinforcement learning' with tf-idf 0.182",
+        "downstream relevance score is 0.5242"
+      ]
+    },
+    {
+      "unit_id": "ecu_014",
+      "rank": 14,
+      "phrase": {
+        "surface": "negative pairs",
+        "canonical": "negative pairs",
+        "normalized": "negative pairs",
+        "tokens": [
+          "negative",
+          "pairs"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 21,
+        "sentence": "These methods need careful treatment of negative pairs [ 13 ] by either relying on large batch sizes [ 8 , 12 ], memory banks [ 9 ] or customized mining strategies [ 14 , 15 ] to re- trieve the negative pairs.",
+        "context_window": {
+          "previous": "Among them, state-of-the-art contrastive meth- ods [ 8 , 9 , 10 , 11 , 12 ] are trained by reducing the dis- tance between representations of different augmented views of the same image (‘positive pairs’), and increas- ing the distance between representations of augmented views from different images (‘negative pairs’).",
+          "current": "These methods need careful treatment of negative pairs [ 13 ] by either relying on large batch sizes [ 8 , 12 ], memory banks [ 9 ] or customized mining strategies [ 14 , 15 ] to re- trieve the negative pairs.",
+          "next": "In addition, their performance critically depends on the choice of image augmenta- tions [8, 12]."
+        }
+      },
+      "role": {
+        "label": "problem",
+        "score": 0.9218
+      },
+      "evidence": {
+        "score": 0.4417,
+        "support_type": "research_problem",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6949,
+        "downstream_relevance_score": 0.5169,
+        "components": {
+          "bio_boundary_score": 0.9617,
+          "sentence_evidence_score": 0.4417,
+          "sentence_role_score": 0.9218,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "negative",
+          "pairs"
+        ],
+        "normalization": "negative pairs",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "negative pairs",
+          "canonical": "negative pairs",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9617",
+        "structure model assigned role 'problem' with score 0.9218",
+        "downstream relevance score is 0.5169"
+      ]
+    },
+    {
+      "unit_id": "ecu_015",
+      "rank": 15,
+      "phrase": {
+        "surface": "collapsing",
+        "canonical": "collapsing",
+        "normalized": "collapsing",
+        "tokens": [
+          "collapsing"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 81,
+        "sentence": "In this work, we thus tasked ourselves to find out whether these negative examples are indispensable to prevent collapsing while preserving high performance.",
+        "context_window": {
+          "previous": "Yet, this discriminative approach typically requires comparing each representation of an augmented view with many negative examples, to find ones sufficiently close to make the discrimination task challenging.",
+          "current": "In this work, we thus tasked ourselves to find out whether these negative examples are indispensable to prevent collapsing while preserving high performance.",
+          "next": "To prevent collapse, a straightforward solution is to use a fixed randomly initialized network to produce the targets for our predictions."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.62,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6642,
+        "downstream_relevance_score": 0.495,
+        "components": {
+          "bio_boundary_score": 0.6202,
+          "sentence_evidence_score": 0.62,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "collapsing"
+        ],
+        "normalization": "collapsing",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "collapsing",
+          "canonical": "collapsing",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6202",
+        "structure model assigned role 'result' with score 0.66",
+        "evidence score 0.62 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.495"
+      ]
+    },
+    {
+      "unit_id": "ecu_016",
+      "rank": 16,
+      "phrase": {
+        "surface": "stabilizing effect",
+        "canonical": "stabilizing effect",
+        "normalized": "stabilizing effect",
+        "tokens": [
+          "stabilizing",
+          "effect"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "related_work",
+        "sentence_index": 72,
+        "sentence": "We show in Section 5 that this mere stabilizing effect can also improve existing contrastive methods.",
+        "context_window": {
+          "previous": "Instead, BYOL uses a moving average network to produce prediction targets as a means of stabilizing the bootstrap step.",
+          "current": "We show in Section 5 that this mere stabilizing effect can also improve existing contrastive methods.",
+          "next": "We start by motivating our method before explaining its details in Section 3.1."
+        }
+      },
+      "role": {
+        "label": "prior_work",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "related_work_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6404,
+        "downstream_relevance_score": 0.4858,
+        "components": {
+          "bio_boundary_score": 0.8515,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "stabilizing",
+          "effect"
+        ],
+        "normalization": "stabilizing effect",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "stabilizing effect",
+          "canonical": "stabilizing effect",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8515",
+        "structure model assigned role 'prior_work' with score 0.82",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4858"
+      ]
+    },
+    {
+      "unit_id": "ecu_017",
+      "rank": 17,
+      "phrase": {
+        "surface": "exponential moving average",
+        "canonical": "exponential moving average",
+        "normalized": "exponential moving average",
+        "tokens": [
+          "exponential",
+          "moving",
+          "average"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 98,
+        "sentence": "BYOL minimizes a similarity loss between q θ ( z θ ) and sg( z ′ ξ ) , where θ are the trained weights, ξ are an exponential moving average of θ and sg means stop-gradient.",
+        "context_window": {
+          "previous": "(1) Given a set of images D , an image x ∼ D sampled uniformly from D , and two distributions of image augmentations T and T ′ , BYOL produces two augmented views v = ∆ t ( x ) and v ′ = ∆ t ′ ( x ) from x by applying respectively image 3 x v y θ z θ q θ ( z θ ) v ′ y ′ ξ z ′ ξ sg( z ′ ξ ) view input image representation projection prediction t f θ g θ q θ t ′ f ξ g ξ sg loss online target Figure 2: BYOL ’s architecture.",
+          "current": "BYOL minimizes a similarity loss between q θ ( z θ ) and sg( z ′ ξ ) , where θ are the trained weights, ξ are an exponential moving average of θ and sg means stop-gradient.",
+          "next": "At the end of training, everything but f θ is discarded, and y θ is used as the image representation. augmentations t ∼ T and t ′ ∼ T ′ ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7084,
+        "downstream_relevance_score": 0.4834,
+        "components": {
+          "bio_boundary_score": 0.9383,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "exponential",
+          "moving",
+          "average"
+        ],
+        "normalization": "exponential moving average",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "exponential moving average",
+          "canonical": "exponential moving average",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9383",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4834"
+      ]
+    },
+    {
+      "unit_id": "ecu_018",
+      "rank": 18,
+      "phrase": {
+        "surface": "online network",
+        "canonical": "online network",
+        "normalized": "online network",
+        "tokens": [
+          "online",
+          "network"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 100,
+        "sentence": "From the first augmented view v , the online network outputs a representation y θ = ∆ f θ ( v ) and a projection z θ = ∆ g θ ( y ) .",
+        "context_window": {
+          "previous": "At the end of training, everything but f θ is discarded, and y θ is used as the image representation. augmentations t ∼ T and t ′ ∼ T ′ .",
+          "current": "From the first augmented view v , the online network outputs a representation y θ = ∆ f θ ( v ) and a projection z θ = ∆ g θ ( y ) .",
+          "next": "The target network outputs y ′ ξ = ∆ f ξ ( v ′ ) and the target projection z ′ ξ = ∆ g ξ ( y ′ ) from the second augmented view v ′ ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7222,
+        "downstream_relevance_score": 0.4805,
+        "components": {
+          "bio_boundary_score": 0.9853,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "online",
+          "network"
+        ],
+        "normalization": "online network",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "online network",
+          "canonical": "online network",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9853",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4805"
+      ]
+    },
+    {
+      "unit_id": "ecu_019",
+      "rank": 19,
+      "phrase": {
+        "surface": "mean squared error",
+        "canonical": "mean squared error",
+        "normalized": "mean squared error",
+        "tokens": [
+          "mean",
+          "squared",
+          "error"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 104,
+        "sentence": "Finally we define the following mean squared error between the normalized predictions and target projections, 5 L θ,ξ = ∆ ∥ ∥ q θ ( z θ ) − z ′ ξ ∥ ∥ 2 2 = 2 − 2 · 〈 q θ ( z θ ) , z ′ ξ 〉 ∥ ∥ q θ ( z θ ) ∥ ∥ 2 · ∥ ∥ z ′ ξ ∥ ∥ 2 · (2) We symmetrize the loss L θ,ξ in Eq.",
+        "context_window": {
+          "previous": "Note that this predictor is only applied to the online branch, making the architecture asymmetric between the online and target pipeline.",
+          "current": "Finally we define the following mean squared error between the normalized predictions and target projections, 5 L θ,ξ = ∆ ∥ ∥ q θ ( z θ ) − z ′ ξ ∥ ∥ 2 2 = 2 − 2 · 〈 q θ ( z θ ) , z ′ ξ 〉 ∥ ∥ q θ ( z θ ) ∥ ∥ 2 · ∥ ∥ z ′ ξ ∥ ∥ 2 · (2) We symmetrize the loss L θ,ξ in Eq.",
+          "next": "2 by separately feeding v ′ to the online network and v to the target network to compute ˜ L θ,ξ ."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.7007,
+        "downstream_relevance_score": 0.4794,
+        "components": {
+          "bio_boundary_score": 0.8319,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "mean",
+          "squared",
+          "error"
+        ],
+        "normalization": "mean squared error",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "mean squared error",
+          "canonical": "mean squared error",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8319",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4794"
+      ]
+    },
+    {
+      "unit_id": "ecu_020",
+      "rank": 20,
+      "phrase": {
+        "surface": "color histogram",
+        "canonical": "color histogram",
+        "normalized": "color histogram",
+        "tokens": [
+          "color",
+          "histogram"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 447,
+        "sentence": "Therefore, even if augmented views of a same image share the same color histogram, BYOL is still incentivized to retain additional features in its representation.",
+        "context_window": {
+          "previous": "Instead, BYOL is incentivized to keep any information captured by the target representation into its online network, to improve its predictions.",
+          "current": "Therefore, even if augmented views of a same image share the same color histogram, BYOL is still incentivized to retain additional features in its representation.",
+          "next": "For that reason, we believe that BYOL is more robust to the choice of image augmentations than contrastive methods."
+        }
+      },
+      "role": {
+        "label": "gap",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "limitation_or_gap",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6505,
+        "downstream_relevance_score": 0.4783,
+        "components": {
+          "bio_boundary_score": 0.8027,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "color",
+          "histogram"
+        ],
+        "normalization": "color histogram",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "color histogram",
+          "canonical": "color histogram",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8027",
+        "structure model assigned role 'gap' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4783"
+      ]
+    },
+    {
+      "unit_id": "ecu_021",
+      "rank": 21,
+      "phrase": {
+        "surface": "weight decay",
+        "canonical": "weight decay",
+        "normalized": "weight decay",
+        "tokens": [
+          "weight",
+          "decay"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 145,
+        "sentence": "In addition, we use a global weight decay parameter of 1 .",
+        "context_window": {
+          "previous": "2 × BatchSize / 256 ).",
+          "current": "In addition, we use a global weight decay parameter of 1 .",
+          "next": "5 · 10 − 6 while excluding the biases and batch normalization parameters from both LARS adaptation and weight decay."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.711,
+        "downstream_relevance_score": 0.4747,
+        "components": {
+          "bio_boundary_score": 0.8793,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "weight",
+          "decay"
+        ],
+        "normalization": "weight decay",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "weight decay",
+          "canonical": "weight decay",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.8793",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.4747"
+      ]
+    },
+    {
+      "unit_id": "ecu_022",
+      "rank": 22,
+      "phrase": {
+        "surface": "batch normalization",
+        "canonical": "batch normalization",
+        "normalized": "batch normalization",
+        "tokens": [
+          "batch",
+          "normalization"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 437,
+        "sentence": "In contrast, the performance of BYOL remains stable over a wide range of batch sizes from 256 to 4096 , and only drops for smaller values due to batch normalization layers in the encoder.",
+        "context_window": {
+          "previous": "As shown in Figure 3a, the performance of SimCLR rapidly deteriorates with batch size, likely due to the decrease in the number of negative examples.",
+          "current": "In contrast, the performance of BYOL remains stable over a wide range of batch sizes from 256 to 4096 , and only drops for smaller values due to batch normalization layers in the encoder.",
+          "next": "7 128 256 512 1024 2048 4096 Batch size − 4 − 3 − 2 − 1 0 Decrease of accuracy from baseline BYOL SimCLR (repro) (a) Impact of batch size Crop only Crop + blur only Remove color Remove grayscale Baseline Transformations set − 25 − 20 − 15 − 10 − 5 0 Decrease of accuracy from baseline BYOL SimCLR (repro) (b) Impact of progressively removing transformations Figure 3: Decrease in top- 1 accuracy (in % points) of BYOL and our own reproduction of SimCLR at 300 epochs, under linear evaluation on ImageNet."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.82
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.638,
+        "downstream_relevance_score": 0.4663,
+        "components": {
+          "bio_boundary_score": 0.6771,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.82,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "batch",
+          "normalization"
+        ],
+        "normalization": "batch normalization",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "batch normalization",
+          "canonical": "batch normalization",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.6771",
+        "structure model assigned role 'result' with score 0.82",
+        "downstream relevance score is 0.4663"
+      ]
+    },
+    {
+      "unit_id": "ecu_023",
+      "rank": 23,
+      "phrase": {
+        "surface": "image",
+        "canonical": "image",
+        "normalized": "image",
+        "tokens": [
+          "image"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 40,
+        "sentence": "( iii ) We show that BYOL is more resilient to changes in the batch size and in the set of image augmentations compared to its contrastive counterparts (Section 5).",
+        "context_window": {
+          "previous": "( ii ) We show that our learned representation outperforms the state of the art on semi-supervised and transfer benchmarks (Section 4).",
+          "current": "( iii ) We show that BYOL is more resilient to changes in the batch size and in the set of image augmentations compared to its contrastive counterparts (Section 5).",
+          "next": "In particular, BYOL suffers a much smaller performance drop than SimCLR , a strong contrastive baseline, when only using random crops as image augmentations."
+        }
+      },
+      "role": {
+        "label": "contribution",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "contribution_claim",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6392,
+        "downstream_relevance_score": 0.4624,
+        "components": {
+          "bio_boundary_score": 0.531,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "image"
+        ],
+        "normalization": "image",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "image",
+          "canonical": "image",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.531",
+        "structure model assigned role 'contribution' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4624"
+      ]
+    },
+    {
+      "unit_id": "ecu_024",
+      "rank": 24,
+      "phrase": {
+        "surface": "state of the",
+        "canonical": "state of the",
+        "normalized": "state of the",
+        "tokens": [
+          "state",
+          "of",
+          "the"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 10,
+        "sentence": "We show that BYOL performs on par or better than the current state of the art on both transfer and semi-supervised benchmarks.",
+        "context_window": {
+          "previous": "6% with a larger ResNet.",
+          "current": "We show that BYOL performs on par or better than the current state of the art on both transfer and semi-supervised benchmarks.",
+          "next": "Our implementation and pretrained models are given on GitHub."
+        }
+      },
+      "role": {
+        "label": "comparison",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.48,
+        "support_type": "method_comparison",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": true,
+          "overlap": 1.0,
+          "evidence_type": "result",
+          "matched_cue": "state-of-the-art",
+          "role_prior": "result",
+          "confidence": 0.75
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6007,
+        "downstream_relevance_score": 0.4624,
+        "components": {
+          "bio_boundary_score": 0.7197,
+          "sentence_evidence_score": 0.48,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "state",
+          "of",
+          "the"
+        ],
+        "normalization": "state of the",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "state of the",
+          "canonical": "state of the",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7197",
+        "structure model assigned role 'comparison' with score 0.66",
+        "evidence score 0.48 keeps the source sentence usable as grounding",
+        "downstream relevance score is 0.4624"
+      ]
+    },
+    {
+      "unit_id": "ecu_025",
+      "rank": 25,
+      "phrase": {
+        "surface": "performance",
+        "canonical": "performance",
+        "normalized": "performance",
+        "tokens": [
+          "performance"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "intro",
+        "sentence_index": 22,
+        "sentence": "In addition, their performance critically depends on the choice of image augmenta- tions [8, 12].",
+        "context_window": {
+          "previous": "These methods need careful treatment of negative pairs [ 13 ] by either relying on large batch sizes [ 8 , 12 ], memory banks [ 9 ] or customized mining strategies [ 14 , 15 ] to re- trieve the negative pairs.",
+          "current": "In addition, their performance critically depends on the choice of image augmenta- tions [8, 12].",
+          "next": "In this paper, we introduce B ootstrap Y our O wn L atent ( BYOL ), a new algorithm for self-supervised learning of image representations."
+        }
+      },
+      "role": {
+        "label": "result",
+        "score": 0.66
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "experimental_result",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6518,
+        "downstream_relevance_score": 0.4507,
+        "components": {
+          "bio_boundary_score": 0.7324,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.66,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "performance"
+        ],
+        "normalization": "performance",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "performance",
+          "canonical": "performance",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.7324",
+        "structure model assigned role 'result' with score 0.66",
+        "downstream relevance score is 0.4507"
+      ]
+    },
+    {
+      "unit_id": "ecu_026",
+      "rank": 26,
+      "phrase": {
+        "surface": "representation",
+        "canonical": "representation",
+        "normalized": "representation",
+        "tokens": [
+          "representation"
+        ],
+        "ngram_len": 1,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "method",
+        "sentence_index": 109,
+        "sentence": "When comparing to other methods, we consider the number of inference-time weights only in the final representation f θ .",
+        "context_window": {
+          "previous": "At the end of training, we only keep the encoder f θ ; as in [ 9 ].",
+          "current": "When comparing to other methods, we consider the number of inference-time weights only in the final representation f θ .",
+          "next": "The full training procedure is summarized in Appendix A, and python pseudo-code based on the libraries JAX [ 64 ] and Haiku [ 65 ] is provided in in Appendix J."
+        }
+      },
+      "role": {
+        "label": "core_method",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.35,
+        "support_type": "method_mechanism",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6172,
+        "downstream_relevance_score": 0.416,
+        "components": {
+          "bio_boundary_score": 0.5454,
+          "sentence_evidence_score": 0.35,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.25
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "representation"
+        ],
+        "normalization": "representation",
+        "ngram": "1-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "representation",
+          "canonical": "representation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.5454",
+        "structure model assigned role 'core_method' with score 0.45",
+        "downstream relevance score is 0.416"
+      ]
+    },
+    {
+      "unit_id": "ecu_027",
+      "rank": 27,
+      "phrase": {
+        "surface": "initial learning rate",
+        "canonical": "initial learning rate",
+        "normalized": "initial learning rate",
+        "tokens": [
+          "initial",
+          "learning",
+          "rate"
+        ],
+        "ngram_len": 3,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 427,
+        "sentence": "For all the experiments in this section, we set the initial learning rate to 0 .",
+        "context_window": {
+          "previous": "For this reason, we run ablations over 300 epochs on 64 TPU v 3 cores, which yields consistent results compared to our baseline training of 1000 epochs.",
+          "current": "For all the experiments in this section, we set the initial learning rate to 0 .",
+          "next": "3 with batch size 4096 , the weight decay to 10 − 6 as in SimCLR [ 8 ] and the base target decay rate τ base to 0 ."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.5931,
+        "downstream_relevance_score": 0.3744,
+        "components": {
+          "bio_boundary_score": 0.947,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.75
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "initial",
+          "learning",
+          "rate"
+        ],
+        "normalization": "initial learning rate",
+        "ngram": "3-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "initial learning rate",
+          "canonical": "initial learning rate",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.947",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3744"
+      ]
+    },
+    {
+      "unit_id": "ecu_028",
+      "rank": 28,
+      "phrase": {
+        "surface": "depth estimation",
+        "canonical": "depth estimation",
+        "normalized": "depth estimation",
+        "tokens": [
+          "depth",
+          "estimation"
+        ],
+        "ngram_len": 2,
+        "source": [
+          "BIO"
+        ],
+        "aliases": []
+      },
+      "location": {
+        "section": "experiment",
+        "sentence_index": 371,
+        "sentence": "Transfer to other vision tasks We evaluate our representation on different tasks relevant to computer vision practitioners, namely semantic segmentation, object detection and depth estimation.",
+        "context_window": {
+          "previous": "0 Table 3: Transfer learning results from ImageNet (IN) with the standard ResNet-50 architecture.",
+          "current": "Transfer to other vision tasks We evaluate our representation on different tasks relevant to computer vision practitioners, namely semantic segmentation, object detection and depth estimation.",
+          "next": "With this evaluation, we assess whether BYOL ’s representation generalizes beyond classification tasks."
+        }
+      },
+      "role": {
+        "label": "dataset",
+        "score": 0.45
+      },
+      "evidence": {
+        "score": 0.0,
+        "support_type": "experimental_setting",
+        "cue_hits": [],
+        "external_candidate_overlap": {
+          "matched": false
+        }
+      },
+      "importance": {
+        "original_unit_score": 0.6063,
+        "downstream_relevance_score": 0.3713,
+        "components": {
+          "bio_boundary_score": 0.9913,
+          "sentence_evidence_score": 0.0,
+          "sentence_role_score": 0.45,
+          "bow_match_confidence": 0.0,
+          "laplace_section_prior": 0.0,
+          "document_tfidf_score": 0.0,
+          "evidence_cue_bonus": 0.0,
+          "role_prior_bonus": 0.0,
+          "section_match_bonus": 0.0,
+          "ngram_specificity": 0.5
+        }
+      },
+      "bow_metadata": {
+        "matched": false
+      },
+      "document_term_matrix": {
+        "matched": false
+      },
+      "course_feature_trace": {
+        "tokenization": [
+          "depth",
+          "estimation"
+        ],
+        "normalization": "depth estimation",
+        "ngram": "2-gram",
+        "bow_feature": false,
+        "tfidf_feature": false,
+        "evidence_cue_feature": false,
+        "laplace_smoothed_section_prior": 0.0,
+        "canonicalization": {
+          "observed": "depth estimation",
+          "canonical": "depth estimation",
+          "channel_score": 0.0
+        }
+      },
+      "selection_reason": [
+        "BIO boundary retained phrase with score 0.9913",
+        "structure model assigned role 'dataset' with score 0.45",
+        "downstream relevance score is 0.3713"
+      ]
+    }
+  ],
+  "external_evidence_candidates": {
+    "available": true,
+    "count": 69,
+    "top_candidates": [
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "With deeper and wider architectures, BYOL consistently outperforms the previous state of the art (Appendix C.2), and obtains a best performance of 79.6% top-1 accuracy, ranking higher than previous self-supervised approaches.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "With deeper and wider architectures, BYOL consistently outperforms the previous state of the art (Appendix C.2), and obtains a best performance of 79.6% top-1 accuracy, ranking higher than previous self-supervised approaches.",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "On a ResNet-50 (4×) BYOL achieves 78.6%, similar to the 78.9% of the best supervised baseline in for the same architecture.",
+        "evidence_type": "result",
+        "matched_cue": "achieves",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "BYOL outperforms SimCLR on all benchmarks and the Supervised-IN baseline on 7 of the 12 benchmarks, providing only slightly worse performance on the 5 remaining benchmarks.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "BYOL outperforms both the Supervised-IN baseline (+1.9 mIoU) and SimCLR (+1.1 mIoU).",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.98
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "0.5%) improvement over the previous self-supervised state of the art .",
+        "evidence_type": "result",
+        "matched_cue": "state-of-the-art",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "BYOL consistently outperforms previous approaches across a wide range of architectures.",
+        "evidence_type": "result",
+        "matched_cue": "outperforms",
+        "role_prior": "result",
+        "confidence": 0.95
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Many successful self-supervised learning approaches build upon the cross-view prediction framework introduced in .",
+        "evidence_type": "method",
+        "matched_cue": "framework",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Algorithm 1: BYOL: Bootstrap Your Own Latent Inputs : D, T , and T set of images and distributions of transformations θ, f θ , g θ , and q θ initial online parameters, encoder, projector, and predictor ξ, f ξ , g ξ initial target parameters, target encoder, and target projector optimizer optimizer, updates online parameters using the loss gradient K and N total number of optimization steps and batch size {τ k } K k=1 and {η k } K k=1 target network update schedule and learning rate schedule // sample a batch of N images 3 for x i ∈ B do 4 t ∼ T and t ∼ T // sample image transformations compute the loss for x i 8 end 9 δθ ← 1 N N i=1 ∂ θ l i // compute the total loss gradient w.r.t. θ 10 θ ← optimizer(θ, δθ, η k ) // update online parameters 11 ξ ← τ k ξ + (1τ k )θ // update target parameters 12 end Output :encoder f θ Table shows the influence of projector and predictor architecture on BYOL.",
+        "evidence_type": "method",
+        "matched_cue": "architecture",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "method",
+        "section_original": "methods",
+        "sentence": "Algorithm 1: BYOL: Bootstrap Your Own Latent Inputs : D, T , and T set of images and distributions of transformations θ, f θ , g θ , and q θ initial online parameters, encoder, projector, and predictor ξ, f ξ , g ξ initial target parameters, target encoder, and target projector optimizer optimizer, updates online parameters using the loss gradient K and N total number of optimization steps and batch size {τ k } K k=1 and {η k } K k=1 target network update schedule and learning rate schedule // sample a batch of N images 3 for x i ∈ B do 4 t ∼ T and t ∼ T // sample image transformations compute the loss for x i 8 end 9 δθ ← 1 N N i=1 ∂ θ l i // compute the total loss gradient w.r.t. θ 10 θ ← optimizer(θ, δθ, η k ) // update online parameters 11 ξ ← τ k ξ + (1τ k )θ // update target parameters 12 end Output :encoder f θ Table shows the influence of projector and predictor architecture on BYOL.",
+        "evidence_type": "method",
+        "matched_cue": "algorithm",
+        "role_prior": "core_method",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We assess the performance of BYOL's representation after self-supervised pretraining on the training set of the ImageNet ILSVRC-2012 dataset .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In Appendix E, we assess the generality of BYOL by pretraining a representation on the Places365-Standard dataset before reproducing this evaluation protocol.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "With a standard ResNet-50 (×1) BYOL obtains 74.3% top-1 accuracy (91.6% top-5 accuracy), which is a 1.3% (resp.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "With deeper and wider architectures, BYOL consistently outperforms the previous state of the art (Appendix C.2), and obtains a best performance of 79.6% top-1 accuracy, ranking higher than previous self-supervised approaches.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Additionally, as detailed in Appendix C.1, BYOL reaches 77.7% top-1 accuracy with ResNet-50 when fine-tuning over 100% of ImageNet labels.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Performance is reported using standard metrics for each benchmark, and results are provided on a held-out test set after hyperparameter selection on a validation set.",
+        "evidence_type": "dataset",
+        "matched_cue": "benchmark",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Finally, we evaluate on depth estimation on the NYU v2 dataset, where the depth map of a scene is estimated given a single RGB image.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Depth prediction measures how well a network represents geometry, and how well that information can be localized to pixel accuracy .",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "In this section we report results in top-1 accuracy on ImageNet under the linear evaluation protocol as in Appendix C.1.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Results presented in Figure support this hypothesis: the performance of BYOL is much less affected than the performance of SimCLR when removing color distortions from the set of image augmentations (-9.1 accuracy points for BYOL, -22.2 accuracy points for SimCLR).",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "All values of the decay rate between 0.9 and 0.999 yield performance above 68.4% top-1 accuracy at 300 epochs.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Table 5: Ablations with top-1 accuracy (in %) at 300 epochs under linear evaluation on ImageNet.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "Importantly, we close in on those baselines using the ResNet-50 (2×) and the ResNet-50 (4×) architectures, where we are within 0.4 accuracy points of the supervised performance.",
+        "evidence_type": "metric",
+        "matched_cue": "accuracy",
+        "role_prior": "metric",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "We train our supervised baselines for up to 200 epochs, using SGD with a Nesterov momentum value of 0.9, a cosine-annealed learning rate after a 5 epochs linear warmup period, weight decay with a value of 1e -4, and a label smoothing We perform transfer via linear classification and fine-tuning on the same set of datasets as in , namely Food-101 dataset , CIFAR-10 [78] and CIFAR-100 , Birdsnap , the SUN397 scene dataset , Stanford Cars , FGVC Aircraft , the PASCAL VOC 2007 classification task , the Describable Textures Dataset (DTD) , Oxford-IIIT Pets , Caltech-101 , and Oxford 102 Flowers .",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      },
+      {
+        "section": "experiment",
+        "section_original": "experiments",
+        "sentence": "As in , we used the validation sets specified by the dataset creators to select hyperparameters for FGVC Aircraft, PASCAL VOC 2007, DTD, and Oxford 102 Flowers.",
+        "evidence_type": "dataset",
+        "matched_cue": "dataset",
+        "role_prior": "dataset",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "concept_graph": {
+    "nodes": [
+      {
+        "id": "ecu_001",
+        "canonical": "residual neural network",
+        "section": "intro",
+        "role": "metric",
+        "score": 0.7963
+      },
+      {
+        "id": "ecu_002",
+        "canonical": "self-supervised learning",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.7176
+      },
+      {
+        "id": "ecu_003",
+        "canonical": "ImageNet",
+        "section": "intro",
+        "role": "core_method",
+        "score": 0.6527
+      },
+      {
+        "id": "ecu_004",
+        "canonical": "bootstrapping",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.6055
+      },
+      {
+        "id": "ecu_005",
+        "canonical": "feature learning",
+        "section": "related_work",
+        "role": "component",
+        "score": 0.5973
+      },
+      {
+        "id": "ecu_006",
+        "canonical": "bootstrap",
+        "section": "intro",
+        "role": "objective",
+        "score": 0.5971
+      },
+      {
+        "id": "ecu_007",
+        "canonical": "object detection",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.5704
+      },
+      {
+        "id": "ecu_008",
+        "canonical": "convolutional residual network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5603
+      },
+      {
+        "id": "ecu_009",
+        "canonical": "target pipeline",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.5584
+      },
+      {
+        "id": "ecu_010",
+        "canonical": "state of the art",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5436
+      },
+      {
+        "id": "ecu_011",
+        "canonical": "target network",
+        "section": "experiment",
+        "role": "contribution",
+        "score": 0.543
+      },
+      {
+        "id": "ecu_012",
+        "canonical": "unsupervised learning",
+        "section": "conclusion",
+        "role": "contribution",
+        "score": 0.5357
+      },
+      {
+        "id": "ecu_013",
+        "canonical": "reinforcement learning",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.5242
+      },
+      {
+        "id": "ecu_014",
+        "canonical": "negative pairs",
+        "section": "intro",
+        "role": "problem",
+        "score": 0.5169
+      },
+      {
+        "id": "ecu_015",
+        "canonical": "collapsing",
+        "section": "method",
+        "role": "result",
+        "score": 0.495
+      },
+      {
+        "id": "ecu_016",
+        "canonical": "stabilizing effect",
+        "section": "related_work",
+        "role": "prior_work",
+        "score": 0.4858
+      },
+      {
+        "id": "ecu_017",
+        "canonical": "exponential moving average",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4834
+      },
+      {
+        "id": "ecu_018",
+        "canonical": "online network",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4805
+      },
+      {
+        "id": "ecu_019",
+        "canonical": "mean squared error",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4794
+      },
+      {
+        "id": "ecu_020",
+        "canonical": "color histogram",
+        "section": "experiment",
+        "role": "gap",
+        "score": 0.4783
+      },
+      {
+        "id": "ecu_021",
+        "canonical": "weight decay",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.4747
+      },
+      {
+        "id": "ecu_022",
+        "canonical": "batch normalization",
+        "section": "experiment",
+        "role": "result",
+        "score": 0.4663
+      },
+      {
+        "id": "ecu_023",
+        "canonical": "image",
+        "section": "intro",
+        "role": "contribution",
+        "score": 0.4624
+      },
+      {
+        "id": "ecu_024",
+        "canonical": "state of the",
+        "section": "intro",
+        "role": "comparison",
+        "score": 0.4624
+      },
+      {
+        "id": "ecu_025",
+        "canonical": "performance",
+        "section": "intro",
+        "role": "result",
+        "score": 0.4507
+      },
+      {
+        "id": "ecu_026",
+        "canonical": "representation",
+        "section": "method",
+        "role": "core_method",
+        "score": 0.416
+      },
+      {
+        "id": "ecu_027",
+        "canonical": "initial learning rate",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3744
+      },
+      {
+        "id": "ecu_028",
+        "canonical": "depth estimation",
+        "section": "experiment",
+        "role": "dataset",
+        "score": 0.3713
+      }
+    ],
+    "edges": [
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_028",
+        "type": "same_evidence_sentence",
+        "weight": 0.9
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_008",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_002",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_009",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_008",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_009",
+        "target": "ecu_017",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_004",
+        "target": "ecu_006",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_027",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_007",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_027",
+        "target": "ecu_028",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_010",
+        "target": "ecu_014",
+        "type": "same_section_role",
+        "weight": 0.55
+      },
+      {
+        "source": "ecu_013",
+        "target": "ecu_016",
+        "type": "same_section_role",
+        "weight": 0.55
+      }
+    ]
+  },
+  "downstream_contract": {
+    "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
+    "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
+    "recommended_order": [
+      "intro",
+      "related_work",
+      "method",
+      "experiment",
+      "conclusion"
+    ],
+    "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities."
+  }
+}
