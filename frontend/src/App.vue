@@ -343,6 +343,32 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="layout">
+    <!-- Model Loading Overlay -->
+    <transition name="fade">
+      <div class="model-loading-overlay" v-if="!workerReady && !workerError">
+        <div class="model-loading-modal">
+          <div class="model-loading-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#loading-grad)" stroke-width="1.5">
+              <defs>
+                <linearGradient id="loading-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#3b82f6" />
+                  <stop offset="50%" stop-color="#8b5cf6" />
+                  <stop offset="100%" stop-color="#ec4899" />
+                </linearGradient>
+              </defs>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <h3>Initializing AI</h3>
+          <p>{{ extractionStage || 'Downloading ONNX Models...' }}</p>
+          <div class="model-loading-track">
+            <div class="model-loading-fill" :style="{ width: extractionProgress + '%' }"></div>
+          </div>
+          <div class="model-loading-pct">{{ extractionProgress }}%</div>
+        </div>
+      </div>
+    </transition>
+
     <main class="main-content">
 
       <!-- ═══════════════════════════════════════════════════════════
@@ -573,6 +599,91 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* ═══════════════════════════════════════════════════════════ Layout */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.4s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+.model-loading-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.model-loading-modal {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3rem 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.6);
+  text-align: center;
+  width: 380px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+.model-loading-icon svg {
+  width: 64px;
+  height: 64px;
+  animation: float-icon 3s ease-in-out infinite;
+}
+
+@keyframes float-icon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.model-loading-modal h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.model-loading-modal p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.model-loading-track {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.model-loading-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+  background-size: 200% 100%;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+  animation: gradient-shift 2s linear infinite;
+}
+
+.model-loading-pct {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  font-family: monospace;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
 .layout {
   width: 100%;
   max-width: 1500px;
