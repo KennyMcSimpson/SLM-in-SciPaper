@@ -52,6 +52,8 @@ interface ContextChunk {
   source: 'edge'
 }
 
+type RightView = 'chat' | 'evidence' | 'graph'
+
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
 const renderMessage = (text: string): string => {
@@ -104,6 +106,52 @@ function getRoleColor(role: string): string {
   return ROLE_BADGES[role]?.color ?? '#64748b'
 }
 
+const GLOBAL_KG_CATEGORIES = [
+  {
+    id: 'machine-learning',
+    label: 'Machine Learning',
+    x: 130,
+    y: 110,
+    color: '#4f46e5',
+    concepts: [
+      { label: 'training set', x: 80, y: 245, df: 102, tf: 878, confidence: 0.72, wikidata: 'Q3997298', aliases: 'training data; training dataset; training set; training-set' },
+      { label: 'gradient descent', x: 185, y: 260, df: 83, tf: 215, confidence: 0.82, wikidata: 'Q1199743', aliases: 'gradient descent' },
+      { label: 'reinforcement learning', x: 250, y: 160, df: 42, tf: 287, confidence: 0.92, wikidata: 'Q830687', aliases: 'reinforcement learning' },
+    ],
+  },
+  {
+    id: 'neural-network',
+    label: 'Artificial Neural Network',
+    x: 445,
+    y: 95,
+    color: '#0ea5e9',
+    concepts: [
+      { label: 'attention', x: 355, y: 225, df: 85, tf: 875, confidence: 0.72, wikidata: 'Q103701642', aliases: 'attention; attention mechanism' },
+      { label: 'transformer', x: 470, y: 260, df: 53, tf: 819, confidence: 0.92, wikidata: 'Q85810444', aliases: 'transformer; transformer architecture; transformer model; transformer models; transformers' },
+      { label: 'convolutional neural network', x: 590, y: 185, df: 41, tf: 258, confidence: 0.92, wikidata: 'Q17084460', aliases: 'convolutional neural network; convolutional neural networks; cnn' },
+    ],
+  },
+  {
+    id: 'nlp-llm',
+    label: 'NLP & LLM',
+    x: 735,
+    y: 120,
+    color: '#10b981',
+    concepts: [
+      { label: 'embedding', x: 675, y: 255, df: 82, tf: 1192, confidence: 0.72, wikidata: 'Q133284072', aliases: 'embedding; embeddings' },
+      { label: 'BERT', x: 785, y: 270, df: 48, tf: 796, confidence: 0.92, wikidata: 'Q61713173', aliases: 'BERT; bidirectional encoder representations from transformers' },
+      { label: 'question answering', x: 825, y: 175, df: 47, tf: 306, confidence: 0.92, wikidata: 'Q1074173', aliases: 'question answering; question-answering' },
+    ],
+  },
+]
+
+const GLOBAL_KG_SUMMARY = {
+  concepts: 187,
+  categories: 27,
+  aliases: 400,
+  source: 'final_bow_vocabulary.csv',
+}
+
 // ─── State ────────────────────────────────────────────────────────────────────
 
 // Worker & inference
@@ -140,6 +188,16 @@ const contextChunks = ref<ContextChunk[]>([])
 const queryKeywords = ref<string[]>([])
 const isContextOpen = ref(true)
 const lastQuery = ref('')
+const activeRightView = ref<RightView>('chat')
+const selectedKgConcept = ref({
+  label: 'attention',
+  category: 'Artificial Neural Network',
+  df: 85,
+  tf: 875,
+  confidence: 0.72,
+  aliases: 'attention; attention mechanism',
+  wikidata: 'Q103701642',
+})
 
 // ─── Computed ─────────────────────────────────────────────────────────────────
 
@@ -470,8 +528,28 @@ onBeforeUnmount(() => {
            RIGHT PANEL: RAG Context Visualizer + Chat
       ════════════════════════════════════════════════════════════════ -->
       <section class="panel right-panel glass-panel">
-        <h2 class="panel-title">AI Analysis Chat</h2>
+        <div class="right-panel-header">
+          <h2 class="panel-title">AI Analysis</h2>
+          <div class="right-view-tabs" role="tablist" aria-label="AI analysis views">
+            <button
+              class="right-view-tab"
+              :class="{ active: activeRightView === 'chat' }"
+              @click="activeRightView = 'chat'"
+            >Chat</button>
+            <button
+              class="right-view-tab"
+              :class="{ active: activeRightView === 'evidence' }"
+              @click="activeRightView = 'evidence'"
+            >Evidence</button>
+            <button
+              class="right-view-tab"
+              :class="{ active: activeRightView === 'graph' }"
+              @click="activeRightView = 'graph'"
+            >Global KG</button>
+          </div>
+        </div>
 
+        <template v-if="activeRightView === 'chat'">
         <!-- ── RAG Context Visualizer ──────────────────────────────────── -->
         <div class="cvp" v-if="contextChunks.length > 0" :class="{ open: isContextOpen }">
           <!-- Header -->
@@ -592,6 +670,132 @@ onBeforeUnmount(() => {
             </svg>
           </button>
         </div>
+        </template>
+
+        <template v-else-if="activeRightView === 'evidence'">
+          <div class="evidence-workspace" v-if="contextChunks.length > 0">
+            <div class="evidence-summary">
+              <div>
+                <p class="kg-eyebrow">Retrieved Evidence</p>
+                <h3>{{ contextChunks.length }} passages for "{{ lastQuery || 'latest query' }}"</h3>
+              </div>
+              <div class="kw-pills" v-if="queryKeywords.length">
+                <span class="kw-pill" v-for="kw in queryKeywords.slice(0, 6)" :key="kw">{{ kw }}</span>
+              </div>
+            </div>
+
+            <div class="evidence-list">
+              <div
+                class="evidence-row"
+                v-for="(chunk, idx) in contextChunks"
+                :key="idx"
+                :style="{ '--accent': getRoleColor(chunk.role ?? '') }"
+              >
+                <div class="evidence-row-top">
+                  <span class="cvp-rank">#{{ idx + 1 }}</span>
+                  <span class="cvp-sec">{{ chunk.section_label }}</span>
+                  <span
+                    class="cvp-role"
+                    v-if="chunk.role && chunk.role !== 'none'"
+                    :style="{ background: getRoleColor(chunk.role) + '22', color: getRoleColor(chunk.role) }"
+                  >{{ ROLE_BADGES[chunk.role]?.label ?? chunk.role }}</span>
+                  <span class="cvp-phrase-tag" v-if="chunk.phrase">{{ chunk.phrase }}</span>
+                  <span class="evidence-score">{{ (chunk.score * 100).toFixed(0) }}%</span>
+                </div>
+                <p class="evidence-passage" v-html="highlightText(chunk.text, chunk.matched_keywords)"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="kg-empty-state" v-else>
+            <p class="kg-eyebrow">Retrieved Evidence</p>
+            <h3>No query evidence yet</h3>
+            <p>Upload a paper and ask a question to populate this view with retrieved passages.</p>
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="kg-workspace">
+            <div class="kg-toolbar">
+              <div>
+                <p class="kg-eyebrow">Global Knowledge Graph</p>
+                <h3>BoW concept vocabulary</h3>
+              </div>
+              <div class="kg-stat-row">
+                <span>{{ GLOBAL_KG_SUMMARY.concepts }} concepts</span>
+                <span>{{ GLOBAL_KG_SUMMARY.categories }} categories</span>
+                <span>{{ GLOBAL_KG_SUMMARY.aliases }} aliases</span>
+              </div>
+            </div>
+
+            <div class="kg-main">
+              <div class="kg-canvas">
+                <svg viewBox="0 0 920 360" role="img" aria-label="Global concept graph preview">
+                  <g v-for="category in GLOBAL_KG_CATEGORIES" :key="category.id">
+                    <line
+                      v-for="concept in category.concepts"
+                      :key="category.id + concept.label"
+                      :x1="category.x"
+                      :y1="category.y"
+                      :x2="concept.x"
+                      :y2="concept.y"
+                      class="kg-edge"
+                    />
+                    <circle
+                      class="kg-category-node"
+                      :cx="category.x"
+                      :cy="category.y"
+                      r="46"
+                      :style="{ '--node-color': category.color }"
+                    />
+                    <text class="kg-category-label" :x="category.x" :y="category.y - 4">{{ category.label }}</text>
+                    <text class="kg-category-sub" :x="category.x" :y="category.y + 15">category</text>
+
+                    <g
+                      v-for="concept in category.concepts"
+                      :key="concept.label"
+                      class="kg-concept-group"
+                      @click="selectedKgConcept = {
+                        label: concept.label,
+                        category: category.label,
+                        df: concept.df,
+                        tf: concept.tf,
+                        confidence: concept.confidence,
+                        aliases: concept.aliases,
+                        wikidata: concept.wikidata
+                      }"
+                    >
+                      <circle
+                        class="kg-concept-node"
+                        :cx="concept.x"
+                        :cy="concept.y"
+                        :r="20 + concept.confidence * 8"
+                        :style="{ '--node-color': category.color }"
+                      />
+                      <text class="kg-concept-label" :x="concept.x" :y="concept.y + 42">{{ concept.label }}</text>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+
+              <aside class="kg-detail">
+                <p class="kg-eyebrow">Selected Concept</p>
+                <h3>{{ selectedKgConcept.label }}</h3>
+                <div class="kg-detail-grid">
+                  <span>Category</span><strong>{{ selectedKgConcept.category }}</strong>
+                  <span>Document Frequency</span><strong>{{ selectedKgConcept.df }}</strong>
+                  <span>Total Frequency</span><strong>{{ selectedKgConcept.tf }}</strong>
+                  <span>Confidence</span><strong>{{ (selectedKgConcept.confidence * 100).toFixed(0) }}%</strong>
+                  <span>Wikidata</span><strong>{{ selectedKgConcept.wikidata }}</strong>
+                </div>
+                <div class="kg-alias-box">
+                  <span>Aliases</span>
+                  <p>{{ selectedKgConcept.aliases }}</p>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </template>
       </section>
     </main>
   </div>
@@ -766,6 +970,46 @@ onBeforeUnmount(() => {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.07em;
+}
+
+.right-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.right-view-tabs {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.right-view-tab {
+  min-width: 82px;
+  padding: 0.45rem 0.75rem;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: Arial, sans-serif;
+}
+
+.right-view-tab:hover {
+  background: rgba(99,102,241,0.07);
+  color: var(--primary);
+}
+
+.right-view-tab.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(79,70,229,0.22);
 }
 
 /* ═══════════════════════════════════════════════════════════ Drop Zone */
@@ -1227,6 +1471,258 @@ onBeforeUnmount(() => {
 
 .cvp-passage:hover :deep(.bow-hit) {
   background: linear-gradient(120deg, rgba(251,191,36,0.62) 0%, rgba(245,158,11,0.46) 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════ Evidence Workspace */
+.evidence-workspace,
+.kg-workspace {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  animation: fadeIn 0.28s ease-out both;
+}
+
+.evidence-summary,
+.kg-toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid #e2e8f0;
+}
+
+.kg-eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-family: Arial, sans-serif;
+}
+
+.evidence-summary h3,
+.kg-toolbar h3,
+.kg-detail h3,
+.kg-empty-state h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-main);
+}
+
+.evidence-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-right: 0.35rem;
+}
+
+.evidence-row {
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid var(--accent, #6366f1);
+  background: rgba(255,255,255,0.82);
+  padding: 0.78rem 0.9rem;
+  box-shadow: 0 2px 8px rgba(15,23,42,0.04);
+}
+
+.evidence-row-top {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.45rem;
+}
+
+.evidence-score {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--primary);
+  font-family: Arial, sans-serif;
+}
+
+.evidence-passage {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.kg-empty-state {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+  background: rgba(255,255,255,0.55);
+}
+
+.kg-empty-state p:last-child {
+  max-width: 420px;
+  margin: 0.6rem 0 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════════════════════ Knowledge Graph */
+.kg-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.kg-stat-row span {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--primary);
+  background: rgba(99,102,241,0.09);
+  border: 1px solid rgba(99,102,241,0.16);
+  border-radius: 20px;
+  padding: 0.22rem 0.55rem;
+  font-family: Arial, sans-serif;
+}
+
+.kg-main {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 0.85rem;
+}
+
+.kg-canvas,
+.kg-detail {
+  min-height: 0;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 2px 8px rgba(15,23,42,0.04);
+}
+
+.kg-canvas {
+  overflow: hidden;
+  position: relative;
+}
+
+.kg-canvas svg {
+  width: 100%;
+  height: 100%;
+  min-height: 390px;
+  display: block;
+}
+
+.kg-edge {
+  stroke: #cbd5e1;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.kg-category-node,
+.kg-concept-node {
+  fill: color-mix(in srgb, var(--node-color) 14%, #ffffff);
+  stroke: var(--node-color);
+  stroke-width: 2;
+}
+
+.kg-category-node {
+  filter: drop-shadow(0 7px 12px rgba(15,23,42,0.08));
+}
+
+.kg-concept-group {
+  cursor: pointer;
+}
+
+.kg-concept-group:hover .kg-concept-node {
+  fill: color-mix(in srgb, var(--node-color) 24%, #ffffff);
+  stroke-width: 3;
+}
+
+.kg-category-label,
+.kg-category-sub,
+.kg-concept-label {
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+  font-family: Arial, sans-serif;
+}
+
+.kg-category-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  fill: var(--text-main);
+}
+
+.kg-category-sub {
+  font-size: 0.62rem;
+  font-weight: 700;
+  fill: var(--text-muted);
+}
+
+.kg-concept-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  fill: var(--text-main);
+}
+
+.kg-detail {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.kg-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+
+.kg-detail-grid span,
+.kg-alias-box span {
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: Arial, sans-serif;
+}
+
+.kg-detail-grid strong {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+  word-break: break-word;
+}
+
+.kg-alias-box {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 9px;
+  background: rgba(99,102,241,0.06);
+  border: 1px solid rgba(99,102,241,0.12);
+}
+
+.kg-alias-box p {
+  margin: 0.35rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
 }
 
 /* ═══════════════════════════════════════════════════════════ Chat */
