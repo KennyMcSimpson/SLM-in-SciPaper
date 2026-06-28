@@ -282,7 +282,7 @@ def extract_keyphrase_candidates(
         for item in window_candidates:
             item["sentence_index"] = features["sentence_indices"][item["sentence_index"]]
             raw_candidates.append(item)
-    return coverage_rerank(raw_candidates, top_k_keyphrases, 0.72)
+    return coverage_rerank(raw_candidates, top_k_keyphrases, 0.75)
 
 
 def load_cached_tokenizer(checkpoint: Path) -> Any:
@@ -332,7 +332,7 @@ def concept_units_from_candidates(
         if is_noisy_phrase(phrase) or is_noisy_sentence(sentence.text):
             continue
         prediction = predictions.get(sentence_index) or SentencePrediction(*infer_role_from_sentence(sentence.text, sentence.section), 0.0, 0.5)
-        importance = 0.45 * float(item.get("score", 0.0)) + 0.25 * prediction.evidence_score + 0.30 * prediction.importance
+        importance = 0.50 * float(item.get("score", 0.0)) + 0.25 * prediction.evidence_score + 0.25 * prediction.importance
         units.append(
             ConceptUnit(
                 section=sentence.section,

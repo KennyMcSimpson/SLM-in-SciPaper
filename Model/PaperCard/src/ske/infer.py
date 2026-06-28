@@ -36,7 +36,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--top_k_keyphrases", type=int, default=12)
     parser.add_argument("--max_seq_length", type=int, default=512)
     parser.add_argument("--max_sentences", type=int, default=64)
-    parser.add_argument("--coverage_lambda", type=float, default=0.72)
+    parser.add_argument("--coverage_lambda", type=float, default=0.75)
     parser.add_argument("--device", default="auto")
     return parser.parse_args()
 

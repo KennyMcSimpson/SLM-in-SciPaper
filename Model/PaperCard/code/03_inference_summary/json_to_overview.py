@@ -227,12 +227,17 @@ def best_support_sentence(evidence_snippets: dict[str, list[str]]) -> str:
     return ""
 
 
-def unit_score(unit: dict[str, Any], section: str) -> float:
-    importance = float(unit.get("importance", {}).get("downstream_relevance_score") or 0.0)
+def unit_score(unit: dict[str, Any], section: str) -> tuple[int, float, int, float]:
+    importance_payload = unit.get("importance", {})
+    importance = float(
+        importance_payload.get("concept_unit_importance")
+        or 0.0
+    )
     evidence = float(unit.get("evidence", {}).get("score") or 0.0)
     role = unit.get("role", {}).get("label") or ""
-    role_bonus = ROLE_PRIORITIES.get(section, {}).get(role, 0) * 0.035
-    return importance + 0.25 * evidence + role_bonus
+    role_priority = ROLE_PRIORITIES.get(section, {}).get(role, 0)
+    threshold_passed = 1 if unit.get("threshold_trace", {}).get("passed", True) else 0
+    return (threshold_passed, importance, role_priority, evidence)
 
 
 def clean_title(title: str) -> str:

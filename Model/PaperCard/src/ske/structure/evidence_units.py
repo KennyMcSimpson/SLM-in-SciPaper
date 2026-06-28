@@ -9,7 +9,7 @@ from typing import Any
 
 from ske.data.text_utils import find_normalized_phrase_spans, normalize_text, token_jaccard
 
-from .schema import CANONICAL_SECTIONS, ConceptUnit, PaperCard, SentenceRecord
+from .schema import CANONICAL_SECTIONS, SECTION_DEFAULT_ROLES, ConceptUnit, PaperCard, SentenceRecord
 from .sectioning import section_document
 
 
@@ -84,6 +84,17 @@ ROLE_SUPPORT_TYPES = {
     "contribution": "contribution_claim",
     "finding": "paper_finding",
     "future_work": "future_work",
+}
+
+STAGE3_THRESHOLDS = {
+    "boundary_score": 0.60,
+    "role_score": 0.45,
+    "evidence_score": 0.32,
+    "section_role_importance": 0.50,
+    "min_ngram_len": 2,
+    "strong_single_term_boundary": 0.80,
+    "bow_confidence": 0.70,
+    "tfidf_score": 0.50,
 }
 
 
@@ -478,11 +489,13 @@ def build_evidence_units_payload(
     external_evidence = ExternalEvidenceIndex.load(sentence_evidence_csv, card.doc_id)
     corpus_statistics = build_corpus_statistics(sentences)
     section_profiles = build_section_profiles(sentences, section_bow, term_matrix)
-    enriched_units = [
+    enriched_all = [
         enrich_unit(unit, idx, sentences, section_bow, term_matrix, cue_lexicon, external_evidence)
         for idx, unit in enumerate(card.units, start=1)
     ]
-    enriched_units.sort(key=lambda item: item["importance"]["downstream_relevance_score"], reverse=True)
+    enriched_units = [item for item in enriched_all if item["threshold_trace"]["passed"]]
+    filtered_out_units = [filtered_unit_summary(item) for item in enriched_all if not item["threshold_trace"]["passed"]]
+    enriched_units.sort(key=evidence_unit_sort_key)
     for idx, item in enumerate(enriched_units, start=1):
         item["unit_id"] = f"ecu_{idx:03d}"
         item["rank"] = idx
@@ -513,19 +526,124 @@ def build_evidence_units_payload(
         "corpus_statistics": corpus_statistics,
         "document_term_matrix": document_term_matrix_summary(term_matrix),
         "section_profiles": section_profiles,
+        "stage3_threshold_policy": threshold_policy_manifest(),
         "evidence_units": enriched_units,
+        "filtered_out_units": filtered_out_units,
         "external_evidence_candidates": external_evidence_summary(external_evidence),
         "concept_graph": build_concept_graph(enriched_units),
         "downstream_contract": {
             "intended_use": "Feed this JSON to a later local open-source model to write an overview.",
             "grounding_rule": "The downstream generator should write from evidence_units.location.sentence and context_window, not from unsupported outside knowledge.",
             "recommended_order": ["intro", "related_work", "method", "experiment", "conclusion"],
-            "score_warning": "Scores are ranking and filtering signals, not calibrated probabilities.",
+            "score_warning": "Stage3 uses transparent threshold gates. It does not compute a weighted downstream relevance score.",
         },
     }
     if include_legacy_card:
         payload["legacy_paper_card"] = card.to_dict()
     return payload
+
+
+def evidence_unit_sort_key(item: dict[str, Any]) -> tuple[int, float, int, str]:
+    section = item["location"]["section"]
+    section_idx = CANONICAL_SECTIONS.index(section) if section in CANONICAL_SECTIONS else len(CANONICAL_SECTIONS)
+    importance = float(item["importance"]["concept_unit_importance"])
+    sentence_idx = int(item["location"]["sentence_index"])
+    canonical = str(item["phrase"]["canonical"])
+    return (section_idx, -importance, sentence_idx, canonical)
+
+
+def filtered_unit_summary(item: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "phrase": item["phrase"]["canonical"],
+        "section": item["location"]["section"],
+        "role": item["role"]["label"],
+        "concept_unit_importance": item["importance"]["concept_unit_importance"],
+        "failed_gates": item["threshold_trace"]["failed_gates"],
+        "threshold_trace": item["threshold_trace"],
+    }
+
+
+def threshold_policy_manifest() -> dict[str, Any]:
+    return {
+        "mode": "three_gate_threshold_filter",
+        "thresholds": dict(STAGE3_THRESHOLDS),
+        "gates": {
+            "model_confidence_gate": "boundary_score >= 0.60 and role_score >= 0.45",
+            "evidence_grounding_gate": "evidence_score >= 0.32, or evidence cue/overlap exists, or section-role support has concept_unit_importance >= 0.50",
+            "concept_specificity_gate": "phrase has at least two tokens, or strong BIO confidence, or BoW/TF-IDF support",
+        },
+        "interpretation": "A concept unit is included only when it passes all three transparent gates. No weighted downstream relevance score is used.",
+    }
+
+
+def build_threshold_trace(
+    unit: ConceptUnit,
+    section: str,
+    ngram_len: int,
+    bow_confidence: float,
+    matrix_tfidf_score: float,
+    cue_hits: list[EvidenceCue],
+    external_overlap: dict[str, Any],
+) -> dict[str, Any]:
+    thresholds = STAGE3_THRESHOLDS
+    model_gate = {
+        "boundary_score": round_float(unit.boundary_score),
+        "boundary_threshold": thresholds["boundary_score"],
+        "role_score": round_float(unit.role_score),
+        "role_threshold": thresholds["role_score"],
+    }
+    model_gate["passed"] = (
+        unit.boundary_score >= thresholds["boundary_score"]
+        and unit.role_score >= thresholds["role_score"]
+    )
+
+    evidence_gate = {
+        "evidence_score": round_float(unit.evidence_score),
+        "evidence_threshold": thresholds["evidence_score"],
+        "cue_hit_count": len(cue_hits),
+        "external_overlap_matched": bool(external_overlap.get("matched")),
+        "section_role_matched": unit.role in SECTION_DEFAULT_ROLES.get(normalize_section(section), []),
+        "section_role_importance": round_float(unit.importance),
+        "section_role_importance_threshold": thresholds["section_role_importance"],
+    }
+    evidence_gate["passed"] = (
+        unit.evidence_score >= thresholds["evidence_score"]
+        or bool(cue_hits)
+        or bool(external_overlap.get("matched"))
+        or (
+            unit.role in SECTION_DEFAULT_ROLES.get(normalize_section(section), [])
+            and unit.importance >= thresholds["section_role_importance"]
+        )
+    )
+
+    concept_gate = {
+        "ngram_len": ngram_len,
+        "min_ngram_len": int(thresholds["min_ngram_len"]),
+        "strong_single_term_boundary": round_float(unit.boundary_score),
+        "strong_single_term_boundary_threshold": thresholds["strong_single_term_boundary"],
+        "bow_confidence": round_float(bow_confidence),
+        "bow_threshold": thresholds["bow_confidence"],
+        "document_tfidf_score": round_float(matrix_tfidf_score),
+        "tfidf_threshold": thresholds["tfidf_score"],
+    }
+    concept_gate["passed"] = (
+        ngram_len >= int(thresholds["min_ngram_len"])
+        or unit.boundary_score >= thresholds["strong_single_term_boundary"]
+        or bow_confidence >= thresholds["bow_confidence"]
+        or matrix_tfidf_score >= thresholds["tfidf_score"]
+    )
+
+    gates = {
+        "model_confidence_gate": model_gate,
+        "evidence_grounding_gate": evidence_gate,
+        "concept_specificity_gate": concept_gate,
+    }
+    failed_gates = [name for name, gate in gates.items() if not gate["passed"]]
+    return {
+        **gates,
+        "passed": not failed_gates,
+        "failed_gates": failed_gates,
+    }
 
 
 def enrich_unit(
@@ -547,22 +665,17 @@ def enrich_unit(
     external_overlap = external_evidence.sentence_overlap(evidence_sentence) if external_evidence else {"matched": False}
     bow_confidence = bow_match.confidence if bow_match else 0.0
     section_prior = bow_match.section_prior if bow_match else 0.0
-    section_match_bonus = 0.07 if bow_match and bow_match.term.section == normalize_section(section) else 0.0
-    role_prior_bonus = role_prior_bonus_for(unit.role, bow_match, cue_hits)
-    cue_bonus = min(0.08, 0.035 * len(cue_hits))
+    section_match = bool(bow_match and bow_match.term.section == normalize_section(section))
+    role_prior_match = role_prior_matches(unit.role, bow_match, cue_hits)
     matrix_tfidf_score = normalized_score(matrix_score.tfidf, term_matrix.max_tfidf) if matrix_score and term_matrix else 0.0
-    ngram_specificity = min(1.0, max(0.0, len(tokens) / 4.0))
-    downstream_score = clamp(
-        0.52 * unit.importance
-        + 0.14 * unit.evidence_score
-        + 0.08 * unit.role_score
-        + 0.10 * bow_confidence
-        + 0.05 * section_prior
-        + 0.05 * matrix_tfidf_score
-        + 0.04 * ngram_specificity
-        + cue_bonus
-        + role_prior_bonus
-        + section_match_bonus
+    threshold_trace = build_threshold_trace(
+        unit=unit,
+        section=section,
+        ngram_len=len(tokens),
+        bow_confidence=bow_confidence,
+        matrix_tfidf_score=matrix_tfidf_score,
+        cue_hits=cue_hits,
+        external_overlap=external_overlap,
     )
     canonical = bow_match.term.canonical_term if bow_match else unit.phrase
     return {
@@ -594,8 +707,7 @@ def enrich_unit(
             "external_candidate_overlap": external_overlap,
         },
         "importance": {
-            "original_unit_score": round_float(unit.importance),
-            "downstream_relevance_score": round_float(downstream_score),
+            "concept_unit_importance": round_float(unit.importance),
             "components": {
                 "bio_boundary_score": round_float(unit.boundary_score),
                 "sentence_evidence_score": round_float(unit.evidence_score),
@@ -603,12 +715,15 @@ def enrich_unit(
                 "bow_match_confidence": round_float(bow_confidence),
                 "laplace_section_prior": round_float(section_prior),
                 "document_tfidf_score": round_float(matrix_tfidf_score),
-                "evidence_cue_bonus": round_float(cue_bonus),
-                "role_prior_bonus": round_float(role_prior_bonus),
-                "section_match_bonus": round_float(section_match_bonus),
-                "ngram_specificity": round_float(ngram_specificity),
+                "evidence_cue_count": len(cue_hits),
+                "has_evidence_cue": bool(cue_hits),
+                "has_external_evidence_overlap": bool(external_overlap.get("matched")),
+                "role_prior_match": role_prior_match,
+                "section_bow_section_match": section_match,
+                "ngram_len": len(tokens),
             },
         },
+        "threshold_trace": threshold_trace,
         "bow_metadata": bow_metadata(bow_match),
         "document_term_matrix": matrix_metadata(matrix_score, term_matrix),
         "course_feature_trace": {
@@ -625,7 +740,7 @@ def enrich_unit(
                 "channel_score": round_float(bow_confidence),
             },
         },
-        "selection_reason": selection_reasons(unit, bow_match, cue_hits, matrix_score, downstream_score),
+        "selection_reason": selection_reasons(unit, bow_match, cue_hits, matrix_score, threshold_trace),
     }
 
 
@@ -698,7 +813,7 @@ def build_concept_graph(units: list[dict[str, Any]]) -> dict[str, Any]:
             "canonical": unit["phrase"]["canonical"],
             "section": unit["location"]["section"],
             "role": unit["role"]["label"],
-            "score": unit["importance"]["downstream_relevance_score"],
+            "concept_unit_importance": unit["importance"]["concept_unit_importance"],
         }
         for unit in units
     ]
@@ -709,13 +824,13 @@ def build_concept_graph(units: list[dict[str, Any]]) -> dict[str, Any]:
         by_sentence[int(unit["location"]["sentence_index"])].append(unit)
         by_section_role[(unit["location"]["section"], unit["role"]["label"])].append(unit)
     for group in by_sentence.values():
-        edges.extend(pair_edges(group, "same_evidence_sentence", 0.9))
+        edges.extend(pair_edges(group, "same_evidence_sentence"))
     for group in by_section_role.values():
-        edges.extend(pair_edges(group[:4], "same_section_role", 0.55))
+        edges.extend(pair_edges(group[:4], "same_section_role"))
     return {"nodes": nodes, "edges": edges[:80]}
 
 
-def pair_edges(group: list[dict[str, Any]], edge_type: str, weight: float) -> list[dict[str, Any]]:
+def pair_edges(group: list[dict[str, Any]], edge_type: str) -> list[dict[str, Any]]:
     edges: list[dict[str, Any]] = []
     for left_idx in range(len(group)):
         for right_idx in range(left_idx + 1, len(group)):
@@ -724,7 +839,6 @@ def pair_edges(group: list[dict[str, Any]], edge_type: str, weight: float) -> li
                     "source": group[left_idx]["unit_id"],
                     "target": group[right_idx]["unit_id"],
                     "type": edge_type,
-                    "weight": weight,
                 }
             )
     return edges
@@ -868,13 +982,11 @@ def matrix_feature_to_dict(item: MatrixFeatureScore) -> dict[str, Any]:
     }
 
 
-def role_prior_bonus_for(role: str, match: SectionBowMatch | None, cues: list[EvidenceCue]) -> float:
-    bonus = 0.0
-    if match and match.term.role_prior and normalize_text(match.term.role_prior) == normalize_text(role):
-        bonus += 0.045
-    if any(normalize_text(cue.role_prior) == normalize_text(role) for cue in cues if cue.role_prior):
-        bonus += 0.035
-    return min(0.08, bonus)
+def role_prior_matches(role: str, match: SectionBowMatch | None, cues: list[EvidenceCue]) -> bool:
+    normalized_role = normalize_text(role)
+    if match and match.term.role_prior and normalize_text(match.term.role_prior) == normalized_role:
+        return True
+    return any(normalize_text(cue.role_prior) == normalized_role for cue in cues if cue.role_prior)
 
 
 def selection_reasons(
@@ -882,7 +994,7 @@ def selection_reasons(
     match: SectionBowMatch | None,
     cue_hits: list[EvidenceCue],
     matrix_score: MatrixFeatureScore | None,
-    downstream_score: float,
+    threshold_trace: dict[str, Any],
 ) -> list[str]:
     reasons = [
         f"BIO boundary retained phrase with score {round_float(unit.boundary_score)}",
@@ -907,7 +1019,10 @@ def selection_reasons(
             "evidence cue lexicon matched "
             + ", ".join(cue.cue_phrase for cue in cue_hits[:3])
         )
-    reasons.append(f"downstream relevance score is {round_float(downstream_score)}")
+    if threshold_trace["passed"]:
+        reasons.append("passed Stage3 threshold gates: model confidence, evidence grounding, and concept specificity")
+    else:
+        reasons.append("failed Stage3 threshold gates: " + ", ".join(threshold_trace["failed_gates"]))
     return reasons
 
 
