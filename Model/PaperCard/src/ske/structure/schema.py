@@ -81,8 +81,10 @@ class ConceptUnit:
     evidence_sentence: str
     importance: float
     sentence_index: int
+    stage1_score: float = 0.0
     boundary_score: float = 0.0
     evidence_score: float = 0.0
+    sentence_importance_score: float = 0.0
     role_score: float = 0.0
 
     def to_dict(self) -> dict[str, Any]:

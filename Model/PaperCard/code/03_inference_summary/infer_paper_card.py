@@ -66,6 +66,7 @@ def main() -> None:
         term_tfidf_matrix_csv=args.term_tfidf_matrix_csv,
         evidence_cue_csv=args.evidence_cue_csv,
         sentence_evidence_csv=args.sentence_evidence_csv,
+        final_top_k=args.top_k_keyphrases,
         include_legacy_card=args.include_legacy_card,
     )
     rendered_json = json.dumps(payload, ensure_ascii=False, indent=2)

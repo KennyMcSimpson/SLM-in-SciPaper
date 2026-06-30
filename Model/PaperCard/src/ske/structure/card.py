@@ -167,7 +167,7 @@ def build_paper_card(
         top_k_keyphrases=candidate_pool_size,
         device=device,
     )
-    units = concept_units_from_candidates(keyphrase_candidates, document, sentence_predictions, max_units=top_k_keyphrases)
+    units = concept_units_from_candidates(keyphrase_candidates, document, sentence_predictions, max_units=candidate_pool_size)
     section_notes = select_section_notes(document, sentence_predictions)
     section_notes = backfill_missing_section_notes(document, sentence_predictions, section_notes)
     card = PaperCard(doc_id=document.doc_id, title=title, units=units, section_notes=section_notes)
@@ -332,7 +332,8 @@ def concept_units_from_candidates(
         if is_noisy_phrase(phrase) or is_noisy_sentence(sentence.text):
             continue
         prediction = predictions.get(sentence_index) or SentencePrediction(*infer_role_from_sentence(sentence.text, sentence.section), 0.0, 0.5)
-        importance = 0.50 * float(item.get("score", 0.0)) + 0.25 * prediction.evidence_score + 0.25 * prediction.importance
+        stage1_score = float(item.get("score", 0.0))
+        importance = 0.50 * stage1_score + 0.25 * prediction.evidence_score + 0.25 * prediction.importance
         units.append(
             ConceptUnit(
                 section=sentence.section,
@@ -341,52 +342,30 @@ def concept_units_from_candidates(
                 evidence_sentence=sentence.text,
                 importance=float(max(0.0, min(1.0, importance))),
                 sentence_index=sentence_index,
+                stage1_score=stage1_score,
                 boundary_score=float(item.get("boundary_score", item.get("score", 0.0))),
                 evidence_score=prediction.evidence_score,
+                sentence_importance_score=prediction.importance,
                 role_score=prediction.role_score,
             )
         )
-    return select_balanced_units(units, max_units or len(units))
+    return select_ranked_units(units, max_units or len(units))
 
 
-def select_balanced_units(units: list[ConceptUnit], max_units: int) -> list[ConceptUnit]:
+def select_ranked_units(units: list[ConceptUnit], max_units: int) -> list[ConceptUnit]:
     ranked = sorted(units, key=lambda unit: unit.importance, reverse=True)
     selected: list[ConceptUnit] = []
     seen: set[str] = set()
 
-    def add(unit: ConceptUnit) -> None:
+    for unit in ranked:
         key = normalize_text(unit.phrase)
         if not key or key in seen:
-            return
+            continue
         seen.add(key)
         selected.append(unit)
-
-    target_per_section = 2 if max_units >= 18 else 1
-    for section in CANONICAL_SECTIONS:
-        section_units = [
-            unit
-            for unit in ranked
-            if unit.section == section and unit.importance >= 0.34 and is_section_compatible_unit(unit)
-        ]
-        for unit in section_units[:target_per_section]:
-            add(unit)
-            if len(selected) >= max_units:
-                return selected
-
-    for unit in ranked:
-        add(unit)
         if len(selected) >= max_units:
             break
     return selected
-
-
-def is_section_compatible_unit(unit: ConceptUnit) -> bool:
-    allowed_roles = SECTION_NOTE_ROLES.get(unit.section, set())
-    if not allowed_roles:
-        return True
-    if unit.role in allowed_roles:
-        return True
-    return unit.importance >= 0.64
 
 
 def select_section_notes(document: StructuredDocument, predictions: dict[int, SentencePrediction], max_notes: int = 4) -> dict[str, list[str]]:

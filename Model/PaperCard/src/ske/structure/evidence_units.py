@@ -9,7 +9,7 @@ from typing import Any
 
 from ske.data.text_utils import find_normalized_phrase_spans, normalize_text, token_jaccard
 
-from .schema import CANONICAL_SECTIONS, SECTION_DEFAULT_ROLES, ConceptUnit, PaperCard, SentenceRecord
+from .schema import CANONICAL_SECTIONS, ConceptUnit, PaperCard, SentenceRecord
 from .sectioning import section_document
 
 
@@ -87,14 +87,9 @@ ROLE_SUPPORT_TYPES = {
 }
 
 STAGE3_THRESHOLDS = {
-    "boundary_score": 0.60,
-    "role_score": 0.45,
-    "evidence_score": 0.32,
-    "section_role_importance": 0.50,
-    "min_ngram_len": 2,
-    "strong_single_term_boundary": 0.80,
-    "bow_confidence": 0.70,
-    "tfidf_score": 0.50,
+    "phrase_word_number": 2,
+    "bow_support_score": 0.70,
+    "tfidf_support_score": 0.50,
 }
 
 
@@ -480,6 +475,7 @@ def build_evidence_units_payload(
     term_tfidf_matrix_csv: str | Path | None = None,
     evidence_cue_csv: str | Path | None = None,
     sentence_evidence_csv: str | Path | None = None,
+    final_top_k: int = 28,
     include_legacy_card: bool = False,
 ) -> dict[str, Any]:
     sentences = section_document(text)
@@ -493,9 +489,15 @@ def build_evidence_units_payload(
         enrich_unit(unit, idx, sentences, section_bow, term_matrix, cue_lexicon, external_evidence)
         for idx, unit in enumerate(card.units, start=1)
     ]
-    enriched_units = [item for item in enriched_all if item["threshold_trace"]["passed"]]
-    filtered_out_units = [filtered_unit_summary(item) for item in enriched_all if not item["threshold_trace"]["passed"]]
-    enriched_units.sort(key=evidence_unit_sort_key)
+    threshold_passed_units = [item for item in enriched_all if item["threshold_trace"]["passed"]]
+    threshold_failed_units = [item for item in enriched_all if not item["threshold_trace"]["passed"]]
+    threshold_passed_units.sort(key=evidence_unit_sort_key)
+    enriched_units = threshold_passed_units[:final_top_k]
+    filtered_out_units = [filtered_unit_summary(item, "threshold_failed") for item in threshold_failed_units]
+    filtered_out_units.extend(
+        filtered_unit_summary(item, "outside_final_top_k_after_threshold")
+        for item in threshold_passed_units[final_top_k:]
+    )
     for idx, item in enumerate(enriched_units, start=1):
         item["unit_id"] = f"ecu_{idx:03d}"
         item["rank"] = idx
@@ -526,7 +528,12 @@ def build_evidence_units_payload(
         "corpus_statistics": corpus_statistics,
         "document_term_matrix": document_term_matrix_summary(term_matrix),
         "section_profiles": section_profiles,
-        "stage3_threshold_policy": threshold_policy_manifest(),
+        "stage3_threshold_policy": threshold_policy_manifest(
+            candidate_pool_size=len(enriched_all),
+            threshold_passed_count=len(threshold_passed_units),
+            final_top_k=final_top_k,
+            selected_count=len(enriched_units),
+        ),
         "evidence_units": enriched_units,
         "filtered_out_units": filtered_out_units,
         "external_evidence_candidates": external_evidence_summary(external_evidence),
@@ -543,106 +550,97 @@ def build_evidence_units_payload(
     return payload
 
 
-def evidence_unit_sort_key(item: dict[str, Any]) -> tuple[int, float, int, str]:
-    section = item["location"]["section"]
-    section_idx = CANONICAL_SECTIONS.index(section) if section in CANONICAL_SECTIONS else len(CANONICAL_SECTIONS)
+def evidence_unit_sort_key(item: dict[str, Any]) -> tuple[float, int, str]:
     importance = float(item["importance"]["concept_unit_importance"])
     sentence_idx = int(item["location"]["sentence_index"])
     canonical = str(item["phrase"]["canonical"])
-    return (section_idx, -importance, sentence_idx, canonical)
+    return (-importance, sentence_idx, canonical)
 
 
-def filtered_unit_summary(item: dict[str, Any]) -> dict[str, Any]:
+def filtered_unit_summary(item: dict[str, Any], filter_reason: str) -> dict[str, Any]:
     return {
         "phrase": item["phrase"]["canonical"],
         "section": item["location"]["section"],
         "role": item["role"]["label"],
         "concept_unit_importance": item["importance"]["concept_unit_importance"],
-        "failed_gates": item["threshold_trace"]["failed_gates"],
+        "filter_reason": filter_reason,
+        "passed_features": item["threshold_trace"]["passed_features"],
+        "failed_features": item["threshold_trace"]["failed_features"],
         "threshold_trace": item["threshold_trace"],
     }
 
 
-def threshold_policy_manifest() -> dict[str, Any]:
+def threshold_policy_manifest(
+    candidate_pool_size: int,
+    threshold_passed_count: int,
+    final_top_k: int,
+    selected_count: int,
+) -> dict[str, Any]:
     return {
-        "mode": "three_gate_threshold_filter",
+        "mode": "report_aligned_three_feature_threshold_filter",
+        "candidate_pool_size": candidate_pool_size,
+        "threshold_passed_count": threshold_passed_count,
+        "final_top_k": final_top_k,
+        "selected_count": selected_count,
         "thresholds": dict(STAGE3_THRESHOLDS),
-        "gates": {
-            "model_confidence_gate": "boundary_score >= 0.60 and role_score >= 0.45",
-            "evidence_grounding_gate": "evidence_score >= 0.32, or evidence cue/overlap exists, or section-role support has concept_unit_importance >= 0.50",
-            "concept_specificity_gate": "phrase has at least two tokens, or strong BIO confidence, or BoW/TF-IDF support",
+        "workflow": [
+            f"Stage1 and Stage2 fuse candidates and keep the Top{candidate_pool_size} ConceptUnit pool by I_concept.",
+            "Stage3 applies feature thresholds for n-gram length, BoW support, and TF-IDF support.",
+            "Candidates passing at least one feature threshold are ranked by I_concept.",
+            f"The final JSON keeps the Top{final_top_k} ranked candidates.",
+        ],
+        "passing_rule": "A candidate passes Stage3 if any one of n-gram length, BoW support, or TF-IDF support passes.",
+        "features": {
+            "ngram_length": "phrase_word_number(u) = |tokenize(p_u)|; pass if phrase_word_number(u) >= 2",
+            "bow_support": "bow_support_score(u) = clip_0_1(term_confidence(u) * match_quality(u)); pass if bow_support_score(u) >= 0.70",
+            "tfidf_support": "tfidf_support_score(u) = matched_feature_tfidf(u) / max_tfidf_in_document; pass if tfidf_support_score(u) >= 0.50",
         },
-        "interpretation": "A concept unit is included only when it passes all three transparent gates. No weighted downstream relevance score is used.",
+        "interpretation": "The three thresholds only decide whether a fused candidate is specific enough to enter the final ranking. I_concept is used for ranking, not as a Stage3 threshold.",
     }
 
 
 def build_threshold_trace(
-    unit: ConceptUnit,
-    section: str,
     ngram_len: int,
-    bow_confidence: float,
-    matrix_tfidf_score: float,
-    cue_hits: list[EvidenceCue],
-    external_overlap: dict[str, Any],
+    term_confidence: float,
+    match_quality: float,
+    bow_support_score: float,
+    matched_feature_tfidf: float,
+    max_tfidf_in_document: float,
+    tfidf_support_score: float,
 ) -> dict[str, Any]:
     thresholds = STAGE3_THRESHOLDS
-    model_gate = {
-        "boundary_score": round_float(unit.boundary_score),
-        "boundary_threshold": thresholds["boundary_score"],
-        "role_score": round_float(unit.role_score),
-        "role_threshold": thresholds["role_score"],
+    features = {
+        "ngram_length": {
+            "formula": "phrase_word_number(u) = |tokenize(p_u)|",
+            "phrase_word_number": ngram_len,
+            "threshold": int(thresholds["phrase_word_number"]),
+            "passed": ngram_len >= int(thresholds["phrase_word_number"]),
+        },
+        "bow_support": {
+            "formula": "bow_support_score(u) = clip_0_1(term_confidence(u) * match_quality(u))",
+            "term_confidence": round_float(term_confidence),
+            "match_quality": round_float(match_quality),
+            "bow_support_score": round_float(bow_support_score),
+            "threshold": thresholds["bow_support_score"],
+            "passed": bow_support_score >= thresholds["bow_support_score"],
+        },
+        "tfidf_support": {
+            "formula": "tfidf_support_score(u) = matched_feature_tfidf(u) / max_tfidf_in_document",
+            "matched_feature_tfidf": round_float(matched_feature_tfidf),
+            "max_tfidf_in_document": round_float(max_tfidf_in_document),
+            "tfidf_support_score": round_float(tfidf_support_score),
+            "threshold": thresholds["tfidf_support_score"],
+            "passed": tfidf_support_score >= thresholds["tfidf_support_score"],
+        },
     }
-    model_gate["passed"] = (
-        unit.boundary_score >= thresholds["boundary_score"]
-        and unit.role_score >= thresholds["role_score"]
-    )
-
-    evidence_gate = {
-        "evidence_score": round_float(unit.evidence_score),
-        "evidence_threshold": thresholds["evidence_score"],
-        "cue_hit_count": len(cue_hits),
-        "external_overlap_matched": bool(external_overlap.get("matched")),
-        "section_role_matched": unit.role in SECTION_DEFAULT_ROLES.get(normalize_section(section), []),
-        "section_role_importance": round_float(unit.importance),
-        "section_role_importance_threshold": thresholds["section_role_importance"],
-    }
-    evidence_gate["passed"] = (
-        unit.evidence_score >= thresholds["evidence_score"]
-        or bool(cue_hits)
-        or bool(external_overlap.get("matched"))
-        or (
-            unit.role in SECTION_DEFAULT_ROLES.get(normalize_section(section), [])
-            and unit.importance >= thresholds["section_role_importance"]
-        )
-    )
-
-    concept_gate = {
-        "ngram_len": ngram_len,
-        "min_ngram_len": int(thresholds["min_ngram_len"]),
-        "strong_single_term_boundary": round_float(unit.boundary_score),
-        "strong_single_term_boundary_threshold": thresholds["strong_single_term_boundary"],
-        "bow_confidence": round_float(bow_confidence),
-        "bow_threshold": thresholds["bow_confidence"],
-        "document_tfidf_score": round_float(matrix_tfidf_score),
-        "tfidf_threshold": thresholds["tfidf_score"],
-    }
-    concept_gate["passed"] = (
-        ngram_len >= int(thresholds["min_ngram_len"])
-        or unit.boundary_score >= thresholds["strong_single_term_boundary"]
-        or bow_confidence >= thresholds["bow_confidence"]
-        or matrix_tfidf_score >= thresholds["tfidf_score"]
-    )
-
-    gates = {
-        "model_confidence_gate": model_gate,
-        "evidence_grounding_gate": evidence_gate,
-        "concept_specificity_gate": concept_gate,
-    }
-    failed_gates = [name for name, gate in gates.items() if not gate["passed"]]
+    passed_features = [name for name, feature in features.items() if feature["passed"]]
+    failed_features = [name for name, feature in features.items() if not feature["passed"]]
     return {
-        **gates,
-        "passed": not failed_gates,
-        "failed_gates": failed_gates,
+        **features,
+        "passing_rule": "any_feature_passes",
+        "passed": bool(passed_features),
+        "passed_features": passed_features,
+        "failed_features": failed_features,
     }
 
 
@@ -663,19 +661,20 @@ def enrich_unit(
     matrix_score = term_matrix.feature_score(section, unit.phrase) if term_matrix else None
     cue_hits = cue_lexicon.sentence_hits(evidence_sentence, section=section) if cue_lexicon else []
     external_overlap = external_evidence.sentence_overlap(evidence_sentence) if external_evidence else {"matched": False}
-    bow_confidence = bow_match.confidence if bow_match else 0.0
-    section_prior = bow_match.section_prior if bow_match else 0.0
-    section_match = bool(bow_match and bow_match.term.section == normalize_section(section))
-    role_prior_match = role_prior_matches(unit.role, bow_match, cue_hits)
-    matrix_tfidf_score = normalized_score(matrix_score.tfidf, term_matrix.max_tfidf) if matrix_score and term_matrix else 0.0
+    term_confidence = bow_match.term.confidence_score if bow_match else 0.0
+    match_quality = bow_match.match_quality if bow_match else 0.0
+    bow_support_score = bow_match.confidence if bow_match else 0.0
+    matched_feature_tfidf = matrix_score.tfidf if matrix_score else 0.0
+    max_tfidf_in_document = term_matrix.max_tfidf if term_matrix else 0.0
+    tfidf_support_score = normalized_score(matched_feature_tfidf, max_tfidf_in_document)
     threshold_trace = build_threshold_trace(
-        unit=unit,
-        section=section,
         ngram_len=len(tokens),
-        bow_confidence=bow_confidence,
-        matrix_tfidf_score=matrix_tfidf_score,
-        cue_hits=cue_hits,
-        external_overlap=external_overlap,
+        term_confidence=term_confidence,
+        match_quality=match_quality,
+        bow_support_score=bow_support_score,
+        matched_feature_tfidf=matched_feature_tfidf,
+        max_tfidf_in_document=max_tfidf_in_document,
+        tfidf_support_score=tfidf_support_score,
     )
     canonical = bow_match.term.canonical_term if bow_match else unit.phrase
     return {
@@ -708,39 +707,27 @@ def enrich_unit(
         },
         "importance": {
             "concept_unit_importance": round_float(unit.importance),
+            "formula": "I_concept(u) = 0.50 * S_stage1(u) + 0.25 * S_evidence(u) + 0.25 * S_sentence(u)",
             "components": {
+                "stage1_score": round_float(unit.stage1_score),
                 "bio_boundary_score": round_float(unit.boundary_score),
                 "sentence_evidence_score": round_float(unit.evidence_score),
+                "sentence_importance_score": round_float(unit.sentence_importance_score),
                 "sentence_role_score": round_float(unit.role_score),
-                "bow_match_confidence": round_float(bow_confidence),
-                "laplace_section_prior": round_float(section_prior),
-                "document_tfidf_score": round_float(matrix_tfidf_score),
-                "evidence_cue_count": len(cue_hits),
-                "has_evidence_cue": bool(cue_hits),
-                "has_external_evidence_overlap": bool(external_overlap.get("matched")),
-                "role_prior_match": role_prior_match,
-                "section_bow_section_match": section_match,
                 "ngram_len": len(tokens),
+                "bow_support_score": round_float(bow_support_score),
+                "tfidf_support_score": round_float(tfidf_support_score),
             },
         },
         "threshold_trace": threshold_trace,
         "bow_metadata": bow_metadata(bow_match),
         "document_term_matrix": matrix_metadata(matrix_score, term_matrix),
         "course_feature_trace": {
-            "tokenization": tokens,
-            "normalization": normalize_text(unit.phrase),
-            "ngram": f"{len(tokens)}-gram" if tokens else "0-gram",
-            "bow_feature": bool(bow_match),
-            "tfidf_feature": matrix_score is not None,
-            "evidence_cue_feature": bool(cue_hits),
-            "laplace_smoothed_section_prior": round_float(section_prior),
-            "canonicalization": {
-                "observed": unit.phrase,
-                "canonical": canonical,
-                "channel_score": round_float(bow_confidence),
-            },
+            "ngram_length": threshold_trace["ngram_length"],
+            "bow_support": threshold_trace["bow_support"],
+            "tfidf_support": threshold_trace["tfidf_support"],
         },
-        "selection_reason": selection_reasons(unit, bow_match, cue_hits, matrix_score, threshold_trace),
+        "selection_reason": selection_reasons(unit, bow_match, matrix_score, threshold_trace),
     }
 
 
@@ -846,45 +833,17 @@ def pair_edges(group: list[dict[str, Any]], edge_type: str) -> list[dict[str, An
 
 def course_feature_manifest() -> dict[str, Any]:
     return {
-        "corpus_building": {
-            "implemented_as": "The TXT paper is converted into a section-aware annotated mini-corpus.",
-            "json_fields": ["document", "corpus_statistics", "section_profiles", "evidence_units"],
-        },
-        "tokenization": {
-            "implemented_as": "Every concept phrase and sentence is normalized into tokens for counts and n-grams.",
-            "json_fields": ["corpus_statistics.token_count", "evidence_units[].phrase.tokens"],
-        },
-        "normalization": {
-            "implemented_as": "Lower-casing and punctuation cleanup are used for phrase matching and deduplication.",
-            "json_fields": ["evidence_units[].phrase.normalized", "evidence_units[].course_feature_trace.normalization"],
-        },
         "n_gram": {
-            "implemented_as": "Concept length and document top unigrams/bigrams/trigrams are exposed.",
-            "json_fields": ["corpus_statistics.top_unigrams", "corpus_statistics.top_bigrams", "corpus_statistics.top_trigrams", "evidence_units[].phrase.ngram_len"],
+            "implemented_as": "Stage3 counts phrase tokens and passes candidates whose phrase_word_number is at least 2.",
+            "json_fields": ["evidence_units[].threshold_trace.ngram_length", "filtered_out_units[].threshold_trace.ngram_length"],
         },
-        "bow_and_naive_bayes": {
-            "implemented_as": "Section BoW hits act as class-conditional section evidence for intro/method/experiment/conclusion style decisions.",
-            "json_fields": ["section_profiles[].top_bow_terms", "evidence_units[].bow_metadata"],
+        "bow_support": {
+            "implemented_as": "Stage3 matches a candidate phrase against the section BoW and computes bow_support_score = term_confidence * match_quality.",
+            "json_fields": ["evidence_units[].threshold_trace.bow_support", "evidence_units[].bow_metadata"],
         },
-        "tf_idf_document_term_matrix": {
-            "implemented_as": "Document-level frequency and TF-IDF matrices expose which section concepts are characteristic of this paper.",
-            "json_fields": ["document_term_matrix", "section_profiles[].top_tfidf_terms", "evidence_units[].document_term_matrix"],
-        },
-        "laplace_smoothing": {
-            "implemented_as": "P(section | concept) uses add-one smoothing, so unseen section-concept pairs are not forced to zero.",
-            "json_fields": ["evidence_units[].importance.components.laplace_section_prior"],
-        },
-        "evidence_cue_lexicon": {
-            "implemented_as": "Cue phrases such as propose, achieve, outperform, and BLEU give transparent rule-based evidence hints.",
-            "json_fields": ["evidence_units[].evidence.cue_hits", "external_evidence_candidates"],
-        },
-        "sequence_labeling": {
-            "implemented_as": "The first model contributes BIO boundary evidence for concept phrase extraction.",
-            "json_fields": ["evidence_units[].importance.components.bio_boundary_score"],
-        },
-        "canonicalization_noisy_channel_style": {
-            "implemented_as": "Observed surface phrases are mapped to canonical terms with an alias confidence score.",
-            "json_fields": ["evidence_units[].course_feature_trace.canonicalization"],
+        "tf_idf_support": {
+            "implemented_as": "Stage3 normalizes the matched document-term TF-IDF by the maximum TF-IDF value in the current document.",
+            "json_fields": ["evidence_units[].threshold_trace.tfidf_support", "evidence_units[].document_term_matrix"],
         },
     }
 
@@ -982,17 +941,9 @@ def matrix_feature_to_dict(item: MatrixFeatureScore) -> dict[str, Any]:
     }
 
 
-def role_prior_matches(role: str, match: SectionBowMatch | None, cues: list[EvidenceCue]) -> bool:
-    normalized_role = normalize_text(role)
-    if match and match.term.role_prior and normalize_text(match.term.role_prior) == normalized_role:
-        return True
-    return any(normalize_text(cue.role_prior) == normalized_role for cue in cues if cue.role_prior)
-
-
 def selection_reasons(
     unit: ConceptUnit,
     match: SectionBowMatch | None,
-    cue_hits: list[EvidenceCue],
     matrix_score: MatrixFeatureScore | None,
     threshold_trace: dict[str, Any],
 ) -> list[str]:
@@ -1014,15 +965,10 @@ def selection_reasons(
             f"document-term matrix links the phrase to feature '{matrix_score.feature_name}' "
             f"with tf-idf {round_float(matrix_score.tfidf)}"
         )
-    if cue_hits:
-        reasons.append(
-            "evidence cue lexicon matched "
-            + ", ".join(cue.cue_phrase for cue in cue_hits[:3])
-        )
     if threshold_trace["passed"]:
-        reasons.append("passed Stage3 threshold gates: model confidence, evidence grounding, and concept specificity")
+        reasons.append("passed Stage3 feature thresholds: " + ", ".join(threshold_trace["passed_features"]))
     else:
-        reasons.append("failed Stage3 threshold gates: " + ", ".join(threshold_trace["failed_gates"]))
+        reasons.append("failed Stage3 feature thresholds: " + ", ".join(threshold_trace["failed_features"]))
     return reasons
 
 

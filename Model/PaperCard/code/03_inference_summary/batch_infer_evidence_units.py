@@ -99,6 +99,7 @@ def process_one(path: Path, output_dir: Path, args: argparse.Namespace) -> dict[
         term_tfidf_matrix_csv=existing_path_or_none(args.term_tfidf_matrix_csv),
         evidence_cue_csv=existing_path_or_none(args.evidence_cue_csv),
         sentence_evidence_csv=existing_path_or_none(args.sentence_evidence_csv),
+        final_top_k=args.top_k_keyphrases,
         include_legacy_card=args.include_legacy_card,
     )
     output_path = output_dir / f"{safe_name(path.stem)}.json"
