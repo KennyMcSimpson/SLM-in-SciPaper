@@ -30,6 +30,8 @@ import fitz  # PyMuPDF
 from pathlib import Path
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
+from KG_generation import (build_knowledge_graph_from_texts,format_bow_terms_for_prompt,match_bow_terms_in_texts,)
+from rag import rank_evidence_units
 
 app = Flask(__name__)
 CORS(app)
@@ -37,7 +39,7 @@ CORS(app)
 # ─── Configuration ────────────────────────────────────────────────────────────
 import os
 
-API_KEY = os.environ.get("MISTRAL_API_KEY", "")
+API_KEY = os.environ.get("MISTRAL_API_KEY", "")  # IMPORT your own API key
 EMBEDDING_API_URL = "https://api.mistral.ai/v1/embeddings"
 CHAT_API_URL = "https://api.mistral.ai/v1/chat/completions"
 
@@ -186,63 +188,15 @@ def compute_matches(
 
     scored.sort(key=lambda x: x[2], reverse=True)
     return scored[:top_k]
-
-
 # ─── BoW / Keyword Extraction (for highlighting) ────────────────────────────
-
 IMPORTANT_STOPWORDS = {
-    "a",
-    "an",
-    "and",
-    "are",
-    "as",
-    "at",
-    "be",
-    "been",
-    "by",
-    "can",
-    "do",
-    "for",
-    "from",
-    "has",
-    "have",
-    "in",
-    "is",
-    "it",
-    "its",
-    "of",
-    "on",
-    "or",
-    "our",
-    "that",
-    "the",
-    "their",
-    "this",
-    "to",
-    "was",
-    "we",
-    "with",
-    "which",
-    "what",
-    "how",
-    "when",
-    "where",
-    "who",
-    "will",
-    "would",
-    "not",
-    "also",
-    "but",
-    "if",
-    "then",
-    "than",
-    "so",
-    "yet",
-    "more",
-    "most",
+    "a", "an", "and", "are", "as", "at", "be", "been", "by", "can",
+    "do", "for", "from", "has", "have", "in", "is", "it", "its", "of",
+    "on", "or", "our", "that", "the", "their", "this", "to", "was", "we",
+    "with", "which", "what", "how", "when", "where", "who", "will",
+    "would", "not", "also", "but", "if", "then", "than", "so", "yet",
+    "more", "most",
 }
-
-
 def extract_query_keywords(query: str, max_kw: int = 12) -> list[str]:
     """
     Extract meaningful content words from the user query for BoW highlighting.
@@ -280,6 +234,7 @@ def build_system_prompt_from_evidence_units(
     evidence_units: list[dict],
     section_notes: dict,
     title: str,
+    bow_terms: list[dict] | None = None,
 ) -> str:
     """
     Step 3 (Edge mode): Assembles a rich structured Prompt from the
@@ -343,6 +298,8 @@ def build_system_prompt_from_evidence_units(
         else "No structured context available."
     )
 
+    bow_context = format_bow_terms_for_prompt(bow_terms or [])
+
     return (
         "You are an expert scientific paper analysis assistant with deep expertise in NLP and machine learning research.\n"
         "The following structured analysis was automatically extracted from the paper using a SciBERT-based Evidence-grounded\n"
@@ -350,21 +307,35 @@ def build_system_prompt_from_evidence_units(
         "result, contribution), an importance score (0–1), and the supporting evidence sentence.\n\n"
         "Use this structured knowledge to answer the user's question with precision and specificity. "
         "Cite specific concept units and evidence sentences when relevant. "
-        "If the answer cannot be found in the provided context, say so clearly.\n\n"
+        "When matched terminology is provided, include short explanations of the relevant technical terms before or within "
+        "the paper interpretation, and connect each term back to how it appears in this paper. "
+        "If the answer cannot be found in the provided context, say that:"
+        "No evidence was extracted for this part from the provided paper analysis."
+        "Do not use prior knowledge, the paper title, or general knowledge to fill missing sections.\n\n"
         f"=== Paper: {title} ===\n\n"
         f"{structured_context}"
+        f"{bow_context}"
     )
 
 
-def build_system_prompt_from_chunks(retrieved_context: str) -> str:
+def build_system_prompt_from_chunks(
+    retrieved_context: str,
+    bow_terms: list[dict] | None = None,
+) -> str:
     """
     Step B (Server fallback): Classic RAG prompt using raw text chunks.
     """
+    bow_context = format_bow_terms_for_prompt(bow_terms or [])
     return (
         "You are a scientific paper analysis assistant. "
         "Answer the user's question based strictly and only on the provided context. "
-        "If the answer cannot be found in the context, say so clearly.\n\n"
+        "When matched terminology is provided, include concise explanations of the relevant technical terms and connect "
+        "them to the retrieved paper passages. "
+        "If the answer cannot be found in the context, say that:"
+        "No evidence was extracted for this part from the provided paper analysis."
+        "Do not use prior knowledge, the paper title, or general knowledge to fill missing sections.\n\n"
         f"Context from paper:\n{retrieved_context}"
+        f"{bow_context}"
     )
 
 
@@ -512,64 +483,30 @@ def chat():
 
     # context_chunks is the structured visualization payload returned to frontend
     context_chunks: list[dict] = []
+    bow_terms: list[dict] = []
+    knowledge_graph: dict = {"terms": [], "edges": []}
 
     if evidence_units:
         # ── Mode A: Edge inference path ──────────────────────────────────
-        system_prompt = build_system_prompt_from_evidence_units(
+        edge_rag = rank_evidence_units(
             evidence_units=evidence_units,
+            query_keywords=query_keywords,
+            prompt_top_k=14,
+            display_top_k=5,
+        )
+        selected_evidence_units = edge_rag["prompt_evidence_units"] or evidence_units[:14]
+        context_chunks = edge_rag["context_chunks"]
+        knowledge_graph = edge_rag["knowledge_graph"]
+        bow_terms = knowledge_graph["terms"]
+        system_prompt = build_system_prompt_from_evidence_units(
+            evidence_units=selected_evidence_units,
             section_notes=section_notes,
             title=title,
+            bow_terms=bow_terms,
         )
         app.logger.info(
-            f"[Chat/Edge] {len(evidence_units)} units, title='{title}', query length={len(user_query)}"
+            f"[Chat/Edge] {len(evidence_units)} units → {len(selected_evidence_units)} retrieved, {len(bow_terms)} BoW terms, {len(knowledge_graph['edges'])} KG edges, title='{title}', query length={len(user_query)}"
         )
-
-        # Build context_chunks: score each unit's evidence sentence vs query keywords
-        # Return top-5 most query-relevant units for visualization
-        SECTION_ORDER = ["intro", "related_work", "method", "experiment", "conclusion"]
-        SECTION_LABELS = {
-            "intro": "Introduction",
-            "related_work": "Related Work",
-            "method": "Methodology",
-            "experiment": "Experiments & Results",
-            "conclusion": "Conclusion",
-        }
-        scored_units: list[tuple[float, dict]] = []
-        for unit in evidence_units:
-            ev_text = unit.get("evidence_sentence", "")
-            phrase = unit.get("phrase", "")
-            combined_text = f"{phrase} {ev_text}"
-            kw_score, matched_kw = score_text_vs_keywords(combined_text, query_keywords)
-            importance = unit.get("importance")
-            if importance is None:
-                importance = 0.0
-            importance = float(importance)
-            # Combined relevance: 60% keyword match, 40% model importance
-            relevance = 0.6 * kw_score + 0.4 * importance
-            scored_units.append(
-                (
-                    relevance,
-                    {
-                        "text": ev_text,
-                        "phrase": phrase,
-                        "section": unit.get("section", "intro"),
-                        "section_label": SECTION_LABELS.get(
-                            unit.get("section", "intro"), "Paper"
-                        ),
-                        "role": unit.get("role", "none"),
-                        "score": round(relevance, 4),
-                        "importance": round(importance, 4),
-                        "boundary_score": round(unit.get("boundary_score", 0.0), 4),
-                        "evidence_score": round(unit.get("evidence_score", 0.0), 4),
-                        "matched_keywords": matched_kw,
-                        "source": "edge",
-                    },
-                )
-            )
-
-        # Sort by relevance, return top-5
-        scored_units.sort(key=lambda x: x[0], reverse=True)
-        context_chunks = [item for _, item in scored_units[:5]]
 
     elif doc_id:
         # ── Mode B: Server-side RAG path ─────────────────────────────────
@@ -621,9 +558,21 @@ def chat():
             if context_parts
             else "No relevant context found in the document."
         )
-        system_prompt = build_system_prompt_from_chunks(retrieved_context)
+        knowledge_graph = build_knowledge_graph_from_texts(
+            context_parts,
+            term_limit=12,
+            edge_limit=24,
+        )
+        bow_terms = knowledge_graph["terms"]
+        for chunk in context_chunks:
+            chunk["matched_bow_terms"] = match_bow_terms_in_texts([chunk["text"]], limit=5)
+
+        system_prompt = build_system_prompt_from_chunks(
+            retrieved_context,
+            bow_terms=bow_terms,
+        )
         app.logger.info(
-            f"[Chat/Server] doc_id={doc_id[:8]}…, retrieved {len(context_parts)} chunks"
+            f"[Chat/Server] doc_id={doc_id[:8]}…, retrieved {len(context_parts)} chunks, {len(bow_terms)} BoW terms, {len(knowledge_graph['edges'])} KG edges"
         )
 
     else:
@@ -647,7 +596,7 @@ def chat():
     payload = {
         "model": "mistral-small-latest",
         "messages": api_messages,
-        "max_tokens": 1000,  # slightly higher for structured evidence responses
+        "max_tokens": 2000,  #  Summary Output might exceed 1000 tokens.
         "temperature": 0.3,
     }
 
@@ -665,6 +614,8 @@ def chat():
                 "reply": reply,
                 "context_chunks": context_chunks,
                 "query_keywords": query_keywords,
+                "term_explanations": bow_terms,
+                "knowledge_graph": knowledge_graph,
             }
         )
 

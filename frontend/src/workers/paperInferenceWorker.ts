@@ -1661,6 +1661,7 @@ function buildConceptUnits(
     return [{
       section: rec.section,
       phrase: chosen.surface,
+      words: chosen.surface.match(/[A-Za-z0-9+-]+/g) ?? [],
       role: sp?.role ?? 'none',
       evidence_sentence: sentences[chosen.sentence_idx] ?? '',
       importance: iConcept,

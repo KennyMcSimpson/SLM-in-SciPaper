@@ -44,6 +44,7 @@ interface ThresholdTrace {
 interface ConceptUnit {
   section: string
   phrase: string
+  words?: string[]
   role: string
   evidence_sentence: string
   importance: number
@@ -87,10 +88,67 @@ interface ContextChunk {
   boundary_score: number | null
   evidence_score: number | null
   matched_keywords: string[]
+  matched_bow_terms?: BowTerm[]
   source: 'edge'
 }
 
-type RightView = 'chat' | 'evidence' | 'graph'
+interface BowTerm {
+  term: string
+  canonical_term: string
+  matched_alias: string
+  category: string
+  domain?: string
+  wiki_url: string
+  wikidata_id: string
+  document_frequency: string | number
+  total_frequency: string | number
+  confidence: number
+  match_score: number
+}
+
+interface SemanticKgEdge {
+  source: string
+  target: string
+  relation: string
+  evidence: string
+  section?: string
+  role?: string
+  source_type?: string
+}
+
+interface KgConceptDetail {
+  label: string
+  category: string
+  df: string | number
+  tf: string | number
+  confidence: number
+  aliases: string
+  wikidata: string
+  wikidataUrl: string
+}
+
+interface DynamicKgNode {
+  id: string
+  label: string
+  group: 'domain' | 'term'
+  color: string
+  term?: BowTerm
+  x: number
+  y: number
+  vx: number
+  vy: number
+  fixed?: boolean
+}
+
+interface DynamicKgEdge {
+  source: DynamicKgNode
+  target: DynamicKgNode
+  label: string
+  type: 'domain' | 'related' | 'semantic'
+  evidence?: string
+}
+
+type RightView = 'chat' | 'graph'
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -183,11 +241,17 @@ const GLOBAL_KG_CATEGORIES = [
   },
 ]
 
-const GLOBAL_KG_SUMMARY = {
-  concepts: 187,
-  categories: 27,
-  aliases: 400,
-  source: 'final_bow_vocabulary.csv',
+const KG_DOMAIN_COLORS: Record<string, string> = {
+  'NLP & LLM': '#10b981',
+  'Deep Learning': '#0ea5e9',
+  'Information Retrieval': '#f59e0b',
+  'Optimization': '#ef4444',
+  'Evaluation': '#8b5cf6',
+  'Computer Vision': '#3b82f6',
+  'Graph Learning': '#14b8a6',
+  'Reinforcement Learning': '#84cc16',
+  'Data & Training': '#64748b',
+  Other: '#64748b',
 }
 
 // ─── State ────────────────────────────────────────────────────────────────────
@@ -224,10 +288,14 @@ const chatContainer = ref<HTMLDivElement | null>(null)
 // Context Visualization
 const contextChunks = ref<ContextChunk[]>([])
 const queryKeywords = ref<string[]>([])
+const termExplanations = ref<BowTerm[]>([])
+const kgSemanticEdges = ref<SemanticKgEdge[]>([])
 const isContextOpen = ref(true)
 const lastQuery = ref('')
 const activeRightView = ref<RightView>('chat')
-const selectedKgConcept = ref({
+const kgCanvas = ref<HTMLCanvasElement | null>(null)
+const kgTooltip = ref<HTMLElement | null>(null)
+const selectedKgConcept = ref<KgConceptDetail>({
   label: 'attention',
   category: 'Artificial Neural Network',
   df: 85,
@@ -235,6 +303,7 @@ const selectedKgConcept = ref({
   confidence: 0.72,
   aliases: 'attention; attention mechanism',
   wikidata: 'Q103701642',
+  wikidataUrl: 'https://www.wikidata.org/wiki/Q103701642',
 })
 
 // ─── Computed ─────────────────────────────────────────────────────────────────
@@ -255,6 +324,453 @@ const sectionTabs = computed(() => {
 })
 
 const hasPaper = computed(() => !!evidencePayload.value)
+
+const hasBagOfWordGraph = computed(() => termExplanations.value.length > 0)
+const graphConceptCount = computed(() => termExplanations.value.length)
+const graphCategoryCount = computed(() => {
+  return new Set(termExplanations.value.map(t => getBowDomain(t))).size
+})
+
+function slugify(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'node'
+}
+
+function normalizeKgKey(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9+\-]+/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+function getBowDomain(term: BowTerm): string {
+  if (term.domain) return term.domain
+  const text = `${term.canonical_term} ${term.term} ${term.category}`.toLowerCase()
+  if (/natural language|language model|large language|bert|transformer|text|token|translation|question answering|embedding/.test(text)) return 'NLP & LLM'
+  if (/deep learning|neural network|artificial neural|attention|backpropagation|convolutional|activation|layer/.test(text)) return 'Deep Learning'
+  if (/information retrieval|retrieval|rag|search|ranking|passage|query|bm25/.test(text)) return 'Information Retrieval'
+  if (/optimization|gradient|loss|optimizer|regularization|descent|learning rate/.test(text)) return 'Optimization'
+  if (/evaluation|metric|benchmark|accuracy|bleu|rouge|f1/.test(text)) return 'Evaluation'
+  if (/computer vision|image|vision|object detection/.test(text)) return 'Computer Vision'
+  if (/graph|node|edge|knowledge graph/.test(text)) return 'Graph Learning'
+  if (/reinforcement|policy|reward|q-learning|actor/.test(text)) return 'Reinforcement Learning'
+  if (/training data|training set|dataset|corpus|pre-training/.test(text)) return 'Data & Training'
+  return term.category || 'Other'
+}
+
+function getWikidataUrl(wikidataId: string, wikiUrl?: string): string {
+  if (wikiUrl) return wikiUrl
+  if (!wikidataId || wikidataId === '—') return ''
+  return `https://www.wikidata.org/wiki/${encodeURIComponent(wikidataId)}`
+}
+
+function selectBowTerm(term: BowTerm) {
+  const wikidataId = term.wikidata_id || '—'
+  selectedKgConcept.value = {
+    label: term.canonical_term || term.term,
+    category: term.domain || term.category || 'Matched terminology',
+    df: term.document_frequency || '—',
+    tf: term.total_frequency || '—',
+    confidence: term.confidence || term.match_score || 0,
+    aliases: term.matched_alias,
+    wikidata: wikidataId,
+    wikidataUrl: getWikidataUrl(wikidataId, term.wiki_url),
+  }
+  drawKgCanvas()
+}
+
+let kgNodes: DynamicKgNode[] = []
+let kgEdges: DynamicKgEdge[] = []
+let kgWidth = 0
+let kgHeight = 0
+let kgScale = 1
+let kgOffsetX = 0
+let kgOffsetY = 0
+let kgDraggingNode: DynamicKgNode | null = null
+let kgPanning = false
+let kgLastPointer: { x: number; y: number } | null = null
+let kgAnimationFrame = 0
+let kgAlpha = 0
+
+const KG_MIN_ALPHA = 0.018
+const KG_MAX_SPEED = 5.5
+
+function kgNodeRadius(node: DynamicKgNode): number {
+  return node.group === 'domain' ? 34 : 18
+}
+
+function buildDynamicKg() {
+  const grouped = new Map<string, BowTerm[]>()
+  for (const term of termExplanations.value) {
+    const domain = getBowDomain(term)
+    const list = grouped.get(domain) ?? []
+    list.push(term)
+    grouped.set(domain, list)
+  }
+
+  kgNodes = []
+  kgEdges = []
+  const nodeByTerm = new Map<string, DynamicKgNode>()
+
+  const domains = Array.from(grouped.keys())
+  const allTerms = domains.flatMap(domain => grouped.get(domain) ?? [])
+  const termCount = Math.max(allTerms.length, 1)
+  domains.forEach((domain, domainIdx) => {
+    const color = KG_DOMAIN_COLORS[domain] ?? KG_DOMAIN_COLORS.Other
+    const terms = grouped.get(domain) ?? []
+    terms.forEach((term, termIdx) => {
+      const globalIdx = allTerms.findIndex(item => (item.canonical_term || item.term) === (term.canonical_term || term.term))
+      const angle = (Math.PI * 2 * Math.max(globalIdx, 0)) / termCount - Math.PI / 2
+      const domainOffset = (domainIdx - (domains.length - 1) / 2) * 26
+      const ring = 150 + (termIdx % 3) * 42
+      const termNode: DynamicKgNode = {
+        id: `term:${slugify(domain)}:${slugify(term.canonical_term || term.term)}`,
+        label: term.canonical_term || term.term,
+        group: 'term',
+        color,
+        term,
+        x: Math.cos(angle) * ring + domainOffset,
+        y: Math.sin(angle) * ring + domainOffset * 0.35,
+        vx: 0,
+        vy: 0,
+      }
+      kgNodes.push(termNode)
+      nodeByTerm.set(normalizeKgKey(term.canonical_term || term.term), termNode)
+    })
+  })
+
+  for (const edge of kgSemanticEdges.value) {
+    const source = nodeByTerm.get(normalizeKgKey(edge.source))
+    const target = nodeByTerm.get(normalizeKgKey(edge.target))
+    if (!source || !target || source.id === target.id) continue
+    kgEdges.push({
+      source,
+      target,
+      label: edge.relation,
+      type: 'semantic',
+      evidence: edge.evidence,
+    })
+  }
+
+  for (const domain of domains) {
+    const termNodes = kgNodes.filter(node => node.term && getBowDomain(node.term) === domain)
+    for (let idx = 0; idx < termNodes.length - 1; idx++) {
+      const source = termNodes[idx]
+      const target = termNodes[idx + 1]
+      const hasSemanticEdge = kgEdges.some(edge =>
+        edge.type === 'semantic' &&
+        ((edge.source.id === source.id && edge.target.id === target.id) ||
+          (edge.source.id === target.id && edge.target.id === source.id))
+      )
+      if (hasSemanticEdge) continue
+      kgEdges.push({ source: termNodes[idx], target: termNodes[idx + 1], label: 'related', type: 'related' })
+    }
+  }
+}
+
+function resizeKgCanvas() {
+  const canvas = kgCanvas.value
+  if (!canvas) return
+  const rect = canvas.getBoundingClientRect()
+  const ratio = window.devicePixelRatio || 1
+  kgWidth = rect.width
+  kgHeight = rect.height
+  canvas.width = Math.floor(kgWidth * ratio)
+  canvas.height = Math.floor(kgHeight * ratio)
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+  if (!kgOffsetX && !kgOffsetY) {
+    kgOffsetX = kgWidth / 2
+    kgOffsetY = kgHeight / 2
+  }
+  drawKgCanvas()
+}
+
+function kgToScreen(node: DynamicKgNode) {
+  return { x: node.x * kgScale + kgOffsetX, y: node.y * kgScale + kgOffsetY }
+}
+
+function kgToWorld(x: number, y: number) {
+  return { x: (x - kgOffsetX) / kgScale, y: (y - kgOffsetY) / kgScale }
+}
+
+function drawKgLabel(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number) {
+  const clean = text.length > 26 ? `${text.slice(0, 25)}...` : text
+  ctx.fillText(clean, x, y, maxWidth)
+}
+
+function kgEdgePairKey(edge: DynamicKgEdge): string {
+  return [edge.source.id, edge.target.id].sort().join('::')
+}
+
+function drawKgCanvas() {
+  const canvas = kgCanvas.value
+  const ctx = canvas?.getContext('2d')
+  if (!canvas || !ctx) return
+  ctx.clearRect(0, 0, kgWidth, kgHeight)
+
+  const semanticParallelEdges = new Map<string, DynamicKgEdge[]>()
+  for (const edge of kgEdges) {
+    if (edge.type !== 'semantic') continue
+    const key = kgEdgePairKey(edge)
+    const group = semanticParallelEdges.get(key) ?? []
+    group.push(edge)
+    semanticParallelEdges.set(key, group)
+  }
+
+  kgEdges.forEach(edge => {
+    const source = kgToScreen(edge.source)
+    const target = kgToScreen(edge.target)
+    const parallelGroup = edge.type === 'semantic'
+      ? semanticParallelEdges.get(kgEdgePairKey(edge)) ?? []
+      : []
+    const parallelIndex = parallelGroup.indexOf(edge)
+    const parallelCount = parallelGroup.length
+    const dx = target.x - source.x
+    const dy = target.y - source.y
+    const dist = Math.max(1, Math.hypot(dx, dy))
+    const normalX = -dy / dist
+    const normalY = dx / dist
+    const curveOffset = edge.type === 'semantic' && parallelCount > 1
+      ? (parallelIndex - (parallelCount - 1) / 2) * 28
+      : 0
+    const midX = (source.x + target.x) / 2
+    const midY = (source.y + target.y) / 2
+    const controlX = midX + normalX * curveOffset
+    const controlY = midY + normalY * curveOffset
+
+    ctx.beginPath()
+    ctx.moveTo(source.x, source.y)
+    if (edge.type === 'semantic' && parallelCount > 1) {
+      ctx.quadraticCurveTo(controlX, controlY, target.x, target.y)
+    } else {
+      ctx.lineTo(target.x, target.y)
+    }
+    ctx.strokeStyle = edge.type === 'domain'
+      ? 'rgba(148, 163, 184, 0.42)'
+      : edge.type === 'semantic'
+        ? `${edge.source.color}d9`
+        : `${edge.source.color}70`
+    ctx.lineWidth = edge.type === 'semantic' ? 2.2 : edge.type === 'domain' ? 1.4 : 1.1
+    if (edge.type === 'related') ctx.setLineDash([5, 5])
+    ctx.stroke()
+    ctx.setLineDash([])
+    if (edge.type === 'semantic' && kgScale > 0.58) {
+      ctx.font = '700 10px Arial, sans-serif'
+      ctx.fillStyle = 'rgba(71, 85, 105, 0.86)'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'bottom'
+      const labelX = controlX + normalX * (parallelCount > 1 ? 6 : 0)
+      const labelY = controlY + normalY * (parallelCount > 1 ? 6 : 0)
+      ctx.fillText(edge.label.replace(/_/g, ' '), labelX, labelY - 4, 102)
+    }
+  })
+
+  kgNodes.forEach(node => {
+    const point = kgToScreen(node)
+    const radius = kgNodeRadius(node)
+    const isSelected = selectedKgConcept.value.label === node.label
+
+    ctx.beginPath()
+    ctx.arc(point.x, point.y, isSelected ? radius + 4 : radius, 0, Math.PI * 2)
+    ctx.fillStyle = node.group === 'domain' ? node.color : `${node.color}33`
+    ctx.strokeStyle = node.group === 'domain' ? '#ffffff' : node.color
+    ctx.lineWidth = isSelected ? 3 : 1.8
+    ctx.fill()
+    ctx.stroke()
+
+    ctx.font = node.group === 'domain' ? '700 12px Arial, sans-serif' : '700 11px Arial, sans-serif'
+    ctx.fillStyle = '#1f2937'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'top'
+    drawKgLabel(ctx, node.label, point.x, point.y + radius + 6, node.group === 'domain' ? 110 : 126)
+  })
+}
+
+function tickKgCanvas() {
+  if (kgAlpha < KG_MIN_ALPHA) {
+    kgAlpha = 0
+    drawKgCanvas()
+    return
+  }
+
+  for (let step = 0; step < 2; step++) {
+    kgEdges.forEach(edge => {
+      const a = edge.source
+      const b = edge.target
+      const dx = b.x - a.x
+      const dy = b.y - a.y
+      const dist = Math.max(1, Math.hypot(dx, dy))
+      const target = edge.type === 'domain' ? 150 : edge.type === 'semantic' ? 128 : 116
+      const force = (dist - target) * 0.0025 * kgAlpha
+      const fx = (dx / dist) * force
+      const fy = (dy / dist) * force
+      if (!a.fixed) {
+        a.vx += fx
+        a.vy += fy
+      }
+      if (!b.fixed) {
+        b.vx -= fx
+        b.vy -= fy
+      }
+    })
+
+    for (let i = 0; i < kgNodes.length; i++) {
+      for (let j = i + 1; j < kgNodes.length; j++) {
+        const a = kgNodes[i]
+        const b = kgNodes[j]
+        const dx = b.x - a.x
+        const dy = b.y - a.y
+        const minDist = kgNodeRadius(a) + kgNodeRadius(b) + 44
+        const distSq = Math.max(120, dx * dx + dy * dy)
+        const dist = Math.sqrt(distSq)
+        const force = Math.min(1.25, (minDist * minDist * 0.5) / distSq) * kgAlpha
+        const fx = (dx / dist) * force
+        const fy = (dy / dist) * force
+        if (!a.fixed) {
+          a.vx -= fx
+          a.vy -= fy
+        }
+        if (!b.fixed) {
+          b.vx += fx
+          b.vy += fy
+        }
+      }
+    }
+
+    kgNodes.forEach(node => {
+      if (node.fixed) return
+      node.vx += -node.x * 0.0018 * kgAlpha
+      node.vy += -node.y * 0.0018 * kgAlpha
+      const speed = Math.hypot(node.vx, node.vy)
+      if (speed > KG_MAX_SPEED) {
+        node.vx = (node.vx / speed) * KG_MAX_SPEED
+        node.vy = (node.vy / speed) * KG_MAX_SPEED
+      }
+      node.vx *= 0.76
+      node.vy *= 0.76
+      node.x += node.vx
+      node.y += node.vy
+      node.x = Math.max(-360, Math.min(360, node.x))
+      node.y = Math.max(-230, Math.min(230, node.y))
+    })
+  }
+  kgAlpha *= 0.94
+  drawKgCanvas()
+  kgAnimationFrame = requestAnimationFrame(tickKgCanvas)
+}
+
+function nearestKgNode(clientX: number, clientY: number): DynamicKgNode | null {
+  const canvas = kgCanvas.value
+  if (!canvas) return null
+  const rect = canvas.getBoundingClientRect()
+  const x = clientX - rect.left
+  const y = clientY - rect.top
+  let best: DynamicKgNode | null = null
+  let bestDist = Infinity
+  for (const node of kgNodes) {
+    const point = kgToScreen(node)
+    const d = Math.hypot(point.x - x, point.y - y)
+    if (d < kgNodeRadius(node) + 10 && d < bestDist) {
+      best = node
+      bestDist = d
+    }
+  }
+  return best
+}
+
+function setupKgCanvas() {
+  if (!termExplanations.value.length || !kgCanvas.value) return
+  cancelAnimationFrame(kgAnimationFrame)
+  buildDynamicKg()
+  kgScale = 1
+  kgOffsetX = 0
+  kgOffsetY = 0
+  kgAlpha = 1
+  resizeKgCanvas()
+  tickKgCanvas()
+}
+
+function restartKgSimulation(alpha = 0.35) {
+  kgAlpha = Math.max(kgAlpha, alpha)
+  cancelAnimationFrame(kgAnimationFrame)
+  tickKgCanvas()
+}
+
+function handleKgPointerDown(event: PointerEvent) {
+  const canvas = kgCanvas.value
+  if (!canvas) return
+  const node = nearestKgNode(event.clientX, event.clientY)
+  const rect = canvas.getBoundingClientRect()
+  kgLastPointer = { x: event.clientX - rect.left, y: event.clientY - rect.top }
+  if (node) {
+    kgDraggingNode = node
+    node.fixed = true
+    if (node.term) selectBowTerm(node.term)
+  } else {
+    kgPanning = true
+  }
+  canvas.setPointerCapture(event.pointerId)
+}
+
+function handleKgPointerMove(event: PointerEvent) {
+  const canvas = kgCanvas.value
+  if (!canvas) return
+  const rect = canvas.getBoundingClientRect()
+  const x = event.clientX - rect.left
+  const y = event.clientY - rect.top
+  const node = nearestKgNode(event.clientX, event.clientY)
+
+  if (kgDraggingNode) {
+    const world = kgToWorld(x, y)
+    kgDraggingNode.x = world.x
+    kgDraggingNode.y = world.y
+    kgDraggingNode.vx = 0
+    kgDraggingNode.vy = 0
+    restartKgSimulation(0.18)
+  } else if (kgPanning && kgLastPointer) {
+    kgOffsetX += x - kgLastPointer.x
+    kgOffsetY += y - kgLastPointer.y
+    drawKgCanvas()
+  }
+  kgLastPointer = { x, y }
+
+  if (kgTooltip.value) {
+    if (node && !kgDraggingNode && !kgPanning) {
+      kgTooltip.value.style.display = 'block'
+      kgTooltip.value.style.left = `${x}px`
+      kgTooltip.value.style.top = `${y}px`
+      kgTooltip.value.textContent = node.term
+        ? `${node.label} · ${getBowDomain(node.term)}`
+        : node.label
+    } else {
+      kgTooltip.value.style.display = 'none'
+    }
+  }
+}
+
+function handleKgPointerUp(event: PointerEvent) {
+  const canvas = kgCanvas.value
+  if (kgDraggingNode) kgDraggingNode.fixed = false
+  kgDraggingNode = null
+  kgPanning = false
+  kgLastPointer = null
+  if (kgNodes.length) restartKgSimulation(0.28)
+  if (canvas?.hasPointerCapture(event.pointerId)) {
+    canvas.releasePointerCapture(event.pointerId)
+  }
+  if (kgTooltip.value) kgTooltip.value.style.display = 'none'
+}
+
+function handleKgWheel(event: WheelEvent) {
+  event.preventDefault()
+  const canvas = kgCanvas.value
+  if (!canvas) return
+  const rect = canvas.getBoundingClientRect()
+  const before = kgToWorld(event.clientX - rect.left, event.clientY - rect.top)
+  const factor = event.deltaY < 0 ? 1.08 : 0.92
+  kgScale = Math.max(0.35, Math.min(2.8, kgScale * factor))
+  kgOffsetX = event.clientX - rect.left - before.x * kgScale
+  kgOffsetY = event.clientY - rect.top - before.y * kgScale
+  drawKgCanvas()
+}
 
 // ─── Worker ───────────────────────────────────────────────────────────────────
 
@@ -320,6 +836,10 @@ async function runInference(file: File) {
   evidencePayload.value = null
   activeSection.value = null
   contextChunks.value = []
+  queryKeywords.value = []
+  termExplanations.value = []
+  kgSemanticEdges.value = []
+  if (activeRightView.value === 'graph') activeRightView.value = 'chat'
 
   try {
     const buffer = await file.arrayBuffer()
@@ -371,6 +891,21 @@ watch(
   { deep: true, flush: 'post' }
 )
 
+watch(
+  [activeRightView, termExplanations],
+  async () => {
+    if (activeRightView.value === 'graph' && !hasBagOfWordGraph.value) {
+      activeRightView.value = 'chat'
+      return
+    }
+    if (activeRightView.value === 'graph' && termExplanations.value.length) {
+      await nextTick()
+      setupKgCanvas()
+    }
+  },
+  { deep: true, flush: 'post' }
+)
+
 async function sendMessage() {
   if (!currentInput.value.trim() || isGenerating.value || !hasPaper.value) return
 
@@ -401,6 +936,9 @@ async function sendMessage() {
     if (data.context_chunks?.length) {
       contextChunks.value = data.context_chunks as ContextChunk[]
       queryKeywords.value = data.query_keywords ?? []
+      termExplanations.value = data.knowledge_graph?.terms ?? data.term_explanations ?? []
+      kgSemanticEdges.value = data.knowledge_graph?.edges ?? []
+      if (termExplanations.value.length) selectBowTerm(termExplanations.value[0])
       lastQuery.value = userMsg
       isContextOpen.value = true
     }
@@ -430,9 +968,12 @@ const handleKeydown = (e: KeyboardEvent) => {
 
 onMounted(() => {
   initWorker()
+  window.addEventListener('resize', resizeKgCanvas)
 })
 
 onBeforeUnmount(() => {
+  cancelAnimationFrame(kgAnimationFrame)
+  window.removeEventListener('resize', resizeKgCanvas)
   worker?.terminate()
 })
 </script>
@@ -575,15 +1116,11 @@ onBeforeUnmount(() => {
               @click="activeRightView = 'chat'"
             >Chat</button>
             <button
-              class="right-view-tab"
-              :class="{ active: activeRightView === 'evidence' }"
-              @click="activeRightView = 'evidence'"
-            >Evidence</button>
-            <button
+              v-if="hasBagOfWordGraph"
               class="right-view-tab"
               :class="{ active: activeRightView === 'graph' }"
               @click="activeRightView = 'graph'"
-            >Global KG</button>
+            >Bag of Word</button>
           </div>
         </div>
 
@@ -710,64 +1247,34 @@ onBeforeUnmount(() => {
         </div>
         </template>
 
-        <template v-else-if="activeRightView === 'evidence'">
-          <div class="evidence-workspace" v-if="contextChunks.length > 0">
-            <div class="evidence-summary">
-              <div>
-                <p class="kg-eyebrow">Retrieved Evidence</p>
-                <h3>{{ contextChunks.length }} passages for "{{ lastQuery || 'latest query' }}"</h3>
-              </div>
-              <div class="kw-pills" v-if="queryKeywords.length">
-                <span class="kw-pill" v-for="kw in queryKeywords.slice(0, 6)" :key="kw">{{ kw }}</span>
-              </div>
-            </div>
-
-            <div class="evidence-list">
-              <div
-                class="evidence-row"
-                v-for="(chunk, idx) in contextChunks"
-                :key="idx"
-                :style="{ '--accent': getRoleColor(chunk.role ?? '') }"
-              >
-                <div class="evidence-row-top">
-                  <span class="cvp-rank">#{{ idx + 1 }}</span>
-                  <span class="cvp-sec">{{ chunk.section_label }}</span>
-                  <span
-                    class="cvp-role"
-                    v-if="chunk.role && chunk.role !== 'none'"
-                    :style="{ background: getRoleColor(chunk.role) + '22', color: getRoleColor(chunk.role) }"
-                  >{{ ROLE_BADGES[chunk.role]?.label ?? chunk.role }}</span>
-                  <span class="cvp-phrase-tag" v-if="chunk.phrase">{{ chunk.phrase }}</span>
-                  <span class="evidence-score">{{ (chunk.score * 100).toFixed(0) }}%</span>
-                </div>
-                <p class="evidence-passage" v-html="highlightText(chunk.text, chunk.matched_keywords)"></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="kg-empty-state" v-else>
-            <p class="kg-eyebrow">Retrieved Evidence</p>
-            <h3>No query evidence yet</h3>
-            <p>Upload a paper and ask a question to populate this view with retrieved passages.</p>
-          </div>
-        </template>
-
         <template v-else>
           <div class="kg-workspace">
             <div class="kg-toolbar">
               <div>
-                <p class="kg-eyebrow">Global Knowledge Graph</p>
-                <h3>BoW concept vocabulary</h3>
+                <p class="kg-eyebrow">Bag of Word</p>
+                <h3>Knowledge Graph Based on BoW and Your Question</h3>
               </div>
               <div class="kg-stat-row">
-                <span>{{ GLOBAL_KG_SUMMARY.concepts }} concepts</span>
-                <span>{{ GLOBAL_KG_SUMMARY.categories }} categories</span>
-                <span>{{ GLOBAL_KG_SUMMARY.aliases }} aliases</span>
+                <span>{{ graphConceptCount }} concepts</span>
+                <span>{{ graphCategoryCount }} categories</span>
               </div>
             </div>
 
             <div class="kg-main">
-              <div class="kg-canvas">
+              <div class="kg-canvas" v-if="termExplanations.length">
+                <canvas
+                  ref="kgCanvas"
+                  class="kg-dynamic-canvas"
+                  @pointerdown="handleKgPointerDown"
+                  @pointermove="handleKgPointerMove"
+                  @pointerup="handleKgPointerUp"
+                  @pointerleave="handleKgPointerUp"
+                  @wheel.prevent="handleKgWheel"
+                ></canvas>
+                <div ref="kgTooltip" class="kg-tooltip"></div>
+              </div>
+
+              <div class="kg-canvas" v-else>
                 <svg viewBox="0 0 920 360" role="img" aria-label="Global concept graph preview">
                   <g v-for="category in GLOBAL_KG_CATEGORIES" :key="category.id">
                     <line
@@ -800,7 +1307,8 @@ onBeforeUnmount(() => {
                         tf: concept.tf,
                         confidence: concept.confidence,
                         aliases: concept.aliases,
-                        wikidata: concept.wikidata
+                        wikidata: concept.wikidata,
+                        wikidataUrl: getWikidataUrl(concept.wikidata)
                       }"
                     >
                       <circle
@@ -823,11 +1331,20 @@ onBeforeUnmount(() => {
                   <span>Category</span><strong>{{ selectedKgConcept.category }}</strong>
                   <span>Document Frequency</span><strong>{{ selectedKgConcept.df }}</strong>
                   <span>Total Frequency</span><strong>{{ selectedKgConcept.tf }}</strong>
-                  <span>Confidence</span><strong>{{ (selectedKgConcept.confidence * 100).toFixed(0) }}%</strong>
-                  <span>Wikidata</span><strong>{{ selectedKgConcept.wikidata }}</strong>
+                  <span>Wikidata</span>
+                  <strong>
+                    <a
+                      v-if="selectedKgConcept.wikidataUrl"
+                      class="kg-wikidata-link"
+                      :href="selectedKgConcept.wikidataUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >{{ selectedKgConcept.wikidata }}</a>
+                    <span v-else>{{ selectedKgConcept.wikidata }}</span>
+                  </strong>
                 </div>
                 <div class="kg-alias-box">
-                  <span>Aliases</span>
+                  <span>{{ termExplanations.length ? 'Matched Alias' : 'Aliases' }}</span>
                   <p>{{ selectedKgConcept.aliases }}</p>
                 </div>
               </aside>
@@ -1659,10 +2176,39 @@ onBeforeUnmount(() => {
   position: relative;
 }
 
+.kg-dynamic-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 410px;
+  display: block;
+  cursor: grab;
+  background: #fbfcfd;
+}
+
+.kg-dynamic-canvas:active {
+  cursor: grabbing;
+}
+
+.kg-tooltip {
+  position: absolute;
+  z-index: 3;
+  display: none;
+  max-width: 260px;
+  transform: translate(12px, 12px);
+  pointer-events: none;
+  padding: 0.45rem 0.55rem;
+  border-radius: 7px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  box-shadow: 0 8px 18px rgba(15,23,42,0.18);
+}
+
 .kg-canvas svg {
   width: 100%;
   height: 100%;
-  min-height: 390px;
+  min-height: 410px;
   display: block;
 }
 
@@ -1670,6 +2216,14 @@ onBeforeUnmount(() => {
   stroke: #cbd5e1;
   stroke-width: 2;
   stroke-linecap: round;
+}
+
+.kg-paper-link {
+  stroke: color-mix(in srgb, var(--node-color) 46%, #cbd5e1);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-dasharray: 5 5;
+  opacity: 0.75;
 }
 
 .kg-category-node,
@@ -1692,9 +2246,15 @@ onBeforeUnmount(() => {
   stroke-width: 3;
 }
 
+.kg-concept-group.active .kg-concept-node {
+  fill: color-mix(in srgb, var(--node-color) 30%, #ffffff);
+  stroke-width: 3;
+}
+
 .kg-category-label,
 .kg-category-sub,
-.kg-concept-label {
+.kg-concept-label,
+.kg-concept-score {
   text-anchor: middle;
   dominant-baseline: middle;
   pointer-events: none;
@@ -1717,6 +2277,12 @@ onBeforeUnmount(() => {
   font-size: 0.72rem;
   font-weight: 700;
   fill: var(--text-main);
+}
+
+.kg-concept-score {
+  font-size: 0.62rem;
+  font-weight: 800;
+  fill: var(--text-muted);
 }
 
 .kg-detail {
@@ -1746,6 +2312,16 @@ onBeforeUnmount(() => {
   color: var(--text-main);
   margin-bottom: 0.35rem;
   word-break: break-word;
+}
+
+.kg-wikidata-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.kg-wikidata-link:hover {
+  text-decoration: underline;
 }
 
 .kg-alias-box {
