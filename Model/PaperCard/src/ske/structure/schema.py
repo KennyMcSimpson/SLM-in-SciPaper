@@ -81,7 +81,12 @@ class ConceptUnit:
     evidence_sentence: str
     importance: float
     sentence_index: int
-    stage1_score: float = 0.0
+    s_boundary: float = 0.0
+    s_selector: float = 0.0
+    s_bow: float = 0.0
+    s_candidate: float = 0.0
+    s_coverage: float = 0.0
+    s_rerank: float = 0.0
     boundary_score: float = 0.0
     evidence_score: float = 0.0
     sentence_importance_score: float = 0.0

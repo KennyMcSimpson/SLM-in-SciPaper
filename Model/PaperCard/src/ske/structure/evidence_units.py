@@ -707,10 +707,14 @@ def enrich_unit(
         },
         "importance": {
             "concept_unit_importance": round_float(unit.importance),
-            "formula": "I_concept(u) = 0.50 * S_stage1(u) + 0.25 * S_evidence(u) + 0.25 * S_sentence(u)",
+            "formula": "I_concept(u) = 0.50 * S_rerank(u) + 0.25 * S_evidence(u) + 0.25 * S_sentence(u)",
             "components": {
-                "stage1_score": round_float(unit.stage1_score),
-                "bio_boundary_score": round_float(unit.boundary_score),
+                "s_boundary": round_float(unit.s_boundary),
+                "s_selector": round_float(unit.s_selector),
+                "s_bow": round_float(unit.s_bow),
+                "s_candidate": round_float(unit.s_candidate),
+                "s_coverage": round_float(unit.s_coverage),
+                "s_rerank": round_float(unit.s_rerank),
                 "sentence_evidence_score": round_float(unit.evidence_score),
                 "sentence_importance_score": round_float(unit.sentence_importance_score),
                 "sentence_role_score": round_float(unit.role_score),
@@ -948,7 +952,8 @@ def selection_reasons(
     threshold_trace: dict[str, Any],
 ) -> list[str]:
     reasons = [
-        f"BIO boundary retained phrase with score {round_float(unit.boundary_score)}",
+        f"Stage1 candidate score S_candidate={round_float(unit.s_candidate)} from BIO boundary, sentence selector, and BoW support",
+        f"coverage-aware rerank score S_rerank={round_float(unit.s_rerank)}",
         f"structure model assigned role '{unit.role}' with score {round_float(unit.role_score)}",
     ]
     if unit.evidence_score >= 0.45:

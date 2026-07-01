@@ -332,8 +332,13 @@ def concept_units_from_candidates(
         if is_noisy_phrase(phrase) or is_noisy_sentence(sentence.text):
             continue
         prediction = predictions.get(sentence_index) or SentencePrediction(*infer_role_from_sentence(sentence.text, sentence.section), 0.0, 0.5)
-        stage1_score = float(item.get("score", 0.0))
-        importance = 0.50 * stage1_score + 0.25 * prediction.evidence_score + 0.25 * prediction.importance
+        s_boundary = float(item.get("s_boundary", item.get("boundary_score", 0.0)))
+        s_selector = float(item.get("s_selector", item.get("selector_score", 0.0)))
+        s_bow = float(item.get("s_bow", item.get("bow_confidence", 0.0)))
+        s_candidate = float(item.get("s_candidate", item.get("score", 0.0)))
+        s_coverage = float(item.get("s_coverage", 1.0))
+        s_rerank = float(item.get("s_rerank", item.get("score", s_candidate)))
+        importance = 0.50 * s_rerank + 0.25 * prediction.evidence_score + 0.25 * prediction.importance
         units.append(
             ConceptUnit(
                 section=sentence.section,
@@ -342,8 +347,13 @@ def concept_units_from_candidates(
                 evidence_sentence=sentence.text,
                 importance=float(max(0.0, min(1.0, importance))),
                 sentence_index=sentence_index,
-                stage1_score=stage1_score,
-                boundary_score=float(item.get("boundary_score", item.get("score", 0.0))),
+                s_boundary=s_boundary,
+                s_selector=s_selector,
+                s_bow=s_bow,
+                s_candidate=s_candidate,
+                s_coverage=s_coverage,
+                s_rerank=s_rerank,
+                boundary_score=s_boundary,
                 evidence_score=prediction.evidence_score,
                 sentence_importance_score=prediction.importance,
                 role_score=prediction.role_score,

@@ -12,6 +12,35 @@ import { marked } from 'marked'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+interface ThresholdTrace {
+  ngram_length: {
+    formula: string
+    phrase_word_number: number
+    threshold: number
+    passed: boolean
+  }
+  bow_support: {
+    formula: string
+    term_confidence: number
+    match_quality: number
+    bow_support_score: number
+    threshold: number
+    passed: boolean
+  }
+  tfidf_support: {
+    formula: string
+    matched_tfidf: number
+    max_tfidf: number
+    tfidf_support_score: number
+    threshold: number
+    passed: boolean
+  }
+  passing_rule: string
+  passed: boolean
+  passed_features: string[]
+  failed_features: string[]
+}
+
 interface ConceptUnit {
   section: string
   phrase: string
@@ -19,9 +48,18 @@ interface ConceptUnit {
   evidence_sentence: string
   importance: number
   sentence_index: number
+  s_boundary: number
+  s_selector: number
+  s_bow: number
+  s_candidate: number
+  s_coverage: number
+  s_rerank: number
+  i_concept: number
   boundary_score: number
   evidence_score: number
   role_score: number
+  sentence_importance_score: number
+  threshold_trace: ThresholdTrace
 }
 
 interface EvidencePayload {

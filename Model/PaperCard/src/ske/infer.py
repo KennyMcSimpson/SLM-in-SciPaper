@@ -101,6 +101,12 @@ def main() -> None:
                 "keyphrase": item["canonical"],
                 "surface": item["surface"],
                 "score": item["score"],
+                "s_boundary": item.get("s_boundary", item.get("boundary_score", 0.0)),
+                "s_selector": item.get("s_selector", item.get("selector_score", 0.0)),
+                "s_bow": item.get("s_bow", item.get("bow_confidence", 0.0)),
+                "s_candidate": item.get("s_candidate", item.get("score", 0.0)),
+                "s_coverage": item.get("s_coverage", 0.0),
+                "s_rerank": item.get("s_rerank", item.get("score", 0.0)),
                 "sentence_index": item["sentence_index"],
                 "selector_score": item["selector_score"],
                 "boundary_score": item["boundary_score"],
@@ -210,11 +216,16 @@ def extract_candidates_from_bio(
             boundary_score = float(boundary_probs[start_idx:end_idx, 1:].max(dim=-1).values.mean().item())
             canonical, bow_confidence = bow_vocab.canonicalize(surface) if bow_vocab else (surface, 0.0)
             selector_score = float(sentence_probs[start_meta.sentence_idx])
+            candidate_score = 0.65 * boundary_score + 0.25 * selector_score + 0.10 * bow_confidence
             candidates.append(
                 {
                     "surface": surface,
                     "canonical": canonical,
-                    "score": 0.65 * boundary_score + 0.25 * selector_score + 0.10 * bow_confidence,
+                    "s_boundary": boundary_score,
+                    "s_selector": selector_score,
+                    "s_bow": bow_confidence,
+                    "s_candidate": candidate_score,
+                    "score": candidate_score,
                     "boundary_score": boundary_score,
                     "selector_score": selector_score,
                     "bow_confidence": bow_confidence,
@@ -229,9 +240,9 @@ def deduplicate_by_canonical(candidates: list[dict[str, Any]]) -> list[dict[str,
     grouped: dict[str, dict[str, Any]] = {}
     for item in candidates:
         key = normalize_text(item["canonical"])
-        if key not in grouped or item["score"] > grouped[key]["score"]:
+        if key not in grouped or item["s_candidate"] > grouped[key]["s_candidate"]:
             grouped[key] = item
-    return sorted(grouped.values(), key=lambda item: item["score"], reverse=True)
+    return sorted(grouped.values(), key=lambda item: item["s_candidate"], reverse=True)
 
 
 def coverage_rerank(candidates: list[dict[str, Any]], top_k: int, lambda_weight: float) -> list[dict[str, Any]]:
@@ -242,12 +253,16 @@ def coverage_rerank(candidates: list[dict[str, Any]], top_k: int, lambda_weight:
         best_score = -1e9
         for idx, item in enumerate(pool):
             redundancy = max((token_jaccard(item["canonical"], chosen["canonical"]) for chosen in selected), default=0.0)
-            sentence_redundancy = 0.15 if any(item["sentence_index"] == chosen["sentence_index"] for chosen in selected) else 0.0
-            score = lambda_weight * item["score"] - (1.0 - lambda_weight) * redundancy - sentence_redundancy
+            coverage = 1.0 - redundancy
+            score = lambda_weight * item["s_candidate"] + (1.0 - lambda_weight) * coverage
             if score > best_score:
                 best_idx = idx
                 best_score = score
-        selected.append(pool.pop(best_idx))
+        chosen = pool.pop(best_idx)
+        chosen["s_coverage"] = 1.0 - max((token_jaccard(chosen["canonical"], item["canonical"]) for item in selected), default=0.0)
+        chosen["s_rerank"] = lambda_weight * chosen["s_candidate"] + (1.0 - lambda_weight) * chosen["s_coverage"]
+        chosen["score"] = chosen["s_rerank"]
+        selected.append(chosen)
     return selected
 
 

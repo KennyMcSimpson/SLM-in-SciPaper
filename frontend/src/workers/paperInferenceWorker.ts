@@ -22,10 +22,11 @@
  *    { type: 'ERROR',    payload: { message: string } }
  *
  * Model files must be placed in /public/models/:
- *    keyword_extractor_int8.onnx
+ *    keyword_extractor_int8.onnx or keyword_extractor_int8.onnx.gz
  *    keyword_vocab.json
- *    structure_model_int8.onnx
+ *    structure_model_int8.onnx or structure_model_int8.onnx.gz
  *    structure_vocab.json
+ *    stage3_resources.json
  *    manifest.json
  *
  * Sectioning system ported from Model/PaperCard/src/ske/structure/sectioning.py
@@ -53,9 +54,18 @@ interface ConceptUnit {
   evidence_sentence: string
   importance: number
   sentence_index: number
+  s_boundary: number
+  s_selector: number
+  s_bow: number
+  s_candidate: number
+  s_coverage: number
+  s_rerank: number
+  i_concept: number
   boundary_score: number
   evidence_score: number
   role_score: number
+  sentence_importance_score: number
+  threshold_trace: ThresholdTrace
 }
 
 interface EvidencePayload {
@@ -74,6 +84,70 @@ interface SentenceRecord {
   sentence_index: number
 }
 
+interface Stage3BowTerm {
+  section: string
+  canonical: string
+  display: string
+  aliases: string[]
+  confidence: number
+}
+
+interface Stage3TfidfTerm {
+  section: string
+  term: string
+  idf: number
+}
+
+interface Stage3Resources {
+  schema_version: string
+  bow_terms: Stage3BowTerm[]
+  tfidf_terms: Stage3TfidfTerm[]
+}
+
+interface BowMatch {
+  term: Stage3BowTerm
+  alias: string
+  match_quality: number
+  bow_support_score: number
+}
+
+interface TfidfMatch {
+  section: string
+  term: string
+  matched_tfidf: number
+  max_tfidf: number
+  tfidf_support_score: number
+}
+
+interface ThresholdTrace {
+  ngram_length: {
+    formula: string
+    phrase_word_number: number
+    threshold: number
+    passed: boolean
+  }
+  bow_support: {
+    formula: string
+    term_confidence: number
+    match_quality: number
+    bow_support_score: number
+    threshold: number
+    passed: boolean
+  }
+  tfidf_support: {
+    formula: string
+    matched_tfidf: number
+    max_tfidf: number
+    tfidf_support_score: number
+    threshold: number
+    passed: boolean
+  }
+  passing_rule: string
+  passed: boolean
+  passed_features: string[]
+  failed_features: string[]
+}
+
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const MODEL_BASE = '/models/'
@@ -82,6 +156,16 @@ const MAX_SENTENCES_KW = 16
 const MAX_SENTENCES_ST = 48
 const CHUNK_SIZE = 800    // chars, mirrors backend chunk_text()
 const CHUNK_OVERLAP = 100
+const STAGE1_CANDIDATE_WEIGHTS = { boundary: 0.65, selector: 0.25, bow: 0.10 }
+const STAGE1_RERANK_WEIGHTS = { candidate: 0.75, coverage: 0.25 }
+const CONCEPT_IMPORTANCE_WEIGHTS = { rerank: 0.50, evidence: 0.25, sentence: 0.25 }
+const STAGE3_THRESHOLDS = {
+  phrase_word_number: 2,
+  bow_support_score: 0.70,
+  tfidf_support_score: 0.50,
+}
+const FINAL_TOP_K = 28
+const CANDIDATE_POOL_MULTIPLIER = 4
 
 const CANONICAL_SECTIONS = ['intro', 'related_work', 'method', 'experiment', 'conclusion']
 const ROLE_LABELS = [
@@ -911,16 +995,50 @@ let kwSession: any = null
 let stSession: any = null
 let kwTokenizer: WordPieceTokenizer | null = null
 let stTokenizer: WordPieceTokenizer | null = null
+let stage3Resources: Stage3Resources = { schema_version: 'empty', bow_terms: [], tfidf_terms: [] }
+
+async function loadStage3Resources(): Promise<Stage3Resources> {
+  try {
+    const response = await fetch(MODEL_BASE + 'stage3_resources.json')
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    return await response.json() as Stage3Resources
+  } catch {
+    return { schema_version: 'empty', bow_terms: [], tfidf_terms: [] }
+  }
+}
+
+async function loadOnnxSession(baseName: string, sessionOptions: any): Promise<any> {
+  try {
+    return await ort.InferenceSession.create(MODEL_BASE + `${baseName}.onnx`, sessionOptions)
+  } catch {
+    const response = await fetch(MODEL_BASE + `${baseName}.onnx.gz`)
+    if (!response.ok) throw new Error(`Unable to load ${baseName}.onnx or ${baseName}.onnx.gz`)
+    const decompressed = await gunzipArrayBuffer(await response.arrayBuffer())
+    return await ort.InferenceSession.create(decompressed, sessionOptions)
+  }
+}
+
+async function gunzipArrayBuffer(buffer: ArrayBuffer): Promise<ArrayBuffer> {
+  const Decompression = (self as any).DecompressionStream
+  if (!Decompression) {
+    throw new Error('This browser cannot decompress gzipped ONNX models.')
+  }
+  const stream = new Response(buffer).body?.pipeThrough(new Decompression('gzip'))
+  if (!stream) throw new Error('Failed to create gzip decompression stream.')
+  return await new Response(stream).arrayBuffer()
+}
 
 async function loadModels(): Promise<void> {
   post('PROGRESS', { stage: 'Loading ONNX models…', percent: 5 })
 
-  const [kwVocab, stVocab] = await Promise.all([
+  const [kwVocab, stVocab, resources] = await Promise.all([
     fetch(MODEL_BASE + 'keyword_vocab.json').then(r => r.json()),
     fetch(MODEL_BASE + 'structure_vocab.json').then(r => r.json()),
+    loadStage3Resources(),
   ])
   kwTokenizer = new WordPieceTokenizer(kwVocab)
   stTokenizer = new WordPieceTokenizer(stVocab)
+  stage3Resources = resources
 
   post('PROGRESS', { stage: 'Loading keyword model…', percent: 15 })
 
@@ -938,17 +1056,11 @@ async function loadModels(): Promise<void> {
     interOpNumThreads: 1
   }
 
-  kwSession = await ort.InferenceSession.create(
-    MODEL_BASE + 'keyword_extractor_int8.onnx',
-    sessionOptions,
-  )
+  kwSession = await loadOnnxSession('keyword_extractor_int8', sessionOptions)
 
   post('PROGRESS', { stage: 'Loading structure model…', percent: 40 })
 
-  stSession = await ort.InferenceSession.create(
-    MODEL_BASE + 'structure_model_int8.onnx',
-    sessionOptions,
-  )
+  stSession = await loadOnnxSession('structure_model_int8', sessionOptions)
 
   post('PROGRESS', { stage: 'Models loaded ✓', percent: 55 })
 }
@@ -962,6 +1074,12 @@ interface BIOPrediction {
   boundary_score: number
   sentence_score: number
   surface: string
+  s_boundary: number
+  s_selector: number
+  s_bow: number
+  s_candidate: number
+  s_coverage?: number
+  s_rerank?: number
 }
 
 async function runKeywordInference(sentences: string[]): Promise<BIOPrediction[]> {
@@ -1074,13 +1192,19 @@ async function runKeywordInference(sentences: string[]): Promise<BIOPrediction[]
         : ''
 
       if (surface.length >= 3) {
+        const selectorScore = sentProbs[Math.min(sentIdx, sentProbs.length - 1)] ?? 0
         allPredictions.push({
           sentence_idx: globalSentIdx,
           start_char: meta.start,
           end_char: spanMeta.end,
           boundary_score: boundaryScore,
-          sentence_score: sentProbs[Math.min(sentIdx, sentProbs.length - 1)] ?? 0,
+          sentence_score: selectorScore,
           surface,
+          s_boundary: boundaryScore,
+          s_selector: selectorScore,
+          s_bow: 0,
+          s_candidate: STAGE1_CANDIDATE_WEIGHTS.boundary * boundaryScore
+            + STAGE1_CANDIDATE_WEIGHTS.selector * selectorScore,
         })
       }
 
@@ -1202,75 +1326,367 @@ async function runStructureInference(
 
 // ─── Concept Unit Builder ─────────────────────────────────────────────────────
 
-function buildConceptUnits(
-  sentences: string[],
-  records: SentenceRecord[],
-  bioPredictions: BIOPrediction[],
-  structurePreds: Map<number, SentenceStructure>,
-  topK = 28,
-): ConceptUnit[] {
-  const surfaceMap = new Map<string, BIOPrediction>()
-  for (const pred of bioPredictions) {
-    const key = pred.surface.toLowerCase().replace(/\s+/g, ' ')
-    const existing = surfaceMap.get(key)
-    if (!existing || pred.boundary_score * 0.65 + pred.sentence_score * 0.35 >
-        (existing.boundary_score * 0.65 + existing.sentence_score * 0.35)) {
-      surfaceMap.set(key, pred)
+function clamp01(value: number): number {
+  if (!Number.isFinite(value)) return 0
+  return Math.max(0, Math.min(1, value))
+}
+
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9_+\-\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function tokenizePhrase(text: string): string[] {
+  const normalized = normalizeText(text)
+  return normalized ? normalized.split(/\s+/).filter(Boolean) : []
+}
+
+function normalizeSection(section: string | null | undefined): string {
+  if (!section) return 'intro'
+  const key = section.toLowerCase().replace(/_/g, ' ').trim()
+  const aliases: Record<string, string> = {
+    abstract: 'intro',
+    introduction: 'intro',
+    intro: 'intro',
+    background: 'intro',
+    'related work': 'related_work',
+    related_work: 'related_work',
+    'prior work': 'related_work',
+    methods: 'method',
+    method: 'method',
+    methodology: 'method',
+    experiments: 'experiment',
+    experiment: 'experiment',
+    evaluation: 'experiment',
+    results: 'experiment',
+    conclusion: 'conclusion',
+    conclusions: 'conclusion',
+  }
+  return aliases[key] ?? (CANONICAL_SECTIONS.includes(key) ? key : 'intro')
+}
+
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function normalizedPhraseCount(text: string, phrase: string): number {
+  const normalizedText = normalizeText(text)
+  const normalizedPhrase = normalizeText(phrase)
+  if (!normalizedText || !normalizedPhrase) return 0
+  const pattern = new RegExp(`(^|\\s)${escapeRegExp(normalizedPhrase)}(?=\\s|$)`, 'g')
+  let count = 0
+  while (pattern.exec(normalizedText) !== null) count++
+  return count
+}
+
+function tokenJaccard(a: string, b: string): number {
+  const setA = new Set(tokenizePhrase(a))
+  const setB = new Set(tokenizePhrase(b))
+  if (setA.size === 0 || setB.size === 0) return 0
+  let intersection = 0
+  for (const token of setA) if (setB.has(token)) intersection++
+  const union = setA.size + setB.size - intersection
+  return union === 0 ? 0 : intersection / union
+}
+
+function aliasMatchQuality(phrase: string, alias: string): number {
+  const normalizedPhrase = normalizeText(phrase)
+  const normalizedAlias = normalizeText(alias)
+  if (!normalizedPhrase || !normalizedAlias) return 0
+  if (normalizedPhrase === normalizedAlias) return 1
+  const phraseTokens = new Set(normalizedPhrase.split(/\s+/))
+  const aliasTokens = new Set(normalizedAlias.split(/\s+/))
+  if (phraseTokens.size === 0 || aliasTokens.size === 0) return 0
+  const aliasInPhrase = [...aliasTokens].every(token => phraseTokens.has(token))
+  const phraseInAlias = [...phraseTokens].every(token => aliasTokens.has(token))
+  if (aliasTokens.size >= 2 && aliasInPhrase) return 0.84
+  if (phraseTokens.size >= 2 && phraseInAlias) return 0.78
+  const jaccard = tokenJaccard(normalizedPhrase, normalizedAlias)
+  return jaccard >= 0.72 ? jaccard : 0
+}
+
+function termAliases(term: Stage3BowTerm): string[] {
+  const aliases = new Set<string>()
+  aliases.add(term.canonical)
+  aliases.add(term.display)
+  for (const alias of term.aliases ?? []) aliases.add(alias)
+  return [...aliases].filter(Boolean)
+}
+
+function matchBow(phrase: string, section: string, resources: Stage3Resources): BowMatch | null {
+  const targetSection = normalizeSection(section)
+  let best: BowMatch | null = null
+
+  for (const term of resources.bow_terms ?? []) {
+    if (normalizeSection(term.section) !== targetSection) continue
+    for (const alias of termAliases(term)) {
+      const quality = aliasMatchQuality(phrase, alias)
+      if (quality <= 0) continue
+      const support = clamp01((term.confidence ?? 0) * quality)
+      if (!best || support > best.bow_support_score) {
+        best = {
+          term,
+          alias,
+          match_quality: quality,
+          bow_support_score: support,
+        }
+      }
     }
   }
 
-  const scored: Array<BIOPrediction & { combined_score: number }> = []
-  for (const pred of surfaceMap.values()) {
-    const combined = 0.65 * pred.boundary_score + 0.35 * pred.sentence_score
-    scored.push({ ...pred, combined_score: combined })
+  return best
+}
+
+function buildDocumentTfidf(records: SentenceRecord[], resources: Stage3Resources): Map<string, number> {
+  const scores = new Map<string, number>()
+  const terms = resources.tfidf_terms ?? []
+  if (terms.length === 0) return scores
+
+  for (const term of terms) {
+    const section = normalizeSection(term.section)
+    const normalizedTerm = normalizeText(term.term)
+    if (!normalizedTerm) continue
+
+    let frequency = 0
+    for (const record of records) {
+      if (normalizeSection(record.section) !== section) continue
+      frequency += normalizedPhraseCount(record.text, normalizedTerm)
+    }
+
+    if (frequency > 0) {
+      const idf = Number.isFinite(term.idf) && term.idf > 0 ? term.idf : 1
+      scores.set(`${section}::${normalizedTerm}`, frequency * idf)
+    }
   }
-  scored.sort((a, b) => b.combined_score - a.combined_score)
 
-  const selected: ConceptUnit[] = []
-  const pool = scored.slice(0, topK * 4)
+  return scores
+}
 
-  while (pool.length > 0 && selected.length < topK) {
+function matchDocumentTfidf(
+  phrase: string,
+  section: string,
+  resources: Stage3Resources,
+  documentTfidf: Map<string, number>,
+): TfidfMatch | null {
+  if (documentTfidf.size === 0) return null
+  const targetSection = normalizeSection(section)
+  const maxTfidf = Math.max(...documentTfidf.values(), 0)
+  if (maxTfidf <= 0) return null
+
+  let best: { term: Stage3TfidfTerm; quality: number; tfidf: number } | null = null
+  for (const term of resources.tfidf_terms ?? []) {
+    if (normalizeSection(term.section) !== targetSection) continue
+    const normalizedTerm = normalizeText(term.term)
+    if (!normalizedTerm) continue
+    const tfidf = documentTfidf.get(`${targetSection}::${normalizedTerm}`) ?? 0
+    if (tfidf <= 0) continue
+    const quality = aliasMatchQuality(phrase, normalizedTerm)
+    if (quality <= 0) continue
+    if (!best || tfidf > best.tfidf || (tfidf === best.tfidf && quality > best.quality)) {
+      best = { term, quality, tfidf }
+    }
+  }
+
+  if (!best) return null
+  return {
+    section: targetSection,
+    term: best.term.term,
+    matched_tfidf: best.tfidf,
+    max_tfidf: maxTfidf,
+    tfidf_support_score: clamp01(best.tfidf / maxTfidf),
+  }
+}
+
+function buildThresholdTrace(phrase: string, bowMatch: BowMatch | null, tfidfMatch: TfidfMatch | null): ThresholdTrace {
+  const phraseWordNumber = tokenizePhrase(phrase).length
+  const termConfidence = bowMatch?.term.confidence ?? 0
+  const matchQuality = bowMatch?.match_quality ?? 0
+  const bowSupportScore = bowMatch?.bow_support_score ?? 0
+  const matchedTfidf = tfidfMatch?.matched_tfidf ?? 0
+  const maxTfidf = tfidfMatch?.max_tfidf ?? 0
+  const tfidfSupportScore = tfidfMatch?.tfidf_support_score ?? 0
+
+  const ngramPassed = phraseWordNumber >= STAGE3_THRESHOLDS.phrase_word_number
+  const bowPassed = bowSupportScore >= STAGE3_THRESHOLDS.bow_support_score
+  const tfidfPassed = tfidfSupportScore >= STAGE3_THRESHOLDS.tfidf_support_score
+  const features = [
+    ['ngram_length', ngramPassed],
+    ['bow_support', bowPassed],
+    ['tfidf_support', tfidfPassed],
+  ] as const
+
+  return {
+    ngram_length: {
+      formula: 'phrase_word_number(u) = |tokenize(p_u)|',
+      phrase_word_number: phraseWordNumber,
+      threshold: STAGE3_THRESHOLDS.phrase_word_number,
+      passed: ngramPassed,
+    },
+    bow_support: {
+      formula: 'bow_support_score(u) = clip_0_1(term_confidence(u) * match_quality(u))',
+      term_confidence: clamp01(termConfidence),
+      match_quality: clamp01(matchQuality),
+      bow_support_score: clamp01(bowSupportScore),
+      threshold: STAGE3_THRESHOLDS.bow_support_score,
+      passed: bowPassed,
+    },
+    tfidf_support: {
+      formula: 'tfidf_support_score(u) = matched_tfidf(u) / max_tfidf(d)',
+      matched_tfidf: matchedTfidf,
+      max_tfidf: maxTfidf,
+      tfidf_support_score: clamp01(tfidfSupportScore),
+      threshold: STAGE3_THRESHOLDS.tfidf_support_score,
+      passed: tfidfPassed,
+    },
+    passing_rule: 'any_feature_passes',
+    passed: features.some(([, passed]) => passed),
+    passed_features: features.filter(([, passed]) => passed).map(([name]) => name),
+    failed_features: features.filter(([, passed]) => !passed).map(([name]) => name),
+  }
+}
+
+type ScoredCandidate = BIOPrediction & {
+  section: string
+  bow_match: BowMatch | null
+}
+
+function scoreCandidate(pred: BIOPrediction, records: SentenceRecord[]): ScoredCandidate {
+  const section = normalizeSection(records[pred.sentence_idx]?.section)
+  const bowMatch = matchBow(pred.surface, section, stage3Resources)
+  const sBoundary = clamp01(pred.boundary_score)
+  const sSelector = clamp01(pred.sentence_score)
+  const sBow = clamp01(bowMatch?.bow_support_score ?? 0)
+  const sCandidate =
+    STAGE1_CANDIDATE_WEIGHTS.boundary * sBoundary +
+    STAGE1_CANDIDATE_WEIGHTS.selector * sSelector +
+    STAGE1_CANDIDATE_WEIGHTS.bow * sBow
+
+  return {
+    ...pred,
+    section,
+    bow_match: bowMatch,
+    s_boundary: sBoundary,
+    s_selector: sSelector,
+    s_bow: sBow,
+    s_candidate: clamp01(sCandidate),
+  }
+}
+
+function deduplicateCandidates(candidates: ScoredCandidate[]): ScoredCandidate[] {
+  const surfaceMap = new Map<string, ScoredCandidate>()
+  for (const candidate of candidates) {
+    const key = normalizeText(candidate.surface)
+    if (!key) continue
+    const existing = surfaceMap.get(key)
+    if (!existing || candidate.s_candidate > existing.s_candidate) {
+      surfaceMap.set(key, candidate)
+    }
+  }
+  return [...surfaceMap.values()].sort((a, b) => b.s_candidate - a.s_candidate)
+}
+
+function coverageRerankCandidates(candidates: ScoredCandidate[]): ScoredCandidate[] {
+  const selected: ScoredCandidate[] = []
+  const pool = [...candidates]
+
+  while (pool.length > 0) {
     let bestIdx = 0
     let bestScore = -Infinity
 
     for (let i = 0; i < pool.length; i++) {
-      const p = pool[i]
-      const maxRedundancy = selected.reduce((max, sel) => {
-        const jaccard = tokenJaccard(p.surface, sel.phrase)
-        return Math.max(max, jaccard)
-      }, 0)
-      const sentRedundancy = selected.some(sel => sel.sentence_index === p.sentence_idx) ? 0.15 : 0
-      const adjustedScore = 0.72 * p.combined_score - 0.28 * maxRedundancy - sentRedundancy
-      if (adjustedScore > bestScore) { bestScore = adjustedScore; bestIdx = i }
+      const candidate = pool[i]
+      const redundancy = selected.reduce(
+        (max, item) => Math.max(max, tokenJaccard(candidate.surface, item.surface)),
+        0,
+      )
+      const coverage = 1 - redundancy
+      const score =
+        STAGE1_RERANK_WEIGHTS.candidate * candidate.s_candidate +
+        STAGE1_RERANK_WEIGHTS.coverage * coverage
+      if (score > bestScore) {
+        bestScore = score
+        bestIdx = i
+      }
     }
 
     const chosen = pool.splice(bestIdx, 1)[0]
-    const sp = structurePreds.get(chosen.sentence_idx)
-    const rec = records[chosen.sentence_idx]
-
+    const redundancy = selected.reduce(
+      (max, item) => Math.max(max, tokenJaccard(chosen.surface, item.surface)),
+      0,
+    )
+    const coverage = 1 - redundancy
     selected.push({
-      section: rec?.section ?? 'intro',
-      phrase: chosen.surface,
-      role: sp?.role ?? 'none',
-      evidence_sentence: sentences[chosen.sentence_idx] ?? '',
-      importance: sp?.importance ?? 0,
-      sentence_index: chosen.sentence_idx,
-      boundary_score: chosen.boundary_score,
-      evidence_score: sp?.evidence_score ?? 0,
-      role_score: sp?.role_score ?? 0,
+      ...chosen,
+      s_coverage: clamp01(coverage),
+      s_rerank: clamp01(
+        STAGE1_RERANK_WEIGHTS.candidate * chosen.s_candidate +
+        STAGE1_RERANK_WEIGHTS.coverage * coverage,
+      ),
     })
   }
 
   return selected
 }
 
-function tokenJaccard(a: string, b: string): number {
-  const setA = new Set(a.toLowerCase().split(/\s+/))
-  const setB = new Set(b.toLowerCase().split(/\s+/))
-  let intersection = 0
-  for (const t of setA) if (setB.has(t)) intersection++
-  const union = setA.size + setB.size - intersection
-  return union === 0 ? 0 : intersection / union
+function buildConceptUnits(
+  sentences: string[],
+  records: SentenceRecord[],
+  bioPredictions: BIOPrediction[],
+  structurePreds: Map<number, SentenceStructure>,
+  topK = FINAL_TOP_K,
+): ConceptUnit[] {
+  const documentTfidf = buildDocumentTfidf(records, stage3Resources)
+  const candidatePoolSize = Math.max(topK * CANDIDATE_POOL_MULTIPLIER, topK)
+  const deduped = deduplicateCandidates(bioPredictions.map(pred => scoreCandidate(pred, records)))
+  const reranked = coverageRerankCandidates(deduped)
+
+  const allUnits = reranked.flatMap((chosen): ConceptUnit[] => {
+    const sp = structurePreds.get(chosen.sentence_idx)
+    const rec = records[chosen.sentence_idx]
+    if (!rec) return []
+    const sRerank = clamp01(chosen.s_rerank ?? chosen.s_candidate)
+    const evidenceScore = clamp01(sp?.evidence_score ?? 0)
+    const sentenceImportance = clamp01(sp?.importance ?? 0)
+    const iConcept = clamp01(
+      CONCEPT_IMPORTANCE_WEIGHTS.rerank * sRerank +
+      CONCEPT_IMPORTANCE_WEIGHTS.evidence * evidenceScore +
+      CONCEPT_IMPORTANCE_WEIGHTS.sentence * sentenceImportance,
+    )
+    const tfidfMatch = matchDocumentTfidf(chosen.surface, rec.section, stage3Resources, documentTfidf)
+    const thresholdTrace = buildThresholdTrace(chosen.surface, chosen.bow_match, tfidfMatch)
+
+    return [{
+      section: rec.section,
+      phrase: chosen.surface,
+      role: sp?.role ?? 'none',
+      evidence_sentence: sentences[chosen.sentence_idx] ?? '',
+      importance: iConcept,
+      sentence_index: chosen.sentence_idx,
+      s_boundary: chosen.s_boundary,
+      s_selector: chosen.s_selector,
+      s_bow: chosen.s_bow,
+      s_candidate: chosen.s_candidate,
+      s_coverage: clamp01(chosen.s_coverage ?? 0),
+      s_rerank: sRerank,
+      i_concept: iConcept,
+      boundary_score: chosen.s_boundary,
+      evidence_score: evidenceScore,
+      role_score: sp?.role_score ?? 0,
+      sentence_importance_score: sentenceImportance,
+      threshold_trace: thresholdTrace,
+    }]
+  })
+
+  const candidatePool = allUnits
+    .sort((a, b) => b.i_concept - a.i_concept)
+    .slice(0, candidatePoolSize)
+  return candidatePool
+    .filter(unit => unit.threshold_trace.passed)
+    .sort((a, b) => b.i_concept - a.i_concept)
+    .slice(0, topK)
 }
 
 function buildSectionNotes(
@@ -1337,7 +1753,7 @@ async function runInferencePipeline(pdf: ArrayBuffer, filename: string): Promise
 
   // Step E: Build concept units
   post('PROGRESS', { stage: 'Building concept units…', percent: 90 })
-  const units = buildConceptUnits(sentences, records, bioPredictions, structurePreds, 28)
+  const units = buildConceptUnits(sentences, records, bioPredictions, structurePreds, FINAL_TOP_K)
   const sectionNotes = buildSectionNotes(records, structurePreds)
 
   // Step F: Build plain text chunks for the backend RAG fallback
