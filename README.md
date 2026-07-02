@@ -1,14 +1,105 @@
 # SLM-in-SciPaper
 
-Scientific paper analysis system for extracting evidence-grounded concept units from full-text papers. The project is organized around a three-stage NLP pipeline and a browser demo that runs the exported ONNX models locally.
+Scientific Paper Analysis System  
+**Extracting evidence-grounded concept units** from full-text papers! 
 
-## Data and Model Assets
+## Demo
 
+### Waiting for Upload Paper
+
+![Waiting for Upload Paper](Assets/demo1.png)
+
+### Chat Output
+
+After uploading the paper, you can chat with it. For example: "Summary this paper."
+
+![Chat Output](Assets/demo2.png)
+
+### Bag-of-Word Knowledge Graph Output
+
+![Bag-of-Word Knowledge Graph Output](Assets/demo3.png)
+
+### Our Work Pipeline
+
+![SLM-in-SciPaper Pipeline Flowchart](Assets/Flowchart.png)
+
+## Create and Activate a Python Virtual Environment
+
+Create a virtual environment in the project root and activate:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install Python Dependencies:
+
+```bash
+pip install -r Model/PaperCard/requirements.txt
+```
+
+Install the backend Flask service dependencies:
+
+```bash
+pip install flask flask-cors requests pymupdf numpy
+```
+
+## Start the Backend Flask Service
+
+Set the key in the current terminal:
+
+```bash
+export MISTRAL_API_KEY="your_Mistral_API_key"
+```
+
+Open the first terminal:
+
+```bash
+cd /Users/likuntai/SLM-in-SciPaper
+source .venv/bin/activate
+export MISTRAL_API_KEY="your_Mistral_API_key"
+cd backend
+python main.py
+```
+
+The backend listens on:
+
+```text
+http://127.0.0.1:5000
+```
+
+## Start the Frontend Vite Server
+
+Open a second terminal:
+
+```bash
+cd /Users/likuntai/SLM-in-SciPaper/frontend
+npm install
+```
+
+In the second terminal, run:
+
+```bash
+npm run dev
+```
+
+Vite normally starts at:
+
+```text
+https://localhost:5173/
+```
+
+## Reproduce Evidence Unit Model
+
+Flowchart:
+
+
+###  Data and Model Assets
 The processed training datasets, supplementary lexicon resources, uploaded checkpoints, and the 178-paper TXT corpus are hosted on Hugging Face:
 
 [KennySimpson/SLM-in-SciPaper](https://huggingface.co/datasets/KennySimpson/SLM-in-SciPaper)
 
-## Pipeline
+### Pipeline
 
 ```text
 Paper text / PDF
@@ -36,7 +127,7 @@ tfidf_support_score(u) = matched_tfidf(u) / max_tfidf(d) >= 0.50
 
 A candidate passes if any one of the three gates passes. No extra downstream relevance score is used for Stage 3 selection.
 
-## Repository Layout
+### Repository Layout
 
 - `Model/PaperCard/code/01_keyword_extractor`: Stage 1 training and keyword inference entry points.
 - `Model/PaperCard/code/02_structure_card`: Stage 2 structure model training and smoke tests.
@@ -46,7 +137,7 @@ A candidate passes if any one of the three gates passes. No extra downstream rel
 - `backend`: lightweight chat proxy and retrieval visualization support for the browser demo.
 - `frontend/public/models`: exported browser models and Stage 3 resources.
 
-## Python Inference
+### Python Inference
 
 Run from `Model/PaperCard`:
 
@@ -59,7 +150,7 @@ python .\code\03_inference_summary\infer_paper_card.py `
 
 The script uses the default checkpoints and lexicon resources under `Model/PaperCard/models` and `Model/PaperCard/datasets/lexicon` when they are available.
 
-## Browser Demo
+### Browser Demo
 
 Run the frontend from `frontend`:
 
@@ -79,7 +170,7 @@ The browser worker loads:
 
 The worker performs PDF text extraction, Stage 1 ONNX inference, Stage 2 ONNX inference, and Stage 3 formula-based concept-unit generation in the browser.
 
-## Output
+### Output
 
 The main output is Evidence-grounded Concept Units JSON. Each unit contains:
 
@@ -88,5 +179,3 @@ The main output is Evidence-grounded Concept Units JSON. Each unit contains:
 - `S_boundary`, `S_selector`, `S_BoW`, `S_candidate`, `S_coverage`, `S_rerank`;
 - `S_evidence`, `S_sentence`, and `I_concept`;
 - Stage 3 threshold trace for n-gram, BoW, and TF-IDF support.
-
-See [README_CN.md](README_CN.md) for the Chinese version.
