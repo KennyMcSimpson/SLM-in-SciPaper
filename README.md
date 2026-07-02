@@ -2,6 +2,12 @@
 
 Scientific paper analysis system for extracting evidence-grounded concept units from full-text papers. The project is organized around a three-stage NLP pipeline and a browser demo that runs the exported ONNX models locally.
 
+## Data and Model Assets
+
+The processed training datasets, supplementary lexicon resources, uploaded checkpoints, and the 178-paper TXT corpus are hosted on Hugging Face:
+
+[KennySimpson/SLM-in-SciPaper](https://huggingface.co/datasets/KennySimpson/SLM-in-SciPaper)
+
 ## Pipeline
 
 ```text

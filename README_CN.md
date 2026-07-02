@@ -1,5 +1,11 @@
 # SLM-in-SciPaper
 
+## 数据和模型资源
+
+处理后的训练数据集、词表资源、已上传 checkpoint，以及 178 篇 TXT 论文语料库放在 Hugging Face：
+
+[KennySimpson/SLM-in-SciPaper](https://huggingface.co/datasets/KennySimpson/SLM-in-SciPaper)
+
 这是一个面向科研论文的 NLP 分析系统，目标不是只抽几个关键词，而是从论文全文中生成 Evidence-grounded Concept Units，也就是“带证据句支撑的概念单元”。这些 JSON 单元可以继续交给本地开源模型，用来生成更完整的论文概述。
 
 ## 总体流程
