@@ -21,7 +21,7 @@ After uploading the paper, you can chat with it. For example: "Summary this pape
 
 ### Our Work Pipeline
 
-![SLM-in-SciPaper Pipeline Flowchart](Assets/Flowchart.png)
+![Pipeline Flowchart](Assets/Flowchart1.png)
 
 ## Create and Activate a Python Virtual Environment
 
@@ -46,18 +46,10 @@ pip install flask flask-cors requests pymupdf numpy
 
 ## Start the Backend Flask Service
 
-Set the key in the current terminal:
-
-```bash
-export MISTRAL_API_KEY="your_Mistral_API_key"
-```
-
-Open the first terminal:
-
+Open the terminal:  
 ```bash
 cd /Users/likuntai/SLM-in-SciPaper
 source .venv/bin/activate
-export MISTRAL_API_KEY="your_Mistral_API_key"
 cd backend
 python main.py
 ```
@@ -70,28 +62,22 @@ http://127.0.0.1:5000
 
 ## Start the Frontend Vite Server
 
-Open a second terminal:
-
+Open another terminal:  
 ```bash
 cd /Users/likuntai/SLM-in-SciPaper/frontend
 npm install
 ```
-
-In the second terminal, run:
-
+run and Vite normally starts at: https://localhost:5173/
 ```bash
 npm run dev
 ```
 
-Vite normally starts at:
-
-```text
-https://localhost:5173/
-```
 
 ## Reproduce Evidence Unit Model
 
-Flowchart:
+Flowchart of Evidence Unit Model:  
+![Evidence Unit Model Flowchart](Assets/Flowchart2.png)
+
 
 
 ###  Data and Model Assets
@@ -150,17 +136,9 @@ python .\code\03_inference_summary\infer_paper_card.py `
 
 The script uses the default checkpoints and lexicon resources under `Model/PaperCard/models` and `Model/PaperCard/datasets/lexicon` when they are available.
 
-### Browser Demo
+### Demo's Loaded Model
 
-Run the frontend from `frontend`:
-
-```powershell
-npm install
-npm run build
-npm run dev
-```
-
-The browser worker loads:
+Our demo loads:
 
 - `keyword_extractor_int8.onnx.gz`
 - `structure_model_int8.onnx.gz`
