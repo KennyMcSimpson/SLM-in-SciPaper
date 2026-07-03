@@ -2,7 +2,7 @@
 /**
  * App.vue — Pure Edge Mode
  * =========================
- * PDF → PDF.js [browser] → ONNX Worker (SciBERT INT8) → Evidence Units JSON → /api/chat [backend proxy]
+ * PDF → PDF.js [browser] → ONNX Worker (SciBERT INT8) → Evidence Units JSON → /chat [backend proxy]
  * 
  * No server-side upload. No fallback. All inference runs in the browser via WebAssembly.
  * The backend is a pure LLM proxy that receives structured Evidence Units JSON.
@@ -915,7 +915,7 @@ async function sendMessage() {
   isGenerating.value = true
 
   try {
-    const res = await fetch('/api/chat', {
+    const res = await fetch('/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

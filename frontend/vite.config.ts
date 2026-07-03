@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [vue(), basicSsl()],
 
   // ─── Dev Proxy ─────────────────────────────────────────────────────────────
-  // Forwards /api/* to the Flask backend during local development.
+  // Forwards endpoints to the Flask backend during local development.
   // In production, Nginx handles this routing transparently.
   server: {
     headers: {
@@ -15,7 +15,15 @@ export default defineConfig({
       'Cross-Origin-Embedder-Policy': 'require-corp',
     },
     proxy: {
-      '/api': {
+      '/chat': {
+        target: 'http://127.0.0.1:5000',
+        changeOrigin: true,
+      },
+      '/upload': {
+        target: 'http://127.0.0.1:5000',
+        changeOrigin: true,
+      },
+      '/health': {
         target: 'http://127.0.0.1:5000',
         changeOrigin: true,
       },

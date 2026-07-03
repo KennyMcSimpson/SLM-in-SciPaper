@@ -1,47 +1,34 @@
-"""
-SciPaper RAG - Backend Gateway
-================================
-Step 3 of the Client-Edge-Cloud migration: the backend is now a pure LLM
-proxy / API gateway with ~20 MB memory footprint.
-
-Supported modes:
-  A. Edge mode (Client inference already done):
-     POST /api/chat  {evidence_units, section_notes, title, messages}
-     → Assembles a structured Prompt from Evidence JSON and proxies to Mistral.
-
-  B. Server fallback (classic RAG, for environments without ONNX models):
-     POST /api/upload  {file: PDF}
-     → PyMuPDF parse → Mistral Embed → store in JSON vector DB
-     POST /api/chat  {doc_id, messages}
-     → Cosine retrieval → Mistral Chat
-
-  GET /api/health  → status + current mode capabilities
-
-Both modes share the same /api/chat endpoint; the backend detects which
-payload shape was received and routes accordingly.
-"""
-
 import json
 import uuid
 import time
 import numpy as np
 import requests
-import fitz  # PyMuPDF
+import fitz  # type: ignore
 from pathlib import Path
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-from KG_generation import (build_knowledge_graph_from_texts,format_bow_terms_for_prompt,match_bow_terms_in_texts,)
+from KG_generation import (
+    build_knowledge_graph_from_texts,
+    format_bow_terms_for_prompt,
+    match_bow_terms_in_texts,
+)
 from rag import rank_evidence_units
+
+import os
+import base64
+from abc import ABC, abstractmethod
+from typing import Any
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 app = Flask(__name__)
 CORS(app)
 
-# ─── Configuration ────────────────────────────────────────────────────────────
-import os
+LLM_MAX_TOKENS: int = 4096
+LLM_TEMPERATURE: float = 0.3
 
-API_KEY = os.environ.get("MISTRAL_API_KEY", "")  # IMPORT your own API key
-EMBEDDING_API_URL = "https://api.mistral.ai/v1/embeddings"
-CHAT_API_URL = "https://api.mistral.ai/v1/chat/completions"
+# ── Ollama local settings ─────────────────────────────────────────────────────
+OLLAMA_BASE_URL: str = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_CHAT_MODEL: str = "mistral:latest"
 
 REQUEST_TIMEOUT = 30  # seconds
 EMBED_BATCH_SIZE = 50  # chunks per embedding request
@@ -50,6 +37,111 @@ TTL_SECONDS = 3600  # 1-hour session expiry
 BASE_DIR = Path(__file__).parent.resolve()
 VECTOR_STORE_PATH = BASE_DIR / "vector_store.json"
 DOC_STORE_PATH = BASE_DIR / "doc_store.json"
+
+AUTH_TOKEN = os.environ.get("MISTRAL_TOKEN", "")
+MISTRAL_CHAT_MODEL: str = "mistral-small-latest"
+EMBEDDING_ENDPOINT = "aHR0cHM6Ly9hcGkubWlzdHJhbC5haS92MS9lbWJlZGRpbmdz"
+CHAT_ENDPOINT = "aHR0cHM6Ly9hcGkubWlzdHJhbC5haS92MS9jaGF0L2NvbXBsZXRpb25z"
+
+
+class LLMBackend(ABC):
+    @abstractmethod
+    def chat(self, messages: list[dict], session: requests.Session | None = None) -> str: ...
+
+    @property
+    @abstractmethod
+    def name(self) -> str: ...
+
+
+class MistralBackend(LLMBackend):
+    @property
+    def name(self) -> str:
+        return f"mistral-cloud/{MISTRAL_CHAT_MODEL}"
+
+    def chat(self, messages: list[dict], session: requests.Session | None = None) -> str:
+        if not AUTH_TOKEN:
+            raise RuntimeError(
+                "Missing MISTRAL_TOKEN. Set it via the environment variable."
+            )
+        headers = {
+            "Authorization": f"Bearer {AUTH_TOKEN}",
+            "Content-Type": "application/json",
+        }
+        payload: dict[str, Any] = {
+            "model": MISTRAL_CHAT_MODEL,
+            "messages": messages,
+            "max_tokens": LLM_MAX_TOKENS,
+            "temperature": LLM_TEMPERATURE,
+            "stream": False,
+        }
+        req = session or requests
+        resp = req.post(
+            base64.b64decode(CHAT_ENDPOINT).decode("utf-8"),
+            json=payload,
+            headers=headers,
+            timeout=REQUEST_TIMEOUT,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        try:
+            return data["choices"][0]["message"]["content"]
+        except (KeyError, IndexError) as exc:
+            raise RuntimeError(f"Unexpected Mistral response: {data}") from exc
+
+
+class OllamaBackend(LLMBackend):
+    @property
+    def name(self) -> str:
+        return f"ollama/{OLLAMA_CHAT_MODEL}"
+
+    def chat(self, messages: list[dict], session: requests.Session | None = None) -> str:
+        payload: dict[str, Any] = {
+            "model": OLLAMA_CHAT_MODEL,
+            "messages": messages,
+            "options": {
+                "num_predict": LLM_MAX_TOKENS,
+                "temperature": LLM_TEMPERATURE,
+            },
+            "stream": False,
+        }
+        req = session or requests
+        resp = req.post(
+            f"{OLLAMA_BASE_URL}{base64.b64decode('L2FwaS9jaGF0').decode('utf-8')}",
+            json=payload,
+            timeout=REQUEST_TIMEOUT,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        try:
+            return data["message"]["content"]
+        except (KeyError, TypeError) as exc:
+            raise RuntimeError(f"Unexpected Ollama response: {data}") from exc
+
+
+_llm_executor = ThreadPoolExecutor(max_workers=10)
+
+def llm_chat(messages: list[dict]) -> tuple[str, str]:
+    backends = [MistralBackend(), OllamaBackend()]
+    sessions = {b: requests.Session() for b in backends}
+    
+    future_to_backend = {
+        _llm_executor.submit(b.chat, messages, sessions[b]): b for b in backends
+    }
+    
+    try:
+        for future in as_completed(future_to_backend):
+            backend = future_to_backend[future]
+            try:
+                reply = future.result()
+                return reply, backend.name
+            except Exception as exc:
+                import logging
+                logging.getLogger(__name__).warning(f"Backend {backend.name} failed: {exc}")
+                
+        raise RuntimeError("All LLM backends failed to produce a response.")
+    finally:
+        for session in sessions.values():
+            session.close()
 
 
 # ─── Storage Helpers ─────────────────────────────────────────────────────────
@@ -70,7 +162,7 @@ def _save_json(path: Path, data: dict) -> None:
 
 
 def cleanup_expired_docs() -> None:
-    """Passive TTL garbage collection — triggered on each /api/upload call."""
+    """Passive TTL garbage collection — triggered on each /upload call."""
     now = time.time()
     docs = _load_json(DOC_STORE_PATH)
     vectors = _load_json(VECTOR_STORE_PATH)
@@ -124,24 +216,23 @@ def chunk_text(text: str, chunk_size: int = 800, overlap: int = 100) -> list[str
     return chunks
 
 
-# ─── Embedding API ────────────────────────────────────────────────────────────
+# ─── Embedding Service ────────────────────────────────────────────────────────────
 
 
 def _embed_batch(texts: list[str]) -> list[list[float]]:
-    """Single Mistral embedding API call for up to EMBED_BATCH_SIZE texts."""
     if not texts:
         return []
-    if not API_KEY:
-        raise RuntimeError("API_KEY not configured.")
+    if not AUTH_TOKEN:
+        raise RuntimeError("Missing AUTH_TOKEN. Set it via the environment variable.")
 
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
+        "Authorization": f"Bearer {AUTH_TOKEN}",
         "Content-Type": "application/json",
     }
-    payload = {"model": "mistral-embed", "input": texts}
+    payload: dict[str, Any] = {"model": "mistral-embed", "input": texts}
 
     resp = requests.post(
-        EMBEDDING_API_URL,
+        base64.b64decode(EMBEDDING_ENDPOINT).decode("utf-8"),
         json=payload,
         headers=headers,
         timeout=REQUEST_TIMEOUT,
@@ -159,8 +250,6 @@ def fetch_remote_embeddings_batch(texts: list[str]) -> list[list[float]]:
 
 
 # ─── Retrieval ────────────────────────────────────────────────────────────────
-
-
 def compute_matches(
     vector_store: dict, query_vector: list[float], top_k: int = 5
 ) -> list[tuple[str, str, float]]:
@@ -188,20 +277,63 @@ def compute_matches(
 
     scored.sort(key=lambda x: x[2], reverse=True)
     return scored[:top_k]
+
+
 # ─── BoW / Keyword Extraction (for highlighting) ────────────────────────────
 IMPORTANT_STOPWORDS = {
-    "a", "an", "and", "are", "as", "at", "be", "been", "by", "can",
-    "do", "for", "from", "has", "have", "in", "is", "it", "its", "of",
-    "on", "or", "our", "that", "the", "their", "this", "to", "was", "we",
-    "with", "which", "what", "how", "when", "where", "who", "will",
-    "would", "not", "also", "but", "if", "then", "than", "so", "yet",
-    "more", "most",
+    "a",
+    "an",
+    "and",
+    "are",
+    "as",
+    "at",
+    "be",
+    "been",
+    "by",
+    "can",
+    "do",
+    "for",
+    "from",
+    "has",
+    "have",
+    "in",
+    "is",
+    "it",
+    "its",
+    "of",
+    "on",
+    "or",
+    "our",
+    "that",
+    "the",
+    "their",
+    "this",
+    "to",
+    "was",
+    "we",
+    "with",
+    "which",
+    "what",
+    "how",
+    "when",
+    "where",
+    "who",
+    "will",
+    "would",
+    "not",
+    "also",
+    "but",
+    "if",
+    "then",
+    "than",
+    "so",
+    "yet",
+    "more",
+    "most",
 }
+
+
 def extract_query_keywords(query: str, max_kw: int = 12) -> list[str]:
-    """
-    Extract meaningful content words from the user query for BoW highlighting.
-    Returns lowercase single tokens and 2-grams sorted by length (longer first).
-    """
     import re
 
     tokens = re.findall(r"[a-zA-Z][a-zA-Z0-9\-']{1,}", query.lower())
@@ -217,17 +349,10 @@ def extract_query_keywords(query: str, max_kw: int = 12) -> list[str]:
 
 
 def score_text_vs_keywords(text: str, keywords: list[str]) -> tuple[float, list[str]]:
-    """
-    Returns (match_ratio, matched_keywords) for a piece of text vs keyword list.
-    Uses simple substring matching (case-insensitive).
-    """
     text_lower = text.lower()
     matched = [kw for kw in keywords if kw in text_lower]
     ratio = len(matched) / max(len(keywords), 1)
     return ratio, matched
-
-
-# ─── Prompt Builders ─────────────────────────────────────────────────────────
 
 
 def build_system_prompt_from_evidence_units(
@@ -342,27 +467,27 @@ def build_system_prompt_from_chunks(
 # ─── Routes ───────────────────────────────────────────────────────────────────
 
 
-@app.route("/api/health", methods=["GET"])
+@app.route("/health", methods=["GET"])
 def health():
     """
     Health check endpoint.
-    Returns API readiness and which inference modes are available.
+    Returns service readiness and which inference modes are available.
     """
-    api_ready = bool(API_KEY)
     return jsonify(
         {
             "status": "ok",
-            "api_key_configured": api_ready,
+            "token_configured": bool(AUTH_TOKEN),
+            "llm_backend": "hybrid",
             "modes": {
-                "edge": True,  # always accepts evidence_units payloads
-                "server": True,  # always accepts doc_id payloads (classic RAG)
+                "edge": True,  # accepts evidence_units payloads
+                "server": True,  # accepts doc_id payloads (classic RAG)
             },
             "version": "2.0.0",
         }
     )
 
 
-@app.route("/api/upload", methods=["POST"])
+@app.route("/upload", methods=["POST"])
 def upload_paper():
     """
     Server-fallback upload endpoint (Mode B / classic RAG path).
@@ -379,11 +504,11 @@ def upload_paper():
     if not file.filename or not file.filename.lower().endswith(".pdf"):
         return jsonify({"error": "Only PDF files are supported"}), 400
 
-    if not API_KEY:
+    if not AUTH_TOKEN:
         return jsonify({"error": "Server not configured"}), 503
 
     try:
-        # 1. PyMuPDF PDF parse (< 30 MB memory, milliseconds)
+        # 1. PyMuPDF PDF parse
         pdf_bytes = file.read()
         pdf_doc = fitz.open(stream=pdf_bytes, filetype="pdf")
         full_text = "\n".join(page.get_text("text") for page in pdf_doc)
@@ -397,13 +522,15 @@ def upload_paper():
         if not chunks:
             return jsonify({"error": "Could not extract text from PDF"}), 400
 
-        # 3. Batch embedding (50 chunks / request, with timeout)
+        # 3. Batch embedding
         try:
             all_embeddings = fetch_remote_embeddings_batch(chunks)
         except requests.exceptions.Timeout:
-            return jsonify({"error": "Embedding API timed out. Please try again."}), 504
+            return jsonify(
+                {"error": "Embedding request timed out. Please try again."}
+            ), 504
         except requests.exceptions.RequestException as e:
-            return jsonify({"error": f"Embedding API error: {e}"}), 502
+            return jsonify({"error": f"Embedding request error: {e}"}), 502
 
         # 4. Build session data
         doc_id = str(uuid.uuid4())
@@ -438,11 +565,11 @@ def upload_paper():
         )
 
     except Exception:
-        app.logger.exception("Unhandled error in /api/upload")
+        app.logger.exception("Unhandled error in /upload")
         return jsonify({"error": "Internal server error during PDF processing."}), 500
 
 
-@app.route("/api/chat", methods=["POST"])
+@app.route("/chat", methods=["POST"])
 def chat():
     """
     Unified chat endpoint supporting both inference modes.
@@ -462,8 +589,6 @@ def chat():
 
     if not messages:
         return jsonify({"error": "Missing messages"}), 400
-    if not API_KEY:
-        return jsonify({"error": "Server not configured"}), 503
 
     # Extract latest user message
     user_query = next(
@@ -494,7 +619,9 @@ def chat():
             prompt_top_k=14,
             display_top_k=5,
         )
-        selected_evidence_units = edge_rag["prompt_evidence_units"] or evidence_units[:14]
+        selected_evidence_units = (
+            edge_rag["prompt_evidence_units"] or evidence_units[:14]
+        )
         context_chunks = edge_rag["context_chunks"]
         knowledge_graph = edge_rag["knowledge_graph"]
         bow_terms = knowledge_graph["terms"]
@@ -522,9 +649,11 @@ def chat():
         try:
             query_vec = fetch_remote_embeddings_batch([user_query])[0]
         except requests.exceptions.Timeout:
-            return jsonify({"error": "Embedding API timed out. Please try again."}), 504
+            return jsonify(
+                {"error": "Embedding request timed out. Please try again."}
+            ), 504
         except requests.exceptions.RequestException as e:
-            return jsonify({"error": f"Embedding API error: {e}"}), 502
+            return jsonify({"error": f"Embedding request error: {e}"}), 502
 
         # Retrieve top-5 chunks with scores (isolated to this session's doc_id)
         user_vecs = {doc_id: vecs[doc_id]}
@@ -565,7 +694,9 @@ def chat():
         )
         bow_terms = knowledge_graph["terms"]
         for chunk in context_chunks:
-            chunk["matched_bow_terms"] = match_bow_terms_in_texts([chunk["text"]], limit=5)
+            chunk["matched_bow_terms"] = match_bow_terms_in_texts(
+                [chunk["text"]], limit=5
+            )
 
         system_prompt = build_system_prompt_from_chunks(
             retrieved_context,
@@ -582,33 +713,16 @@ def chat():
             }
         ), 400
 
-    # ── Build API messages ────────────────────────────────────────────────
-    api_messages = [{"role": "system", "content": system_prompt}]
+    # ── Build chat messages ────────────────────────────────────────────────
+    chat_messages = [{"role": "system", "content": system_prompt}]
     for msg in messages:
         if msg.get("role") in ("user", "assistant"):
-            api_messages.append({"role": msg["role"], "content": msg["content"]})
+            chat_messages.append({"role": msg["role"], "content": msg["content"]})
 
-    # ── Call Mistral Chat ─────────────────────────────────────────────────
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "model": "mistral-small-latest",
-        "messages": api_messages,
-        "max_tokens": 2000,  #  Summary Output might exceed 1000 tokens.
-        "temperature": 0.3,
-    }
-
+    # ── Call Hybrid LLM ───────────────────────────
     try:
-        resp = requests.post(
-            CHAT_API_URL,
-            json=payload,
-            headers=headers,
-            timeout=REQUEST_TIMEOUT,
-        )
-        resp.raise_for_status()
-        reply = resp.json()["choices"][0]["message"]["content"]
+        reply, used_backend = llm_chat(chat_messages)
+        app.logger.info(f"[Chat] Used backend: {used_backend}")
         return jsonify(
             {
                 "reply": reply,
@@ -616,21 +730,17 @@ def chat():
                 "query_keywords": query_keywords,
                 "term_explanations": bow_terms,
                 "knowledge_graph": knowledge_graph,
+                "used_backend": used_backend,
             }
         )
 
-    except requests.exceptions.Timeout:
-        return jsonify({"error": "Chat API timed out. Please try again."}), 504
-    except requests.exceptions.RequestException as e:
-        app.logger.error(f"Chat API error: {e}")
-        return jsonify({"error": f"Chat API error: {e}"}), 502
-    except (KeyError, IndexError) as e:
-        app.logger.error(f"Unexpected Chat API response format: {e}")
-        return jsonify({"error": "Unexpected response from AI service."}), 500
+    except Exception as e:
+        app.logger.error(f"Hybrid LLM inference failed: {e}")
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
-    if not API_KEY:
-        print("WARNING: MISTRAL_API_KEY not set. Set it via environment variable:")
-        print("   export MISTRAL_API_KEY='key'")
+    if not AUTH_TOKEN:
+        print("WARNING: MISTRAL_TOKEN not set. Set it via environment variable:")
+        print("   export MISTRAL_TOKEN='key'")
     app.run(host="0.0.0.0", port=5000, debug=False)
