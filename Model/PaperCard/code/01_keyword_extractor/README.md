@@ -1,14 +1,31 @@
-﻿# 01 Keyword Extractor
+# 01 Keyword Extractor
 
-这一块只负责从科学论文中抽取 present keyphrases。它包含 SciBERT encoder、BIO boundary head、sentence selector，以及 coverage rerank。这里不负责生成论文概述。
+This module contains Stage 1: present-keyphrase extraction for scientific papers.
 
-常用入口：
+It trains and runs a SciBERT-based model with:
+
+- a shared SciBERT encoder;
+- a sentence selector head for keyphrase-bearing sentences;
+- a BIO boundary head for phrase spans;
+- coverage-aware reranking for duplicate control.
+
+Common entry points:
 
 ```powershell
-..\.venv_keyword\Scripts\python.exe .\code\01_keyword_extractor\train_keyword.py --help
-..\.venv_keyword\Scripts\python.exe .\code\01_keyword_extractor\infer_keywords.py --help
+python .\code\01_keyword_extractor\download_keyword_resources.py --help
+python .\code\01_keyword_extractor\train_keyword.py --help
+python .\code\01_keyword_extractor\infer_keywords.py --help
+python .\code\01_keyword_extractor\smoke_test_keyword.py
 ```
 
-数据位置：`datasets/01_keyword_keyphrase/processed`。
+Expected processed data location:
 
-最终 checkpoint：`models/checkpoints/keyword_scibert_semeval2010_finetune_nobow`。
+```text
+datasets/01_keyword_keyphrase/processed
+```
+
+Default final checkpoint:
+
+```text
+models/checkpoints/keyword_scibert_semeval2010_finetune_nobow
+```

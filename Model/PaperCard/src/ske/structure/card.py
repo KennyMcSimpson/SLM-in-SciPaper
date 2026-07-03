@@ -18,7 +18,6 @@ from ske.structure.modeling import StructuredPaperModel, move_structure_batch_to
 from .roles import infer_importance, infer_role_from_sentence
 from .schema import CANONICAL_SECTIONS, ID_TO_ROLE, ConceptUnit, PaperCard, StructuredDocument
 from .sectioning import section_document
-from .verbalize import build_structured_summary
 
 
 SECTION_NOTE_ROLES = {
@@ -171,7 +170,6 @@ def build_paper_card(
     section_notes = select_section_notes(document, sentence_predictions)
     section_notes = backfill_missing_section_notes(document, sentence_predictions, section_notes)
     card = PaperCard(doc_id=document.doc_id, title=title, units=units, section_notes=section_notes)
-    card.summary = build_structured_summary(card)
     return card
 
 

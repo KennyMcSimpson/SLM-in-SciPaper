@@ -12,7 +12,7 @@ PYTHON = sys.executable
 
 
 def main() -> None:
-    run_dir = PROJECT_DIR / "runs" / "structure_v2_smoke"
+    run_dir = PROJECT_DIR / "runs" / "structure_smoke"
     if run_dir.exists():
         shutil.rmtree(run_dir)
     data_dir = run_dir / "data"
@@ -59,9 +59,7 @@ def main() -> None:
             "--structured_checkpoint",
             str(checkpoint_dir),
             "--output_json",
-            str(run_dir / "paper_card.json"),
-            "--output_md",
-            str(run_dir / "paper_card.md"),
+            str(run_dir / "evidence_units.json"),
             "--top_k_keyphrases",
             "8",
             "--device",
@@ -72,7 +70,7 @@ def main() -> None:
         "ok": True,
         "run_dir": str(run_dir),
         "trained_checkpoint": str(checkpoint_dir),
-        "paper_card_json": str(run_dir / "paper_card.json") if (run_dir / "paper_card.json").exists() else None,
+        "evidence_units_json": str(run_dir / "evidence_units.json") if (run_dir / "evidence_units.json").exists() else None,
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

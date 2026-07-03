@@ -50,6 +50,7 @@ interface WorkerMessage {
 interface ConceptUnit {
   section: string
   phrase: string
+  words?: string[]
   role: string
   evidence_sentence: string
   importance: number

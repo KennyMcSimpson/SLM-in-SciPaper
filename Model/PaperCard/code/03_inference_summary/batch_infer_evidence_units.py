@@ -36,7 +36,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default="auto")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--files", nargs="*", default=None)
-    parser.add_argument("--include_legacy_card", action="store_true")
     return parser.parse_args()
 
 
@@ -100,7 +99,6 @@ def process_one(path: Path, output_dir: Path, args: argparse.Namespace) -> dict[
         evidence_cue_csv=existing_path_or_none(args.evidence_cue_csv),
         sentence_evidence_csv=existing_path_or_none(args.sentence_evidence_csv),
         final_top_k=args.top_k_keyphrases,
-        include_legacy_card=args.include_legacy_card,
     )
     output_path = output_dir / f"{safe_name(path.stem)}.json"
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

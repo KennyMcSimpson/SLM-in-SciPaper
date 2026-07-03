@@ -5,11 +5,11 @@ Validates exported ONNX models against the original PyTorch outputs to ensure
 numerical correctness before deploying to the browser.
 
 Usage:
-  python code/export_onnx/validate_onnx.py \
-    --keyword_checkpoint  models/checkpoints/keyword_scibert_semeval2010_finetune_nobow \
-    --structure_checkpoint models/checkpoints/structure_v2_scibert_evidencefix \
+  python export_onnx/validate_onnx.py \
+    --keyword_checkpoint  Model/PaperCard/models/checkpoints/keyword_scibert_semeval2010_finetune_nobow \
+    --structure_checkpoint Model/PaperCard/models/checkpoints/structure_v4_partial_role_balanced_fulldev \
     --onnx_dir             onnx_exports \
-    --input_txt            datasets/03_demo_txt/full_library/2017_transformer_and_large_language_models_attention_is_all_you_need.txt
+    --input_txt            Model/PaperCard/datasets/03_demo_txt/full_library/2017_transformer_and_large_language_models_attention_is_all_you_need.txt
 """
 
 from __future__ import annotations
@@ -21,8 +21,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
-PROJECT_DIR = Path(__file__).resolve().parents[1]
-sys.path.append(str(PROJECT_DIR / "Model" / "PaperCard" / "src"))
+REPO_DIR = Path(__file__).resolve().parents[1]
+PAPERCARD_DIR = REPO_DIR / "Model" / "PaperCard"
+sys.path.append(str(PAPERCARD_DIR / "src"))
 
 from transformers import AutoTokenizer
 from ske.modeling import ScientificKeyphraseExtractor
@@ -227,7 +228,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--keyword_checkpoint",
         default=str(
-            PROJECT_DIR
+            PAPERCARD_DIR
             / "models"
             / "checkpoints"
             / "keyword_scibert_semeval2010_finetune_nobow"
@@ -236,10 +237,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--structure_checkpoint",
         default=str(
-            PROJECT_DIR / "Model" / "PaperCard" / "models" / "checkpoints" / "structure_v2_scibert_evidencefix"
+            PAPERCARD_DIR / "models" / "checkpoints" / "structure_v4_partial_role_balanced_fulldev"
         ),
     )
-    parser.add_argument("--onnx_dir", default=str(PROJECT_DIR / "onnx_exports"))
+    parser.add_argument("--onnx_dir", default=str(REPO_DIR / "onnx_exports"))
     parser.add_argument(
         "--input_txt",
         default=None,

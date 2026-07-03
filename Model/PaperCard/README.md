@@ -1,85 +1,63 @@
-﻿# Scientific Paper Card System Final
+# PaperCard Model Pipeline
 
-这是当前 NLP 项目整理后的最终工程文件夹。主线不是单纯关键词抽取，而是：用 SciBERT 关键词模型抽概念候选，再用结构模型判断论文句子的角色、证据性和重要性，最后由第三阶段生成 Evidence-grounded Concept Units JSON，交给后续本地开源模型写 overview。
+This folder contains the Python implementation of the three-stage Evidence Unit extraction pipeline.
 
-## 核心流程
+## Stages
 
 ```text
-TXT Paper
+TXT paper
   -> section recovery
-  -> SciBERT keyword extractor
-  -> structure-aware role/evidence/importance heads
-  -> section-aware BoW / corpus feature enrichment
-  -> evidence-grounded concept units JSON
-  -> downstream local overview model
+  -> Stage 1 SciBERT keyphrase extractor
+  -> Stage 2 section-aware role / evidence / importance model
+  -> Stage 3 Evidence-grounded Concept Units JSON
 ```
 
-这套整理保留的是能复现和能展示的主线资产；旧的 debug、smoke、probe、fixed1-fixed10 之类试验残留没有放进来。
+Stage 1 extracts present keyphrase candidates with a SciBERT encoder, sentence selector, BIO boundary head, and coverage-aware reranking.
 
-## 文件夹结构
+Stage 2 reads section-aware sentence windows and predicts three sentence-level signals: rhetorical role, evidence probability, and sentence importance.
 
-- `code/01_keyword_extractor`: 关键词模型训练、关键词推理、关键词数据下载入口。
-- `code/02_structure_card`: 结构化论文卡片模型训练、结构数据下载、结构 smoke test 入口。
-- `code/03_inference_summary`: Evidence-grounded Concept Units JSON 推理入口；旧论文卡片 Markdown 和一段式概述后处理保留为展示备份。
-- `src/ske`: 共享源码包。不要硬拆；关键词模型和结构模型都依赖这里的统一 schema、encoder 和数据处理逻辑。
-- `datasets/01_keyword_keyphrase`: KP20k、LDKP10k、SemEval2010 的 processed JSONL。
-- `datasets/02_structure_card`: PubMed RCT、QASPER、ACLSum 的 processed JSONL，以及 PubMed RCT 原始小文件。
-- `datasets/03_demo_txt`: 本地 txt 论文库，用于最终推理展示。
-- `datasets/lexicon`: 第三阶段使用的 enriched section BoW、document-term frequency/TF-IDF matrix、evidence cue lexicon、外部 evidence candidates。
-- `models/base_scibert`: 本地 SciBERT base encoder。
-- `models/checkpoints`: 最终关键词 checkpoint 和最终结构 checkpoint。
-- `models/training_history`: KP20k warm-up 和 LDKP10k fine-tune 阶段记录。
-- `outputs/final_paper_cards_fixed11`: 当前最好的批量论文卡片结果。
-- `outputs/showcase`: 建议展示的少量结果。
-- `outputs/training_metrics`: 三阶段关键词训练、结构训练和最终评估记录。
+Stage 3 fuses Stage 1 candidates with Stage 2 sentence signals, applies the report-defined n-gram, BoW, and TF-IDF gates, and writes JSON concept units for a downstream local overview model. It does not generate Markdown cards or final natural-language overviews.
 
-## 最快看效果
+## Assets
 
-从 `E:\class\2026.4\NLP` 进入最终文件夹：
+Training datasets, restored checkpoints, lexicon files, and the TXT paper corpus are stored outside GitHub on Hugging Face:
+
+[KennySimpson/SLM-in-SciPaper](https://huggingface.co/datasets/KennySimpson/SLM-in-SciPaper)
+
+Expected local asset locations after restoration:
+
+- `datasets/01_keyword_keyphrase/processed`: KP20k, LDKP10k, and SemEval2010 JSONL files for Stage 1.
+- `datasets/02_structure_card/processed`: PubMed RCT, QASPER, and ACLSum JSONL files for Stage 2.
+- `datasets/03_demo_txt/full_library`: TXT paper corpus for inference demos.
+- `datasets/lexicon`: enriched section BoW, document-term frequency/TF-IDF matrices, evidence cue lexicon, and sentence evidence candidates.
+- `models/base_scibert`: local SciBERT encoder files.
+- `models/checkpoints`: final Stage 1 and Stage 2 PyTorch checkpoints.
+
+## Main Entry Points
 
 ```powershell
-cd E:\class\2026.4\NLP\scientific_paper_card_final
+python .\code\01_keyword_extractor\train_keyword.py --help
+python .\code\02_structure_card\train_structure.py --help
+python .\code\03_inference_summary\infer_paper_card.py --help
+python .\code\03_inference_summary\batch_infer_evidence_units.py --help
 ```
 
-跑 Attention 的 Evidence Units JSON：
+Run a single TXT paper:
 
 ```powershell
-..\.venv_keyword\Scripts\python.exe .\code\03_inference_summary\infer_paper_card.py `
+python .\code\03_inference_summary\infer_paper_card.py `
   --input_txt .\datasets\03_demo_txt\full_library\2017_transformer_and_large_language_models_attention_is_all_you_need.txt `
-  --keyword_checkpoint .\models\checkpoints\keyword_scibert_semeval2010_finetune_nobow `
-  --structured_checkpoint .\models\checkpoints\structure_v4_partial_role_balanced_fulldev `
   --output_json .\outputs\evidence_units_attention.json `
   --device cuda
 ```
 
-默认会自动读取 `datasets/lexicon` 下的 enriched BoW、TF-IDF 矩阵和 evidence cue 词典；不需要手动指定这些 CSV。
-
-如果需要旧版 Markdown 展示，可以额外加 `--output_md .\outputs\demo_attention.md`。给已有 Markdown 加一段式论文概述的旧后处理仍然保留：
+Run a TXT folder:
 
 ```powershell
-..\.venv_keyword\Scripts\python.exe .\code\03_inference_summary\add_one_paragraph_overview.py `
-  .\outputs\demo_attention.md `
-  --output_md .\outputs\demo_attention_with_overview.md
+python .\code\03_inference_summary\batch_infer_evidence_units.py `
+  --input_dir .\datasets\03_demo_txt\full_library `
+  --output_dir .\outputs\evidence_units_batch `
+  --device cuda
 ```
 
-## 重新训练关键词模型
-
-```powershell
-..\.venv_keyword\Scripts\python.exe .\code\01_keyword_extractor\train_keyword.py `
-  --train_jsonl .\datasets\01_keyword_keyphrase\processed\kp20k\train.jsonl `
-  --dev_jsonl .\datasets\01_keyword_keyphrase\processed\kp20k\validation.jsonl `
-  --output_dir .\runs\keyword_1_kp20k_warmup `
-  --model_name .\models\base_scibert\allenai_scibert_scivocab_uncased `
-  --epochs 3 `
-  --batch_size 4 `
-  --device cuda `
-  --amp
-```
-
-LDKP10k 和 SemEval2010 后续阶段见 `docs/RUN_COMMANDS.md`。
-
-## 当前保留的结果判断
-
-关键词模型最终 checkpoint 是 `models/checkpoints/keyword_scibert_semeval2010_finetune_nobow`。训练窗口 BIO boundary F1 到约 0.7615；部署式 top-10 exact-match F1 约 0.1979，所以它应被描述为可工作的 present-keyphrase extractor，不是完整 absent-keyphrase generator。
-
-结构模型当前 checkpoint 是 `models/checkpoints/structure_v4_partial_role_balanced_fulldev`。这一版保留 Stage2 的同一个模型结构：section-aware SciBERT encoder、sentence-context Transformer、role/evidence/importance 三个 head。变化在监督方式上：PubMed RCT 仍提供 hard role 标签，QASPER 主要提供 evidence 标签，同时只给 role 一个由 section 决定的候选集合约束；ACLSum 用 facet summaries 构造 ROUGE-L extractive oracle 监督 importance，facet role 足够明确时才作为 hard role，否则也退回 section candidate role mask。这样避免把 QASPER 没有提供的精确 role 强行编成硬标签。full-dev 同口径结果是：role F1 约 0.918，role candidate accuracy 约 0.984，evidence F1 约 0.299，importance best-threshold F1 约 0.275。旧 `structure_v3_oracle_importance_balanced_fulldev` 保留为对照：它的 importance best F1 更高一点，但 QASPER role 监督更难解释。当前选择 v4，是因为它更符合论文里“可解释、不过度伪造标签”的方法叙事。
+See `docs/RUN_COMMANDS.md` for full training and inference commands.

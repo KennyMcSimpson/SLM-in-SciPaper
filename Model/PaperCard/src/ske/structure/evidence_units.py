@@ -476,7 +476,6 @@ def build_evidence_units_payload(
     evidence_cue_csv: str | Path | None = None,
     sentence_evidence_csv: str | Path | None = None,
     final_top_k: int = 28,
-    include_legacy_card: bool = False,
 ) -> dict[str, Any]:
     sentences = section_document(text)
     section_bow = SectionBowVocabulary.load(section_bow_csv)
@@ -515,13 +514,12 @@ def build_evidence_units_payload(
             "output_type": "evidence_grounded_concept_units_json",
             "keyword_checkpoint": str(keyword_checkpoint or ""),
             "structure_checkpoint": str(structured_checkpoint or ""),
-            "legacy_bow_csv": str(bow_csv or ""),
+            "stage1_bow_csv": str(bow_csv or ""),
             "section_bow_csv": str(section_bow_csv or ""),
             "term_frequency_matrix_csv": str(term_frequency_matrix_csv or ""),
             "term_tfidf_matrix_csv": str(term_tfidf_matrix_csv or ""),
             "evidence_cue_csv": str(evidence_cue_csv or ""),
             "sentence_evidence_csv": str(sentence_evidence_csv or ""),
-            "card_markdown_generated": False,
             "overview_generated": False,
         },
         "course_nlp_features": course_feature_manifest(),
@@ -545,8 +543,6 @@ def build_evidence_units_payload(
             "score_warning": "Stage3 uses transparent threshold gates. It does not compute a weighted downstream relevance score.",
         },
     }
-    if include_legacy_card:
-        payload["legacy_paper_card"] = card.to_dict()
     return payload
 
 

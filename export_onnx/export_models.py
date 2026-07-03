@@ -8,12 +8,12 @@ reducing each model from ~400 MB → ~100 MB for WebAssembly / ONNX Runtime Web 
 
 Models exported:
   1. keyword_scibert  → keyword_extractor.onnx  (INT8: keyword_extractor_int8.onnx)
-  2. structure_v2_scibert_evidencefix → structure_model.onnx (INT8: structure_model_int8.onnx)
+  2. structure_v4_partial_role_balanced_fulldev -> structure_model.onnx (INT8: structure_model_int8.onnx)
 
-Usage (run from the PaperCard project root):
-  python code/export_onnx/export_models.py \
-    --keyword_checkpoint  models/checkpoints/keyword_scibert_semeval2010_finetune_nobow \
-    --structure_checkpoint models/checkpoints/structure_v2_scibert_evidencefix \
+Usage (run from the repository root):
+  python export_onnx/export_models.py \
+    --keyword_checkpoint  Model/PaperCard/models/checkpoints/keyword_scibert_semeval2010_finetune_nobow \
+    --structure_checkpoint Model/PaperCard/models/checkpoints/structure_v4_partial_role_balanced_fulldev \
     --output_dir           onnx_exports
 
 Requirements:
@@ -27,9 +27,10 @@ import json
 import sys
 from pathlib import Path
 
-# ─── Path bootstrap ────────────────────────────────────────────────────────────
-PROJECT_DIR = Path(__file__).resolve().parents[1]
-sys.path.append(str(PROJECT_DIR / "Model" / "PaperCard" / "src"))
+# Path bootstrap
+REPO_DIR = Path(__file__).resolve().parents[1]
+PAPERCARD_DIR = REPO_DIR / "Model" / "PaperCard"
+sys.path.append(str(PAPERCARD_DIR / "src"))
 
 import torch
 from transformers import AutoTokenizer
@@ -464,7 +465,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--keyword_checkpoint",
         default=str(
-            PROJECT_DIR
+            PAPERCARD_DIR
             / "models"
             / "checkpoints"
             / "keyword_scibert_semeval2010_finetune_nobow"
@@ -474,13 +475,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--structure_checkpoint",
         default=str(
-            PROJECT_DIR / "Model" / "PaperCard" / "models" / "checkpoints" / "structure_v2_scibert_evidencefix"
+            PAPERCARD_DIR / "models" / "checkpoints" / "structure_v4_partial_role_balanced_fulldev"
         ),
         help="Path to the trained structure model checkpoint directory.",
     )
     parser.add_argument(
         "--output_dir",
-        default=str(PROJECT_DIR / "onnx_exports"),
+        default=str(REPO_DIR / "onnx_exports"),
         help="Directory to write ONNX and INT8 model files.",
     )
     parser.add_argument(

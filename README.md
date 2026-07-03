@@ -1,17 +1,16 @@
 # SLM-in-SciPaper
 
-Scientific Paper Analysis System  
-**Extracting evidence-grounded concept units** from full-text papers! 
+SLM-in-SciPaper is a scientific paper analysis project that extracts evidence-grounded concept units from full-text papers. The repository contains the three-stage NLP pipeline, ONNX export utilities, backend demo support, and a browser demo that can run the exported models locally.
 
 ## Demo
 
-### Waiting for Upload Paper
+### Waiting For Upload Paper
 
 ![Waiting for Upload Paper](Assets/demo1.png)
 
 ### Chat Output
 
-After uploading the paper, you can chat with it. For example: "Summary this paper."
+After uploading a paper, the demo can answer questions about it, such as "Summarize this paper."
 
 ![Chat Output](Assets/demo2.png)
 
@@ -19,73 +18,19 @@ After uploading the paper, you can chat with it. For example: "Summary this pape
 
 ![Bag-of-Word Knowledge Graph Output](Assets/demo3.png)
 
-### Our Work Pipeline
+### Evidence Unit Model Flowchart
 
-![Pipeline Flowchart](Assets/Flowchart1.png)
-
-## Create and Activate a Python Virtual Environment
-
-Create a virtual environment in the project root and activate:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-Install Python Dependencies:
-
-```bash
-pip install -r Model/PaperCard/requirements.txt
-```
-
-Install the backend Flask service dependencies:
-
-```bash
-pip install flask flask-cors requests pymupdf numpy
-```
-
-## Start the Backend Flask Service
-
-Open the terminal:  
-```bash
-cd /Users/likuntai/SLM-in-SciPaper
-source .venv/bin/activate
-cd backend
-python main.py
-```
-
-The backend listens on:
-
-```text
-http://127.0.0.1:5000
-```
-
-## Start the Frontend Vite Server
-
-Open another terminal:  
-```bash
-cd /Users/likuntai/SLM-in-SciPaper/frontend
-npm install
-```
-run and Vite normally starts at: https://localhost:5173/
-```bash
-npm run dev
-```
-
-
-## Reproduce Evidence Unit Model
-
-Flowchart of Evidence Unit Model:  
 ![Evidence Unit Model Flowchart](Assets/Flowchart2.png)
 
+## Data And Model Assets
 
-
-###  Data and Model Assets
-The processed training datasets, supplementary lexicon resources, uploaded checkpoints, and the 178-paper TXT corpus are hosted on Hugging Face:
+Processed training datasets, checkpoints, supplementary lexicon resources, and the 178-paper TXT corpus are hosted on Hugging Face:
 
 [KennySimpson/SLM-in-SciPaper](https://huggingface.co/datasets/KennySimpson/SLM-in-SciPaper)
 
-### Pipeline
+The GitHub repository keeps source code, frontend assets, BoW CSV resources used by the demo, and exported browser models. Large Python training datasets and PyTorch checkpoints should be restored from the Hugging Face dataset repository when needed.
+
+## Pipeline
 
 ```text
 Paper text / PDF
@@ -95,7 +40,7 @@ Paper text / PDF
   -> JSON for downstream local overview generation
 ```
 
-Stage 3 uses transparent report-defined formulas:
+Stage 3 follows transparent report-defined formulas:
 
 ```text
 S_candidate(u) = 0.65 S_boundary(u) + 0.25 S_selector(u) + 0.10 S_BoW(u)
@@ -111,21 +56,39 @@ bow_support_score(u) = term_confidence(u) * match_quality(u) >= 0.70
 tfidf_support_score(u) = matched_tfidf(u) / max_tfidf(d) >= 0.50
 ```
 
-A candidate passes if any one of the three gates passes. No extra downstream relevance score is used for Stage 3 selection.
+A candidate passes if any one of the three gates passes. Stage 3 does not use an additional downstream relevance score.
 
-### Repository Layout
+## Repository Layout
 
-- `Model/PaperCard/code/01_keyword_extractor`: Stage 1 training and keyword inference entry points.
-- `Model/PaperCard/code/02_structure_card`: Stage 2 structure model training and smoke tests.
-- `Model/PaperCard/code/03_inference_summary`: Stage 3 evidence-unit JSON inference and evaluation scripts.
+- `Model/PaperCard/code/01_keyword_extractor`: Stage 1 training, download, smoke-test, and keyword inference entry points.
+- `Model/PaperCard/code/02_structure_card`: Stage 2 structure model training, download, and smoke-test entry points.
+- `Model/PaperCard/code/03_inference_summary`: Stage 3 Evidence Unit JSON inference entry points.
 - `Model/PaperCard/src/ske`: shared Python package for data processing, models, sectioning, inference, and schema code.
+- `BagofWord`: BoW CSV resources used by the backend terminology graph and prompt support.
 - `frontend`: Vue browser demo using PDF.js and ONNX Runtime Web.
 - `backend`: lightweight chat proxy and retrieval visualization support for the browser demo.
-- `frontend/public/models`: exported browser models and Stage 3 resources.
+- `export_onnx`: PyTorch-to-ONNX export and validation utilities.
 
-### Python Inference
+## Python Environment
 
-Run from `Model/PaperCard`:
+Create and activate a virtual environment, then install the Python dependencies:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r Model/PaperCard/requirements.txt
+pip install flask flask-cors requests pymupdf numpy
+```
+
+On Windows PowerShell, activate the environment with:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+## Python Inference
+
+After restoring checkpoints and lexicon files from Hugging Face, run from `Model/PaperCard`:
 
 ```powershell
 python .\code\03_inference_summary\infer_paper_card.py `
@@ -134,26 +97,40 @@ python .\code\03_inference_summary\infer_paper_card.py `
   --device cuda
 ```
 
-The script uses the default checkpoints and lexicon resources under `Model/PaperCard/models` and `Model/PaperCard/datasets/lexicon` when they are available.
+The script uses the default checkpoint and lexicon paths under `Model/PaperCard/models` and `Model/PaperCard/datasets/lexicon` when those assets are available.
 
-### Demo's Loaded Model
+## Backend Demo
 
-Our demo loads:
+Run the Flask backend from `backend`:
 
-- `keyword_extractor_int8.onnx.gz`
-- `structure_model_int8.onnx.gz`
-- `keyword_vocab.json`
-- `structure_vocab.json`
-- `stage3_resources.json`
+```bash
+python main.py
+```
 
-The worker performs PDF text extraction, Stage 1 ONNX inference, Stage 2 ONNX inference, and Stage 3 formula-based concept-unit generation in the browser.
+The backend listens on:
 
-### Output
+```text
+http://127.0.0.1:5000
+```
+
+## Browser Demo
+
+Run the frontend from `frontend`:
+
+```powershell
+npm install
+npm run build
+npm run dev
+```
+
+The browser worker loads the exported ONNX models and Stage 3 resources from `frontend/public/models`, extracts PDF text, runs Stage 1 and Stage 2 in ONNX Runtime Web, and builds Stage 3 concept units in the browser.
+
+## Output
 
 The main output is Evidence-grounded Concept Units JSON. Each unit contains:
 
 - concept phrase and evidence sentence;
 - section and role label;
-- `S_boundary`, `S_selector`, `S_BoW`, `S_candidate`, `S_coverage`, `S_rerank`;
+- `S_boundary`, `S_selector`, `S_BoW`, `S_candidate`, `S_coverage`, and `S_rerank`;
 - `S_evidence`, `S_sentence`, and `I_concept`;
-- Stage 3 threshold trace for n-gram, BoW, and TF-IDF support.
+- Stage 3 threshold trace for n-gram length, BoW support, and TF-IDF support.

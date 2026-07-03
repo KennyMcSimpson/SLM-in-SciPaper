@@ -13,7 +13,6 @@ sys.path.append(str(PROJECT_DIR / "src"))
 
 from ske.structure.card import build_paper_card
 from ske.structure.evidence_units import build_evidence_units_payload
-from ske.structure.verbalize import render_card_markdown
 
 
 def parse_args() -> argparse.Namespace:
@@ -34,10 +33,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--evidence_cue_csv", default=str(default_evidence_cues) if default_evidence_cues.exists() else None)
     parser.add_argument("--sentence_evidence_csv", default=str(default_sentence_evidence) if default_sentence_evidence.exists() else None)
     parser.add_argument("--output_json", default=None)
-    parser.add_argument("--output_md", default=None)
     parser.add_argument("--top_k_keyphrases", type=int, default=28)
     parser.add_argument("--device", default="auto")
-    parser.add_argument("--include_legacy_card", action="store_true")
     return parser.parse_args()
 
 
@@ -67,17 +64,12 @@ def main() -> None:
         evidence_cue_csv=args.evidence_cue_csv,
         sentence_evidence_csv=args.sentence_evidence_csv,
         final_top_k=args.top_k_keyphrases,
-        include_legacy_card=args.include_legacy_card,
     )
     rendered_json = json.dumps(payload, ensure_ascii=False, indent=2)
     if args.output_json:
         output_json = Path(args.output_json)
         output_json.parent.mkdir(parents=True, exist_ok=True)
         output_json.write_text(rendered_json, encoding="utf-8")
-    if args.output_md:
-        output_md = Path(args.output_md)
-        output_md.parent.mkdir(parents=True, exist_ok=True)
-        output_md.write_text(render_card_markdown(card), encoding="utf-8")
     print(rendered_json)
 
 

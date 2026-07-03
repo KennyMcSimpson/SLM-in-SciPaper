@@ -1,20 +1,35 @@
-﻿# 02 Structure Card
+# 02 Structure Model
 
-这一块负责论文结构理解：section-aware SciBERT encoder 加 role/evidence/importance 三个句子级 head。它把关键词候选变成有证据位置、有论文角色的 concept unit。
+This module contains Stage 2: section-aware sentence modeling for scientific papers.
 
-当前训练分工：
+The model uses a SciBERT encoder with section embeddings, a sentence-context Transformer, and three sentence-level heads:
 
-- PubMed RCT 提供 hard role 监督；
-- QASPER 监督 evidence 0/1，同时只提供 section-level role candidate mask；
-- ACLSum 使用 facet summaries 构造 ROUGE-L extractive oracle，监督 importance；facet role 明确时才提供 hard role；
-- 训练时使用 uncertainty weighting 自动平衡三个任务，避免手写任务 loss 权重。
+- `role`: predicts the rhetorical role of a sentence;
+- `evidence`: predicts whether a sentence can ground an extracted concept;
+- `importance`: predicts whether a sentence should contribute to downstream evidence units.
 
-常用入口：
+Training supervision is split by dataset:
+
+- PubMed RCT provides hard role labels.
+- QASPER provides evidence labels and section-level partial role constraints.
+- ACLSum provides importance labels from an extractive ROUGE-L oracle over facet summaries; explicit facet roles are used only when reliable.
+
+Common entry points:
 
 ```powershell
-..\.venv_keyword\Scripts\python.exe .\code\02_structure_card\train_structure.py --help
+python .\code\02_structure_card\download_structure_resources.py --help
+python .\code\02_structure_card\train_structure.py --help
+python .\code\02_structure_card\smoke_test_structure.py
 ```
 
-数据位置：`datasets/02_structure_card/processed`。
+Expected processed data location:
 
-当前 checkpoint：`models/checkpoints/structure_v4_partial_role_balanced_fulldev`。
+```text
+datasets/02_structure_card/processed
+```
+
+Default final checkpoint:
+
+```text
+models/checkpoints/structure_v4_partial_role_balanced_fulldev
+```
