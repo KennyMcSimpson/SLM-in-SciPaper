@@ -18,6 +18,10 @@ After uploading a paper, the demo can answer questions about it, such as "Summar
 
 ![Bag-of-Word Knowledge Graph Output](Assets/demo3.png)
 
+### Our Work Pipeline
+
+![Pipeline Flowchart](Assets/Flowchart1.png)
+
 ### Evidence Unit Model Flowchart
 
 ![Evidence Unit Model Flowchart](Assets/Flowchart2.png)
