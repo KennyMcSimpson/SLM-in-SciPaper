@@ -8,7 +8,7 @@
  * The backend is a pure LLM proxy that receives structured Evidence Units JSON.
  */
 import { ref, nextTick, watch, onMounted, onBeforeUnmount, computed } from 'vue'
-import { marked } from 'marked'
+import { renderMessage } from './utils/renderMessage'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -151,10 +151,6 @@ interface DynamicKgEdge {
 type RightView = 'chat' | 'graph'
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
-
-const renderMessage = (text: string): string => {
-  return marked.parse(text) as string
-}
 
 function highlightText(text: string, keywords: string[]): string {
   let escaped = text
